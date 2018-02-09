@@ -14,5 +14,6 @@ setup(name='Automagica',
       packages=['automagica'],
       install_requires=[
           'socketIO-client==0.7.2',
+          'PyAutoGUI==0.9.36'
       ],
 )

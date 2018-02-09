@@ -1,3 +1,6 @@
+from time import sleep
+
+from pyautogui import click, hotkey, moveTo, typewrite
 from socketIO_client import BaseNamespace
 
 

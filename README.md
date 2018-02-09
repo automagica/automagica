@@ -5,6 +5,7 @@ Automagica is an open source Smart Robotic Process Automation (SRPA) platform. W
 
 ### Prerequisites
 Python 3.6.4 from https://www.python.org
+Automagica Robot ID - get one from https://automagica.io
 
 ### Installation instructions
 Install Automagica on the robot host machine:

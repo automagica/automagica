@@ -5,17 +5,21 @@ from socketIO_client import SocketIO
 from .auth import Auth
 from .robot import Robot
 
+
 def config():
     if not os.environ.get('AUTOMAGICA_ROBOT_ID'):
         automagica_robot_id = None
         while not automagica_robot_id:
-            automagica_robot_id = input('Please provide the Automagica Robot ID: \n')
+            automagica_robot_id = input(
+                'Please provide the Automagica Robot ID: \n')
         os.environ['AUTOMAGICA_ROBOT_ID'] = automagica_robot_id
     if not os.environ.get('AUTOMAGICA_HOST'):
-        automagica_host = input('Please provide the Automagica host (leave blank for https://automagica.io): \n')
+        automagica_host = input(
+            'Please provide the Automagica host (leave blank for https://automagica.io): \n')
         if not automagica_host:
             automagica_host = 'https://automagica.io'
         os.environ['AUTOMAGICA_HOST'] = automagica_host
+
 
 def start():
     os.system('cls')
