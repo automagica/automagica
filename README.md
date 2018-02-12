@@ -7,13 +7,12 @@ Refer to our website for more information: https://automagica.be
 
 ### Prerequisites
 1. Python 3.6.4 from https://www.python.org
-1. Git (any version) from https://git-scm.com/
 2. Automagica Robot ID - get one from https://automagica.be
 
 ### Installation instructions
 Install Automagica on the robot host machine:
 ```
-pip install git+https://github.com/OakwoodAI/automagica
+pip install https://github.com/OakwoodAI/automagica/tarball/master
 ```
 ## Running the Robot
 1. Get your Automagica Robot ID from https://automagica.be
