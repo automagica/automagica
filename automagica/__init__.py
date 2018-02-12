@@ -1,31 +1,33 @@
 import os
-
+import sys
+from sty import bg, rs
 from socketIO_client import SocketIO
 
 from .auth import Auth
 from .robot import Robot
 
 
-def config():
-    if not os.environ.get('AUTOMAGICA_ROBOT_ID'):
-        automagica_robot_id = None
-        while not automagica_robot_id:
-            automagica_robot_id = input(
-                'Please provide the Automagica Robot ID: \n')
-        os.environ['AUTOMAGICA_ROBOT_ID'] = automagica_robot_id
-    if not os.environ.get('AUTOMAGICA_HOST'):
-        automagica_host = input(
-            'Please provide the Automagica host (leave blank for https://automagica.io): \n')
-        if not automagica_host:
-            automagica_host = 'https://automagica.io'
-        os.environ['AUTOMAGICA_HOST'] = automagica_host
-
-
 def start():
     os.system('cls')
-    config()
-    print('Automagica Robot launched and waiting! Listening on port 7175 for commands.')
-    socketIO = SocketIO(os.environ['AUTOMAGICA_HOST'], 7175)
+
+    if len(sys.argv) > 1:
+        robot_id = sys.argv[1]
+    else:
+        robot_id = input('Please provide your Automagica Robot ID: \n')
+
+    if len(sys.argv) > 2:
+        host = sys.argv[2]
+    else:
+        host = 'automagica.be'
+
+    if len(sys.argv) > 3:
+        port = sys.argv[3]
+    else:
+        port = 7175
+
+    print(bg.blue + 'Automagica Robot (' + robot_id +
+          ') launched and waiting! Listening to ' + host + ' on port ' + str(port) +'.' + rs.bg)
+    socketIO = SocketIO(host, 7175)
     robot_namespace = socketIO.define(Robot, '/robot')
     socketIO.wait()
 

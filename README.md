@@ -7,6 +7,7 @@ Refer to our website for more information: https://automagica.be
 
 ### Prerequisites
 1. Python 3.6.4 from https://www.python.org
+1. Git (any version) from https://git-scm.com/
 2. Automagica Robot ID - get one from https://automagica.be
 
 ### Installation instructions
@@ -15,12 +16,12 @@ Install Automagica on the robot host machine:
 pip install git+https://github.com/OakwoodAI/automagica
 ```
 ## Running the Robot
-In command line or terminal run following command:
+1. Get your Automagica Robot ID from https://automagica.be
+2. In command line or terminal run following command. Replace `<robot_id>` with your Robot ID.
 ```
-automagica
+automagica <robot_id>
 ```
-### First run configuration
-The configuration wizard will ask for your Automagica Robot ID. Please visit https://automagica.be to register your robot and receive your Automagica Robot ID.
+If you do not provide a Robot ID, the application will ask for it.
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:

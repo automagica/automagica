@@ -15,6 +15,7 @@ setup(name='Automagica',
       install_requires=[
           'socketIO-client==0.7.2',
           'PyAutoGUI==0.9.36',
-          'opencv-python==3.4.0.12'
+          'opencv-python==3.4.0.12',
+          'sty==1.0.0b2'
       ],
 )
