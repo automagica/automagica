@@ -23,12 +23,15 @@ def start():
     if len(sys.argv) > 3:
         port = sys.argv[3]
     else:
-        port = 7175
+        port = None
 
     print(bg.blue + 'Automagica Robot (' + robot_id +
-          ') launched and waiting! Listening to ' + host + ' on port ' + str(port) +'.' + rs.bg)
-    socketIO = SocketIO(host, 7175)
+          ') launched and waiting! Listening to ' + host + '.' + rs.bg)
+    socketIO = SocketIO(host, port)
     robot_namespace = socketIO.define(Robot, '/robot')
+
+    robot_namespace.emit('auth', {'robot_id' : robot_id})
+
     socketIO.wait()
 
 
