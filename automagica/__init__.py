@@ -25,7 +25,7 @@ def start():
     else:
         port = None
 
-    print(bg.blue + """
+    print(fg.li_cyan + """
           sdNMMMd+                                                                                                     
         .oNMMMNNMMN:                                                                         +mmh.                     
        oNMMd+.  yMMy             :`                                                          dMMM:                     
@@ -41,8 +41,8 @@ oMMMMMMMMMMMMMMMMM.mMMs oMMN``sMMN.``NMMhsMMMMMMN-NMMMdoMMMMdoMMM: .dMMNyhh+-` /
                                                                               +sdMMMm/                                 
                                                                               yMNds-                                   
 """ + rs.bg)
-    print(bg.blue + 'Automagica Robot (' + robot_id +
-          ') launched and waiting! Listening to ' + host + '.' + rs.bg)
+    print(fg.li_cyan + 'Automagica Robot (' + robot_id +
+          ') launched and waiting! Listening to ' + host + rs.bg)
     socketIO = SocketIO(host, port)
     robot_namespace = socketIO.define(Robot, '/robot')
 

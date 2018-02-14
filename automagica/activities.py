@@ -1,5 +1,13 @@
+from time import sleep
+
+def Wait(seconds=None):
+    sleep(seconds)
+
+
 from pyautogui import click, hotkey, moveTo, typewrite, locateCenterOnScreen, rightClick
 
+# Renaming functions
+PressHotkey = hotkey
 
 def ClickOnPosition(x=None, y=None):
     click(x, y)
@@ -13,6 +21,8 @@ def ClickOnImage(filename=None, double_click=False, right_click=False):
     else:
         click(x, y, clicks)
 
+def TypeInto(text=None, interval_seconds=None):
+    typewrite(text, interval=interval_seconds)
 
-def TypeInto(text=None, interval=None):
-    typewrite(text, interval=interval)
+
+from selenium.webdriver import Chrome as Browser
