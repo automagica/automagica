@@ -1,6 +1,6 @@
 import os
 import sys
-from sty import bg, rs
+from sty import bg, rs, fg
 from socketIO_client import SocketIO
 
 from .auth import Auth
@@ -18,13 +18,29 @@ def start():
     if len(sys.argv) > 2:
         host = sys.argv[2]
     else:
-        host = 'automagica.be'
+        host = 'https://automagica.be'
 
     if len(sys.argv) > 3:
         port = sys.argv[3]
     else:
         port = None
 
+    print(bg.blue + """
+          sdNMMMd+                                                                                                     
+        .oNMMMNNMMN:                                                                         +mmh.                     
+       oNMMd+.  yMMy             :`                                                          dMMM:                     
+     `dMMm:     yMMy            oMMm                                                          -:.                      
+    `mMMh`     .MMM:/oo/ .ooo.ooMMMh+  -+sys/`     +oo+/o+. -+o+.       `-/+o:      .:/++o. /oo/    :oyyy+`     `-/+o+ 
+.:::yMMN:::::::hMMd-MMM: dMMyyMMMMMM/.hMMMMMMNo::.+MMMMMMMMNMMMMM-   :yNMMMMMy  `odNMMMMMM-:MMM-  +mMMMMMMh  -smMMMMMm 
+oMMMMMMMMMMMMMMMMM.mMMs oMMN``sMMN.``NMMhsMMMMMMN-NMMMdoMMMMdoMMM: .dMMNyhh+-` /NMMms/shs/`mMMs `dMMN+`+yy+`yMMMhhdo:` 
++//sMMM+/////oMMM++MMN./MMM/ -MMM:  -MMM/`/NMMm/-hMMN/ hMMN/ hMMh  mMMy`/MMM/ .MMM+`:hMMMosMMm` oMMm`      hMMd.-NMMs  
+   `MMM-     hMMd :MMMMMMMMMNhMMMMMM+sMMMMMMMh` /MMN. +MMN.  NMMMMsmMMNNMMMMMMNNMMMMMMMMd mMMMMMdMMMMMMMMMMmMMNNMMMMMMM
+    hMMy    .yyy.  .+sso:/sy+ /syyys  .+sys+.   syy:  syy/   .oyys``+yhhs+syyy/`/syshMMM- `oyyyo :oyyyyyyys /shhs+oyyyo
+    -MMm.                                                                          .NMMo                               
+     .                                                                           `+NMMy                                
+                                                                              +sdMMMm/                                 
+                                                                              yMNds-                                   
+""" + rs.bg)
     print(bg.blue + 'Automagica Robot (' + robot_id +
           ') launched and waiting! Listening to ' + host + '.' + rs.bg)
     socketIO = SocketIO(host, port)
