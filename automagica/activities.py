@@ -37,5 +37,29 @@ def Failsafe(switch=True):
 def LaunchPaint():
     return pywinauto.Application().start('mspaint.exe')
 
+def LaunchExcel():
+    PressHotkey('win','r')
+    Type('Excel')
+    PressHotkey('enter')
+    return
+
+def LaunchWord():
+    PressHotkey('win','r')
+    Type('Word')
+    PressHotkey('enter')
+    return
+
+def LaunchOutlook():
+    PressHotkey('win','r')
+    Type('Outlook')
+    PressHotkey('enter')
+    return
+
+def LaunchPowerpoint():
+    PressHotkey('win','r')
+    Type('Powerpoint')
+    PressHotkey('enter')
+    return
+
 
 
