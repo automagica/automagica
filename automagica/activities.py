@@ -29,7 +29,6 @@ import pywinauto
 def Launch(process_name=None):
     return pywinauto.Application().start(process_name)
 
-
 def Failsafe(switch=True):
     pyautogui.FAILSAFE = switch
     return

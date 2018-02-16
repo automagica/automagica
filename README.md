@@ -42,6 +42,8 @@ This is a simple example that opens Chrome and enters 'Hello world!' in the sear
 > Wait(seconds=3)
 > Type('Hello world!')
 > Wait(seconds=1)
+> PressHotkey('Enter')
+> Wait(seconds=1)
 > PressHotkey('enter')
 ```
 

@@ -18,5 +18,6 @@ setup(name='Automagica',
           'opencv-python==3.4.0.12',
           'sty==1.0.0b2',
           'selenium==3.7.0'
+          'pywinauto==0.6.1'
       ],
 )
