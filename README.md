@@ -1,7 +1,7 @@
 # Automagica Client
 Automagica is an open source Smart Robotic Process Automation (SRPA) platform. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries.
 
-![Example of Paint automation](https://imgur.com/uU2OX1X)
+![](https://i.imgur.com/uU2OX1X.gifv)
 
 Refer to our website for more information: https://automagica.be
 
