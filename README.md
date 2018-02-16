@@ -31,6 +31,18 @@ As a safety feature, a failsafe mechanism is enabled by default. You can trigger
 Failsafe(False)
 ```
 
+## Example
+
+```
+PressHotkey('win','r')
+Wait(seconds=3)
+Type('chrome')
+Wait(seconds=3)
+Type('Hello world!')
+Wait(seconds=1)
+PressHotkey('enter')
+```
+
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
 - [PyAutoGUI](https://github.com/asweigart/pyautogui)
