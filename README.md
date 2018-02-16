@@ -24,6 +24,13 @@ automagica <robot_id>
 ```
 If you do not provide a Robot ID, the application will ask for it.
 
+### Failsafe
+
+As a safety feature, a failsafe mechanism is enabled by default. You can trigger this by moving your mouse to the upper left corner of the screen. The failsafe is active by default. You can disable this by running the following command in the editor:
+```
+Failsafe(False)
+```
+
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
 - [PyAutoGUI](https://github.com/asweigart/pyautogui)
