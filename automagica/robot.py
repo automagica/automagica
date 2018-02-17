@@ -1,8 +1,7 @@
 from time import sleep
 from socketIO_client import BaseNamespace
 
-from .activities import TypeInto, ClickOnImage, ClickOnPosition
-
+from .activities import *
 
 class Robot(BaseNamespace):
     def on_code(self, code):
