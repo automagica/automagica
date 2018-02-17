@@ -5,6 +5,7 @@ from socketIO_client import SocketIO
 
 from .auth import Auth
 from .robot import Robot
+from .activities import *
 
 
 def start():

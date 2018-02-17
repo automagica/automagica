@@ -65,12 +65,12 @@ def LaunchPowerpoint():
 
 from selenium.webdriver import Chrome
 
-def Browser():
+def ChromeBrowser():
     if platform.system() == 'Linux':
-        chromedriver_path = '/bin/webdriver/linux64/chromedriver'
+        chromedriver_path = '\\bin\\webdriver\\linux64/chromedriver'
     elif platform.system() == 'Windows':
-        chromedriver_path = '/bin/win32/chromedriver.exe'
+        chromedriver_path = '\\bin\\win32\\chromedriver.exe'
     else:
-        chromedriver_path = '/bin/mac64/chromedriver.exe'
-    return Chrome(os.path.abspath(__file__) + chromedriver_path)
+        chromedriver_path = '\\bin\\mac64\\chromedriver.exe'
+    return Chrome(os.path.abspath(__file__).replace('activities.py','') + chromedriver_path)
 
