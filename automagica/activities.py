@@ -67,7 +67,7 @@ from selenium.webdriver import Chrome
 
 def ChromeBrowser():
     if platform.system() == 'Linux':
-        chromedriver_path = '\\bin\\webdriver\\linux64/chromedriver'
+        chromedriver_path = '\\bin\\webdriver\\linux64\\chromedriver'
     elif platform.system() == 'Windows':
         chromedriver_path = '\\bin\\win32\\chromedriver.exe'
     else:
