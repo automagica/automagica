@@ -37,12 +37,11 @@ This is a simple example that opens Chrome and enters 'Hello world!' in the sear
 
 ```
 > PressHotkey('win','r')
-> Wait(seconds=3)
+> Wait(seconds=1)
 > Type('chrome')
+> PressHotkey('enter')
 > Wait(seconds=3)
 > Type('Hello world!')
-> Wait(seconds=1)
-> PressHotkey('Enter')
 > Wait(seconds=1)
 > PressHotkey('enter')
 ```
@@ -51,5 +50,7 @@ This is a simple example that opens Chrome and enters 'Hello world!' in the sear
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
 - [PyAutoGUI](https://github.com/asweigart/pyautogui)
 - [socketIO-client](https://pypi.python.org/pypi/socketIO-client)
+- [Selenium](https://github.com/baijum/selenium-python)
+- [PyWinAuto](https://github.com/pywinauto/pywinauto)
 
 A special thanks goes out to all the above-mentioned repository contributers! :heart:
