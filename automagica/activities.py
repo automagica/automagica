@@ -1,3 +1,6 @@
+import os
+import platform
+
 from time import sleep
 
 def Wait(seconds=None):
@@ -60,5 +63,14 @@ def LaunchPowerpoint():
     PressHotkey('enter')
     return
 
+from selenium.webdriver import Chrome
 
+def Browser():
+    if platform.system() == 'Linux':
+        chromedriver_path = '/bin/webdriver/linux64/chromedriver'
+    elif platform.system() == 'Windows':
+        chromedriver_path = '/bin/win32/chromedriver.exe'
+    else:
+        chromedriver_path = '/bin/mac64/chromedriver.exe'
+    return Chrome(os.path.abspath(__file__) + chromedriver_path)
 

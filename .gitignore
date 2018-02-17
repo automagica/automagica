@@ -1,2 +1,3 @@
 __pycache__
 Automagica.egg-info
+!automagica\bin\win32\chromedriver.exe
