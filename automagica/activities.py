@@ -41,39 +41,20 @@ Windows activities
 '''
 import pywinauto
 
-def Launch(process_name=None):
-    return pywinauto.Application().start(process_name)
-
-def Failsafe(switch=True):
+def UseFailsafe(switch=True):
     pyautogui.FAILSAFE = switch
-    return
 
-def LaunchPaint():
-    return pywinauto.Application().start('mspaint.exe')
 
-def LaunchExcel():
-    PressHotkey('win','r')
-    Type('Excel')
-    PressHotkey('enter')
-    return
+'''
+Process activities
+'''
+import subprocess
 
-def LaunchWord():
-    PressHotkey('win','r')
-    Type('Word')
-    PressHotkey('enter')
-    return
+def LaunchProcess(process_executable=None):
+    return subprocess.Popen(process_executable)
 
-def LaunchOutlook():
-    PressHotkey('win','r')
-    Type('Outlook')
-    PressHotkey('enter')
-    return
-
-def LaunchPowerpoint():
-    PressHotkey('win','r')
-    Type('Powerpoint')
-    PressHotkey('enter')
-    return
+def KillProcess(process=None):
+    return process.kill()
 
 
 '''
@@ -89,6 +70,7 @@ def ChromeBrowser():
     else:
         chromedriver_path = '\\bin\\mac64\\chromedriver.exe'
     return Chrome(os.path.abspath(__file__).replace('activities.py','') + chromedriver_path)
+
 
 ''' 
 OCR activities 
