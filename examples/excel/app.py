@@ -1,5 +1,9 @@
 from automagica import OpenExcelWorkbook, NewExcelWorkbook
 
+"""
+Reads information from one Excel file and writes it to the other.
+"""
+
 # Read information from example.xlsx in cell A1
 workbook = OpenExcelWorkbook('example.xlsx')
 worksheet = workbook.active
