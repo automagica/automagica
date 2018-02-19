@@ -49,10 +49,10 @@ This is a simple example that opens Chrome and enters 'Hello world!' in the sear
 ```
 PressHotkey('win','r')
 Wait(seconds=1)
-Type('chrome')
+Type(text='chrome', interval_seconds=0)
 PressHotkey('enter')
 Wait(seconds=3)
-Type('Hello world!')
+Type(text='Hello world!', interval_seconds=0)
 Wait(seconds=1)
 PressHotkey('enter')
 ```
