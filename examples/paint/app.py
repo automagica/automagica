@@ -1,15 +1,14 @@
 from PIL import Image
 from pyautogui import click, hotkey, moveTo, typewrite, locateCenterOnScreen, rightClick
 import time
-import subprocess
+
 from pywinauto import Application
 
 app = Application().start('mspaint.exe')
-#active = app.window(title='Untitled - Paint')
 app.Paint.move_window(x=0, y=0, width=740, height=580, repaint=True)
 
 
-im = Image.open("image.jpg") #Can be many different formats.
+im = Image.open('example.jpg') 
 
 X_total = im.size[0]
 Y_total = im.size[1]
@@ -73,9 +72,11 @@ counter = 0
 
 #Select Paint window
 click(325,17)
+
 #Select correct tool
 click(126,78)
 time.sleep(0.1)
+
 #Select thick line
 click(125,167)
 time.sleep(0.1)
