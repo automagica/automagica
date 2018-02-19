@@ -86,7 +86,6 @@ def ExtractTextFromImage(filename=None):
 '''
 Excel activities
 '''
-
 import openpyxl
 
 # Renaming functions
@@ -99,7 +98,6 @@ NewExcelWorkbook = openpyxl.Workbook
 '''
 Word activities
 '''
-
 import docx
 
 def OpenWordDocument(filename=None):
