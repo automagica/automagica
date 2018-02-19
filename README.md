@@ -11,6 +11,17 @@ Refer to our website for more information: https://automagica.be
 1. Python 3.6.4 from https://www.python.org
 2. Automagica Robot ID - get one from https://automagica.be
 
+#### Optional (to enable Optical Character Recognition)
+For _Windows_, install Tesseract 4 [from here](http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-4.00.00dev.exe).
+
+For _Linux_ (Ubuntu):
+```
+sudo apt-get install tesseract-ocr
+```
+For _MacOS_:
+```
+brw install tesseract
+```
 ### Installation instructions
 Install Automagica on the robot host machine:
 ```
@@ -52,5 +63,7 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [socketIO-client](https://pypi.python.org/pypi/socketIO-client)
 - [Selenium](https://github.com/baijum/selenium-python)
 - [PyWinAuto](https://github.com/pywinauto/pywinauto)
+- [pytesseract](https://github.com/madmaze/pytesseract)
+- [Tesseract](https://github.com/tesseract-ocr/tesseract)
 
 A special thanks goes out to all the above-mentioned repository contributers! :heart:
