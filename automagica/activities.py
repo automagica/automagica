@@ -81,3 +81,16 @@ def ExtractTextFromImage(filename=None):
     if platform.system == 'Windows':
         pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract'
     return pytesseract.image_to_string(Image.open(filename))
+
+
+'''
+Excel activities
+'''
+
+import openpyxl
+
+# Renaming functions
+OpenExcelWorkbook = openpyxl.load_workbook
+
+# Renaming classes
+NewExcelWorkbook = openpyxl.Workbook

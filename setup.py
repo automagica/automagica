@@ -19,6 +19,7 @@ setup(name='Automagica',
           'sty==1.0.0b2',
           'selenium==3.7.0',
           'pywinauto==0.6.1',
-          'pytesseract==0.2.0'
+          'pytesseract==0.2.0',
+          'openpyxl==2.4.8'
       ],
 )

@@ -65,5 +65,6 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [PyWinAuto](https://github.com/pywinauto/pywinauto)
 - [pytesseract](https://github.com/madmaze/pytesseract)
 - [Tesseract](https://github.com/tesseract-ocr/tesseract)
+- [OpenPyXL](https://bitbucket.org/openpyxl/openpyxl)
 
 A special thanks goes out to all the above-mentioned repository contributers! :heart:
