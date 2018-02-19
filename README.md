@@ -47,14 +47,14 @@ Failsafe(False)
 This is a simple example that opens Chrome and enters 'Hello world!' in the search bar.
 
 ```
-> PressHotkey('win','r')
-> Wait(seconds=1)
-> Type('chrome')
-> PressHotkey('enter')
-> Wait(seconds=3)
-> Type('Hello world!')
-> Wait(seconds=1)
-> PressHotkey('enter')
+PressHotkey('win','r')
+Wait(seconds=1)
+Type('chrome')
+PressHotkey('enter')
+Wait(seconds=3)
+Type('Hello world!')
+Wait(seconds=1)
+PressHotkey('enter')
 ```
 
 ## Credits
