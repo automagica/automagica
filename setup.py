@@ -20,6 +20,7 @@ setup(name='Automagica',
           'selenium==3.7.0',
           'pywinauto==0.6.1',
           'pytesseract==0.2.0',
-          'openpyxl==2.4.8'
+          'openpyxl==2.4.8',
+          'python-docx==0.8.6'
       ],
 )

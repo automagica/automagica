@@ -94,3 +94,18 @@ OpenExcelWorkbook = openpyxl.load_workbook
 
 # Renaming classes
 NewExcelWorkbook = openpyxl.Workbook
+
+
+'''
+Word activities
+'''
+
+import docx
+
+def OpenWordDocument(filename=None):
+    return docx.Document(filename)
+
+def ReplaceText(document, text=None, replace_with=None):
+        for paragraph in document.paragraphs:
+            paragraph.text = paragraph.text.replace(text, replace_with)
+        return document
