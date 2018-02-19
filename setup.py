@@ -21,6 +21,7 @@ setup(name='Automagica',
           'pywinauto==0.6.1',
           'pytesseract==0.2.0',
           'openpyxl==2.4.8',
-          'python-docx==0.8.6'
+          'python-docx==0.8.6',
+          'pywin32==221'
       ],
 )

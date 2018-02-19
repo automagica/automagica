@@ -109,3 +109,13 @@ def ReplaceText(document, text=None, replace_with=None):
         for paragraph in document.paragraphs:
             paragraph.text = paragraph.text.replace(text, replace_with)
         return document
+
+def ConvertWordToPDF(word_filename=None, pdf_filename=None):
+    if platform.system == 'Windows':
+        from win32com import client
+        word = client.DispatchEx('Word.Application')
+        word_document = word.Documents.Open(word_filename)
+        word_document.SaveAs(pdf_filename, FileFormat = 17)
+        word_document.Close()
+    else:
+        print('Not implemented for other platforms than Windows.')
