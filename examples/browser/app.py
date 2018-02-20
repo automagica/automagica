@@ -1,4 +1,4 @@
-from automagica import ChromeBrowser
+from automagica import *
 
 """ 
 Browses to Google, searches for our GitHub project, opens the first Google Search result link

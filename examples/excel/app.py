@@ -1,4 +1,4 @@
-from automagica import OpenExcelWorkbook, NewExcelWorkbook
+from automagica import *
 
 """
 Reads information from one Excel file and writes it to the other.

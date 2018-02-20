@@ -1,4 +1,4 @@
-from automagica import ExtractTextFromImage
+from automagica import *
 
 """ 
 Extracts text from image

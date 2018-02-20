@@ -68,7 +68,6 @@ def colorpicker(r,g,b):
     return
 
 color = 1
-counter = 0
 
 #Select Paint window
 click(325,17)
@@ -92,4 +91,3 @@ for item in instructions:
             colorpicker(item[2],item[3],item[4])
             color = item[5]
         click(item[0],item[1])
-        counter = counter + 1
