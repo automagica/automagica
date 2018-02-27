@@ -45,7 +45,9 @@ oMMMMMMMMMMMMMMMMM.mMMs oMMN``sMMN.``NMMhsMMMMMMN-NMMMdoMMMMdoMMM: .dMMNyhh+-` /
     print(fg.li_cyan + 'Automagica Robot (' + robot_id +
           ') launched and waiting! Listening to ' + host + rs.bg)
     socketIO = SocketIO(host, port)
-    robot_namespace = socketIO.define(Robot, '/robot')
+    robot = Robot
+    robot.robot_id = robot_id
+    robot_namespace = socketIO.define(robot, '/robot')
 
     robot_namespace.emit('auth', {'robot_id' : robot_id})
 
