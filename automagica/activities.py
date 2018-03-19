@@ -15,47 +15,51 @@ def Wait(seconds=None):
 '''
 Keyboard/mouse activities
 '''
-import pyautogui
-
 # Renaming functions
-PressHotkey = pyautogui.hotkey
+from pyautogui import hotkey
+PressHotkey = hotkey
 
 def ClickOnPosition(x=None, y=None):
-    return pyautogui.click(x, y)
+    from pyautogui import click
+
+    return click(x, y)
 
 
 def ClickOnImage(filename=None, double_click=False, right_click=False):
-    x, y = pyautogui.locateCenterOnScreen(filename)
+    from pyautogui import locateCenterOnScreen, rightClick, click
+
+    x, y = locateCenterOnScreen(filename)
     clicks = 2 if double_click else 1
     if right_click:
-        return pyautogui.rightClick(x, y)
+        return rightClick(x, y)
     else:
-        return pyautogui.click(x, y, clicks)
+        return click(x, y, clicks)
 
-def Type(text=None, interval_seconds=None):
+def Type(text=None, interval_seconds=0.001):
+    from pyautogui import typewrite
+
     # Set keyboard layout for Windows platform
-    if platform.system() == 'Windows':
-        import win32api
-        win32api.LoadKeyboardLayout('00000409',1)
-    return pyautogui.typewrite(text, interval=interval_seconds)
+    if platform.system() == 'Windows':s
+        from win32api import LoadKeyboardLayout
+        LoadKeyboardLayout('00000409',1)
+    return typewrite(text, interval=interval_seconds)
 
 
 '''
 Windows activities
 '''
-import pywinauto
-
 def UseFailsafe(switch=True):
-    pyautogui.FAILSAFE = switch
+    from pyautogui import FAILSAFE
+    FAILSAFE = switch
 
 
 '''
 Process activities
 '''
-import subprocess
-
 def LaunchProcess(process_executable=None):
-    return subprocess.Popen(process_executable)
+    from subprocess import Popen
+
+    return Popen(process_executable)
 
 def KillProcess(process=None):
     return process.kill()
@@ -64,8 +68,6 @@ def KillProcess(process=None):
 '''
 Browser activities
 '''
-from selenium.webdriver import Chrome
-
 def ChromeBrowser():
     if platform.system() == 'Linux':
         chromedriver_path = '\\bin\\webdriver\\linux64\\chromedriver'
@@ -73,39 +75,38 @@ def ChromeBrowser():
         chromedriver_path = '\\bin\\win32\\chromedriver.exe'
     else:
         chromedriver_path = '\\bin\\mac64\\chromedriver.exe'
+    from selenium.webdriver import Chrome
     return Chrome(os.path.abspath(__file__).replace('activities.py','') + chromedriver_path)
 
 
-# ''' 
-# OCR activities 
-# '''
-# import pytesseract
-
-# def ExtractTextFromImage(filename=None):
-#     if platform.system == 'Windows':
-#         pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract'
-#     return pytesseract.image_to_string(Image.open(filename))
+''' 
+OCR activities 
+'''
+def ExtractTextFromImage(filename=None):
+    if platform.system == 'Windows':
+        pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract'
+    from pytesseract import image_to_string
+    return image_to_string(Image.open(filename))
 
 
 '''
 Excel activities
 '''
-import openpyxl
+from openpyxl import load_workbook, Workbook
 
 # Renaming functions
-OpenExcelWorkbook = openpyxl.load_workbook
+OpenExcelWorkbook = load_workbook
 
 # Renaming classes
-NewExcelWorkbook = openpyxl.Workbook
+NewExcelWorkbook = Workbook
 
 
 '''
 Word activities
 '''
-import docx
-
 def OpenWordDocument(filename=None):
-    return docx.Document(filename)
+    from docx import Document
+    return Document(filename)
 
 def ReplaceText(document, text=None, replace_with=None):
         for paragraph in document.paragraphs:
