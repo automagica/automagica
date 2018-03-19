@@ -33,6 +33,10 @@ def ClickOnImage(filename=None, double_click=False, right_click=False):
         return pyautogui.click(x, y, clicks)
 
 def Type(text=None, interval_seconds=None):
+    # Set keyboard layout for Windows platform
+    if platform.system() == 'Windows':
+        import win32api
+        win32api.LoadKeyboardLayout('00000409',1)
     return pyautogui.typewrite(text, interval=interval_seconds)
 
 
@@ -72,15 +76,15 @@ def ChromeBrowser():
     return Chrome(os.path.abspath(__file__).replace('activities.py','') + chromedriver_path)
 
 
-''' 
-OCR activities 
-'''
-import pytesseract
+# ''' 
+# OCR activities 
+# '''
+# import pytesseract
 
-def ExtractTextFromImage(filename=None):
-    if platform.system == 'Windows':
-        pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract'
-    return pytesseract.image_to_string(Image.open(filename))
+# def ExtractTextFromImage(filename=None):
+#     if platform.system == 'Windows':
+#         pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract'
+#     return pytesseract.image_to_string(Image.open(filename))
 
 
 '''
