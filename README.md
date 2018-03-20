@@ -38,7 +38,7 @@ If you do not provide a Robot ID, the application will ask for it.
 
 ### Failsafe
 
-As a safety feature, a failsafe mechanism is enabled by default. You can trigger this by moving your mouse to the upper left corner of the screen. The failsafe is active by default. You can disable this by running the following command in the editor:
+As a safety feature, a failsafe mechanism is enabled by default. You can trigger this by moving your mouse to the upper left corner of the screen. You can disable this by running the following command in the editor:
 ```
 Failsafe(False)
 ```
