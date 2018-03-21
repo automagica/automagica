@@ -1,11 +1,5 @@
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/logo.png)
 # Automagica Client
-
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/automagic)](https://cran.r-project.org/package=automagic)
-[![DOI](https://zenodo.org/badge/65520853.svg)](https://zenodo.org/badge/latestdoi/65520853)
-[![Build Status](https://travis-ci.org/cole-brokamp/automagic.svg?branch=master)](https://travis-ci.org/cole-brokamp/automagic)
-![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/automagic?color=orange)
-
 Automagica is an open source Smart Robotic Process Automation (SRPA) platform. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries.
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
