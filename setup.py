@@ -3,8 +3,8 @@
 from distutils.core import setup
 
 setup(name='Automagica',
-      version='0.1',
-      description='Robot for Automagica - Smart Robotic Process Automation',
+      version='0.2',
+      description='Bot for Automagica - Smart Robotic Process Automation',
       author='Koen van Eijk',
       author_email='koen@oakwood.ai',
       url='https://oakwood.ai/',

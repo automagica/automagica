@@ -4,7 +4,7 @@ from sty import bg, rs, fg
 from socketIO_client import SocketIO
 
 from .auth import Auth
-from .robot import Robot
+from .bot import Bot
 from .activities import *
 
 
@@ -12,9 +12,9 @@ def start():
     os.system('cls')
 
     if len(sys.argv) > 1:
-        robot_id = sys.argv[1]
+        bot_id = sys.argv[1]
     else:
-        robot_id = input('Please provide your Automagica Robot ID: \n')
+        bot_id = input('Please provide your Automagica Bot ID: \n')
 
     if len(sys.argv) > 2:
         host = sys.argv[2]
@@ -42,14 +42,14 @@ oMMMMMMMMMMMMMMMMM.mMMs oMMN``sMMN.``NMMhsMMMMMMN-NMMMdoMMMMdoMMM: .dMMNyhh+-` /
                                                                               +sdMMMm/                                 
                                                                               yMNds-                                   
 """ + rs.bg)
-    print(fg.li_cyan + 'Automagica Robot (' + robot_id +
+    print(fg.li_cyan + 'Automagica Bot (' + bot_id +
           ') launched and waiting! Listening to ' + host + rs.bg)
     socketIO = SocketIO(host, port)
-    robot = Robot
-    robot.robot_id = robot_id
-    robot_namespace = socketIO.define(robot, '/robot')
+    bot = Bot
+    bot.bot_id = bot_id
+    bot_namespace = socketIO.define(bot, '/bot')
 
-    robot_namespace.emit('auth', {'robot_id' : robot_id})
+    bot_namespace.emit('auth', {'bot_id' : bot_id})
 
     socketIO.wait()
 

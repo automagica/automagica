@@ -39,7 +39,7 @@ def Type(text=None, interval_seconds=0.001):
     from pyautogui import typewrite
 
     # Set keyboard layout for Windows platform
-    if platform.system() == 'Windows':s
+    if platform.system() == 'Windows':
         from win32api import LoadKeyboardLayout
         LoadKeyboardLayout('00000409',1)
     return typewrite(text, interval=interval_seconds)
