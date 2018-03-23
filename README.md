@@ -4,13 +4,13 @@ Automagica is an open source Smart Robotic Process Automation (SRPA) platform. W
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
 
-Refer to our website for more information: https://automagica.be
+Refer to our website for more information: https://portal.automagica.be
 
 ## Getting started
 
 ### Prerequisites
 1. Python 3.6.4 from https://www.python.org
-2. Automagica Bot ID - get one from https://automagica.be
+2. Automagica Bot ID - get one from https://portal.automagica.be
 
 #### Optional (to enable Optical Character Recognition)
 For _Windows_, install Tesseract 4 [from here](http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-4.00.00dev.exe).
@@ -29,7 +29,7 @@ Install Automagica on the bot host machine:
 pip install https://github.com/OakwoodAI/automagica/tarball/master
 ```
 ## Running the Bot
-1. Get your Automagica Bot ID from https://automagica.be
+1. Get your Automagica Bot ID from https://portal.automagica.be
 2. In command line or terminal run following command. Replace `<bot_id>` with your Bot ID.
 ```
 automagica <bot_id>

@@ -19,7 +19,7 @@ def start():
     if len(sys.argv) > 2:
         host = sys.argv[2]
     else:
-        host = 'https://automagica.be'
+        host = 'https://portal.automagica.be'
 
     if len(sys.argv) > 3:
         port = sys.argv[3]
