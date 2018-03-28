@@ -12,6 +12,7 @@ setup(name='Automagica',
         'console_scripts': ['automagica=automagica.command_line:main'],
       },
       packages=['automagica'],
+      package_data={'automagica':['bin/*']},
       install_requires=[
           'socketIO-client==0.7.2',
           'PyAutoGUI==0.9.36',
