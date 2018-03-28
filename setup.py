@@ -12,7 +12,10 @@ setup(name='Automagica',
         'console_scripts': ['automagica=automagica.command_line:main'],
       },
       packages=['automagica'],
-      package_data={'automagica':['bin/*']},
+      package_data={'automagica':[
+        'bin/win32/chromedriver.exe',
+        'bin/mac64/chromedriver',
+        'bin/linux64/chromedriver']},
       install_requires=[
           'socketIO-client==0.7.2',
           'PyAutoGUI==0.9.36',
