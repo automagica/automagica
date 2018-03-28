@@ -24,4 +24,5 @@ setup(name='Automagica',
           'python-docx==0.8.6',
           'pywin32==223'
       ],
+      include_package_data = True
 )
