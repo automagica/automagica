@@ -12,6 +12,12 @@ Refer to our website for more information: https://portal.automagica.be
 1. Python 3.6.4 from https://www.python.org
 2. Automagica Bot ID - get one from https://portal.automagica.be
 
+### Installation instructions
+Install Automagica on the bot host machine:
+```
+pip install https://github.com/OakwoodAI/automagica/tarball/master
+```
+
 #### Optional (to enable Optical Character Recognition)
 For _Windows_, install Tesseract 4 [from here](http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-4.00.00dev.exe).
 
@@ -22,11 +28,6 @@ sudo apt-get install tesseract-ocr
 For _MacOS_:
 ```
 brw install tesseract
-```
-### Installation instructions
-Install Automagica on the bot host machine:
-```
-pip install https://github.com/OakwoodAI/automagica/tarball/master
 ```
 ## Running the Bot
 1. Get your Automagica Bot ID from https://portal.automagica.be
