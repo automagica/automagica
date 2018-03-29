@@ -58,7 +58,7 @@ SAP Automation (Real life example, sensitive information is blurred):
 
 ### Example code
 
-This is a simple example that opens Notebad and enters 'Hello world!' in the search bar.
+This is a simple example that opens Notepad and types 'Hello world!'.
 
 ```
 PressHotkey('win','r')
