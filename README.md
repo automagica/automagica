@@ -43,8 +43,20 @@ As a safety feature, a failsafe mechanism is enabled by default. You can trigger
 ```
 Failsafe(False)
 ```
+## Examples
 
-## Example
+Browser working with Excel:
+
+![](https://github.com/OakwoodAI/automagica/blob/master/images/browser_excel.gif)
+
+SAP Automation (Real life example, sensitive information is blurred):
+
+![](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
+
+
+
+
+## Example code
 
 This is a simple example that opens Chrome and enters 'Hello world!' in the search bar.
 
@@ -58,6 +70,7 @@ Type(text='Hello world!', interval_seconds=0)
 Wait(seconds=1)
 PressHotkey('enter')
 ```
+
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
