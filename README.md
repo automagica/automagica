@@ -56,21 +56,27 @@ SAP Automation (Real life example, sensitive information is blurred):
 
 
 
-## Example code
+### Example code
 
-This is a simple example that opens Chrome and enters 'Hello world!' in the search bar.
+This is a simple example that opens Notebad and enters 'Hello world!' in the search bar.
 
 ```
 PressHotkey('win','r')
 Wait(seconds=1)
-Type(text='chrome', interval_seconds=0)
+Type(text='notepad', interval_seconds=0)
 PressHotkey('enter')
-Wait(seconds=3)
-Type(text='Hello world!', interval_seconds=0)
-Wait(seconds=1)
-PressHotkey('enter')
+Wait(seconds=2)
+Type(text='Hello world!', interval_seconds=0.15)
 ```
 
+This is a simple example that opens Chrome and goes to Google.com.
+
+```
+browser = ChromeBrowser()
+browser.get('https://google.com')
+```
+
+For more and more exstensive examples see the folder 'examples'.
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
