@@ -100,6 +100,38 @@ OpenExcelWorkbook = load_workbook
 # Renaming classes
 NewExcelWorkbook = Workbook
 
+def ExcelReadCell(path, row, col, cell=None):
+    """Read a Cell from an Excel file.
+    Make sure you enter a valid path e.g. C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx...
+    You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2"... 
+    First row is defined row number 1 and first column is defined column number 1
+    """
+    from openpyxl import load_workbook, Workbook
+    workbook = load_workbook(path)
+    worksheet = workbook.active
+    if cell:
+        return worksheet[cell].value
+    else:
+        return worksheet[row-1][col-1].value
+
+def ExcelWriteCell(path, sheet=None, row=1, col=1, cell=None, write_value='Value'):
+    """Write a Cell to an Excel file.
+    Make sure you enter a valid path e.g. C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx...
+    You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2"... 
+    First row is defined row number 1 and first column is defined column number 1...
+    Value can be anything, standard is "Value"
+    """
+    from openpyxl import load_workbook, Workbook
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook[sheet]
+    else:
+        worksheet = workbook.active
+
+    worksheet.cell(row=row, column=col, value=write_value)
+    workbook.save(path)
+    return
+
 
 '''
 Word activities
