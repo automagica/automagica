@@ -43,25 +43,46 @@ As a safety feature, a failsafe mechanism is enabled by default. You can trigger
 ```
 Failsafe(False)
 ```
+## Examples
 
-## Example
+Browser working with Excel:
 
-This is a simple example that opens Chrome and enters 'Hello world!' in the search bar.
+![](https://github.com/OakwoodAI/automagica/blob/master/images/browser_excel.gif)
+
+SAP Automation (Real life example, sensitive information is blurred):
+
+![](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
+
+
+
+
+### Example code
+
+This is a simple example that opens Notepad and types 'Hello world!'.
 
 ```
 PressHotkey('win','r')
 Wait(seconds=1)
-Type(text='chrome', interval_seconds=0)
+Type(text='notepad', interval_seconds=0)
 PressHotkey('enter')
-Wait(seconds=3)
-Type(text='Hello world!', interval_seconds=0)
-Wait(seconds=1)
-PressHotkey('enter')
+Wait(seconds=2)
+Type(text='Hello world!', interval_seconds=0.15)
 ```
 
+<<<<<<< HEAD
 ## Important notes
 For the `Type`-function to work, you need to set the "United States-International" keyboard layout on your system. If the keyboard layout is not available, outcomes of the function might be different.
 
+=======
+This is a simple example that opens Chrome and goes to Google.com.
+
+```
+browser = ChromeBrowser()
+browser.get('https://google.com')
+```
+
+For more and more exstensive examples see the folder 'examples'.
+>>>>>>> 92c0c713857f8a4cdc2d4bad6dc767c96da9ff38
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
