@@ -59,6 +59,10 @@ Wait(seconds=1)
 PressHotkey('enter')
 ```
 
+## Important notes
+For the `Type`-function to work, you need to set the "United States-International" keyboard layout on your system. If the keyboard layout is not available, outcomes of the function might be different.
+
+
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
 - [PyAutoGUI](https://github.com/asweigart/pyautogui)
