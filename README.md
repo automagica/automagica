@@ -69,11 +69,6 @@ Wait(seconds=2)
 Type(text='Hello world!', interval_seconds=0.15)
 ```
 
-<<<<<<< HEAD
-## Important notes
-For the `Type`-function to work, you need to set the "United States-International" keyboard layout on your system. If the keyboard layout is not available, outcomes of the function might be different.
-
-=======
 This is a simple example that opens Chrome and goes to Google.com.
 
 ```
@@ -81,8 +76,10 @@ browser = ChromeBrowser()
 browser.get('https://google.com')
 ```
 
-For more and more exstensive examples see the folder 'examples'.
->>>>>>> 92c0c713857f8a4cdc2d4bad6dc767c96da9ff38
+For more and more extensive examples see the folder 'examples'.
+
+## Important notes
+For the `Type`-function to work, you need to set the "United States-International" keyboard layout on your system. If the keyboard layout is not available, outcomes of the function might be different.
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
