@@ -48,11 +48,7 @@ oMMMMMMMMMMMMMMMMM.mMMs oMMN``sMMN.``NMMhsMMMMMMN-NMMMdoMMMMdoMMM: .dMMNyhh+-` /
     bot = Bot
     bot.bot_id = bot_id
     bot_namespace = socketIO.define(bot, '/bot')
-
-    bot_namespace.emit('auth', {'bot_id' : bot_id})
-
     socketIO.wait()
-
-
+    
 if __name__ == '__main__':
     start()
