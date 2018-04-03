@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='Automagica',
-      version='0.2',
+      version='0.3',
       description='Bot for Automagica - Smart Robotic Process Automation',
       author='Koen van Eijk',
       author_email='koen@oakwood.ai',
