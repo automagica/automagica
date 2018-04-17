@@ -9,7 +9,7 @@ class Bot(BaseNamespace):
     def on_run(self, data):
         try:
             print('Received job #' + str(data['job_id']))
-            exec(data['code'])
+            exec(data['code'], globals())
             print('Finished job #' + str(data['job_id']) +' successfully.')
             self.emit('finish', {'type': 'success', 'bot_id': self.bot_id, 'job_id': data['job_id']})
         except Exception as e:
