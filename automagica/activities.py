@@ -8,6 +8,7 @@ Delay activities
 '''
 from time import sleep
 
+
 def Wait(seconds=None):
     sleep(seconds)
 
@@ -18,6 +19,7 @@ Keyboard/mouse activities
 # Renaming functions
 from pyautogui import hotkey
 PressHotkey = hotkey
+
 
 def ClickOnPosition(x=None, y=None):
     from pyautogui import click
@@ -35,19 +37,22 @@ def ClickOnImage(filename=None, double_click=False, right_click=False):
     else:
         return click(x, y, clicks)
 
+
 def Type(text=None, interval_seconds=0.001):
     from pyautogui import typewrite
 
     # Set keyboard layout for Windows platform
     if platform.system() == 'Windows':
         from win32api import LoadKeyboardLayout
-        LoadKeyboardLayout('00000409',1)
+        LoadKeyboardLayout('00000409', 1)
     return typewrite(text, interval=interval_seconds)
 
 
 '''
 Windows activities
 '''
+
+
 def UseFailsafe(switch=True):
     from pyautogui import FAILSAFE
     FAILSAFE = switch
@@ -56,10 +61,13 @@ def UseFailsafe(switch=True):
 '''
 Process activities
 '''
+
+
 def LaunchProcess(process_executable=None):
     from subprocess import Popen
 
     return Popen(process_executable)
+
 
 def KillProcess(process=None):
     return process.kill()
@@ -68,6 +76,8 @@ def KillProcess(process=None):
 '''
 Browser activities
 '''
+
+
 def ChromeBrowser():
     if platform.system() == 'Linux':
         chromedriver_path = '\\bin\\webdriver\\linux64\\chromedriver'
@@ -76,12 +86,14 @@ def ChromeBrowser():
     else:
         chromedriver_path = '\\bin\\mac64\\chromedriver.exe'
     from selenium.webdriver import Chrome
-    return Chrome(os.path.abspath(__file__).replace('activities.py','') + chromedriver_path)
+    return Chrome(os.path.abspath(__file__).replace('activities.py', '') + chromedriver_path)
 
 
 ''' 
 OCR activities 
 '''
+
+
 def ExtractTextFromImage(filename=None):
     if platform.system == 'Windows':
         pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract'
@@ -100,6 +112,7 @@ OpenExcelWorkbook = load_workbook
 # Renaming classes
 NewExcelWorkbook = Workbook
 
+
 def ExcelReadCell(path, row, col, cell=None):
     """Read a Cell from an Excel file.
     Make sure you enter a valid path e.g. C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx...
@@ -113,6 +126,7 @@ def ExcelReadCell(path, row, col, cell=None):
         return worksheet[cell].value
     else:
         return worksheet[row-1][col-1].value
+
 
 def ExcelWriteCell(path, sheet=None, row=1, col=1, cell=None, write_value='Value'):
     """Write a Cell to an Excel file.
@@ -136,21 +150,25 @@ def ExcelWriteCell(path, sheet=None, row=1, col=1, cell=None, write_value='Value
 '''
 Word activities
 '''
+
+
 def OpenWordDocument(filename=None):
     from docx import Document
     return Document(filename)
 
+
 def ReplaceText(document, text=None, replace_with=None):
-        for paragraph in document.paragraphs:
-            paragraph.text = paragraph.text.replace(text, replace_with)
-        return document
+    for paragraph in document.paragraphs:
+        paragraph.text = paragraph.text.replace(text, replace_with)
+    return document
+
 
 def ConvertWordToPDF(word_filename=None, pdf_filename=None):
     if platform.system == 'Windows':
         from win32com import client
         word = client.DispatchEx('Word.Application')
         word_document = word.Documents.Open(word_filename)
-        word_document.SaveAs(pdf_filename, FileFormat = 17)
+        word_document.SaveAs(pdf_filename, FileFormat=17)
         word_document.Close()
     else:
         print('Not implemented for other platforms than Windows.')
