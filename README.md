@@ -29,13 +29,6 @@ For _MacOS_:
 ```
 brw install tesseract
 ```
-## Running the Bot
-1. Get your Automagica Bot ID from https://portal.automagica.be
-2. In command line or terminal run following command. Replace `<bot_id>` with your Bot ID.
-```
-automagica <bot_id>
-```
-If you do not provide a Bot ID, the application will ask for it.
 
 ### Failsafe
 
@@ -52,8 +45,6 @@ Browser working with Excel:
 SAP Automation (Real life example, sensitive information is blurred):
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
-
-
 
 
 ### Example code
@@ -84,7 +75,6 @@ For the `Type`-function to work, you need to set the "United States-Internationa
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
 - [PyAutoGUI](https://github.com/asweigart/pyautogui)
-- [socketIO-client](https://pypi.python.org/pypi/socketIO-client)
 - [Selenium](https://github.com/baijum/selenium-python)
 - [PyWinAuto](https://github.com/pywinauto/pywinauto)
 - [pytesseract](https://github.com/madmaze/pytesseract)
