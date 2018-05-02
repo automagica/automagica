@@ -172,3 +172,62 @@ def ConvertWordToPDF(word_filename=None, pdf_filename=None):
         word_document.Close()
     else:
         print('Not implemented for other platforms than Windows.')
+
+'''
+Message boxes
+'''
+
+def infobox(title="Message", body="Empty"):
+    '''
+    Shows an info pop-up message with title and body
+    '''
+    import tkinter
+    from tkinter import messagebox
+
+    # hide main window
+    root = tkinter.Tk()
+    root.withdraw()
+
+    messagebox.showinfo(title,body)
+    return
+
+def warningbox(title="Message", body="Empty"):
+    '''
+    Shows a warning pop-up message with title and body
+    '''
+    import tkinter
+    from tkinter import messagebox
+
+    # hide main window
+    root = tkinter.Tk()
+    root.withdraw()
+
+    messagebox.showwarning(title,body)
+    return
+
+def errorbox(title="Message", body="Empty"):
+    '''
+    Shows an error pop-up message with title and body
+    '''
+    import tkinter
+    from tkinter import messagebox
+
+    # hide main window
+    root = tkinter.Tk()
+    root.withdraw()
+
+    messagebox.showinfo(title,body)
+    return
+
+def inputbox():
+    '''
+    Shows a pop-up message which askes for input which is captured and returned.
+    '''
+    from tkinter import Tk
+    from tkinter.simpledialog import askstring
+
+    root = Tk()
+    root.withdraw() # hide main window
+
+    text = askstring("Input", "Give input:")
+    return text
