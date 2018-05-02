@@ -23,7 +23,7 @@ Type(text='Hello world!', interval_seconds=0.15)
 
 Out-of-the box Automagica uses Chrome as automated browser. Go to advanced browser automation if you want to change the browser or for more in depth settings.
 
-## Starting the browser
+## Basic functions
 
 To open a browser choose 'Open Chrome browser' from menu or type the command:
 ```
@@ -36,12 +36,28 @@ Browse to a website by clicking 'Browse to URL' in the menu or use the command:
 ```
 browser.get('https://mywebsite.com/')
 ```
+
+Closing the browser can be done by:
+```
+browser.close()
+```
+
 An optional check to see if you are on the correct website is to check the title. For example if you are surfing to https://www.google.com, you might want to check if "Google" is in the title to make sure the bot surfed to the correct page.
 ```
 browser = ChromeBrowser()
 browser.get('https://google.com/')
-assert "Python" in driver.title
+if not "Google" in browser.title:
+    errorbox("Site is not correct")
 ```
+
+## Navigating
+
+To navigate and perform actions in the browser it is crucial to locate elements. Elements can be everything in the html files of a website like text, titles, buttons, text fields, tables, etc...
+
+There are two methods to finding elements, *find_element* to find a single element and *find_elements* to find multiple.
+Arguably the easiest way to find a certain element is by copying it's xpath.
+
+
 
 
 ## Navigating the browser
