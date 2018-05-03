@@ -54,8 +54,102 @@ if not "Google" in browser.title:
 
 To navigate and perform actions in the browser it is crucial to locate elements. Elements can be everything in the html files of a website like text, titles, buttons, text fields, tables, etc...
 
+### Quick start
+
 There are two methods to finding elements, *find_element* to find a single element and *find_elements* to find multiple.
 Arguably the easiest way to find a certain element is by copying it's xpath.
+
+To do this in Chrome right click on the element you want to find, in the example below this is the "Google Search" button on Google.com. Click *inspect element* and a side tab with the html code opens with the element you selected highlighted in blue.
+
+![Imgur](https://i.imgur.com/A2xdvUP.png)
+
+In the html code, right click the highlighted block and select *Copy* -> *Copy Xpath*.
+
+![Imgur](https://i.imgur.com/WRD46Xi.png)
+
+You can now use the absolute Xpath to manipulate the element. However this is a fast method for prototyping, we do not recommend using absolute paths in production environments. Slight changes in the html code would cause the absolute path to change and to likely cause errors. A more in-depth overview in the next section.
+
+### Selecting elements
+
+#### Selection by name
+
+Use this when you know name attribute of an element. With this strategy, the first element with the name attribute value matching the location will be returned. If no element has a matching name attribute, a NoSuchElementException will be raised.
+
+For instance, consider these elements on a webpage:
+
+<html>
+ <body>
+  <form id="loginForm">
+   <input name="username" type="text" />
+   <input name="password" type="password" />
+   <input name="continue" type="submit" value="Login" />
+   <input name="continue" type="button" value="Clear" />
+  </form>
+</body>
+<html>
+
+&nbsp;
+
+The corresponding html code would be:
+
+    <html>
+     <body>
+      <form id="loginForm">
+      <input name="username" type="text" />
+      <input name="password" type="password" />
+      <input name="loginbutton" type="submit" value="Login" />
+      <input name="clearbutton" type="button" value="Clear" />
+      </form>
+     </body>
+    <html>
+
+The username and password field can be found by:
+
+```
+username = browser.find_element_by_name('username')
+password = browser.find_element_by_name('password')
+```
+
+To fill in the fields:
+
+```
+username.send_keys("Automagica_User1")
+password.send_keys("thisismypassword123")
+```
+
+To find and click on the login button:
+
+```
+login = driver.find_element_by_name('loginbutton')
+login.click()
+```
+
+##### Side note
+
+In case of double naming, finding by name always finds the first element. Imagine the following html code:
+
+    <html>
+     <body>
+      <form id="loginForm">
+      <input name="username" type="text" />
+      <input name="continue" type="submit" value="Login" />
+      <input name="continue" type="button" value="Clear" />
+      </form>
+     </body>
+    <html>
+
+The following command will find the first element with the name "continue" and thus selecting the Login button:
+
+```
+continue = browser.find_element_by_name('continue')
+```
+
+
+
+
+
+
+
 
 
 
@@ -77,7 +171,7 @@ Examples
 - [ ] How to use different browser
 - [ ] Add chrome options for headless browsing
 - [ ] Add chrome options for not loading images
-- [ ] 
+- [ ] Add menu functionality for pop up boxes
 - [ ] 
 - [ ] 
 - [ ] 

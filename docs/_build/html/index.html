@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to Automagica&#39;s documentation! &mdash; Automagica 0.1 documentation</title>
+  <title>Automagica Documentation &mdash; Automagica 0.1 documentation</title>
   
 
   
@@ -83,9 +83,28 @@
             
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Welcome to Automagica's documentation!</a></li>
+<li><a class="reference internal" href="#">Automagica Documentation</a></li>
 <li><a class="reference internal" href="#testsectie">Testsectie</a><ul>
 <li><a class="reference internal" href="#example-code">Example code</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#browser-automation">Browser Automation</a><ul>
+<li><a class="reference internal" href="#basic-functions">Basic functions</a></li>
+<li><a class="reference internal" href="#navigating">Navigating</a><ul>
+<li><a class="reference internal" href="#quick-start">Quick start</a></li>
+<li><a class="reference internal" href="#selecting-elements">Selecting elements</a><ul>
+<li><a class="reference internal" href="#selection-by-name">Selection by name</a><ul>
+<li><a class="reference internal" href="#side-note">Side note</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#navigating-the-browser">Navigating the browser</a><ul>
+<li><a class="reference internal" href="#to-do">To Do:</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#important-notes">Important notes</a></li>
 <li><a class="reference internal" href="#credits">Credits</a></li>
 </ul>
@@ -136,7 +155,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>Welcome to Automagica's documentation!</li>
+      <li>Automagica Documentation</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -155,15 +174,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p>.. Automagica documentation master file, created by
-sphinx-quickstart on Wed May  2 16:32:29 2018.
-You can adapt this file completely to your liking, but it should at least
-contain the root <code class="docutils literal"><span class="pre">toctree</span></code> directive.</p>
-<div class="section" id="welcome-to-automagica-s-documentation">
-<span id="welcome-to-automagica-s-documentation"></span><h1>Welcome to Automagica's documentation!<a class="headerlink" href="#welcome-to-automagica-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>.. toctree::
-:maxdepth: 2
-:caption: Contents:</p>
+  <div class="section" id="automagica-documentation">
+<span id="automagica-documentation"></span><h1>Automagica Documentation<a class="headerlink" href="#automagica-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This is the documentation for Automagica Robotic Process Automation.</p>
 </div>
 <div class="section" id="testsectie">
 <span id="testsectie"></span><h1>Testsectie<a class="headerlink" href="#testsectie" title="Permalink to this headline">¶</a></h1>
@@ -178,12 +191,135 @@ contain the root <code class="docutils literal"><span class="pre">toctree</span>
 <span class="n">Type</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s1">&#39;Hello world!&#39;</span><span class="p">,</span> <span class="n">interval_seconds</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This is a simple example that opens Chrome and goes to Google.com.</p>
+</div>
+</div>
+<div class="section" id="browser-automation">
+<span id="browser-automation"></span><h1>Browser Automation<a class="headerlink" href="#browser-automation" title="Permalink to this headline">¶</a></h1>
+<p>Out-of-the box Automagica uses Chrome as automated browser. Go to advanced browser automation if you want to change the browser or for more in depth settings.</p>
+<div class="section" id="basic-functions">
+<span id="basic-functions"></span><h2>Basic functions<a class="headerlink" href="#basic-functions" title="Permalink to this headline">¶</a></h2>
+<p>To open a browser choose 'Open Chrome browser' from menu or type the command:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">browser</span> <span class="o">=</span> <span class="n">ChromeBrowser</span><span class="p">()</span>
-<span class="n">browser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://google.com&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>For more and more extensive examples see the folder 'examples'.</p>
+<p>The browser function will wait until the page has fully loaded (that is, the “onload” event has fired) before continuing in the Automagica script. It’s worth noting that if your page uses a lot of AJAX on load then the browser function may not know when it has completely loaded.</p>
+<p>Browse to a website by clicking 'Browse to URL' in the menu or use the command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://mywebsite.com/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Closing the browser can be done by:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>An optional check to see if you are on the correct website is to check the title. For example if you are surfing to https://www.google.com, you might want to check if &quot;Google&quot; is in the title to make sure the bot surfed to the correct page.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">browser</span> <span class="o">=</span> <span class="n">ChromeBrowser</span><span class="p">()</span>
+<span class="n">browser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://google.com/&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;Google&quot;</span> <span class="ow">in</span> <span class="n">browser</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+    <span class="n">errorbox</span><span class="p">(</span><span class="s2">&quot;Site is not correct&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="navigating">
+<span id="navigating"></span><h2>Navigating<a class="headerlink" href="#navigating" title="Permalink to this headline">¶</a></h2>
+<p>To navigate and perform actions in the browser it is crucial to locate elements. Elements can be everything in the html files of a website like text, titles, buttons, text fields, tables, etc...</p>
+<div class="section" id="quick-start">
+<span id="quick-start"></span><h3>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h3>
+<p>There are two methods to finding elements, <em>find_element</em> to find a single element and <em>find_elements</em> to find multiple.
+Arguably the easiest way to find a certain element is by copying it's xpath.</p>
+<p>To do this in Chrome right click on the element you want to find, in the example below this is the &quot;Google Search&quot; button on Google.com. Click <em>inspect element</em> and a side tab with the html code opens with the element you selected highlighted in blue.</p>
+<p><img alt="Imgur" src="https://i.imgur.com/A2xdvUP.png" /></p>
+<p>In the html code, right click the highlighted block and select <em>Copy</em> -&gt; <em>Copy Xpath</em>.</p>
+<p><img alt="Imgur" src="https://i.imgur.com/WRD46Xi.png" /></p>
+<p>You can now use the absolute Xpath to manipulate the element. However this is a fast method for prototyping, we do not recommend using absolute paths in production environments. Slight changes in the html code would cause the absolute path to change and to likely cause errors. A more in-depth overview in the next section.</p>
+</div>
+<div class="section" id="selecting-elements">
+<span id="selecting-elements"></span><h3>Selecting elements<a class="headerlink" href="#selecting-elements" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="selection-by-name">
+<span id="selection-by-name"></span><h4>Selection by name<a class="headerlink" href="#selection-by-name" title="Permalink to this headline">¶</a></h4>
+<p>Use this when you know name attribute of an element. With this strategy, the first element with the name attribute value matching the location will be returned. If no element has a matching name attribute, a NoSuchElementException will be raised.</p>
+<p>For instance, consider these elements on a webpage:</p>
+<p><html></p>
+ <body>
+  <form id="loginForm">
+   <input name="username" type="text" />
+   <input name="password" type="password" />
+   <input name="continue" type="submit" value="Login" />
+   <input name="continue" type="button" value="Clear" />
+  </form>
+</body>
+<html><p><p> </p>
+</p>
+<p>The corresponding html code would be:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">form</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;loginForm&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;loginbutton&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Login&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;clearbutton&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Clear&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+ <span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The username and password field can be found by:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">)</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To fill in the fields:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">username</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;Automagica_User1&quot;</span><span class="p">)</span>
+<span class="n">password</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;thisismypassword123&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To find and click on the login button:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">login</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s1">&#39;loginbutton&#39;</span><span class="p">)</span>
+<span class="n">login</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="side-note">
+<span id="side-note"></span><h5>Side note<a class="headerlink" href="#side-note" title="Permalink to this headline">¶</a></h5>
+<p>In case of double naming, finding by name always finds the first element. Imagine the following html code:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">form</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;loginForm&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;continue&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Login&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;continue&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Clear&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+ <span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The following command will find the first element with the name &quot;continue&quot; and thus selecting the Login button:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">continue</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s1">&#39;continue&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="navigating-the-browser">
+<span id="navigating-the-browser"></span><h2>Navigating the browser<a class="headerlink" href="#navigating-the-browser" title="Permalink to this headline">¶</a></h2>
+<p>Selenium: http://selenium-python.readthedocs.io/
+SAP
+Basic Python
+Mouse
+Examples</p>
+<div class="section" id="to-do">
+<span id="to-do"></span><h3>To Do:<a class="headerlink" href="#to-do" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>[ ] How to use different browser</li>
+<li>[ ] Add chrome options for headless browsing</li>
+<li>[ ] Add chrome options for not loading images</li>
+<li>[ ] Add menu functionality for pop up boxes</li>
+<li>[ ]</li>
+<li>[ ]</li>
+<li>[ ]</li>
+<li>[ ]</li>
+<li>[ ]</li>
+</ul>
+</div>
 </div>
 <div class="section" id="important-notes">
 <span id="important-notes"></span><h2>Important notes<a class="headerlink" href="#important-notes" title="Permalink to this headline">¶</a></h2>
