@@ -177,23 +177,9 @@ def ConvertWordToPDF(word_filename=None, pdf_filename=None):
 Message boxes
 '''
 
-def infobox(title="Message", body="Empty"):
+def DisplayMessageBox(title="Message", type="info", body="Empty"):
     '''
-    Shows an info pop-up message with title and body
-    '''
-    import tkinter
-    from tkinter import messagebox
-
-    # hide main window
-    root = tkinter.Tk()
-    root.withdraw()
-
-    messagebox.showinfo(title,body)
-    return
-
-def warningbox(title="Message", body="Empty"):
-    '''
-    Shows a warning pop-up message with title and body
+    Shows an pop-up message with title and body. Three possible types, info, error and warning with the default value info.
     '''
     import tkinter
     from tkinter import messagebox
@@ -202,21 +188,12 @@ def warningbox(title="Message", body="Empty"):
     root = tkinter.Tk()
     root.withdraw()
 
-    messagebox.showwarning(title,body)
-    return
-
-def errorbox(title="Message", body="Empty"):
-    '''
-    Shows an error pop-up message with title and body
-    '''
-    import tkinter
-    from tkinter import messagebox
-
-    # hide main window
-    root = tkinter.Tk()
-    root.withdraw()
-
-    messagebox.showinfo(title,body)
+    if type == "error":
+        messagebox.showwarning(title,body)
+    if type == "warning":
+        messagebox.showwarning(title,body)
+    else:
+        messagebox.showinfo(title,body)
     return
 
 def inputbox():
