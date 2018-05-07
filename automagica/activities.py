@@ -196,7 +196,7 @@ def DisplayMessageBox(title="Message", type="info", body="Empty"):
         messagebox.showinfo(title,body)
     return
 
-def inputbox():
+def RequestUserInput():
     '''
     Shows a pop-up message which askes for input which is captured and returned.
     '''
