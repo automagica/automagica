@@ -192,7 +192,7 @@ def DisplayMessageBox(title="Message", type="info", body="Empty"):
         messagebox.showwarning(title,body)
     if type == "warning":
         messagebox.showwarning(title,body)
-    else:
+    if type == "info":
         messagebox.showinfo(title,body)
     return
 
