@@ -1,10 +1,43 @@
 Automagica Documentation
-======================================
 
-This is the documentation for automating in Automagica Smart Automation. 
+This is the documentation for automating in Automagica Smart Automation.
 Automagica is based on the Python language.
 
 # Table of contents
+
+- [Table of contents](#table-of-contents)
+- [Browser Automation](#browser-automation)
+	- [Basic functions](#basic-functions)
+	- [Navigating](#navigating)
+		- [Quick start](#quick-start)
+		- [Selecting elements](#selecting-elements)
+			- [Selection by name](#selection-by-name)
+			- [Selection by Id](#selection-by-id)
+		- [Selection by Xpath](#selection-by-xpath)
+		- [Browsing Example](#browsing-example)
+- [Office Automation:](#office-automation)
+	- [Word](#word)
+	- [Excel](#excel)
+- [Basic operations](#basic-operations)
+	- [Variables and Types](#variables-and-types)
+		- [Strings](#strings)
+			- [String manipulation](#string-manipulation)
+				- [Adding variables to a string](#adding-variables-to-a-string)
+				- [Slicing strings](#slicing-strings)
+				- [String replacing](#string-replacing)
+				- [Upper and lower cases in strings](#upper-and-lower-cases-in-strings)
+				- [Splitting strings](#splitting-strings)
+		- [Numbers](#numbers)
+			- [Integers](#integers)
+			- [Floats](#floats)
+		- [Math operations](#math-operations)
+	- [Lists](#lists)
+	- [Logic operations](#logic-operations)
+		- [If statement](#if-statement)
+		- [While loops](#while-loops)
+		- [For loops](#for-loops)
+- [Examples](#examples)
+- [Credits](#credits)
 
 
 # Browser Automation
@@ -180,7 +213,7 @@ XPath (XML Path Language) is a query language for selecting nodes from an XML do
 The advantage of using XPath is the possibility to reach every element within an HTML structure. See [Quick start](#quick-start) for a visual introduction on how to find and use an element with XPath.
 The disadvantage of using a full XPath is that it is not very robust. Even the slightest changes in a HTML page would cause absolute XPaths to change, which in result will likely cause your robot unable to find the correct elements. Note that this is different from using an element name or id, as elements will still be able to be found with changes in the HTML page as long as the name or id remains the same.
 
-Therefore, when working with Xpath the robustness can be increased by finding a nearby element with an id or name attribute (ideally a parent element), so you can locate your target element based on the relationship. 
+Therefore, when working with Xpath the robustness can be increased by finding a nearby element with an id or name attribute (ideally a parent element), so you can locate your target element based on the relationship.
 
 Consider the following structure on a HTML page:
 
@@ -622,6 +655,3 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [OpenPyXL](https://bitbucket.org/openpyxl/openpyxl)
 - [python-docx](https://github.com/python-openxml/python-docx)
 - [pywin32](https://github.com/mhammond/pywin32)
-
-
-
