@@ -15,7 +15,7 @@ Automagica is based on the Python language.
 			- [Selection by Id](#selection-by-id)
 		- [Selection by Xpath](#selection-by-xpath)
 		- [Browsing Example](#browsing-example)
-- [Office Automation:](#office-automation)
+- [Office Automation](#office-automation)
 	- [Word](#word)
 	- [Excel](#excel)
 - [Basic operations](#basic-operations)
@@ -296,7 +296,7 @@ browser.find_element_by_xpath('//*[@id="lst-ib"]').submit()
 browser.find_elements_by_class_name('r')[0].click()
 ```
 
-# Office Automation:
+# Office Automation
 
 A lot of automation processes involve Microsoft Office. Automagica packs some useful functions to make automating office as easy as possible.
 
