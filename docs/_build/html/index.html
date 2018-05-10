@@ -84,32 +84,61 @@
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">Automagica Documentation</a></li>
-<li><a class="reference internal" href="#testsectie">Testsectie</a><ul>
-<li><a class="reference internal" href="#example-code">Example code</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#table-of-contents">Table of contents</a></li>
 <li><a class="reference internal" href="#browser-automation">Browser Automation</a><ul>
 <li><a class="reference internal" href="#basic-functions">Basic functions</a></li>
 <li><a class="reference internal" href="#navigating">Navigating</a><ul>
 <li><a class="reference internal" href="#quick-start">Quick start</a></li>
 <li><a class="reference internal" href="#selecting-elements">Selecting elements</a><ul>
-<li><a class="reference internal" href="#selection-by-name">Selection by name</a><ul>
-<li><a class="reference internal" href="#side-note">Side note</a></li>
+<li><a class="reference internal" href="#selection-by-name">Selection by name</a></li>
+<li><a class="reference internal" href="#selection-by-id">Selection by Id</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#selection-by-xpath">Selection by Xpath</a></li>
+<li><a class="reference internal" href="#browsing-example">Browsing Example</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#office-automation">Office Automation:</a><ul>
+<li><a class="reference internal" href="#word">Word</a></li>
+<li><a class="reference internal" href="#excel">Excel</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#navigating-the-browser">Navigating the browser</a><ul>
-<li><a class="reference internal" href="#to-do">To Do:</a></li>
+<li><a class="reference internal" href="#basic-operations">Basic operations</a><ul>
+<li><a class="reference internal" href="#variables-and-types">Variables and Types</a><ul>
+<li><a class="reference internal" href="#strings">Strings</a><ul>
+<li><a class="reference internal" href="#string-manipulation">String manipulation</a><ul>
+<li><a class="reference internal" href="#adding-variables-to-a-string">Adding variables to a string</a></li>
+<li><a class="reference internal" href="#slicing-strings">Slicing strings</a></li>
+<li><a class="reference internal" href="#string-replacing">String replacing</a></li>
+<li><a class="reference internal" href="#upper-and-lower-cases-in-strings">Upper and lower cases in strings</a></li>
+<li><a class="reference internal" href="#splitting-strings">Splitting strings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#important-notes">Important notes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#numbers">Numbers</a><ul>
+<li><a class="reference internal" href="#integers">Integers</a></li>
+<li><a class="reference internal" href="#floats">Floats</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#math-operations">Math operations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lists">Lists</a></li>
+<li><a class="reference internal" href="#logic-operations">Logic operations</a><ul>
+<li><a class="reference internal" href="#if-statement">If statement</a></li>
+<li><a class="reference internal" href="#while-loops">While loops</a></li>
+<li><a class="reference internal" href="#for-loops">For loops</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
 <li><a class="reference internal" href="#credits">Credits</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 </div>
             
@@ -176,26 +205,26 @@
             
   <div class="section" id="automagica-documentation">
 <span id="automagica-documentation"></span><h1>Automagica Documentation<a class="headerlink" href="#automagica-documentation" title="Permalink to this headline">¶</a></h1>
-<p>This is the documentation for Automagica Robotic Process Automation.</p>
+<p>This is the documentation for automating in Automagica Smart Automation.
+Automagica is based on the Python language.</p>
 </div>
-<div class="section" id="testsectie">
-<span id="testsectie"></span><h1>Testsectie<a class="headerlink" href="#testsectie" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="example-code">
-<span id="example-code"></span><h2>Example code<a class="headerlink" href="#example-code" title="Permalink to this headline">¶</a></h2>
-<p>This is a simple example that opens Notepad and types 'Hello world!'.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">PressHotkey</span><span class="p">(</span><span class="s1">&#39;win&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">Wait</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">Type</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s1">&#39;notepad&#39;</span><span class="p">,</span> <span class="n">interval_seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">PressHotkey</span><span class="p">(</span><span class="s1">&#39;enter&#39;</span><span class="p">)</span>
-<span class="n">Wait</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">Type</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s1">&#39;Hello world!&#39;</span><span class="p">,</span> <span class="n">interval_seconds</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
+<div class="section" id="table-of-contents">
+<span id="table-of-contents"></span><h1>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h1>
+<ol class="simple">
+<li><a class="reference external" href="#browser-automation">Browser Automation</a>
+1.1 <a class="reference external" href="#basic-functions">Basic functions</a>
+1.2 <a class="reference external" href="#navigating">Navigating</a>
+1.2.1 <a class="reference external" href="#quick-start">Quick start</a></li>
+<li><a class="reference external" href="#paragraph1">Some paragraph</a><ol>
+<li><a class="reference external" href="#subparagraph1">Sub paragraph</a></li>
+</ol>
+</li>
+<li><a class="reference external" href="#paragraph2">Another paragraph</a></li>
+</ol>
 </div>
 <div class="section" id="browser-automation">
 <span id="browser-automation"></span><h1>Browser Automation<a class="headerlink" href="#browser-automation" title="Permalink to this headline">¶</a></h1>
-<p>Out-of-the box Automagica uses Chrome as automated browser. Go to advanced browser automation if you want to change the browser or for more in depth settings.</p>
+<p>Out-of-the box Automagica uses Chrome as automated browser. The following sections will explain how to find, read and manipulate web elements.</p>
 <div class="section" id="basic-functions">
 <span id="basic-functions"></span><h2>Basic functions<a class="headerlink" href="#basic-functions" title="Permalink to this headline">¶</a></h2>
 <p>To open a browser choose 'Open Chrome browser' from menu or type the command:</p>
@@ -209,6 +238,23 @@
 </div>
 <p>Closing the browser can be done by:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To move backward and forward in your browser’s history:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
+<span class="n">browser</span><span class="o">.</span><span class="n">back</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To click on an element:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">element</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To enter text into a text field:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">element</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;some text&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To clear an element:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">element</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>An optional check to see if you are on the correct website is to check the title. For example if you are surfing to https://www.google.com, you might want to check if &quot;Google&quot; is in the title to make sure the bot surfed to the correct page.</p>
@@ -225,12 +271,12 @@
 <div class="section" id="quick-start">
 <span id="quick-start"></span><h3>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h3>
 <p>There are two methods to finding elements, <em>find_element</em> to find a single element and <em>find_elements</em> to find multiple.
-Arguably the easiest way to find a certain element is by copying it's xpath.</p>
+Arguably the easiest way to find a certain element is by copying it's XPath.</p>
 <p>To do this in Chrome right click on the element you want to find, in the example below this is the &quot;Google Search&quot; button on Google.com. Click <em>inspect element</em> and a side tab with the html code opens with the element you selected highlighted in blue.</p>
 <p><img alt="Imgur" src="https://i.imgur.com/A2xdvUP.png" /></p>
-<p>In the html code, right click the highlighted block and select <em>Copy</em> -&gt; <em>Copy Xpath</em>.</p>
+<p>In the html code, right click the highlighted block and select <em>Copy</em> -&gt; <em>Copy XPath</em>.</p>
 <p><img alt="Imgur" src="https://i.imgur.com/WRD46Xi.png" /></p>
-<p>You can now use the absolute Xpath to manipulate the element. However this is a fast method for prototyping, we do not recommend using absolute paths in production environments. Slight changes in the html code would cause the absolute path to change and to likely cause errors. A more in-depth overview in the next section.</p>
+<p>You can now use the absolute XPath to manipulate the element. However this is a fast method for prototyping, we do not recommend using absolute paths in production environments. Slight changes in the html code would cause the absolute path to change and to likely cause errors. A more in-depth overview in the next section.</p>
 </div>
 <div class="section" id="selecting-elements">
 <span id="selecting-elements"></span><h3>Selecting elements<a class="headerlink" href="#selecting-elements" title="Permalink to this headline">¶</a></h3>
@@ -273,12 +319,11 @@ Arguably the easiest way to find a certain element is by copying it's xpath.</p>
 </pre></div>
 </div>
 <p>To find and click on the login button:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">login</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s1">&#39;loginbutton&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">login</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s1">&#39;loginbutton&#39;</span><span class="p">)</span>
 <span class="n">login</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="section" id="side-note">
-<span id="side-note"></span><h5>Side note<a class="headerlink" href="#side-note" title="Permalink to this headline">¶</a></h5>
+<p><strong>Side note</strong></p>
 <p>In case of double naming, finding by name always finds the first element. Imagine the following html code:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
  <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
@@ -296,38 +341,427 @@ Arguably the easiest way to find a certain element is by copying it's xpath.</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="selection-by-id">
+<span id="selection-by-id"></span><h4>Selection by Id<a class="headerlink" href="#selection-by-id" title="Permalink to this headline">¶</a></h4>
+<p>You can select elements by Id when this is known. This is a robust method, yet generally nog every element had a known id tag. Consider the html code below:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">form</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;loginForm&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;continue&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Login&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+ <span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>In this case the form has an id &quot;loginForm&quot;. Hence the form can be selected with the Id by:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">loginform</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;loginForm&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="navigating-the-browser">
-<span id="navigating-the-browser"></span><h2>Navigating the browser<a class="headerlink" href="#navigating-the-browser" title="Permalink to this headline">¶</a></h2>
-<p>Selenium: http://selenium-python.readthedocs.io/
-SAP
-Basic Python
-Mouse
-Examples</p>
-<div class="section" id="to-do">
-<span id="to-do"></span><h3>To Do:<a class="headerlink" href="#to-do" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>[ ] How to use different browser</li>
-<li>[ ] Add chrome options for headless browsing</li>
-<li>[ ] Add chrome options for not loading images</li>
-<li>[ ] Add menu functionality for pop up boxes</li>
-<li>[ ]</li>
-<li>[ ]</li>
-<li>[ ]</li>
-<li>[ ]</li>
-<li>[ ]</li>
-</ul>
+<div class="section" id="selection-by-xpath">
+<span id="selection-by-xpath"></span><h3>Selection by Xpath<a class="headerlink" href="#selection-by-xpath" title="Permalink to this headline">¶</a></h3>
+<p>XPath (XML Path Language) is a query language for selecting nodes from an XML document. Since HTML can be an implementation of XML (referred to as XHTML), this language can be used to find and manipulate target elements in web applications.</p>
+<p>The advantage of using XPath is the possibility to reach every element within an HTML structure. See <a class="reference external" href="#quick-start">Quick start</a> for a visual introduction on how to find and use an element with XPath.
+The disadvantage of using a full XPath is that it is not very robust. Even the slightest changes in a HTML page would cause absolute XPaths to change, which in result will likely cause your robot unable to find the correct elements. Note that this is different from using an element name or id, as elements will still be able to be found with changes in the HTML page as long as the name or id remains the same.</p>
+<p>Therefore, when working with Xpath the robustness can be increased by finding a nearby element with an id or name attribute (ideally a parent element), so you can locate your target element based on the relationship.</p>
+<p>Consider the following structure on a HTML page:</p>
+<p><html></p>
+ <body>
+  <form id="loginForm">
+   <input name="username" type="text" />
+   <input name="password" type="password" />
+   <input name="continue" type="submit" value="Login" />
+   <input name="continue" type="button" value="Clear" />
+  </form>
+</body>
+<html><p><p> </p>
+</p>
+<p>With the following source code:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">form</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;loginForm&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;loginbutton&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Login&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;clearbutton&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Clear&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+ <span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><strong>Selecting the username:</strong></p>
+<ol class="simple">
+<li>Absolute path (note that this would break if the HTML was changed only slightly)</li>
+<li>Point to the first element in the form</li>
+<li>First input element with attribute named ‘name’ and the value username</li>
+</ol>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;//form[input/@name=&#39;username&#39;]&quot;</span><span class="p">)</span>
+<span class="n">username</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;//form[@id=&#39;loginForm&#39;]/input[1]&quot;</span><span class="p">)</span>
+<span class="n">username</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;//input[@name=&#39;username&#39;]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>The &quot;clear&quot; button can be located by:</strong></p>
+<ol class="simple">
+<li>Fourth input element of the form element with attribute named id and value loginForm</li>
+<li>Input with attribute named name and the value continue and attribute named type and the value button</li>
+</ol>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">clear_button</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;//form[@id=&#39;loginForm&#39;]/input[4]&quot;</span><span class="p">)</span>
+<span class="n">clear_button</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;//input[@name=&#39;continue&#39;][@type=&#39;button&#39;]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>The form can be selected by:</strong></p>
+<ol class="simple">
+<li>Absolute path (note that this would break if the HTML was changed only slightly):</li>
+<li>First form element in the HTML</li>
+<li>The form element with attribute named id and the value loginForm</li>
+</ol>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">login_form</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;/html/body/form[1]&quot;</span><span class="p">)</span>
+<span class="n">login_form</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;//form[1]&quot;</span><span class="p">)</span>
+<span class="n">login_form</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;//form[@id=&#39;loginForm&#39;]&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
-<div class="section" id="important-notes">
-<span id="important-notes"></span><h2>Important notes<a class="headerlink" href="#important-notes" title="Permalink to this headline">¶</a></h2>
-<p>For the <code class="docutils literal"><span class="pre">Type</span></code>-function to work, you need to set the &quot;United States-International&quot; keyboard layout on your system. If the keyboard layout is not available, outcomes of the function might be different.</p>
+<div class="section" id="browsing-example">
+<span id="browsing-example"></span><h3>Browsing Example<a class="headerlink" href="#browsing-example" title="Permalink to this headline">¶</a></h3>
+<p>The following example browses to Google, searches for Automagica, opens the first Google Search result link</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Open Chrome</span>
+<span class="n">browser</span> <span class="o">=</span> <span class="n">ChromeBrowser</span><span class="p">()</span>
+
+<span class="c1"># Browse to Google</span>
+<span class="n">browser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://google.com&#39;</span><span class="p">)</span>
+
+<span class="c1"># Enter Search Text</span>
+<span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s1">&#39;//*[@id=&quot;lst-ib&quot;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s1">&#39;automagica&#39;</span><span class="p">)</span>
+
+<span class="c1"># Submit</span>
+<span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s1">&#39;//*[@id=&quot;lst-ib&quot;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+
+<span class="c1"># Click the first link</span>
+<span class="n">browser</span><span class="o">.</span><span class="n">find_elements_by_class_name</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</pre></div>
 </div>
+</div>
+</div>
+</div>
+<div class="section" id="office-automation">
+<span id="office-automation"></span><h1>Office Automation:<a class="headerlink" href="#office-automation" title="Permalink to this headline">¶</a></h1>
+<p>A lot of automation processes involve Microsoft Office. Automagica packs some useful functions to make automating office as easy as possible.</p>
+<div class="section" id="word">
+<span id="word"></span><h2>Word<a class="headerlink" href="#word" title="Permalink to this headline">¶</a></h2>
+<p>To open a Word document:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">document</span> <span class="o">=</span> <span class="n">OpenWordDocument</span><span class="p">(</span><span class="s1">&#39;example.docx&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Replace words in a Word document. This can be particularly useful when using templates for forms. Make sure the template contains unique placeholder ariables so that automated filling doesn't cause ambiguities.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">document</span> <span class="o">=</span> <span class="n">ReplaceTextInDocument</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;[placeholder]&#39;</span><span class="p">,</span> <span class="n">replace_with</span><span class="o">=</span><span class="s1">&#39;My text&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Converting a Word document to PDF:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ConvertWordToPDF</span><span class="p">(</span><span class="n">word_filename</span><span class="o">=</span><span class="s1">&#39;C:</span><span class="se">\\</span><span class="s1">document.docx&#39;</span><span class="p">,</span> <span class="n">pdf_filename</span><span class="o">=</span><span class="s1">&#39;C:</span><span class="se">\\</span><span class="s1">document.pdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="excel">
+<span id="excel"></span><h2>Excel<a class="headerlink" href="#excel" title="Permalink to this headline">¶</a></h2>
+<p>Automation in Excel most of the time requires reading and writing cells. In Automagica, this is very easy.</p>
+<p>You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell=&quot;A2&quot;.
+Note that the first row is defined as row number 1 and the first column is defined column number 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Using row and column</span>
+<span class="n">ExcelReadCell</span><span class="p">(</span><span class="n">C</span><span class="p">:</span>\\<span class="n">Users</span>\<span class="n">Bob</span>\\<span class="n">Desktop</span>\\<span class="n">RPA</span> <span class="n">Examples</span>\\<span class="n">data</span><span class="o">.</span><span class="n">xlsx</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">#Using cell value</span>
+<span class="n">ExcelReadCell</span><span class="p">(</span><span class="n">C</span><span class="p">:</span>\\<span class="n">Users</span>\<span class="n">Bob</span>\\<span class="n">Desktop</span>\\<span class="n">RPA</span> <span class="n">Examples</span>\\<span class="n">data</span><span class="o">.</span><span class="n">xlsx</span><span class="p">,</span><span class="n">cell</span><span class="o">=</span><span class="n">A1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And similar for writing a cell:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Using row and column</span>
+<span class="n">ExcelWriteCell</span><span class="p">(</span><span class="n">C</span><span class="p">:</span>\\<span class="n">Users</span>\<span class="n">Bob</span>\\<span class="n">Desktop</span>\\<span class="n">RPA</span> <span class="n">Examples</span>\\<span class="n">data</span><span class="o">.</span><span class="n">xlsx</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;Robot&quot;</span><span class="p">)</span>
+<span class="c1">#Using cell value</span>
+<span class="n">ExcelWriteCell</span><span class="p">(</span><span class="n">C</span><span class="p">:</span>\\<span class="n">Users</span>\<span class="n">Bob</span>\\<span class="n">Desktop</span>\\<span class="n">RPA</span> <span class="n">Examples</span>\\<span class="n">data</span><span class="o">.</span><span class="n">xlsx</span><span class="p">,</span><span class="n">cell</span><span class="o">=</span><span class="n">A1</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;Robot&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="basic-operations">
+<span id="basic-operations"></span><h1>Basic operations<a class="headerlink" href="#basic-operations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="variables-and-types">
+<span id="variables-and-types"></span><h2>Variables and Types<a class="headerlink" href="#variables-and-types" title="Permalink to this headline">¶</a></h2>
+<p>Variables are used to store information to be referenced and manipulated in an automation script. They also provide a way of labeling data with a descriptive name, so the automation script can be understood more clearly by the reader. It is helpful to think of variables as containers that hold information. Variables come in a great variety of types. Automagica supports all variable types from the Python language, but down here are some of the most prominent.</p>
+<div class="section" id="strings">
+<span id="strings"></span><h3>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h3>
+<p>A string is any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks).
+Strings are defined either with a single quote or a double quotes.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">automagica_string</span> <span class="o">=</span> <span class="s2">&quot;robots&quot;</span>
+<span class="n">DisplayMessageBox</span><span class="p">(</span><span class="n">automagica_string</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="string-manipulation">
+<span id="string-manipulation"></span><h4>String manipulation<a class="headerlink" href="#string-manipulation" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="adding-variables-to-a-string">
+<span id="adding-variables-to-a-string"></span><h5>Adding variables to a string<a class="headerlink" href="#adding-variables-to-a-string" title="Permalink to this headline">¶</a></h5>
+<p>You can add all variables to a string. If you want, for example, to add an interger to a string you can do so by defining the integer as a string:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">automagica_string</span> <span class="o">=</span> <span class="s2">&quot;robot number &quot;</span>
+<span class="n">automagica_integer</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">automagica_string2</span> <span class="o">=</span> <span class="n">automagica_string</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">DisplayMessageBox</span><span class="p">(</span><span class="n">automagica_string2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="slicing-strings">
+<span id="slicing-strings"></span><h5>Slicing strings<a class="headerlink" href="#slicing-strings" title="Permalink to this headline">¶</a></h5>
+<p>Adding <strong>[n]</strong> to a string will select the nth character:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;automagica&quot;</span>
+<span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">t</span>
+</pre></div>
+</div>
+<p>Adding <strong>[n:p]</strong> will slice the string from character n to p. By leaving n or p out it will select the first and last character respectively:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Hello Robot!&quot;</span>
+<span class="n">x</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Hello</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="string-replacing">
+<span id="string-replacing"></span><h5>String replacing<a class="headerlink" href="#string-replacing" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-default"><div class="highlight"><pre><span></span>x = &quot;Robots are evil!&quot;
+x.replace(&#39;evil&#39;, &#39;friendly&#39;)
+&gt;&gt;&gt;Robots are friendly!
+</pre></div>
+</div>
+</div>
+<div class="section" id="upper-and-lower-cases-in-strings">
+<span id="upper-and-lower-cases-in-strings"></span><h5>Upper and lower cases in strings<a class="headerlink" href="#upper-and-lower-cases-in-strings" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Robots&quot;</span>
+<span class="c1">#Convert to upper case</span>
+<span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="c1">#Convert to lower case</span>
+<span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="c1">#Capitalize</span>
+<span class="n">x</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="splitting-strings">
+<span id="splitting-strings"></span><h5>Splitting strings<a class="headerlink" href="#splitting-strings" title="Permalink to this headline">¶</a></h5>
+<p>You can choose to split a string at a certain word or character. Don't forget to indicate if you want to keep the first or second part of the string by adding [0] or [1] as splitting causes your string to turn in to a list of multiple strings:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>x = &quot;Robots will take over the world!&quot;
+x.split(&quot; over &quot;)
+&gt;&gt;&gt;[&#39;Robots will take&#39;, &#39;the world!&#39;]
+#Accesing the different strings can be done by:
+x[0]
+&gt;&gt;&gt;Robots will take
+x[1]
+&gt;&gt;&gt;the world!&quot;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="numbers">
+<span id="numbers"></span><h3>Numbers<a class="headerlink" href="#numbers" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="integers">
+<span id="integers"></span><h4>Integers<a class="headerlink" href="#integers" title="Permalink to this headline">¶</a></h4>
+<p>An integer (of int in short) is a whole number, not a fractional number, that can be positive, negative, or zero.</p>
+<p>To declare and display an integer:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">automagica_integer</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">DisplayMessageBox</span><span class="p">(</span><span class="n">automagica_integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can do basic math manipulations with integers:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">automagica_int1</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">automagica_int2</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">automagica_int3</span> <span class="o">=</span> <span class="n">automagica_int1</span> <span class="o">+</span> <span class="n">automagica_int2</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">DisplayMessageBox</span><span class="p">(</span><span class="n">automagica_int3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="floats">
+<span id="floats"></span><h4>Floats<a class="headerlink" href="#floats" title="Permalink to this headline">¶</a></h4>
+<p>Floats represent real numbers and are written with a decimal point dividing the integer and fractional parts.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">automagica_float</span> <span class="o">=</span> <span class="mf">3.1</span>
+<span class="n">DisplayMessageBox</span><span class="p">(</span><span class="n">automagica_float</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="math-operations">
+<span id="math-operations"></span><h3>Math operations<a class="headerlink" href="#math-operations" title="Permalink to this headline">¶</a></h3>
+<p>Down here is a list with basic math operations that can be used with both intergers and floats:</p>
+<p><strong>abs(x)</strong> : The absolute value of x (the (positive) distance between x and zero)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
+<span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p><strong>ceil(x)</strong> : The ceiling of x (the smallest integer not less than x)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">4.1</span>
+<span class="n">ceil</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p><strong>exp(x)</strong> : The exponential of x: e<sup>x</sup></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">ceil</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">20.085536923187668</span>
+</pre></div>
+</div>
+<p><strong>floor(x)</strong> : The floor of x: the largest integer not greater than x</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">4.1</span>
+<span class="n">floor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p><strong>log(x)</strong> : The natural logarithm of x, for x&gt; 0</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">floor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">2.302585092994046</span>
+</pre></div>
+</div>
+<p><strong>max(x1, x2,...)</strong> and <strong>max(x1, x2,...)</strong> :  The smallest and largest of its arguments: the value closest to positive infinity</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="nb">max</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p><strong>round(x)</strong> : x rounded to n digits from the decimal point.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="nb">round</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><strong>sqrt(x)</strong> : The square root of x for x &gt; 0</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">sqrt</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="lists">
+<span id="lists"></span><h2>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h2>
+<p>Lists are very similar to arrays. They can contain any type of variable, and they can contain as many variables as you wish. Lists can also be iterated over in a very simple manner. Down here some examples of list usage:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;R2-D2&quot;</span><span class="p">,</span> <span class="s2">&quot;Terminator&quot;</span><span class="p">,</span> <span class="s2">&quot;Optimus Prime&quot;</span><span class="p">,</span><span class="s2">&quot;WALL-E&quot;</span><span class="p">,</span> <span class="s2">&quot;RoboCop&quot;</span><span class="p">]</span>
+<span class="nb">list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;WALL-E&quot;</span><span class="p">)</span>
+<span class="nb">list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;RoboCop&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span><span class="p">[</span><span class="s2">&quot;R2-D2&quot;</span><span class="p">,</span> <span class="s2">&quot;Terminator&quot;</span><span class="p">,</span> <span class="s2">&quot;Optimus Prime&quot;</span><span class="p">,</span><span class="s2">&quot;WALL-E&quot;</span><span class="p">,</span> <span class="s2">&quot;RoboCop&quot;</span><span class="p">]</span>
+<span class="nb">list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span><span class="n">R2</span><span class="o">-</span><span class="n">D2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="logic-operations">
+<span id="logic-operations"></span><h2>Logic operations<a class="headerlink" href="#logic-operations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="if-statement">
+<span id="if-statement"></span><h3>If statement<a class="headerlink" href="#if-statement" title="Permalink to this headline">¶</a></h3>
+<p>An <em>if statement</em> is used for decision making. It will run the body of code only when if statement is true.
+The conditional block of code has to be intended.</p>
+<p>if condition :
+indentedStatementBlock</p>
+<p>An example would be:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">temperature</span> <span class="o">=</span> <span class="n">RequestUserInput</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">temperature</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+    <span class="n">DisplayMessageBox</span><span class="p">(</span><span class="s2">&quot;Wear short pants!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Expanding this example to multiple if statements:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">temperature</span> <span class="o">=</span> <span class="n">RequestUserInput</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">temperature</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="n">DisplayMessageBox</span><span class="p">(</span><span class="s2">&quot;Wear a warm hat!&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">temperature</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+    <span class="n">DisplayMessageBox</span><span class="p">(</span><span class="s2">&quot;Wear short pants!&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">DisplayMessageBox</span><span class="p">(</span><span class="s2">&quot;You can wear normal clothes!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The previous example will ouptut the string <em>&quot;Wear a warm hat!&quot;</em> if the inputnumber was lower than 10. If the number was higher than 20, the output will be <em>Wear short pants!</em>. If the condition was still not met, which means the input number was between 10 and 20, the else statement will be activated. In that case the message will show <em>&quot;You can wear normal clothes!&quot;</em>.</p>
+</div>
+<div class="section" id="while-loops">
+<span id="while-loops"></span><h3>While loops<a class="headerlink" href="#while-loops" title="Permalink to this headline">¶</a></h3>
+<p>The while loop evaluates the test expression.</p>
+<p>If the test expression is true (nonzero), codes inside the body of while loop are exectued. The test expression is evaluated again. The process goes on until the test expression is false.</p>
+<p>When the test expression is false, the while loop is terminated.</p>
+<p><img alt="Imgur" src="https://i.imgur.com/rh3OUdh.jpg" /></p>
+<p>An example of a while loop:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">automagica_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">automagica_count</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">):</span>
+   <span class="n">display_string</span> <span class="o">=</span> <span class="s2">&quot;Current count is: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">automagica_count</span><span class="p">)</span>
+   <span class="n">DisplayMessageBox</span><span class="p">(</span><span class="n">display_string</span><span class="p">)</span>
+   <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="for-loops">
+<span id="for-loops"></span><h3>For loops<a class="headerlink" href="#for-loops" title="Permalink to this headline">¶</a></h3>
+<p>The initialization statement is executed only once.</p>
+<p>Then, the test expression is evaluated. If the test expression is false (0), for loop is terminated. But if the test expression is true (nonzero), codes inside the body of for loop is executed and the update expression is updated.</p>
+<p>This process repeats until the test expression is false.</p>
+<p>The for loop is commonly used when the number of iterations is known.</p>
+<p><img alt="Imgur" src="https://i.imgur.com/V3p8spl.jpg" /></p>
+<p>An example of a for loop:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">display_string</span> <span class="o">=</span> <span class="s2">&quot;We are currently at number &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">DisplayMessageBox</span><span class="p">(</span><span class="n">display_string</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="examples">
+<span id="examples"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>The following example opens Excel and reads a worksheet with the following layout:</p>
+<p><img alt="Imgur" src="https://i.imgur.com/jMj2ypX.png" /></p>
+<p>It opens Chrome and surfs to google.com where the robot enters the searchterm. It then collects all the urls from the first page and writes these urls in Excel in the correct cell.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">excel_path</span> <span class="o">=</span> <span class="s2">&quot;Enter Path to Excel Here&quot;</span> <span class="c1">#example: C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx</span>
+
+<span class="c1"># Read information from the excel in the second row, for columns 2 to 10</span>
+<span class="n">lookup_terms</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">lookup_terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExcelReadCell</span><span class="p">(</span><span class="n">excel_path</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="p">))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+<span class="c1"># Open Chrome</span>
+<span class="n">browser</span> <span class="o">=</span> <span class="n">ChromeBrowser</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lookup_terms</span><span class="p">):</span>
+
+    <span class="c1"># Browse to Google</span>
+    <span class="n">browser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://google.com&#39;</span><span class="p">)</span>
+    <span class="c1"># Lookup the searchterm</span>
+    <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s1">&#39;//*[@id=&quot;lst-ib&quot;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="c1"># Search</span>
+    <span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s1">&#39;//*[@id=&quot;lst-ib&quot;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+    <span class="c1"># Get all found items</span>
+    <span class="n">articles</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">find_elements_by_class_name</span><span class="p">(</span><span class="s2">&quot;g&quot;</span><span class="p">)</span>
+    <span class="c1"># Parse the headertexts to find the urls</span>
+    <span class="n">urls</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">article</span> <span class="ow">in</span> <span class="n">articles</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">re</span>
+            <span class="n">urls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;https?://(?:[-\w.]|(?:%[\da-fA-F]</span><span class="si">{2}</span><span class="s1">))+&#39;</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">text</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="c1"># Write found urls to Excel</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">url</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">urls</span><span class="p">):</span>
+        <span class="n">ExcelWriteCell</span><span class="p">(</span><span class="n">excel_path</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">write_value</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>
+
+<span class="c1"># Exit the browser</span>
+<span class="n">browser</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you open the Excel file, the result should look something like this:</p>
+<p><img alt="Imgur" src="https://i.imgur.com/7gSv7gc.png" /></p>
+<p>Note that the links differ depending on your location, as google search results are location dependant.</p>
 <div class="section" id="credits">
 <span id="credits"></span><h2>Credits<a class="headerlink" href="#credits" title="Permalink to this headline">¶</a></h2>
-<p>Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:</p>
+<p>Under the hood, Automagica is built on some of the greatest open source libraries as listed down below. Large parts of the documentation is based on theirs. Special thanks to all contributors of these great libraries!</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/asweigart/pyautogui">PyAutoGUI</a></li>
 <li><a class="reference external" href="https://github.com/baijum/selenium-python">Selenium</a></li>
@@ -338,16 +772,7 @@ Examples</p>
 <li><a class="reference external" href="https://github.com/python-openxml/python-docx">python-docx</a></li>
 <li><a class="reference external" href="https://github.com/mhammond/pywin32">pywin32</a></li>
 </ul>
-<p>A special thanks goes out to all the above-mentioned repository contributers! :heart:</p>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<span id="indices-and-tables"></span><h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li>:ref:<code class="docutils literal"><span class="pre">genindex</span></code></li>
-<li>:ref:<code class="docutils literal"><span class="pre">modindex</span></code></li>
-<li>:ref:<code class="docutils literal"><span class="pre">search</span></code></li>
-</ul>
 </div>
 
 
