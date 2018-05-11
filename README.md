@@ -67,7 +67,7 @@ browser = ChromeBrowser()
 browser.get('https://google.com')
 ```
 
-For more and more extensive examples see the folder 'examples'.
+For more info and examples see the [documentation](http://automagica.readthedocs.io/en/latest/)
 
 ## Important notes
 For the `Type`-function to work, you need to set the "United States-International" keyboard layout on your system. If the keyboard layout is not available, outcomes of the function might be different.
