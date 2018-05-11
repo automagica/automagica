@@ -4,7 +4,9 @@ Automagica is an open source Smart Robotic Process Automation (SRPA) platform. W
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
 
-Refer to our website for more information: https://portal.automagica.be
+Refer to our website for more information: https://www.automagica.be 
+Registered users can acces the portal here: https://portal.automagica.be
+Documentation: https://automagica.readthedocs.io
 
 ## Getting started
 
@@ -67,7 +69,7 @@ browser = ChromeBrowser()
 browser.get('https://google.com')
 ```
 
-For more info and examples see the [documentation](http://automagica.readthedocs.io/en/latest/)
+For more info and examples see the [documentation](http://automagica.readthedocs.io/en/latest/).
 
 ## Important notes
 For the `Type`-function to work, you need to set the "United States-International" keyboard layout on your system. If the keyboard layout is not available, outcomes of the function might be different.
