@@ -3,9 +3,13 @@ Automagica Documentation
 This is the documentation for automating in Automagica Smart Automation.
 Automagica is based on the Python language.
 
+![Automagica](https://raw.githubusercontent.com/OakwoodAI/automagica/master/images/logo.png)
+
 # Table of contents
 
-- [Table of contents](#table-of-contents)
+- [Getting Started](#getting-started)
+	- [Prerequisites](#Prerequisites)
+	- [Installing instructions](#installing-instructions)
 - [Browser Automation](#browser-automation)
 	- [Basic functions](#basic-functions)
 	- [Navigating](#navigating)
@@ -15,7 +19,7 @@ Automagica is based on the Python language.
 			- [Selection by Id](#selection-by-id)
 		- [Selection by Xpath](#selection-by-xpath)
 		- [Browsing Example](#browsing-example)
-- [Office Automation:](#office-automation)
+- [Office Automation](#office-automation)
 	- [Word](#word)
 	- [Excel](#excel)
 - [Basic operations](#basic-operations)
@@ -39,6 +43,49 @@ Automagica is based on the Python language.
 - [Examples](#examples)
 - [Credits](#credits)
 
+# Getting started
+
+
+Refer to our [website](https://www.automagica.be) for more information, registered users can acces the [portal](https://portal.automagica.be). More details also available on our [github](https://github.com/OakwoodAI/automagica).
+
+Alternatively you can use Automagica locally by starting your Python script with:
+```
+from automagica import *
+```
+
+For a step-to-step tutorial on how to install and configure Python see [this video](https://www.youtube.com/watch?v=cpPG0bKHYKc).<br/>
+For a step-to-step tutorial on how to build and run a Python script see [this video](https://www.youtube.com/watch?v=hFhiV5X5QM4).
+
+## Prerequisites
+- Python 3.6.4 from [www.python.org](https://www.python.org)
+
+## Installation instructions
+Install Automagica on the bot host machine:
+```
+pip install https://github.com/OakwoodAI/automagica/tarball/master
+```
+
+### Optional Optical Character Recognition
+For _Windows_, install Tesseract 4 [from here](http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-4.00.00dev.exe).
+
+For _Linux_ (Ubuntu):
+```
+sudo apt-get install tesseract-ocr
+```
+For _MacOS_:
+```
+brw install tesseract
+```
+
+## Failsafe
+
+As a safety feature, a failsafe mechanism is enabled by default. You can trigger this by moving your mouse to the upper left corner of the screen. You can disable this by running the following command:
+```
+Failsafe(False)
+```
+## Examples
+
+For some animated examples see: [Browser working with Excel](https://raw.githubusercontent.com/OakwoodAI/automagica/master/images/browser_excel.gif) and [SAP Automation](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
 
 # Browser Automation
 
@@ -296,7 +343,7 @@ browser.find_element_by_xpath('//*[@id="lst-ib"]').submit()
 browser.find_elements_by_class_name('r')[0].click()
 ```
 
-# Office Automation:
+# Office Automation
 
 A lot of automation processes involve Microsoft Office. Automagica packs some useful functions to make automating office as easy as possible.
 

@@ -48,8 +48,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Automagica'
-copyright = '2018, Thomas van Turnhout & Koen van Eijk'
-author = 'Thomas van Turnhout & Koen van Eijk'
+copyright = '2018, Oakwood Technologies BVBA'
+author = 'Oakwood Technologies'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
