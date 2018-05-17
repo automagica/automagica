@@ -71,7 +71,7 @@ For more info and examples see the [documentation](http://automagica.readthedocs
 
 ## Automagica with Natural Language
 
-Wouldn't it be cool if we could write Robotic Process Automation scripts in plain ol' English rather than the already easy Python scripting language? Well it's possible with Automagica! We have coooed up a more human-friendly interface to get started with automation!
+Wouldn't it be cool if we could write Robotic Process Automation scripts in plain ol' English rather than the already easy Python scripting language? Well it's possible with Automagica! We have cooked up a more human-friendly interface to get started with automation!
 
 ### How it works
 Natural language for Automagica (.nla) looks like this:
