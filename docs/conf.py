@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Automagica documentation build configuration file, created by
-# sphinx-quickstart on Wed May  2 16:32:29 2018.
+# sphinx-quickstart on Wed May 2 16:32:29 2018 by Oakwood Technologies.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
