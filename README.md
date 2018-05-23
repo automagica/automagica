@@ -67,7 +67,7 @@ browser = ChromeBrowser()
 browser.get('https://google.com')
 ```
 
-For more info and examples see the [documentation](http://automagica.readthedocs.io/en/latest/).
+For more info and examples see the [documentation](https://automagica.readthedocs.io/en/latest/).
 
 ## Automagica with Natural Language
 
