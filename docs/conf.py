@@ -144,7 +144,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Automagica.tex', 'Automagica Documentation',
-     'Thomas van Turnhout \\& Koen van Eijk', 'manual'),
+     'Automagica', 'manual'),
 ]
 
 
