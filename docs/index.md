@@ -556,7 +556,7 @@ ceil(x)
 **exp(x)** : The exponential of x: e<sup>x</sup>
 ```
 x = 3
-ceil(x)
+exp(x)
 >>> 20.085536923187668
 ```
 **floor(x)** : The floor of x: the largest integer not greater than x
@@ -568,7 +568,7 @@ floor(x)
 **log(x)** : The natural logarithm of x, for x> 0
 ```
 x = 10
-floor(x)
+log(x)
 >>> 2.302585092994046
 ```
 **max(x1, x2,...)** and **max(x1, x2,...)** :  The smallest and largest of its arguments: the value closest to positive infinity
