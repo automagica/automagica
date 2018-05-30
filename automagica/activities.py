@@ -211,3 +211,8 @@ def RequestUserInput():
 
     text = askstring("Input", "Give input:")
     return text
+
+def StartFile(path):
+    from os import startfile
+    os.startfile(path)
+    return
