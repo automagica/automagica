@@ -10,6 +10,9 @@ Automagica is based on the Python language.
 - [Getting Started](#getting-started)
 	- [Prerequisites](#Prerequisites)
 	- [Installing instructions](#installing-instructions)
+	- [Failsafe](#failsafe)
+	- [Examples](#examples)
+	- [Automagica with Natural Language](#automagica-with-natural-language-for-prototyping)
 - [Browser Automation](#browser-automation)
 	- [Basic functions](#basic-functions)
 	- [Navigating](#navigating)
@@ -86,6 +89,44 @@ Failsafe(False)
 ## Examples
 
 For some animated examples see: [Browser working with Excel](https://raw.githubusercontent.com/OakwoodAI/automagica/master/images/browser_excel.gif) and [SAP Automation](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
+
+## Automagica with Natural Language for prototyping
+
+Wouldn't it be cool if we could write Robotic Process Automation scripts in plain ol' English rather than the already easy Python scripting language? Well it's possible with Automagica! We have cooked up a more human-friendly interface to get started with automation!
+
+### How it works
+Natural language for Automagica (.nla) looks like this:
+```
+open the browser
+navigate to google.com
+search for oranges
+```
+
+### Try it yourself
+
+NLP is handled by Wit.ai. A Wit.ai key is included, so you can get a headstart!
+
+Install (in addition to the above) the following required package:
+```
+pip install https://github.com/OakwoodAI/understanding/tarball/master
+```
+Then install Natural Language for Automagica:
+```
+git clone https://github.com/OakwoodAI/natural-language-automagica
+cd natural-language-automagica
+pip install .
+```
+
+Then you can get started by running the examples:
+```
+cd examples
+nla google.nla
+nla wikipedia.nla
+nla youtube.nla
+```
+
+Automagica with natural language is still in development and it's main goal for now is to speed up prototyping.
+Not all Automagica activities are supported as natural language and we do not recommend this for production builds for now.
 
 # Browser Automation
 
@@ -515,7 +556,7 @@ ceil(x)
 **exp(x)** : The exponential of x: e<sup>x</sup>
 ```
 x = 3
-ceil(x)
+exp(x)
 >>> 20.085536923187668
 ```
 **floor(x)** : The floor of x: the largest integer not greater than x
@@ -527,7 +568,7 @@ floor(x)
 **log(x)** : The natural logarithm of x, for x> 0
 ```
 x = 10
-floor(x)
+log(x)
 >>> 2.302585092994046
 ```
 **max(x1, x2,...)** and **max(x1, x2,...)** :  The smallest and largest of its arguments: the value closest to positive infinity
