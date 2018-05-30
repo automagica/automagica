@@ -214,5 +214,5 @@ def RequestUserInput():
 
 def StartFile(path):
     from os import startfile
-    os.startfile(path)
+    startfile(path)
     return
