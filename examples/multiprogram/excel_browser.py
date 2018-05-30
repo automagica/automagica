@@ -5,6 +5,8 @@ Saves all the urls from the first page.
 Writes the urls to excel.
 """
 
+from automagica import *
+
 excel_path = "Enter Path to Excel Here" #example: C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx
 
 # Read information from the excel in the second row, for columns 2 to 10
@@ -46,4 +48,4 @@ for j,item in enumerate(lookup_terms):
 browser.quit()
 
 # Open the Excel to show result
-startfile(excel_path)
+StartFile(excel_path)
