@@ -42,7 +42,7 @@ Browser working with Excel:
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/browser_excel.gif)
 
-SAP Automation (Real life example, sensitive information is blurred):
+SAP Automation (Production example, sensitive information is blurred):
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
 
