@@ -1,4 +1,5 @@
-{
+{ 
+    "items":
     {
         'question_variations': ['Waar is het WK Dorp?', 'Hoe kom ik bij het WK-dorp?'],
         'answer': 'Vraag aan de receptie!'
