@@ -1,0 +1,10 @@
+[
+    {
+        'question_variations': ['Waar is het WK Dorp?', 'Hoe kom ik bij het WK-dorp?'],
+        'answer': 'Vraag aan de receptie!'
+    },
+    {
+        'question_variations': ['Wat is Sporza?', 'Wat betekent Sporza?'],
+        'answer': 'Sporza is een merk van de VRT'
+    }
+]
