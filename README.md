@@ -9,8 +9,7 @@ Refer to our [website](https://www.automagica.be) for more information, register
 ## Getting started
 
 ### Prerequisites
-1. Python 3.6.4 from https://www.python.org
-2. Automagica Bot ID - get one from https://portal.automagica.be
+1. Python 3.6.5 from https://www.python.org
 
 ### Installation instructions
 Install Automagica on the bot host machine:
@@ -45,6 +44,15 @@ Browser working with Excel:
 SAP Automation (Production example, sensitive information is blurred):
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
+
+## Running the examples
+Running the examples is easy:
+```
+cd examples
+dir
+cd <example-name>
+automagica -f app.py
+```
 
 
 ### Example code
