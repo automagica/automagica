@@ -1,70 +1,99 @@
-{ "activities":
-    [ {
-    "group": "Mouse",
-    "activities": [{
-        "name": "Click on Position",
-        "script": "ClickOnPosition(x=0, y=0)",
-        "info": "Clicks on a specific (x,y) pixel coordinate on the screen."},
-        {
-        "name": "Click on Image",
-        "script": "ClickOnImage(\"example.png\")",
-        "info": "Clicks on an image on the screen. Image path needs to be specified."}
+{
+    "activities": [
+      {
+        "group": "Mouse",
+        "activities": [
+          {
+            "name": "Click on Position",
+            "script": "ClickOnPosition(x=0, y=0)",
+            "info": "Clicks on a specific (x,y) pixel coordinate on the screen.",
+            "icon": "f245",
+            "iconb64": ""
+          },
+          {
+            "name": "Click on Image",
+            "script": "ClickOnImage(\"example.png\")",
+            "info": "Clicks on an image on the screen. Image path needs to be specified.",
+            "icon": "f302",
+            "iconb64": ""
+          }
+        ]
+      },
+      {
+        "group": "Keyboard",
+        "activities": [
+          {
+            "name": "Hotkey",
+            "script": "PressHotkey(\"ctrl\",\"shift\",\"c\")",
+            "info": "Press a hotkey (combination)",
+            "icon": "f309",
+            "iconb64": ""
+          },
+          {
+            "name": "Type Text",
+            "script": "Type(text=\"Hello world!\", interval_seconds=0.01)",
+            "info": "Types text with a specified interval in seconds",
+            "icon": "f11c",
+            "iconb64": ""
+          }
+        ]
+      },
+      {
+        "group": "Delay",
+        "activities": [
+          {
+            "name": "Wait",
+            "script": "Wait(seconds=5)",
+            "info": "Wait for a specified time in seconds",
+            "icon": "f017",
+            "iconb64": ""
+          },
+          {
+            "name": "Wait for Image",
+            "script": "WaitForImage(\"example.png\")",
+            "info": "Wait for an image to appear on the screen. Image path needs to be specified",
+            "icon": "f017",
+            "iconb64": ""
+          }
+        ]
+      },
+      {
+        "group": "Browser",
+        "activities": [
+          {
+            "name": "Open Chrome browser",
+            "script": "browser = ChromeBrowser()",
+            "info": "Opens the Chrome browser",
+            "icon": "f268",
+            "iconb64": ""
+          },
+          {
+            "name": "Browse to URL",
+            "script": "browser.get(\"https://google.com/\")",
+            "info": "Browse to a specific URL. Browser needs to be opened first.",
+            "icon": "f105",
+            "iconb64": ""
+          }
+        ]
+      },
+      {
+        "group": "Math",
+        "activities": [
+          {
+            "name": "Absolute",
+            "script": "abs(x)",
+            "info": "Calculates the absolute value of an integer or float",
+            "icon": "f1ec",
+            "iconb64": ""
+          },
+          {
+            "name": "Ceiling",
+            "script": "browser.get(\"https://google.com/\")",
+            "info": "Rounds up an integer or float to the closest number",
+            "icon": "f1ec",
+            "iconb64": ""
+          }
+        ]
+      }
     ]
-},
-    {"group": "Keyboard",
-     "activities":
-     [
-         {
-             "name": "Hotkey",
-             "script": "PressHotkey(\"ctrl\",\"shift\",\"c\")",
-             "info": "Press a hotkey (combination)"
-         },
-         {
-             "name": "Type Text",
-             "script": "Type(text=\"Hello world!\", interval_seconds=0.01)",
-             "info": "Types text with a specified interval in seconds"
-         }
-     ]},
-    {"group": "Delay",
-              "activities":
-              [
-                  {
-                      "name": "Wait",
-                      "script": "Wait(seconds=5)",
-                      "info": "Wait for a specified time in seconds"
-                  },
-                  {
-                      "name": "Wait for Image",
-                      "script": "WaitForImage(\"example.png\")",
-                      "info": "Wait for an image to appear on the screen. Image path needs to be specified"
-                  }
-              ]},
-    {"group": "Browser",
-              "activities":
-              [
-                  {
-                      "name": "Open Chrome browser",
-                      "script": "browser = ChromeBrowser()",
-                      "info": "Opens the Chrome browser"
-                  },
-                  {
-                      "name": "Browse to URL",
-                      "script": "browser.get(\"https://google.com/\")",
-                      "info": "Browse to a specific URL. Browser needs to be opened first."
-                  }
-              ]},
-    {"group": "Math",
-              "activities":
-              [
-                  {
-                      "name": "Absolute",
-                      "script": "abs(x)",
-                      "info": "Calculates the absolute value of an integer or float"
-                  },
-                  {
-                      "name": "Ceiling",
-                      "script": "browser.get(\"https://google.com/\")",
-                      "info": "Rounds up an integer or float to the closest number"
-                  }
-              ]} ]}
-
+  }
