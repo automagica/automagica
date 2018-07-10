@@ -70,8 +70,138 @@
           {
             "name": "Browse to URL",
             "script": "browser.get(\"https://google.com/\")",
-            "info": "Browse to a specific URL. Browser needs to be opened first.",
+            "info": "Browse to a specific URL. Browser needs to be opened first",
             "icon": "angle-right",
+            "iconb64": ""
+          }
+        ]
+      },
+      {
+        "group": "Application",
+        "activities": [
+          {
+            "name": "Launch Process",
+            "script": "LaunchProcess(process_executable=\"mspaint.exe\")",
+            "info": "Launches a process based on the executable",
+            "icon": "desktop",
+            "iconb64": ""
+          },
+          {
+            "name": "Kill Process",
+            "script": "KillProcess(process=my_process)",
+            "info": "Kills a process",
+            "icon": "desktop",
+            "iconb64": ""
+          }
+        ]
+      },
+      {
+        "group": "Logic Operations",
+        "activities": [
+          {
+            "name": "For Loop",
+            "script": "for x in range(0, 3):\n\t message =\"We looped \" + str(x) + \" times\") \n\t DisplayMessageBox(body=message)",
+            "info": "Perform a for-looping operation",
+            "icon": "undo-alt",
+            "iconb64": ""
+          },
+          {
+            "name": "Condition",
+            "script": "if x == 1: \n\t success = 1 ",
+            "info": "Kills a process",
+            "icon": "undo-alt",
+            "iconb64": ""
+          }
+        ]
+      },
+      {
+        "group": "Message Box",
+        "activities": [
+          {
+            "name": "User input message box",
+            "script": "RequestUserInput()",
+            "info": "Shows a pop-up message asking for user for input",
+            "icon": "comment-alt",
+            "iconb64": ""
+          },
+          {
+            "name": "Display Info Box",
+            "script": "DisplayMessageBox(title=\"Title Text\", body=\"Body Text\", type=\"info\")",
+            "info": "Shows an info pop-up message with title and body",
+            "icon": "comment-alt",
+            "iconb64": ""
+          },
+          {
+            "name": "Display Warning Box",
+            "script": "DisplayMessageBox(title=\"Title Text\", body=\"Body Text\", type=\"warning\")",
+            "info": "Shows a warning pop-up message with title and body",
+            "icon": "comment-alt",
+            "iconb64": ""
+          },
+          {
+            "name": "Display Error Box",
+            "script": "DisplayMessageBox(title=\"Title Text\", body=\"Body Text\", type=\"error\")",
+            "info": "Shows an error pop-up message with title and body",
+            "icon": "comment-alt",
+            "iconb64": ""
+          }
+        ]
+      },
+      {
+        "group": "Excel",
+        "activities": [
+          {
+            "name": "Read Cell from Excel (by row and col)",
+            "script": "ExcelReadCell(path=absolute_path, row=1, col=1)",
+            "info": "Read cell value from Excel by row and col: first row is defined row number 1 and first column is defined column number 1",
+            "icon": "file-excel",
+            "iconb64": ""
+          },
+          {
+            "name": "Read Cell from Excel (by cell name)",
+            "script": "ExcelReadCell(path=absolute_path, cell=\"A1\")",
+            "info": "Read cell value from Excel by cell name e.g. cell=\"A2\" is the first cell",
+            "icon": "file-excel",
+            "iconb64": ""
+          },
+          {
+            "name": "Write Cell to Excel (by row and col)",
+            "script": "ExcelWriteCell(path=absolute_path, sheet=\"Sheet 1\", row=1, col=1, write_value=\"Value\")",
+            "info": "Write value to Excel by row and col: first row is defined row number 1 and first column is defined column number 1",
+            "icon": "file-excel",
+            "iconb64": ""
+          },
+          {
+            "name": "Write Cell to Excel (by cell name)",
+            "script": "ExcelWriteCell(path=absolute_path, cell=None, write_value=\"Value\")",
+            "info": "Write cell value from Excel by cell name e.g. cell=\"A2\" is the first cell",
+            "icon": "file-excel",
+            "iconb64": ""
+          }
+        ]
+      },
+      {
+        "group": "Word",
+        "activities": [
+          {
+            "name": "Open Word Document",
+            "script": "OpenWordDocument(filename=absolute_path)",
+            "info": "Open a Word document by refering to the absolute path",
+            "icon": "undo-alt",
+            "iconb64": ""
+          },
+          {
+            "name": "Replace Text",
+            "script": "ReplaceText(absolute_document_path, text=\"[example_placeholder]\", replace_with=\"Example Replacetext\")",
+            "info": "Replaces text in a Word document, for example to fill in certain fields in a form",
+            "icon": "undo-alt",
+            "iconb64": ""
+          },
+          {
+            "name": "Convert Word to PDF",
+            "script": "ConvertWordToPDF(word_filename=absolute_word_path, pdf_filename=absolute_pdf_path)",
+            "info": "Transforms a Word document to PDF",
+            "icon": "undo-alt",
             "iconb64": ""
           }
         ]
@@ -90,6 +220,62 @@
             "name": "Ceiling",
             "script": "browser.get(\"https://google.com/\")",
             "info": "Rounds up an integer or float to the closest number",
+            "icon": "calculator",
+            "iconb64": ""
+          },
+          {
+            "name": "Exponential",
+            "script": "exp(x)",
+            "info": "The exponential of x",
+            "icon": "calculator",
+            "iconb64": ""
+          },
+          {
+            "name": "Floor",
+            "script": "floor(x)",
+            "info": "The floor of x: the largest integer not greater than x",
+            "icon": "calculator",
+            "iconb64": ""
+          },
+          {
+            "name": "Log",
+            "script": "log(x)",
+            "info": "The natural logarithm of x, for x> 0",
+            "icon": "calculator",
+            "iconb64": ""
+          },
+          {
+            "name": "Maximum",
+            "script": "max(x1, x2, ...)",
+            "info": "The largest of its arguments: the value closest to positive infinity",
+            "icon": "calculator",
+            "iconb64": ""
+          },
+          {
+            "name": "Minimum",
+            "script": "min(x1, x2, ...)",
+            "info": "The smallest of its arguments: the value closest to negative infinity",
+            "icon": "calculator",
+            "iconb64": ""
+          },
+          {
+            "name": "Round",
+            "script": "round(x)",
+            "info": "x rounded to n digits from the decimal point.",
+            "icon": "calculator",
+            "iconb64": ""
+          },
+          {
+            "name": "Absolute",
+            "script": "abs(x)",
+            "info": "Calculates the absolute value of an integer or float",
+            "icon": "calculator",
+            "iconb64": ""
+          },
+          {
+            "name": "Square root",
+            "script": "sqrt(x)",
+            "info": "The square root of x for x > 0",
             "icon": "calculator",
             "iconb64": ""
           }
