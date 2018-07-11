@@ -69,8 +69,13 @@ def LaunchProcess(process_executable=None):
     return Popen(process_executable)
 
 
-def KillProcess(process=None):
-    return process.kill()
+def KillProcess(process=None, name=None):
+    import os
+    if process:
+        return process.kill()
+    if name:
+        return os.system("taskkill /f /im " + name + " >nul 2>&1")
+    return
 
 
 '''
@@ -216,3 +221,4 @@ def StartFile(path):
     from os import startfile
     startfile(path)
     return
+
