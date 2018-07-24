@@ -1,285 +1,295 @@
 {
-    "activities": [
-      {
-        "group": "Mouse",
-        "activities": [
-          {
-            "name": "Click on Position",
-            "script": "ClickOnPosition(x=0, y=0)",
-            "info": "Clicks on a specific (x,y) pixel coordinate on the screen.",
-            "icon": "mouse-pointer",
-            "iconb64": ""
-          },
-          {
-            "name": "Click on Image",
-            "script": "ClickOnImage(\"example.png\")",
-            "info": "Clicks on an image on the screen. Image path needs to be specified.",
-            "icon": "images",
-            "iconb64": ""
-          }
-        ]
-      },
-      {
-        "group": "Keyboard",
-        "activities": [
-          {
-            "name": "Hotkey",
-            "script": "PressHotkey(\"ctrl\",\"shift\",\"c\")",
-            "info": "Press a hotkey (combination)",
-            "icon": "keyboard",
-            "iconb64": ""
-          },
-          {
-            "name": "Type Text",
-            "script": "Type(text=\"Hello world!\", interval_seconds=0.01)",
-            "info": "Types text with a specified interval in seconds",
-            "icon": "keyboard",
-            "iconb64": ""
-          }
-        ]
-      },
-      {
-        "group": "Delay",
-        "activities": [
-          {
-            "name": "Wait",
-            "script": "Wait(seconds=5)",
-            "info": "Wait for a specified time in seconds",
-            "icon": "clock",
-            "iconb64": ""
-          },
-          {
-            "name": "Wait for Image",
-            "script": "WaitForImage(\"example.png\")",
-            "info": "Wait for an image to appear on the screen. Image path needs to be specified",
-            "icon": "clock",
-            "iconb64": ""
-          }
-        ]
-      },
-      {
-        "group": "Browser",
-        "activities": [
-          {
-            "name": "Open Chrome browser",
-            "script": "browser = ChromeBrowser()",
-            "info": "Opens the Chrome browser",
-            "icon": "chrome",
-            "iconb64": ""
-          },
-          {
-            "name": "Browse to URL",
-            "script": "browser.get(\"https://google.com/\")",
-            "info": "Browse to a specific URL. Browser needs to be opened first",
-            "icon": "angle-right",
-            "iconb64": ""
-          }
-        ]
-      },
-      {
-        "group": "Application",
-        "activities": [
-          {
-            "name": "Launch Process",
-            "script": "LaunchProcess(process_executable=\"mspaint.exe\")",
-            "info": "Launches a process based on the executable",
-            "icon": "desktop",
-            "iconb64": ""
-          },
-          {
-            "name": "Kill Process",
-            "script": "KillProcess(process=my_process)",
-            "info": "Kills a process",
-            "icon": "desktop",
-            "iconb64": ""
-          }
-        ]
-      },
-      {
-        "group": "Logic Operations",
-        "activities": [
-          {
-            "name": "For Loop",
-            "script": "for x in range(0, 3):\n\t message =\"We looped \" + str(x) + \" times\") \n\t DisplayMessageBox(body=message)",
-            "info": "Perform a for-looping operation",
-            "icon": "undo-alt",
-            "iconb64": ""
-          },
-          {
-            "name": "Condition",
-            "script": "if x == 1: \n\t success = 1 ",
-            "info": "Kills a process",
-            "icon": "undo-alt",
-            "iconb64": ""
-          }
-        ]
-      },
-      {
-        "group": "Message Box",
-        "activities": [
-          {
-            "name": "User input message box",
-            "script": "RequestUserInput()",
-            "info": "Shows a pop-up message asking for user for input",
-            "icon": "comment-alt",
-            "iconb64": ""
-          },
-          {
-            "name": "Display Info Box",
-            "script": "DisplayMessageBox(title=\"Title Text\", body=\"Body Text\", type=\"info\")",
-            "info": "Shows an info pop-up message with title and body",
-            "icon": "comment-alt",
-            "iconb64": ""
-          },
-          {
-            "name": "Display Warning Box",
-            "script": "DisplayMessageBox(title=\"Title Text\", body=\"Body Text\", type=\"warning\")",
-            "info": "Shows a warning pop-up message with title and body",
-            "icon": "comment-alt",
-            "iconb64": ""
-          },
-          {
-            "name": "Display Error Box",
-            "script": "DisplayMessageBox(title=\"Title Text\", body=\"Body Text\", type=\"error\")",
-            "info": "Shows an error pop-up message with title and body",
-            "icon": "comment-alt",
-            "iconb64": ""
-          }
-        ]
-      },
-      {
-        "group": "Excel",
-        "activities": [
-          {
-            "name": "Read Cell from Excel (by row and col)",
-            "script": "ExcelReadCell(path=absolute_path, row=1, col=1)",
-            "info": "Read cell value from Excel by row and col: first row is defined row number 1 and first column is defined column number 1",
-            "icon": "file-excel",
-            "iconb64": ""
-          },
-          {
-            "name": "Read Cell from Excel (by cell name)",
-            "script": "ExcelReadCell(path=absolute_path, cell=\"A1\")",
-            "info": "Read cell value from Excel by cell name e.g. cell=\"A2\" is the first cell",
-            "icon": "file-excel",
-            "iconb64": ""
-          },
-          {
-            "name": "Write Cell to Excel (by row and col)",
-            "script": "ExcelWriteCell(path=absolute_path, sheet=\"Sheet 1\", row=1, col=1, write_value=\"Value\")",
-            "info": "Write value to Excel by row and col: first row is defined row number 1 and first column is defined column number 1",
-            "icon": "file-excel",
-            "iconb64": ""
-          },
-          {
-            "name": "Write Cell to Excel (by cell name)",
-            "script": "ExcelWriteCell(path=absolute_path, cell=None, write_value=\"Value\")",
-            "info": "Write cell value from Excel by cell name e.g. cell=\"A2\" is the first cell",
-            "icon": "file-excel",
-            "iconb64": ""
-          }
-        ]
-      },
-      {
-        "group": "Word",
-        "activities": [
-          {
-            "name": "Open Word Document",
-            "script": "OpenWordDocument(filename=absolute_path)",
-            "info": "Open a Word document by refering to the absolute path",
-            "icon": "undo-alt",
-            "iconb64": ""
-          },
-          {
-            "name": "Replace Text",
-            "script": "ReplaceText(absolute_document_path, text=\"[example_placeholder]\", replace_with=\"Example Replacetext\")",
-            "info": "Replaces text in a Word document, for example to fill in certain fields in a form",
-            "icon": "undo-alt",
-            "iconb64": ""
-          },
-          {
-            "name": "Convert Word to PDF",
-            "script": "ConvertWordToPDF(word_filename=absolute_word_path, pdf_filename=absolute_pdf_path)",
-            "info": "Transforms a Word document to PDF",
-            "icon": "undo-alt",
-            "iconb64": ""
-          }
-        ]
-      },
-      {
-        "group": "Math",
-        "activities": [
-          {
-            "name": "Absolute",
-            "script": "abs(x)",
-            "info": "Calculates the absolute value of an integer or float",
-            "icon": "calculator",
-            "iconb64": ""
-          },
-          {
-            "name": "Ceiling",
-            "script": "browser.get(\"https://google.com/\")",
-            "info": "Rounds up an integer or float to the closest number",
-            "icon": "calculator",
-            "iconb64": ""
-          },
-          {
-            "name": "Exponential",
-            "script": "exp(x)",
-            "info": "The exponential of x",
-            "icon": "calculator",
-            "iconb64": ""
-          },
-          {
-            "name": "Floor",
-            "script": "floor(x)",
-            "info": "The floor of x: the largest integer not greater than x",
-            "icon": "calculator",
-            "iconb64": ""
-          },
-          {
-            "name": "Log",
-            "script": "log(x)",
-            "info": "The natural logarithm of x, for x> 0",
-            "icon": "calculator",
-            "iconb64": ""
-          },
-          {
-            "name": "Maximum",
-            "script": "max(x1, x2, ...)",
-            "info": "The largest of its arguments: the value closest to positive infinity",
-            "icon": "calculator",
-            "iconb64": ""
-          },
-          {
-            "name": "Minimum",
-            "script": "min(x1, x2, ...)",
-            "info": "The smallest of its arguments: the value closest to negative infinity",
-            "icon": "calculator",
-            "iconb64": ""
-          },
-          {
-            "name": "Round",
-            "script": "round(x)",
-            "info": "x rounded to n digits from the decimal point.",
-            "icon": "calculator",
-            "iconb64": ""
-          },
-          {
-            "name": "Absolute",
-            "script": "abs(x)",
-            "info": "Calculates the absolute value of an integer or float",
-            "icon": "calculator",
-            "iconb64": ""
-          },
-          {
-            "name": "Square root",
-            "script": "sqrt(x)",
-            "info": "The square root of x for x > 0",
-            "icon": "calculator",
-            "iconb64": ""
-          }
-        ]
-      }
-    ]
-  }
+  "activities": [
+    {
+      "group": "Mouse",
+      "group_iconb64": "data:image/png;base64,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",
+      "activities": [
+        {
+          "name": "Click on Position",
+          "script": "ClickOnPosition(x=0, y=0)",
+          "info": "Clicks on a specific (x,y) pixel coordinate on the screen.",
+          "icon": "mouse-pointer",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA4QAAAOEBcBgcLgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAARDSURBVFiFtZdZaFxVGMd/3501yyyZkmWitWkzTSChS2pCLT5IUYxglVYxPoigD6G+SAgK2lLftEWtpVaqSbFoXBBrQFoXmraYKtjWtplYA6IkQYlNZjKmcZI2km3u58PEyWRrtskHF+75n+9/zo977/nOuaKqzBUS7i8F62NABWgFQgxTroJeQY1GzXf9Pqd5gSGzAQhYCQ/uAd0H2CfkUcAArBPtEeAV8jxvKZgpA5De3gzUeR4oB4YQ9qNyln73NdIxSBvchFIJugdwAt/T73lQSxhNDUA4egTkeVQvYJGnMdVEZTdCGWCitKKxOrClY5ifAWUoB9Tv2btsAAlH7wNpBm6ApQQ1KxF9D8ic5hsEqjFjFzEsbUAmIvdqrvunxQIYU1pq1AKCSA3GmB/R40Bahg6fydG+XYjuBJoAF9CA2DIQXgAsqNYudvL4nKqJi9BAN6HoKO3qIDRwklBUCUXf1PYHKrXV8aX+zB2qCuFo/UTf50QimYSiMULRzuSxFnolnoD09eWD5gNtGmAE9B5AsUg9ooJtTQ4xLhOUuxHz6IRtm2Zn3wL9DVgn1wd9S38FYzb/xF2vxJeaB+jXbHcHAPbVW0FiwA/a7SsC2YHKHgEBiQBgkZylAzjNjom7YoVxVFuAVRL5Z2NcFgv21X8A6SgntMezWf3uTxUUKAFG8Ls6WGQkADQrawChG1grPTeLgUYATOODRLYjUAHcAAR4laB88nXo0XSgAZXTCuNLBohPJnWAYOjL+L2HQU4hvJuUnoYtry3J8dSO0FfnNOI9qH73zsVOPhPAMX4E6Ad9hvDAc9xyV2mu5/jUnOLNwFCSso1xLtMiG5YNoD7fIAZPEq/zR3ENHpCugawpDrF5sWZdnTbOGoQfaZGHlwUAoDmecyCPA0Oo1mKXQzNcjtIiYGya6kI4RVAWVZBmAABonvsbLNb1KO+D+dFMl9OPxTVb2TWAQwTlGC1iWzIAgGZnhNXvqdY8b/OsCc5SP/ElOFtUIzRxUeYtTHMCzBtGZiGG88ptMrbj4BLXpGhlAAAcJWnzZKwnxiVa5f6VAbD6NiC2X+bJykI5TVB2px4AwFE0soAsK1BHUA7zhVhSC2Dzl4MxfQ8IA13AXyjXgW6gB6iikGP8Kv+fMxMHzOWEYF/by2hnIEl7hy26fyHm5T8BAEfBVpCeJKWG8+JcaYCkSihW7He2J/Xl4OLZlQQwEZ4AggnFEShH6J9k4sXpH1zqAET2Ejh7EtU3JkVLBtbc5CW5jgBVqQdQPiZw5nUAinyNQGeiz1G8Efg3Kfel1AKoXMCwVU8KJ2IgBxNNsfswvMlb9SaC8lCqALqwyC4C304tPLaxD4FIop1WWkj8aDYAvIbQsnyAceMmpj5CYVNkRl9B8zAqb0+OmGbFuqqGMe5ii+6jTP++3dCz/h0vOv7c7mXM+h1oPbZYAwXNwwu1/gfiFqQKN3ezMAAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Click on Image",
+          "script": "ClickOnImage(\"example.png\")",
+          "info": "Clicks on an image on the screen. Image path needs to be specified.",
+          "icon": "images",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAeCAAAHggFwQHG1AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAXdQTFRF////VVVVMzMzQEBAQDNNPTFJOS9MPjFKPTBNVV5yVV1yPTNNPTJNVF9yVF50UFduUFVtPTJMPDJNPTFMPTJNQjxVPTJLPTNMPTJMWWJ3WWN4eYKSd3+Qc3yNTE1kSUZdipKgj5ekbW1/PjNNEZ+FEaCFE5qCG5aCHYF1HYJ2HZWCIZGBI4+AJY2AJrmZJ4p/J5mIJ7iYJ7iZKGZnKLWXKoh+K7CVLIV+LVlgLqmSL4J9MYB8MqGPN3t7N5eLOpuOOzZOPHZ5PTJMPYuGPzROQoKCQpmPRXyAR0JZR3h+S296TWV1T2h3UGJ0UWN1UmBzUmB0Up2WU19zU2B0VF5zVl9zWGFyW2NyW2RyXFRqYlpvam9va29vdndudn6LeoOTe3ttg5GdhYJriJCeioZrkLCxlY9plo9pn8fEoMfEpc3Jps3JtdXSvq1iwrBiyszS1Nnd3uLl38Zd4OTn48ld4+fq5Ojq5err5+vt6Ozt7PDx8tVa89VaeKdWIgAAACR0Uk5TAAMFCBQVGz5PV2BkcXSAiY2krb/S0tXe6+/x9PX29/n5+fv8FggocAAAAR1JREFUOE+F01VDwzAUhuGz4e7uEpzAcJdsuAxGcXd3GAPy40k6aFOaZO9Fbr7n8gQgVqnaUgCM8jJ1FSUMPH+peyrl4PP9VV44EgUfh4a807AAjs42tOCB0rctDdj7ppReasAuBxcaYNxT+rJpLUE3MPZP1q19oXHSDYSWWhAa1YCVVsQalgH/DHtC7cisP/QfrI1hHxO96LeOoBMsj2DMxBCyajsWweIg5vk6bYCmBTDfh7FLjNtgrgdjt7DBVBe2M0VTgwhWsSMuuicGmuv/QOTuxtnt9dU5IWT24DEKpNe4Q3jblfFgVNfIqjVBoCoRMuVl1bG9IDtD/aFyCSnMT1DvkEyK4nJ0wlucBh6tSPcCE3lqYOZJigEAfgBeXN5IKUhh3gAAAABJRU5ErkJggg=="
+        }
+      ]
+    },
+    {
+      "group": "Keyboard",
+      "group_iconb64" : "data:image/png;base64,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",
+      "activities": [
+        {
+          "name": "Hotkey",
+          "script": "PressHotkey(\"ctrl\",\"shift\",\"c\")",
+          "info": "Press a hotkey (combination)",
+          "icon": "keyboard",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAPdSURBVFiFxZRfaFNXGMB/37lJ7VpJcVJ10zS2FtOU6XQVHMK2UoTicHEPAxn7hy8yOobiGGWD4XBMGAgVZS972Va2KUzQtXaMMRbYe9ahWVJZa5u2Km2VtrFLWpPcbw+pW1Nb86dhHrhwzznf+X6/891zj6gqJWvRkA+s1xB2AjsBg0ovYvdizDk2NVxdvERKJGAx3Pc+6MdAHAgCvaBpkGeAJsAF8ikTf5+kqSlZOoFwuIzVEgCeBc7ijH/IE03xrJihoXJM4gTwHnCFhHker/duaQSGI+3AJ6hpxeMNcCtYQeqxg9iyC8GgBKnQ81Q3zhDt24PoLyCd1DS8vXKBmyE3KSsCfE6Nr52h8A6MfA/UAX8BNrAVGEV4E7fvN0b6jqF6CtW9eBp/NSvafco6hXCHVckTABjZBlzDEh81vgZqfI3g2AqMoVxk4Mo63A2ngSBGPgJAVYt/opExjUY+WHKue/9G7XnRo6ro9avrNRq+rcN/np1fd1yj4SlVlZVVAHUh9uQDw10HjmDLEClrgG5/C7VPjSFcAvPcfMTvQBUjobriBYJBJ1COMpM13u0/CnoacAAWKrsyrjqO6noAjD0OQNqqLl5grVUJKGrdyIIrHf/2lSjO5JeZjtmNyh8A2GY7oFRqqHiBzTumMPI0Hm9gWbhazez7cYKR8AHQFox+PT/bBPRT3TizsjNw/2pdDv7yxaH5vgf4BrfvPCOhLaCvg/wEpbiIcsGzmxCNBDDUMufcRn19zFFSuJ0eITbYiZ3cAGQLTIRXE5cvEF4AaaW+PgYrqcAl/7sYzvwHTyaYHJgEfRK4h0PdvNE/zmj4cdLmEKLvABsQacPd8NX9ZcVVoNt/FMPxBXCYuj4zDwcQEmVWZo7vEN0L0oOoH3dDaGGqwgWyy57GTllMD8ZQu3pBVDuHw7cyr842xJ7F7b25VLrCPsHibw6gKWU6KqTvZfqJ2xdITCUQOjimvblS5l+BH146iEjHA+PiEFweiEUhNjrIXOyVjBheYHeutPndAz371yByZtl54wCXW9F07YLRgXxS5yeQtk4C6x6eqUzYuAeclWCcfazZfI3Ouu25Uud3Brr8/cCWvGRTs3B3dBo7WQVMkoxv4vCN+HLh+V7Fa/OMA0c5VG12YZUBSK7w3AI/t1YCVXkLABiHUFV7BxxtD9s95PoLLvsrsFd1kcdOFrU0Ikc4FDmXK3D5Clz2V2DTDbQUDEffwt/9bT7BSwv8T/ClBYqHD4DsKwQOi89AYfA5kAnQcdAuXDOf0RyYLQSeLVAQXC7gir1KcyBVKHBxM48SnhF4hHCAfwBQxuWdcjxZGAAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Type Text",
+          "script": "Type(text=\"Hello world!\", interval_seconds=0.01)",
+          "info": "Types text with a specified interval in seconds",
+          "icon": "keyboard",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAMTSURBVFiF7ZZLSFRhFMd/584tEwqjrIy01whWYJFFbypaRGBED6II6WHWNDM9KAiCAg2UaBOUaZFhuGjTphZFq5IgaWHmJsJinIzoAfZaRGU697SY6/TNeKdaxEjhgW+493/+95zf98135xtRVQYzrEHtPgQwBPBHANHwMjpD13m6e9TgAKieAtZjD9+ReYDogWJgWfxGgpkHcGJm01lEQisyB/AkPBKhLEkTCWUOYISWASkbTzfQFc7LDIASBF65oz+GEdOKvwkgnodRZ3gJaAuiVXEYqTKyL/G/mwbXYmmr7gmuBDkAzAdyAAWNItzD6a3m8uUP/VbvFRANAn302g302g1An5EtIDJ+7S+aHwO5C2wEJoM8Ab6AlKByGBn+mEBgRnqAZ4FclM2I3qCo9jVFta8RvZEM6Hi/khXBBSDVgLjKRRrqlvDdmg28cbWJOL4mTp60vAF8djmQhVr1Cc28jsdqOsOFA54V2Q74DKUp/nn+PXDL0BfwqnumB4AIaACVDvx1zQnZX9eMSodpBPYNAFAKjLuX5E94+DOnD5K9Og9SN2FneA3obZTj2FnJs+7rCSHUGM0+YH+dxNQr3xJa+cFx2H2bAIjRDM4oRBYhshh0OUi+MYUgl+ovpqyABt1kDbGej0nDbB73jCGWvSVJazzXzad3jahMwaIdy2pFpBbYBpI7YMUA25h9AVAK3Edp8TIjLCVxNriz6P+eAY4cySYntwV0rrFS90FqQMcgXE0PgO4FfKh1iMLzjzwBIvtLEKfNKL6QyP6ShP9zzy7AbH6GgglHqax02BvcikpqRXcTtgWGARVAa9rmgJtrTdLMV1IxDytFe6qorHTS1ksA5PjWA3kIF35ljjcc4NlG1+HR7nU0yenLngzArnAeDos8y2lkXwA4AZKPsJbp9be8jImIhkpRbqaorYhvN9XyFl/vHZBiV/8MRIA5/Pxx6o/nqJ62QPwgMaALx7L5XcQ9XcALY4wFHU/juW4sZxVwHOU20A0ocBaVdSg7gXb3GQsRv/dhlMH4B/4VDwH87wA/ADQQBEtSK8JoAAAAAElFTkSuQmCC"
+        }
+      ]
+    },
+    {
+      "group": "Delay",
+      "group_iconb64" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAO1SURBVFiFxZdNbBtVEMd/s+u1nTiuY6cpRW5ESUKQSIhU0R4q9USoiNQD4kPKASERCaWVOCHRIxy4cChSxaGHBpVIvSAOcEBCKoJwogpSg1LRNKVRnLSNEkEc2zHOl732Pg7+iGM7G9tbibm93fnP/7/z3s7Mk/c/uXILeJ2nYz9NfPbxcCMA7SkRN22ilAIgtvGvchKoo/2INIP73zPgqnzw28xsQwHOnRpwJKA8A5aDOE1j9wQIDwFavZ66wSXfAtaZAMUfAL6WlrrBJd8C1pEAgWmAUMBfN7joW8Q6EoCV/R5IdQYDdYkIBfx0BgMAqQLWmYBQKLSsRF0G6O0K4zaMA0Fuw6C3KwyAEnU5FAotNyugVIiK69hG6hdQr2ZMk/uRx2zt7O4D+Fq89Pc8VxAov3a0+18Dmi5ilYVIWab2LjDnNgwG+7r3bUco4Gewr7uYnbmCr6MKWpkBAP7Z3DzmyuYmQQaUUiyt/A3A8+HjiAigZrMufeiZtrY1J+RQoxJWKRSh+8SzdQU7eT11VrNkCDgDnC48ngbuWJqafHTRP1UVvzID0ejWcc3ITQIv2QrTZN6ja+/4fL57PeOJgJVzXxXUqB1GIROanvkoMhZMHiSgdAhLoJpbAK1eN5poicGv029kkW8UhO3ISwSwIqJGFi75b0PFIVxPJsfKyXOWxYOlJ6xGY6xGYzxYekLOsjBcOi5dZysrwVaPdqte8nwWCCsl3/aMJwL7BMTj8S5RcqW4zpgmf84vEk+mSuB4MsVc5DGeQo34/PcsybRqrUV0Y9jgxnDtWqIgbOXcV6H8EGqutwB/njzL3YeLZEyzCtzq9aBpwsyaxXfzuQO/9NwJ+1FDUKMnr6e+KnmpvVPLwvJKTXKAI778B0+tOPr9AdAsGSpvx68ARBPJfWmvEtCWF3Bv3cn4ULIz5e34RcCWHPYyMButLwMhr+2oeLp8ozSArZ0d24C6Vt8YeXctn6GbFww6Wg4WURVtezdtG3gnnQFgoNN+CP7w5yyLG4oXgsLNCwZHa4uYbngq3t7Nd8eXj9pD13cU7/1osrih6G0Xrp2vWfXvuEY//aKhm9FqNMYHbw5zNix8ecggVhRx7byLzUz1e0tTk4c2o0qb+WuB7d00p455eLtPt60FRREjP1T/0gqZeHSxbapmO67XesYTAXLG/UZKMeT7AbrZHxkLJh3djCJjwaSIGhFYaYRcRI0UO6Ljq9nCJf9tdLNfIROH+SpkAt3sL3ZCOGAiataaGUj+A63yaG0jPLlkAAAAAElFTkSuQmCC",
+      "activities": [
+        {
+          "name": "Wait",
+          "script": "Wait(seconds=5)",
+          "info": "Wait for a specified time in seconds",
+          "icon": "clock",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAMDSURBVFiFtZdPSJNxGMc/z7vNxKEEweYyyT8IHirCCiHnRVA204MHERSSIkjDW4eO0bFDNyG7FEbz4sFD2jx5cXWpIDJMEA9B5ByIIk20be+vw7v5b+/ed27zCw/s/T3P8/1++f2e3/ZOlFKcRNuLT5clqV6D6shKFgRZUE65//Hx7V8nM5ppeSL1sHTiAKrD4MyGuQGRldKJW3M6zRYje/53/vLIVrAxMeE+py4WIxzf5094rWwksuefMzVmNgMH2Ai/B3qKMQDM4g325kqaHsERrBcpbsthbUDxvWh5Gw4bA6oEBqw5bI5A/wLsFCG/k+bICdNbcABfzy7RcAhhFD0J8TxHwu0DzQmKEL6e3cINAIh6CfIAzeli8yf8XrSuv9QOlbUACaPXGna3ALzdS4gMAEnquqCmLXdtTRvUdQEkERnA271UvAEAT2AGJYNAivoA+Fqza3ytUB8ASKFkEE9gJh/q/AwAVAemEYYBnYbuzDYbqKyFhm4AHWGY6sB0vrT5GwDwBEMIY4gGdZ2H63WdIBoIY3iCodNQns6AYWICWKWy1ph0zZnZjdV07lSwvwW5oDmhrPLwc6E0p+6IhUeAJuNB0gFAUzp3hgZi4SEU4wfPIkZkoBgnFh46GwPR+X4Uk8d69IQRR/kUk0Tn+0trIDbfh6gpwHGwtrkM+ztGbC4frXYgaorYfF8+1NYvJAAbH66CfAVcqBRsrkD0M2yvHa873wjVt+BCM4gDIAHqht23of34KhlFcBHfgB9vIBE3r9teM8Llhiv3wO11oWQUeGRFb70D67MVaI519GQV3yZgd8PWLwAVXrg+AppzBz3ls/pFtJkB7SZQxdZq/uJg1G6tAlSlOXIrWBKJXAPyfw84ikxPhqMwAxjNfwswkOnJcBRkAHxAcTuQ4cgB01sgz9D85ZE7wcbyFneZDusF/kvTy4j/k5bwWqQ3suefU0/Rs7TMbkH788hdBZOFqZpDYHjxif/tyXXTI1BKNZdS3IrT3IDL8QpkoXTysmBwZuM/IIj31SOcmiQAAAAASUVORK5CYII="
+        },
+        {
+          "name": "Wait for Image",
+          "script": "WaitForImage(\"example.png\")",
+          "info": "Wait for an image to appear on the screen. Image path needs to be specified",
+          "icon": "clock",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAdiAAAHYgE4epnbAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAYZQTFRF////VVWAUGBwk7ricY+ts9LsVVtzsdPwsdPvsNXwkrriU11zsdPukLnisdPvstTwkbrhsdPuk63IsdTvkbrhkLjfnLnUrM/skbrhqczskbnghIybgYmYhI+fqczrYmx+iZy0mq7EjazLkLTYkbrhpMblEaCFEp+FE56EE56FFJ2EFZyEF5qDG5qFHKKNJriZJrmZJ7iZKJqIKJuJKLWYKZqIKrGWLqqTLrCWL5mKL6+WMIF9MKqaMaSQM358NZuMNnx7OXl6O3d6O5CIPnN5PoWDPq6jP3N5QYSDQoGCQ294Q6qpRnl+RqiZR2t3S3F7TGZ1Tml4U190U2F0VF5zVV9zVmJ3WmJyXLi3XWuDXa+7Y2lxa36Ma6qzbbDFbnJvcL7EcXmLfJu7gYBshqrOjcTZkLrgkYxpkbrhmb/iocjnpMXkpcnppsrqrMrmsKNktM7mttDoxtjn0OLw2N3g3MRe3ODj4ufp4urv5urs5uvu5u3w5+zt6Ozu6u7v7PDx8NNa89VaAjYoZAAAACZ0Uk5TAAYQGiIoKkVSVGBoaGpzh5epr7Cyv8LZ3+3x9PX19fj4+fv+/v72WgpIAAABOUlEQVQ4T4XT5zvDQADH8dij9ib2uFrh7K02rc1VURRFY9Zo7dH8526kEnI53xd58/s8WU8iSf/lEJYqSahStq/GgcHTl30yBe+PEX6fOng5QvwiJuALhXwi4I1qWtQrAEENFxSAAAEBAUDhWCxsLGtWgPx+Yx9v81iBqUkAmue5YIMeZ5wAAOcUB6wPuPHR0wJoExaw2g+hG620Ar2RP2CpF+Jm28k2uk3av3+oK8iIg4UuSOshYO7w9AJ3dd1UkqODaRivm55/V6U16JfYdEEjKhYZqGdgb8y0w84+DDrOKKhlYHnwV8NDiqIckP28ioIPXq+3qnr5LIu+ybubN/Ye+G0dq+rJDsIgkV8xuYeK5AS73ympkT5Fpt0uZbP3UGQL8hgos5nT80uraeWFuVyQkvVTGheY+wbSNPGqGcWrQgAAAABJRU5ErkJggg=="
+        }
+      ]
+    },
+    {
+      "group": "Browser",
+      "group_iconb64" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADiAAAA4gHdoT1DAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAlJQTFRF////mcz/ktv/29vbv9/fgMz/i9H/idj/ldzxkNjyitb1i9X2h9X3itf4iNb4idb3QFhqidf3P1lridb3itX3idX2idX3itb2itX2kKGujZyqj5+sitb4idb2iNb3idb3idf3idb3idb3P1lrQFlrzdbgP1lridb3idb3idb3QFlrQVpsQVxuQ1ttQ1xtRFtrRl5vRmR3R15qR2d7SGBxS2JzTWFqTWR1TmJqT2Z2T3aMUGZ3UWd3Vb/pVr/pVsDpV8DpV8DqWG18WMDqWMHqWcHqWsHqW8LqW8LrXI6nXMLrXsPrXsPsX8PrX8PsX8TsYG1oYZeyYcTsYcXsYsXsYsXtY29oY3aFZMXtZMbtZcbtZniHZsbuZsfuZ6TAZ8fuaXuJa8nvbMnvbsrwb4CNb8rwb8vwcMvwccvwccvxc8zxdLzcdM3xdYWSdcvtds7yd87yeM7yeM/yes/zetDzfNDzfND0fdH0foBmfs7uftH0f9Hzf9H0gI6agNL0gNL1gdL1gdP1goJmg9P1hNDvhNT2hNr+hNv/hdT2hpSehtX2h5Sfh9X2iNX3iNb3idb3itb3jNf3kItlkJulkNTvm6WtnNfwo6yzo9rwo932pN32pdvxp9zxp972qbG4qdvwq9zxq9/1rLO6rN/1r9vwsdvvsuH1tOH1ttbouNbnuOP1ueHwuuP1veT1v+T0w+Txyuf0y+bxzdbg0dni0tri1t3k193l2d/m2uDm2urx2+Hn3ezx4u7z5+/y6O/y6evu8PLy8fLy8sld8vLy+s5c/9FcN330ngAAACp0Uk5TAAUHBwgKCw0kJzI3QkZLe39/gYKHk5mwsra3uczR1eHj5ebx+Pj5+/z+tc9nnAAAAeVJREFUOMtjEFDTwgPUhBiUtZom6eumhGsZBlqBhKI7u+Gg1lpLjUEl4OjRioRFiyzj2qt1tLTMFyGDyVpaDCpmh46EOc2bbuDZlg00QHcqsoJckAItIwstLRM9LS1jbZAV2tY2cGAK5DNISuMFUgyb8ANVhk3b9uMBW4EKdhzGA7aTqODg6nWrlq9dfwCHgt1TfF0T+/t7g90rd2JTMN/eLt3Vrbm/P93R1m0BpoJpth5FIZEd/f39dc62trYt6Apm27m15hQApesL3WxBYAaqgj0TGrP6QSDHFgqcN6IoWAaWrXEsd4QpsM1DVrBvIlhBq308WLMfmNyLpGADWL6/yt8BJBVaDCLt5iApWANRkBzVmuTm4m0bAZQP7l+MpGAhWL4v1j+5tL8v1dYn0SMovn8mkoK5QOmeKLD5Xs4xzrbO+f2F/bOgCrbs2rVrKciFMOdHloc6dwEFlgAlNqtCEsxKkA1eMBWJGSUg/gpIgmEBAQ6QQBo8CGyLQXxOkAwzAwTIgkS6yvyhodgA5MkxIAMudbA/esBB5FgDZGpwoyhgEIaERBZIgT0oTkVQ5RkYZcAKOhxt7TKBaaJflglNAQOrqCZYRVUriBJjZ8AEPPL9UKDAy4AVsPHyiysqSQjyIWsHAJ6qtTliM37eAAAAAElFTkSuQmCC",
+      "activities": [
+        {
+          "name": "Open Chrome browser",
+          "script": "browser = ChromeBrowser()",
+          "info": "Opens the Chrome browser",
+          "icon": "chrome",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAATxSURBVFjDtZdtTFtVGMcbE3X6QZN98ZMfjNNs8wvGmC37MNqhQTOXTF5K14n0BQryIkPasbjgwGUONZlhY1GMQ7ZoFhbdBoUEJkszmAX6XjpeSim0pR3U8dJCX2/b+3junZ3QXe+9Bdfkn6bNPef/e577nOecwwEADis1NDzlKBfsc1YIm5C6HBVCM/r2z5QLIrYygddaKhgcL+FfHSvhS3Qy2fNs52V8YK4m/zlnufAUMltAAiZNlRXAveL88GhxXr9FdvjVLQE4K4X5rgqhk40xFYhRmptAIO1pA8yVf7TDVXFEtRnj9ZotPwIIAMzS3EWrLHcnKwDCHA32bNV8vSZkfDBJ8sJUEBt+OCoLX0EDXP+neVKoOEkIe0nB65QAtqr3n0UP3nsS5klZ0OswSfMeUAKc7ni31vapIPgkAYia0EtywSLjt20AqPvjnRflSu7yxbb3BtKZ0PWZBFzVRWlBWEsLQC/Owa0lBW8/Aqjt4n2BAAApYq7ju+kmmG86uYi5ZnU4Fp1FYxMAeByi3lVYGYjBpCKKmkCESSGdOBHUiS0kQMO1/GeQ8co/APBlR5aG0ryqENYG+s1oELYSjkHf9DJ8fXcOztxxwC/meVgKYogFC4P7UhyZAJ0wkwRWR4pgabjqBU5tz4H9SfOkbp/OMacCBDR/TiFzuDG5CHt+MsKui7oN2tuqgUt6D5Afz+UlOgDcUkwChPTi4xxFd2ZjKkDdTd60o1KYSJp7z5+xEeluNy08ZrxeO5uH4AeNi0DwgfX4DB1EUCuCkEE0wkGGqlQAQr9eOHg3CRBfWbI7fRF4s9VAC0Aoo0UNC2tRgOCUng4gbBBDQCvyEwBTVAAKtCqsNQKfq/rjOIoo2qLxMJqTWTg/DGfvzKB6iE7TAUQQAMpCAAFkLlEBEPruSvbg/Lf1BADIlDZWALtaNMC/aiKGxGG8ghYgoC0KERnA/gsAKW5r/2qemO3o9UmWAFo4dEX/sBgnjtEDaERhIgMeGgA4qzw8iqbCm9CSY/sKTvRNEe3Bw/QKUA1EiAzo6AAIhWMB97B7lRXA7mY1aN1+gIh7lEUR+jiKrsxWJoDfR8/9RWT089uz9NFfGIFPOseA7JCz33jpAALEMtSK1Rx5N+8gEwCh+377TBBLwIl+aog3UPEV3xiDGI4D7jeq2TSisF7UwGlQcbehOggyATTe+hC8ay47Ed6A0wenVA7IuzYO/GtjUNtrg5vjXrLu7A+0k9Gx0hBTK17TFOF+tXQ7uRkhg+tssqBQ8qB7/Pt5LB5ZhpQPqhPPZW39okqdO8y0F5BdUC/WPtoN5T28PWwANmYkB37Wnlz5cUi+XN/7Aflffc+BMZzBPD4qJdMfM4gzNxxI2BQjg3C7VmhljF6HoteJJh47ET2sBa5pswDn+rLVTOZRo4Rc+yGN+GXKQ6lCuf+19WeDNBTwmUWLTIWHOh8WMIoyaI/lih5uBtqIFtIB6FAdGqQzj5kJ86IYZi7ey+piUtPJ3YEmnmRjXtfNm4tZpBjlev+35a7GjOJ9aV3NZLq3npZ3c48Rh1U6gCE1X08dtZTY7XBUcAOgEm3b9OW0pjd7O2pUzVS7ZmNPlinVOIGWGerzUWQ8FDWId2/5dpxUdWfWS7VK7lG5ktemUGbaUVMKOnWFE6it3kemVswkNURNkt8iBkkZXcSp+hvVyR7B5rfKEAAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Browse to URL",
+          "script": "browser.get(\"https://google.com/\")",
+          "info": "Browse to a specific URL. Browser needs to be opened first",
+          "icon": "angle-right",
+          "iconb64": "data:image/png;base64,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"
+        }
+      ]
+    },
+    {
+      "group": "Application",
+      "group_iconb64" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAO8SURBVFiF5ZfLa2NVHMc/59ybm+bRJK257SR9YCMdHR87EWchCHUxuHEjA65EkVmoIO4UXIlCXYmLGXEWgvgnjCLKLBx8LEQHH9QW7bxgmqFNM02mTZPcc+85LjK23jxKkgoV/O5+h9/j+zvne373XGGefDmpffUKiDNgCgyKb5e6Ln8ymzcvPny/6BF1FWHOU3PO2q3iLIIZuPaB0LpXcYACRiyS8JCtzo8IRpyx27f9D2lxS1rEjeHRQCEAH/jBiqCEYEYHFHQAwG0h+XQqizDwXKmCq/xBKRTsf1rXpMWJ5D179sf1OzyvGrwbTfB2NAGABRS3N8kazVPxDL/kdgB4Lz/G2o9/DkqAEIEZHfBms8aatEgYw0LgAfCsalIUEk8I5nRA1mgA3vB2eUtbCOClUmXg4h0EbOCdZq3D6SHt81Fju2P9tGpw+vLqUIX/hrh97vOK8FR62ASlVK7r+nrUYSURPzDWtqymuHFTHer+3VwbWHghyENF/ws4cgIhEQp8MupDLFPuO8Fk+ae+fX07w2+pc2gR607A0Ssk/Qt9JwTgTrVvV4cN3PhXrEee2VtrO4JgsOJDQKLa7CPGwQS2ffh9BxqtycemB8s7oO/e3Bt1qtdbR2C0YXO5zO5mHQC/4VNa2sTb9g5JoB5A7e5dr/qwG+wT2lLUtxp7BVVN0ay0bLWj8Os+zcEItH/Cw7YJa5bWp6k95KBnQGfOUEZPHqdhPYZlNgHQI1FkooyJZBDSR8ciSFUGOwlSQqKGlaigYzGMcFDpcayMjY41CNIxvEyeIB2gYy3hBXaCUmQhTOd/P4rbDxVjDF9cXubLn1cItObeiXHmcy7H8y6FySzRSEdIVxgD6xuKeEySSnXRSi8C71/4mg8+u9TVWQrBrDvGfM6lMOFy6sRJrlxRTOccZqackO+tdcU337feECNRiZu1mZ1xmM6H/UIaqDU9HnltkUDrvrp8/fEzBLVWD8lRi1Rqv5/d3YDKVlgfQsCphXRoR0I7cH293HfxdmzvBPy60tyzR+MSdywsMWOg0dSk6EGgcCyLJeVQJCbcCA8+sP8CqlZ9isXwELIsQTwe1kOIQMyJ8OrTT/TUwGRmlPmcy3zO5b5jLifnxlldVcxMOaRHw4k3Sopi0UMIGMvYTLg203mHZCK8K13nwKWlVb5buYYUgrmJcebzraKjsZEOUgfNgUo1IJmQ2Hbv6fhfGETi6qEyHAK2LZTEmPNHRcCJiIt2LGqfrTd9EEP+ng8B2xbKiYiL6aTzwl/9EG20ZPH7ogAAAABJRU5ErkJggg==",
+      "activities": [
+        {
+          "name": "Launch Process",
+          "script": "LaunchProcess(process_executable=\"mspaint.exe\")",
+          "info": "Launches a process based on the executable",
+          "icon": "desktop",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAUWSURBVFiFzVdrbBRVFP7undc+utvFrbu8i8q2lmytPEK2YCItAVISJTHR1KipMUZi1CiYgEGFBBOjif4A/xjhj0aURDE2ShBMWkMkNsGI6Lo8WqWopbRY2W63szuzO/f6g+7szs7ADiYmfr/mnHvmnG/unHvuOYRzDjeIDcWUAAt1EkY3AWgBMAfAnKGfFvqpwIqCwFRRNkZERT+Y09N7JroGMm78kloEEslEVBf4LkLwKIBA9fr5U4ts71CBca9fS9VJWvfQ+qPJf0UgnorLHuLbzgnZBqDueg6cCFQSqQuo/QWvuml8TX/W0cZJmUgmojKt6+OE7L5R8FpgBiWZdF0nmwyNLD62Ie6KwIqzq1oLEj9JwFfXCuAnQcz2RmoS0VQ5OJEJ/Liov+uB6jXLL0gkE9GCxE+CY0Etp8vlTjzu24GMJuLo5WPY/9tHNYmIkmGEg1N3V+aFuQPxVFzWRRxyExwA1indkIgCAFgbXePmFRQLgpDO+U5Evukwf6tJwEN8291sewlBOst8Fono9jVoqhyUcr5eC4FEMhGdyXYLfKQO9yj3IULnuw5QwtJZcWxp3oyIEratZad8HaWkFAFAF/guUpXtUWEBXgrsg5f4keWT2DnZDZU7niQbIkoYO1peBECwKtyO18+8hVNXy+WAGZRkC8pBAHEaG4opM0XGgvs9T8JL/ACAOlKPecIdbj8eK8PLABBTfmbxEzab3LSyJHwkEaQBFupEVYVbKDRhmdxhyirPYtg445pA//gJi1wv3YJ7I+0WHTMo8cqh5+lMbbdgg+cRkIovOJY/gALXXROYLqr4JWOtwI81PmizK2pyN8W1i8WCBWJT2RnPoE/71HXwEt4+9y6Aco0JSvV2Arowj+LarWZChIQGOteU/zAGofP8TROYKmSRZ6opEwjwCB6LjWFQn41ARJgPWlGhLxsXbzp4CX/raYvcFrJuNjOoaLsLDBQtsgjJ0fmFYsp8niykHW1EYnWvs4LdBsAogFhJMW78iTyfhmfmCDaKdzo6/zz3HgBgVqEVewf3OdqE5QaLfPpqyiJTgRVtBDg4fjfOo0lcCgCYK9wGici2U3CFjWDf9K7r9gN+0QeBlHdPYyoYmMVGEJhKAdgO+MXiubIRRKxTHnYMciNsb3nWIo/lx202omyMUE5Zb/VCsvCdRd7o7cFc4XbXwdvDy9ESWGLRHb8yYCeg6AfpFE33AZiqXDhX/AHfal+UDSHhKf9uVyTaw8vxQvPTFt24Noreka8sOiowntPTe+jg4kGNc3xY7eiT3Dv4i42a8myhETuC+7HR0wOJyLbAftGH3a3bsLX5OVCUr2cOhld+fsNm7/VrqYmugQzhnF/rhEQ+hKobMSa2YWtgL0hV52agiEvGBVwsnkU4vxRhucGScJV4f/gAvrz0te3rbw1l7hpafzRptmQrzqx8daYJtSAmtqHH/zIa6JzqJQDARN5w1HMwfDD8sS04AARD2b6RrsNrgYqOKM/VNznIiWrjweJpvJbpseRELYxro9j8/RbH4IpPzxS8qnkB3lRT2iwuQ1xqR6PYjIVCEzzEb+6AxnIYy4/h+JUBW8KV4NSU2gaTFWdXtXJiHK7VnBIQRIT5yP7ahtNXU7Yi4xS8Pjz90HDHkc8sfpwmo0QyEdVFHHLTpN5oMipB8emZkFdd7TSmOU5GA/GBMZ1lOwnnOwG4awQdQAXGg6FsH61Pz7vejPj/HU6r8V+N5/8AlNIVFq+Rn+gAAAAASUVORK5CYII="
+        },
+        {
+          "name": "Kill Process",
+          "script": "KillProcess(process=my_process)",
+          "info": "Kills a process",
+          "icon": "desktop",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASeSURBVFiFzVdLbFRVGP7OuY9O78yQybR2OrSUV0vjMG2RBUzalXXBIyFsKjSVEkOCcUO6QlZqYgzBYDCNGyPRaClQsRixKq7qqoQgC2NIjdA0pdiO0jt1ntdh7uO4mM7jzr1t7zQh8VvNf87//98395zzn/8Qxhgcoa2tBj5fLyg9CuBFAEEAQeX+fTcEQaM8rxBBWCCiOCZq2jBisaSTtGRdAZFIAIy9C+AEAG/ldObePWtSjmPU652mXm+/OD//YGMCwmERknQOhLwFwLNaAjsBxeSUMurz/eziuKN4+jRt50NtIyORADyeSRDy3lrk64EZBtGXl3uzirKQa2kJ24q0fIHu7g7o+g8AtqyVXG1vBxMExA2AKBlIN75aUwwRBJ2vrz8mLi5+s7qA/Hr/sh45ACxdvgy9oQGynADHDLR0htYLyYtobNxTvi9KSxAOiwBuOiHfKJiqcsby8hQaGorLWhIgSefAWM/zIi9Az2Q2ZXX9lllAJBJY2e0m5EIhpI8f3zBZbGQUymsnLONGPP5yYVPyALByzk27nYkiEmfOQN+8GaAUnuvXqyKXR68h1bUXma6XsOX7CZBEopTbMIiRSo0BCFO0tdUgX2RMSA8O5skBpPv7oRw+7Jj8n+GPkeraCwDQKQf5ixGLj5FKhVBXt4nC5+tFRYVTd+1C5siR0oCuQ5yediyg9vaPJjvd2o5/Xz1mGmO6TnI8P0RXarsJ2Z4egJCi7RkfBz8351iA66fb8P72q1lE/4DFj+Vy/RT5i8UEtbW1+JtoGtzj447JC6h78w2TnWu2nm6mqk0U+VutBEKg7thRNPnHj0FyuaoFkFQSglqKUyU3QM2V39A0ySJACwbBJKloCzMzVZMXY/+KFn8zAM+6K8qMqvL8RpO/cPo0AMC7xm3oBBRAtHyAj0ZBFKVol++HaqE2lj4uAVBzZ8rsIAiaRQAYgzA7WzS1rVvBRLFqcubdBFUoxQlKBjAMkw/leYUC+L0yuHzdGc8j09dXtYDYJ5+abPHPJxYfIggLFIZxq3LCNTUFlF3T6b4+aNu2OSbPHjyEVOce05hn7JpVgCiOUcTjkwBS5RPCw4dwT0yUBjgO8bNnHYnIHjyEpQsXzeQzf6D26xtmco5joqYNUzx69AzAaGUiz5Ur4BYXi7bW3Az50iWkBwZMx7QAvbER8tUxRC9+BI0rHS7O0FH/+kmLP/V6pxGLJfMdUb4TmkHFjZgLhbB8/rypLAMAGAMXjUKYnYVcH4Dqr4NOOdsvErjwPqSr5v9HKGV8U1OnOD//oNSS7dv39koTakJu924khoagBwK2BLKcsB3nmIH6Dz+ANPKldc7vn3TFYq8A5T1hOCzC45m064qYy4XUqVNQDhxwJEB6Mof6k4Pg5CUrududdElSU6FNr6opzXV0ILt/P7SdO6Fu3w5WWwtZToAAELIKhIUFuL/7Fu7PP7MLt21KN9yWgxBowSCScixf4SqKjC35um15AZFIAMBNJ03qWi+jAji3O0n9/h67Z5r9y+ju3b+RTveCsXcA2D6pnIBQyji/f9IlSU2rvRH/x4/TSjyn5/l/iVjk5sAr/CUAAAAASUVORK5CYII="
+        }
+      ]
+    },
+    {
+      "group": "Control Flow",
+      "group_iconb64" : "data:image/png;base64,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",
+      "activities": [
+        {
+          "name": "For Loop",
+          "script": "for x in range(0, 3):\n\t message =\"We looped \" + str(x) + \" times\") \n\t DisplayMessageBox(body=message)",
+          "info": "Perform a for-looping operation",
+          "icon": "undo-alt",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAM0SURBVFiFxZdNaFRXFMd/5+ZN3ozRLFI/uvBroWuJoqDVSWqiVLC0GLQgShErgiAURGlRTFRcFUHoqqiItAgiKS0WBDVqxjRZxeBObBf1Y1FFszAmMy8z804X8U0y5r75eDPQ/+7d8/H/v3sO594rqkok9McvAPNp9PazXkejJQGJLCAVDwJHiHmdUUWYaOxFaCXr3mFIWv4vATWJKF+Cu4llOLoToQNlKbAYaA7xrroc4QIGGlfhm3NAR6XJSopIxQ8CK3jpfcdOzQfLzqzwYYkx4Z5DzSGgoUpygFZybi/w6TR5ogfoBmChq8CxwFTcA7ekiXH3D5TDEclnI5XoAe0ufAtHeeB2FT4LJbgvDg3uPZSNNVJOlyCV2A960eIzhq/raPceT++AxE/WlRwA/+MQv3kYcwqCHehvXIuYIUK3XUZBfwEdhIZBkhPPZwyiEHKm+mncvQ20WZK+w/cWTDWhmOMlyIfJ0cXmzNOQv7GTA6zRLH3NXcSyT0A/nBFzEXeLIRVfCXwekvh3xjOfsDldPXmAjrdvQH+2h+oOA/oV9omYxZdv2aaePZaLKL9VNHjEv2pflzYHZHVI2GXa0/+EJm3LHChJOhN5mQgZ+nEDtNqjzJWKCcrBaMxu0EYDOs9uzKXrJgAnYV+XMQMyabX5kq2fAP/rEMOIA2SspgadUzbvkLQw6V4CXof2xP3Ecgz77An0oUG1324zu8uSZ907CF8ifGP1uSkuRs8Dth7wQa4ZkF/tDLKXvuaPSpKHNjBT94im+J/AFyEeN0hm/nJQ7zbivgPmFtu1hdhkL8OyhTU63Q+lyFNzlkB+A8gGHNljmX4B8qh/FoKzIJW4BrrL7qsnSHpnK/7zSqByhrb0SQgmoO93A2N2b/NvXcmFATRzupAdgHbvMaKWTpVTJNOXAN7fcmojh1ukvc9o11yxAIBNXi/KDx+Q99RIGCCP8CNN3na26vhMQ/Gd8JX3PYtcAf4mmf6pyOZ4XRFL0Ifxj7Bx8pHNWN3LqHwfvAVeIDxD6SMn18sc5RGeZmEikhmpLtEUqn8ZrddRYl4nMBKFsHYBdRYx+2FSjYgh6SwcRhHxH4JZSGO+f4eQAAAAAElFTkSuQmCC"
+        },
+        {
+          "name": "Condition",
+          "script": "if 1 + 1 == 2: \n\t print(True)",
+          "info": "If a condition is true, run the indented code",
+          "icon": "undo-alt",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAK7SURBVFiF7ZZLaBNBGMf/s9lsstk8GqT1QVFqa9G2ClqQFhF7LCh4EQUf0EsPBQXBg2lAUqHgsSIiWooePHhSQQ/VS0F6qUoo4gONbaRK+gKbpOnm0XT38yCb2MalszHFS7/TfI/9z2+/ndkZRkTgtUAgdBIQLgHUyoAqAPgWnQQACIJAdkmK2yX7vaGhO0FeTcYLEAz03SAgsDZuAPxpLkUZu//gbjuPrsBT1Nt7vYPArq6NMwIEvbQ+rapt3d0XL/NoizxFRDjPQMzw/ck8jo/8RN33DCLZeWhOCY/bPIhW2wrPrCznewDcXE+bqwMAHTRGSlpDz8MY9k6ocCzr0EFg2RzOvFrA1sViOzRtpZZHmQuAgSnG+NhYHK6MVlKjkY5Tb9SCr+s6V3c5O1C02pmcac6zlLcqZx0g7bKZ5jSbZTnrAB8bFdPc5A7nxgOMN3sQ3u8tiec8Mp60WgfgWihr7WlnNd41uVE/lQGLLOFTrYTRPVI5UuUBAEB0p4wPDTZ8bXbAm7CXK1MewLQ/gRcH3mPemwLmqmBjOg6FvdgdMV8fFQNIKGk8an+NvK34L9BIwNvWFNwpETUzDkt6lhfhWH101eQFI4bw4YRVOesAc75F01xa/svJVGkAX8Z8q0l5Zpr7R4DipaHlh/kZUxeVNwiAYcIYNszV4OiXRgi0+m1r4gJaxn0FXxTFOI801y5gxEYJdMLwj0Qa0BTbjqktC/iszWLXpAvbpld/GlEUwxUDcMi4lc2wLoD2GTG/qsCvKvBFl0vq7aI95/E5z/Foc32CUCiUJaATwMi6sA5n3KO4OwYGBrj2JPelFAAYYywY7GtOJdWubC59BQCSyeTviSVHWFbk/sHB28+IiHs/WgIw7OzpC506MAwAsVgMAOB2K9eGXz7vt6pl/QZRYdsE2ATYBPjvAL8AOIXef+sqD0EAAAAASUVORK5CYII="
+        }
+      ]
+    },
+    {
+      "group": "Message Box",
+      "group_iconb64" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKJSURBVFiFzZe/TxRBFMc/M3v8UE5EEMWAJhgTTQynWGhhZ6EJ/hNqoRWlpTH0YjChsbE0MVpYGmNigo0WNEZAvSsMEkAvCCcc3N3u7LNA5cfu7C6Xw/PbbHbfvu/3OzNv3uwqEaGe0HVVB1LrF6XJ9l1Cq4OxGSIOn2YuJGJXzgQD+YeRr0ju9EVEPwaOJSL1DIxNJnoVgD2NZTr2X2bg+1hYWCP6dmLxarBWaaJUHraFNXB118T/YKV0JspAatcNIMoW+QfigOBws2Pi772WRVrcOwwvv1aS7dvaCH6sQG4OfEt/cIFXrXaxlECmAPvcjWeNDfB82wZTQM/aaHAGCquwUrILuBqKMRO3nNpqIAwCLDVcCzL1HoLOVvB9iwEfijN24pRA2osW3zCaDh9Kutme5BloixndDhA04BnI/4yoAR+m90YwCnSVQCc7Y4IGvuRhOm/PcDV8OBzN2leAo6tVGjhyAIyxz0BFoGfNzuj40FlOJB5uoKUJTnbbMzwDCzs4C2LwvxzHmzC/BJ9n7dvQU/CyK4JRoH8ROipVGjD+eg3Yitgo8K2tHTyi47EGutuhqw1sn2quAbJ2Ri3gJP/MC29ETkxpNFiWpwrUvQg18G73ZeytXSPqAVC7Od0OpWDK3rqViEA2cxzNdaATAJF+UOdDMzwDb6agMQ0mZgVLDow3wUKEv9Afk1xmHDgXDIjP10XNUwOzybdaFIJDyJ29EiJeAkZ5m33B5FzNxFFhBpQ/uOmuiKh7pPxeTrwfpFh+Vhvl32irzAf7gKiPIP0oHuG6I5ya2lhBxRNQt4Bkf0ZRaDYerd5QeA1EYUhpvrXfwPEzVYtrmaG9cJ+74u3cQI1R9074C9Sb177W1jdxAAAAAElFTkSuQmCC",
+      "activities": [
+        {
+          "name": "User input message box",
+          "script": "input_variable = RequestUserInput()",
+          "info": "Shows a pop-up message asking for user for input",
+          "icon": "comment-alt",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAblQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAA6ysAAAAAAICAAQEAo2LCgoKDAwMDg4ODhAQACoqABcXAAkJAAwM9GsvDAUBDAYEAAgIAAsLAAsLAAYGAAkJCwsLCQoKAnV0/m4uABgYACQkBQUFBgYGBwIBBwMCBgcHFBgYBwQCBwUEExgYExgYR0dHVVVVAAEBAAICAoqJAwQEExgYExkZVVVVFBkZISEhFBoaEBgXFBoaFBsbHSEhjqOjqamp/mwtAAAAAVJRAXp5AltaAl9eAmxrAn18AoSDAoaFAoeGAoqJAouKAoyLAo2MAo6NApGQApKRApSUAqGgAqmoAqyrA2loA2ppBAQDBQQCBwgGBwkICAsJCAwKCQwKCQ0LCgsJCg0KCg4MCwwJDiEdDiMgFBsbLS0tSktLUlNTWlpaZCYLZDQeeoqJjY6Ojo6Oj4+PoVMwoz4So0EXo0cfo04oo1QypEcdpFUyqKioqampxsbGx8fH0Gs/0l8u0mxA1NTU1tbW2V0m2XBC3Nzc31MX33NE4Pj45lYY5ndG62Ak63lH7HpI9n9L+oFM/m0t/nI1/n1E/oJL/oNN////QOoNSgAAAD90Uk5TAAYQERYzOFBcdnZ9l5e4vMLFzc3Z2trf3+Lm5ujp7e3z8/b29/f4+Pn5+fr6+vv7+/v7+/v8/P3+/v7+/v7+/lINWQAAAUJJREFUOI1jYEAAMXsoEGXADlRbukFApFkFl4L2iSAg30ZAgR0hBb14FDRO7Oqa2IBHQVlPdXVPKSVWYFfAyCEsAQSC7JowBRrsghISkuJCHIxgBVyKjh5AEBAcCVMQERzg7u7u6qDACVYg7RsMBKHJyWGdYAV9HeFJSSFAITdnKbAC/UCQAt/orNqJUFCTGQXS5Omih6Qg2DehBCrfXxAPNhRNQbAPVMWEwnifYGwKgr1jwSqKYryDsSuAqCiGyWNRAFKRHweTx6Yg2Cs20SsYn4Jgf/9g/AqQAfUUCAThUGAAVcDthwPIOYEVsKqpa2lrGxmbmptbpaAASwtDNgYGJhnbSbhAq40sMwOfWR5OkJNtzc9gb5KBDFJTkXnpafYMylVNyCA3F5lXWa7EwKtbVY8L1FXo8DCw8Crb4wRKPCwA8AQNnzJzUC4AAAAASUVORK5CYII="
+        },
+        {
+          "name": "Display Info Box",
+          "script": "DisplayMessageBox(title=\"Title Text\", body=\"Body Text\", type=\"info\")",
+          "info": "Shows an info pop-up message with title and body",
+          "icon": "comment-alt",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADlAAAA5QGP5Zs8AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAPZQTFRF////JLbbIL/fILXVKbjWKLXSJrbSJbjTJbbTJbfTJbjTJbjSJbbTJbfTJbfTJbfTJbfTJbfTJrfTJ7jTKLjULLnULbrVLrrVMLvVMrvWNr3WOr7XO77XPL/YP7/YRMHZR8LaSMPaS8PbU8bcVcfdWcjeW8neXcneXcreY8vfY8zgZczgac3hb8/idNHjetPkgdXmg9bmitjnjNnokdvpldzqmN3qmd3qmt7rnt/sqeLuquPutObwuOjxu+nxvOnyvuryx+z00O/20fD20/D21fH31/L33fT44fX55Pb68Pr88/v99fz9+v3+/P7+/f7//v//////MZEFEQAAABF0Uk5TAAcIGBktSYSXmMHI2uPy8/XVqDFbAAABO0lEQVQ4y4VTV1vCUAxNS+migwDujRNRcSPiHihOzv//Mz4gvUn5lPPU5KRJbnJClMFygzBK0ygMXIvG4fgJZ0h8J0fbXpkVyp4t+UKJx1AqGL4YC6LSOJhiZua4mP0veb4ETodf8W8OW+Wf/gC6oyrDPjxVutLH9/rI8IiInFz/9bNV8xaHiHz+Bz6RlSjP0tF9tyYmZpEr6WpnAGBbeFwKhDVzAwCDeeEKKDTGwlP/+AroyZwhRcZo7VW5B3RkQESp6nERQFM60lxAC/ia1QGRCrgGHlmXCKVZewcuWDcpn8lbAHZVQKAH1c63wK4e9TPwoPjEUsuqfQLt/LLkutcANKrNu7patxDMPoDz17cdVoIRkjsBgJcVI2w7J9oNYHA7l/FxYUz2m4fLpkEj+8mHM/n0Jh/v3+f/AxHgSjy/wBsUAAAAAElFTkSuQmCC"
+        },
+        {
+          "name": "Display Warning Box",
+          "script": "DisplayMessageBox(title=\"Title Text\", body=\"Body Text\", type=\"warning\")",
+          "info": "Shows a warning pop-up message with title and body",
+          "icon": "comment-alt",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASbSURBVFiFxZdtTJVlGMd/1/2cl+cgHOSgCKjTlGFEFDrUGAIBQ8DICeopRXHK8syXWetbH3RuuvVFp261am2t1Rc3+yK51cS5UEcvY9ZW0idbrJjhS04BhfN29eEArgx4Dtj6f7xf/tfvvq77fp77FlXl/5RruhM3bg/laDTccOtmX0Qi5sKlS1/emI6PJJuB9aFQimcw8plCA0D/jd8THcoXw2n2pu729gf/GUAwGPTF3KnngOq56bBqmZDlvc+ZzkGu98cALsaHBxu7uroeOvVMqgRRz6xDolQ/lS0c3m5ItQFm0/BCKvuO/8FPfbFq4007BLzl1NNxBja1tC1RtMcyeE+ELObP+Xv/3b4hmt6+TTTOiFj6zOWOjl+c+BqnpKp6DPA2rJTHggNkZKfwymoPgFejcsypryOA5q27qhGa/CkQrJhgiiW01ftJ9wkITWU1ddVPBCAYDFpGOAmwpcowy060D4fh9FdxPmi/x8ORRBk9gRT2vOgdNdaTwWDQmjFA3J26W6Fo8TyhdrmMt3dcVc5cVk5ffMDZKwOJRkt4qSyNvCyDKkV9d+7unhFAY0tLhsIRgF11gjyKz683E6s2xuJ6X2S8XdJ9vLk2kSZROVJe3pgxbQAb72Egs7RAKFwkkw19JEt4rmAWVctcAJm4w4enBdD86msFCnvdLthR6/iwJOS32V9j43GBwt7SytqCpAHEip0AXBtKhbnpycXHMsyb72PrKg+Ay2XJiaQAmrftagTqMv3QVJbk6sfkt9lW6iUrTVCoK6+qa3QEEAqF3KJyHGB7jcHrnl58LIMdsNlTmTiWKnq8pKTkMbfHAG4PRQ+A5i9bIJQ/63DjTSS/TW2hm6L5FkC+Ly1wYFKA5tbWLFQPCtBWP8PgAJYBv83rNV4EQDhYVleXNSGAibqPAulVxcLSnMkBvGP/UVVszyRj/TZP51isK3KjkG4iHP1XgKaWncUq2ubzQEvV1BuvuliYZYPHFWNdaerEA0ezEKrwkOIRFG0rq1pbPNY9fh8wcAowm8oNsyfxG1NervDhGxaqOZNnAMBvE7g/zI5SN+91ho0Ip4DK0bjQ3LJzM0hFdgAaVzuvvdfN1MFhPAvBEg8LMgxARXnN2s0AVm9vrx2OSTswe/96w8K5zgDuDcG7n8c5d+UOK/K9+LxTlM1jYQ2OkO0XLvwcBVj16ccfvW8GwqYVWPT8EmFlvvPVn7+qdPUo3/REOXt5cOoJo1lYk+di5WILYFFUPK1GVesBNq5J7tjl5YIAqnEKFnucTUpLfJR2lCbGq2q9C6HSCOQvSA5g+VLhnX0WkWgWC7Mc3m1dFhihMNfCCMSh0iD0xxV6epN/IWUHcB4cIBKDuPL9bzHiCiL0G1HtBDj7tTISmcphhhoYZjiinP4uDIDG6ZSXt+ye45bINSDL54XKIiE303k5HgxNvQEDPojcH+Fab5jz16IMhRXgplsjhaKqbNi2s8il8olC8VRm/9T40yw5/RCPaWtXZ8eP4w+TUCjkvjUQXY3oCkECTlxU1XWrvy/qNGpc+dNo/OrDgbvfdnd3R2Aaj9Mnrb8A0TtykI+7cqgAAAAASUVORK5CYII="
+        },
+        {
+          "name": "Display Error Box",
+          "script": "DisplayMessageBox(title=\"Title Text\", body=\"Body Text\", type=\"error\")",
+          "info": "Shows an error pop-up message with title and body",
+          "icon": "comment-alt",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA+QAAAPkBHYYEgQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAATBSURBVFiFtZfNbxNHGMafeWfWieOES5AaonyhpiUR4lYpiX1hkSKhBFG4gARK/4eUlqQq4oCQSNxDRXvkjFS4EC4uxEDEAX+ot1ZKDnCgakk4xD1kk6w/5qMH2xuv7U2sKDyn9cz4fX47M+87s8wYg1b0bmqqrV3gnNH0NQijMDgB4ESlewMMG9BYY6Sf5iVeDScShVbisoMA/j5//gRZ/LYBu86ArlaCGsBhMA91Sd0ZfPZs41AA7227nUcit8AwC6CjFeMm2oXBz2pn5+7Qykq+ZYD309M9nLMlGIwd0rjOBdntfHFmdHn57YEA/05PnzHEEgD6jsS8oqKUOWgz8/nz578HAryfnu7hxP44avOqHNctMEZnR5PJTLWNPHPbbuecLX0qcwBos6w2pdXLVdvubADgkcitI1vzAIWEADHWwS3+tNrGjDGVVBPv0GS3i54eHLtyFXJ9Hc7SExgp9zVhQqDr0mWI3l5sPX4E+fGjr78oJXbyeViCTYwmVzICAMjit5uZA8CxK1cRmZwsv8HICHIL9wIhmBDonv8B4bG9ifzvl/u+MZzKk85ADwCcoXdTU20G7HrQG8n1de85PDaG7rl5MCGam8/N+8xr/1sVVQBKSp9ete1Oahc4t1+Fc5aewM1m9yDGx9F9c84HwYRA9805hMfHvTY3m4Wz9KQRFOVZMMYwERI3+OwXp74Dw1dBANAabioFa2gIVl85Qaz+flgDA9hNpwAiHL85h3A0umeeySC3uBC4VFIpKK3BQJ/x2ZEvvwcwGAhQhUinYA0Owurv9yBCAwPoiMUQjsb2zNNp5OKL+25WpTWkUiAGQZVT7UAZKZGLL8JNpby2cLTOPJU60BwAqsVPAxECWgOoQmzGF+Gm3jT0uak32GzBHAB0BcBobdEBYz+JtNbeMwHY97yuFROisuFiDX3haAzH67KjmYwxUBUAxpgksNYAvFSr3e2pN77lCEejDSlar5JS3jMR7RI01loyn5tHeGKixjyFzXgcm/G4f2NOTAQWK6Bcir24YB/4tyPDCvtUQq+81haZdBq5n+KAUoAxcDNpf4r29cE6ebIMVrPeSmu4hb2roiXoV8pLvDKAEwTQdemyr7y6mUxDqnkpmvGOeYTHxtB16bIvVq05AwwXofs0nEgUGMzDIADR27sXIJsNrHBGSuQWF3xlu/a/RSl96y84Xx1OJLYEAOiSukOW+AZNTsStx48AoKXj2EiJ3MI933EMlKd+t+C/pRPYNaDmSvbPhQt3wfBjYPRDyhiDLdf15X5IWK9HksmzZZCK1M7OXTBkG0McXkrrBnNB5AjHuVj97QEMrazkt/PFmaKUuaMwL0oJp86cMaaIeGw4k9lqAACA0eXlt9BmxnHdQrGFmt5MSmtsuy528nnU3rgZY6qdiysjyeRfteObfpisTU6OK61eEmMdbZYFTgQiAgswNcagpFR5pzcBF0QOEY/VmwcCAMCqbXdyiz8tlOS5ahsn8mCMMdDGQGvt1fZmCgnrtXCci7XT3hJAVWuT9jgDPSgpfdoYEzQJ/qCAEZyvEti1Uy9e/Lnv2FY/z1dtu1OExA2lzFVjdI8GIkZrC6icakS7DOwDEX7jInR/OJFo+sb1+h9ZRUoxCF3PpgAAAABJRU5ErkJggg=="
+        }
+      ]
+    },
+    {
+      "group": "Excel",
+      "group_iconb64" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAK3SURBVFiF5ZdbSFRRFIa/deZMMSMNRRcpsQKjJM05mV0eIqKo6AoFaYZRCdFDPVRUlGbSRFDRTSsiSrrQg0gXoqsS1psPOVJaVEZQUJAPQcRgZTirFx3IOQ7M8agPfU+bzdp7/ftn7X3OElVlMDGTCc7Pz/e8mfJhsmGoJSpWFCyBHIWG5lB4jasCgnuCKerz5IgalohaKmqRKdkG+FFBAemKFVjtJHlMQF5p3tgOM2pJ1LBU1BLEwmdOEjAQRQFUEu/kVIBVPuOcetgmKiDadaqBqwtTlW1ubPTt+4/kVSu1hhvJHSMsGVwBwKALSOodSMSKK8tj49y0XEKLDwNwsK6Mpi9NcfPdJOWAz+vj8qaLVBae7qveGLYOnFl3kpShKeys3k3kdyQ2X7ayBCs9yKsvr+PW3N/8wDZBzxP3xNaBgC/A9PEWJ/KP4fV4ASicVcDirEW0d7RTfjeUcNNkkJyy3Lj7mxpI5WpxFaOHjeJRSy23m+5wYcM5TMNk78391L95GreRf4Q/Nu5zDbT9aGNH9S7aO36ydNoSzhedxTRMrjfcsE3eF2wd6Gbe5LmcKjgBQGvbe4oubSSqUdvY+l3OhCW8BVZ6MDaeNCaDORmzHSVJRK8OLMicz/G1R+mMdlL/9hmLpi6kveMnW65t5d3X1rh4V2tgwsgJlK8qA6DiyVn23yrlYctj/EN8VBSeIjWQ6uSwttg6cLW4iuy0LOpeP6Hk9gEAvB4vletPM3NiHs2fWyi+suWfNa7WQOR3hOcfGzl870hs7k/nH/bU7CP8qYnIr4jdMkckvAXJ4GoNDCSuOdAv78BA8J8LUGpNEc678Wc8cnjAUeNgvDgU3u7tlHEqugyVEoUakFbA/qvjMtJbc2rbmqlkA367+JehsCMHehVgh31zqkFFGptD4RX9LqA/+As0xAKOOpJXugAAAABJRU5ErkJggg==",
+      "activities": [
+        {
+          "name": "Read Cell from Excel (by row and col)",
+          "script": "ExcelReadCell(path=\"pathname\", row=1, col=1)",
+          "info": "Read cell value from Excel by row and col: first row is defined row number 1 and first column is defined column number 1",
+          "icon": "file-excel",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAYNQTFRF////////YGBgYk5iiYmJgICSWlppVVVjXlFrhoaUWFhsh4KRWlJrhYWRhoOQiISRhoaSXFNshoOShoaSh4SQhYWRXFRriYaUh4eTW1RqY1twY1xwh4eViYmViYuYiY2aiYqXiIuYiYyYiYyZh4mXiIuXXFRqXFRqiY2aiIqXiIuXbGZ5bGZ5h4qXXVRqXFRqhYeVXFRqhYeVXFRrXFRqiIqXiYqXiIuXiIqXiImWiImWiImWjJSih4iWkaGvkaKwc26AjJKgjpmnkaGvkaKvdHCBiY2ai5KgjZmmjpuoiYuZjpmnh4eUiIeUXFRqh4aUh4iWiIuYiIiVh4eUlq+8lq++l7PAi5urlK27lK28lrG/g4GOhoaUnL/NnL/OXFRqX1htYFhuc25/c2+BncfYn8jXos/eotDfo9Hgo9Lho9PipNTjpdjnptrpptrqp9vrqN/uq+j4rez8ru7+ru//sfD/ufH/vPL/vfL/x/T/yPT/zPX/4Pn/4vn/8Pz/8/3/////FiVGzgAAAF90Uk5TAAEIDQ0OERITExozPkFOT1JTVFRVWmRwcXOJi5OTra+xsrO0tbbAwsLJytTV1dfY2Nra4eXl5ebn6erw8PHy8vPz8/Pz9PT09PT19fb29/f39/j5+fr6+/v7+/7+/v4d+WzOAAABSUlEQVQ4T93QV1fCQBAF4KEJQaKi0hTsEsAGglKs2LBiw15iQ1QslFXs7k93kw0cXoK+6n37Zu7ZM2cB/kmqfljZOPkCZwMw+vTyBb3PCJxBfg9g4ICvtAey/l1BbbK7HCZ1cao2OVx2SlJQArDh8aPL45kIS/dsZJpwIkyoJIUBZ8/6FRJyM9cAOh3ULVJer/U6+3nw8yeHt4SPb8/obqw5EGgaoSygi4NT3g/m+Pm+0P/E+BXtzapUk7sCvzB+QTtncTOAti9NBk8Y4w+UGgTwpggLhO8o7dUKNy1nSy9kV4sUX8iuiEcPZZB0A8qEAIYlFihJWpKomGQnQGsZ28VCTTQnDXKxRoDaWInRevoxbYk8nWx3C+zYoswnuqSfZdzz92T2sOBhRHqWRE65GakACktwc3QjZFVItIYIgxYFlEVTranAP59vjw1xvdJmgZAAAAAASUVORK5CYII="
+        },
+        {
+          "name": "Read Cell from Excel (by cell name)",
+          "script": "ExcelReadCell(path=\"pathname\", cell=\"A1\")",
+          "info": "Read cell value from Excel by cell name e.g. cell=\"A2\" is the first cell",
+          "icon": "file-excel",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAYNQTFRF////////YGBgYk5iiYmJgICSWlppVVVjXlFrhoaUWFhsh4KRWlJrhYWRhoOQiISRhoaSXFNshoOShoaSh4SQhYWRXFRriYaUh4eTW1RqY1twY1xwh4eViYmViYuYiY2aiYqXiIuYiYyYiYyZh4mXiIuXXFRqXFRqiY2aiIqXiIuXbGZ5bGZ5h4qXXVRqXFRqhYeVXFRqhYeVXFRrXFRqiIqXiYqXiIuXiIqXiImWiImWiImWjJSih4iWkaGvkaKwc26AjJKgjpmnkaGvkaKvdHCBiY2ai5KgjZmmjpuoiYuZjpmnh4eUiIeUXFRqh4aUh4iWiIuYiIiVh4eUlq+8lq++l7PAi5urlK27lK28lrG/g4GOhoaUnL/NnL/OXFRqX1htYFhuc25/c2+BncfYn8jXos/eotDfo9Hgo9Lho9PipNTjpdjnptrpptrqp9vrqN/uq+j4rez8ru7+ru//sfD/ufH/vPL/vfL/x/T/yPT/zPX/4Pn/4vn/8Pz/8/3/////FiVGzgAAAF90Uk5TAAEIDQ0OERITExozPkFOT1JTVFRVWmRwcXOJi5OTra+xsrO0tbbAwsLJytTV1dfY2Nra4eXl5ebn6erw8PHy8vPz8/Pz9PT09PT19fb29/f39/j5+fr6+/v7+/7+/v4d+WzOAAABSUlEQVQ4T93QV1fCQBAF4KEJQaKi0hTsEsAGglKs2LBiw15iQ1QslFXs7k93kw0cXoK+6n37Zu7ZM2cB/kmqfljZOPkCZwMw+vTyBb3PCJxBfg9g4ICvtAey/l1BbbK7HCZ1cao2OVx2SlJQArDh8aPL45kIS/dsZJpwIkyoJIUBZ8/6FRJyM9cAOh3ULVJer/U6+3nw8yeHt4SPb8/obqw5EGgaoSygi4NT3g/m+Pm+0P/E+BXtzapUk7sCvzB+QTtncTOAti9NBk8Y4w+UGgTwpggLhO8o7dUKNy1nSy9kV4sUX8iuiEcPZZB0A8qEAIYlFihJWpKomGQnQGsZ28VCTTQnDXKxRoDaWInRevoxbYk8nWx3C+zYoswnuqSfZdzz92T2sOBhRHqWRE65GakACktwc3QjZFVItIYIgxYFlEVTranAP59vjw1xvdJmgZAAAAAASUVORK5CYII="
+        },
+        {
+          "name": "Write Cell to Excel (by row and col)",
+          "script": "ExcelWriteCell(path=\"pathname\", sheet=\"Sheet 1\", row=1, col=1, write_value=\"Value\")",
+          "info": "Write value to Excel by row and col: first row is defined row number 1 and first column is defined column number 1",
+          "icon": "file-excel",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAD2AAAA9gFrSKqbAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAgdQTFRF////AP//AAAAgID/VVVVVVWqQIC/M2aZZmZmVarV1dUASUlJYJ+/YJ/fv78gVY7jZpnmVVVqVYC/VZXVYp3YW5LbVYi7Woe0VYC4Y46448YAXl5eZoCzXXSXXYCiyLEW07EL58IAYGBgYGBgxagYXGFuWVlhX5TdWlpiWVlZYJTeWlpgXWBnXFxfXofAWlpgWVlfWFhbXoa/Xl5e07YM5cQAW1teXmBp0rUNWlpfXFxewqkZXFxe5cUAX5TcXpXdWlpf5cQAWVlb4cQGXV1fXpTe0LUM0rYOwakYXYS8XoW8W19mYJbcW1tfwagZXXyovagdXoa85sMAYJXdW1teXoa85sQAX5bcX5XdXXOVwacaXoW8XpTd5sUAwKcZXoa7XoW8X5XdXG2IWVlbXYS7X5Xe5cMAX5XdWlpaX5XdwKgaX5XdXYa6X5XdX5XdW1tbX5XeWlpcXoW6v6cbXoW6X4W6XYW5XoW6W1tcXoW5XoGxXoW6Xoe/WVlaXpXd5cQAZJbWXXebXXulWVlbXoS4YozCvaUbYoOu2L8WX5XesJ8uXoS45cQA5cQA5cQAvKUcvKUcvKUdX5XdXoS35cQAXoS3X5Xdu6QcWVlaWVlbWlpcXHOUXHSVXXmhXXqhXX6rXX+tXn+uXn+vXoO2XoO3Xoa9XozKX4/QX5XcX5Xdu6Qd0LQO5cQAEAW3WgAAAJh0Uk5TAAECAgMDBAUFBgYHCAgICQoMDAwNDg8REhISExQWFhcXKi01NTpCQ0RFRUpKTlFSU1RUV1dXWlphZmdobG1ub3R0dnh5enx+gIGChIWGh4yMjY2QlZiYm5ydoKOlqqutrq6vt7e3uLm7u7u+v8HDxcbHx8fIys3P0NHS09PU2Nnb3N3f4uLj5urs8PHz9PX29/j7/P3+/v6uil2oAAABRklEQVQ4y33RVVNDMRAF4BR3d3d3d4q7u7u7u7trixQopQF60/sjabl566bnLfPtnNkkCOlJ+MBWvh72ih59fjlge+hZTcbM6xzTc+45aVvjajyDzVs5jvuR9Fcx3HpE6xhfVNiDbjsm+ENMIeh2E4Ljssg4yB2nqPeGiY0Ad5qmvhiVbga48yz1pdRYqN99UyX4cnAiuP+6/Ful9RVvsSX0PkO/n/IvJcZrLiGBgJv0cdzvh+xdueGKUjx13bBTu5/iTbbvhlCWgY6LWoT9FXs+mlOAbkEDvd+8A/xBldQnrWAvoj5oCnsu9R5j2COkgneIYEfbgjcx2KNg99/rYPZvvuZPjzCWlMOezGuiPj85TGD05/GPV2pCahEr9Xy23y2582UODF+mlT6RbqZb7JTcEEKCmANdxccL7dWZTEdJ4zZIX/4A0dyRlVJ/y0gAAAAASUVORK5CYII="
+        },
+        {
+          "name": "Write Cell to Excel (by cell name)",
+          "script": "ExcelWriteCell(path=\"pathname\", cell=None, write_value=\"Value\")",
+          "info": "Write cell value from Excel by cell name e.g. cell=\"A2\" is the first cell",
+          "icon": "file-excel",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAD2AAAA9gFrSKqbAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAgdQTFRF////AP//AAAAgID/VVVVVVWqQIC/M2aZZmZmVarV1dUASUlJYJ+/YJ/fv78gVY7jZpnmVVVqVYC/VZXVYp3YW5LbVYi7Woe0VYC4Y46448YAXl5eZoCzXXSXXYCiyLEW07EL58IAYGBgYGBgxagYXGFuWVlhX5TdWlpiWVlZYJTeWlpgXWBnXFxfXofAWlpgWVlfWFhbXoa/Xl5e07YM5cQAW1teXmBp0rUNWlpfXFxewqkZXFxe5cUAX5TcXpXdWlpf5cQAWVlb4cQGXV1fXpTe0LUM0rYOwakYXYS8XoW8W19mYJbcW1tfwagZXXyovagdXoa85sMAYJXdW1teXoa85sQAX5bcX5XdXXOVwacaXoW8XpTd5sUAwKcZXoa7XoW8X5XdXG2IWVlbXYS7X5Xe5cMAX5XdWlpaX5XdwKgaX5XdXYa6X5XdX5XdW1tbX5XeWlpcXoW6v6cbXoW6X4W6XYW5XoW6W1tcXoW5XoGxXoW6Xoe/WVlaXpXd5cQAZJbWXXebXXulWVlbXoS4YozCvaUbYoOu2L8WX5XesJ8uXoS45cQA5cQA5cQAvKUcvKUcvKUdX5XdXoS35cQAXoS3X5Xdu6QcWVlaWVlbWlpcXHOUXHSVXXmhXXqhXX6rXX+tXn+uXn+vXoO2XoO3Xoa9XozKX4/QX5XcX5Xdu6Qd0LQO5cQAEAW3WgAAAJh0Uk5TAAECAgMDBAUFBgYHCAgICQoMDAwNDg8REhISExQWFhcXKi01NTpCQ0RFRUpKTlFSU1RUV1dXWlphZmdobG1ub3R0dnh5enx+gIGChIWGh4yMjY2QlZiYm5ydoKOlqqutrq6vt7e3uLm7u7u+v8HDxcbHx8fIys3P0NHS09PU2Nnb3N3f4uLj5urs8PHz9PX29/j7/P3+/v6uil2oAAABRklEQVQ4y33RVVNDMRAF4BR3d3d3d4q7u7u7u7trixQopQF60/sjabl566bnLfPtnNkkCOlJ+MBWvh72ih59fjlge+hZTcbM6xzTc+45aVvjajyDzVs5jvuR9Fcx3HpE6xhfVNiDbjsm+ENMIeh2E4Ljssg4yB2nqPeGiY0Ad5qmvhiVbga48yz1pdRYqN99UyX4cnAiuP+6/Ful9RVvsSX0PkO/n/IvJcZrLiGBgJv0cdzvh+xdueGKUjx13bBTu5/iTbbvhlCWgY6LWoT9FXs+mlOAbkEDvd+8A/xBldQnrWAvoj5oCnsu9R5j2COkgneIYEfbgjcx2KNg99/rYPZvvuZPjzCWlMOezGuiPj85TGD05/GPV2pCahEr9Xy23y2582UODF+mlT6RbqZb7JTcEEKCmANdxccL7dWZTEdJ4zZIX/4A0dyRlVJ/y0gAAAAASUVORK5CYII="
+        }
+      ]
+    },
+    {
+      "group": "Word",
+      "group_iconb64" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJPSURBVFiF5ZfBaxNBFMZ/06SNSWgSCYlWLaKEgqGtUQ9GBYMXPdSLIkYUBU89NEdB/Au8eKwiOXloESnipQj1JCikVakHoYJtaT2YYtK0SbRpmjYZD0sXw65Ns+xaxA8GHo+373188zGzI6SU7CTszRSLqyM2v3dPl0BGEEQERJD0IkhlkrHLphLYe+uVW7ocvUgiKIMiAV+wG6SrnhUAl4wMVwkE+t90CFlTBm2uXY4QNVqMNt42gWD/60EhxYDVg/5IAJOG5/LF5t0sGbNc4i0huLCzBMB6kzVCU+fAVui5/7VhzZnDTh7Hg3W5f0+BoYEwUkpuPvpcl/9076D5BISABzdCANwZnsHjtHMu7KNUqRoati0Cw4kwArg+OEU05OXaKWXPnr/LsvRzHYCF5YqmkWkeOHGondgRH4H2VuLRgJqPR4Ps2+1QCOS1BIxCo8B8tkxPp5vwATd9x/1s3tZ9x/xMfVtRCCyvaRoZ9YBGgfnsKgCJ8/txtdkYnykyMVvE2dbC7VgHAGkrFZjLlAE43eUFYGQiA0A05KHTr2xBWkcB0zwwly2rcalSZXQyx+hkrs75aR0TGoWOAqtq/PLjEitrVTW+clIx5ULeQg/8rsCz8YxubKkCiz/WGXr7nVabIDVdUPOp6QIv3i9S2ahRKG1oGhn1gO5JePfprCYnJSSefGk4pFmYdhua5oG/jf+cgGTMjpAPzfgz9vs8wsh3Qkqp/zCBEE0olEnGjBPQg97TTEI34NKrN52AbrHe4xSOgviQSZ69aDkBK/ALoL3X0FprEyAAAAAASUVORK5CYII=",
+      "activities": [
+        {
+          "name": "Open Word Document",
+          "script": "OpenWordDocument(filename=\"pathname\")",
+          "info": "Open a Word document by refering to the absolute path",
+          "icon": "undo-alt",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAfpAAAH6QGUejxAAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAXdQTFRF////29vb6+vi5eXTksjf6Ojg6enf6urffMLhYbni4uLX3dzQ6eng3NrOIqLlAJbmApfmA5fmBJjmBZjmC5vnD5znEZ3oE57oFZ/oFp/oGqHpJKXqJqbqKKbqK6jqLqnrL6nrOK3rOq7sQLDsQa3kR7PtSLTtSbTtSrTtULfuVrnuYr7wZcDwacHwa8LwbsPxccXxcsXxeMfyfMnyfcnyfsrygMvzg8zzhpfLhs3zh5jLi5vMi8/0jND0jdD0k6LOlaTOlqXOmNX1nqvQntf1n6zQn9f2oq7Rotn2o6/RqbTSqdz3qrXTq7bTrrjTs+D4tr/Vt+H4uMDWuOL4vsXXv8bXwcjXwub5xef5x83Zyun6zdLaztLaztPa0NTb0ez61O371dnc1e7719rc1+/72Nvc2O/72dfK2dzd2vD729rN293d3d/d3d/e3+He4N/U4eDW4eLe4ePe4uPf5OTf5OXf5ebf5fT85ubf5+fg6Ojg6eng6fb9GVaodwAAAA90Uk5TAA4aHThCR0htfNnr7PP7HqL7KAAAAUVJREFUOE9jYGBgYOKpRgNczAzIgA1dvjqfF0UFO6aCdBQV2BSgqMCqAFkFdgVIKoAKsj3d3X0r4QoKskCAmxGhoCw0JCQSwyBWnFZAATtCQaqjAxAEVPuUhoEYXtUBjqkoCqpio4Egtzq1uhDEyKjOja1CUUDQimQrCwSwzrO3sLBKRjUhOwMBcqrzMjKyq9EVFFWXgKWhdDaGFc7VfmALoDS6FYQcWVFcnQjyXxkuBXFBla6gEIrBpQA7oJ4CDhUcgAOqgJMfB+BEViBlZKguwM8vb6YtyM8vZ6YjjK5AMUrDJlBALkHNzolfNkVDXwxDQTA/v7+arS6/YI2QpQEWK0AKPHTcNPn50yRdtHAoyFQyNeYXLec3MsGmIEk/wptfIt48XI9fPN7cWxJdgaiaqgKQElGWBpMyyCaw8PFjBXwsQEkAUY/45mfGYL0AAAAASUVORK5CYII="
+        },
+        {
+          "name": "Replace Text",
+          "script": "ReplaceText(absolute_document_path, text=\"[example_placeholder]\", replace_with=\"Example Replacetext\")",
+          "info": "Replaces text in a Word document, for example to fill in certain fields in a form",
+          "icon": "undo-alt",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAT3SURBVFiFpZZfTFN3FMe/51J620JLTIsynUwgDhYnxWypuhdj5pjJNt78M002FUxG/Le5zckmuCEKcTObmSYmhuBc5hKXZQtL9sA0kwdNwCUKeyDOAYkIammjtEILvb1nD6Vw/1Pnebq/3z2/3/dzz++c87vEzDCy/lUVa8FyXklX76+GDhlarKbmEyLaA+A3x9jYPly8OKV8LxgtGgj4a0nmy8T0y0CgvPn/iserq5sJaAHzIjC/F/N4fsLGjXZLgIGAvxbAaQCUmqGDAwH/sScVj+2sPg6ig8o5Aqq0ECqAzvLSC1FJUojPWF3/Sv/RTMVvfL30K1mQ3jd6p4WgdA4MBPy1UUk6fScWp8VOBzw2m24xM46WXO85ZCV+7cwznxPxYWfMjaV9rySyktnZRn4MtDsjkQ3EzKqwRyQJQ7E4zCAI1FTUfbPeaNOe7wpOTsSxNz2eCwJEZ+jflf61JPNlKMI+NwQfKerubVDOhToWHGfGhyMPSJiIzc5bQhANC2A5D5oz99hsWOx0YCgWR0SSdOsYVD8YKG9Mj0c7CppB+JgECAsXsOxyzvrGnFHcfuFadjIrkdDtw/zt9BGUNwPqjM0kEgA3upuCdiJWrWUZ8pyRYG5xtLbWKZPwGIC6J4EQK6MQ14wbgFlDCLLtG+fZ1gOAogoAoH+l/ygxPs0EwkocAJJJYPgegQQgHp+dd0y4T6z44PZH6bGqD5R09XzGDF29a3MiE/G7IwSHA3i2YDYnmOkLpbguAmkbDFQcYbCu3iOSBFoXwaLXpnRrtOJOJzDfl9qbZcgj9+mU/937+7T+hgApiPJGBqnqPdMvV4qnCPClr/LBAaM1hpcRABR19zYQ+MjTijNTi5m4JUAaAuDGjMUdevH8yvu6ylKaUXGrbLrOMxPPn/Wb7MzBZEcu8iut97eMwGhHQbO2yRiJOwzF3Uhd5db/E6YATyK+wFA8bdYQhgBziQOpJqMVH/7DjtHfnQbe5hA6gPClwkNziQOAdx7rvhyXPKYXGEAHB9cEdL1FBRAKXXXbK85uJtu8oJFoMgk8fJR6zsmZnU+H3W2zodDkFhW8eUHfj02bQ6GrbtW8ciAKiU0gcZl9+anHWoj0mSck9d+a9syNIARvXtDb1vAYon2ZKCQ2mQKAsQMAQLZiJYQq2zV1PtmR26KNlBJi3OMa87Y1PEa2rTi1iLYrfWdacTR8pQxAnxpIGpi4uctz986YT5twyiZj9j8xnpczVth2OCI4xcXqfbnM7Vt7SxMBNVk6ElnFdTFXrjhhJg4Axd29dQCrIiF484JLvm8M68QBgGibJgJXbNEwhgAU6JynIzH19+5clh7Ot2qv6UjMnHk67HqCEbc3WAhsSAoAEA1hvak4MJ0TJ0eJxHqr3l7c3VtHTrHe23po1FwcAHhhZNT3OjB9BG/vOrclGIqa+OIqCDWTyF3tXXenyXzTlBV1djdN2nNWg7AToGtGPsFQlLfv/2EHANDzL73lE7J52OfNmTp3YmvufJ8bAIYBPg+Wz7l9r/4zl6iVRUN/lqbOnN4BeGEwFMXWPefDY9G4W07Qoizfc6U1BLw5EUugt2+kvWr98v0eb+du0bXtkugqDj+NOACIrqKw6FpyWXRdPzk57uraW/+za+jeoxcB2JFFw1S26o02hnCDE7hw66/20NMKZmKlL1f5KBtbCPKK/wAGOI4jKi0o3QAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Convert Word to PDF",
+          "script": "ConvertWordToPDF(word_filename=absolute_word_path, pdf_filename=absolute_pdf_path)",
+          "info": "Transforms a Word document to PDF",
+          "icon": "undo-alt",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAFuAAABbgGEUF8kAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAVBQTFRF////AP///4CAv0AgQLOZ3F1RQ7GbO7Gd41VMtTgq4VZOtzcrszgo41hM5FZLzkk7PLKfPLOdPbKdPLOePbOfzEU4zUg64ldM4ldL41dNPrOe4lZMPrOe4ldMPbOePbOePrOe4ldMPbOePLSePbOePbOdPbOetTYp4ldLtjYp4ldMtTcpwj8ztjUp41dMtTYp4lZMPrOe4ldMPbOf4lZN4ldN4ldM4ldM11BD4ldN4ldM4ldMwD0x4ldM4ldMPbOetTYptjcqtzgrvz0ww+fhxuniyerk4ldM4lpP5GBW5GJX5WVb5Wlf53Vs53du6oN76oZ/6oiA646G7ZeQ7ZmS7p2W76Od76Wf8Kii8Kmj8Kqk8a2o87iz87y39s7K99DM+NTR+NXT+NfU+dnX+dvY+d3a+d3b+uDe+uPh++Xk++fm++nn/Ovq/O3s/vr6////kQlsrwAAAD90Uk5TAAECCBQWFxobNzs8QEBBSV1eYGFlaH+TlaqusbKys7W2tri6u7y/wcTGx8nMzc7R4+Tl5ubw+Pn6+vv8/f3+lASLvgAAASNJREFUOI3l0NdWwkAQBuBBFHvHrth7F00kMWFRYcQG2LD3Lmbe/87diOcoTvAB/C/m5v+2AshUjWmaput6JGIYhmmalmXZNiIur4xWqh4mkM+aEOMu8OhRCDH9B5itKQr8foCiAOAfgmvnPoU3zvtFEu+cWwY4mbMHpMP9XBYps82B1OkTUhqzj0g7Gxyg57QCRy9IdM6BXTnoYO/t2GOHyy05cvR6solXScTFno4Z72fa7RXwPYX9Qp0vGAqHu5s8gF0bGIq66StlQZtvOJpPLwvKgqqLr6vZwIA5CKmKSM1OBnRBWK4nGbnHPAP6FUgoEOfBUsmPI6onRUFi9e4lE3E1G+FXL8SUb+TrmQPAgVhreV4MBoA5QojVls+vbpb3+wBkgtxo6h4uQAAAAABJRU5ErkJggg=="
+        }
+      ]
+    },
+    {
+      "group": "Math",
+      "group_iconb64" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAfpAAAH6QGUejxAAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAEhQTFRFVWCAcHqUhY2kw8fS5efs67oW7YoZ7pEn7pMq8J0/8aRM869h87Bj89Z09Ll29uGa98yb+/LT/vr1/vr2/v37//37//38//771V79mAAAAHlJREFUOI3FkdkKgCAQRbXFXEYnteX//zQUWjDSQKjzMA/DgXtHSZ/AEsh3gtYFAbFK0IjWIupdMGPEvBfqO7w589e/uC1SPhIGEaYYHgXhFGPKiV2gTYSeEcoDeHVEtF2kvXSAeYJsSViXrFCKKJbkMkzJ/3zqnLABC/IUG43kr60AAAAASUVORK5CYII=",
+      "activities": [
+        {
+          "name": "Absolute",
+          "script": "abs(x)",
+          "info": "Calculates the absolute value of an integer or float",
+          "icon": "calculator",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Ceiling",
+          "script": "browser.get(\"https://google.com/\")",
+          "info": "Rounds up an integer or float to the closest number",
+          "icon": "calculator",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Exponential",
+          "script": "exp(x)",
+          "info": "The exponential of x",
+          "icon": "calculator",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Floor",
+          "script": "floor(x)",
+          "info": "The floor of x: the largest integer not greater than x",
+          "icon": "calculator",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Log",
+          "script": "log(x)",
+          "info": "The natural logarithm of x, for x> 0",
+          "icon": "calculator",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Maximum",
+          "script": "max(x1, x2, ...)",
+          "info": "The largest of its arguments: the value closest to positive infinity",
+          "icon": "calculator",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Minimum",
+          "script": "min(x1, x2, ...)",
+          "info": "The smallest of its arguments: the value closest to negative infinity",
+          "icon": "calculator",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Round",
+          "script": "round(x)",
+          "info": "x rounded to n digits from the decimal point.",
+          "icon": "calculator",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Absolute",
+          "script": "abs(x)",
+          "info": "Calculates the absolute value of an integer or float",
+          "icon": "calculator",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Square root",
+          "script": "sqrt(x)",
+          "info": "The square root of x for x > 0",
+          "icon": "calculator",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
+        }
+      ]
+    }
+  ]
+}
