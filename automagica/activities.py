@@ -235,7 +235,7 @@ def CreateFolder(path):
         os.makedirs(path)
     return
 
-def RenameFolder(old_path,new_folder_name):
+def RenameFolder(old_path, new_folder_name):
 
     if os.path.exists(old_path):
         base_path = old_path.split("\\")[:-1]
@@ -243,7 +243,7 @@ def RenameFolder(old_path,new_folder_name):
         os.rename(old_path,new_path)
     return
 
-def MoveFolder(old_path,new_path):
+def MoveFolder(old_path, new_path):
     '''
     Entering r"C:\\Users\\Oldlocation\\Automagica" as old_path and r"C:\\Users\\Newlocation\\Automagica"
     as new_path moves the folder "Automagica" from directory "Oldlocation" to directory "Newlocation".
@@ -252,24 +252,25 @@ def MoveFolder(old_path,new_path):
         os.rename(old_path,new_path)
     return
 
-def RemoveFolder(path):
+def RemoveFolder(path, allow_root = False):
     '''
-    Entering "C:\\Users\\Documents\\Automagica" removes the folder "Automagica"...
-    together with all the files and folders it contains.
+    Entering "C:\\Users\\Documents\\Automagica" removes the folder "Automagica" including all of its subdirectories and files.
+    Standard, the safety variable allow_root is False. When False the function checks whether the path lenght has a minimum of 5 characters. 
+    This is to prevent entering for example "\\" as a path resulting in deleting the root and all of its subdirectories.
+    To turn off this safety check, explicitly set allow_root to True.
     '''
-    if len(path) > 5:
+    if len(path) > 5 or allow_root:
         for root, dirs, files in os.walk(path, topdown=False):
             for name in files:
                 os.remove(os.path.join(root, name))
             for name in dirs:
                 os.rmdir(os.path.join(root, name))
-    os.rmdir(path)
+        os.rmdir(path)
     return
 
 def EmptyFolder(path):
     '''
-    Entering "C:\\Users\\Documents\\Automagica" removes all the files and folders that...
-    that are saved in the "Automagica" folder.
+    Entering "C:\\Users\\Documents\\Automagica" removes all the files and folders saved in the "Automagica" folder but maintains the folder itself.
     '''
     if len(path) > 5:
         for root, dirs, files in os.walk(path, topdown=False):
@@ -282,6 +283,6 @@ def EmptyFolder(path):
 def FolderExists(path):
     '''
     This function checks whether the folder with the given path exists, e.g. by entering...
-    "C:\\Users\\Documents\\Automagica" the function checks if the folder with this path exists.
+    "C:\\Users\\Documents\\Automagica". The function returns True or False.
     '''
     return os.path.isdir(path)
