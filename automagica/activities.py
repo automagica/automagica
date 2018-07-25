@@ -219,6 +219,69 @@ def RequestUserInput():
 
 def StartFile(path):
     from os import startfile
-    startfile(path)
+    startfile(path) 
     return
 
+'''
+Folder Operations
+'''
+
+def CreateFolder(path):
+    """
+    Entering "C:\\Users\\OldFolder as old_path" and "NewFolder" as new_folder_name changes
+    the name of the directory in C:\\Users from "OldFolder" to "NewFolder".  
+    """
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return
+
+def RenameFolder(old_path,new_folder_name):
+
+    if os.path.exists(old_path):
+        base_path = old_path.split("\\")[:-1]
+        new_path = "\\".join(base_path) + "\\" + new_folder_name
+        os.rename(old_path,new_path)
+    return
+
+def MoveFolder(old_path,new_path):
+    '''
+    Entering r"C:\\Users\\Oldlocation\\Automagica" as old_path and r"C:\\Users\\Newlocation\\Automagica"
+    as new_path moves the folder "Automagica" from directory "Oldlocation" to directory "Newlocation".
+    '''
+    if os.path.exists(old_path):
+        os.rename(old_path,new_path)
+    return
+
+def RemoveFolder(path):
+    '''
+    Entering "C:\\Users\\Documents\\Automagica" removes the folder "Automagica"...
+    together with all the files and folders it contains.
+    '''
+    if len(path) > 5:
+        for root, dirs, files in os.walk(path, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
+    os.rmdir(path)
+    return
+
+def EmptyFolder(path):
+    '''
+    Entering "C:\\Users\\Documents\\Automagica" removes all the files and folders that...
+    that are saved in the "Automagica" folder.
+    '''
+    if len(path) > 5:
+        for root, dirs, files in os.walk(path, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
+    return
+
+def FolderExists(path):
+    '''
+    This function checks whether the folder with the given path exists, e.g. by entering...
+    "C:\\Users\\Documents\\Automagica" the function checks if the folder with this path exists.
+    '''
+    return os.path.isdir(path)

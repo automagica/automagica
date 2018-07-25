@@ -216,6 +216,40 @@
       ]
     },
     {
+      "group": "Folder Operations",
+      "group_iconb64" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAejAAAHowEwL7LFAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////d4i7QFBgcIC/Tlp2VmKJXpGKarCea7WgUnJ5cpS5aXerRExjccKpRlRncoG8QkphccOpQkpgT1Zra3GCccOpc4O/dXuKmqXMo6zPs7vVvMLYwcfazM/d0tXf1Nfg2dvi3t/j4+Pl5ubmy3bLFgAAABJ0Uk5TAA8QEMDAwMbKzdTa2+ns9/j+a68FFAAAAHpJREFUOE/t08cOhDAMRdEMbegMpgy9/v8/omyAhIQnseauj2R7YcZQxtHHVMToyC4VncEvAIDCBACy/EsiILeQk0AcAUBeCgA5X7ELkHvBc5D99zIlyNe9XAP6quqWetSDqWmGtZ1vAW+6G8HrtQAsCc8Uw8AAoednGxKCQxnLbH7rAAAAAElFTkSuQmCC",
+      "activities": [
+        {
+          "name": "Make New Folder",
+          "script": "CreateFolder(path=\"pathname\")",
+          "info": "Creates new folder at the given path",
+          "icon": "folder",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAd1AAAHdQEjKi9uAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAANtQTFRF////YGCAQEBQVV6AV2OASFFmPERQVGCAT1dyYo2CZJSDVWCAX3+CVmCAYISCbLSFbLaERE1gRExeQktcaquFTFZva6yEVWCAb72FcL6GbriGbrmFPURRVF18ccKGVF9/VWCAccGGPURRVWCAVWGAVmKAWGuBWWyBWW6BWnGBYIaCYIeCYYuDYo2DYo+DY5KDZJSDZJaDaaeEaqmEaqqEbriFb72GcL6GcMCGcMGGccKGccOGd8aLeMaMeceNeseOfMePfsmRf8mShsyY9Pr29vv3+v37+/37////mBh8MwAAACJ0Uk5TAAgQHiw8QEBeYGl4j5KVsbW/wMHIysvS2Nvj5uvr9vf3+WM4ONIAAADESURBVDiN3dPHDoJAEIBhbKBi772tXVEUUWRVBBvv/0RmOBggQ/bAzf8wl/myGzaB40JHfg3iDEDqEQYgWRYgSd5f1Au6nZEv3gtIlQVImQX6xZKnhB/4E/4aTLd7VZHngWB5pJC2DgAr2F5hSCiYnWD3vMAZKQzIzvm2ATOPAcUFGhhQ6e1lQx+L9jBwoNQwTfth3iltYmDnuqKAgYUGqzd8p55G30ECYMGQ8Ycab87OLbo8ETgRLVNpDdu1nCjGwv/cX6d2dbbN5MFoAAAAAElFTkSuQmCC"
+        },
+        {
+          "name": "Read Cell from Excel (by cell name)",
+          "script": "ExcelReadCell(path=\"pathname\", cell=\"A1\")",
+          "info": "Read cell value from Excel by cell name e.g. cell=\"A2\" is the first cell",
+          "icon": "file-excel",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAYNQTFRF////////YGBgYk5iiYmJgICSWlppVVVjXlFrhoaUWFhsh4KRWlJrhYWRhoOQiISRhoaSXFNshoOShoaSh4SQhYWRXFRriYaUh4eTW1RqY1twY1xwh4eViYmViYuYiY2aiYqXiIuYiYyYiYyZh4mXiIuXXFRqXFRqiY2aiIqXiIuXbGZ5bGZ5h4qXXVRqXFRqhYeVXFRqhYeVXFRrXFRqiIqXiYqXiIuXiIqXiImWiImWiImWjJSih4iWkaGvkaKwc26AjJKgjpmnkaGvkaKvdHCBiY2ai5KgjZmmjpuoiYuZjpmnh4eUiIeUXFRqh4aUh4iWiIuYiIiVh4eUlq+8lq++l7PAi5urlK27lK28lrG/g4GOhoaUnL/NnL/OXFRqX1htYFhuc25/c2+BncfYn8jXos/eotDfo9Hgo9Lho9PipNTjpdjnptrpptrqp9vrqN/uq+j4rez8ru7+ru//sfD/ufH/vPL/vfL/x/T/yPT/zPX/4Pn/4vn/8Pz/8/3/////FiVGzgAAAF90Uk5TAAEIDQ0OERITExozPkFOT1JTVFRVWmRwcXOJi5OTra+xsrO0tbbAwsLJytTV1dfY2Nra4eXl5ebn6erw8PHy8vPz8/Pz9PT09PT19fb29/f39/j5+fr6+/v7+/7+/v4d+WzOAAABSUlEQVQ4T93QV1fCQBAF4KEJQaKi0hTsEsAGglKs2LBiw15iQ1QslFXs7k93kw0cXoK+6n37Zu7ZM2cB/kmqfljZOPkCZwMw+vTyBb3PCJxBfg9g4ICvtAey/l1BbbK7HCZ1cao2OVx2SlJQArDh8aPL45kIS/dsZJpwIkyoJIUBZ8/6FRJyM9cAOh3ULVJer/U6+3nw8yeHt4SPb8/obqw5EGgaoSygi4NT3g/m+Pm+0P/E+BXtzapUk7sCvzB+QTtncTOAti9NBk8Y4w+UGgTwpggLhO8o7dUKNy1nSy9kV4sUX8iuiEcPZZB0A8qEAIYlFihJWpKomGQnQGsZ28VCTTQnDXKxRoDaWInRevoxbYk8nWx3C+zYoswnuqSfZdzz92T2sOBhRHqWRE65GakACktwc3QjZFVItIYIgxYFlEVTranAP59vjw1xvdJmgZAAAAAASUVORK5CYII="
+        },
+        {
+          "name": "Write Cell to Excel (by row and col)",
+          "script": "ExcelWriteCell(path=\"pathname\", sheet=\"Sheet 1\", row=1, col=1, write_value=\"Value\")",
+          "info": "Write value to Excel by row and col: first row is defined row number 1 and first column is defined column number 1",
+          "icon": "file-excel",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAD2AAAA9gFrSKqbAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAgdQTFRF////AP//AAAAgID/VVVVVVWqQIC/M2aZZmZmVarV1dUASUlJYJ+/YJ/fv78gVY7jZpnmVVVqVYC/VZXVYp3YW5LbVYi7Woe0VYC4Y46448YAXl5eZoCzXXSXXYCiyLEW07EL58IAYGBgYGBgxagYXGFuWVlhX5TdWlpiWVlZYJTeWlpgXWBnXFxfXofAWlpgWVlfWFhbXoa/Xl5e07YM5cQAW1teXmBp0rUNWlpfXFxewqkZXFxe5cUAX5TcXpXdWlpf5cQAWVlb4cQGXV1fXpTe0LUM0rYOwakYXYS8XoW8W19mYJbcW1tfwagZXXyovagdXoa85sMAYJXdW1teXoa85sQAX5bcX5XdXXOVwacaXoW8XpTd5sUAwKcZXoa7XoW8X5XdXG2IWVlbXYS7X5Xe5cMAX5XdWlpaX5XdwKgaX5XdXYa6X5XdX5XdW1tbX5XeWlpcXoW6v6cbXoW6X4W6XYW5XoW6W1tcXoW5XoGxXoW6Xoe/WVlaXpXd5cQAZJbWXXebXXulWVlbXoS4YozCvaUbYoOu2L8WX5XesJ8uXoS45cQA5cQA5cQAvKUcvKUcvKUdX5XdXoS35cQAXoS3X5Xdu6QcWVlaWVlbWlpcXHOUXHSVXXmhXXqhXX6rXX+tXn+uXn+vXoO2XoO3Xoa9XozKX4/QX5XcX5Xdu6Qd0LQO5cQAEAW3WgAAAJh0Uk5TAAECAgMDBAUFBgYHCAgICQoMDAwNDg8REhISExQWFhcXKi01NTpCQ0RFRUpKTlFSU1RUV1dXWlphZmdobG1ub3R0dnh5enx+gIGChIWGh4yMjY2QlZiYm5ydoKOlqqutrq6vt7e3uLm7u7u+v8HDxcbHx8fIys3P0NHS09PU2Nnb3N3f4uLj5urs8PHz9PX29/j7/P3+/v6uil2oAAABRklEQVQ4y33RVVNDMRAF4BR3d3d3d4q7u7u7u7trixQopQF60/sjabl566bnLfPtnNkkCOlJ+MBWvh72ih59fjlge+hZTcbM6xzTc+45aVvjajyDzVs5jvuR9Fcx3HpE6xhfVNiDbjsm+ENMIeh2E4Ljssg4yB2nqPeGiY0Ad5qmvhiVbga48yz1pdRYqN99UyX4cnAiuP+6/Ful9RVvsSX0PkO/n/IvJcZrLiGBgJv0cdzvh+xdueGKUjx13bBTu5/iTbbvhlCWgY6LWoT9FXs+mlOAbkEDvd+8A/xBldQnrWAvoj5oCnsu9R5j2COkgneIYEfbgjcx2KNg99/rYPZvvuZPjzCWlMOezGuiPj85TGD05/GPV2pCahEr9Xy23y2582UODF+mlT6RbqZb7JTcEEKCmANdxccL7dWZTEdJ4zZIX/4A0dyRlVJ/y0gAAAAASUVORK5CYII="
+        },
+        {
+          "name": "Write Cell to Excel (by cell name)",
+          "script": "ExcelWriteCell(path=\"pathname\", cell=None, write_value=\"Value\")",
+          "info": "Write cell value from Excel by cell name e.g. cell=\"A2\" is the first cell",
+          "icon": "file-excel",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAD2AAAA9gFrSKqbAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAgdQTFRF////AP//AAAAgID/VVVVVVWqQIC/M2aZZmZmVarV1dUASUlJYJ+/YJ/fv78gVY7jZpnmVVVqVYC/VZXVYp3YW5LbVYi7Woe0VYC4Y46448YAXl5eZoCzXXSXXYCiyLEW07EL58IAYGBgYGBgxagYXGFuWVlhX5TdWlpiWVlZYJTeWlpgXWBnXFxfXofAWlpgWVlfWFhbXoa/Xl5e07YM5cQAW1teXmBp0rUNWlpfXFxewqkZXFxe5cUAX5TcXpXdWlpf5cQAWVlb4cQGXV1fXpTe0LUM0rYOwakYXYS8XoW8W19mYJbcW1tfwagZXXyovagdXoa85sMAYJXdW1teXoa85sQAX5bcX5XdXXOVwacaXoW8XpTd5sUAwKcZXoa7XoW8X5XdXG2IWVlbXYS7X5Xe5cMAX5XdWlpaX5XdwKgaX5XdXYa6X5XdX5XdW1tbX5XeWlpcXoW6v6cbXoW6X4W6XYW5XoW6W1tcXoW5XoGxXoW6Xoe/WVlaXpXd5cQAZJbWXXebXXulWVlbXoS4YozCvaUbYoOu2L8WX5XesJ8uXoS45cQA5cQA5cQAvKUcvKUcvKUdX5XdXoS35cQAXoS3X5Xdu6QcWVlaWVlbWlpcXHOUXHSVXXmhXXqhXX6rXX+tXn+uXn+vXoO2XoO3Xoa9XozKX4/QX5XcX5Xdu6Qd0LQO5cQAEAW3WgAAAJh0Uk5TAAECAgMDBAUFBgYHCAgICQoMDAwNDg8REhISExQWFhcXKi01NTpCQ0RFRUpKTlFSU1RUV1dXWlphZmdobG1ub3R0dnh5enx+gIGChIWGh4yMjY2QlZiYm5ydoKOlqqutrq6vt7e3uLm7u7u+v8HDxcbHx8fIys3P0NHS09PU2Nnb3N3f4uLj5urs8PHz9PX29/j7/P3+/v6uil2oAAABRklEQVQ4y33RVVNDMRAF4BR3d3d3d4q7u7u7u7trixQopQF60/sjabl566bnLfPtnNkkCOlJ+MBWvh72ih59fjlge+hZTcbM6xzTc+45aVvjajyDzVs5jvuR9Fcx3HpE6xhfVNiDbjsm+ENMIeh2E4Ljssg4yB2nqPeGiY0Ad5qmvhiVbga48yz1pdRYqN99UyX4cnAiuP+6/Ful9RVvsSX0PkO/n/IvJcZrLiGBgJv0cdzvh+xdueGKUjx13bBTu5/iTbbvhlCWgY6LWoT9FXs+mlOAbkEDvd+8A/xBldQnrWAvoj5oCnsu9R5j2COkgneIYEfbgjcx2KNg99/rYPZvvuZPjzCWlMOezGuiPj85TGD05/GPV2pCahEr9Xy23y2582UODF+mlT6RbqZb7JTcEEKCmANdxccL7dWZTEdJ4zZIX/4A0dyRlVJ/y0gAAAAASUVORK5CYII="
+        }
+      ]
+    },
+    {
       "group": "Math",
       "group_iconb64" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAfpAAAH6QGUejxAAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAEhQTFRFVWCAcHqUhY2kw8fS5efs67oW7YoZ7pEn7pMq8J0/8aRM869h87Bj89Z09Ll29uGa98yb+/LT/vr1/vr2/v37//37//38//771V79mAAAAHlJREFUOI3FkdkKgCAQRbXFXEYnteX//zQUWjDSQKjzMA/DgXtHSZ/AEsh3gtYFAbFK0IjWIupdMGPEvBfqO7w589e/uC1SPhIGEaYYHgXhFGPKiV2gTYSeEcoDeHVEtF2kvXSAeYJsSViXrFCKKJbkMkzJ/3zqnLABC/IUG43kr60AAAAASUVORK5CYII=",
       "activities": [
