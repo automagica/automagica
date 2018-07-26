@@ -25,6 +25,16 @@ Automagica is based on the Python language.
 - [Office Automation](#office-automation)
 	- [Word](#word)
 	- [Excel](#excel)
+- [File And Folder Manipulation](#file-folder-automation)
+    - [Files](#files)
+    - [Folders](#folders)
+        - [Creating Folders](#creating-folders)
+        - [Renaming Folders](#renaming-folders)
+        - [Moving Folders](#moving-folders)
+        - [Copying Folders](#copying-folders)
+        - [Removing Folders](#removing-folders)
+        - [Empty A Folder](#empty-a-folder)
+        - [Check If A Folder Exists](#check-if-a-folder-exists)
 - [Basic operations](#basic-operations)
 	- [Variables and Types](#variables-and-types)
 		- [Strings](#strings)
@@ -427,6 +437,97 @@ ExcelWriteCell(C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx,1,1,value="Robot"
 ExcelWriteCell(C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx,cell=A1,value="Robot")
 ```
 
+# File and folder manipulations
+
+In many automation processes it is useful to control the stored files and directories. Automagica has some functions to make the manipulation of files and folders as easy as possible.
+
+## File manipulation
+
+
+## Folder manipulaion
+Most of the manipulations that can be done on files can also be executed on folders. Automagica offers a selection of function that make it easy to perform manipulations on folders.
+
+### Creating Folders
+
+To create a folder in a desired locations, the following function can be used:
+```
+CreateFolder(path=\"pathname\")
+```
+This function creates a folder with its name and location specified in the path. Next snippet of code illustrates this principle by creating a folder named "Automagica" at location C:\\Users\\Bob\\Desktop.
+```
+CreateFolder("C:\\Users\\Bob\\Desktop\\Automagica")
+```
+One note to keep in mind is that entered path needs to be unique. If there is already a folder with the same name in the same location, the function does nothing.
+
+### Renaming Folders
+
+Renaming a folder happens with the following function:
+```
+RenameFolder(path=\"pathname\", new_name)
+```
+The first variable is the path of the folder that needs to be renamed. The second variable is the new name that the folder has to receive. Next example of code changes the name of a folder from "Automagica" to "Automagica123". The folder is located at C:\\Users\\Bob\\Desktop.
+```
+RenameFolder("C:\\Users\\Bob\\Desktop\\Automagica", "Automagica123")
+```
+
+### Moving Folders
+
+It is possible to move a folder from one to an other location using next function:
+```
+MoveFolder(old_path=\"pathname\", new_location=\"pathname\")
+```
+The first variable contatains the path of the folder that should be moved (this includes the name of the folder). The the second variable contains the path of the location that the folder needs to be moved to (in this path, the name of the moved folder should be omitted). E.g. next piece of code moves the folder "Automagica" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\:
+```
+MoveFolder("C:\\Users\\Bob\\Desktop\\Automagica", "C:\\Users\\Bob\\Downloads\\")
+```
+There are two important remarks regarding this function. Firstly, all files present in the moved folder should be closed before the code is executed. Next to that, if either the first or second variable contain a non existing path, the function will return nothing.
+
+### Copying Folders
+
+A folder can be copied from one to an other location. The difference with the moving of folders is that in this case the copied folder also remains in the original location. The principle of the inputs is completely analogous to the moving of a folder. E.g. next code would copy a folder named "Automagica" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\. 
+```
+CopyFolder("C:\\Users\\Bob\\Desktop\\Automagica", "C:\\Users\\Bob\\Downloads\\")
+```
+The two final remarks given at the moving of folders also apply to this function.
+
+### Removing Folders
+
+Next function can delete a folder together with all its contents (files, read-only files, folders, ...).
+```
+RemoveFolder(path=\"pathname\", allow_root=False, delete_read_only=True)
+```
+The first argument should be the path of the folder that needs to be removed. The safety variable "allow_root" makes sure that the first argument is longer than 10 characters. This safety prevents entering for example "\\" as a path resulting in deleting the root and all of its subdirectories. To turn off this safety, explicitly set allow_root to True. The third argument makes it possible to make sure the function does not delete a folder if it contains read-only files. When "delete_read_only" is explicitly set to False, the function will not delete folders with read-only files. A final requirement for the code to work optimal is that all the files in the folder need to be closed. Next examples illustrate the usage of the function.
+Next line of code removes the folder with C:\\Users\\Bob\\Desktop\\Automagica as path. Also read only files will be removed, because the variable delete_read_only is True unless explicitly entered otherwise. Finally notice that the code would not do anything if the path was less than 10 characters long.  
+
+```
+RemoveFolder("C:\\Users\\Bob\\Desktop\\Automagica")
+```
+The following example deletes the folder at a given path unless it contains read only files. The safety variable remains False, so the path should be longer than 10 characters.
+```
+RemoveFolder("C:\\Users\\Bob\\Desktop\\Automagica", delete_read_only=False)
+```
+
+### Empty A Folder
+
+Alle the contents of folder can be deleted using the following function:
+```
+"EmptyFolder(path=\"pathname\", allow_root=False)"
+```
+The first argument specifies again the path of the folder that needs to be emptied. The allow_root safety-variable has the same functionality as in the function for removing a folder. The following line of code gives an example for how a folder with a path C:\\Users\\Bob\\Desktop\\Automagica can be emptied:
+```
+"EmptyFolder("C:\\Users\\Bob\\Desktop\\Automagica")
+```
+For the function to work, it is important that all the files that the folder contain are closed.
+### Check If A Folder Exists
+
+Next function can check if a specified path exists.
+```
+FolderExists(path=\"pathname\")
+```
+If the entered path does not exist, the function will return False. If it does exist, True will be returned. E.g. next snippet checks if the folder with a path C:\\Users\\Bob\\Desktop\\Automagica exists:
+```
+FolderExists("C:\\Users\\Bob\\Desktop\\Automagica")
+```
 
 # Basic operations
 

@@ -1,6 +1,6 @@
 import os
 import platform
-
+import shutil
 from PIL import Image
 
 '''
@@ -227,58 +227,71 @@ Folder Operations
 '''
 
 def CreateFolder(path):
-    """
-    Entering "C:\\Users\\OldFolder as old_path" and "NewFolder" as new_folder_name changes
-    the name of the directory in C:\\Users from "OldFolder" to "NewFolder".  
-    """
+    '''
+    Creates new folder at the given path
+    '''
     if not os.path.exists(path):
         os.makedirs(path)
     return
 
 def RenameFolder(old_path, new_folder_name):
-
+    '''
+    Entering "C:\\Users\\OldFolder as old_path" and "NewFolder" as new_folder_name changes
+    the name of the directory in C:\\Users from "OldFolder" to "NewFolder".  
+    '''
     if os.path.exists(old_path):
         base_path = old_path.split("\\")[:-1]
-        new_path = "\\".join(base_path) + "\\" + new_folder_name
+        new_path = "\\".join(base_path)+"\\" + new_folder_name
         os.rename(old_path,new_path)
     return
 
-def MoveFolder(old_path, new_path):
+def MoveFolder(old_path, new_location):
     '''
-    Entering r"C:\\Users\\Oldlocation\\Automagica" as old_path and r"C:\\Users\\Newlocation\\Automagica"
-    as new_path moves the folder "Automagica" from directory "Oldlocation" to directory "Newlocation".
+    Entering "C:\\Users\\Oldlocation\\Automagica" as old_path and "C:\\Users\\Newlocation"
+    as new_location moves the folder "Automagica" from directory "Oldlocation" to directory "Newlocation".
     '''
-    if os.path.exists(old_path):
-        os.rename(old_path,new_path)
+    import uuid
+    name=old_path.split("\\")[-1]
+    new_path=new_location + "\\" + name
+    if os.path.isdir(old_path):
+        if not os.path.isdir(new_path):
+            os.rename(old_path,new_path)
+        elif os.path.isdir(new_path):
+            if os.path.isdir(new_path):
+                new_path = new_path + " (" + str(uuid.uuid4())[:8] + ")"
+            os.rename(old_path,new_path)
     return
 
-def RemoveFolder(path, allow_root = False):
+def RemoveFolder(path, allow_root=False, delete_read_only=True):
     '''
     Entering "C:\\Users\\Documents\\Automagica" removes the folder "Automagica" including all of its subdirectories and files.
-    Standard, the safety variable allow_root is False. When False the function checks whether the path lenght has a minimum of 5 characters. 
+    Standard, the safety variable allow_root is False. When False the function checks whether the path lenght has a minimum of 10 characters. 
     This is to prevent entering for example "\\" as a path resulting in deleting the root and all of its subdirectories.
-    To turn off this safety check, explicitly set allow_root to True.
+    To turn off this safety check, explicitly set allow_root to True. For the function to work optimal, all files present in the
+    directory must be closed.
     '''
-    if len(path) > 5 or allow_root:
-        for root, dirs, files in os.walk(path, topdown=False):
-            for name in files:
-                os.remove(os.path.join(root, name))
-            for name in dirs:
-                os.rmdir(os.path.join(root, name))
-        os.rmdir(path)
+    if len(path) > 10 or allow_root:
+        if os.path.isdir(path):
+            shutil.rmtree(path, ignore_errors=delete_read_only)
     return
 
-def EmptyFolder(path):
+def EmptyFolder(path, allow_root = False):
     '''
     Entering "C:\\Users\\Documents\\Automagica" removes all the files and folders saved in the "Automagica" folder but maintains the folder itself.
+    Standard, the safety variable allow_root is False. When False the function checks whether the path lenght has a minimum of 10 characters. 
+    This is to prevent entering for example "\\" as a path resulting in deleting the root and all of its subdirectories.
+    To turn off this safety check, explicitly set allow_root to True. For the function to work optimal, all files present in the directory
+    must be closed.
     '''
-    if len(path) > 5:
-        for root, dirs, files in os.walk(path, topdown=False):
-            for name in files:
-                os.remove(os.path.join(root, name))
-            for name in dirs:
-                os.rmdir(os.path.join(root, name))
+    if len(path) > 10 or allow_root:
+        if os.path.isdir(path):
+            for root, dirs, files in os.walk(path, topdown=False):
+                for name in files:
+                    os.remove(os.path.join(root, name))
+                for name in dirs:
+                    os.rmdir(os.path.join(root, name))
     return
+
 
 def FolderExists(path):
     '''
@@ -286,3 +299,20 @@ def FolderExists(path):
     "C:\\Users\\Documents\\Automagica". The function returns True or False.
     '''
     return os.path.isdir(path)
+
+def CopyFolder(old_path,new_location):
+    '''
+    By entering "C:\\Users\\Documents\\Automagica" as old_path and "C:\\Users\\Downloads" as new_location...
+    the function copies the folder "Automagica" together with all its contents to the new location. The folder name...
+    remains unchanged, except when the folder already exists a 8 character random uid will be added to the name.
+    '''
+    import uuid
+    new_path=new_location + "\\" + old_path.split("\\")[-1]
+    if os.path.isdir(old_path):
+        if not os.path.isdir(new_path):
+            shutil.copytree(old_path,new_path)
+        elif os.path.isdir(new_path):
+            if os.path.isdir(new_path):
+                new_path = new_path + " (" + str(uuid.uuid4())[:8] + ")"
+            shutil.copytree(old_path,new_path)
+    return
