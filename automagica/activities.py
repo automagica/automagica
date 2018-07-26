@@ -178,13 +178,15 @@ def ConvertWordToPDF(word_filename=None, pdf_filename=None):
     else:
         print('Not implemented for other platforms than Windows.')
 
+
 '''
 Message boxes
 '''
 
+
 def DisplayMessageBox(body, title="Message", type="info"):
     '''
-    Shows an pop-up message with title and body. Three possible types, info, error and warning with the default value info.
+    Shows a pop-up message with title and body. Three possible types, info, error and warning with the default value info.
     '''
     import tkinter
     from tkinter import messagebox
@@ -204,9 +206,10 @@ def DisplayMessageBox(body, title="Message", type="info"):
         messagebox.showinfo(title,body)
     return
 
+
 def RequestUserInput():
     '''
-    Shows a pop-up message which askes for input which is captured and returned.
+    Shows a pop-up message which asks for input which is captured and returned.
     '''
     from tkinter import Tk
     from tkinter.simpledialog import askstring
@@ -217,14 +220,94 @@ def RequestUserInput():
     text = askstring("Input", "Give input:")
     return text
 
+
 def StartFile(path):
     from os import startfile
     startfile(path) 
     return
 
+
+'''
+File Operations
+'''
+
+
+def OpenFile(path):
+    '''
+    Entering "C:\\Users\\Downloads\\Automagica.docx" as pathname will open the .docx-file "Automagica.docx". 
+    '''
+    if os.path.exists(path):
+        os.startfile(path)
+    return
+
+
+def RenameFile(old_path,new_file_name):
+    '''
+    Entering "C:\\Users\\Documents\\Automagica.docx" as "old_path" and "Automagica123.docx" as new_file_name changes
+    the name of the directory in C:\\Users\\Documents from Automagica to Automagica123. The function will not
+    rename a file if a file with the desired name already exists in the folder.
+    '''
+    if os.path.isfile(old_path):
+        base_path = old_path.split("\\")[:-1]
+        new_path = "\\".join(base_path)+"\\" + new_file_name
+        if not os.path.exists(new_path):
+            os.rename(old_path,new_path)
+    return
+
+
+def MoveFile(old_path,new_location):
+    '''
+    Entering "C:\\Users\\Documents\\Automagica.docx" as old_path and "C:\\Users\\Downloads"
+    as new_location moves the file Automagica.docx from directory "Documents" to directory "Downloads".
+    If the new location already contains a file with the same name, a random 8 character uid will be added 
+    in front of the name before the file is moved.
+    '''
+    import uuid
+    name=old_path.split("\\")[-1]
+    new_path=new_location + "\\" + name
+    if os.path.exists(old_path):
+        if not os.path.exists(new_path):
+            os.rename(old_path,new_path)
+        elif os.path.exists(new_path):
+            new_path = new_location + "\\" + "(" + str(uuid.uuid4())[:8] + ") " + name
+            os.rename(old_path,new_path)
+    return
+
+
+def RemoveFile(path):
+    '''
+    Entering "C:\\Users\\Downloads\\Automagica.xlsx" will delete the file named "Automagica.xlsx" at the location specified by
+    the given path.
+    '''
+    if os.path.isfile(path):
+        os.remove(path)
+    return
+
+
+def FileExists(path):
+    '''
+    This function checks whether the file with the given path exists, e.g. by entering
+    "C:\\Users\\Documents\\Automagica.docx", the function returns True if the file exists or False
+    if it doesn't exist.
+    '''
+    return os.path.isfile(path)
+
+
+def CopyFile(old_path,new_location):
+    '''
+    By entering "C:\\Users\\Documents\\Automagica.docx" as old_path and "C:\\Users\\Downloads" as new_location...
+    the function copies the file "Automagica.docx" to the new location. If the new location already contains a file
+    with the same name, the copy will replace this file.
+    '''
+    if os.path.isfile(old_path):
+        if os.path.isdir(new_location):
+            shutil.copy(old_path,new_location)
+
+
 '''
 Folder Operations
 '''
+
 
 def CreateFolder(path):
     '''
@@ -234,21 +317,34 @@ def CreateFolder(path):
         os.makedirs(path)
     return
 
+
 def RenameFolder(old_path, new_folder_name):
     '''
     Entering "C:\\Users\\OldFolder as old_path" and "NewFolder" as new_folder_name changes
-    the name of the directory in C:\\Users from "OldFolder" to "NewFolder".  
+    the name of the directory in C:\\Users from "OldFolder" to "NewFolder".
     '''
     if os.path.exists(old_path):
         base_path = old_path.split("\\")[:-1]
         new_path = "\\".join(base_path)+"\\" + new_folder_name
-        os.rename(old_path,new_path)
+        if not os.path.exists(new_path):
+            os.rename(old_path,new_path)
     return
+
+
+def OpenFolder(path):
+    '''
+    Entering "C:\\Users\\Downloads\\Automagica" will open the folder "Automagica" if the path exists.
+    '''
+    if os.path.exists(path):
+        os.startfile(path)
+    return
+
 
 def MoveFolder(old_path, new_location):
     '''
     Entering "C:\\Users\\Oldlocation\\Automagica" as old_path and "C:\\Users\\Newlocation"
     as new_location moves the folder "Automagica" from directory "Oldlocation" to directory "Newlocation".
+    If the new location already contains a folder with the same name, a random 8 character uid is added to the name.
     '''
     import uuid
     name=old_path.split("\\")[-1]
@@ -257,10 +353,10 @@ def MoveFolder(old_path, new_location):
         if not os.path.isdir(new_path):
             os.rename(old_path,new_path)
         elif os.path.isdir(new_path):
-            if os.path.isdir(new_path):
-                new_path = new_path + " (" + str(uuid.uuid4())[:8] + ")"
+            new_path = new_path + " (" + str(uuid.uuid4())[:8] + ")"
             os.rename(old_path,new_path)
     return
+
 
 def RemoveFolder(path, allow_root=False, delete_read_only=True):
     '''
@@ -274,6 +370,7 @@ def RemoveFolder(path, allow_root=False, delete_read_only=True):
         if os.path.isdir(path):
             shutil.rmtree(path, ignore_errors=delete_read_only)
     return
+
 
 def EmptyFolder(path, allow_root = False):
     '''
@@ -296,9 +393,11 @@ def EmptyFolder(path, allow_root = False):
 def FolderExists(path):
     '''
     This function checks whether the folder with the given path exists, e.g. by entering...
-    "C:\\Users\\Documents\\Automagica". The function returns True or False.
+    "C:\\Users\\Documents\\Automagica", the function returns True if the folder exists or False if 
+    it doesn't exist.
     '''
     return os.path.isdir(path)
+
 
 def CopyFolder(old_path,new_location):
     '''
@@ -316,3 +415,5 @@ def CopyFolder(old_path,new_location):
                 new_path = new_path + " (" + str(uuid.uuid4())[:8] + ")"
             shutil.copytree(old_path,new_path)
     return
+
+
