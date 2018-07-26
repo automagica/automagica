@@ -23,12 +23,20 @@ Automagica is based on the Python language.
 		- [Selection by Xpath](#selection-by-xpath)
 		- [Browsing Example](#browsing-example)
 - [Office Automation](#office-automation)
+    - [Entering Pathnames](#entering-pathnames)
 	- [Word](#word)
 	- [Excel](#excel)
 - [File And Folder Manipulation](#file-folder-automation)
     - [Files](#files)
+        - [Open A File](#open-a-file)
+        - [Renaming Files](#renaming-files)
+        - [Moving Files](#moving-files)
+        - [Copying Files](#copying-files)
+        - [Removing Files](#removing-files)
+        - [Check If A File Exists](#check-if-a-file-exists)
     - [Folders](#folders)
         - [Creating Folders](#creating-folders)
+        - [Open A Folders](#opening-folders)
         - [Renaming Folders](#renaming-folders)
         - [Moving Folders](#moving-folders)
         - [Copying Folders](#copying-folders)
@@ -396,7 +404,21 @@ browser.find_elements_by_class_name('r')[0].click()
 
 # Office Automation
 
-A lot of automation processes involve Microsoft Office. Automagica packs some useful functions to make automating office as easy as possible.
+A lot of automation processes involve Microsoft Office. Automagica packs some useful functions to make automating office as easy as possible. 
+
+## Entering Pathnames
+
+In a lot of the following functions, pathnames are required as input arguments. It is important that these are entered in the correct manner to prevent malfunction of the desired operations. The pathname specifies the directories in which, for example, a file is located. An example of such a pathname is:  C:\\Users\\Bob\\Desktop\\Automagica.pptx . A pathname needs to be a string when entered in a function. Because of this, every backslash needs to be doubled in the input. The next snippet of code illustrates how a pathname needs to be entered in a function.
+```
+# Pathname:
+C:\Users\Bob\Desktop\Automagica.pptx
+
+# As a string:
+"C:\\Users\\Bob\\Desktop\\Automagica.pptx"
+
+# In a function:
+Openfile("C:\\Users\\Bob\\Desktop\\Automagica.pptx")
+``` 
 
 ## Word
 
@@ -424,28 +446,82 @@ You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell na
 Note that the first row is defined as row number 1 and the first column is defined column number 1.
 ```
 #Using row and column
-ExcelReadCell(C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx,1,1)
+ExcelReadCell("C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx",1,1)
 #Using cell value
-ExcelReadCell(C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx,cell=A1)
+ExcelReadCell("C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx",cell=A1)
 ```
 
 And similar for writing a cell:
 ```
 #Using row and column
-ExcelWriteCell(C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx,1,1,value="Robot")
+ExcelWriteCell("C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx",1,1,value="Robot")
 #Using cell value
-ExcelWriteCell(C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx,cell=A1,value="Robot")
+ExcelWriteCell("C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx",cell=A1,value="Robot")
 ```
 
 # File and folder manipulations
 
 In many automation processes it is useful to control the stored files and directories. Automagica has some functions to make the manipulation of files and folders as easy as possible.
 
-## File manipulation
+## File Manipulation
 
+In the following sections the functions that Automagica offers for manipulating files are described. The arguments for this functions mostly consist of a path. In this path, it is important to always use the full file-name in a path. E.g. if a png-file named "Automagica" needs manipulation, a possible path could be: "C:\\Users\\Bob\\Desktop\\Automagica.png". For the functions to work, .png needs to be included in the name.
 
-## Folder manipulaion
-Most of the manipulations that can be done on files can also be executed on folders. Automagica offers a selection of function that make it easy to perform manipulations on folders.
+### Open A File
+
+To open a file, Automagica offers following function:
+```
+"OpenFile(path=\"pathname\")"
+```
+An example path can be "C:\\Users\\Bob\\Desktop\\Automagica.xlsx".
+### Renaming Files
+
+A file can be renamed with the following code:
+```
+"RenameFile(path=\"pathname\", new_name)"
+```
+The first argument is the path of the file that needs its name changed. The second variable is just the name that the file has to receive, so this does not need to be a full path. E.g. next line of code changes the name of a file named "Automagica.pptx" to "Automagica123.pptx":
+```
+"RenameFile("C:\\Users\\Bob\\Desktop\\Automagica.pptx", "Automagica123.pptx")"
+```
+Note that it is not possible to change change the file-type: if the path in the first argument ends in ".pptx", the new name also needs to end in ".pptx".
+
+### Moving Files
+
+The following function can be used to move a file from one to an other directory:
+```
+"MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")"
+```
+The first variable contatains the path of the file that should be moved (this includes the name of the file). The the second argument contains the path of the location that the file needs to be moved to (in this path, the file name should be omitted). If one of the two arguments contain a non-existing path, the function will return nothing. As an example, next piece of code moves the file "Automagica.txt" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\:
+```
+MoveFile("C:\\Users\\Bob\\Desktop\\Automagica.txt", "C:\\Users\\Bob\\Downloads")
+```
+If the target location already contains a folder with exactly the same name as the folder that needs to be moved, a random uid of eight characters will be added to the name. E.g., if in the previous example the location C:\\Users\\Bob\\Downloads already contains a file named "Automagica.txt" and the code is executed, it will move the folder "Automagica" from C:\\Users\\Bob\\Desktop to C:\\Users\\Bob\\Downloads and change its name to "(be8e4c88) Automagica.txt". Note that the added characters are completely random.
+As a final note for the function to work optimal, it is important that the file that needs to be moved is closed.
+### Copying Files
+
+If a file needs to be copied from one to an other directory, the following function can be used:
+```
+"MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")"
+```
+The inputs work in exactly the same way as in the MoveFile function and the copied file needs to be closed for the function to work properly. Also keep in mind that if the new location already contains a file with exactly the same name as the copy,it will be overwritten by the copied file.   
+
+### Removing Files
+
+Following function is used to delete a file from a folder:
+```
+"RemoveFile(path=\"pathname\")"
+```
+It will delete a file with a given pathname. With this code it is again important that the file that needs to be removed is closed.
+### Check If A File Exists
+
+Next function returns True if the path of a certain file exists and False if the path does not exist or refers to a folder instead of a file.
+```
+"FileExists(path=\"pathname\")"
+```
+
+## Folder Manipulaion
+Most of the manipulations that can be done on files can be executed on folders as well. Automagica offers a selection of functions that make it easy to perform manipulations on folders.
 
 ### Creating Folders
 
@@ -459,6 +535,14 @@ CreateFolder("C:\\Users\\Bob\\Desktop\\Automagica")
 ```
 One note to keep in mind is that entered path needs to be unique. If there is already a folder with the same name in the same location, the function does nothing.
 
+
+### Open A Folder
+
+A folder can be opened with the function:
+```
+"OpenFolder(path=\"pathname\")"
+```
+
 ### Renaming Folders
 
 Renaming a folder happens with the following function:
@@ -469,6 +553,7 @@ The first variable is the path of the folder that needs to be renamed. The secon
 ```
 RenameFolder("C:\\Users\\Bob\\Desktop\\Automagica", "Automagica123")
 ```
+The code will return nothing if the new path already exists.
 
 ### Moving Folders
 
@@ -476,11 +561,12 @@ It is possible to move a folder from one to an other location using next functio
 ```
 MoveFolder(old_path=\"pathname\", new_location=\"pathname\")
 ```
-The first variable contatains the path of the folder that should be moved (this includes the name of the folder). The the second variable contains the path of the location that the folder needs to be moved to (in this path, the name of the moved folder should be omitted). E.g. next piece of code moves the folder "Automagica" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\:
+The first variable contatains the path of the folder that should be moved (this includes the name of the folder). The the second argument contains the path of the location that the folder needs to be moved to (in this path, the name of the moved folder should be omitted). If one of the two arguments contain a non-existing path, the function will return nothing. As an example, next piece of code moves the folder "Automagica" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\:
 ```
-MoveFolder("C:\\Users\\Bob\\Desktop\\Automagica", "C:\\Users\\Bob\\Downloads\\")
+MoveFolder("C:\\Users\\Bob\\Desktop\\Automagica", "C:\\Users\\Bob\\Downloads")
 ```
-There are two important remarks regarding this function. Firstly, all files present in the moved folder should be closed before the code is executed. Next to that, if either the first or second variable contain a non existing path, the function will return nothing.
+If the target location already contains a folder with exactly the same name as the folder that needs to be moved, a random uid of eight characters will be added to the name. E.g. if in the previous example the location C:\\Users\\Bob\\Downloads already contains a folder named "Automagica" and the code is executed, it will move the folder "Automagica" from C:\\Users\\Bob\\Desktop to C:\\Users\\Bob\\Downloads and change its name to "Automagica (be8e3c88)". Note that the added characters are completely random.
+As a final note for the function to work optimal, it is important that all files in a moved folder are closed.
 
 ### Copying Folders
 
@@ -488,7 +574,7 @@ A folder can be copied from one to an other location. The difference with the mo
 ```
 CopyFolder("C:\\Users\\Bob\\Desktop\\Automagica", "C:\\Users\\Bob\\Downloads\\")
 ```
-The two final remarks given at the moving of folders also apply to this function.
+If the target location already has a folder with the same name, the function will add a random uid of eight characters to the name of the copied folder. This works in exactly the same way as in MoveFolder function. Next to that, for the code to work properly, all files of the copied folder need to be closed.
 
 ### Removing Folders
 
