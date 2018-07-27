@@ -1,7 +1,7 @@
 from PIL import Image
 from pyautogui import click, hotkey, moveTo, typewrite, locateCenterOnScreen, rightClick
 import time
-
+from automagica import *
 from pywinauto import Application
 
 app = Application().start('mspaint.exe')
