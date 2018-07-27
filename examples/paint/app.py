@@ -2,6 +2,7 @@ from PIL import Image
 from pyautogui import click, hotkey, moveTo, typewrite, locateCenterOnScreen, rightClick
 import time
 from pywinauto import Application
+from automagica import *
 
 app = Application().start('mspaint.exe')
 app.Paint.move_window(x=0, y=0, width=740, height=580, repaint=True)
