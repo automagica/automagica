@@ -17,6 +17,13 @@ Install Automagica on the bot host machine:
 pip install https://github.com/OakwoodAI/automagica/tarball/master
 ```
 
+### Importing the activities
+
+Before getting started, don't forget to import the activities from automagica in your python script. If unsure, it is possible to import all the activites for development purposes by starting your script with:
+```
+from automagica import *
+```
+
 #### Optional (to enable Optical Character Recognition)
 For _Windows_, install Tesseract 4 [from here](http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-4.00.00dev.exe).
 
