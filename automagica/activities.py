@@ -6,6 +6,7 @@ from PIL import Image
 '''
 Delay activities
 '''
+
 from time import sleep
 
 
@@ -16,6 +17,7 @@ def Wait(seconds=None):
 '''
 Keyboard/mouse activities
 '''
+
 # Renaming functions
 from pyautogui import hotkey
 PressHotkey = hotkey
