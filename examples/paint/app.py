@@ -1,7 +1,6 @@
 from PIL import Image
 from pyautogui import click, hotkey, moveTo, typewrite, locateCenterOnScreen, rightClick
 import time
-
 from pywinauto import Application
 
 app = Application().start('mspaint.exe')
@@ -13,7 +12,6 @@ im = Image.open('example.jpg')
 X_total = im.size[0]
 Y_total = im.size[1]
 XY_total = X_total * Y_total
-
 
 if X_total > Y_total:
     new_width  = 70
