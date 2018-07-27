@@ -17,24 +17,13 @@ Install Automagica on the bot host machine:
 pip install https://github.com/OakwoodAI/automagica/tarball/master
 ```
 
-#### Optional (to enable Optical Character Recognition)
-For _Windows_, install Tesseract 4 [from here](http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-4.00.00dev.exe).
+### Importing the activities
 
-For _Linux_ (Ubuntu):
+Before getting started, don't forget to import the activities from automagica in your python script. If unsure, it is possible to import all the activites for development purposes by starting your script with:
 ```
-sudo apt-get install tesseract-ocr
-```
-For _MacOS_:
-```
-brw install tesseract
+from automagica import *
 ```
 
-### Failsafe
-
-As a safety feature, a failsafe mechanism is enabled by default. You can trigger this by moving your mouse to the upper left corner of the screen. You can disable this by running the following command in the editor:
-```
-Failsafe(False)
-```
 ## Examples
 
 Browser working with Excel:
@@ -44,16 +33,6 @@ Browser working with Excel:
 SAP Automation (Production example, sensitive information is blurred):
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
-
-## Running the examples
-Running the examples is easy:
-```
-cd examples
-dir
-cd <example-name>
-automagica -f app.py
-```
-
 
 ### Example code
 
@@ -76,6 +55,34 @@ browser.get('https://google.com')
 ```
 
 For more info and examples see the [documentation](https://automagica.readthedocs.io).
+
+#### Running the other examples
+Running the examples is easy:
+```
+cd examples
+dir
+cd <example-name>
+automagica -f app.py
+```
+
+#### Optional (to enable Optical Character Recognition)
+For _Windows_, install Tesseract 4 [from here](http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-4.00.00dev.exe).
+
+For _Linux_ (Ubuntu):
+```
+sudo apt-get install tesseract-ocr
+```
+For _MacOS_:
+```
+brw install tesseract
+```
+
+### Failsafe
+
+As a safety feature, a failsafe mechanism is enabled by default. You can trigger this by moving your mouse to the upper left corner of the screen. You can disable this by running the following command in the editor:
+```
+Failsafe(False)
+```
 
 ## Automagica with Natural Language
 
