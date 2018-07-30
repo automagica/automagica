@@ -22,6 +22,9 @@ Automagica is based on the Python language.
 			- [Selection by Id](#selection-by-id)
 		- [Selection by Xpath](#selection-by-xpath)
 		- [Browsing Example](#browsing-example)
+- [Process Acivities](#process-activities)
+    - [Standard Windows Applications](#windows-applications)
+    - [General Commands](#general-commands)
 - [Office Automation](#office-automation)
     - [Entering Pathnames](#entering-pathnames)
 	- [Word](#word)
@@ -401,6 +404,64 @@ browser.find_element_by_xpath('//*[@id="lst-ib"]').submit()
 # Click the first link
 browser.find_elements_by_class_name('r')[0].click()
 ```
+# Process Activities
+
+## Standard Windows Applications
+
+Windows has an couple of standard applications which can be opened with functions from Automagica. Following list sums up all the available functions. If the program you want to open is in this list, it is recommended to use one of these function instead of the more general functions described in next subsection.
+
+Open Windows Calculator:
+
+```
+OpenCalculator()
+```
+Open MS Paint:
+```
+OpenPaint()
+```
+Open Notepad:
+```
+OpenNotepad()
+```
+Open Windows Snipping Tool:
+```
+OpenSnippingTool()
+```
+Open Windows Control Panel:
+```
+OpenControlPanel()
+```
+Open Windows Clean Manager:
+```
+OpenCleanManager()
+```
+Open Windows Dialer:
+```
+OpenDialer()
+```
+Open Windows Volume Mixer:
+```
+OpenVolumeMixer()
+```
+Open Windows XPS Viewer:
+```
+OpenXPSViewer()
+```
+
+## General Commands
+
+The above functions are all program specific. It is also possible to run a program or shut it down if the exact path is known. Following functions can start or closa a program located at a specified path:
+```
+#Start Process
+LaunchProcess(process_executable=\"pathname\")
+
+#Close Process
+KillProcess(process=my_process)
+```
+Following example explains the usage of the functions. The code will execute the program  specified by a
+
+
+
 
 # Office Automation
 
@@ -604,6 +665,7 @@ The first argument specifies again the path of the folder that needs to be empti
 "EmptyFolder("C:\\Users\\Bob\\Desktop\\Automagica")
 ```
 For the function to work, it is important that all the files that the folder contain are closed.
+
 ### Check If A Folder Exists
 
 Next function can check if a specified path exists.
@@ -615,7 +677,19 @@ If the entered path does not exist, the function will return False. If it does e
 FolderExists("C:\\Users\\Bob\\Desktop\\Automagica")
 ```
 
-# Basic operations
+### Zip Foler
+
+Following function can be used to create a zipped folder of an existing directory:
+```
+ZipFolder(folder_path=\"pathname_folder\", new_path=\"pathname_compressed_folder\")
+```
+The first argument is the pathname of the directory that needs to be compressed. The second argument specifies the location and name of the zipped folder with a pathname. E.g. the following function zips the directory with pathname "C:\\Users\\Bob\\Desktop\\Automagica". The zipped directory is specified by the second argument.   
+```
+ZipFolder("C:\\Users\\Bob\\Desktop\\Automagica","C:\\Users\\Bob\\Downloads\\Automagica")
+```
+Pay attention, because if there already exists a zipped directory with new_path as pathname, it will be overwritten.
+
+# Basic Operations
 
 ## Variables and Types
 

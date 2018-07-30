@@ -71,6 +71,20 @@ def LaunchProcess(process_executable=None):
     return Popen(process_executable)
 
 
+def OpenProgramByName(name, main_drive = "C:\\"):
+
+    import os
+    from subprocess import Popen
+
+    if not name[-4:] == ".exe":
+        name = name + ".exe"
+    for root, dirs, files in os.walk(main_drive):
+        for file in files:
+            if file == name and file.endswith(".exe"):
+                Popen(os.path.join(root, file))
+				return
+
+
 def KillProcess(process=None, name=None):
     import os
     if process:
@@ -418,4 +432,90 @@ def CopyFolder(old_path,new_location):
             shutil.copytree(old_path,new_path)
     return
 
+
+def ZipFolder(dir_path,new_path):
+    '''
+    Creates a zipped directory of a directory specified by the first argument. The newly zipped directory 
+    receives a path specified by the second argument.
+    '''
+    if os.path.isdir(dir_path):
+        shutil.make_archive(new_path,'zip',dir_path)
+    return
+
+
+'''
+Windows Applications
+'''
+import subprocess
+
+def OpenCalculator():
+    """
+    Open Calculator.
+    """
+    subprocess.Popen("calc.exe")
+    return
+
+
+def OpenPaint():
+    """
+    Open MS Paint.
+    """
+    subprocess.Popen("mspaint.exe")
+    return
+
+
+def OpenNotepad():
+    """
+    Open Notepad
+    """
+    subprocess.Popen("notepad.exe")
+    return
+
+
+def OpenSnippingTool():
+    """
+    Open Snipping Tool.
+    """
+    subprocess.Popen("SnippingTool.exe")
+    return
+
+
+def OpenControlPanel():
+    """
+    Open Windows Control Panel.
+    """
+    subprocess.Popen("control.exe")
+    return
+
+
+def OpenCleanManager():
+    """
+    Open Clean Manager.
+    """
+    subprocess.Popen("cleanmgr.exe")
+    return
+
+
+def OpenDialer():
+    """
+    Open Windows Dialer.
+    """
+    subprocess.Popen("dialer.exe")
+    return
+
+
+def OpenVolumeMixer():
+    """
+    Open Windows Volume Mixer.
+    """
+    subprocess.Popen("SndVol.exe")
+    return
+
+
+def OpenXPSViewer():
+    """
+    Open Windows XPS Viewer.
+    """
+    subprocess.Popen("xpsrchvw")
+    return    
 
