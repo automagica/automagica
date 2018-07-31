@@ -19,14 +19,58 @@ Keyboard/mouse activities
 '''
 
 # Renaming functions
-from pyautogui import hotkey
-PressHotkey = hotkey
+import pyautogui
+
+
+def GetMouseCoordinates():
+    '''
+    Displays a message box with the absolute coordinates of the current position of the mouse.
+    '''
+    coord = pyautogui.position()
+    coordstring = "( " + str(coord[0]) + " , " + str(coord[1]) + " )"
+    return DisplayMessageBox(coordstring,"Mouse Position")
 
 
 def ClickOnPosition(x=None, y=None):
-    from pyautogui import click
+    '''
+    Clicks on a pixel position on the visible screen determined by x and y coördinates.
+    '''
+    return pyautogui.click(x, y)
 
-    return click(x, y)
+
+def DoubleClickOnPosition(x=None, y=None):
+    '''
+    Double clicks on a pixel position on the visible screen determined by x and y coördinates.
+    '''
+    return pyautogui.doubleClick(x, y)
+
+
+def RightClickOnPosition(x=None, y=None):
+    '''
+    Right clicks on a pixel position on the visible screen determined by x and y coördinates.
+    '''
+    return pyautogui.rightClick(x, y)
+
+
+def MoveToPosition(x=None, y=None):
+    '''
+    Moves te pointer to a x-y position.
+    '''
+    return pyautogui.moveTo(x, y)
+
+
+def MoveRelative(x=None, y=None):
+    '''
+    Moves the mouse an x- and y- distance relative to its current pixel position.
+    '''
+    return pyautogui.moveRel(x, y)
+
+
+def DragToPosition(x=None, y=None, button="left"):
+    '''
+    Drag the mouse from its current position to a entered x-y position, while holding a specified button.
+    '''
+    return pyautogui.dragTo(x, y, 0.2, button=button)
 
 
 def ClickOnImage(filename=None, double_click=False, right_click=False):
@@ -38,6 +82,24 @@ def ClickOnImage(filename=None, double_click=False, right_click=False):
         return rightClick(x, y)
     else:
         return click(x, y, clicks)
+
+
+def PressKey(key=None):
+    '''
+    Press and release an entered key.
+    '''
+    if key:
+        return pyautogui.press(key)
+
+
+def PressHotkey(first_key,second_key,third_key=None):
+    '''
+    Press a combination of two or three keys simultaneous.
+    '''
+    if not third_key:
+        return pyautogui.hotkey(first_key,second_key)
+    if third_key:
+        return pyautogui.hotkey(first_key,second_key,third_key)
 
 
 def Type(text=None, interval_seconds=0.001):
@@ -72,8 +134,6 @@ def LaunchProcess(process_executable=None):
 
 
 def OpenProgramByName(name, main_drive = "C:\\"):
-
-    import os
     from subprocess import Popen
 
     if not name[-4:] == ".exe":
@@ -82,11 +142,10 @@ def OpenProgramByName(name, main_drive = "C:\\"):
         for file in files:
             if file == name and file.endswith(".exe"):
                 Popen(os.path.join(root, file))
-				return
+                return
 
 
 def KillProcess(process=None, name=None):
-    import os
     if process:
         return process.kill()
     if name:
@@ -136,7 +195,7 @@ NewExcelWorkbook = Workbook
 
 def ExcelReadCell(path, row, col, cell=None):
     """Read a Cell from an Excel file.
-    Make sure you enter a valid path e.g. C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx...
+    Make sure you enter a valid path e.g. "C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx"...
     You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2"... 
     First row is defined row number 1 and first column is defined column number 1
     """
@@ -193,6 +252,28 @@ def ConvertWordToPDF(word_filename=None, pdf_filename=None):
         word_document.Close()
     else:
         print('Not implemented for other platforms than Windows.')
+
+
+'''
+PDF Activities
+'''
+
+def MergePDF(pdf1,pdf2,merged_path):
+    '''
+    The first two arguments are the PDF's that need to be merged. The pages from pdf2 
+    will be added to pdf2. The merged PDF receives a new path specefied by the third argument.
+    '''
+    from PyPDF2 import PdfFileMerger
+
+    pdfs = [str(pdf1), str(pdf2)]
+
+    merger = PdfFileMerger()
+
+    for pdf in pdfs:
+        merger.append(pdf)
+
+    merger.write(merged_path)
+    return
 
 
 '''
@@ -443,6 +524,23 @@ def ZipFolder(dir_path,new_path):
     return
 
 
+def UnzipFolder(path,new_path=False):
+    '''
+    Unzips a folder specified by the first variable. The unzipped folder will be stored in a directory specified by
+    new_path. If this second variable is omitted, the unzipped folder will be stored in the same directory as the 
+    zipped folder is located. 
+    '''
+    import zipfile
+    if os.path.exists(path):
+        zipp = zipfile.ZipFile(path)
+        if not new_path:
+            base_path = "\\".join(path.split("\\")[:-1])
+            zipp.extractall(base_path)
+        elif os.path.isdir(new_path):
+            zipp.extractall(new_path)
+        zipp.close()
+    return
+
 '''
 Windows Applications
 '''
@@ -518,4 +616,9 @@ def OpenXPSViewer():
     """
     subprocess.Popen("xpsrchvw")
     return    
+
+
+'''
+System Activities
+'''
 

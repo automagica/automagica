@@ -46,6 +46,8 @@ Automagica is based on the Python language.
         - [Removing Folders](#removing-folders)
         - [Empty A Folder](#empty-a-folder)
         - [Check If A Folder Exists](#check-if-a-folder-exists)
+        - [Zip Folder](#zip-folder)
+        - [UnZip Folder](#unzip-folder)
 - [Basic operations](#basic-operations)
 	- [Variables and Types](#variables-and-types)
 		- [Strings](#strings)
@@ -406,6 +408,23 @@ browser.find_elements_by_class_name('r')[0].click()
 ```
 # Process Activities
 
+## Entering Pathnames
+
+In many of the following functions, pathnames are required as input arguments. It is important that these are entered in the correct manner to prevent malfunction of the desired operations. The pathname specifies the directories in which a file, folder, executable,... is located. An example of such a pathname is: "C:\\Users\\Bob\\Desktop\\Automagica.pptx". A pathname needs to be a string when entered in a function. Because of this, every backslash needs to be doubled in the input. The next snippet of code illustrates how a pathname needs to be entered in a function.
+```
+# Pathname:
+C:\Users\Bob\Desktop\Automagica.pptx
+
+# As a string:
+"C:\\Users\\Bob\\Desktop\\Automagica.pptx"
+
+# In a function:
+Openfile("C:\\Users\\Bob\\Desktop\\Automagica.pptx")
+``` 
+In Windows Explorer, a path can be determined by pressing shift + right click on a file, folder,... A menu pops up, where you can select "copy as path" (see image). This copies te path as a string to the clipboard, e.g. "C:\Program Files (x86)\Dropbox\Client\Dropbox.exe". This path still needs all its backslashes doubled for it to be in correct form for a function input: "C:\\\Program Files (x86)\\\Dropbox\\\Client\\\Dropbox.exe".
+
+![Imgur](https://i.imgur.com/DxxQs7o.png?1)
+
 ## Standard Windows Applications
 
 Windows has an couple of standard applications which can be opened with functions from Automagica. Following list sums up all the available functions. If the program you want to open is in this list, it is recommended to use one of these function instead of the more general functions described in next subsection.
@@ -450,36 +469,27 @@ OpenXPSViewer()
 
 ## General Commands
 
-The above functions are all program specific. It is also possible to run a program or shut it down if the exact path is known. Following functions can start or closa a program located at a specified path:
+The above functions are all program specific. It is possible to run a program or shut it down if the exact path is known. Following function can open an executable located at a specified path:
 ```
 #Start Process
 LaunchProcess(process_executable=\"pathname\")
-
-#Close Process
-KillProcess(process=my_process)
 ```
-Following example explains the usage of the functions. The code will execute the program  specified by a
-
-
-
+Following example explains the usage of the function. The code will open Dropbox.
+```
+LaunchProcess("C:\\Program Files (x86)\\Dropbox\\Client\\Dropbox.exe")
+```
+A (slow) alternative is to use:
+```
+OpenProgramByName(name, main_drive = "C:\\")
+```
+This function does not require a full path as input in the first variable. Returning to the example above, Dropbox can aswell be opened in the following way:
+```
+OpenProgramByName("Dropbox")
+```
 
 # Office Automation
 
 A lot of automation processes involve Microsoft Office. Automagica packs some useful functions to make automating office as easy as possible. 
-
-## Entering Pathnames
-
-In a lot of the following functions, pathnames are required as input arguments. It is important that these are entered in the correct manner to prevent malfunction of the desired operations. The pathname specifies the directories in which, for example, a file is located. An example of such a pathname is:  C:\\Users\\Bob\\Desktop\\Automagica.pptx . A pathname needs to be a string when entered in a function. Because of this, every backslash needs to be doubled in the input. The next snippet of code illustrates how a pathname needs to be entered in a function.
-```
-# Pathname:
-C:\Users\Bob\Desktop\Automagica.pptx
-
-# As a string:
-"C:\\Users\\Bob\\Desktop\\Automagica.pptx"
-
-# In a function:
-Openfile("C:\\Users\\Bob\\Desktop\\Automagica.pptx")
-``` 
 
 ## Word
 
@@ -677,7 +687,7 @@ If the entered path does not exist, the function will return False. If it does e
 FolderExists("C:\\Users\\Bob\\Desktop\\Automagica")
 ```
 
-### Zip Foler
+### Zip Folder
 
 Following function can be used to create a zipped folder of an existing directory:
 ```
@@ -689,6 +699,14 @@ ZipFolder("C:\\Users\\Bob\\Desktop\\Automagica","C:\\Users\\Bob\\Downloads\\Auto
 ```
 Pay attention, because if there already exists a zipped directory with new_path as pathname, it will be overwritten.
 
+### Unzip Folder
+
+The opposite of the ZipFolder function can be achieved with:
+```
+UnZipFolder(path=\"pathname_zipped_folder\", new_path=\"pathname_target_location\")
+```
+The first argument is the pathname of compressed folder that needs to be unzipped. The second argument is optional. It is the path of the directory where the unzipped folder will be stored. If omitted, the unzipped folder is stored in the same location as the original zipped folder.
+
 # Basic Operations
 
 ## Variables and Types
@@ -696,7 +714,6 @@ Pay attention, because if there already exists a zipped directory with new_path 
 Variables are used to store information to be referenced and manipulated in an automation script. They also provide a way of labeling data with a descriptive name, so the automation script can be understood more clearly by the reader. It is helpful to think of variables as containers that hold information. Variables come in a great variety of types. Automagica supports all variable types from the Python language, but down here are some of the most prominent.
 
 ### Strings
-
 
 A string is any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks).
 Strings are defined either with a single quote or a double quotes.
