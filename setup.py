@@ -26,7 +26,8 @@ setup(name='Automagica',
           'pytesseract==0.2.0',
           'openpyxl==2.4.8',
           'python-docx==0.8.6',
-          'pywin32==223'
+          'pywin32==223',
+          'PyPDF2==1.26.0'
       ],
       include_package_data = True
 )

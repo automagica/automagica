@@ -2,6 +2,7 @@ import os
 import platform
 import shutil
 from PIL import Image
+import uuid
 
 '''
 Delay activities
@@ -84,6 +85,7 @@ def ClickOnImage(filename=None, double_click=False, right_click=False):
         return click(x, y, clicks)
 
 
+
 def PressKey(key=None):
     '''
     Press and release an entered key.
@@ -94,7 +96,7 @@ def PressKey(key=None):
 
 def PressHotkey(first_key,second_key,third_key=None):
     '''
-    Press a combination of two or three keys simultaneous.
+    Press a combination of two or three keys simultaneously.
     '''
     if not third_key:
         return pyautogui.hotkey(first_key,second_key)
@@ -104,12 +106,21 @@ def PressHotkey(first_key,second_key,third_key=None):
 
 def Type(text=None, interval_seconds=0.001):
     from pyautogui import typewrite
-
     # Set keyboard layout for Windows platform
     if platform.system() == 'Windows':
         from win32api import LoadKeyboardLayout
         LoadKeyboardLayout('00000409', 1)
     return typewrite(text, interval=interval_seconds)
+
+
+def CreateUniqueKey(length=32):
+    '''
+    universally unique identifier (UUID) is a 128-bit number used to identify information in computer systems. This key can be 
+    considered as unique for there to be a one in a billion chance of duplication, 103 trillion version 4 UUIDs must be generated.
+    The general form is e.g. "123e4567-e89b-12d3-a456-426655440000". The argument specifies the length of the returned string.
+    If it is omitted, the entire 128-bit UUID is returned as a string.
+    '''
+    return str(uuid.uuid4())[:length]
 
 
 '''
@@ -120,6 +131,14 @@ Windows activities
 def UseFailsafe(switch=True):
     from pyautogui import FAILSAFE
     FAILSAFE = switch
+
+
+def ClearClipboard():
+    from ctypes import windll
+    if windll.user32.OpenClipboard(None):
+        windll.user32.EmptyClipboard()
+        windll.user32.CloseClipboard()
+    return
 
 
 '''
@@ -617,8 +636,4 @@ def OpenXPSViewer():
     subprocess.Popen("xpsrchvw")
     return    
 
-
-'''
-System Activities
-'''
 
