@@ -86,6 +86,13 @@
           "info": "Types text with a specified interval in seconds",
           "icon": "keyboard",
           "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABX1BMVEUAAACAgIBifKNhe6NkfaVifKNtbZJifKNhfKJifKNifaJmZplifKNifKNjfaRifKNifKNjgKpeeaFkgKRifKNie6RifKNhfKRjfaRifKNifKNie6Nje6VhfKNjfKJhfKNggJ9ifKNifKNmgKZhfKNjfKNjfKJifKRjfqRifKNigKdkfKJVVapifKNifKNkfKJifaNifaRifKRhe6die6NheqNifKNhfKRhfKNjfKNhfaNifKNjfaJifaNidp1ifKMAAP9VcapifKFkfqNgfaRifKNjeqNhe6RifKNifaNhe6JVgKpjfKNifKRhe6JifKNjeqJgfaRpeKVifKNie6NifKNifKNhfaNgfaNffKBie6NhfKNifaNifKNifKRifaJjfKNifKNmeqNgeaZifKJie6NhfKNje6JifKNifKKAgL9ifaNifKNie6Jie6Rie6NgeqVifKRie6NifKMAAADrsL+qAAAAc3RSTlMAAu66M/YHdUK3hwXzyzv0/RITHH2X7FRanti8Nr+omAj++BRh3IRtQ9IaIQPE9ymFkWUdmTLje8dQi6lYrA37AQlERTXeS37rjXYGz7udrywtEflT0PVkPSOVkLaIc9dvzBko4lvhVfqaBLToPN/dMJRypp9cUwAAAAFiS0dEAIgFHUgAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfiBx8PIiyzNOYOAAABa0lEQVQ4y81R11ICQRAcEFQUlKBgQD2MYEZBxSzmhApiwCzmrPv/VfbucNy93DtTdTvdPV07s3NElRI2u0BUWRscsi6c1ZaGGmUQtZYGFxvqrOr1bjZ4rAwNKDbi8/oMzR8wGZpQbA7iCJUe1dLaJoS7PawbOmStE0eXopqHO4oIc9K6gXt6ofSx0C/0GFA8ChSjQSkMKWF4RAi7bClGxyQfB4oTxZAm+IrJhMNGySkI05LOAKSIZpHmzI+bh7CAvLhUbimCy6XiSji9ugZhHXhDmCLJ5c0tXQDbNht2ZH3XZQige2bDvjRkAA5Ch0ds8EWwBbXjtHyXRpTNYbFyGDYc48yrztUngFGiU6Qz8HM2FHBe8OiXgFdE10hZ0DgbbngLMm4B7/jOFGnxiDLcC30EoqL85X4qeoXIPThLr3gsj4B4Annm3SNelCFjjED0CpIgenuXpY9PZfgyRuDu3xL8FH7/ApRHUAXEPyM6nd8VTndWAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTA3LTMxVDE1OjM0OjQ0KzAyOjAwvtNO7QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0wNy0zMVQxNTozNDo0NCswMjowMM+O9lEAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC"
+        },
+        {
+          "name": "Create Unique Key",
+          "script": "CreateUniqueKey(length)",
+          "info": "Returns a UUID as a string with. \"Length\" determines the amount of characters returned.",
+          "icon": "",
+          "iconb64": ""
         }
       ]
     },
@@ -309,6 +316,13 @@
           "info": "Copies a file from a location specified by old_path to a new location. ",
           "icon": "file",
           "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAeCAAAHggFwQHG1AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAaFQTFRF////AP//////Var/VarVTp3YRKLdRqLYSaHbSJ/b8OreSaDcSaDdSKHbR6DcSJ/c7uzd3+XdSKHc5eHQSKDcSJ/c7+veSKDc7uzegLrdSKDc39rJSaDc3NfFkcHdY6zcSKDcTaPcSaHdSqHdS6LdSKDcSaDcSqHcS6LdTaPcTqPdUqXeVKbfVqjfV6jfWangXavhXqrcXqzhX6zhY67iZrDiabHjaq7YbLPkbbPkbrHcbrTkb7XkcLXldrLWebrmerrmfLznfbzng7/phsHpicLqi8Tqjb/djcTrjsXrkMDclMjslcnslsrtmMrtmsvtnMbdn8fdqdPxq9XxrNXxrtbysM/dstjzs9nztNnztdnytdrzttr0t9v0udz0utz0vN71weD2wtfdwuH2xuP3x9vhyeT3yeT4y9vey+X4zOb4z+j50OXy1dC719K919K+2tXB3dvN39rI4NvJ4NzK4dzL4t3M497O49/O5Obe5eDQ5eHR5uHS5uLS5urm6OPU6OTU6OTV6eXW6une6+fZ7Oja7enc7ere7urc7urd7+vecW4iEgAAACV0Uk5TAAECAwYNHiExQFZeaXJzdXh+kp+msLC0uLm+ytPU1djj8PT0902MouoAAAEgSURBVDiNY5DoQgPSTAwoAENBviwTAQW5qCqwKEBVgU0BigqsCpBVYFeApAKsoCQPBKrACkqLwUAYRUFHKwh0IhskhtMK8hRUFyGDWkwFjeXIoIkWbmitRwatmArKCpBBBTXcUJkkx8fJilNBe6CmqZO9kRIPI2pkwUChlUVcdnhISoSBODNUQVsLMvCyznTRU1VVd00z4cdmRYZWiqcqGDjHqbBhURDgFKsBUaAWb8sNUVBTjATsdLRVocDPQwiioKEMCZirwoGHnwgWK9yDs7KyfMEKghz5sSgIC8201AfbYpyuz4lFQXNUYgJYXjfGVYoRW0jmOHgn+9lYuqX4KLNjDeq6VENr7+hIfzMZDmBQcwlgAYKS8ooKorwsQHkAgUdq5YOagO0AAAAASUVORK5CYII="
+        },
+        {
+          "name": "Wait For File",
+          "script": "WaitForFile(path=\"pathname\")",
+          "info": "Waits for a file to be created and then opens it.",
+          "icon": "file",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAeCAAAHggFwQHG1AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAARpQTFRF////gID/qqr/gL//n7/fVVWOjsbjUGCA8+jcVWCAa3OU6OjY7+rf7e3fu76+j7nikbni493Mkrngkbvh7uzdkbrikbrhkbrhkLrihYydVWCAVWCAkbrhkrvh5+PTkbrh4dzKVWCBVmGCV2KCkbri19K9VWCAWGODWWSDi7LYkbrhlbzhmb7hm7/hncDhn8HhpKewqMbgsMXXus/gwNLgwtTf0dvf1dC719K919K+19O+2NO+2N/f2dTA2tXB2tbC29bD2+Hf3uLf39rI39vJ3+Pf4NvJ4NzK4d7V4t3M497N497O49/O5N/P5eHR5ebe6OPU6OTV6eXW6+fZ6+jc7OfZ7OjZ7Oja7ejb7enb7enc7urc7urd7+ve9Z348AAAACZ0Uk5TAAIDBAgJCRAWGB8hMDhLUFhaW3h4lKKrrbzg6O7v8/T3+Pz9/f7mJ3I+AAAA/ElEQVQ4jWPgiUUDcoIMKABDgZ+qIAEF5qgqsChAVYFNAYoKrAqQVWBXgKQCrCDS2gIIbKNB7CA3MFDgRjEhHAQiUUzixWUFeQqi3JyRgEskhoIYX28k4BNDAzfEBgYggUBMBREOdkjAPpyAFSEeIMDHCQTsWBUYaKgDgbKSkpKiFCt2RxprQQAL3A1WFkjAMtwUIi/DCHdDWDASCI11gigQwx0OemAF/LgV2OgA5UWZEZHl7oYE3IGR5W8oK4QcWd6eSMALGFmu+irC+OLCTBtohQQbbgW6YEcK4FTgCPGmOE4FJhAF8ky4IstIEwK4gJHFIYIBJNXgQJoVAEDK+Bh97JvfAAAAAElFTkSuQmCC"
         }
       ]
     },
@@ -385,6 +399,13 @@
           "info": "Zips a folder specified by path and stores it at new_path. ",
           "icon": "folder",
           "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAulBMVEUAAAB9iLV9iLWAhrN9iLV7jLV9iLWAj693iLt8ibV9iLV9iLWAibZ8h7OAhbR9iLV9iLV9iLR8ibZ8iLV9h7V8h7Z9i7d9iLV9iLV9iLV8ibR6hbiAjLN+ibZ9iLV9iLV8h7V9ibR+ibV8ibWAirV9iLR7ibN9iLRtkrZ9ibZ9iLV+iLV8irN9iLR9iLV+h7WAiLN8ibWEjr17iLd9iLN9iLV9iLV8irZ9iLR7iLR9iLV7ibZ9iLUAAAA+TZlSAAAAPHRSTlMA6Oco0h/IEA/T0NwcQCyw+NRQa8CgOYctn3sZFFvj2Ei1in8Y2zZ+B8a2kCWF34A8qBs8L+ShI/M68TjV6eoqAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAN1wAADdcBQiibeAAAAAd0SU1FB+IHHwk3GKG4iB0AAACzSURBVDjL7dHJDoIwEIDhEVxRBNEqCkhFXFFxX/v+z6UEoylTIR68+d8m+TKTtABROZZIkoELgaTAIM8LDApFTmBQKnNCAIATGFQUpcqk2mcQp/7BN6CuaXoqUBuGqOYbtOI7BiGk3TFJt2dFo4yALTt906UD2RuKAfijse9SzZp4YjCdOfAA0jxYiMFyFYZrl26e+zAwKaXbnb3H4BCIOr7A6cxY6kPB5ZoB4KZngN9+9x3t4o7gjAg0dgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOC0wNy0zMVQwOTo1NToyNCswMjowMHh+vpoAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTgtMDctMzFUMDk6NTU6MjQrMDI6MDAJIwYmAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAABJRU5ErkJggg=="
+        },
+        {
+          "name": "Wait For Folder",
+          "script": "WaitForFolder(path=\"pathname\")",
+          "info": "Waits for a folder to be created and then opens it.",
+          "icon": "folder",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAd1AAAHdQEjKi9uAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAOdQTFRF////gICAWGGEQEhQv7/HvsTKVWCAT1h1VWGCPERQVGCAVWCAvMPGVl+AjJWmPkRSTldxrbS8u8HGq7O8VWCASVFpTVdxTllyPkVTuL7EUVt4vMXKVWCAvsbMPURQv8fNVV9+PURRVWCAVmGBVmKBV2OCXGeHYGyLYm6MY2+OZnCManeUcoGddIKedYOfeYKZg4yghpawiJiyjZ63mavDm63FnK/GoKezobTLpKy4pa25pq+6p7vRqLzSqr7UrMHWsMTZscDQs8fcutDkvc3bvdPmvtTnxdzuxt3vydvoz+b40Of50Oj5QlUYKAAAACF0Uk5TAAIdICArMD0/QEBISFZqgJCZpau/w9DS1tnf7e7x9Pb6R7AY+QAAALpJREFUOI3V09UOwjAUgOHh7jpsUFyHD3cdff/ngbXJyEbPes1/2y9pT5MjCLwCel42QN9CPFCwcwBK2jgARSPmHEZQzlZM+YwA5UocgFI8gDJpQ54fYMr/v2CoLNeklZJggo58fJIuchi4YoNJZ/ANYwpmIGi9COjDUyy081PNYsyJiud1q39obA9tZAG6N4wfAxhU79ob1CYIenTMEQimFOxBsKPg+gFuRjExL5GKYpy5js6gnou7/W+FPXVTiaPZUAAAAABJRU5ErkJggg=="
         }
       ]
     },
@@ -396,8 +417,8 @@
           "name": "Open Calculator",
           "script": "OpenCalculator()",
           "info": "Open Windows Calculator.",
-          "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg==",
-          "iconb64": ""
+          "icon": "windows",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAchQTFRF////yNDikperyM/ixs/iwcjchYmchImdcXWHx9DiZ2p7W11uXmBxXmFyYWR1YmR1Y2Z3b3KDcHSHcXSGcXWGcnaHc3aHc3eKdnmLdnqLd3uMf4OUgoaYhImbhYmbh4yeio+gio+hjZKkj5askZitkpepkpmvk5iqk5qwlJmrlZqslZyylpyul5yul560maC2mqCym6K4nKO4naS5nqS2nqW6n6W3n6e8oKa3oam+oqi6oqm+oqq/o6u/pKvApqy/p67Bp6/EqK7AqbHFqrLGq7LFrLLFrLPFrLPGrLTIrbXJrrXIrrbKsLfJsLfKsLfMsrnMsrrOs7rOtLvOtLvPtLzQtbzQtr7Qt77SuMDUucHUucHVusDQusDRusHSusHVusLWu8LVu8PXvMPVvMTYvcTWvcXYwMfXwMfbwMjbwcfXwcjbwcnbwcncwsrdwsrew8vew8vfxMzfxc3gxc3hxs7hx8/iytLky9PlzNTlzNTmzcTVzdXmztXlztXnztbnz9blz9bn0Nfn0Nfo0Njp0djp0dnp0tnp0tnq1LfF1dzr1dzs1d3s1t3s17G+197t4Z2n45qk5Zaf83t/83uA9Hh89Xh7/2RkUGE35QAAAAt0Uk5TAGGdr7C05ufx9/j2Bdh2AAABsUlEQVQ4y5XQ1VMCARDH8bNjTeyORexATBQRsbBR7MIWA/Xw1sJWVBDP9t/1wZO5AW8cvq/7efjNMgzDBKbI/iwlkPkpVCZRqADCZDlrGz6t5cjCPKDBdXzDn9l5x5HTeeRwdve651ovGsTglg7cRK5Dur6mw1PEu2pc8g882h385Tl/b3e57PfugSF+peNKDLJmZn2ayRIBiX5BeJxE4QKIBIkiBRCyJVGIAIJJomAP6E9LLeE0qvqdUZVqdKdepeFKUtP6RaAYIH4PEaeaEJumEHEvHqDYH7CQl6ulPl27bVGnW7S16/pIm5u3IAK7avU4zZsmyGoyWWnCNE/javWuCJQDJLKIaG5BbDEjIpsIUO7PBm10VOZ+hbxo3SCXG9aL5BX7mVHRWhH491FtsTHZXKWi1NKjUPRYShWVXHZMbJs/G8oAElhENGsQNWZEZL2Ata5mhCaNY7RtNG7TmHGSvMDJ6+sTDeoN3LJev8wW5ld5g+evrw8WEaebEZu7AGDTF3x6RnYCgMULPLy/vXCNylrrsFI5vJqelGErSEru9YAgqUcFCSAg4u97RADDMN/r39ZZblPymgAAAABJRU5ErkJggg=="
         },
         {
           "name": "Open Paint",

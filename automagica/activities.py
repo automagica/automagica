@@ -352,7 +352,7 @@ def OpenFile(path):
     '''
     Entering "C:\\Users\\Downloads\\Automagica.docx" as pathname will open the .docx-file "Automagica.docx". 
     '''
-    if os.path.exists(path):
+    if os.path.isfile(path):
         os.startfile(path)
     return
 
@@ -420,6 +420,16 @@ def CopyFile(old_path,new_location):
             shutil.copy(old_path,new_location)
 
 
+def WaitForFile(path):
+    '''
+    Wait until a file with the entered path exists. When a file with that path is created, this function opens it.
+    '''
+    from time import sleep
+    while not os.path.exists(path):
+        sleep(1)
+    OpenFile(path)
+    return
+
 '''
 Folder Operations
 '''
@@ -451,7 +461,7 @@ def OpenFolder(path):
     '''
     Entering "C:\\Users\\Downloads\\Automagica" will open the folder "Automagica" if the path exists.
     '''
-    if os.path.exists(path):
+    if os.path.isdir(path):
         os.startfile(path)
     return
 
@@ -559,6 +569,23 @@ def UnzipFolder(path,new_path=False):
             zipp.extractall(new_path)
         zipp.close()
     return
+
+
+def WaitForFolder(path):
+    '''
+    Wait until a folder with the entered path exists. When a folder with that path is created, this function opens it.
+    '''
+    from time import sleep
+    while not os.path.exists(path):
+        sleep(1)
+    OpenFolder(path)
+    return
+
+'''
+FTP Operations
+'''
+import ftplib
+
 
 '''
 Windows Applications
