@@ -113,6 +113,62 @@ def Type(text=None, interval_seconds=0.001):
     return typewrite(text, interval=interval_seconds)
 
 
+def CapsLock():
+    '''
+    Press the Caps Lock key.
+    '''
+    return pyautogui.press('capslock')
+
+
+def NumLock():
+    '''
+    Press the Num Lock key.
+    '''
+    return pyautogui.press('numlock')
+
+
+def Enter():
+    '''
+    Press the enter key.
+    '''
+    return pyautogui.press('enter')
+
+
+def SpaceBar():
+    '''
+    Press the space bar key.
+    '''
+    return pyautogui.press('space')
+
+
+def Backspace():
+    '''
+    Press the Backspace key.
+    '''
+    return pyautogui.press('backspace')
+
+
+def Delete():
+    '''
+    Press the Delete key.
+    '''
+    return pyautogui.press('delete')
+
+
+def Endkey():
+    '''
+    Press the End key.
+    '''
+    return pyautogui.press('end')
+
+
+def Tab():
+    '''
+    Press the Tab key.
+    '''
+    return pyautogui.press('tab')
+
+
 def CreateUniqueKey(length=32):
     '''
     universally unique identifier (UUID) is a 128-bit number used to identify information in computer systems. This key can be 
@@ -581,10 +637,90 @@ def WaitForFolder(path):
     OpenFolder(path)
     return
 
+
 '''
-FTP Operations
+Image Operations
 '''
-import ftplib
+
+from __future__ import print_function
+import sys
+from PIL import Image
+import PIL
+
+
+def OpenImage(path):
+    '''
+    Displays an image specified by the path variable on the default imaging program.
+    '''
+    im = Image.open(path)
+    return im.show()
+
+
+def RotateImage(path, angle):
+    '''
+    Entering "C:\\Users\\Pictures\\Automagica.jpg" as path and an a angle of 90 rotates the picture specified by the first
+    argument over 90 degrees. Pay attention, because angles other than 90, 180, 270, 360 can resize the picture. 
+    ''' 
+    im = Image.open(path)
+    return im.rotate(angle, expand=True).save(path)
+
+
+def ResizeImage(path,size):
+    '''
+    Resizes the image specified by the path variable. The size is specified by the second argument. This is a tuple with the
+    width and height in pixels. E.g. ResizeImage("C:\\Users\\Pictures\\Automagica.jpg", (300, 400)) gives the image a width
+    of 300 pixels and a height of 400 pixels.
+    '''
+    im = Image.open(path)
+    return im.resize(size).save(path)
+
+
+def ImageSize(path):
+    '''
+    Returns the size in pixels of an image specified by a path. The size is returned in a message box
+    of the form: "(height, width)"
+    '''
+    
+    im = Image.open(path)
+    return DisplayMessageBox(str(im.size))
+
+
+def CropImage(path, box=None):
+    '''
+    Crops the image specified by path to a region determined by the box variable. This variable is a 4 tuple who defines the
+    left, upper, right and lower pixel coördinate e.g.: (left, upper, right, lower).
+    '''
+    im = Image.open(path)
+    return im.crop(box).save(path)
+
+    
+def ImageFormat(path):
+    '''
+    Returns the format of an image specified by the input path. E.g. entering "C:\\Users\\Pictures\\Automagica.jpg"
+    returns a message box saying JPEG.
+    '''
+    im = Image.open(path)
+    return DisplayMessageBox(im.format) 
+
+def MirrorImageHorizontally(path):
+    '''
+    Mirrors an image with a given path from left to right.
+    '''
+    im = Image.open(path)
+    return im.transpose(Image.FLIP_LEFT_RIGHT).save(path)
+
+
+def MirrorImageVertically(path):
+    '''
+    Mirrors an image with a given path from top to bottom.
+    '''
+    im = Image.open(path)
+    return im.transpose(Image.FLIP_TOP_BOTTOM).save(path)
+
+'''
+Email Operations
+'''
+
 
 
 '''
