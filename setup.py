@@ -5,8 +5,8 @@ from distutils.core import setup
 setup(name='Automagica',
       version='0.3.1',
       description='Bot for Automagica - Smart Robotic Process Automation',
-      author='Koen van Eijk',
-      author_email='koen@oakwood.ai',
+      author='Oakwood Technologies',
+      author_email='mail@oakwood.ai',
       url='https://oakwood.ai/',
       entry_points = {
         'console_scripts': ['automagica=automagica.command_line:main'],
