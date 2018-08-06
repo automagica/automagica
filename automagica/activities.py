@@ -2,6 +2,7 @@ import os
 import platform
 import shutil
 from PIL import Image
+import uuid
 
 '''
 Delay activities
@@ -19,14 +20,58 @@ Keyboard/mouse activities
 '''
 
 # Renaming functions
-from pyautogui import hotkey
-PressHotkey = hotkey
+import pyautogui
+
+
+def GetMouseCoordinates():
+    '''
+    Displays a message box with the absolute coordinates of the current position of the mouse.
+    '''
+    coord = pyautogui.position()
+    coordstring = "( " + str(coord[0]) + " , " + str(coord[1]) + " )"
+    return DisplayMessageBox(coordstring,"Mouse Position")
 
 
 def ClickOnPosition(x=None, y=None):
-    from pyautogui import click
+    '''
+    Clicks on a pixel position on the visible screen determined by x and y coördinates.
+    '''
+    return pyautogui.click(x, y)
 
-    return click(x, y)
+
+def DoubleClickOnPosition(x=None, y=None):
+    '''
+    Double clicks on a pixel position on the visible screen determined by x and y coördinates.
+    '''
+    return pyautogui.doubleClick(x, y)
+
+
+def RightClickOnPosition(x=None, y=None):
+    '''
+    Right clicks on a pixel position on the visible screen determined by x and y coördinates.
+    '''
+    return pyautogui.rightClick(x, y)
+
+
+def MoveToPosition(x=None, y=None):
+    '''
+    Moves te pointer to a x-y position.
+    '''
+    return pyautogui.moveTo(x, y)
+
+
+def MoveRelative(x=None, y=None):
+    '''
+    Moves the mouse an x- and y- distance relative to its current pixel position.
+    '''
+    return pyautogui.moveRel(x, y)
+
+
+def DragToPosition(x=None, y=None, button="left"):
+    '''
+    Drag the mouse from its current position to a entered x-y position, while holding a specified button.
+    '''
+    return pyautogui.dragTo(x, y, 0.2, button=button)
 
 
 def ClickOnImage(filename=None, double_click=False, right_click=False):
@@ -40,14 +85,98 @@ def ClickOnImage(filename=None, double_click=False, right_click=False):
         return click(x, y, clicks)
 
 
+
+def PressKey(key=None):
+    '''
+    Press and release an entered key.
+    '''
+    if key:
+        return pyautogui.press(key)
+
+
+def PressHotkey(first_key,second_key,third_key=None):
+    '''
+    Press a combination of two or three keys simultaneously.
+    '''
+    if not third_key:
+        return pyautogui.hotkey(first_key,second_key)
+    if third_key:
+        return pyautogui.hotkey(first_key,second_key,third_key)
+
+
 def Type(text=None, interval_seconds=0.001):
     from pyautogui import typewrite
-
     # Set keyboard layout for Windows platform
     if platform.system() == 'Windows':
         from win32api import LoadKeyboardLayout
         LoadKeyboardLayout('00000409', 1)
     return typewrite(text, interval=interval_seconds)
+
+
+def CapsLock():
+    '''
+    Press the Caps Lock key.
+    '''
+    return pyautogui.press('capslock')
+
+
+def NumLock():
+    '''
+    Press the Num Lock key.
+    '''
+    return pyautogui.press('numlock')
+
+
+def Enter():
+    '''
+    Press the enter key.
+    '''
+    return pyautogui.press('enter')
+
+
+def SpaceBar():
+    '''
+    Press the space bar key.
+    '''
+    return pyautogui.press('space')
+
+
+def Backspace():
+    '''
+    Press the Backspace key.
+    '''
+    return pyautogui.press('backspace')
+
+
+def Delete():
+    '''
+    Press the Delete key.
+    '''
+    return pyautogui.press('delete')
+
+
+def Endkey():
+    '''
+    Press the End key.
+    '''
+    return pyautogui.press('end')
+
+
+def Tab():
+    '''
+    Press the Tab key.
+    '''
+    return pyautogui.press('tab')
+
+
+def CreateUniqueKey(length=32):
+    '''
+    universally unique identifier (UUID) is a 128-bit number used to identify information in computer systems. This key can be 
+    considered as unique for there to be a one in a billion chance of duplication, 103 trillion version 4 UUIDs must be generated.
+    The general form is e.g. "123e4567-e89b-12d3-a456-426655440000". The argument specifies the length of the returned string.
+    If it is omitted, the entire 128-bit UUID is returned as a string.
+    '''
+    return str(uuid.uuid4())[:length]
 
 
 '''
@@ -58,6 +187,14 @@ Windows activities
 def UseFailsafe(switch=True):
     from pyautogui import FAILSAFE
     FAILSAFE = switch
+
+
+def ClearClipboard():
+    from ctypes import windll
+    if windll.user32.OpenClipboard(None):
+        windll.user32.EmptyClipboard()
+        windll.user32.CloseClipboard()
+    return
 
 
 '''
@@ -71,8 +208,19 @@ def LaunchProcess(process_executable=None):
     return Popen(process_executable)
 
 
+def OpenProgramByName(name, main_drive = "C:\\"):
+    from subprocess import Popen
+
+    if not name[-4:] == ".exe":
+        name = name + ".exe"
+    for root, dirs, files in os.walk(main_drive):
+        for file in files:
+            if file == name and file.endswith(".exe"):
+                Popen(os.path.join(root, file))
+                return
+
+
 def KillProcess(process=None, name=None):
-    import os
     if process:
         return process.kill()
     if name:
@@ -122,7 +270,7 @@ NewExcelWorkbook = Workbook
 
 def ExcelReadCell(path, row, col, cell=None):
     """Read a Cell from an Excel file.
-    Make sure you enter a valid path e.g. C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx...
+    Make sure you enter a valid path e.g. "C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx"...
     You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2"... 
     First row is defined row number 1 and first column is defined column number 1
     """
@@ -182,6 +330,28 @@ def ConvertWordToPDF(word_filename=None, pdf_filename=None):
 
 
 '''
+PDF Activities
+'''
+
+def MergePDF(pdf1,pdf2,merged_path):
+    '''
+    The first two arguments are the PDF's that need to be merged. The pages from pdf2 
+    will be added to pdf2. The merged PDF receives a new path specefied by the third argument.
+    '''
+    from PyPDF2 import PdfFileMerger
+
+    pdfs = [str(pdf1), str(pdf2)]
+
+    merger = PdfFileMerger()
+
+    for pdf in pdfs:
+        merger.append(pdf)
+
+    merger.write(merged_path)
+    return
+
+
+'''
 Message boxes
 '''
 
@@ -238,7 +408,7 @@ def OpenFile(path):
     '''
     Entering "C:\\Users\\Downloads\\Automagica.docx" as pathname will open the .docx-file "Automagica.docx". 
     '''
-    if os.path.exists(path):
+    if os.path.isfile(path):
         os.startfile(path)
     return
 
@@ -306,6 +476,16 @@ def CopyFile(old_path,new_location):
             shutil.copy(old_path,new_location)
 
 
+def WaitForFile(path):
+    '''
+    Wait until a file with the entered path exists. When a file with that path is created, this function opens it.
+    '''
+    from time import sleep
+    while not os.path.exists(path):
+        sleep(1)
+    OpenFile(path)
+    return
+
 '''
 Folder Operations
 '''
@@ -337,7 +517,7 @@ def OpenFolder(path):
     '''
     Entering "C:\\Users\\Downloads\\Automagica" will open the folder "Automagica" if the path exists.
     '''
-    if os.path.exists(path):
+    if os.path.isdir(path):
         os.startfile(path)
     return
 
@@ -417,5 +597,206 @@ def CopyFolder(old_path,new_location):
                 new_path = new_path + " (" + str(uuid.uuid4())[:8] + ")"
             shutil.copytree(old_path,new_path)
     return
+
+
+def ZipFolder(dir_path,new_path):
+    '''
+    Creates a zipped directory of a directory specified by the first argument. The newly zipped directory 
+    receives a path specified by the second argument.
+    '''
+    if os.path.isdir(dir_path):
+        shutil.make_archive(new_path,'zip',dir_path)
+    return
+
+
+def UnzipFolder(path,new_path=False):
+    '''
+    Unzips a folder specified by the first variable. The unzipped folder will be stored in a directory specified by
+    new_path. If this second variable is omitted, the unzipped folder will be stored in the same directory as the 
+    zipped folder is located. 
+    '''
+    import zipfile
+    if os.path.exists(path):
+        zipp = zipfile.ZipFile(path)
+        if not new_path:
+            base_path = "\\".join(path.split("\\")[:-1])
+            zipp.extractall(base_path)
+        elif os.path.isdir(new_path):
+            zipp.extractall(new_path)
+        zipp.close()
+    return
+
+
+def WaitForFolder(path):
+    '''
+    Wait until a folder with the entered path exists. When a folder with that path is created, this function opens it.
+    '''
+    from time import sleep
+    while not os.path.exists(path):
+        sleep(1)
+    OpenFolder(path)
+    return
+
+
+'''
+Image Operations
+'''
+
+from __future__ import print_function
+import sys
+from PIL import Image
+import PIL
+
+
+def OpenImage(path):
+    '''
+    Displays an image specified by the path variable on the default imaging program.
+    '''
+    im = Image.open(path)
+    return im.show()
+
+
+def RotateImage(path, angle):
+    '''
+    Entering "C:\\Users\\Pictures\\Automagica.jpg" as path and an a angle of 90 rotates the picture specified by the first
+    argument over 90 degrees. Pay attention, because angles other than 90, 180, 270, 360 can resize the picture. 
+    ''' 
+    im = Image.open(path)
+    return im.rotate(angle, expand=True).save(path)
+
+
+def ResizeImage(path,size):
+    '''
+    Resizes the image specified by the path variable. The size is specified by the second argument. This is a tuple with the
+    width and height in pixels. E.g. ResizeImage("C:\\Users\\Pictures\\Automagica.jpg", (300, 400)) gives the image a width
+    of 300 pixels and a height of 400 pixels.
+    '''
+    im = Image.open(path)
+    return im.resize(size).save(path)
+
+
+def ImageSize(path):
+    '''
+    Returns the size in pixels of an image specified by a path. The size is returned in a message box
+    of the form: "(height, width)"
+    '''
+    
+    im = Image.open(path)
+    return DisplayMessageBox(str(im.size))
+
+
+def CropImage(path, box=None):
+    '''
+    Crops the image specified by path to a region determined by the box variable. This variable is a 4 tuple who defines the
+    left, upper, right and lower pixel coördinate e.g.: (left, upper, right, lower).
+    '''
+    im = Image.open(path)
+    return im.crop(box).save(path)
+
+    
+def ImageFormat(path):
+    '''
+    Returns the format of an image specified by the input path. E.g. entering "C:\\Users\\Pictures\\Automagica.jpg"
+    returns a message box saying JPEG.
+    '''
+    im = Image.open(path)
+    return DisplayMessageBox(im.format) 
+
+def MirrorImageHorizontally(path):
+    '''
+    Mirrors an image with a given path from left to right.
+    '''
+    im = Image.open(path)
+    return im.transpose(Image.FLIP_LEFT_RIGHT).save(path)
+
+
+def MirrorImageVertically(path):
+    '''
+    Mirrors an image with a given path from top to bottom.
+    '''
+    im = Image.open(path)
+    return im.transpose(Image.FLIP_TOP_BOTTOM).save(path)
+
+'''
+Email Operations
+'''
+
+
+
+'''
+Windows Applications
+'''
+import subprocess
+
+def OpenCalculator():
+    """
+    Open Calculator.
+    """
+    subprocess.Popen("calc.exe")
+    return
+
+
+def OpenPaint():
+    """
+    Open MS Paint.
+    """
+    subprocess.Popen("mspaint.exe")
+    return
+
+
+def OpenNotepad():
+    """
+    Open Notepad
+    """
+    subprocess.Popen("notepad.exe")
+    return
+
+
+def OpenSnippingTool():
+    """
+    Open Snipping Tool.
+    """
+    subprocess.Popen("SnippingTool.exe")
+    return
+
+
+def OpenControlPanel():
+    """
+    Open Windows Control Panel.
+    """
+    subprocess.Popen("control.exe")
+    return
+
+
+def OpenCleanManager():
+    """
+    Open Clean Manager.
+    """
+    subprocess.Popen("cleanmgr.exe")
+    return
+
+
+def OpenDialer():
+    """
+    Open Windows Dialer.
+    """
+    subprocess.Popen("dialer.exe")
+    return
+
+
+def OpenVolumeMixer():
+    """
+    Open Windows Volume Mixer.
+    """
+    subprocess.Popen("SndVol.exe")
+    return
+
+
+def OpenXPSViewer():
+    """
+    Open Windows XPS Viewer.
+    """
+    subprocess.Popen("xpsrchvw")
+    return    
 
 

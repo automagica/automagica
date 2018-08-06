@@ -13,6 +13,11 @@ Automagica is based on the Python language.
 	- [Failsafe](#failsafe)
 	- [Examples](#examples)
 	- [Automagica with Natural Language](#automagica-with-natural-language-for-prototyping)
+- [Mouse And Keyboard Automation](#mouse-and-keyboard-automation)
+    - [Mouse](#mouse)
+        - [Coördinate Sysem](#coordinate-system)
+        - [Functions](#functions)
+    - [Keyboard](#keyboard)
 - [Browser Automation](#browser-automation)
 	- [Basic functions](#basic-functions)
 	- [Navigating](#navigating)
@@ -22,6 +27,9 @@ Automagica is based on the Python language.
 			- [Selection by Id](#selection-by-id)
 		- [Selection by Xpath](#selection-by-xpath)
 		- [Browsing Example](#browsing-example)
+- [Process Acivities](#process-activities)
+    - [Standard Windows Applications](#windows-applications)
+    - [General Commands](#general-commands)
 - [Office Automation](#office-automation)
     - [Entering Pathnames](#entering-pathnames)
 	- [Word](#word)
@@ -43,6 +51,8 @@ Automagica is based on the Python language.
         - [Removing Folders](#removing-folders)
         - [Empty A Folder](#empty-a-folder)
         - [Check If A Folder Exists](#check-if-a-folder-exists)
+        - [Zip Folder](#zip-folder)
+        - [UnZip Folder](#unzip-folder)
 - [Basic operations](#basic-operations)
 	- [Variables and Types](#variables-and-types)
 		- [Strings](#strings)
@@ -145,6 +155,118 @@ nla youtube.nla
 
 Automagica with natural language is still in development and it's main goal for now is to speed up prototyping.
 Not all Automagica activities are supported as natural language and we do not recommend this for production builds for now.
+
+# Mouse And Keyboard Automation
+
+Next section explains which functions automagica offers to automate mouse movements and keystrokes.
+
+## Mouse
+
+### Coördinate System
+
+Most functions for mouse operations need coördinates as an input. These coördinates represent the absolute pixel position of the mouse on the computer screen. Following picuter gives the coördinate system for a 1920 x 1080 resolution screen. The x-coördinate starts at the left side and increases going right. The y-coördinate increases going down.
+```
+0,0       X increases -->
++---------------------------+
+|                           | Y increases
+|                           |     |
+|   1920 x 1080 screen      |     |
+|                           |     V
+|                           |
+|                           |
++---------------------------+ 1919, 1079
+```
+Following function returns the coördinates of the actual position of the mouse in a pop-up message box: 
+```
+GetMouseCoordinates()
+```
+
+### Functions
+
+The different mouse functionalities are listed below. They all require a coördinate set as input to determine the mouse position where an operation needs to be executed. If no coördinates are entered, the operation is executed at the actual pointer position. 
+
+There are three functions to perform a click on a desired location on the screen.
+
+Left click:
+```
+ClickOnPosition(x, y)
+```
+Double click:
+```
+DoubleClickOnPosition(x, y)
+```
+Right click:
+```
+RightClickOnPosition(x, y)
+```
+Moving the pointer to a certain location. This can be done to a position determined by a absolute coördinate pair or relative to the current mouse position:
+```
+#Move to absolute coördinates
+MoveToPosition(x, y)
+
+#Move relative to current position
+MoveRelative(x, y)
+```
+To move the mouse from its current position to a specified position while holding a button, e.g. to drag an object across the screen, following function can be used:
+```
+DragToPosition(x, y, button="left")
+```
+The third argument specifies which mouse button needs to be held down. This can be a string: "left", "middle" or "right". Following example moves the mouse to the position of the "chrome" icon and drags it to a different location.
+```
+MoveToPosition(180, 240)                    # Move mouse to chrome icon
+DragToPosition(x, y, "left")                # Drag to new position
+```  
+![Imgur](https://i.imgur.com/LDoBMrZ.gif)
+
+## Keyboard
+
+To press and release a certain key on the keyboard you can use following function:
+```
+PressKey(key="Keyname")
+```
+The argument should be a string. Following list contains every possible keyname. :
+```
+['\t', '\n', '\r', ' ', '!', '"', '#', '$', '%', '&', "'", '(',
+')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7',
+'8', '9', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
+'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~',
+'accept', 'add', 'alt', 'altleft', 'altright', 'apps', 'backspace',
+'browserback', 'browserfavorites', 'browserforward', 'browserhome',
+'browserrefresh', 'browsersearch', 'browserstop', 'capslock', 'clear',
+'convert', 'ctrl', 'ctrlleft', 'ctrlright', 'decimal', 'del', 'delete',
+'divide', 'down', 'end', 'enter', 'esc', 'escape', 'execute', 'f1', 'f10',
+'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f2', 'f20',
+'f21', 'f22', 'f23', 'f24', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9',
+'final', 'fn', 'hanguel', 'hangul', 'hanja', 'help', 'home', 'insert', 'junja',
+'kana', 'kanji', 'launchapp1', 'launchapp2', 'launchmail',
+'launchmediaselect', 'left', 'modechange', 'multiply', 'nexttrack',
+'nonconvert', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6',
+'num7', 'num8', 'num9', 'numlock', 'pagedown', 'pageup', 'pause', 'pgdn',
+'pgup', 'playpause', 'prevtrack', 'print', 'printscreen', 'prntscrn',
+'prtsc', 'prtscr', 'return', 'right', 'scrolllock', 'select', 'separator',
+'shift', 'shiftleft', 'shiftright', 'sleep', 'space', 'stop', 'subtract', 'tab',
+'up', 'volumedown', 'volumemute', 'volumeup', 'win', 'winleft', 'winright', 'yen',
+'command', 'option', 'optionleft', 'optionright']
+```
+A hotkey combination of two or three keys can be executed with next function:
+```
+PressHotkey(first_key,second_key,third_key=None)
+```
+The arguments are the keys that need to be pressed. If only two keys should be pressed, the third argument can be omitted. Next example opens the task manager with the key combination "Ctrl+Shift+Esc":
+```
+PressHotkey("ctrl","shift","esc")
+```
+Text can be typed in the selected field using the function:
+```
+Type(text, interval_seconds=0.001)
+```
+The first argument is the text entered as a string, while variable is the time between key strokes. Pay attention that you can only press single character keys. Keys like ":", "F1",... can not be part of the first argument.  Following example types "automagica.be/" in the selected field (in this case is that the chrome search bar) and presses enter:
+```
+Type("automagica.be/", interval_seconds=0.01)
+PressKey("enter")
+```
+![Imgur](https://i.imgur.com/ibeLf7f.gif)
 
 # Browser Automation
 
@@ -401,14 +523,11 @@ browser.find_element_by_xpath('//*[@id="lst-ib"]').submit()
 # Click the first link
 browser.find_elements_by_class_name('r')[0].click()
 ```
-
-# Office Automation
-
-A lot of automation processes involve Microsoft Office. Automagica packs some useful functions to make automating office as easy as possible. 
+# Process Activities
 
 ## Entering Pathnames
 
-In a lot of the following functions, pathnames are required as input arguments. It is important that these are entered in the correct manner to prevent malfunction of the desired operations. The pathname specifies the directories in which, for example, a file is located. An example of such a pathname is:  C:\\Users\\Bob\\Desktop\\Automagica.pptx . A pathname needs to be a string when entered in a function. Because of this, every backslash needs to be doubled in the input. The next snippet of code illustrates how a pathname needs to be entered in a function.
+In many of the following functions, pathnames are required as input arguments. It is important that these are entered in the correct manner to prevent malfunction of the desired operations. The pathname specifies the directories in which a file, folder, executable,... is located. An example of such a pathname is: "C:\\Users\\Bob\\Desktop\\Automagica.pptx". A pathname needs to be a string when entered in a function. Because of this, every backslash needs to be doubled in the input. The next snippet of code illustrates how a pathname needs to be entered in a function.
 ```
 # Pathname:
 C:\Users\Bob\Desktop\Automagica.pptx
@@ -419,6 +538,75 @@ C:\Users\Bob\Desktop\Automagica.pptx
 # In a function:
 Openfile("C:\\Users\\Bob\\Desktop\\Automagica.pptx")
 ``` 
+In Windows Explorer, a path can be determined by pressing shift + right click on a file, folder,... A menu pops up, where you can select "copy as path" (see image). This copies te path as a string to the clipboard, e.g. "C:\Program Files (x86)\Dropbox\Client\Dropbox.exe". This path still needs all its backslashes doubled for it to be in correct form for a function input: "C:\\\Program Files (x86)\\\Dropbox\\\Client\\\Dropbox.exe".
+
+![Imgur](https://i.imgur.com/9xI2mbk.png?2)
+
+## Standard Windows Applications
+
+Windows has an couple of standard applications which can be opened with functions from Automagica. Following list sums up all the available functions. If the program you want to open is in this list, it is recommended to use one of these function instead of the more general functions described in next subsection.
+
+Open Windows Calculator:
+
+```
+OpenCalculator()
+```
+Open MS Paint:
+```
+OpenPaint()
+```
+Open Notepad:
+```
+OpenNotepad()
+```
+Open Windows Snipping Tool:
+```
+OpenSnippingTool()
+```
+Open Windows Control Panel:
+```
+OpenControlPanel()
+```
+Open Windows Clean Manager:
+```
+OpenCleanManager()
+```
+Open Windows Dialer:
+```
+OpenDialer()
+```
+Open Windows Volume Mixer:
+```
+OpenVolumeMixer()
+```
+Open Windows XPS Viewer:
+```
+OpenXPSViewer()
+```
+
+## General Commands
+
+The above functions are all program specific. It is possible to run a program or shut it down if the exact path is known. Following function can open an executable located at a specified path:
+```
+#Start Process
+LaunchProcess(process_executable=\"pathname\")
+```
+Following example explains the usage of the function. The code will open Dropbox.
+```
+LaunchProcess("C:\\Program Files (x86)\\Dropbox\\Client\\Dropbox.exe")
+```
+A (slow) alternative is to use:
+```
+OpenProgramByName(name, main_drive = "C:\\")
+```
+This function does not require a full path as input in the first variable. Returning to the example above, Dropbox can aswell be opened in the following way:
+```
+OpenProgramByName("Dropbox")
+```
+
+# Office Automation
+
+A lot of automation processes involve Microsoft Office. Automagica packs some useful functions to make automating office as easy as possible. 
 
 ## Word
 
@@ -604,6 +792,7 @@ The first argument specifies again the path of the folder that needs to be empti
 "EmptyFolder("C:\\Users\\Bob\\Desktop\\Automagica")
 ```
 For the function to work, it is important that all the files that the folder contain are closed.
+
 ### Check If A Folder Exists
 
 Next function can check if a specified path exists.
@@ -615,14 +804,33 @@ If the entered path does not exist, the function will return False. If it does e
 FolderExists("C:\\Users\\Bob\\Desktop\\Automagica")
 ```
 
-# Basic operations
+### Zip Folder
+
+Following function can be used to create a zipped folder of an existing directory:
+```
+ZipFolder(folder_path=\"pathname_folder\", new_path=\"pathname_compressed_folder\")
+```
+The first argument is the pathname of the directory that needs to be compressed. The second argument specifies the location and name of the zipped folder with a pathname. E.g. the following function zips the directory with pathname "C:\\Users\\Bob\\Desktop\\Automagica". The zipped directory is specified by the second argument.   
+```
+ZipFolder("C:\\Users\\Bob\\Desktop\\Automagica","C:\\Users\\Bob\\Downloads\\Automagica")
+```
+Pay attention, because if there already exists a zipped directory with new_path as pathname, it will be overwritten.
+
+### Unzip Folder
+
+The opposite of the ZipFolder function can be achieved with:
+```
+UnZipFolder(path=\"pathname_zipped_folder\", new_path=\"pathname_target_location\")
+```
+The first argument is the pathname of compressed folder that needs to be unzipped. The second argument is optional. It is the path of the directory where the unzipped folder will be stored. If omitted, the unzipped folder is stored in the same location as the original zipped folder.
+
+# Basic Operations
 
 ## Variables and Types
 
 Variables are used to store information to be referenced and manipulated in an automation script. They also provide a way of labeling data with a descriptive name, so the automation script can be understood more clearly by the reader. It is helpful to think of variables as containers that hold information. Variables come in a great variety of types. Automagica supports all variable types from the Python language, but down here are some of the most prominent.
 
 ### Strings
-
 
 A string is any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks).
 Strings are defined either with a single quote or a double quotes.
