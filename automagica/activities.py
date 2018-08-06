@@ -276,6 +276,38 @@ def ClearClipboard():
 Process activities
 '''
 
+def ProcessRunning(name):
+    """
+    Checks if given process name (name) is currently running on the system.
+    Returns True or False.
+    """
+    if name:
+        for p in psutil.process_iter():
+            if name in p.name():
+                return True
+    return False
+
+def ListRunningProcesses():
+    """
+    Returns a list with all names of unique processes currently running on the system.
+    """
+    process_list = []
+    for p in psutil.process_iter():
+        process_list.append(p.name())
+        
+    return set(process_list)
+    
+def AppRunning(name):
+    """
+    Checks if given application name (appname) is currently running on the system.
+    Returns True or False.
+    """
+    if name:
+        for p in psutil.process_iter():
+            if name in p.name():
+                return True
+    return False
+
 def ChromeRunning():    
     for p in psutil.process_iter():
         if "chrome" in p.name():
