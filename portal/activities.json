@@ -206,7 +206,7 @@
         {
           "name": "Word Running",
           "script": "WordRunning()",
-          "info": "Returns True if Word is active.",
+          "info": "Returns True if Word is active. ",
           "icon": "desktop",
           "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJPSURBVFiF5ZfBaxNBFMZ/06SNSWgSCYlWLaKEgqGtUQ9GBYMXPdSLIkYUBU89NEdB/Au8eKwiOXloESnipQj1JCikVakHoYJtaT2YYtK0SbRpmjYZD0sXw65Ns+xaxA8GHo+373188zGzI6SU7CTszRSLqyM2v3dPl0BGEEQERJD0IkhlkrHLphLYe+uVW7ocvUgiKIMiAV+wG6SrnhUAl4wMVwkE+t90CFlTBm2uXY4QNVqMNt42gWD/60EhxYDVg/5IAJOG5/LF5t0sGbNc4i0huLCzBMB6kzVCU+fAVui5/7VhzZnDTh7Hg3W5f0+BoYEwUkpuPvpcl/9076D5BISABzdCANwZnsHjtHMu7KNUqRoati0Cw4kwArg+OEU05OXaKWXPnr/LsvRzHYCF5YqmkWkeOHGondgRH4H2VuLRgJqPR4Ps2+1QCOS1BIxCo8B8tkxPp5vwATd9x/1s3tZ9x/xMfVtRCCyvaRoZ9YBGgfnsKgCJ8/txtdkYnykyMVvE2dbC7VgHAGkrFZjLlAE43eUFYGQiA0A05KHTr2xBWkcB0zwwly2rcalSZXQyx+hkrs75aR0TGoWOAqtq/PLjEitrVTW+clIx5ULeQg/8rsCz8YxubKkCiz/WGXr7nVabIDVdUPOp6QIv3i9S2ahRKG1oGhn1gO5JePfprCYnJSSefGk4pFmYdhua5oG/jf+cgGTMjpAPzfgz9vs8wsh3Qkqp/zCBEE0olEnGjBPQg97TTEI34NKrN52AbrHe4xSOgviQSZ69aDkBK/ALoL3X0FprEyAAAAAASUVORK5CYII="
         },
