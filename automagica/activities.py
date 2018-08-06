@@ -200,6 +200,48 @@ def ClearClipboard():
 '''
 Process activities
 '''
+import psutil
+
+def ChromeRunning():    
+    for p in psutil.process_iter():
+        if "chrome" in p.name():
+            return True
+    return False
+
+
+def WordRunning():    
+    for p in psutil.process_iter():
+        if "word" in p.name():
+            return True
+    return False
+
+
+def ExcelRunning():    
+    for p in psutil.process_iter():
+        if "excel" in p.name():
+            return True
+    return False
+
+
+def PowerpointRunning():    
+    for p in psutil.process_iter():
+        if "powerpoint" in p.name():
+            return True
+    return False
+
+
+def DropboxRunning():    
+    for p in psutil.process_iter():
+        if "dropbox" in p.name():
+            return True
+    return False
+
+
+def SkypeRunning():    
+    for p in psutil.process_iter():
+        if "skype" in p.name():
+            return True
+    return False
 
 
 def LaunchProcess(process_executable=None):
@@ -642,7 +684,6 @@ def WaitForFolder(path):
 Image Operations
 '''
 
-from __future__ import print_function
 import sys
 from PIL import Image
 import PIL
@@ -720,7 +761,60 @@ def MirrorImageVertically(path):
 '''
 Email Operations
 '''
+import smtplib
 
+
+def SendMailWithHotmail(user, password, destination, subject="", message="", port=587):
+    """
+    This function lest you send emails with a hotmail address. The first and second arguments require the
+    mail address and password of your hotmail account. The destination is the receiving mail address. The subject
+    and message variables contain respecively the mail subject and the text in the mail. The port variable is standard
+    587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
+    """
+    BODY = '\r\n'.join(['To: %s' % destination, 'From: %s' % user,'Subject: %s' % subject,'', message])
+    smtpObj = smtplib.SMTP('smtp-mail.outlook.com', port)
+    smtpObj.ehlo()
+    smtpObj.starttls()
+    smtpObj.login(user, password)
+    smtpObj.sendmail(user, destination, BODY)
+    smtpObj.quit()
+    return
+
+
+def SendMailWithGmail(user, password, destination, subject="", message="", port=587):
+    """
+    This function lest you send emails with a gmail address. The first and second arguments require the
+    mail address and password of your hotmail account. The destination is the receiving mail address. The subject
+    and message variables contain respecively the mail subject and the text in the mail. The port variable is standard
+    587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465. Google has a 
+    safety feature that blocks lessecure apps. For this function to work properly, this needs to be turned off, which
+    can be don at the following link: https://myaccount.google.com/lesssecureapps. 
+    """
+    BODY = '\r\n'.join(['To: %s' % destination, 'From: %s' % user,'Subject: %s' % subject,'', message])
+    smtpObj = smtplib.SMTP('smtp.gmail.com', port)
+    smtpObj.ehlo()
+    smtpObj.starttls()
+    smtpObj.login(user, password)
+    smtpObj.sendmail(user, destination, BODY)
+    smtpObj.quit()
+    return
+
+
+def SendMailWithYahoo(user, password, destination, subject="", message="", port=587):
+    """
+    This function lest you send emails with a Yahoo address. The first and second arguments require the
+    mail address and password of your hotmail account. The destination is the receiving mail address. The subject
+    and message variables contain respecively the mail subject and the text in the mail. The port variable is standard
+    587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
+    """
+    BODY = '\r\n'.join(['To: %s' % destination, 'From: %s' % user,'Subject: %s' % subject,'', message])
+    smtpObj = smtplib.SMTP('smtp.mail.yahoo.com', port)
+    smtpObj.ehlo()
+    smtpObj.starttls()
+    smtpObj.login(user, password)
+    smtpObj.sendmail(user, destination, BODY)
+    smtpObj.quit()
+    return
 
 
 '''
