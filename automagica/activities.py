@@ -3,6 +3,7 @@ import platform
 import shutil
 from PIL import Image
 import uuid
+import psutil
 
 '''
 Delay activities
@@ -178,16 +179,91 @@ def CreateUniqueKey(length=32):
     '''
     return str(uuid.uuid4())[:length]
 
+'''
+Monitoring
+'''
+
+def CPULoad(measure_time=1):
+    """
+    Returns average CPU load for all cores.
+    Measures once every second, adjust measure_time (seconds) to get a longer averaged measured time. Standard measure_time is 1 second.
+    """
+    cpu_measurements = []
+    for x in range(measure_time):
+        cpu_measurements.append(psutil.cpu_percent(interval=1))
+    return sum(cpu_measurements)/len(cpu_measurements)
+
+def NumberOfCPU(logical=True):
+    """
+    Returns the number of CPU's in the current system. 
+    The parameter 'logical' determines if only logical units are added to the count, default value is True
+    """
+    return psutil.cpu_count(logical=logical)
+
+def CPUFreq():
+    """
+    Returns frequency at which CPU currently operates.
+    Also shows minimum and maximum frequency
+    """
+    return psutil.cpu_freq()
+
+def CPUStats():
+    """
+    Returns CPU statistics: Number of CTX switches, intterupts, soft-interrupts and systemcalls.
+    """
+    return psutil.cpu_stats()
+
+def MemoryStats(mem_type='swap'):
+    """
+    Returns memory statistics: total, used, free and percentage in use.
+    Choose mem_type = 'virtual' for virtual memory, and mem_type = 'swap' for swap memory (standard).
+    """
+    if mem_type == 'virtual':
+        return psutil.virtual_memory()
+    else:
+        return psutil.swap_memory()
+
+def DiskStats():
+    """
+    Returns disk statistics of main disk: total, used, free and percentage in use.
+    """
+    return psutil.disk_usage('/')
+
+def DiskPartitions():
+    """
+    Returns tuple with info for every partition
+    """
+    return psutil.disk_partitions()
+
+def BootTime():
+    """
+    Returns time PC was booted.
+    """
+    return psutil.boot_time()
+
+def TimeSinceLastBoot():
+    """
+    Returns time since last boot in seconds.
+    """
+    import time
+    return time.time() - psutil.boot_time()
 
 '''
 Windows activities
 '''
 
+def BeepSound(frequency=1000, duration=250):
+    """
+    Makes a beeping sound.
+    Choose frequency (Hz) and duration (ms), standard is 1000 Hz and 250 ms.
+    """
+    import winsound
+    winsound.Beep(frequency, duration)
+    return
 
 def UseFailsafe(switch=True):
     from pyautogui import FAILSAFE
     FAILSAFE = switch
-
 
 def ClearClipboard():
     from ctypes import windll
@@ -196,11 +272,9 @@ def ClearClipboard():
         windll.user32.CloseClipboard()
     return
 
-
 '''
 Process activities
 '''
-import psutil
 
 def ChromeRunning():    
     for p in psutil.process_iter():
@@ -208,13 +282,11 @@ def ChromeRunning():
             return True
     return False
 
-
 def WordRunning():    
     for p in psutil.process_iter():
         if "word" in p.name():
             return True
     return False
-
 
 def ExcelRunning():    
     for p in psutil.process_iter():
@@ -222,13 +294,11 @@ def ExcelRunning():
             return True
     return False
 
-
 def PowerpointRunning():    
     for p in psutil.process_iter():
         if "powerpoint" in p.name():
             return True
     return False
-
 
 def DropboxRunning():    
     for p in psutil.process_iter():
@@ -236,19 +306,16 @@ def DropboxRunning():
             return True
     return False
 
-
 def SkypeRunning():    
     for p in psutil.process_iter():
         if "skype" in p.name():
             return True
     return False
 
-
 def LaunchProcess(process_executable=None):
     from subprocess import Popen
 
     return Popen(process_executable)
-
 
 def OpenProgramByName(name, main_drive = "C:\\"):
     from subprocess import Popen
