@@ -135,5 +135,6 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [python-docx](https://github.com/python-openxml/python-docx)
 - [pywin32](https://github.com/mhammond/pywin32)
 - [PyPDF2](https://github.com/mstamy2/PyPDF2)
+- [Psutil](https://pypi.org/project/psutil/)
 
 A special thanks goes out to all the above-mentioned repository contributers! :heart:
