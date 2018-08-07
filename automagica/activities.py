@@ -296,17 +296,7 @@ def ListRunningProcesses():
         process_list.append(p.name())
         
     return set(process_list)
-    
-def AppRunning(name):
-    """
-    Checks if given application name (appname) is currently running on the system.
-    Returns True or False.
-    """
-    if name:
-        for p in psutil.process_iter():
-            if name in p.name():
-                return True
-    return False
+
 
 def ChromeRunning():
     '''
@@ -367,12 +357,14 @@ def FirefoxRunning():
             return True
     return False
 
-def WordRunning():    
+def TeamviewerRunning():
+    '''
+    Returns True is Firefox is running.
+    '''     
     for p in psutil.process_iter():
-        if "word.exe" in p.name().lower():
+        if "teamviewer.exe" in p.name().lower():
             return True
     return False
-
 
 def SkypeRunning():
     '''
