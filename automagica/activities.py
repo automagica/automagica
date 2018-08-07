@@ -86,7 +86,6 @@ def ClickOnImage(filename=None, double_click=False, right_click=False):
         return click(x, y, clicks)
 
 
-
 def PressKey(key=None):
     '''
     Press and release an entered key.
@@ -193,25 +192,29 @@ def CPULoad(measure_time=1):
         cpu_measurements.append(psutil.cpu_percent(interval=1))
     return sum(cpu_measurements)/len(cpu_measurements)
 
+
 def NumberOfCPU(logical=True):
     """
     Returns the number of CPU's in the current system. 
-    The parameter 'logical' determines if only logical units are added to the count, default value is True
+    The parameter 'logical' determines if only logical units are added to the count, default value is True.
     """
     return psutil.cpu_count(logical=logical)
+
 
 def CPUFreq():
     """
     Returns frequency at which CPU currently operates.
-    Also shows minimum and maximum frequency
+    Also shows minimum and maximum frequency.
     """
     return psutil.cpu_freq()
+
 
 def CPUStats():
     """
     Returns CPU statistics: Number of CTX switches, intterupts, soft-interrupts and systemcalls.
     """
     return psutil.cpu_stats()
+
 
 def MemoryStats(mem_type='swap'):
     """
@@ -223,23 +226,27 @@ def MemoryStats(mem_type='swap'):
     else:
         return psutil.swap_memory()
 
+
 def DiskStats():
     """
     Returns disk statistics of main disk: total, used, free and percentage in use.
     """
     return psutil.disk_usage('/')
 
+
 def DiskPartitions():
     """
-    Returns tuple with info for every partition
+    Returns tuple with info for every partition.
     """
     return psutil.disk_partitions()
 
+
 def BootTime():
     """
-    Returns time PC was booted.
+    Returns time PC was booted in seconds after the epoch.
     """
     return psutil.boot_time()
+
 
 def TimeSinceLastBoot():
     """
@@ -261,11 +268,16 @@ def BeepSound(frequency=1000, duration=250):
     winsound.Beep(frequency, duration)
     return
 
+
 def UseFailsafe(switch=True):
     from pyautogui import FAILSAFE
     FAILSAFE = switch
 
+
 def ClearClipboard():
+    """
+    Removes everything from the clipboard.
+    """
     from ctypes import windll
     if windll.user32.OpenClipboard(None):
         windll.user32.EmptyClipboard()
@@ -286,6 +298,7 @@ def ProcessRunning(name):
             if name in p.name():
                 return True
     return False
+
 
 def ListRunningProcesses():
     """
@@ -357,14 +370,16 @@ def FirefoxRunning():
             return True
     return False
 
+
 def TeamviewerRunning():
     '''
-    Returns True is Firefox is running.
+    Returns True is Teamviewer is running.
     '''     
     for p in psutil.process_iter():
         if "teamviewer.exe" in p.name().lower():
             return True
     return False
+
 
 def SkypeRunning():
     '''
@@ -405,10 +420,12 @@ def IllustratorRunning():
             return True
     return False
 
+
 def LaunchProcess(process_executable=None):
     from subprocess import Popen
 
     return Popen(process_executable)
+
 
 def OpenProgramByName(name, main_drive = "C:\\"):
     from subprocess import Popen
@@ -434,7 +451,6 @@ def KillProcess(process=None, name=None):
 Browser activities
 '''
 
-
 def ChromeBrowser():
     if platform.system() == 'Linux':
         chromedriver_path = '\\bin\\webdriver\\linux64\\chromedriver'
@@ -450,7 +466,6 @@ def ChromeBrowser():
 OCR activities 
 '''
 
-
 def ExtractTextFromImage(filename=None):
     if platform.system == 'Windows':
         pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract'
@@ -461,6 +476,7 @@ def ExtractTextFromImage(filename=None):
 '''
 Excel activities
 '''
+
 from openpyxl import load_workbook, Workbook
 
 # Renaming functions
@@ -469,29 +485,57 @@ OpenExcelWorkbook = load_workbook
 # Renaming classes
 NewExcelWorkbook = Workbook
 
-
-def ExcelReadCell(path, row, col, cell=None):
-    """Read a Cell from an Excel file.
-    Make sure you enter a valid path e.g. "C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx"...
-    You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2"... 
-    First row is defined row number 1 and first column is defined column number 1
-    """
-    from openpyxl import load_workbook, Workbook
+def ExcelGetSheets(path):
+    '''
+    Return a list containing the sheet names of an Excel file. Make shure you enter a valid path 
+    referencing a .xlsx file e.g. "C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    '''
     workbook = load_workbook(path)
-    worksheet = workbook.active
-    if cell:
+    return workbook.get_sheet_names()
+
+
+def ExcelReadCell(path, cell="A1", sheet_name=None):
+    '''
+    Read a Cell from an Excel file and return its value.
+    Make sure you enter a valid path e.g. "C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The cell you want to read needs to be defined by a cell name e.g. "A2". The third variable needs
+    to be a string with the name of the sheet that needs to be read. If omitted, the function reads the 
+    entered cell of the active sheet. First row is defined row number 1 and first column is defined column number 1
+    '''
+    workbook = load_workbook(path)
+    if not sheet_name:
+        worksheet = workbook.active
         return worksheet[cell].value
     else:
-        return worksheet[row-1][col-1].value
+        worksheet = workbook.get_sheet_by_name(sheet_name)
+        return worksheet[cell].value
+
+
+def ExcelReadRowCol(path, r=1, c=1, sheet_name=None):
+    '''
+    Read a Cell from an Excel file and return its value.
+    Make sure you enter a valid path e.g. "C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The cell you want to read needs to be row and a column. E.g. r = 2 and c = 3 refers to cell C3.  The third variable needs
+    to be a string with the name of the sheet that needs to be read. If omitted, the function reads the 
+    entered cell of the active sheet. First row is defined row number 1 and first column is defined column number 1
+    '''
+    workbook = load_workbook(path)
+    if not sheet_name:
+        worksheet = workbook.active
+        return worksheet.cell(row = r, column = c).value
+    else:
+        worksheet = workbook.get_sheet_by_name(sheet_name)
+        return worksheet.cell(row=r, column = c).value
 
 
 def ExcelWriteCell(path, sheet=None, row=1, col=1, cell=None, write_value='Value'):
-    """Write a Cell to an Excel file.
+    '''
+    Write a Cell to an Excel file.
     Make sure you enter a valid path e.g. C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx...
     You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2"... 
     First row is defined row number 1 and first column is defined column number 1...
     Value can be anything, standard is "Value"
-    """
+    '''
     from openpyxl import load_workbook, Workbook
     workbook = load_workbook(path)
     if sheet:
@@ -507,7 +551,6 @@ def ExcelWriteCell(path, sheet=None, row=1, col=1, cell=None, write_value='Value
 '''
 Word activities
 '''
-
 
 def OpenWordDocument(filename=None):
     from docx import Document
@@ -538,7 +581,7 @@ import PyPDF2
 
 def MergePDF(pdf1,pdf2,merged_path):
     '''
-    The first two arguments are the PDF's that need to be merged. The pages from pdf2 
+    The first two arguments are the PDF's that need to be merged, entered as a path. The pages from pdf2 
     will be added to pdf2. The merged PDF receives a new path specefied by the third argument.
     '''
     from PyPDF2 import PdfFileMerger
@@ -554,10 +597,24 @@ def MergePDF(pdf1,pdf2,merged_path):
     return
 
 
+def ExtractTextFromPDFPage(path, page=1):
+    """
+    This function extracts all the text from a given page and returns it as a string. The pdf needs to be
+    entered as a path. Pay attention that the entered page needs to be greater than 0.
+    """
+    if os.path.isfile(path) and page > 0:
+        pdfFile = open(path, "rb")
+        pdfReader = PyPDF2.PdfFileReader(pdfFile)
+        if page <= pdfReader.numPages:
+            pdfPage = pdfReader.getPage(page-1)
+        else:
+            pdfPage = pdfReader.getPage(pdfReader.numPages - 1)
+        return pdfPage.extractText()
+
+
 '''
 Message boxes
 '''
-
 
 def DisplayMessageBox(body, title="Message", type="info"):
     '''
@@ -605,7 +662,6 @@ def StartFile(path):
 '''
 File Operations
 '''
-
 
 def OpenFile(path):
     '''
@@ -689,10 +745,36 @@ def WaitForFile(path):
     OpenFile(path)
     return
 
+
+def WriteListToFile(list_to_write, file):
+    '''
+    Writes a list to a .txt file. Every element of the entered list is written on a new
+    line of the text file. The .txt file is entered with a path. If the path does not exist
+    yet, the function will create a new .txt file at the specified path and write it. If the 
+    path does exist, the function writes the list in the existing file.
+    '''
+    with open(file, 'w') as filehandle:  
+        filehandle.writelines("%s\n" % place for place in list_to_write)
+    return
+
+
+def WriteFileToList(file):
+    '''
+    This function writes the content of a entered .txt file to a list and returns that list. 
+    Every new line from the .txt file becomes a new element of the list. The function will 
+    not work if the entered path is not attached to a .txt file.
+    '''
+    written_list = []
+    with open(file, 'r') as filehandle:  
+        filecontents = filehandle.readlines()
+        for line in filecontents:
+            current_place = line[:-1]
+            written_list.append(current_place)
+    return written_list
+
 '''
 Folder Operations
 '''
-
 
 def CreateFolder(path):
     '''
@@ -869,7 +951,7 @@ def RotateImage(path, angle):
 
 def ResizeImage(path,size):
     '''
-    Resizes the image specified by the path variable. The size is specified by the second argument. This is a tuple with the
+    Resizes the image specified by the path variable. The size is specifie by the second argument. This is a tuple with the
     width and height in pixels. E.g. ResizeImage("C:\\Users\\Pictures\\Automagica.jpg", (300, 400)) gives the image a width
     of 300 pixels and a height of 400 pixels.
     '''
@@ -904,6 +986,7 @@ def ImageFormat(path):
     im = Image.open(path)
     return DisplayMessageBox(im.format) 
 
+
 def MirrorImageHorizontally(path):
     '''
     Mirrors an image with a given path from left to right.
@@ -929,7 +1012,7 @@ def SendMailWithHotmail(user, password, destination, subject="", message="", por
     """
     This function lest you send emails with a hotmail address. The first and second arguments require the
     mail address and password of your hotmail account. The destination is the receiving mail address. The subject
-    and message variables contain respecively the mail subject and the text in the mail. The port variable is standard
+    and message variables contain respectively the mail subject and the text in the mail. The port variable is standard
     587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
     """
     BODY = '\r\n'.join(['To: %s' % destination, 'From: %s' % user,'Subject: %s' % subject,'', message])
@@ -946,10 +1029,10 @@ def SendMailWithGmail(user, password, destination, subject="", message="", port=
     """
     This function lest you send emails with a gmail address. The first and second arguments require the
     mail address and password of your hotmail account. The destination is the receiving mail address. The subject
-    and message variables contain respecively the mail subject and the text in the mail. The port variable is standard
+    and message variables contain respectively the mail subject and the text in the mail. The port variable is standard
     587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465. Google has a 
     safety feature that blocks lessecure apps. For this function to work properly, this needs to be turned off, which
-    can be don at the following link: https://myaccount.google.com/lesssecureapps. 
+    can be done at the following link: https://myaccount.google.com/lesssecureapps. 
     """
     BODY = '\r\n'.join(['To: %s' % destination, 'From: %s' % user,'Subject: %s' % subject,'', message])
     smtpObj = smtplib.SMTP('smtp.gmail.com', port)
@@ -965,7 +1048,7 @@ def SendMailWithYahoo(user, password, destination, subject="", message="", port=
     """
     This function lest you send emails with a Yahoo address. The first and second arguments require the
     mail address and password of your hotmail account. The destination is the receiving mail address. The subject
-    and message variables contain respecively the mail subject and the text in the mail. The port variable is standard
+    and message variables contain respectively the mail subject and the text in the mail. The port variable is standard
     587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
     """
     BODY = '\r\n'.join(['To: %s' % destination, 'From: %s' % user,'Subject: %s' % subject,'', message])

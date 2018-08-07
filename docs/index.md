@@ -30,10 +30,15 @@ Automagica is based on the Python language.
 - [Process Acivities](#process-activities)
     - [Standard Windows Applications](#windows-applications)
     - [General Commands](#general-commands)
+    - [Running Programs](#running-programs)
+- [Monitoring](#monitoring)
 - [Office Automation](#office-automation)
     - [Entering Pathnames](#entering-pathnames)
 	- [Word](#word)
 	- [Excel](#excel)
+- [PDF Manipulation](#pdf-manipulation)
+    - [Merge PDF Files](#merge-pdf-files)
+    - [Extract Text From PDF](#extract-text-from-pdf)
 - [File And Folder Manipulation](#file-folder-automation)
     - [Files](#files)
         - [Open A File](#open-a-file)
@@ -53,6 +58,8 @@ Automagica is based on the Python language.
         - [Check If A Folder Exists](#check-if-a-folder-exists)
         - [Zip Folder](#zip-folder)
         - [UnZip Folder](#unzip-folder)
+- [Image Operations](#image-operations)
+- [Email Operations](#email-operations)
 - [Basic operations](#basic-operations)
 	- [Variables and Types](#variables-and-types)
 		- [Strings](#strings)
@@ -267,6 +274,19 @@ Type("automagica.be/", interval_seconds=0.01)
 PressKey("enter")
 ```
 ![Imgur](https://i.imgur.com/ibeLf7f.gif)
+
+Frequently used keys can also be pressed with a key-specific functions. In what follows, the available functions are listed.
+
+```
+Capslock()
+Numlock()
+Enter()
+SpaceBar()
+Backspace()
+Delete()
+Endkey()
+Tab()
+```
 
 # Browser Automation
 
@@ -603,6 +623,70 @@ This function does not require a full path as input in the first variable. Retur
 ```
 OpenProgramByName("Dropbox")
 ```
+## Running Programs
+
+Automagica can check wheter a program is currently active on your computer. This can be done with a general function that requires the process name and returns True if the specified program is active:
+```
+ProcessRunning(name="program_name")
+```
+Next to that there are a couple of functions that are program specific who return True if that program is currently running. Those are listed below:
+```
+ChromeRunning()
+WordRunning()
+ExcelRunning()
+PowerpointRunning()
+DropboxRunning()
+FirefoxRunning()
+TeamviewerRunning()
+SkypeRunning()
+EdgeRunning()
+OnedriveRunning()
+IllustratorRunning()
+```
+Finally, a list of every active program can be displayed as follows:
+```
+ListRunningProcesses()
+```
+
+# Monitoring
+
+Following list of functions can be used to return information about the current status of your CPU, disk, memory etc.
+```
+CPULoad(measure_time=1)
+```
+Returns average CPU load for all cores. Measures once every second, adjust measure_time (seconds) to get a longer averaged measured time. Standard measure_time is 1 second.
+```
+NumberOfCPU(logical=True)
+```
+Returns the number of CPU's in the current system. The parameter 'logical' determines if only logical units are added to the count, default value is True.
+```
+CPUFreq()
+```
+Returns frequency at which CPU currently operates. Also shows minimum and maximum frequency.
+```
+CPUStats()
+```
+Returns CPU statistics: Number of CTX switches, intterupts, soft-interrupts and systemcalls.
+```
+MemoryStats(mem_type='swap')
+```
+Returns memory statistics: total, used, free and percentage in use. Choose mem_type = 'virtual' for virtual memory, and mem_type = 'swap' for swap memory (standard).
+```
+DiskStats()
+```
+Returns disk statistics of main disk: total, used, free and percentage in use.
+```
+DiskPartitions()
+```
+Returns tuple with info for every partition.
+```
+BootTime()
+```
+Returns time PC was booted in seconds after the epoch.
+```
+TimeSinceLastBoot()
+```
+Returns time since last boot in seconds.
 
 # Office Automation
 
@@ -646,6 +730,20 @@ ExcelWriteCell("C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx",1,1,value="Robo
 #Using cell value
 ExcelWriteCell("C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx",cell=A1,value="Robot")
 ```
+# PDF Manipulation
+
+## Merge PDF Files
+```
+MergePDF(pdf1=\"pathname\", pdf2=\"pathname\", merged_pdf=\"pathname\")
+```
+This function can merge two existing PDF files. The first two arguments are the PDF's that need to be merged, entered as a path. The pages from pdf2 are added to pdf2. The merged PDF receives a new path specefied by the third argument.
+
+## Extract Text From PDF
+
+```
+ExtractTextFromPDFPage(path=\"pathname\", page=1)
+```
+This function extracts all the text from a given page and returns it as a string. The pdf needs to be entered as a path. Pay attention that the entered page needs to be greater than 0.
 
 # File and folder manipulations
 
@@ -707,6 +805,25 @@ Next function returns True if the path of a certain file exists and False if the
 ```
 "FileExists(path=\"pathname\")"
 ```
+### Wait For A File
+
+Following function waits until a file with the entered path is created an then opens it.
+```
+WaitForFile(path=\"pathname\")
+```
+
+### Writing To And From Files
+
+It is possible to write a list to a .txt file or to write a .txt file to a list. This can be done with following functions.
+```
+WriteListToFile(list_to_write, file)
+```
+This function writes a list to a .txt file. Every element of the entered list is written on a new line in the text file. The .txt file is entered with a path. If the path does not exist yet, the function will create a new .txt file at the specified path and write it. If the path does exist, the function writes the list in the existing file.
+```
+WriteFileToList(file)
+```
+This function writes the content of a entered .txt file to a list and returns that list. Every new line from the .txt file becomes a new element of the list. The function will not work if the entered path is not attached to a .txt file.
+
 
 ## Folder Manipulaion
 Most of the manipulations that can be done on files can be executed on folders as well. Automagica offers a selection of functions that make it easy to perform manipulations on folders.
@@ -823,6 +940,59 @@ The opposite of the ZipFolder function can be achieved with:
 UnZipFolder(path=\"pathname_zipped_folder\", new_path=\"pathname_target_location\")
 ```
 The first argument is the pathname of compressed folder that needs to be unzipped. The second argument is optional. It is the path of the directory where the unzipped folder will be stored. If omitted, the unzipped folder is stored in the same location as the original zipped folder.
+
+### Wait For A Folder
+
+Following function waits until a folder with the entered path is created an then opens it.
+```
+WaitForFolder(path=\"pathname\")
+```
+
+# Image Operations
+
+Images can be manipulated in many ways with Automagica. The available functions are listed below.
+```
+OpenImage(path=\"pathname\")
+```
+Displays an image specified by the path variable on the default imaging program.
+```
+RotateImage(path=\"pathname\", angle)
+```
+Rotate an image over a specified angle. E.g. Entering "C:\\Users\\Pictures\\Automagica.jpg" as path and an a angle of 90 rotates the picture with the given path over 90 degrees. Pay attention, because angles other than 90, 180, 270, 360 can deform the picture. 
+```
+ResizeImage(path=\"pathname\", size=(1024, 768))
+```
+Resizes the image specified by the path variable. The size is specifie by the second argument. This is a tuple with the width and height in pixels. E.g. ResizeImage("C:\\Users\\Pictures\\Automagica.jpg", (300, 400)) gives the image a width of 300 pixels and a height of 400 pixels.
+```
+ImageSize(path=\"pathname\")
+```
+Returns the size in pixels of an image specified by a path. The size is returned in a message box of the form: "(height, width)
+```
+CropImage(path=\"pathname\",box=None)
+```
+Crops the image specified by path to a region determined by the box variable. This variable is a 4 tuple who defines the left, upper, right and lower pixel coördinate e.g.: (left, upper, right, lower).
+```
+ImageFormat(path=\"pathname\")
+```
+Returns the format of an image specified by the input path. E.g. entering "C:\\Users\\Pictures\\Automagica.jpg" returns a message box saying JPEG.
+```
+MirrorImageHorizontally(path=\"pathname\")
+```
+Mirrors an image with a given path from left to right.
+```
+MirrorImageVertically(path=\"pathname\")
+```
+Mirrors an image with a given path from top to bottom.
+
+# Email Operations
+
+Automagica makes it possible to send an email with your Hotmail, Gmail or Yahoo mail address. The input for the three functions works in the same way. The first and second arguments are respectively your email address and user password. The destination variable is the email address you want to contact. The subject and message variable contain respectively the subject and the text message. The port variable is standard 587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465. When using a Gmail account, there is one exception. Google has a safety feature that blocks lessecure apps. For this function to work properly, this needs to be turned off, which can be done at the following link: https://myaccount.google.com/lesssecureapps. 
+
+```
+SendMailWithHotmail(user="user@hotmail.com", password, destination, subject="", message="", port=587)
+SendMailWithGmail(user="user@gmail.com", password, destination, subject="", message="", port=587)
+SendMailWithYahoo(user="user@yahoo.com", password, destination, subject="", message="", port=587)
+```
 
 # Basic Operations
 
@@ -1124,7 +1294,7 @@ If you open the Excel file, the result should look something like this:
 
 ![Imgur](https://i.imgur.com/7gSv7gc.png)
 
-Note that the links differ depending on your location, as google search results are location dependant.
+Note that the links differ depending on your location, as google search results are location dependent.
 
 
 ## Credits
@@ -1138,3 +1308,4 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [OpenPyXL](https://bitbucket.org/openpyxl/openpyxl)
 - [python-docx](https://github.com/python-openxml/python-docx)
 - [pywin32](https://github.com/mhammond/pywin32)
+- [PyPDF2](https://github.com/mstamy2/PyPDF2)
