@@ -202,44 +202,112 @@ Process activities
 '''
 import psutil
 
-def ChromeRunning():    
+def ChromeRunning():
+    '''
+    Returns True is Chrome is running.
+    '''    
     for p in psutil.process_iter():
-        if "chrome" in p.name():
+        if "chrome.exe" in p.name():
             return True
     return False
 
 
-def WordRunning():    
+def WordRunning():
+    '''
+    Returns True is Word is running.
+    '''     
     for p in psutil.process_iter():
-        if "word" in p.name():
+        if "winword.exe" in p.name().lower():
             return True
     return False
 
 
-def ExcelRunning():    
+def ExcelRunning():
+    '''
+    Returns True is Excel is running.
+    '''     
     for p in psutil.process_iter():
-        if "excel" in p.name():
+        if "excel.exe" in p.name():
             return True
     return False
 
 
-def PowerpointRunning():    
+def PowerpointRunning():
+    '''
+    Returns True is Powerpoint is running.
+    '''     
     for p in psutil.process_iter():
-        if "powerpoint" in p.name():
+        if "powerpnt.exe" in p.name().lower:
             return True
     return False
 
 
-def DropboxRunning():    
+def DropboxRunning():
+    '''
+    Returns True is Dropbox is running.
+    '''     
     for p in psutil.process_iter():
-        if "dropbox" in p.name():
+        if "dropbox.exe" in p.name().lower():
             return True
     return False
 
 
-def SkypeRunning():    
+def FirefoxRunning():
+    '''
+    Returns True is Firefox is running.
+    '''     
     for p in psutil.process_iter():
-        if "skype" in p.name():
+        if "firefox.exe" in p.name().lower():
+            return True
+    return False
+
+
+def TeamviewerRunning():
+    '''
+    Returns True is Teamviewer is running.
+    '''     
+    for p in psutil.process_iter():
+        if "teamviewer.exe" in p.name().lower():
+            return True
+    return False
+
+
+def SkypeRunning():
+    '''
+    Returns True is Skype is running.
+    '''     
+    for p in psutil.process_iter():
+        if "skypehost.exe" in p.name().lower():
+            return True
+    return False
+
+
+def EdgeRunning():
+    '''
+    Returns True is Microsoft Edge is running.
+    '''     
+    for p in psutil.process_iter():
+        if "microsoftedge.exe" in p.name().lower():
+            return True
+    return False
+
+
+def OnedriveRunning():
+    '''
+    Returns True is Onedrive is running.
+    '''     
+    for p in psutil.process_iter():
+        if "onedrive.exe" in p.name().lower():
+            return True
+    return False
+
+
+def IllustratorRunning():
+    '''
+    Returns True is Illustrator is running.
+    '''     
+    for p in psutil.process_iter():
+        if "illustrator.exe" in p.name().lower():
             return True
     return False
 
@@ -374,6 +442,7 @@ def ConvertWordToPDF(word_filename=None, pdf_filename=None):
 '''
 PDF Activities
 '''
+import PyPDF2
 
 def MergePDF(pdf1,pdf2,merged_path):
     '''
