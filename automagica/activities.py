@@ -485,67 +485,215 @@ OpenExcelWorkbook = load_workbook
 # Renaming classes
 NewExcelWorkbook = Workbook
 
+def ExcelCreateWorkbook(path):
+    '''
+    Create a new .xlsx file and save it under a specified path. If the entered path already
+    exists, the function does nothing.
+    '''
+    if not os.path.exists(path):
+        Workbook().save(path)
+    return
+
+
+def ExcelOpenWorkbook(path):
+    '''
+    Open a .xlsx file with Microsoft Excel. Make sure you enter a valid path. This can be a path
+    referencing an existing .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". 
+    This will open the existing file. You can also enter a comletely new path. In this case, the 
+    function creates a new .xlsx file with that path and opens it with Excel.
+    '''
+    if os.path.exists(path):
+        os.startfile(path)
+    elif not os.path.exists(path):
+        ExcelCreateWorkbook(path)
+        os.startfile(path)
+    return
+
+
+def ExcelSaveExistingWorkbook(path, new_path=None):
+    '''
+    Save (as) an existing .xlsx file. The second variable is the new path the file needs to be saved
+    at. You can ignore this variable if you just want to save the file and do not want to "save as".
+    For the function to work properly, it is important that the file you want to save is not opened.
+    '''
+    workbook = load_workbook(path)
+    if not new_path:
+        workbook.save(path)
+    elif not os.path.isfile(new_path):
+        workbook.save(new_path)    
+    return
+
+
+def ExcelCreateWorkSheet(path, sheet_name=None):
+    '''
+    Create a new worksheet with a specified name in an existing workbook specified by the path variable. If
+    no sheet_name is entered, the new sheet is named "sheet1", "sheet2", "sheet3", ..., depending on the sheets
+    that already exist.
+    Make shure you enter a valid path referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    For the function to work properly, it is important that the .xlsx file is closed during the execution.
+    '''
+    workbook = load_workbook(path)
+    if sheet_name and sheet_name not in workbook.get_sheet_names():
+        workbook.create_sheet(title = sheet_name)
+    elif not sheet_name:
+        workbook.create_sheet()
+    workbook.save(path)
+    return
+
+
 def ExcelGetSheets(path):
     '''
     Return a list containing the sheet names of an Excel file. Make shure you enter a valid path 
-    referencing a .xlsx file e.g. "C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
     '''
     workbook = load_workbook(path)
     return workbook.get_sheet_names()
 
 
-def ExcelReadCell(path, cell="A1", sheet_name=None):
+def ExcelReadCell(path, cell="A1", sheet=None):
     '''
-    Read a Cell from an Excel file and return its value.
-    Make sure you enter a valid path e.g. "C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx".
-    The cell you want to read needs to be defined by a cell name e.g. "A2". The third variable needs
-    to be a string with the name of the sheet that needs to be read. If omitted, the function reads the 
-    entered cell of the active sheet. First row is defined row number 1 and first column is defined column number 1
+    Read a cell from an Excel file and return its value.
+    Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The cell you want to read needs to be defined by a cell name e.g. "A2". The third variable 
+    is a string with the name of the sheet that needs to be read. If omitted, the 
+    function reads the entered cell of the active sheet.
     '''
-    workbook = load_workbook(path)
-    if not sheet_name:
-        worksheet = workbook.active
-        return worksheet[cell].value
-    else:
-        worksheet = workbook.get_sheet_by_name(sheet_name)
-        return worksheet[cell].value
-
-
-def ExcelReadRowCol(path, r=1, c=1, sheet_name=None):
-    '''
-    Read a Cell from an Excel file and return its value.
-    Make sure you enter a valid path e.g. "C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx".
-    The cell you want to read needs to be row and a column. E.g. r = 2 and c = 3 refers to cell C3.  The third variable needs
-    to be a string with the name of the sheet that needs to be read. If omitted, the function reads the 
-    entered cell of the active sheet. First row is defined row number 1 and first column is defined column number 1
-    '''
-    workbook = load_workbook(path)
-    if not sheet_name:
-        worksheet = workbook.active
-        return worksheet.cell(row = r, column = c).value
-    else:
-        worksheet = workbook.get_sheet_by_name(sheet_name)
-        return worksheet.cell(row=r, column = c).value
-
-
-def ExcelWriteCell(path, sheet=None, row=1, col=1, cell=None, write_value='Value'):
-    '''
-    Write a Cell to an Excel file.
-    Make sure you enter a valid path e.g. C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx...
-    You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2"... 
-    First row is defined row number 1 and first column is defined column number 1...
-    Value can be anything, standard is "Value"
-    '''
-    from openpyxl import load_workbook, Workbook
     workbook = load_workbook(path)
     if sheet:
-        worksheet = workbook[sheet]
+        worksheet = workbook.get_sheet_by_name(sheet)
     else:
         worksheet = workbook.active
 
-    worksheet.cell(row=row, column=col, value=write_value)
+    return worksheet[cell].value
+
+
+def ExcelReadRowCol(path, r=1, c=1, sheet=None):
+    '''
+    Read a Cell from an Excel file and return its value.
+    Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The cell you want to read needs to be row and a column. E.g. r = 2 and c = 3 refers to cell C3. 
+    The third variable needs to be a string with the name of the sheet that needs to be read. 
+    If omitted, the function reads the entered cell of the active sheet. First row is defined 
+    row number 1 and first column is defined column number 1.
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+    
+    return worksheet.cell(row=r, column = c).value
+
+
+def ExcelWriteRowCol(path, sheet=None, r=1, c=1, write_value='Value'):
+    '''
+    Write a value to a Cell to an Excel file.
+    Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx"...
+    The cell should be defined by a row and a column. E.g. row=4, column=8.
+    First row is defined row number 1 and first column is defined column number 1...
+    Value can be anything, standard is "Value".
+    When executing the code, make sure .xlsx file you want to write is closed.
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+    worksheet.cell(row=r, column=c).value = write_value
     workbook.save(path)
     return
+
+
+def ExcelWriteCell(path, sheet=None, cell="A1", write_value='Value'):
+    '''
+    Write a Cell to an Excel file.
+    Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx"...
+    The cell should be defined by a cell name. E.g. "B6".
+    Value can be anything, standard is "Value".
+    When executing the code, make sure .xlsx file you want to write is closed.
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+
+    worksheet[cell] = write_value
+    workbook.save(path)
+    return
+
+def ExcelPutRowInList(path, start_cell, end_cell, sheet=None):
+    '''
+    Put the elements of a specified row in a list. The .xlsx file and sheet that needs to be read are 
+    specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable 
+    is set to the current active sheet. Also make shure to enter a valid path e.g. 
+    "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The row is specified by strings referring to the first and final cell. E.g. start_cell = "B3"
+    and end_cell = "E3" will put all the elements of the third row from cell "B3" to cell "E3" in 
+    a list: ["B3", "C3", "D3", "E3"]. For the function to work, the two cells need to be of the same row and start_cell needs to be
+    the cell at the left hand side.  
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+    
+    values = []
+    for rowobj in worksheet[start_cell:end_cell][0]:
+        values.append(rowobj.value)
+    
+    return values
+
+
+def ExcelPutColumnInList(path, start_cell, end_cell, sheet=None):
+    '''
+    Put the elements of a specified column in a list. The .xlsx file and sheet that needs to be read are 
+    specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable 
+    is set to the current active sheet. Also make shure to enter a valid path e.g. 
+    "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The column is specified by strings referring to the first and final cell. E.g. start_cell = "E3"
+    and end_cell = "E6" will put all the elements of the fifth column from cell "E3" to cell "E6" in 
+    a list: ["E3", "E4", "E5", "E6]. For the function to work, the two cells need to be of the same 
+    column and start_cell needs to be the upper cell.  
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+    
+    values = []
+    for colobj in worksheet[start_cell:end_cell]:
+        values.append(colobj[0].value)
+    
+    return values
+
+
+def ExcelPutSelectionInMatrix(path, upper_left_cell, bottom_right_cell, sheet=None):
+    '''
+    Put the elements of a specified selection in a matrix. The .xlsx file and sheet that needs to be read are 
+    specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable 
+    is set to the current active sheet. Also make shure to enter a valid path e.g. 
+    "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The selection is specified by strings referring to the upper left and bottom right cell. 
+    E.g. upper_left_cell = "B2" and bottom_right_cell = "C3" will return a matrix with values: 
+    [["B2", "C2"], ["B3", "C3"]]. If a cell is empty, its value is set to "None".
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+    
+    matrix = []
+    for rowobj in worksheet[upper_left_cell:bottom_right_cell]:
+        next_row = []
+        for cellobj in rowobj:
+            next_row.append(cellobj.value)
+        matrix.append(next_row)
+
+    return matrix
 
 
 '''

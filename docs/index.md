@@ -36,6 +36,8 @@ Automagica is based on the Python language.
     - [Entering Pathnames](#entering-pathnames)
 	- [Word](#word)
 	- [Excel](#excel)
+        - [Reading And Writing](#reading-and-writing)
+        - [Basic Operations](#basic-operations)
 - [PDF Manipulation](#pdf-manipulation)
     - [Merge PDF Files](#merge-pdf-files)
     - [Extract Text From PDF](#extract-text-from-pdf)
@@ -712,24 +714,73 @@ ConvertWordToPDF(word_filename='C:\\document.docx', pdf_filename='C:\\document.p
 
 ## Excel
 
+### Reading And Writing
+
 Automation in Excel most of the time requires reading and writing cells. In Automagica, this is very easy.
 
-You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2".
-Note that the first row is defined as row number 1 and the first column is defined column number 1.
+There are two functions for reading a cell.
 ```
-#Using row and column
-ExcelReadCell("C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx",1,1)
 #Using cell value
-ExcelReadCell("C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx",cell=A1)
+ExcelReadCell(path="\pathname\", cell="A1", sheet=None)
 ```
+Read a cell from an Excel file and return its value. Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The cell you want to read needs to be defined by a cell name e.g. "A2". The third variable is a string with the name of the sheet that needs to be read. If omitted, the function reads the entered cell of the current active sheet. 
+```
+#Using row column
+ExcelReadRowCol(path="\pathname\", r=1, c=1, sheet=None)
+```
+Read a Cell from an Excel file and return its value. Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The cell you want to read needs to be row and a column. E.g. r = 2 and c = 3 refers to cell C3. The third variable is string with the name of the sheet that needs to be read. If omitted, the function reads the entered cell of the active sheet. First row is defined row number 1 and first column is defined column number 1
 
-And similar for writing a cell:
+Similar to reading a cell, there are two functions for writing a value to a cell.
+```
+#Using cell value
+ExcelWriteCell(path="\pathname\", sheet=None, cell="A1", write_value="Value")
+```
+Write a Cell to an Excel file. Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The cell should be defined by a cell name. E.g. "B6". Value can be anything, standard is "Value". When executing the code, make sure .xlsx file you want to write is closed.
 ```
 #Using row and column
 ExcelWriteCell("C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx",1,1,value="Robot")
-#Using cell value
-ExcelWriteCell("C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx",cell=A1,value="Robot")
 ```
+Read a Cell from an Excel file and return its value. Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The cell you want to read needs to be row and a column. E.g. r = 2 and c = 3 refers to cell C3. The third variable needs to be a string with the name of the sheet that needs to be read. If omitted, the function reads the entered cell of the active sheet. First row is defined row number 1 and first column is defined column number 1.
+
+### Basic Operations
+
+Next to reading and writing, Automagica offers some basic operations for .xlsx files. These are listed below.
+```
+ExcelCreateWorkbook(path=\"pathname\")
+```
+Create a new .xlsx file and save it under a specified path. If the entered path already exists, the function does nothing.
+```
+ExcelOpenWorkbook(path=\"pathname\")
+```
+Open a .xlsx file with Microsoft Excel. Make sure you enter a valid path. This can be a path referencing an existing .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". This will open the existing file. You can also enter a comletely new path. In this case, the function creates a new .xlsx file with that path and opens it with Excel.
+```
+ExcelSaveExistingWorkbook(path=\"pathname\", new_path=None)
+```
+Save (as) an existing .xlsx file. The second variable is the new path the file needs to be saved at. You can ignore this variable if you just want to save the file and do not want to "save as". For the function to work properly, it is important that the file you want to save is not opened.
+```
+ExcelCreateWorkSheet(path=\"pathname\", sheet_name=None)
+```
+Create a new worksheet with a specified name in an existing workbook specified by the path variable. If no sheet_name is entered, the new sheet is named "sheet1", "sheet2", "sheet3", ..., depending on the sheets that already exist. Make shure you enter a valid path referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". For the function to work properly, it is important that the .xlsx file is closed during the execution.
+```
+ExcelGetSheets(path=\"pathname\")
+```
+Return a list containing the sheet names of an Excel file. Make shure you enter a valid path referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+```
+ExcelPutRowInList(path=\"pathname\", start_cell=\"B3\", end_cell=\"E8\", sheet=None)
+```
+Put the elements of a specified row in a list. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
+"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The row is specified by strings referring to the first and final cell. E.g. start_cell = "B3" and end_cell = "E3" will put all the elements of the third row from cell "B3" to cell "E3" in a list: ["B3", "C3", "D3", "E3"]. For the function to work, the two cells need to be of the same row and start_cell needs to be the cell at the left hand side.  
+```
+ExcelPutColumnInList(path=\"pathname\", start_cell=\"A3\", end_cell=\"A8\", sheet=None)
+```
+Put the elements of a specified column in a list. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
+"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The column is specified by strings referring to the first and final cell. E.g. start_cell = "E3" and end_cell = "E6" will put all the elements of the fifth column from cell "E3" to cell "E6" in a list: ["E3", "E4", "E5", "E6]. For the function to work, the two cells need to be of the same column and start_cell needs to be the upper cell.
+```
+ExcelPutSelectionInMatrix(path=\"pathname\", upper_left_cell=\"B2\", bottom_right_cell=\"C3\", sheet=None)
+```
+Put the elements of a specified selection in a matrix. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
+"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The selection is specified by strings referring to the upper left and bottom right cell. E.g. upper_left_cell = "B2" and bottom_right_cell = "C3" will return a matrix with values: [["B2", "C2"], ["B3", "C3"]]. If a cell is empty, its value is set to "None".
+
 # PDF Manipulation
 
 ## Merge PDF Files
