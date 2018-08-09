@@ -144,6 +144,13 @@
           "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAaVBMVEUAAABifqVhfKRifKNhe6difKNhfaRie6RifKNifKNifaJjfaJhe6FigKdjfKNie6RifKNmgJlifKNifKJgfaNjfaRifKNhfKNkfKNje6NggJ9eeaFVgKphfKNgeqVifKNhfKJifKMAAAAgBlLQAAAAIXRSTlMAQa37HfyDuP65YFhPGm942grukj2wgJBAdCATBpgw0qUQSuUJAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAN1wAADdcBQiibeAAAAAd0SU1FB+IIAw8cDSYHktsAAACVSURBVDjL7ZPLDoJADEUvbxgBeelgfWD//yedGEYxA9PElQvPopueNF3cCwRhxBtEYQDECXtIYqTsJUVmZl6onYMqcrPKnkJZ1XuHuiqt0LTd2vWubWahH/hwtCyMoZ8FPbKCZSGM+i2ciM7AhYg2BMMVuH0+8Re+Eyat717B5acEE7lVXpETQyvG3l8csXpieaX6PwA4C2rRdSrKwgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOC0wOC0wM1QxNToyODoxMyswMjowMH+DqWAAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTgtMDgtMDNUMTU6Mjg6MTMrMDI6MDAO3hHcAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAABJRU5ErkJggg=="
         },
         {
+          "name": "Type In Run Window",
+          "script": "TypeInRunWindow(text)",
+          "info": "Type the entered text in the Windows \"Run\" window.",
+          "icon": "keyboard",
+          "iconb64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAfpAAAH6QGUejxAAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAVZQTFRF////29vb6+vi5eXTzb/I6Ojg6enf6urfwrTFuae/4uLX3dzQ6eng3NrOo4ewl3eomHiomHipmHmpmnuqm3yqm3yrnH6sn4Gun4OuoIOwoYSwoYSxoYWvooWxo4aypYqxpYq0pYuypou1p4y2qI6zqY+3qZC1qpG1q5G4q5O2rJK5rJO6rJW2rpW7rpe4r5a8r5i4sJq5sZm+spy6tJ3BtJ+8tKC8tqK9t6O+uKW/uaa/uqXGvKfHvKjHvanIvqrJv6vJwK/Ew7HNxLbHxbPOxrjIx7nJyLfRyLjRy7/My8DMzr7WzsPO0MfP0cfP1MzS1cjc18ve2Mzf2c3f2c7g2dfK2tTV29rN3NfX3djY3tTk3tnY3trZ39zZ4N/U4eDW4t/b4+Dc5OHc5OLd5OPd5d3q5uXe5+bf5+ff6Off6eng7Obv7ejw8ezz8e3z8u709vP3/f3+Bb+anQAAAA90Uk5TAA4aHThCR0htfNnr7PP7HqL7KAAAATBJREFUOE+tzvk3AlEUwPFBVJYuZcoWso41xkQI0TBCYazJUra4Y/3/f9FjTmaa+45ffH+YO+e8z3nvCoIg1DZjVY11grWG6nO8brEJtxOc2AQFbIIEVkEDi3CCmzNWUw0XmNVzQSr9Pdx2kJ7ti5mgJ0uAhUA8e4538TziafujE2Rac2xcduwjrs+hEyzNYKXIDgHmFyvnef8tAbbEezbYDqlJJEApMrL3/LPD6CYFsBgLwBj7KbRdkQDxKVdkIzOEHGBWKvwBfvs/4Jnm5DGBFzh5raBT0zRpYBn6E5DUtKQTSIYsh8W30PEaGKvyBAEe2Hfj4MUPxiD1hPSh690Q/NwGMC70BPeGI4N7w6uqDovv4cPyDrvqihMEFUXpDU1B1zhEFSVqAy4fkPlc5cMvjuvkA0Hh2hAAAAAASUVORK5CYII="
+        },
+        {
           "name": "Create Unique Key",
           "script": "CreateUniqueKey(length)",
           "info": "Returns a UUID as a string with. \"Length\" determines the amount of characters returned.",

@@ -105,6 +105,11 @@ def PressHotkey(first_key,second_key,third_key=None):
 
 
 def Type(text=None, interval_seconds=0.001):
+    '''
+    Type text in the current active field. The first argument represent the text and is entered as a string. 
+    The second variable is the time between two keystrokes. Pay attention that you can only press single 
+    character keys. Keys like ":", "F1",... can not be part of the text argument.
+    '''
     from pyautogui import typewrite
     # Set keyboard layout for Windows platform
     if platform.system() == 'Windows':
@@ -177,6 +182,18 @@ def CreateUniqueKey(length=32):
     If it is omitted, the entire 128-bit UUID is returned as a string.
     '''
     return str(uuid.uuid4())[:length]
+
+
+def TypeInRunWindow(text=None):
+    '''
+    Open the "Run" window and type the entered text.
+    '''
+    if text:
+        PressHotkey("win", "r")
+        Type(text, 0.08)
+        Enter
+    return
+
 
 '''
 Monitoring
@@ -462,6 +479,26 @@ def ChromeBrowser():
     return Chrome(os.path.abspath(__file__).replace('activities.py', '') + chromedriver_path)
 
 
+def GetGoogleSearchLinks(search_text):
+    '''
+    Return a list with the links on the first page of google when searching for the entered text.
+    This text needs to be entered as a string.
+    '''
+    import urllib
+    import requests
+    from bs4 import BeautifulSoup
+    import json
+    r = requests.get('https://www.google.com/search?&q=' + urllib.parse.quote_plus(search_text))
+    up = BeautifulSoup(r.content,"html.parser")
+    soup = BeautifulSoup(r.content,"html.parser")
+    links = []
+    for block in soup.findAll('h3', {'class':'r'}):
+        link = block.a.get('href').split("?q=")[1].split("&sa=U")[0]
+        if 'https' in link:
+            links.append(link)
+    return links
+
+
 ''' 
 OCR activities 
 '''
@@ -484,6 +521,7 @@ OpenExcelWorkbook = load_workbook
 
 # Renaming classes
 NewExcelWorkbook = Workbook
+
 
 def ExcelCreateWorkbook(path):
     '''
@@ -885,12 +923,11 @@ def CopyFile(old_path,new_location):
 
 def WaitForFile(path):
     '''
-    Wait until a file with the entered path exists. When a file with that path is created, this function opens it.
+    Wait until a file with the entered path exists.
     '''
     from time import sleep
     while not os.path.exists(path):
         sleep(1)
-    OpenFile(path)
     return
 
 
@@ -1062,12 +1099,11 @@ def UnzipFolder(path,new_path=False):
 
 def WaitForFolder(path):
     '''
-    Wait until a folder with the entered path exists. When a folder with that path is created, this function opens it.
+    Wait until a folder with the entered path exists.
     '''
     from time import sleep
     while not os.path.exists(path):
         sleep(1)
-    OpenFolder(path)
     return
 
 

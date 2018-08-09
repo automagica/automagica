@@ -701,7 +701,7 @@ To open a Word document:
 document = OpenWordDocument('example.docx')
 ```
 
-Replace words in a Word document. This can be particularly useful when using templates for forms. Make sure the template contains unique placeholder ariables so that automated filling doesn't cause ambiguities.
+Replace words in a Word document. This can be particularly useful when using templates for forms. Make sure the template contains unique placeholder variables so that automated filling doesn't cause ambiguities.
 
 ```
 document = ReplaceTextInDocument(document, text='[placeholder]', replace_with='My text')
@@ -769,17 +769,25 @@ Return a list containing the sheet names of an Excel file. Make shure you enter 
 ExcelPutRowInList(path=\"pathname\", start_cell=\"B3\", end_cell=\"E8\", sheet=None)
 ```
 Put the elements of a specified row in a list. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
-"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The row is specified by strings referring to the first and final cell. E.g. start_cell = "B3" and end_cell = "E3" will put all the elements of the third row from cell "B3" to cell "E3" in a list: ["B3", "C3", "D3", "E3"]. For the function to work, the two cells need to be of the same row and start_cell needs to be the cell at the left hand side.  
+"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The row is specified by strings referring to the first and final cell. E.g. the row in the image below is defined by start_cell = "C4" and end_cell = "G4". Calling the function with these two cells returns a list: [8,"RPA",None,19,"Automagica]. For the function to work, the two cells need to be of the same row and start_cell needs to be the cell at the left hand side.
+
+![Imgur](https://i.imgur.com/S4xJWBh.png)
+
 ```
 ExcelPutColumnInList(path=\"pathname\", start_cell=\"A3\", end_cell=\"A8\", sheet=None)
 ```
 Put the elements of a specified column in a list. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
-"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The column is specified by strings referring to the first and final cell. E.g. start_cell = "E3" and end_cell = "E6" will put all the elements of the fifth column from cell "E3" to cell "E6" in a list: ["E3", "E4", "E5", "E6]. For the function to work, the two cells need to be of the same column and start_cell needs to be the upper cell.
+"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The column is specified by strings referring to the first and final cell. E.g. the region in the image below is defined by start_cell = "C4" and end_cell = "C7". Calling the function returns with this two cells returns a list: [8, "RPA", 19, "Automagica"]. For the function to work, the two entered cells need to be of the same column and start_cell needs to be the upper cell.
+
+![Imgur](https://i.imgur.com/XOft1RL.png)
+
 ```
 ExcelPutSelectionInMatrix(path=\"pathname\", upper_left_cell=\"B2\", bottom_right_cell=\"C3\", sheet=None)
 ```
 Put the elements of a specified selection in a matrix. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
-"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The selection is specified by strings referring to the upper left and bottom right cell. E.g. upper_left_cell = "B2" and bottom_right_cell = "C3" will return a matrix with values: [["B2", "C2"], ["B3", "C3"]]. If a cell is empty, its value is set to "None".
+"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The selection is specified by strings referring to the upper left and bottom right cell. E.g. in the image below, the region is defined by upper_left_cell = "C4" and bottom_right_cell = "E6". The function will return a matrix with values: [[8,"Automagica",12],["RPA",15,None],[19,None,55]. If a cell is empty, its value is set to "None".
+
+![Imgur](https://i.imgur.com/fUfHd0M.png)
 
 # PDF Manipulation
 
@@ -794,6 +802,7 @@ This function can merge two existing PDF files. The first two arguments are the 
 ```
 ExtractTextFromPDFPage(path=\"pathname\", page=1)
 ```
+
 This function extracts all the text from a given page and returns it as a string. The pdf needs to be entered as a path. Pay attention that the entered page needs to be greater than 0.
 
 # File and folder manipulations
@@ -808,18 +817,18 @@ In the following sections the functions that Automagica offers for manipulating 
 
 To open a file, Automagica offers following function:
 ```
-"OpenFile(path=\"pathname\")"
+OpenFile(path=\"pathname\")
 ```
 An example path can be "C:\\Users\\Bob\\Desktop\\Automagica.xlsx".
 ### Renaming Files
 
 A file can be renamed with the following code:
 ```
-"RenameFile(path=\"pathname\", new_name)"
+RenameFile(path=\"pathname\", new_name)
 ```
 The first argument is the path of the file that needs its name changed. The second variable is just the name that the file has to receive, so this does not need to be a full path. E.g. next line of code changes the name of a file named "Automagica.pptx" to "Automagica123.pptx":
 ```
-"RenameFile("C:\\Users\\Bob\\Desktop\\Automagica.pptx", "Automagica123.pptx")"
+RenameFile("C:\\Users\\Bob\\Desktop\\Automagica.pptx", "Automagica123.pptx")
 ```
 Note that it is not possible to change change the file-type: if the path in the first argument ends in ".pptx", the new name also needs to end in ".pptx".
 
@@ -827,7 +836,7 @@ Note that it is not possible to change change the file-type: if the path in the 
 
 The following function can be used to move a file from one to an other directory:
 ```
-"MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")"
+MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")
 ```
 The first variable contatains the path of the file that should be moved (this includes the name of the file). The the second argument contains the path of the location that the file needs to be moved to (in this path, the file name should be omitted). If one of the two arguments contain a non-existing path, the function will return nothing. As an example, next piece of code moves the file "Automagica.txt" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\:
 ```
@@ -839,7 +848,7 @@ As a final note for the function to work optimal, it is important that the file 
 
 If a file needs to be copied from one to an other directory, the following function can be used:
 ```
-"MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")"
+MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")
 ```
 The inputs work in exactly the same way as in the MoveFile function and the copied file needs to be closed for the function to work properly. Also keep in mind that if the new location already contains a file with exactly the same name as the copy,it will be overwritten by the copied file.   
 
@@ -847,18 +856,18 @@ The inputs work in exactly the same way as in the MoveFile function and the copi
 
 Following function is used to delete a file from a folder:
 ```
-"RemoveFile(path=\"pathname\")"
+RemoveFile(path=\"pathname\")
 ```
 It will delete a file with a given pathname. With this code it is again important that the file that needs to be removed is closed.
 ### Check If A File Exists
 
 Next function returns True if the path of a certain file exists and False if the path does not exist or refers to a folder instead of a file.
 ```
-"FileExists(path=\"pathname\")"
+FileExists(path=\"pathname\")
 ```
 ### Wait For A File
 
-Following function waits until a file with the entered path is created an then opens it.
+Following function waits until a file with the entered path is created.
 ```
 WaitForFile(path=\"pathname\")
 ```
@@ -896,7 +905,7 @@ One note to keep in mind is that entered path needs to be unique. If there is al
 
 A folder can be opened with the function:
 ```
-"OpenFolder(path=\"pathname\")"
+OpenFolder(path=\"pathname\")
 ```
 
 ### Renaming Folders
@@ -953,7 +962,7 @@ RemoveFolder("C:\\Users\\Bob\\Desktop\\Automagica", delete_read_only=False)
 
 Alle the contents of folder can be deleted using the following function:
 ```
-"EmptyFolder(path=\"pathname\", allow_root=False)"
+EmptyFolder(path=\"pathname\", allow_root=False)
 ```
 The first argument specifies again the path of the folder that needs to be emptied. The allow_root safety-variable has the same functionality as in the function for removing a folder. The following line of code gives an example for how a folder with a path C:\\Users\\Bob\\Desktop\\Automagica can be emptied:
 ```
@@ -994,7 +1003,7 @@ The first argument is the pathname of compressed folder that needs to be unzippe
 
 ### Wait For A Folder
 
-Following function waits until a folder with the entered path is created an then opens it.
+Following function waits until a folder with the entered path is created.
 ```
 WaitForFolder(path=\"pathname\")
 ```
