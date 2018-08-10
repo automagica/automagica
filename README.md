@@ -34,6 +34,10 @@ SAP Automation (Production example, sensitive information is blurred):
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
 
+Folder and File manipulation
+
+![](https://github.com/OakwoodAI/automagica/blob/master/images/USPresidents.gif)
+
 ### Example code
 
 This is a simple example that opens Notepad and types 'Hello world!'.

@@ -30,10 +30,17 @@ Automagica is based on the Python language.
 - [Process Acivities](#process-activities)
     - [Standard Windows Applications](#windows-applications)
     - [General Commands](#general-commands)
+    - [Running Programs](#running-programs)
+- [Monitoring](#monitoring)
 - [Office Automation](#office-automation)
     - [Entering Pathnames](#entering-pathnames)
 	- [Word](#word)
 	- [Excel](#excel)
+        - [Reading And Writing](#reading-and-writing)
+        - [Basic Operations](#basic-operations)
+- [PDF Manipulation](#pdf-manipulation)
+    - [Merge PDF Files](#merge-pdf-files)
+    - [Extract Text From PDF](#extract-text-from-pdf)
 - [File And Folder Manipulation](#file-folder-automation)
     - [Files](#files)
         - [Open A File](#open-a-file)
@@ -53,6 +60,8 @@ Automagica is based on the Python language.
         - [Check If A Folder Exists](#check-if-a-folder-exists)
         - [Zip Folder](#zip-folder)
         - [UnZip Folder](#unzip-folder)
+- [Image Operations](#image-operations)
+- [Email Operations](#email-operations)
 - [Basic operations](#basic-operations)
 	- [Variables and Types](#variables-and-types)
 		- [Strings](#strings)
@@ -267,6 +276,19 @@ Type("automagica.be/", interval_seconds=0.01)
 PressKey("enter")
 ```
 ![Imgur](https://i.imgur.com/ibeLf7f.gif)
+
+Frequently used keys can also be pressed with a key-specific functions. In what follows, the available functions are listed.
+
+```
+Capslock()
+Numlock()
+Enter()
+SpaceBar()
+Backspace()
+Delete()
+Endkey()
+Tab()
+```
 
 # Browser Automation
 
@@ -603,6 +625,70 @@ This function does not require a full path as input in the first variable. Retur
 ```
 OpenProgramByName("Dropbox")
 ```
+## Running Programs
+
+Automagica can check wheter a program is currently active on your computer. This can be done with a general function that requires the process name and returns True if the specified program is active:
+```
+ProcessRunning(name="program_name")
+```
+Next to that there are a couple of functions that are program specific who return True if that program is currently running. Those are listed below:
+```
+ChromeRunning()
+WordRunning()
+ExcelRunning()
+PowerpointRunning()
+DropboxRunning()
+FirefoxRunning()
+TeamviewerRunning()
+SkypeRunning()
+EdgeRunning()
+OnedriveRunning()
+IllustratorRunning()
+```
+Finally, a list of every active program can be displayed as follows:
+```
+ListRunningProcesses()
+```
+
+# Monitoring
+
+Following list of functions can be used to return information about the current status of your CPU, disk, memory etc.
+```
+CPULoad(measure_time=1)
+```
+Returns average CPU load for all cores. Measures once every second, adjust measure_time (seconds) to get a longer averaged measured time. Standard measure_time is 1 second.
+```
+NumberOfCPU(logical=True)
+```
+Returns the number of CPU's in the current system. The parameter 'logical' determines if only logical units are added to the count, default value is True.
+```
+CPUFreq()
+```
+Returns frequency at which CPU currently operates. Also shows minimum and maximum frequency.
+```
+CPUStats()
+```
+Returns CPU statistics: Number of CTX switches, intterupts, soft-interrupts and systemcalls.
+```
+MemoryStats(mem_type='swap')
+```
+Returns memory statistics: total, used, free and percentage in use. Choose mem_type = 'virtual' for virtual memory, and mem_type = 'swap' for swap memory (standard).
+```
+DiskStats()
+```
+Returns disk statistics of main disk: total, used, free and percentage in use.
+```
+DiskPartitions()
+```
+Returns tuple with info for every partition.
+```
+BootTime()
+```
+Returns time PC was booted in seconds after the epoch.
+```
+TimeSinceLastBoot()
+```
+Returns time since last boot in seconds.
 
 # Office Automation
 
@@ -615,7 +701,7 @@ To open a Word document:
 document = OpenWordDocument('example.docx')
 ```
 
-Replace words in a Word document. This can be particularly useful when using templates for forms. Make sure the template contains unique placeholder ariables so that automated filling doesn't cause ambiguities.
+Replace words in a Word document. This can be particularly useful when using templates for forms. Make sure the template contains unique placeholder variables so that automated filling doesn't cause ambiguities.
 
 ```
 document = ReplaceTextInDocument(document, text='[placeholder]', replace_with='My text')
@@ -628,24 +714,96 @@ ConvertWordToPDF(word_filename='C:\\document.docx', pdf_filename='C:\\document.p
 
 ## Excel
 
+### Reading And Writing
+
 Automation in Excel most of the time requires reading and writing cells. In Automagica, this is very easy.
 
-You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2".
-Note that the first row is defined as row number 1 and the first column is defined column number 1.
+There are two functions for reading a cell.
 ```
-#Using row and column
-ExcelReadCell("C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx",1,1)
 #Using cell value
-ExcelReadCell("C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx",cell=A1)
+ExcelReadCell(path="\pathname\", cell="A1", sheet=None)
 ```
+Read a cell from an Excel file and return its value. Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The cell you want to read needs to be defined by a cell name e.g. "A2". The third variable is a string with the name of the sheet that needs to be read. If omitted, the function reads the entered cell of the current active sheet. 
+```
+#Using row column
+ExcelReadRowCol(path="\pathname\", r=1, c=1, sheet=None)
+```
+Read a Cell from an Excel file and return its value. Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The cell you want to read needs to be row and a column. E.g. r = 2 and c = 3 refers to cell C3. The third variable is string with the name of the sheet that needs to be read. If omitted, the function reads the entered cell of the active sheet. First row is defined row number 1 and first column is defined column number 1
 
-And similar for writing a cell:
+Similar to reading a cell, there are two functions for writing a value to a cell.
+```
+#Using cell value
+ExcelWriteCell(path="\pathname\", sheet=None, cell="A1", write_value="Value")
+```
+Write a Cell to an Excel file. Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The cell should be defined by a cell name. E.g. "B6". Value can be anything, standard is "Value". When executing the code, make sure .xlsx file you want to write is closed.
 ```
 #Using row and column
 ExcelWriteCell("C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx",1,1,value="Robot")
-#Using cell value
-ExcelWriteCell("C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx",cell=A1,value="Robot")
 ```
+Read a Cell from an Excel file and return its value. Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The cell you want to read needs to be row and a column. E.g. r = 2 and c = 3 refers to cell C3. The third variable needs to be a string with the name of the sheet that needs to be read. If omitted, the function reads the entered cell of the active sheet. First row is defined row number 1 and first column is defined column number 1.
+
+### Basic Operations
+
+Next to reading and writing, Automagica offers some basic operations for .xlsx files. These are listed below.
+```
+ExcelCreateWorkbook(path=\"pathname\")
+```
+Create a new .xlsx file and save it under a specified path. If the entered path already exists, the function does nothing.
+```
+ExcelOpenWorkbook(path=\"pathname\")
+```
+Open a .xlsx file with Microsoft Excel. Make sure you enter a valid path. This can be a path referencing an existing .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". This will open the existing file. You can also enter a comletely new path. In this case, the function creates a new .xlsx file with that path and opens it with Excel.
+```
+ExcelSaveExistingWorkbook(path=\"pathname\", new_path=None)
+```
+Save (as) an existing .xlsx file. The second variable is the new path the file needs to be saved at. You can ignore this variable if you just want to save the file and do not want to "save as". For the function to work properly, it is important that the file you want to save is not opened.
+```
+ExcelCreateWorkSheet(path=\"pathname\", sheet_name=None)
+```
+Create a new worksheet with a specified name in an existing workbook specified by the path variable. If no sheet_name is entered, the new sheet is named "sheet1", "sheet2", "sheet3", ..., depending on the sheets that already exist. Make shure you enter a valid path referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". For the function to work properly, it is important that the .xlsx file is closed during the execution.
+```
+ExcelGetSheets(path=\"pathname\")
+```
+Return a list containing the sheet names of an Excel file. Make shure you enter a valid path referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+```
+ExcelPutRowInList(path=\"pathname\", start_cell=\"B3\", end_cell=\"E8\", sheet=None)
+```
+Put the elements of a specified row in a list. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
+"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The row is specified by strings referring to the first and final cell. E.g. the row in the image below is defined by start_cell = "C4" and end_cell = "G4". Calling the function with these two cells returns a list: [8,"RPA",None,19,"Automagica]. For the function to work, the two cells need to be of the same row and start_cell needs to be the cell at the left hand side.
+
+![Imgur](https://i.imgur.com/S4xJWBh.png)
+
+```
+ExcelPutColumnInList(path=\"pathname\", start_cell=\"A3\", end_cell=\"A8\", sheet=None)
+```
+Put the elements of a specified column in a list. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
+"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The column is specified by strings referring to the first and final cell. E.g. the region in the image below is defined by start_cell = "C4" and end_cell = "C7". Calling the function returns with this two cells returns a list: [8, "RPA", 19, "Automagica"]. For the function to work, the two entered cells need to be of the same column and start_cell needs to be the upper cell.
+
+![Imgur](https://i.imgur.com/XOft1RL.png)
+
+```
+ExcelPutSelectionInMatrix(path=\"pathname\", upper_left_cell=\"B2\", bottom_right_cell=\"C3\", sheet=None)
+```
+Put the elements of a specified selection in a matrix. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
+"C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The selection is specified by strings referring to the upper left and bottom right cell. E.g. in the image below, the region is defined by upper_left_cell = "C4" and bottom_right_cell = "E6". The function will return a matrix with values: [[8,"Automagica",12],["RPA",15,None],[19,None,55]. If a cell is empty, its value is set to "None".
+
+![Imgur](https://i.imgur.com/fUfHd0M.png)
+
+# PDF Manipulation
+
+## Merge PDF Files
+```
+MergePDF(pdf1=\"pathname\", pdf2=\"pathname\", merged_pdf=\"pathname\")
+```
+This function can merge two existing PDF files. The first two arguments are the PDF's that need to be merged, entered as a path. The pages from pdf2 are added to pdf2. The merged PDF receives a new path specefied by the third argument.
+
+## Extract Text From PDF
+
+```
+ExtractTextFromPDFPage(path=\"pathname\", page=1)
+```
+
+This function extracts all the text from a given page and returns it as a string. The pdf needs to be entered as a path. Pay attention that the entered page needs to be greater than 0.
 
 # File and folder manipulations
 
@@ -659,18 +817,18 @@ In the following sections the functions that Automagica offers for manipulating 
 
 To open a file, Automagica offers following function:
 ```
-"OpenFile(path=\"pathname\")"
+OpenFile(path=\"pathname\")
 ```
 An example path can be "C:\\Users\\Bob\\Desktop\\Automagica.xlsx".
 ### Renaming Files
 
 A file can be renamed with the following code:
 ```
-"RenameFile(path=\"pathname\", new_name)"
+RenameFile(path=\"pathname\", new_name)
 ```
 The first argument is the path of the file that needs its name changed. The second variable is just the name that the file has to receive, so this does not need to be a full path. E.g. next line of code changes the name of a file named "Automagica.pptx" to "Automagica123.pptx":
 ```
-"RenameFile("C:\\Users\\Bob\\Desktop\\Automagica.pptx", "Automagica123.pptx")"
+RenameFile("C:\\Users\\Bob\\Desktop\\Automagica.pptx", "Automagica123.pptx")
 ```
 Note that it is not possible to change change the file-type: if the path in the first argument ends in ".pptx", the new name also needs to end in ".pptx".
 
@@ -678,7 +836,7 @@ Note that it is not possible to change change the file-type: if the path in the 
 
 The following function can be used to move a file from one to an other directory:
 ```
-"MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")"
+MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")
 ```
 The first variable contatains the path of the file that should be moved (this includes the name of the file). The the second argument contains the path of the location that the file needs to be moved to (in this path, the file name should be omitted). If one of the two arguments contain a non-existing path, the function will return nothing. As an example, next piece of code moves the file "Automagica.txt" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\:
 ```
@@ -690,7 +848,7 @@ As a final note for the function to work optimal, it is important that the file 
 
 If a file needs to be copied from one to an other directory, the following function can be used:
 ```
-"MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")"
+MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")
 ```
 The inputs work in exactly the same way as in the MoveFile function and the copied file needs to be closed for the function to work properly. Also keep in mind that if the new location already contains a file with exactly the same name as the copy,it will be overwritten by the copied file.   
 
@@ -698,15 +856,34 @@ The inputs work in exactly the same way as in the MoveFile function and the copi
 
 Following function is used to delete a file from a folder:
 ```
-"RemoveFile(path=\"pathname\")"
+RemoveFile(path=\"pathname\")
 ```
 It will delete a file with a given pathname. With this code it is again important that the file that needs to be removed is closed.
 ### Check If A File Exists
 
 Next function returns True if the path of a certain file exists and False if the path does not exist or refers to a folder instead of a file.
 ```
-"FileExists(path=\"pathname\")"
+FileExists(path=\"pathname\")
 ```
+### Wait For A File
+
+Following function waits until a file with the entered path is created.
+```
+WaitForFile(path=\"pathname\")
+```
+
+### Writing To And From Files
+
+It is possible to write a list to a .txt file or to write a .txt file to a list. This can be done with following functions.
+```
+WriteListToFile(list_to_write, file)
+```
+This function writes a list to a .txt file. Every element of the entered list is written on a new line in the text file. The .txt file is entered with a path. If the path does not exist yet, the function will create a new .txt file at the specified path and write it. If the path does exist, the function writes the list in the existing file.
+```
+WriteFileToList(file)
+```
+This function writes the content of a entered .txt file to a list and returns that list. Every new line from the .txt file becomes a new element of the list. The function will not work if the entered path is not attached to a .txt file.
+
 
 ## Folder Manipulaion
 Most of the manipulations that can be done on files can be executed on folders as well. Automagica offers a selection of functions that make it easy to perform manipulations on folders.
@@ -728,7 +905,7 @@ One note to keep in mind is that entered path needs to be unique. If there is al
 
 A folder can be opened with the function:
 ```
-"OpenFolder(path=\"pathname\")"
+OpenFolder(path=\"pathname\")
 ```
 
 ### Renaming Folders
@@ -785,7 +962,7 @@ RemoveFolder("C:\\Users\\Bob\\Desktop\\Automagica", delete_read_only=False)
 
 Alle the contents of folder can be deleted using the following function:
 ```
-"EmptyFolder(path=\"pathname\", allow_root=False)"
+EmptyFolder(path=\"pathname\", allow_root=False)
 ```
 The first argument specifies again the path of the folder that needs to be emptied. The allow_root safety-variable has the same functionality as in the function for removing a folder. The following line of code gives an example for how a folder with a path C:\\Users\\Bob\\Desktop\\Automagica can be emptied:
 ```
@@ -823,6 +1000,59 @@ The opposite of the ZipFolder function can be achieved with:
 UnZipFolder(path=\"pathname_zipped_folder\", new_path=\"pathname_target_location\")
 ```
 The first argument is the pathname of compressed folder that needs to be unzipped. The second argument is optional. It is the path of the directory where the unzipped folder will be stored. If omitted, the unzipped folder is stored in the same location as the original zipped folder.
+
+### Wait For A Folder
+
+Following function waits until a folder with the entered path is created.
+```
+WaitForFolder(path=\"pathname\")
+```
+
+# Image Operations
+
+Images can be manipulated in many ways with Automagica. The available functions are listed below.
+```
+OpenImage(path=\"pathname\")
+```
+Displays an image specified by the path variable on the default imaging program.
+```
+RotateImage(path=\"pathname\", angle)
+```
+Rotate an image over a specified angle. E.g. Entering "C:\\Users\\Pictures\\Automagica.jpg" as path and an a angle of 90 rotates the picture with the given path over 90 degrees. Pay attention, because angles other than 90, 180, 270, 360 can deform the picture. 
+```
+ResizeImage(path=\"pathname\", size=(1024, 768))
+```
+Resizes the image specified by the path variable. The size is specifie by the second argument. This is a tuple with the width and height in pixels. E.g. ResizeImage("C:\\Users\\Pictures\\Automagica.jpg", (300, 400)) gives the image a width of 300 pixels and a height of 400 pixels.
+```
+ImageSize(path=\"pathname\")
+```
+Returns the size in pixels of an image specified by a path. The size is returned in a message box of the form: "(height, width)
+```
+CropImage(path=\"pathname\",box=None)
+```
+Crops the image specified by path to a region determined by the box variable. This variable is a 4 tuple who defines the left, upper, right and lower pixel coördinate e.g.: (left, upper, right, lower).
+```
+ImageFormat(path=\"pathname\")
+```
+Returns the format of an image specified by the input path. E.g. entering "C:\\Users\\Pictures\\Automagica.jpg" returns a message box saying JPEG.
+```
+MirrorImageHorizontally(path=\"pathname\")
+```
+Mirrors an image with a given path from left to right.
+```
+MirrorImageVertically(path=\"pathname\")
+```
+Mirrors an image with a given path from top to bottom.
+
+# Email Operations
+
+Automagica makes it possible to send an email with your Hotmail, Gmail or Yahoo mail address. The input for the three functions works in the same way. The first and second arguments are respectively your email address and user password. The destination variable is the email address you want to contact. The subject and message variable contain respectively the subject and the text message. The port variable is standard 587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465. When using a Gmail account, there is one exception. Google has a safety feature that blocks lessecure apps. For this function to work properly, this needs to be turned off, which can be done at the following link: https://myaccount.google.com/lesssecureapps. 
+
+```
+SendMailWithHotmail(user="user@hotmail.com", password, destination, subject="", message="", port=587)
+SendMailWithGmail(user="user@gmail.com", password, destination, subject="", message="", port=587)
+SendMailWithYahoo(user="user@yahoo.com", password, destination, subject="", message="", port=587)
+```
 
 # Basic Operations
 
@@ -933,7 +1163,11 @@ DisplayMessageBox(automagica_float)
 
 ### Math operations
 
-Down here is a list with basic math operations that can be used with both intergers and floats:
+Down here is a list with basic math operations that can be used with both intergers and floats. Before they can be used, the math module needs to be imported:
+
+```
+from math import *
+```
 
 
 **abs(x)** : The absolute value of x (the (positive) distance between x and zero)
@@ -975,9 +1209,9 @@ max(x1,x2)
 ```
 **round(x)** : x rounded to n digits from the decimal point.
 ```
-x = 0.5
-round(0.5)
->>> 1
+x = 0.5555
+round(x, 2)
+>>> 0.56
 ```
 **sqrt(x)** : The square root of x for x > 0
 ```
@@ -1124,7 +1358,7 @@ If you open the Excel file, the result should look something like this:
 
 ![Imgur](https://i.imgur.com/7gSv7gc.png)
 
-Note that the links differ depending on your location, as google search results are location dependant.
+Note that the links differ depending on your location, as google search results are location dependent.
 
 
 ## Credits
@@ -1138,3 +1372,5 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [OpenPyXL](https://bitbucket.org/openpyxl/openpyxl)
 - [python-docx](https://github.com/python-openxml/python-docx)
 - [pywin32](https://github.com/mhammond/pywin32)
+- [PyPDF2](https://github.com/mstamy2/PyPDF2)
+- [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)

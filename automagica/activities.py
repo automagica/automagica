@@ -4,25 +4,22 @@ import shutil
 from PIL import Image
 import uuid
 import psutil
-
+from time import sleep
+import pyautogui
 '''
 Delay activities
 '''
 
-from time import sleep
-
-
 def Wait(seconds=None):
+    '''
+    Stall the execution of the preceding functions for a specified number of seconds.
+    '''
     sleep(seconds)
 
 
 '''
 Keyboard/mouse activities
 '''
-
-# Renaming functions
-import pyautogui
-
 
 def GetMouseCoordinates():
     '''
@@ -86,7 +83,6 @@ def ClickOnImage(filename=None, double_click=False, right_click=False):
         return click(x, y, clicks)
 
 
-
 def PressKey(key=None):
     '''
     Press and release an entered key.
@@ -106,6 +102,11 @@ def PressHotkey(first_key,second_key,third_key=None):
 
 
 def Type(text=None, interval_seconds=0.001):
+    '''
+    Type text in the current active field. The first argument represent the text and is entered as a string. 
+    The second variable is the time between two keystrokes. Pay attention that you can only press single 
+    character keys. Keys like ":", "F1",... can not be part of the text argument.
+    '''
     from pyautogui import typewrite
     # Set keyboard layout for Windows platform
     if platform.system() == 'Windows':
@@ -179,93 +180,119 @@ def CreateUniqueKey(length=32):
     '''
     return str(uuid.uuid4())[:length]
 
+
+def TypeInRunWindow(text=None):
+    '''
+    Open the "Run" window and type the entered text.
+    '''
+    if text:
+        PressHotkey("win", "r")
+        Type(text, 0.08)
+        Enter
+    return
+
+
 '''
 Monitoring
 '''
 
 def CPULoad(measure_time=1):
-    """
+    '''
     Returns average CPU load for all cores.
     Measures once every second, adjust measure_time (seconds) to get a longer averaged measured time. Standard measure_time is 1 second.
-    """
+    '''
     cpu_measurements = []
     for x in range(measure_time):
         cpu_measurements.append(psutil.cpu_percent(interval=1))
     return sum(cpu_measurements)/len(cpu_measurements)
 
+
 def NumberOfCPU(logical=True):
-    """
+    '''
     Returns the number of CPU's in the current system. 
-    The parameter 'logical' determines if only logical units are added to the count, default value is True
-    """
+    The parameter 'logical' determines if only logical units are added to the count, default value is True.
+    '''
     return psutil.cpu_count(logical=logical)
 
+
 def CPUFreq():
-    """
+    '''
     Returns frequency at which CPU currently operates.
-    Also shows minimum and maximum frequency
-    """
+    Also shows minimum and maximum frequency.
+    '''
     return psutil.cpu_freq()
 
+
 def CPUStats():
-    """
+    '''
     Returns CPU statistics: Number of CTX switches, intterupts, soft-interrupts and systemcalls.
-    """
+    '''
     return psutil.cpu_stats()
 
+
 def MemoryStats(mem_type='swap'):
-    """
+    '''
     Returns memory statistics: total, used, free and percentage in use.
     Choose mem_type = 'virtual' for virtual memory, and mem_type = 'swap' for swap memory (standard).
-    """
+    '''
     if mem_type == 'virtual':
         return psutil.virtual_memory()
     else:
         return psutil.swap_memory()
 
+
 def DiskStats():
-    """
+    '''
     Returns disk statistics of main disk: total, used, free and percentage in use.
-    """
+    '''
     return psutil.disk_usage('/')
 
+
 def DiskPartitions():
-    """
-    Returns tuple with info for every partition
-    """
+    '''
+    Returns tuple with info for every partition.
+    '''
     return psutil.disk_partitions()
 
+
 def BootTime():
-    """
-    Returns time PC was booted.
-    """
+    '''
+    Returns time PC was booted in seconds after the epoch.
+    '''
     return psutil.boot_time()
 
+
 def TimeSinceLastBoot():
-    """
+    '''
     Returns time since last boot in seconds.
-    """
+    '''
     import time
     return time.time() - psutil.boot_time()
+
 
 '''
 Windows activities
 '''
 
 def BeepSound(frequency=1000, duration=250):
-    """
+    '''
     Makes a beeping sound.
     Choose frequency (Hz) and duration (ms), standard is 1000 Hz and 250 ms.
-    """
+    '''
     import winsound
     winsound.Beep(frequency, duration)
     return
+
 
 def UseFailsafe(switch=True):
     from pyautogui import FAILSAFE
     FAILSAFE = switch
 
+
 def ClearClipboard():
+    '''
+    Removes everything from the clipboard.
+    '''
     from ctypes import windll
     if windll.user32.OpenClipboard(None):
         windll.user32.EmptyClipboard()
@@ -277,24 +304,24 @@ Process activities
 '''
 
 def ProcessRunning(name):
-    """
+    '''
     Checks if given process name (name) is currently running on the system.
     Returns True or False.
-    """
+    '''
     if name:
         for p in psutil.process_iter():
             if name in p.name():
                 return True
     return False
 
+
 def ListRunningProcesses():
-    """
+    '''
     Returns a list with all names of unique processes currently running on the system.
-    """
+    '''
     process_list = []
     for p in psutil.process_iter():
         process_list.append(p.name())
-        
     return set(process_list)
 
 
@@ -357,14 +384,16 @@ def FirefoxRunning():
             return True
     return False
 
+
 def TeamviewerRunning():
     '''
-    Returns True is Firefox is running.
+    Returns True is Teamviewer is running.
     '''     
     for p in psutil.process_iter():
         if "teamviewer.exe" in p.name().lower():
             return True
     return False
+
 
 def SkypeRunning():
     '''
@@ -405,10 +434,12 @@ def IllustratorRunning():
             return True
     return False
 
+
 def LaunchProcess(process_executable=None):
     from subprocess import Popen
 
     return Popen(process_executable)
+
 
 def OpenProgramByName(name, main_drive = "C:\\"):
     from subprocess import Popen
@@ -434,7 +465,6 @@ def KillProcess(process=None, name=None):
 Browser activities
 '''
 
-
 def ChromeBrowser():
     if platform.system() == 'Linux':
         chromedriver_path = '\\bin\\webdriver\\linux64\\chromedriver'
@@ -446,10 +476,27 @@ def ChromeBrowser():
     return Chrome(os.path.abspath(__file__).replace('activities.py', '') + chromedriver_path)
 
 
+def GetGoogleSearchLinks(search_text):
+    '''
+    Return a list with the links on the first page of google when searching for the entered text.
+    This text needs to be entered as a string.
+    '''
+    import urllib
+    import requests
+    from bs4 import BeautifulSoup
+    r = requests.get('https://www.google.com/search?&q=' + urllib.parse.quote_plus(search_text))
+    soup = BeautifulSoup(r.content,"html.parser")
+    links = []
+    for block in soup.findAll('h3', {'class':'r'}):
+        link = block.a.get('href').split("?q=")[1].split("&sa=U")[0]
+        if 'https' in link:
+            links.append(link)
+    return links
+
+
 ''' 
 OCR activities 
 '''
-
 
 def ExtractTextFromImage(filename=None):
     if platform.system == 'Windows':
@@ -461,6 +508,7 @@ def ExtractTextFromImage(filename=None):
 '''
 Excel activities
 '''
+
 from openpyxl import load_workbook, Workbook
 
 # Renaming functions
@@ -470,44 +518,221 @@ OpenExcelWorkbook = load_workbook
 NewExcelWorkbook = Workbook
 
 
-def ExcelReadCell(path, row, col, cell=None):
-    """Read a Cell from an Excel file.
-    Make sure you enter a valid path e.g. "C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx"...
-    You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2"... 
-    First row is defined row number 1 and first column is defined column number 1
-    """
-    from openpyxl import load_workbook, Workbook
+def ExcelCreateWorkbook(path):
+    '''
+    Create a new .xlsx file and save it under a specified path. If the entered path already
+    exists, the function does nothing.
+    '''
+    if not os.path.exists(path):
+        Workbook().save(path)
+    return
+
+
+def ExcelOpenWorkbook(path):
+    '''
+    Open a .xlsx file with Microsoft Excel. Make sure you enter a valid path. This can be a path
+    referencing an existing .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". 
+    This will open the existing file. You can also enter a comletely new path. In this case, the 
+    function creates a new .xlsx file with that path and opens it with Excel.
+    '''
+    if os.path.exists(path):
+        os.startfile(path)
+    elif not os.path.exists(path):
+        ExcelCreateWorkbook(path)
+        os.startfile(path)
+    return
+
+
+def ExcelSaveExistingWorkbook(path, new_path=None):
+    '''
+    Save (as) an existing .xlsx file. The second variable is the new path the file needs to be saved
+    at. You can ignore this variable if you just want to save the file and do not want to "save as".
+    For the function to work properly, it is important that the file you want to save is not opened.
+    '''
     workbook = load_workbook(path)
-    worksheet = workbook.active
-    if cell:
-        return worksheet[cell].value
-    else:
-        return worksheet[row-1][col-1].value
+    if not new_path:
+        workbook.save(path)
+    elif not os.path.isfile(new_path):
+        workbook.save(new_path)    
+    return
 
 
-def ExcelWriteCell(path, sheet=None, row=1, col=1, cell=None, write_value='Value'):
-    """Write a Cell to an Excel file.
-    Make sure you enter a valid path e.g. C:\\Users\Bob\\Desktop\\RPA Examples\\data.xlsx...
-    You can either enter a row and a cell e.g. row = 1, cell = 1 or define a cell name e.g. cell="A2"... 
-    First row is defined row number 1 and first column is defined column number 1...
-    Value can be anything, standard is "Value"
-    """
-    from openpyxl import load_workbook, Workbook
+def ExcelCreateWorkSheet(path, sheet_name=None):
+    '''
+    Create a new worksheet with a specified name in an existing workbook specified by the path variable. If
+    no sheet_name is entered, the new sheet is named "sheet1", "sheet2", "sheet3", ..., depending on the sheets
+    that already exist.
+    Make shure you enter a valid path referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    For the function to work properly, it is important that the .xlsx file is closed during the execution.
+    '''
+    workbook = load_workbook(path)
+    if sheet_name and sheet_name not in workbook.get_sheet_names():
+        workbook.create_sheet(title = sheet_name)
+    elif not sheet_name:
+        workbook.create_sheet()
+    workbook.save(path)
+    return
+
+
+def ExcelGetSheets(path):
+    '''
+    Return a list containing the sheet names of an Excel file. Make shure you enter a valid path 
+    referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    '''
+    workbook = load_workbook(path)
+    return workbook.get_sheet_names()
+
+
+def ExcelReadCell(path, cell="A1", sheet=None):
+    '''
+    Read a cell from an Excel file and return its value.
+    Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The cell you want to read needs to be defined by a cell name e.g. "A2". The third variable 
+    is a string with the name of the sheet that needs to be read. If omitted, the 
+    function reads the entered cell of the active sheet.
+    '''
     workbook = load_workbook(path)
     if sheet:
-        worksheet = workbook[sheet]
+        worksheet = workbook.get_sheet_by_name(sheet)
     else:
         worksheet = workbook.active
 
-    worksheet.cell(row=row, column=col, value=write_value)
+    return worksheet[cell].value
+
+
+def ExcelReadRowCol(path, r=1, c=1, sheet=None):
+    '''
+    Read a Cell from an Excel file and return its value.
+    Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The cell you want to read needs to be row and a column. E.g. r = 2 and c = 3 refers to cell C3. 
+    The third variable needs to be a string with the name of the sheet that needs to be read. 
+    If omitted, the function reads the entered cell of the active sheet. First row is defined 
+    row number 1 and first column is defined column number 1.
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+    
+    return worksheet.cell(row=r, column = c).value
+
+
+def ExcelWriteRowCol(path, sheet=None, r=1, c=1, write_value='Value'):
+    '''
+    Write a value to a Cell to an Excel file.
+    Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx"...
+    The cell should be defined by a row and a column. E.g. row=4, column=8.
+    First row is defined row number 1 and first column is defined column number 1...
+    Value can be anything, standard is "Value".
+    When executing the code, make sure .xlsx file you want to write is closed.
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+    worksheet.cell(row=r, column=c).value = write_value
     workbook.save(path)
     return
+
+
+def ExcelWriteCell(path, sheet=None, cell="A1", write_value='Value'):
+    '''
+    Write a Cell to an Excel file.
+    Make sure you enter a valid path e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx"...
+    The cell should be defined by a cell name. E.g. "B6".
+    Value can be anything, standard is "Value".
+    When executing the code, make sure .xlsx file you want to write is closed.
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+
+    worksheet[cell] = write_value
+    workbook.save(path)
+    return
+
+
+def ExcelPutRowInList(path, start_cell, end_cell, sheet=None):
+    '''
+    Put the elements of a specified row in a list. The .xlsx file and sheet that needs to be read are 
+    specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable 
+    is set to the current active sheet. Also make shure to enter a valid path e.g. 
+    "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The row is specified by strings referring to the first and final cell. E.g. start_cell = "B3"
+    and end_cell = "E3" will put all the elements of the third row from cell "B3" to cell "E3" in 
+    a list: ["B3", "C3", "D3", "E3"]. For the function to work, the two cells need to be of the same row and start_cell needs to be
+    the cell at the left hand side.  
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+    
+    values = []
+    for rowobj in worksheet[start_cell:end_cell][0]:
+        values.append(rowobj.value)
+    
+    return values
+
+
+def ExcelPutColumnInList(path, start_cell, end_cell, sheet=None):
+    '''
+    Put the elements of a specified column in a list. The .xlsx file and sheet that needs to be read are 
+    specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable 
+    is set to the current active sheet. Also make shure to enter a valid path e.g. 
+    "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The column is specified by strings referring to the first and final cell. E.g. start_cell = "E3"
+    and end_cell = "E6" will put all the elements of the fifth column from cell "E3" to cell "E6" in 
+    a list: ["E3", "E4", "E5", "E6]. For the function to work, the two cells need to be of the same 
+    column and start_cell needs to be the upper cell.  
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+    
+    values = []
+    for colobj in worksheet[start_cell:end_cell]:
+        values.append(colobj[0].value)
+    
+    return values
+
+
+def ExcelPutSelectionInMatrix(path, upper_left_cell, bottom_right_cell, sheet=None):
+    '''
+    Put the elements of a specified selection in a matrix. The .xlsx file and sheet that needs to be read are 
+    specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable 
+    is set to the current active sheet. Also make shure to enter a valid path e.g. 
+    "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+    The selection is specified by strings referring to the upper left and bottom right cell. 
+    E.g. upper_left_cell = "B2" and bottom_right_cell = "C3" will return a matrix with values: 
+    [["B2", "C2"], ["B3", "C3"]]. If a cell is empty, its value is set to "None".
+    '''
+    workbook = load_workbook(path)
+    if sheet:
+        worksheet = workbook.get_sheet_by_name(sheet)
+    else:
+        worksheet = workbook.active
+    
+    matrix = []
+    for rowobj in worksheet[upper_left_cell:bottom_right_cell]:
+        next_row = []
+        for cellobj in rowobj:
+            next_row.append(cellobj.value)
+        matrix.append(next_row)
+
+    return matrix
 
 
 '''
 Word activities
 '''
-
 
 def OpenWordDocument(filename=None):
     from docx import Document
@@ -534,11 +759,13 @@ def ConvertWordToPDF(word_filename=None, pdf_filename=None):
 '''
 PDF Activities
 '''
+
 import PyPDF2
+
 
 def MergePDF(pdf1,pdf2,merged_path):
     '''
-    The first two arguments are the PDF's that need to be merged. The pages from pdf2 
+    The first two arguments are the PDF's that need to be merged, entered as a path. The pages from pdf2 
     will be added to pdf2. The merged PDF receives a new path specefied by the third argument.
     '''
     from PyPDF2 import PdfFileMerger
@@ -554,10 +781,24 @@ def MergePDF(pdf1,pdf2,merged_path):
     return
 
 
+def ExtractTextFromPDFPage(path, page=1):
+    """
+    This function extracts all the text from a given page and returns it as a string. The pdf needs to be
+    entered as a path. Pay attention that the entered page needs to be greater than 0.
+    """
+    if os.path.isfile(path) and page > 0:
+        pdfFile = open(path, "rb")
+        pdfReader = PyPDF2.PdfFileReader(pdfFile)
+        if page <= pdfReader.numPages:
+            pdfPage = pdfReader.getPage(page-1)
+        else:
+            pdfPage = pdfReader.getPage(pdfReader.numPages - 1)
+        return pdfPage.extractText()
+
+
 '''
 Message boxes
 '''
-
 
 def DisplayMessageBox(body, title="Message", type="info"):
     '''
@@ -605,7 +846,6 @@ def StartFile(path):
 '''
 File Operations
 '''
-
 
 def OpenFile(path):
     '''
@@ -681,18 +921,44 @@ def CopyFile(old_path,new_location):
 
 def WaitForFile(path):
     '''
-    Wait until a file with the entered path exists. When a file with that path is created, this function opens it.
+    Wait until a file with the entered path exists.
     '''
     from time import sleep
     while not os.path.exists(path):
         sleep(1)
-    OpenFile(path)
     return
+
+
+def WriteListToFile(list_to_write, file):
+    '''
+    Writes a list to a .txt file. Every element of the entered list is written on a new
+    line of the text file. The .txt file is entered with a path. If the path does not exist
+    yet, the function will create a new .txt file at the specified path and write it. If the 
+    path does exist, the function writes the list in the existing file.
+    '''
+    with open(file, 'w') as filehandle:  
+        filehandle.writelines("%s\n" % place for place in list_to_write)
+    return
+
+
+def WriteFileToList(file):
+    '''
+    This function writes the content of a entered .txt file to a list and returns that list. 
+    Every new line from the .txt file becomes a new element of the list. The function will 
+    not work if the entered path is not attached to a .txt file.
+    '''
+    written_list = []
+    with open(file, 'r') as filehandle:  
+        filecontents = filehandle.readlines()
+        for line in filecontents:
+            current_place = line[:-1]
+            written_list.append(current_place)
+    return written_list
+
 
 '''
 Folder Operations
 '''
-
 
 def CreateFolder(path):
     '''
@@ -832,12 +1098,11 @@ def UnzipFolder(path,new_path=False):
 
 def WaitForFolder(path):
     '''
-    Wait until a folder with the entered path exists. When a folder with that path is created, this function opens it.
+    Wait until a folder with the entered path exists.
     '''
     from time import sleep
     while not os.path.exists(path):
         sleep(1)
-    OpenFolder(path)
     return
 
 
@@ -869,7 +1134,7 @@ def RotateImage(path, angle):
 
 def ResizeImage(path,size):
     '''
-    Resizes the image specified by the path variable. The size is specified by the second argument. This is a tuple with the
+    Resizes the image specified by the path variable. The size is specifie by the second argument. This is a tuple with the
     width and height in pixels. E.g. ResizeImage("C:\\Users\\Pictures\\Automagica.jpg", (300, 400)) gives the image a width
     of 300 pixels and a height of 400 pixels.
     '''
@@ -904,6 +1169,7 @@ def ImageFormat(path):
     im = Image.open(path)
     return DisplayMessageBox(im.format) 
 
+
 def MirrorImageHorizontally(path):
     '''
     Mirrors an image with a given path from left to right.
@@ -919,9 +1185,11 @@ def MirrorImageVertically(path):
     im = Image.open(path)
     return im.transpose(Image.FLIP_TOP_BOTTOM).save(path)
 
+
 '''
 Email Operations
 '''
+
 import smtplib
 
 
@@ -929,7 +1197,7 @@ def SendMailWithHotmail(user, password, destination, subject="", message="", por
     """
     This function lest you send emails with a hotmail address. The first and second arguments require the
     mail address and password of your hotmail account. The destination is the receiving mail address. The subject
-    and message variables contain respecively the mail subject and the text in the mail. The port variable is standard
+    and message variables contain respectively the mail subject and the text in the mail. The port variable is standard
     587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
     """
     BODY = '\r\n'.join(['To: %s' % destination, 'From: %s' % user,'Subject: %s' % subject,'', message])
@@ -946,10 +1214,10 @@ def SendMailWithGmail(user, password, destination, subject="", message="", port=
     """
     This function lest you send emails with a gmail address. The first and second arguments require the
     mail address and password of your hotmail account. The destination is the receiving mail address. The subject
-    and message variables contain respecively the mail subject and the text in the mail. The port variable is standard
+    and message variables contain respectively the mail subject and the text in the mail. The port variable is standard
     587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465. Google has a 
     safety feature that blocks lessecure apps. For this function to work properly, this needs to be turned off, which
-    can be don at the following link: https://myaccount.google.com/lesssecureapps. 
+    can be done at the following link: https://myaccount.google.com/lesssecureapps. 
     """
     BODY = '\r\n'.join(['To: %s' % destination, 'From: %s' % user,'Subject: %s' % subject,'', message])
     smtpObj = smtplib.SMTP('smtp.gmail.com', port)
@@ -965,7 +1233,7 @@ def SendMailWithYahoo(user, password, destination, subject="", message="", port=
     """
     This function lest you send emails with a Yahoo address. The first and second arguments require the
     mail address and password of your hotmail account. The destination is the receiving mail address. The subject
-    and message variables contain respecively the mail subject and the text in the mail. The port variable is standard
+    and message variables contain respectively the mail subject and the text in the mail. The port variable is standard
     587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
     """
     BODY = '\r\n'.join(['To: %s' % destination, 'From: %s' % user,'Subject: %s' % subject,'', message])
@@ -981,7 +1249,9 @@ def SendMailWithYahoo(user, password, destination, subject="", message="", port=
 '''
 Windows Applications
 '''
+
 import subprocess
+
 
 def OpenCalculator():
     """
