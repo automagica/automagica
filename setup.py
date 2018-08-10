@@ -27,8 +27,9 @@ setup(name='Automagica',
           'openpyxl==2.4.8',
           'python-docx==0.8.6',
           'pywin32==223',
-          'PyPDF2==1.26.0'
-          'psutil==5.4.6'
+          'PyPDF2==1.26.0',
+          'psutil==5.4.6',
+          'beautifulsoup4==4.6.0'
       ],
       include_package_data = True
 )

@@ -1163,7 +1163,11 @@ DisplayMessageBox(automagica_float)
 
 ### Math operations
 
-Down here is a list with basic math operations that can be used with both intergers and floats:
+Down here is a list with basic math operations that can be used with both intergers and floats. Before they can be used, the math module needs to be imported:
+
+```
+from math import *
+```
 
 
 **abs(x)** : The absolute value of x (the (positive) distance between x and zero)
@@ -1205,9 +1209,9 @@ max(x1,x2)
 ```
 **round(x)** : x rounded to n digits from the decimal point.
 ```
-x = 0.5
-round(0.5)
->>> 1
+x = 0.5555
+round(x, 2)
+>>> 0.56
 ```
 **sqrt(x)** : The square root of x for x > 0
 ```
@@ -1369,3 +1373,4 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [python-docx](https://github.com/python-openxml/python-docx)
 - [pywin32](https://github.com/mhammond/pywin32)
 - [PyPDF2](https://github.com/mstamy2/PyPDF2)
+- [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
