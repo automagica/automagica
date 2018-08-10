@@ -81,6 +81,8 @@ Automagica is based on the Python language.
 		- [While loops](#while-loops)
 		- [For loops](#for-loops)
 - [Examples](#examples)
+    - [Example 1](#example-1)
+    - [Example 2](#example-2)
 - [Credits](#credits)
 
 # Getting started
@@ -1307,6 +1309,8 @@ for x in range(0, 2):
 
 # Examples
 
+## Example 1
+
 The following example opens Excel and reads a worksheet with the following layout:
 
 ![Imgur](https://i.imgur.com/jMj2ypX.png)
@@ -1360,6 +1364,29 @@ If you open the Excel file, the result should look something like this:
 
 Note that the links differ depending on your location, as google search results are location dependent.
 
+## Example 2
+
+This example uses Automagica activities for Excel operations and file/folder manipulation. 
+The code reads an Excel document specified by the path "C:\\Users\\Bob\\Downloads\\USPresidents.xlsx". This file contains in the first column a list of every US president together with some background informations. To begin, all the president names are added in a list. After that, the for loop creates for every president a named folder containing a .txt file with the extra information about that president.
+
+```
+from automagica import *
+
+# Put the president names of the first column in a list.
+
+names = ExcelPutColumnInList("C:\\Users\\Bob\\Downloads\\USPresidents.xlsx", "A2","A45")
+
+# Create for every president a folder with his name and save a .txt file in that folder with his extra information.
+
+for name in names:
+    CreateFolder("C:\\Users\\Bob\\Documents\\Presidents\\" + name)
+    row = names.index(name) + 2
+    data = ExcelPutRowInList("C:\\Users\\Bob\\Downloads\\USPresidents.xlsx", "B"+str(row), "H" + str(row))
+    WriteListToFile(data, "C:\\Users\\Bob\\Documents\\Presidents\\" + name + "\\" + name + ".txt")
+```
+Following gif illustrates the actions.
+
+![Imgur](https://i.imgur.com/YKIoR4Y.gif)
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries as listed down below. Large parts of the documentation is based on theirs. Special thanks to all contributors of these great libraries!
