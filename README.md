@@ -36,7 +36,8 @@ SAP Automation (Production example, sensitive information is blurred):
 
 Folder and File manipulation
 
-![](https://github.com/OakwoodAI/automagica/blob/master/images/USPresidents.gifs=800)
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/USPresidents.gif" width="800">
+
 
 ### Example code
 
