@@ -2,7 +2,7 @@
 # Automagica Client
 Automagica is an open source Smart Robotic Process Automation (SRPA) platform. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries  .
 
-![](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
+![](https://github.com/rtroncosogar/automagica/blob/master/images/automagica_drawing.gif)
 
 Refer to our [website](https://www.automagica.be) for more information, registered users can acces the [portal](https://portal.automagica.be). For more info see the [documentation](https://automagica.readthedocs.io).
 
@@ -14,7 +14,7 @@ Refer to our [website](https://www.automagica.be) for more information, register
 ### Installation instructions
 Install Automagica on the bot host machine:
 ```
-pip install https://github.com/OakwoodAI/automagica/tarball/master
+pip install https://github.com/rtroncosogar/automagica/tarball/master
 ```
 
 ### Importing the activities
@@ -28,15 +28,15 @@ from automagica import *
 
 Browser working with Excel:
 
-![](https://github.com/OakwoodAI/automagica/blob/master/images/browser_excel.gif)
+![](https://github.com/rtroncosogar/automagica/blob/master/images/browser_excel.gif)
 
 SAP Automation (Production example, sensitive information is blurred):
 
-![](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
+![](https://github.com/rtroncosogar/automagica/blob/master/images/sap.gif)
 
 Folder and File manipulation
 
-<img src="https://github.com/OakwoodAI/automagica/blob/master/images/USPresidents.gif" width="800">
+<img src="https://github.com/rtroncosogar/automagica/blob/master/images/USPresidents.gif" width="800">
 
 
 ### Example code
