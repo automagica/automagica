@@ -2,7 +2,7 @@
 from distutils.core import setup
 
 setup(name='Automagica',
-      version='0.3.1',
+      version='0.3.2',
       description='Bot for Automagica - Smart Robotic Process Automation',
       author='Oakwood Technologies',
       author_email='mail@oakwood.ai',
@@ -21,7 +21,7 @@ setup(name='Automagica',
           'opencv-python==3.4.2.17',
           'sty==1.0.0b2',
           'selenium==3.7.0',
-          'pywinauto==0.6.1',
+          'pywinauto==0.6.5',
           'pytesseract==0.2.0',
           'openpyxl==2.4.8',
           'python-docx==0.8.6',
