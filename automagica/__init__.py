@@ -15,6 +15,9 @@ parser.add_argument('-s', '--script', default='', type=str,
 parser.add_argument('-p', '--parameters', default='', type=str,
                     help='Parameters string for the Automagica Bot')
 
+parser.add_argument('--ignore-warnings', dest='ignore_warnings', action='store_true',
+                    help='Python warnings will not end up in stderr')
+parser.set_defaults(ignore_warnings=False)
 
 def start():
     # Retrieve arguments
@@ -29,6 +32,10 @@ def start():
             script = f.read()
     else:
         script = args.script
+
+    if args.ignore_warnings:
+        import warnings
+        warnings.simplefilter("ignore")
 
     # Run script
     exec(script, globals())
