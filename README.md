@@ -7,7 +7,7 @@ Automagica is an open source Smart Robotic Process Automation (SRPA) platform. W
 Refer to our [website](https://www.automagica.be) for more information, registered users can acces the [portal](https://portal.automagica.be). For more info see the [documentation](https://automagica.readthedocs.io).
 
 ## Need expert support?
-We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Send an e-mail to [sales@automagica.be](mailto:sales@automagica.be) for enquiries and rates.
+We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Please send an e-mail to [sales@automagica.be](mailto:sales@automagica.be) for enquiries and rates.
 
 ## Getting started
 
