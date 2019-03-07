@@ -1390,25 +1390,26 @@ def InsertReportTableHeader(data):
     print('AUTOMAGICA_MARKDOWN_START: ' + str(header) + ' :AUTOMAGICA_MARKDOWN_END')
     print('AUTOMAGICA_MARKDOWN_START: ' + str(header_next) + ' :AUTOMAGICA_MARKDOWN_END')
 
+    return data_keys
 
-def InsertReportTableItem(item):
+
+def InsertReportTableItem(item, keys):
     """
     Inserts the header of an Automagica Report.
     """
-    print('AUTOMAGICA_MARKDOWN_START: ' +
-              '|'.join([str(item.get(key, '')) for key in data_keys] + ' :AUTOMAGICA_MARKDOWN_END')
+    print('AUTOMAGICA_MARKDOWN_START: ' + '|'.join([str(item.get(key, '')) for key in keys]) + ' :AUTOMAGICA_MARKDOWN_END')
 
-
+ 
 def InsertReportTable(data):
     '''
     Function to report in the Automagica Portal. Can be used to generate reports, 
     logs and worklists. Only available to users with access to the Portal. 
     This outputs a list of flat dicts to a markdown table with headers to the console.
     '''
-    InsertReportTableHeader(data)
+    keys = InsertReportTableHeader(data)
 
     for item in data:
-        InsertReportTableItem(item)
+        InsertReportTableItem(item, keys)
 
 
 def InsertReportTitle(title='My title', level=1):
