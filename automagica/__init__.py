@@ -33,6 +33,7 @@ def start():
     else:
         script = args.script
 
+    # Ignore warnings
     if args.ignore_warnings:
         import warnings
         warnings.simplefilter("ignore")
