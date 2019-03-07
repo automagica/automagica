@@ -1396,7 +1396,7 @@ def InsertReportTableItem(item):
     Inserts the header of an Automagica Report.
     """
     print('AUTOMAGICA_MARKDOWN_START: ' +
-              '|'.join([str(item.get(key, '')) for key in data_keys]) + ' :AUTOMAGICA_MARKDOWN_END')
+              '|'.join([str(item.get(key, '')) for key in data_keys] + ' :AUTOMAGICA_MARKDOWN_END')
 
 
 def InsertReportTable(data):
