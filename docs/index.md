@@ -116,7 +116,7 @@ sudo apt-get install tesseract-ocr
 ```
 For _MacOS_:
 ```
-brw install tesseract
+brew install tesseract
 ```
 
 ## Failsafe
@@ -762,15 +762,15 @@ Save (as) an existing .xlsx file. The second variable is the new path the file n
 ```
 ExcelCreateWorkSheet(path=\"pathname\", sheet_name=None)
 ```
-Create a new worksheet with a specified name in an existing workbook specified by the path variable. If no sheet_name is entered, the new sheet is named "sheet1", "sheet2", "sheet3", ..., depending on the sheets that already exist. Make shure you enter a valid path referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". For the function to work properly, it is important that the .xlsx file is closed during the execution.
+Create a new worksheet with a specified name in an existing workbook specified by the path variable. If no sheet_name is entered, the new sheet is named "sheet1", "sheet2", "sheet3", ..., depending on the sheets that already exist. Make sure you enter a valid path referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". For the function to work properly, it is important that the .xlsx file is closed during the execution.
 ```
 ExcelGetSheets(path=\"pathname\")
 ```
-Return a list containing the sheet names of an Excel file. Make shure you enter a valid path referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
+Return a list containing the sheet names of an Excel file. Make sure you enter a valid path referencing a .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx".
 ```
 ExcelPutRowInList(path=\"pathname\", start_cell=\"B3\", end_cell=\"E8\", sheet=None)
 ```
-Put the elements of a specified row in a list. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
+Put the elements of a specified row in a list. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make sure to enter a valid path e.g. 
 "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The row is specified by strings referring to the first and final cell. E.g. the row in the image below is defined by start_cell = "C4" and end_cell = "G4". Calling the function with these two cells returns a list: [8,"RPA",None,19,"Automagica]. For the function to work, the two cells need to be of the same row and start_cell needs to be the cell at the left hand side.
 
 ![Imgur](https://i.imgur.com/S4xJWBh.png)
@@ -778,7 +778,7 @@ Put the elements of a specified row in a list. The .xlsx file and sheet that nee
 ```
 ExcelPutColumnInList(path=\"pathname\", start_cell=\"A3\", end_cell=\"A8\", sheet=None)
 ```
-Put the elements of a specified column in a list. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
+Put the elements of a specified column in a list. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make sure to enter a valid path e.g. 
 "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The column is specified by strings referring to the first and final cell. E.g. the region in the image below is defined by start_cell = "C4" and end_cell = "C7". Calling the function returns with this two cells returns a list: [8, "RPA", 19, "Automagica"]. For the function to work, the two entered cells need to be of the same column and start_cell needs to be the upper cell.
 
 ![Imgur](https://i.imgur.com/XOft1RL.png)
@@ -786,7 +786,7 @@ Put the elements of a specified column in a list. The .xlsx file and sheet that 
 ```
 ExcelPutSelectionInMatrix(path=\"pathname\", upper_left_cell=\"B2\", bottom_right_cell=\"C3\", sheet=None)
 ```
-Put the elements of a specified selection in a matrix. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make shure to enter a valid path e.g. 
+Put the elements of a specified selection in a matrix. The .xlsx file and sheet that needs to be read are specified by respectively the path- and sheet variable. If no sheet is specified, the sheet-variable is set to the current active sheet. Also make sure to enter a valid path e.g. 
 "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". The selection is specified by strings referring to the upper left and bottom right cell. E.g. in the image below, the region is defined by upper_left_cell = "C4" and bottom_right_cell = "E6". The function will return a matrix with values: [[8,"Automagica",12],["RPA",15,None],[19,None,55]. If a cell is empty, its value is set to "None".
 
 ![Imgur](https://i.imgur.com/fUfHd0M.png)
