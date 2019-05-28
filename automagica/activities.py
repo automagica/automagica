@@ -535,7 +535,7 @@ OCR activities
 
 
 def ExtractTextFromImage(filename=None):
-    if platform.system == 'Windows':
+    if platform.system() == 'Windows':
         pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract'
     from pytesseract import image_to_string
     return image_to_string(Image.open(filename))
@@ -783,7 +783,7 @@ def ReplaceText(document, text=None, replace_with=None):
 
 
 def ConvertWordToPDF(word_filename=None, pdf_filename=None):
-    if platform.system == 'Windows':
+    if platform.system() == 'Windows':
         from win32com import client
         word = client.DispatchEx('Word.Application')
         word_document = word.Documents.Open(word_filename)
