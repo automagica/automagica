@@ -1,19 +1,19 @@
 """
 Initialising Automagica
-""""
+"""
 
 from automagica import *
 
 """
 Browser Automation - Opening
-""""
+"""
 
 from automagica import *
 browser = ChromeBrowser()
 
 """
 Browser Automation - Opening Google.com
-""""
+"""
 
 from automagica import *
 browser = ChromeBrowser()
@@ -21,7 +21,7 @@ browser.get('https://google.com')
 
 """
 Browser Automation - Opening Google.com and showing title
-""""
+"""
 
 from automagica import *
 browser = ChromeBrowser()
@@ -97,7 +97,7 @@ WriteListToFile(links, file="results.txt")
 
 """
 Browser Automation - Closing
-""""
+"""
 from automagica import *
 
 browser = ChromeBrowser()
