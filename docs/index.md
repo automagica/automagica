@@ -15,7 +15,7 @@ Automagica is based on the Python language.
 	- [Automagica with Natural Language](#automagica-with-natural-language-for-prototyping)
 - [Mouse And Keyboard Automation](#mouse-and-keyboard-automation)
     - [Mouse](#mouse)
-        - [Coördinate Sysem](#coordinate-system)
+        - [Coordinate System](#coordinate-system)
         - [Functions](#functions)
     - [Keyboard](#keyboard)
 - [Browser Automation](#browser-automation)
@@ -27,7 +27,7 @@ Automagica is based on the Python language.
 			- [Selection by Id](#selection-by-id)
 		- [Selection by Xpath](#selection-by-xpath)
 		- [Browsing Example](#browsing-example)
-- [Process Acivities](#process-activities)
+- [Process Activities](#process-activities)
     - [Standard Windows Applications](#windows-applications)
     - [General Commands](#general-commands)
     - [Running Programs](#running-programs)
@@ -88,7 +88,7 @@ Automagica is based on the Python language.
 # Getting started
 
 
-Refer to our [website](https://www.automagica.be) for more information, registered users can acces the [portal](https://portal.automagica.be). More details also available on our [github](https://github.com/OakwoodAI/automagica).
+Refer to our [website](https://www.automagica.be) for more information, registered users can access the [portal](https://portal.automagica.be). More details also available on our [github](https://github.com/OakwoodAI/automagica).
 
 Alternatively you can use Automagica locally by starting your Python script with:
 ```
@@ -173,9 +173,9 @@ Next section explains which functions automagica offers to automate mouse moveme
 
 ## Mouse
 
-### Coördinate System
+### Coordinate System
 
-Most functions for mouse operations need coördinates as an input. These coördinates represent the absolute pixel position of the mouse on the computer screen. Following picuter gives the coördinate system for a 1920 x 1080 resolution screen. The x-coördinate starts at the left side and increases going right. The y-coördinate increases going down.
+Most functions for mouse operations need coordinates as an input. These coordinates represent the absolute pixel position of the mouse on the computer screen. Following picuter gives the coördinate system for a 1920 x 1080 resolution screen. The x-coördinate starts at the left side and increases going right. The y-coördinate increases going down.
 ```
 0,0       X increases -->
 +---------------------------+
@@ -187,14 +187,14 @@ Most functions for mouse operations need coördinates as an input. These coördi
 |                           |
 +---------------------------+ 1919, 1079
 ```
-Following function returns the coördinates of the actual position of the mouse in a pop-up message box: 
+Following function returns the coordinates of the actual position of the mouse in a pop-up message box: 
 ```
 GetMouseCoordinates()
 ```
 
 ### Functions
 
-The different mouse functionalities are listed below. They all require a coördinate set as input to determine the mouse position where an operation needs to be executed. If no coördinates are entered, the operation is executed at the actual pointer position. 
+The different mouse functionalities are listed below. They all require a coördinate set as input to determine the mouse position where an operation needs to be executed. If no coordinates are entered, the operation is executed at the actual pointer position. 
 
 There are three functions to perform a click on a desired location on the screen.
 
@@ -212,7 +212,7 @@ RightClickOnPosition(x, y)
 ```
 Moving the pointer to a certain location. This can be done to a position determined by a absolute coördinate pair or relative to the current mouse position:
 ```
-#Move to absolute coördinates
+#Move to absolute coordinates
 MoveToPosition(x, y)
 
 #Move relative to current position
@@ -629,7 +629,7 @@ OpenProgramByName("Dropbox")
 ```
 ## Running Programs
 
-Automagica can check wheter a program is currently active on your computer. This can be done with a general function that requires the process name and returns True if the specified program is active:
+Automagica can check wether a program is currently active on your computer. This can be done with a general function that requires the process name and returns True if the specified program is active:
 ```
 ProcessRunning(name="program_name")
 ```
@@ -670,7 +670,7 @@ Returns frequency at which CPU currently operates. Also shows minimum and maximu
 ```
 CPUStats()
 ```
-Returns CPU statistics: Number of CTX switches, intterupts, soft-interrupts and systemcalls.
+Returns CPU statistics: Number of CTX switches, interrupts, soft-interrupts and systemcalls.
 ```
 MemoryStats(mem_type='swap')
 ```
@@ -754,7 +754,7 @@ Create a new .xlsx file and save it under a specified path. If the entered path 
 ```
 ExcelOpenWorkbook(path=\"pathname\")
 ```
-Open a .xlsx file with Microsoft Excel. Make sure you enter a valid path. This can be a path referencing an existing .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". This will open the existing file. You can also enter a comletely new path. In this case, the function creates a new .xlsx file with that path and opens it with Excel.
+Open a .xlsx file with Microsoft Excel. Make sure you enter a valid path. This can be a path referencing an existing .xlsx file e.g. "C:\\Users\\Bob\\Desktop\\RPA Examples\\data.xlsx". This will open the existing file. You can also enter a completely new path. In this case, the function creates a new .xlsx file with that path and opens it with Excel.
 ```
 ExcelSaveExistingWorkbook(path=\"pathname\", new_path=None)
 ```
@@ -840,7 +840,7 @@ The following function can be used to move a file from one to an other directory
 ```
 MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")
 ```
-The first variable contatains the path of the file that should be moved (this includes the name of the file). The the second argument contains the path of the location that the file needs to be moved to (in this path, the file name should be omitted). If one of the two arguments contain a non-existing path, the function will return nothing. As an example, next piece of code moves the file "Automagica.txt" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\:
+The first variable contains the path of the file that should be moved (this includes the name of the file). The the second argument contains the path of the location that the file needs to be moved to (in this path, the file name should be omitted). If one of the two arguments contain a non-existing path, the function will return nothing. As an example, next piece of code moves the file "Automagica.txt" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\:
 ```
 MoveFile("C:\\Users\\Bob\\Desktop\\Automagica.txt", "C:\\Users\\Bob\\Downloads")
 ```
@@ -887,7 +887,7 @@ WriteFileToList(file)
 This function writes the content of a entered .txt file to a list and returns that list. Every new line from the .txt file becomes a new element of the list. The function will not work if the entered path is not attached to a .txt file.
 
 
-## Folder Manipulaion
+## Folder Manipulation
 Most of the manipulations that can be done on files can be executed on folders as well. Automagica offers a selection of functions that make it easy to perform manipulations on folders.
 
 ### Creating Folders
@@ -928,7 +928,7 @@ It is possible to move a folder from one to an other location using next functio
 ```
 MoveFolder(old_path=\"pathname\", new_location=\"pathname\")
 ```
-The first variable contatains the path of the folder that should be moved (this includes the name of the folder). The the second argument contains the path of the location that the folder needs to be moved to (in this path, the name of the moved folder should be omitted). If one of the two arguments contain a non-existing path, the function will return nothing. As an example, next piece of code moves the folder "Automagica" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\:
+The first variable contains the path of the folder that should be moved (this includes the name of the folder). The the second argument contains the path of the location that the folder needs to be moved to (in this path, the name of the moved folder should be omitted). If one of the two arguments contain a non-existing path, the function will return nothing. As an example, next piece of code moves the folder "Automagica" from C:\\Users\\Bob\\Desktop\\ to C:\\Users\\Bob\\Downloads\\:
 ```
 MoveFolder("C:\\Users\\Bob\\Desktop\\Automagica", "C:\\Users\\Bob\\Downloads")
 ```
@@ -1024,7 +1024,7 @@ Rotate an image over a specified angle. E.g. Entering "C:\\Users\\Pictures\\Auto
 ```
 ResizeImage(path=\"pathname\", size=(1024, 768))
 ```
-Resizes the image specified by the path variable. The size is specifie by the second argument. This is a tuple with the width and height in pixels. E.g. ResizeImage("C:\\Users\\Pictures\\Automagica.jpg", (300, 400)) gives the image a width of 300 pixels and a height of 400 pixels.
+Resizes the image specified by the path variable. The size is specified by the second argument. This is a tuple with the width and height in pixels. E.g. ResizeImage("C:\\Users\\Pictures\\Automagica.jpg", (300, 400)) gives the image a width of 300 pixels and a height of 400 pixels.
 ```
 ImageSize(path=\"pathname\")
 ```
@@ -1076,7 +1076,7 @@ DisplayMessageBox(automagica_string)
 
 ##### Adding variables to a string
 
-You can add all variables to a string. If you want, for example, to add an interger to a string you can do so by defining the integer as a string:
+You can add all variables to a string. If you want, for example, to add an integer to a string you can do so by defining the integer as a string:
 
 ```
 automagica_string = "robot number "
@@ -1126,7 +1126,7 @@ You can choose to split a string at a certain word or character. Don't forget to
 x = "Robots will take over the world!"
 x.split(" over ")
 >>>['Robots will take', 'the world!']
-#Accesing the different strings can be done by:
+#accesing the different strings can be done by:
 x[0]
 >>>Robots will take
 x[1]
@@ -1165,7 +1165,7 @@ DisplayMessageBox(automagica_float)
 
 ### Math operations
 
-Down here is a list with basic math operations that can be used with both intergers and floats. Before they can be used, the math module needs to be imported:
+Down here is a list with basic math operations that can be used with both integers and floats. Before they can be used, the math module needs to be imported:
 
 ```
 from math import *
@@ -1266,13 +1266,13 @@ if temperature > 20:
 else:
     DisplayMessageBox("You can wear normal clothes!")
 ```
-The previous example will ouptut the string *"Wear a warm hat!"* if the inputnumber was lower than 10. If the number was higher than 20, the output will be *Wear short pants!*. If the condition was still not met, which means the input number was between 10 and 20, the else statement will be activated. In that case the message will show *"You can wear normal clothes!"*.
+The previous example will output the string *"Wear a warm hat!"* if the inputnumber was lower than 10. If the number was higher than 20, the output will be *Wear short pants!*. If the condition was still not met, which means the input number was between 10 and 20, the else statement will be activated. In that case the message will show *"You can wear normal clothes!"*.
 
 ### While loops
 
 The while loop evaluates the test expression.
 
-If the test expression is true (nonzero), codes inside the body of while loop are exectued. The test expression is evaluated again. The process goes on until the test expression is false.
+If the test expression is true (nonzero), codes inside the body of while loop are executed. The test expression is evaluated again. The process goes on until the test expression is false.
 
 When the test expression is false, the while loop is terminated.
 
@@ -1417,7 +1417,7 @@ Following gif illustrates the actions.
 | ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAPmSURBVFiF7Vc9TCNHFP52ZxbRnAQnJ3fgv1UiErmIlMKHCwoqXCAFRIloLFpMCtMQKXVKZAlCBaJPQ0FDh6BFsoKuhMR/wjj742Aj2cbe2ZcCFi3eBeMj190nWfK8N/Pem3nvfbMDIsJzP13XM6ZpztyPua7rBy7dkq7rS67xARFxIoJpmjO6rmf62ZfRB5IkRYQQQQAoFAocwAeXLixJUtg1/cP9HAghgpIkRfrZ7xvA58aXACQi8gjn5+fniOgXAKOpVOrrYrF4e3R0VFcURdrY2PhmdXX1LwBYWFh4CwD7+/s1ANjc3Pw2k8n83e12aXJyUo1EInxnZ0dwzv8dGhr6+fDw8I9eX9wvKiLaBhAEgHw+j0qlAgDvhRDI5XIA8D0AFItFZ8lXAJDL5SCE+O729hbFYhG2bcO2bdbpdN4R0e8APAH4nsDc3JxX+EIQEa6vr9FrV5Zl6+TkROmdzw3DyPS2y+LiIiqVCo6PjwcOoNVqeZwnk0lEo1HZNM1sT7AlLsvyRyFEza0olUrQNG1g50IItNttj7xcLjvp+NMtZ4xd/q8paDQasCzLV/dkCgBwh70cKIoCIQRs236x806n85xzKIqCQqEw7JarqmpJuq4fwEWv9zt5d3Z2hr29vUeGAoEAVlZWPA6ICJVKBZZlYXt725OGdDqNeDyOkZGRf3qWnvJAIPBTr8Hl5eWBUlCv15/cPQBsbW05KXjfq3s1E1qWhUaj8cnruWEYSz03GmZnZ1GtVh3SeRa1Ws3Tdr1IJBIIh8OyaZrrbjkRlV91As1mE61W6zUmBmNCdxG6C88NvyIEnm7DTz6BfoX3UnDDMDxtmM1m4deGDgYtvPs25IZhVHtUpxIReYhobW2t5UdEjDGMjo7CsiwwxnydXVxc+F1EUBTF2t3dfeOWq6pqcQCWqqqPzrLb7foaF0Lg6uoKNzc3T2/XB7Zto9vtQlVVT3HwWq0243x0OpiamoKmaTg/P/cYazabAzkHgFgshmAwKOu6nnLLGWOX3LbtH2RZfnQdRyIRcM49AbTbbQghBg4gHA4jGo1CluUf3XLbtt++uA1t20a9Xu9LOk9h0DasO3+mp6cxMTGBZrMJSZKQTqcfJiUSCSQSiYdxOp2GLN+ZjMViSCaT7gB8Gcs3AEmSfgVwDQDj4+MIBALodDrgnCMejz/MC4VCCIVCD+N4PA7O7xpqbGwM4fAdwzPGuoqi/Oa71X5PJ8MwspqmpYgI+Xx+WNf1qku3bhjGuutpVs3n88NEBE3TUoZhZF/9NPvc+BJA3wCIqMQYuwTuqBPAqUtXJqKya/qpw6qMsUsiKvWz/x9uEJRGaoWMHQAAAABJRU5ErkJggg==)|CPU Load | Returns average CPU load for all cores over a measured time. |
 | ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAPmSURBVFiF7Vc9TCNHFP52ZxbRnAQnJ3fgv1UiErmIlMKHCwoqXCAFRIloLFpMCtMQKXVKZAlCBaJPQ0FDh6BFsoKuhMR/wjj742Aj2cbe2ZcCFi3eBeMj190nWfK8N/Pem3nvfbMDIsJzP13XM6ZpztyPua7rBy7dkq7rS67xARFxIoJpmjO6rmf62ZfRB5IkRYQQQQAoFAocwAeXLixJUtg1/cP9HAghgpIkRfrZ7xvA58aXACQi8gjn5+fniOgXAKOpVOrrYrF4e3R0VFcURdrY2PhmdXX1LwBYWFh4CwD7+/s1ANjc3Pw2k8n83e12aXJyUo1EInxnZ0dwzv8dGhr6+fDw8I9eX9wvKiLaBhAEgHw+j0qlAgDvhRDI5XIA8D0AFItFZ8lXAJDL5SCE+O729hbFYhG2bcO2bdbpdN4R0e8APAH4nsDc3JxX+EIQEa6vr9FrV5Zl6+TkROmdzw3DyPS2y+LiIiqVCo6PjwcOoNVqeZwnk0lEo1HZNM1sT7AlLsvyRyFEza0olUrQNG1g50IItNttj7xcLjvp+NMtZ4xd/q8paDQasCzLV/dkCgBwh70cKIoCIQRs236x806n85xzKIqCQqEw7JarqmpJuq4fwEWv9zt5d3Z2hr29vUeGAoEAVlZWPA6ICJVKBZZlYXt725OGdDqNeDyOkZGRf3qWnvJAIPBTr8Hl5eWBUlCv15/cPQBsbW05KXjfq3s1E1qWhUaj8cnruWEYSz03GmZnZ1GtVh3SeRa1Ws3Tdr1IJBIIh8OyaZrrbjkRlV91As1mE61W6zUmBmNCdxG6C88NvyIEnm7DTz6BfoX3UnDDMDxtmM1m4deGDgYtvPs25IZhVHtUpxIReYhobW2t5UdEjDGMjo7CsiwwxnydXVxc+F1EUBTF2t3dfeOWq6pqcQCWqqqPzrLb7foaF0Lg6uoKNzc3T2/XB7Zto9vtQlVVT3HwWq0243x0OpiamoKmaTg/P/cYazabAzkHgFgshmAwKOu6nnLLGWOX3LbtH2RZfnQdRyIRcM49AbTbbQghBg4gHA4jGo1CluUf3XLbtt++uA1t20a9Xu9LOk9h0DasO3+mp6cxMTGBZrMJSZKQTqcfJiUSCSQSiYdxOp2GLN+ZjMViSCaT7gB8Gcs3AEmSfgVwDQDj4+MIBALodDrgnCMejz/MC4VCCIVCD+N4PA7O7xpqbGwM4fAdwzPGuoqi/Oa71X5PJ8MwspqmpYgI+Xx+WNf1qku3bhjGuutpVs3n88NEBE3TUoZhZF/9NPvc+BJA3wCIqMQYuwTuqBPAqUtXJqKya/qpw6qMsUsiKvWz/x9uEJRGaoWMHQAAAABJRU5ErkJggg==)|Number Of CPU | Returns the number of CPU's in the current system. |
 | ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAPmSURBVFiF7Vc9TCNHFP52ZxbRnAQnJ3fgv1UiErmIlMKHCwoqXCAFRIloLFpMCtMQKXVKZAlCBaJPQ0FDh6BFsoKuhMR/wjj742Aj2cbe2ZcCFi3eBeMj190nWfK8N/Pem3nvfbMDIsJzP13XM6ZpztyPua7rBy7dkq7rS67xARFxIoJpmjO6rmf62ZfRB5IkRYQQQQAoFAocwAeXLixJUtg1/cP9HAghgpIkRfrZ7xvA58aXACQi8gjn5+fniOgXAKOpVOrrYrF4e3R0VFcURdrY2PhmdXX1LwBYWFh4CwD7+/s1ANjc3Pw2k8n83e12aXJyUo1EInxnZ0dwzv8dGhr6+fDw8I9eX9wvKiLaBhAEgHw+j0qlAgDvhRDI5XIA8D0AFItFZ8lXAJDL5SCE+O729hbFYhG2bcO2bdbpdN4R0e8APAH4nsDc3JxX+EIQEa6vr9FrV5Zl6+TkROmdzw3DyPS2y+LiIiqVCo6PjwcOoNVqeZwnk0lEo1HZNM1sT7AlLsvyRyFEza0olUrQNG1g50IItNttj7xcLjvp+NMtZ4xd/q8paDQasCzLV/dkCgBwh70cKIoCIQRs236x806n85xzKIqCQqEw7JarqmpJuq4fwEWv9zt5d3Z2hr29vUeGAoEAVlZWPA6ICJVKBZZlYXt725OGdDqNeDyOkZGRf3qWnvJAIPBTr8Hl5eWBUlCv15/cPQBsbW05KXjfq3s1E1qWhUaj8cnruWEYSz03GmZnZ1GtVh3SeRa1Ws3Tdr1IJBIIh8OyaZrrbjkRlV91As1mE61W6zUmBmNCdxG6C88NvyIEnm7DTz6BfoX3UnDDMDxtmM1m4deGDgYtvPs25IZhVHtUpxIReYhobW2t5UdEjDGMjo7CsiwwxnydXVxc+F1EUBTF2t3dfeOWq6pqcQCWqqqPzrLb7foaF0Lg6uoKNzc3T2/XB7Zto9vtQlVVT3HwWq0243x0OpiamoKmaTg/P/cYazabAzkHgFgshmAwKOu6nnLLGWOX3LbtH2RZfnQdRyIRcM49AbTbbQghBg4gHA4jGo1CluUf3XLbtt++uA1t20a9Xu9LOk9h0DasO3+mp6cxMTGBZrMJSZKQTqcfJiUSCSQSiYdxOp2GLN+ZjMViSCaT7gB8Gcs3AEmSfgVwDQDj4+MIBALodDrgnCMejz/MC4VCCIVCD+N4PA7O7xpqbGwM4fAdwzPGuoqi/Oa71X5PJ8MwspqmpYgI+Xx+WNf1qku3bhjGuutpVs3n88NEBE3TUoZhZF/9NPvc+BJA3wCIqMQYuwTuqBPAqUtXJqKya/qpw6qMsUsiKvWz/x9uEJRGaoWMHQAAAABJRU5ErkJggg==)|CPU frequency | Returns frequency at which CPU currently operates together with maximum and minimum frequency. |
-| ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAPmSURBVFiF7Vc9TCNHFP52ZxbRnAQnJ3fgv1UiErmIlMKHCwoqXCAFRIloLFpMCtMQKXVKZAlCBaJPQ0FDh6BFsoKuhMR/wjj742Aj2cbe2ZcCFi3eBeMj190nWfK8N/Pem3nvfbMDIsJzP13XM6ZpztyPua7rBy7dkq7rS67xARFxIoJpmjO6rmf62ZfRB5IkRYQQQQAoFAocwAeXLixJUtg1/cP9HAghgpIkRfrZ7xvA58aXACQi8gjn5+fniOgXAKOpVOrrYrF4e3R0VFcURdrY2PhmdXX1LwBYWFh4CwD7+/s1ANjc3Pw2k8n83e12aXJyUo1EInxnZ0dwzv8dGhr6+fDw8I9eX9wvKiLaBhAEgHw+j0qlAgDvhRDI5XIA8D0AFItFZ8lXAJDL5SCE+O729hbFYhG2bcO2bdbpdN4R0e8APAH4nsDc3JxX+EIQEa6vr9FrV5Zl6+TkROmdzw3DyPS2y+LiIiqVCo6PjwcOoNVqeZwnk0lEo1HZNM1sT7AlLsvyRyFEza0olUrQNG1g50IItNttj7xcLjvp+NMtZ4xd/q8paDQasCzLV/dkCgBwh70cKIoCIQRs236x806n85xzKIqCQqEw7JarqmpJuq4fwEWv9zt5d3Z2hr29vUeGAoEAVlZWPA6ICJVKBZZlYXt725OGdDqNeDyOkZGRf3qWnvJAIPBTr8Hl5eWBUlCv15/cPQBsbW05KXjfq3s1E1qWhUaj8cnruWEYSz03GmZnZ1GtVh3SeRa1Ws3Tdr1IJBIIh8OyaZrrbjkRlV91As1mE61W6zUmBmNCdxG6C88NvyIEnm7DTz6BfoX3UnDDMDxtmM1m4deGDgYtvPs25IZhVHtUpxIReYhobW2t5UdEjDGMjo7CsiwwxnydXVxc+F1EUBTF2t3dfeOWq6pqcQCWqqqPzrLb7foaF0Lg6uoKNzc3T2/XB7Zto9vtQlVVT3HwWq0243x0OpiamoKmaTg/P/cYazabAzkHgFgshmAwKOu6nnLLGWOX3LbtH2RZfnQdRyIRcM49AbTbbQghBg4gHA4jGo1CluUf3XLbtt++uA1t20a9Xu9LOk9h0DasO3+mp6cxMTGBZrMJSZKQTqcfJiUSCSQSiYdxOp2GLN+ZjMViSCaT7gB8Gcs3AEmSfgVwDQDj4+MIBALodDrgnCMejz/MC4VCCIVCD+N4PA7O7xpqbGwM4fAdwzPGuoqi/Oa71X5PJ8MwspqmpYgI+Xx+WNf1qku3bhjGuutpVs3n88NEBE3TUoZhZF/9NPvc+BJA3wCIqMQYuwTuqBPAqUtXJqKya/qpw6qMsUsiKvWz/x9uEJRGaoWMHQAAAABJRU5ErkJggg==)|CPU Stats | Returns CPU statistics: Number of CTX switches, intterupts, soft-interrupts and systemcalls. |
+| ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAPmSURBVFiF7Vc9TCNHFP52ZxbRnAQnJ3fgv1UiErmIlMKHCwoqXCAFRIloLFpMCtMQKXVKZAlCBaJPQ0FDh6BFsoKuhMR/wjj742Aj2cbe2ZcCFi3eBeMj190nWfK8N/Pem3nvfbMDIsJzP13XM6ZpztyPua7rBy7dkq7rS67xARFxIoJpmjO6rmf62ZfRB5IkRYQQQQAoFAocwAeXLixJUtg1/cP9HAghgpIkRfrZ7xvA58aXACQi8gjn5+fniOgXAKOpVOrrYrF4e3R0VFcURdrY2PhmdXX1LwBYWFh4CwD7+/s1ANjc3Pw2k8n83e12aXJyUo1EInxnZ0dwzv8dGhr6+fDw8I9eX9wvKiLaBhAEgHw+j0qlAgDvhRDI5XIA8D0AFItFZ8lXAJDL5SCE+O729hbFYhG2bcO2bdbpdN4R0e8APAH4nsDc3JxX+EIQEa6vr9FrV5Zl6+TkROmdzw3DyPS2y+LiIiqVCo6PjwcOoNVqeZwnk0lEo1HZNM1sT7AlLsvyRyFEza0olUrQNG1g50IItNttj7xcLjvp+NMtZ4xd/q8paDQasCzLV/dkCgBwh70cKIoCIQRs236x806n85xzKIqCQqEw7JarqmpJuq4fwEWv9zt5d3Z2hr29vUeGAoEAVlZWPA6ICJVKBZZlYXt725OGdDqNeDyOkZGRf3qWnvJAIPBTr8Hl5eWBUlCv15/cPQBsbW05KXjfq3s1E1qWhUaj8cnruWEYSz03GmZnZ1GtVh3SeRa1Ws3Tdr1IJBIIh8OyaZrrbjkRlV91As1mE61W6zUmBmNCdxG6C88NvyIEnm7DTz6BfoX3UnDDMDxtmM1m4deGDgYtvPs25IZhVHtUpxIReYhobW2t5UdEjDGMjo7CsiwwxnydXVxc+F1EUBTF2t3dfeOWq6pqcQCWqqqPzrLb7foaF0Lg6uoKNzc3T2/XB7Zto9vtQlVVT3HwWq0243x0OpiamoKmaTg/P/cYazabAzkHgFgshmAwKOu6nnLLGWOX3LbtH2RZfnQdRyIRcM49AbTbbQghBg4gHA4jGo1CluUf3XLbtt++uA1t20a9Xu9LOk9h0DasO3+mp6cxMTGBZrMJSZKQTqcfJiUSCSQSiYdxOp2GLN+ZjMViSCaT7gB8Gcs3AEmSfgVwDQDj4+MIBALodDrgnCMejz/MC4VCCIVCD+N4PA7O7xpqbGwM4fAdwzPGuoqi/Oa71X5PJ8MwspqmpYgI+Xx+WNf1qku3bhjGuutpVs3n88NEBE3TUoZhZF/9NPvc+BJA3wCIqMQYuwTuqBPAqUtXJqKya/qpw6qMsUsiKvWz/x9uEJRGaoWMHQAAAABJRU5ErkJggg==)|CPU Stats | Returns CPU statistics: Number of CTX switches, interrupts, soft-interrupts and systemcalls. |
 | ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAejAAAHowEwL7LFAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAATtQTFRF////LYctK4ArKYAtKYEvKTE5KYIuKYIuKIEwKIIwKIIvJ4EuKTI5KIEvKIEvJ4AuKTI5KYEwcKBCcKBDb51BcZ9BdKFCfKRFgqdGhKhGiapIJ4EvKIIvnrJNpLVPKIEvp7VQq7dQKIEwKIEvKDI4KGwxKIEuKIEvKIEvKIEvKIEvKIEvKIEvKDI4KIEvKoIvKoIwLoQxL2s7MGg9MG06Ml1CN0lNOEVPOok0PYo1P4s1Q4w2RI02R2ZISI43SmVJSmtHS5A4TmtJTnJGUnJIVJM6WW9LWZY8XZc9YXdLZZs/Z5s/Z5w/aHlOaH9LaJtAaJw/bZ5BcqBCc4NOdqJDeaNEeqNEe6REfo1PgKZFhKhHka1Kl69LnbJNoLNOo7ROqbdQrrlRsrtStbxTyMRY1Mlb2sxc4M5e7NNh+0K73QAAAC10Uk5TABEYPl1eXmRlZmxvcHOOj5CQq6usrK2xs7W3vL3Dx8jJy8zNztTs9fb4+/3+KwNVbwAAAQtJREFUOMtjYIAAAV1dVS0mBkZ1PQhQY2ZABawquqp6yrzyYFkdJW09PjQFDDxABfrulo6OFnp63AzseoLYFBhmhCYnB+npcTKwYFdgEuHi5+esp6cpo4ldgak5EJgBHREYFSWGV0FUfLwUNgXGvvZubrZABXEpKbL4HKnnHxYmhE2BQZCdh4cNUEFSeroiNgVwEBIdLY5XQWRsrCTWkPSydnW1AipISE2Vw+tI79BQEWwKjIKdPD0dgAoS09IU8AZUeEyMBFkKCFoBd6RPaKgwWd4kGFAEg5pgZMEdGRAWJkpWgiGY5AgmWliy15LW0OPHn3HYsOcLWNbjYuDAUICSebWVtTAyL87sDwAH1W5FFYuAgAAAAABJRU5ErkJggg==)|Memory Stats | Returns memory statistics: total, used, free and percentage in use. |
 | ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAT1SURBVFiFtZdbbBRVGMd/M7Ozt2Zv9AKltEIBlxRIFTBADJemWKJWIzaIgUajBjVKjPFBY3w0MUETgzHxgZuJASMkWMEUqYKAsSoRwcamstArdbttybbdNm23s7szPmy73WFml7bG/+P/fPN9v3POnJugaRpTunqr6wbg53+Qqqp0tLUiy1bl6Ue22KZ8iy5Kw44AwxNRlHg8ZeeIFoRZFtSAUXU6h0WUkr6miulxeoBJPdr6M4o92SSoGhUHryDG1VkBqBaRiy+vRxOT6NZonC+sJYY40eAAqjjd3/yOgVkXBxDjKvkdA6Y502U6AlOSYgmKm0KmbS6Pm6LS+wAItncxEhk2xBQ3hQiXeEnIUsYpNAUoahvA0T9CYeAOkpJI+d7ceWzf9RSL/cvwzPPqvokMDNEZaKXhxDcMhZM99/UMs/nzq4T8+YwXuMBfPDOA1Y23iUYndN5DWx/msT012Ox205545nkp37iOFQ+u4uzxU/x+qREASUmw6K9e7PZB8JfPDOBu7XrtRco3rptJKDa7nR0v7aG0zM+Jz47eM970J0zXmk0bZlw8XeUb17Fm04b/BuD2eamu3Tnr4lOqrt2J2+fNGpN1CrbVVGN3Ogy+GI3iO1OPo+UGAONlKxh88nHUu/4Pu9PBtppqvj58bG4AJctLjcUnJij64CPkvv6UZw314mxuIfje26g2my7eLIcuX6YGm91OfuF8g+8925AqHkqohBLJTUru68d7tsEQn184P+PKyQpQtKQEQTBuH47ALQDCqsa+yCj7IqOEVU3Xli5BEChaYtyCp5RxCuJph1G6NEvyUJEFsE8CyoK+baa5sgKEurpREyqipB+ksZVl2G+14RYEDnlzAHBOgoytLDPkURMqoa5uJNF8sDNOQUyJ0RfsMfiRqkqiy5emCk8Vjy5fSqSq0hDfF+whpsQylcm+CtpbblJYskjnaZJE6K03cF+8jKMlAMB4mZ/hii1oJr1sb7mZrUR2gAt19axevxa3z6OHEEUilRVEKit0vqyOoCESF5NTMzwY4UJdfVaArDthdGycuiPHsybQJdMmuH/wMLZEGIC6I8eJjo0D4PG5Zw8AEGhq5vK3xvVtJkXyYVFHKB36ksb67wg0NQOQm+fj+b3PzA0AoOHkaY7u/5RIeDBrnIZEmCXYEmEWjF5MFd/7ei0ej8v0mxkdxwCtzX9z4N332fLEdhb7l1G0uBjZagUgpigEO7vpDLQSuv4n+1/NYcdmJ00dVrbV7MHjdRGLme8FpgC+XC+hYJ/BnxiP8v3J0wCIokhB0QIA+oO9qOr0vbG53cqqUpl3nsujTc7h18ZrXDr/Czt3Vxlymk7BC688S35BbtYRUVWV3u4eert7dMUBfriWTJsjDRHtPMeZU+cMN6ysAC5XDnv31d4Twky5eT7WVu1mguQ94IGFQRbmSZD2ALonwFwhnDmO5A/ndXGl3Y2mwfVAlJqtTrTZAswFwuNx4fG6uN0Z5OODfxC8k2BRgYU7Qyrm5TMA/PTjbxz48BCKEpvTSAwORlBiGm9+MsD+YyN8dX509lOQrplCSJPHcW6eD4tFYiyq0fpPHE2D0mX3mX4j6F7HN7s6ETCPBBIJlZiiZAGwIMvJla0oMdTE9KPGIst0dbRhsVjiNVUVcsrX4xDN2kNJRHJkvl6ly2qVgVSd1FIVBFG3Zv8FQwDFpyPx1wAAAAAASUVORK5CYII=)|Disk Stats | Returns disk statistics of main disk: total, used, free and percentage in use. |
 | ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAT1SURBVFiFtZdbbBRVGMd/M7Ozt2Zv9AKltEIBlxRIFTBADJemWKJWIzaIgUajBjVKjPFBY3w0MUETgzHxgZuJASMkWMEUqYKAsSoRwcamstArdbttybbdNm23s7szPmy73WFml7bG/+P/fPN9v3POnJugaRpTunqr6wbg53+Qqqp0tLUiy1bl6Ue22KZ8iy5Kw44AwxNRlHg8ZeeIFoRZFtSAUXU6h0WUkr6miulxeoBJPdr6M4o92SSoGhUHryDG1VkBqBaRiy+vRxOT6NZonC+sJYY40eAAqjjd3/yOgVkXBxDjKvkdA6Y502U6AlOSYgmKm0KmbS6Pm6LS+wAItncxEhk2xBQ3hQiXeEnIUsYpNAUoahvA0T9CYeAOkpJI+d7ceWzf9RSL/cvwzPPqvokMDNEZaKXhxDcMhZM99/UMs/nzq4T8+YwXuMBfPDOA1Y23iUYndN5DWx/msT012Ox205545nkp37iOFQ+u4uzxU/x+qREASUmw6K9e7PZB8JfPDOBu7XrtRco3rptJKDa7nR0v7aG0zM+Jz47eM970J0zXmk0bZlw8XeUb17Fm04b/BuD2eamu3Tnr4lOqrt2J2+fNGpN1CrbVVGN3Ogy+GI3iO1OPo+UGAONlKxh88nHUu/4Pu9PBtppqvj58bG4AJctLjcUnJij64CPkvv6UZw314mxuIfje26g2my7eLIcuX6YGm91OfuF8g+8925AqHkqohBLJTUru68d7tsEQn184P+PKyQpQtKQEQTBuH47ALQDCqsa+yCj7IqOEVU3Xli5BEChaYtyCp5RxCuJph1G6NEvyUJEFsE8CyoK+baa5sgKEurpREyqipB+ksZVl2G+14RYEDnlzAHBOgoytLDPkURMqoa5uJNF8sDNOQUyJ0RfsMfiRqkqiy5emCk8Vjy5fSqSq0hDfF+whpsQylcm+CtpbblJYskjnaZJE6K03cF+8jKMlAMB4mZ/hii1oJr1sb7mZrUR2gAt19axevxa3z6OHEEUilRVEKit0vqyOoCESF5NTMzwY4UJdfVaArDthdGycuiPHsybQJdMmuH/wMLZEGIC6I8eJjo0D4PG5Zw8AEGhq5vK3xvVtJkXyYVFHKB36ksb67wg0NQOQm+fj+b3PzA0AoOHkaY7u/5RIeDBrnIZEmCXYEmEWjF5MFd/7ei0ej8v0mxkdxwCtzX9z4N332fLEdhb7l1G0uBjZagUgpigEO7vpDLQSuv4n+1/NYcdmJ00dVrbV7MHjdRGLme8FpgC+XC+hYJ/BnxiP8v3J0wCIokhB0QIA+oO9qOr0vbG53cqqUpl3nsujTc7h18ZrXDr/Czt3Vxlymk7BC688S35BbtYRUVWV3u4eert7dMUBfriWTJsjDRHtPMeZU+cMN6ysAC5XDnv31d4Twky5eT7WVu1mguQ94IGFQRbmSZD2ALonwFwhnDmO5A/ndXGl3Y2mwfVAlJqtTrTZAswFwuNx4fG6uN0Z5OODfxC8k2BRgYU7Qyrm5TMA/PTjbxz48BCKEpvTSAwORlBiGm9+MsD+YyN8dX509lOQrplCSJPHcW6eD4tFYiyq0fpPHE2D0mX3mX4j6F7HN7s6ETCPBBIJlZiiZAGwIMvJla0oMdTE9KPGIst0dbRhsVjiNVUVcsrX4xDN2kNJRHJkvl6ly2qVgVSd1FIVBFG3Zv8FQwDFpyPx1wAAAAAASUVORK5CYII=)|Disk Partitions | Returns tuple with info for every partition. |
@@ -1432,7 +1432,7 @@ Following gif illustrates the actions.
 |**Browser**|
 | ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAATxSURBVFjDtZdtTFtVGMcbE3X6QZN98ZMfjNNs8wvGmC37MNqhQTOXTF5K14n0BQryIkPasbjgwGUONZlhY1GMQ7ZoFhbdBoUEJkszmAX6XjpeSim0pR3U8dJCX2/b+3junZ3QXe+9Bdfkn6bNPef/e577nOecwwEADis1NDzlKBfsc1YIm5C6HBVCM/r2z5QLIrYygddaKhgcL+FfHSvhS3Qy2fNs52V8YK4m/zlnufAUMltAAiZNlRXAveL88GhxXr9FdvjVLQE4K4X5rgqhk40xFYhRmptAIO1pA8yVf7TDVXFEtRnj9ZotPwIIAMzS3EWrLHcnKwDCHA32bNV8vSZkfDBJ8sJUEBt+OCoLX0EDXP+neVKoOEkIe0nB65QAtqr3n0UP3nsS5klZ0OswSfMeUAKc7ni31vapIPgkAYia0EtywSLjt20AqPvjnRflSu7yxbb3BtKZ0PWZBFzVRWlBWEsLQC/Owa0lBW8/Aqjt4n2BAAApYq7ju+kmmG86uYi5ZnU4Fp1FYxMAeByi3lVYGYjBpCKKmkCESSGdOBHUiS0kQMO1/GeQ8co/APBlR5aG0ryqENYG+s1oELYSjkHf9DJ8fXcOztxxwC/meVgKYogFC4P7UhyZAJ0wkwRWR4pgabjqBU5tz4H9SfOkbp/OMacCBDR/TiFzuDG5CHt+MsKui7oN2tuqgUt6D5Afz+UlOgDcUkwChPTi4xxFd2ZjKkDdTd60o1KYSJp7z5+xEeluNy08ZrxeO5uH4AeNi0DwgfX4DB1EUCuCkEE0wkGGqlQAQr9eOHg3CRBfWbI7fRF4s9VAC0Aoo0UNC2tRgOCUng4gbBBDQCvyEwBTVAAKtCqsNQKfq/rjOIoo2qLxMJqTWTg/DGfvzKB6iE7TAUQQAMpCAAFkLlEBEPruSvbg/Lf1BADIlDZWALtaNMC/aiKGxGG8ghYgoC0KERnA/gsAKW5r/2qemO3o9UmWAFo4dEX/sBgnjtEDaERhIgMeGgA4qzw8iqbCm9CSY/sKTvRNEe3Bw/QKUA1EiAzo6AAIhWMB97B7lRXA7mY1aN1+gIh7lEUR+jiKrsxWJoDfR8/9RWT089uz9NFfGIFPOseA7JCz33jpAALEMtSK1Rx5N+8gEwCh+377TBBLwIl+aog3UPEV3xiDGI4D7jeq2TSisF7UwGlQcbehOggyATTe+hC8ay47Ed6A0wenVA7IuzYO/GtjUNtrg5vjXrLu7A+0k9Gx0hBTK17TFOF+tXQ7uRkhg+tssqBQ8qB7/Pt5LB5ZhpQPqhPPZW39okqdO8y0F5BdUC/WPtoN5T28PWwANmYkB37Wnlz5cUi+XN/7Aflffc+BMZzBPD4qJdMfM4gzNxxI2BQjg3C7VmhljF6HoteJJh47ET2sBa5pswDn+rLVTOZRo4Rc+yGN+GXKQ6lCuf+19WeDNBTwmUWLTIWHOh8WMIoyaI/lih5uBtqIFtIB6FAdGqQzj5kJ86IYZi7ey+piUtPJ3YEmnmRjXtfNm4tZpBjlev+35a7GjOJ9aV3NZLq3npZ3c48Rh1U6gCE1X08dtZTY7XBUcAOgEm3b9OW0pjd7O2pUzVS7ZmNPlinVOIGWGerzUWQ8FDWId2/5dpxUdWfWS7VK7lG5ktemUGbaUVMKOnWFE6it3kemVswkNURNkt8iBkkZXcSp+hvVyR7B5rfKEAAAAABJRU5ErkJggg==)|Open Chrome browser | Opens the Chrome browser |
 | ![](data:image/png;base64,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)|Browse to URL | Browse to a specific URL. Browser needs to be opened first |
-| ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAQOSURBVFiFvZdbTFxlFIW/fc4AA8jVGGwlQsMQoEUrCTZUW6ORay9EILWNpok+SOKDjbZRmthETeMz1Zroi40xMVW0qZRLaSnipZq21igBCqU2Ek0rpQ9cLIVh5pztA1hhOmdmwI7r4Tyctc5e6/+T8/97i6oSEYqLYybSXNWirEXUg+JB8KDEAqPANYTzYhmdPrd+nd5+ZjKSshIuwPgTRammGVtvwy6B+yJLyw0VfTslZqyR9kve5QV4S4zJ7x5+A2Q3cFeExoG4LCJ7kjrPNC8pwFhZcYqprsOgVcs0DkRHspVQQ3f3TCDhCnwxWV6Sa9quY4jm3yHzCdR+N5g5BOzAVGlJhqXai3DPHTIfEtuuTvrqx4tOgkU7YIkegvDmCldEGUR0EBUbEQ9oPrBqgeyEbc3uSO3+eTxUrVsBJsrWvSgqm0KJBbpR3Zfcde6HYPx42frHDbX3AEPJ6Vmv0dRkhVuMqCregxk53pasHmxJdNDdFNUdSV3nWsIVXCoMADN/tD5u+8VEifcHNVdlazTMAUSbMP1p/A6s1PE4vEdysa8nLBBQm9R19mg0zAEM627KgZUAkurFvXMAM28MAIVvo2kOYKhF5aI3sRZxNZdwrRu5JiIN0TQHEF8nzUB1EG7EVaorwhWoOTDzqahsX6b/9waQ7UAOLLNo5BDuNYCsoJxwIer+Ohcg+HWoc79oNKFgG8CwA/lgtAMAVx0DAIX/RwCXU4B+Oznp1c4NxSfLTp8PVUHQd8D40llhrwXZG/xb+sXfyWaF1oVEu72Cfb5Cexaje3BzR2m4ZYRCbaP3NPBoME7FKDLMMTqAKwA2QqM/lwbfA/gQQ9AnC1orti7XvK5x9hknc0HOHn055heDbWoBH93AxS7fQxyyVgUqP1ndXvHYUs2fapzZqNgHnXhb7Q9g/jacst0f1s4+cv0bO2gvkqTK8YL2ii2RmtcdmNlpIKdA0h0k4zHi/uxWgJTy6d/+VPf+EDUTUFoK2ipOFrRWrXcSrWmr3FjYUvfFlPvCx0CsczlpbHqFaQjoCQvaKptBg90LgRhGGEJ1aK4l0xyQ1cy3ZKImGaP1pE0EaapVDx/d7X5W5w/ART2h6eJ5y08PkBkmQDZKNkg5Asw9/vUQi5GM9/G6h8kYrUfU/Ifqdv3lfk4XnL63zQWFxyo9lmk3z6/oPyNheg2ZV/di+lP6XL64DU0NTCzkbzvv+6o7flUrvkTAcZpZCm7G9/NH5ps/SYxdFWgOIUYzQSSvvfx1URpY5mgmcFlFGgY2dRxx1IQbTnNOlaXEeo0XgJeA+yMxVhgX1f3mdOp7fduaZkOGjHQ8l8+fNvMSJ7eIrUVArggeBQ+KH+gD+sTQXkT7Ykyjt6f8xFQkdf8GbfON88yeJlUAAAAASUVORK5CYII=)|Google Search Links | Return a list of search results google returns when searchin for search_text. |
+| ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAQOSURBVFiFvZdbTFxlFIW/fc4AA8jVGGwlQsMQoEUrCTZUW6ORay9EILWNpok+SOKDjbZRmthETeMz1Zroi40xMVW0qZRLaSnipZq21igBCqU2Ek0rpQ9cLIVh5pztA1hhOmdmwI7r4Tyctc5e6/+T8/97i6oSEYqLYybSXNWirEXUg+JB8KDEAqPANYTzYhmdPrd+nd5+ZjKSshIuwPgTRammGVtvwy6B+yJLyw0VfTslZqyR9kve5QV4S4zJ7x5+A2Q3cFeExoG4LCJ7kjrPNC8pwFhZcYqprsOgVcs0DkRHspVQQ3f3TCDhCnwxWV6Sa9quY4jm3yHzCdR+N5g5BOzAVGlJhqXai3DPHTIfEtuuTvrqx4tOgkU7YIkegvDmCldEGUR0EBUbEQ9oPrBqgeyEbc3uSO3+eTxUrVsBJsrWvSgqm0KJBbpR3Zfcde6HYPx42frHDbX3AEPJ6Vmv0dRkhVuMqCregxk53pasHmxJdNDdFNUdSV3nWsIVXCoMADN/tD5u+8VEifcHNVdlazTMAUSbMP1p/A6s1PE4vEdysa8nLBBQm9R19mg0zAEM627KgZUAkurFvXMAM28MAIVvo2kOYKhF5aI3sRZxNZdwrRu5JiIN0TQHEF8nzUB1EG7EVaorwhWoOTDzqahsX6b/9waQ7UAOLLNo5BDuNYCsoJxwIer+Ohcg+HWoc79oNKFgG8CwA/lgtAMAVx0DAIX/RwCXU4B+Oznp1c4NxSfLTp8PVUHQd8D40llhrwXZG/xb+sXfyWaF1oVEu72Cfb5Cexaje3BzR2m4ZYRCbaP3NPBoME7FKDLMMTqAKwA2QqM/lwbfA/gQQ9AnC1orti7XvK5x9hknc0HOHn055heDbWoBH93AxS7fQxyyVgUqP1ndXvHYUs2fapzZqNgHnXhb7Q9g/jacst0f1s4+cv0bO2gvkqTK8YL2ii2RmtcdmNlpIKdA0h0k4zHi/uxWgJTy6d/+VPf+EDUTUFoK2ipOFrRWrXcSrWmr3FjYUvfFlPvCx0CsczlpbHqFaQjoCQvaKptBg90LgRhGGEJ1aK4l0xyQ1cy3ZKImGaP1pE0EaapVDx/d7X5W5w/ART2h6eJ5y08PkBkmQDZKNkg5Asw9/vUQi5GM9/G6h8kYrUfU/Ifqdv3lfk4XnL63zQWFxyo9lmk3z6/oPyNheg2ZV/di+lP6XL64DU0NTCzkbzvv+6o7flUrvkTAcZpZCm7G9/NH5ps/SYxdFWgOIUYzQSSvvfx1URpY5mgmcFlFGgY2dRxx1IQbTnNOlaXEeo0XgJeA+yMxVhgX1f3mdOp7fduaZkOGjHQ8l8+fNvMSJ7eIrUVArggeBQ+KH+gD+sTQXkT7Ykyjt6f8xFQkdf8GbfON88yeJlUAAAAASUVORK5CYII=)|Google Search Links | Return a list of search results google returns when searching for search_text. |
 |**Applications**|
 | ![](data:image/png;base64,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)|Process Running | Checks if given process name (name) is currently running on the system. Returns True or False. |
 | ![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADhAAAA4QFwGBwuAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAt9QTFRF////AAAAAP//AID/gICAAKqqVVVVVaqqgICAM2ZmM5nMZpmZVYCAbZKSIJ/fYICfVY6OGrPMTWZmLqLRXYuLK6rVaoCVJKTIW4CSIqrMQGBwLaXSaYeWR2NxQ15rPWFtI6LRZIWQKaPMJ6fOQl5xXoSOPmFyZoCRQGBwYICPPl1sZIOTRGJxJKjTZoOSI6PVQFxxPmBuJ6PRZIOPJKbQZYKOKajRKKTSJ6bTJqjUQWJtJaXPJKfQQmFwKKXSYoCOY4COJafRQV1vJKbSZYCRJqfRQV1tKKfPQGBwQmFwQF5xZIGQJKjQQl9tYoCSZYGQJqjSQl5wYoGPJqXSQV9wY4GPJ6fRQV9vJ6XSJqbSJaXQZICPJabRQV9uJqfQJqXRQGBuY4CRY4CRJ6XSJqfQQmBuQGBwYoCPQWBwJ6XRYoGQJqXSQmBuYoCRJ6XRQl9wZIGPJqXSY4CQYoGRJafRQV9vZICQQF5uQmBwJqbQZIGQY4CRZICRJqXRQV5vQF9wZIGPY4CQY4CQY4CRQV9uQF5vJqfQJabQJ6bRJ6XRJqXQQV9vZICQQV9vQV5wY4CQJqXQQV9uY4CRJ6bSQWBvY4CRY4CRJ6bQY4CQQV9vY4CQJqbRJqbRY4CQJqfRJabRY4CQQV5vZICQJqbQJqfRQV9vJqbRY4CQY4CQYoCQZICRJqXRJqbRQF9vJqbRJqbRQV9vY4CQJqfRQF9vJqfRQV9vQV9uQV9vJqbRQl9vY4CQY4CPQV9vZICRJqbRQV9vYoCQQV5vJabRY4CQJqfQY4CQJqbRQV9vQV5wQV9vQV9vJqbRJqbRQV9vZICQJqbSY4CQJqbRJqbRQV9vY4CQYoCQQV9vQV9vJqbRQV9vQV9vY4CQQV9vY4CQQV9vY4CRY4CQY4CQJ6XRQV9vY4CQJqbRY4CQJqbRY4CQJqbRY4CQQV9vQV9vQV9vJqbRY4CQJqbRQV9vJqbRQV9vY4CQksOaGwAAAPJ0Uk5TAAEBAgIDAwMEBQUFBgcICAkKCgsLDAwODg8QERESExUWFxkaGxsdHiAgISEiIyMkJCUnKSsrLC0uLy8wMTIzNDY3Nzk6PT9AQEJERUZGRkdJSUlKS0tOTk9QUlJTVldYWFhaW11dYGBiY2VmaGhpaWlsbG1ubm5vcHNzdnh6ent7fIGEhoeIiYqLjo6PkZKTlJSWmJibnZ6foaOmp6iqq6ytrq+wsbW1t7i7vL2+wcPDw8TGx8fJzM7OztDR0tTU19ja2tvc39/g4eLj5OTk5ubn6Ojo6ers7e3u7u/v8PDx9PX19ff3+Pj5+fr7/P39/v5x/W0zAAACKUlEQVQYGZ3Bh1fNcRgH4E/phojKHtcekYxs2WRk773ntTMLybgk3GTL3ptsUfZKGUkkGtyklNt43+8f4Lcc5+h2juN58H+af+lkt9oNhah5Ze5pkfpATEIhSn8VIjdZiKfLF8GaAWtF6oyyaHxEiLOwouJ3kdsdsoNiDf6YcsAZtpAtFMegqC8+74OiwmIH3VXyqxJ0vRbgtF2shCpenCsKWRCFx5EsrxKwQogtUJTMeg/VWPrN37lj1cnisSNkY8S3/pBMHRhDFDa7y8iN6UQZPzyKxYtdJQC0jBURswB4ksS/CCQtnhGFleojMsXddUt3Z4qtkOn2EB2GyiuHdgBuDV4LSXLWXih8iFpDc4E+GmoAd84siI1w6lwXstHhZNZBE0hEBsCxPIYNhsZMZNZBE0i0yR1A9ZnF0bUXFBNOEbWC5jy9hWwOmyY+T4GqCdF+qLrlUJw72gUPus0SS0CPABsAffOI/Gwh8XhCRIdgZIkliSU/XQEcJ8klg+eQwHSikHlt4M38YqgLGu7M5xuQ1PZq/5I092xRxzeSo/WQLWFe1Q+yEFI8yskog/nMPAIKm5vMryDb8KZtzxgaj+GjAPtgtrhAZeSEDlA4AD4nykExnZOg8eWHKKD3O2ZXqELZYsLfvKOyeRsUTdM4+zIKMnL+MhsAzSI5UQ8rpjHzrfW+oWnMF2HN5pRrrPh0P6EyrLDTw8SJUfyhmn09FGJcdCMcPYl/8gu/3CT6fsf/DgAAAABJRU5ErkJggg==)|List Running Processes | Returns a list with all names of unique processes currently running on the system. |
