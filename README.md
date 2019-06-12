@@ -4,7 +4,7 @@ Automagica is an open source Smart Robotic Process Automation (SRPA) platform. W
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
 
-Refer to our [website](https://www.automagica.be) for more information, registered users can acces the [portal](https://portal.automagica.be). For more info see the [documentation](https://automagica.readthedocs.io).
+Refer to our [website](https://www.automagica.be) for more information, registered users can access the [portal](https://portal.automagica.be). For more info see the [documentation](https://automagica.readthedocs.io).
 
 ## Need expert support?
 We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Please send an e-mail to [sales@automagica.be](mailto:sales@automagica.be) for enquiries and rates.
@@ -22,7 +22,7 @@ pip install https://github.com/OakwoodAI/automagica/tarball/master
 
 ### Importing the activities
 
-Before getting started, don't forget to import the activities from automagica in your python script. If unsure, it is possible to import all the activites for development purposes by starting your script with:
+Before getting started, don't forget to import the activities from automagica in your python script. If unsure, it is possible to import all the activities for development purposes by starting your script with:
 ```
 from automagica import *
 ```
@@ -166,7 +166,7 @@ For the `Type`-function to work, you need to set the "United States-Internationa
 | CPULoad(measure_time=1) | Returns average CPU load for all cores over a measured time. |
 | NumberOfCPU(logical=True) | Returns the number of CPU's in the current system. |
 | CPUFreq() | Returns frequency at which CPU currently operates together with maximum and minimum frequency. |
-| CPUStats() | Returns CPU statistics: Number of CTX switches, intterupts, soft-interrupts and systemcalls. |
+| CPUStats() | Returns CPU statistics: Number of CTX switches, interrupts, soft-interrupts and systemcalls. |
 | MemoryStats(mem_type='swap') | Returns memory statistics: total, used, free and percentage in use. |
 | DiskStats() | Returns disk statistics of main disk: total, used, free and percentage in use. |
 | DiskPartitions() | Returns tuple with info for every partition. |
@@ -181,7 +181,7 @@ For the `Type`-function to work, you need to set the "United States-Internationa
 |**Browser**|
 | browser = ChromeBrowser() | Opens the Chrome browser |
 | browser.get("https://google.com/") | Browse to a specific URL. Browser needs to be opened first |
-| GetGoogleSearchLinks(search_text) | Return a list of search results google returns when searchin for search_text. |
+| GetGoogleSearchLinks(search_text) | Return a list of search results google returns when searching for search_text. |
 |**Applications**|
 | ProcessRunning(name) | Checks if given process name (name) is currently running on the system. Returns True or False. |
 | ListRunningProcesses() | Returns a list with all names of unique processes currently running on the system. |
@@ -244,7 +244,7 @@ For the `Type`-function to work, you need to set the "United States-Internationa
 | MoveFolder(old_path="old_pathname", new_location="new_location_path") | Moves a folder from one specified path to a new path. |
 | EmptyFolder(path="pathname", allow_root=False) | Removes all the folders and files from a given directory. |
 | FolderExists(path="pathname") | Checks whether the folder with a given path exists.  |
-| CopyFolder(old_path="old pathname", new_location="new_locataion_path") | Copies a folder located by old pathname to a new location specified by new pathname. |
+| CopyFolder(old_path="old pathname", new_location="new_location_path") | Copies a folder located by old pathname to a new location specified by new pathname. |
 | ZipFolder(folder_path="pathname_folder", new_path="pathname_compressed_folder") | Zips a folder specified by folder_path.  |
 | UnZipFolder(path="pathname_zipped_folder", new_path="pathname_target_location") | Zips a folder specified by path and stores it at new_path.  |
 | WaitForFolder(path="pathname") | Waits for a folder to be created and then opens it. |
@@ -270,7 +270,7 @@ For the `Type`-function to work, you need to set the "United States-Internationa
 |**Email**|
 | SendMailWithHotmail(user, password, destination, subject="", message="", port=587) | Send an email with a given text and subject with your Hotmail account. |
 | SendMailWithGmail(user, password, destination, subject="", message="", port=587) | Send an email with a given text and subject with your Gmail account. |
-| SendMailWithGmail(user, password, destination, subject="", message="", port=587) | Send an email with a given text and subject with your Yahoo account. |
+| SendMailWithYahoo(user, password, destination, subject="", message="", port=587) | Send an email with a given text and subject with your Yahoo account. |
 |**Math**|
 | abs(x) | Calculates the absolute value of an integer or float |
 | round(x) | Rounds up an integer or float to the closest number |
