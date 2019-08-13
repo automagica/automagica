@@ -6,6 +6,11 @@ Automagica is an open source Smart Robotic Process Automation (SRPA) platform. W
 
 Refer to our [website](https://www.automagica.be) for more information, registered users can access the [portal](https://portal.automagica.be). For more info see the [documentation](https://automagica.readthedocs.io).
 
+## Important update!
+- We're on PyPi now!
+- Follow our [blog] to stay up to date with the latest changes!
+
+
 ## Need expert support?
 We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Please send an e-mail to [sales@automagica.be](mailto:sales@automagica.be) for enquiries and rates.
 
@@ -14,11 +19,25 @@ We can support you end-to-end in all your automation needs, from estimating auto
 ### Prerequisites
 1. Python 3.7 from https://www.python.org
 
-### Installation instructions
-Install Automagica on the bot host machine:
+### Installation
+
+1. Install the latest version Automagica on your machine:
 ```
-pip install https://github.com/OakwoodAI/automagica/tarball/master
+pip install automagica --upgrade
 ```
+2. In order to register your machine with the Automagica portal (sign up for free [here](https://portal.automagica.be)), run the following command: (optional)
+```
+automagica --login
+```
+Follow the setup process and Automagica will from then on run in the background and at startup!
+
+### Uninstall procedure
+To remove Automagica, run the following commands:
+```
+automagica --logout
+pip uninstall automagica
+```
+
 
 ### Importing the activities
 
@@ -283,6 +302,8 @@ For the `Type`-function to work, you need to set the "United States-Internationa
 | abs(x) | Calculates the absolute value of an integer or float |
 | sqrt(x) | The square root of x for x > 0 |
 
+## Known issues
+- Run after boot might not work for Linux/OSX systems. This will be fixed soon®.
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:

@@ -1,14 +1,16 @@
 #!/usr/bin/env python
+import sys
+import setuptools
 from distutils.core import setup
 
 setup(name='Automagica',
-      version='0.3.4',
-      description='Bot for Automagica - Smart Robotic Process Automation',
-      author='Oakwood Technologies',
+      version='1.0.0',
+      description='Robot for Automagica - Smart Robotic Process Automation',
+      author='Oakwood Technologies BVBA',
       author_email='mail@oakwood.ai',
-      url='https://oakwood.ai/',
+      url='https://automagica.dev/',
       entry_points={
-          'console_scripts': ['automagica=automagica.command_line:main'],
+          'console_scripts': ['automagica=automagica.cli:main'],
       },
       packages=['automagica'],
       package_data={'automagica': [
@@ -16,20 +18,20 @@ setup(name='Automagica',
           'bin/mac64/chromedriver',
           'bin/linux64/chromedriver']},
       install_requires=[
-          'socketIO-client==0.7.2',
+          'python-socketio==4.3.0',
           'PyAutoGUI==0.9.36',
           'opencv-python==3.4.2.17',
-          'sty==1.0.0b2',
           'selenium==3.7.0',
-          'pywinauto==0.6.5',
           'pytesseract==0.2.0',
           'openpyxl==2.4.8',
           'python-docx==0.8.6',
-          'pywin32==223',
           'PyPDF2==1.26.0',
           'psutil==5.4.6',
           'beautifulsoup4==4.6.0',
-          'py-trello==0.13.0'
-      ],
-      include_package_data=True
+          'py-trello==0.13.0'] + (
+              ['pywinauto==0.6.5', 'pywin32==223'] if sys.platform.startswith('win') else [
+                                                                              ]
+          )
+    ,
+      include_package_data = True
       )
