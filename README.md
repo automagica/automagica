@@ -8,7 +8,7 @@ Refer to our [website](https://www.automagica.be) for more information, register
 
 ## Important update!
 - We're on PyPi now!
-- Follow our [blog] to stay up to date with the latest changes!
+- Follow our [blog](https://blog.automagica.dev) to stay up to date with the latest changes!
 
 
 ## Need expert support?
