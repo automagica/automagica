@@ -84,6 +84,22 @@ def ClickOnImage(filename=None, double_click=False, right_click=False):
     else:
         return click(x, y, clicks)
 
+def WaitOnImage(filename=None, timeout=120):
+    """
+    Waits for an image to appear on the screen
+    """
+    from pyautogui import locateCenterOnScreen
+    from time import sleep
+
+    for _ in range(timeout):
+        try:
+            locateCenterOnScreen(filename)
+            break
+        except TypeError:
+            sleep(1)
+
+    
+
 
 def PressKey(key=None):
     '''
