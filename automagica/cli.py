@@ -6,64 +6,66 @@ import subprocess
 import sys
 from time import sleep
 
-__version__ = '1.0.1'
 
-parser = argparse.ArgumentParser(description='Automagica Robot')
+__version__ = '1.0.2'
 
-parser.add_argument('--login', 
-                    dest='login',
-                    action='store_true', 
-                    help='Log in')
+parser = argparse.ArgumentParser(
+    description='Automagica Robot v' + __version__)
 
-parser.add_argument('--logout', 
+parser.add_argument('--login',
+                    default='',
+                    type=str,
+                    help='Log in with access key')
+
+parser.add_argument('--logout',
                     dest='logout',
-                    action='store_true', 
+                    action='store_true',
                     help='Log out')
 
-parser.add_argument('--daemon', 
+parser.add_argument('--daemon',
                     dest='daemon',
-                    action='store_true', 
+                    action='store_true',
                     help='Run robot as a daemon')
 
-parser.add_argument('--foreground', 
-                    dest='foreground', 
+parser.add_argument('--foreground',
+                    dest='foreground',
                     default=False,
-                    action='store_true', 
+                    action='store_true',
                     help='Keep process in the foreground')
 
-parser.add_argument('--config', 
+parser.add_argument('--config',
                     dest='config',
-                    action='store_true', 
+                    action='store_true',
                     help='Alternate path to config')
 
-parser.add_argument('-f', 
-                    '--file', 
+parser.add_argument('-f',
+                    '--file',
                     default='',
-                    type=str, 
+                    type=str,
                     help='Path to script file')
 
-parser.add_argument('-s', 
-                    '--script', 
-                    default='', 
+parser.add_argument('-s',
+                    '--script',
+                    default='',
                     type=str,
                     help='Script string for the Automagica robot (if no --file not specified)')
 
-parser.add_argument('-p', 
-                    '--parameters', 
-                    default='', 
+parser.add_argument('-p',
+                    '--parameters',
+                    default='',
                     type=str,
                     help='Parameters string for the Automagica Bot')
 
-parser.add_argument('--ignore-warnings', 
-                    dest='ignore_warnings', 
-                    default=False, 
+parser.add_argument('--ignore-warnings',
+                    dest='ignore_warnings',
+                    default=False,
                     action='store_true',
                     help='Python warnings will not end up in stderr')
 
-parser.add_argument('--verbose', 
-                    dest='verbose', 
-                    default=False, 
-                    action='store_true', 
+parser.add_argument('--verbose',
+                    dest='verbose',
+                    default=False,
+                    action='store_true',
                     help='Verbose logging')
 
 
@@ -76,18 +78,20 @@ class Automagica():
         self._setup_logging(verbose=args.verbose)
 
         # Environment variable override Automagica Portal URL
-        self.url = os.environ.get('AUTOMAGICA_URL', 'https://portal.automagica.dev')
-        
+        self.url = os.environ.get(
+            'AUTOMAGICA_URL', 'https://portal.automagica.dev')
+
         # Custom config specified?
         if args.config:
             self.config_path = args.config
         else:
-            self.config_path = os.path.join(os.path.expanduser('~'), 'automagica.json')
-        
+            self.config_path = os.path.join(
+                os.path.expanduser('~'), 'automagica.json')
+
         self.config = self.load_config()
 
         if args.login:
-            self.login()
+            self.login(args.login)
 
         if args.logout:
             self.logout()
@@ -113,15 +117,15 @@ class Automagica():
 
         # Run script
         exec(script, globals())
-            
-    
+
     def _setup_logging(self, verbose=False):
         if verbose:
             log_level = logging.INFO
         else:
             log_level = logging.WARNING
 
-        formatter = logging.Formatter('%(asctime)s [%(levelname)s]: %(message)s')
+        formatter = logging.Formatter(
+            '%(asctime)s [%(levelname)s]: %(message)s')
 
         logger = logging.getLogger()
         logger.setLevel(log_level)
@@ -153,6 +157,13 @@ class Automagica():
 
         return config
 
+    def notification(self, message):
+        from plyer import notification
+
+        app_icon = os.path.abspath(__file__).replace('cli.py', 'icon.ico')
+        notification.notify(title='Automagica Robot', message=message,
+                            app_name='Automagica Robot', app_icon=app_icon, ticker='Automagica')
+
     def daemon(self, foreground=False):
         import socketio
 
@@ -160,7 +171,8 @@ class Automagica():
             # Hide console if we're on Windows
             if os.name == 'nt':
                 import ctypes
-                ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
+                ctypes.windll.user32.ShowWindow(
+                    ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
         sio = socketio.Client()
 
@@ -175,7 +187,7 @@ class Automagica():
             sio.emit('auth', {
                 'bot_id': self.config['bot_id'],
                 'version': __version__
-                }, namespace='/bot')
+            }, namespace='/bot')
 
         @sio.on('run', namespace='/bot')
         def run(data):
@@ -186,14 +198,18 @@ class Automagica():
 
             # Save backup of the script
             fn = str(job_id)+'.py'
-            path = os.path.join(os.getcwd(), fn) 
+            path = os.path.join(os.getcwd(), fn)
 
             with open(fn, 'w') as f:
                 f.write(data['schedule']['script']['code'])
-            
+
             cmd = sys.executable + ' -u -m automagica -f ' + path
 
-            p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr = subprocess.PIPE)
+            p = subprocess.Popen(
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+            self.notification('Script {} (job #{}) started.'.format(
+                data['schedule']['script']['name'], data['schedule']['job']['id']))
 
             @sio.on('kill', namespace='/bot')
             def kill(job):
@@ -205,40 +221,42 @@ class Automagica():
             for line in iter(p.stdout.readline, b''):
                 if line:
                     output = {
-                        'output': line.decode('utf-8') ,
+                        'output': line.decode('utf-8'),
                         'job_id': job_id,
                         'bot_id': self.config['bot_id']
                     }
                     sio.emit('output', output, namespace='/bot')
-            
+
             # Read STDERR
             for line in iter(p.stderr.readline, b''):
                 if line:
                     error = {
-                        'error': line.decode('utf-8') ,
+                        'error': line.decode('utf-8'),
                         'job_id': job_id,
                         'bot_id': self.config['bot_id']
                     }
                     sio.emit('error', error, namespace='/bot')
-            
+
             # Wait for process to finish
             p.wait()
 
             # Retrieve status code
-            code = p.poll()  
+            code = p.poll()
 
             result = {
                 'job_id': job_id,
                 'bot_id': self.config['bot_id'],
             }
 
-            if code == 0: # Success
+            if code == 0:  # Success
                 result['type'] = 'success'
-            else: # Failure
+            else:  # Failure
                 result['type'] = 'failure'
-            
+
             logging.info('Finished script!')
-            
+            self.notification('Script {} (job #{}) finished.'.format(
+                data['schedule']['script']['name'], data['schedule']['job']['id']))
+
             sio.emit('finish', result, namespace='/bot')
 
         @sio.on('disconnect', namespace='/bot')
@@ -247,7 +265,10 @@ class Automagica():
 
         @sio.on('authed', namespace='/bot')
         def authed(data):
-            logging.info('Authenticated to Automagica as {}'.format(data['bot']['name']))
+            logging.info('Authenticated to Automagica as {}'.format(
+                data['bot']['name']))
+            self.notification(
+                'Connected as {} to Automagica!'.format(data['bot']['name']))
 
         @sio.on('error', namespace='/bot')
         def error(data):
@@ -262,80 +283,35 @@ class Automagica():
             except:
                 logging.error(data.get('error'))
 
-
         while True:
             try:
                 sio.connect(self.url)
                 sio.wait()
             except:
-                logging.info('Could not connect to Automagica, retrying in 5 seconds.')
+                logging.info(
+                    'Could not connect to Automagica, retrying in 5 seconds.')
                 sleep(5)
 
     def kill_process(self, name):
         import psutil
         for proc in psutil.process_iter():
             if proc.name() == name or proc.name() == name + '.exe':
-                if proc.pid != os.getpid(): # Don't kill yourself
+                if proc.pid != os.getpid():  # Don't kill yourself
                     proc.kill()
                     proc.wait()
 
-    def login(self):
-        import requests
-        import platform
-        import getpass
-        
-        # Clear the console
-        clear = lambda: os.system('cls' if os.name=='nt' else 'clear')
-        clear()
+    def login(self, bot_id):
+        self.config['bot_id'] = bot_id
+        self.save_config()
 
-        print('Welcome to Automagica!\n')
-        print('Sign up for an account at https://portal.automagica.dev \n')
+        self.add_startup()
+        self.kill_process('automagica')
 
-        name = platform.node()
-
-        while True:
-            print('\n')
-            email = input('Please enter your e-mail: ')
-            password = getpass.getpass('Please enter your password: ')
-            print('\n')
-
-            data = {
-                'email': email,
-                'password': password,
-                'name': name,
-            }
-
-            
-            r = requests.post(self.url+'/client-login', json=data)
-
-            if r.status_code == 200:
-                result = r.json()
-
-                if result.get('error'):
-                    if result.get('url'):
-                        try:
-                            import webbrowser
-                            webbrowser.open(result['url'])
-                        except:
-                            print('Find more information at: ' + result['url'])
-
-                    print(result['error'])
-                
-                if result.get('bot_id'):
-                    self.config['bot_id'] = result['bot_id']
-                    self.save_config()
-
-                    self.add_startup()
-                    self.kill_process('automagica')
-
-                    command = 'automagica --daemon'
-                    subprocess.Popen(command, close_fds=True)
-                    
-
-            else:
-                print('Could not connect to Automagica at {}'.format(self.url))
+        command = 'automagica --daemon'
+        subprocess.Popen(command, close_fds=True)
 
     def logout(self):
+        self.kill_process('automagica')
         self.remove_startup()
 
     def add_startup(self):
@@ -344,26 +320,28 @@ class Automagica():
         cmd = sys.executable + ' -m automagica --daemon'
 
         if platform.system() == 'Windows':
-            import winreg as reg         
+            import winreg as reg
             registry = reg.OpenKey(reg.HKEY_CURRENT_USER,
-                                    'Software\Microsoft\Windows\CurrentVersion\Run',
-                                    0,
-                                    reg.KEY_WRITE) 
-            reg.SetValueEx(registry,'Automagica', 0, reg.REG_SZ, cmd) 
-            reg.CloseKey(registry) 
+                                   'Software\Microsoft\Windows\CurrentVersion\Run',
+                                   0,
+                                   reg.KEY_WRITE)
+            reg.SetValueEx(registry, 'Automagica', 0, reg.REG_SZ, cmd)
+            reg.CloseKey(registry)
 
         if platform.system() == 'Linux':
             # Create Automagica.desktop file in ~/.config/autostart/
-            path = os.path.join(os.path.expanduser('~'), '.config/autostart/Automagica.desktop')
+            path = os.path.join(os.path.expanduser(
+                '~'), '.config/autostart/Automagica.desktop')
             with open(path, 'w') as f:
-                contents =  """[Desktop Entry] 
+                contents = """[Desktop Entry] 
                             Type=Application
-                            Exec="""+ cmd
+                            Exec=""" + cmd
                 f.write(contents)
 
         if platform.system() == 'Darwin':
             # Create com.automagica.robot.plist file in ~/Library/LaunchAgents
-            path = os.path.join(os.path.expanduser('~'), 'Library/LaunchAgents/com.automagica.robot.plist')
+            path = os.path.join(os.path.expanduser(
+                '~'), 'Library/LaunchAgents/com.automagica.robot.plist')
             with open(path, 'w') as f:
                 contents = """<?xml version="1.0" encoding="UTF-8"?>
                             <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -384,28 +362,30 @@ class Automagica():
         import platform
 
         if platform.system() == 'Windows':
-            import winreg as reg         
+            import winreg as reg
             registry = reg.OpenKey(reg.HKEY_CURRENT_USER,
-                                    'Software\Microsoft\Windows\CurrentVersion\Run',
-                                    0,
-                                    reg.KEY_WRITE) 
+                                   'Software\Microsoft\Windows\CurrentVersion\Run',
+                                   0,
+                                   reg.KEY_WRITE)
             reg.DeleteValue(registry, 'Automagica')
-            reg.CloseKey(registry)     
+            reg.CloseKey(registry)
 
         if platform.system() == 'Linux':
-            path = os.path.join(os.path.expanduser('~'), '.config/autostart/Automagica.desktop')
+            path = os.path.join(os.path.expanduser(
+                '~'), '.config/autostart/Automagica.desktop')
             os.remove(path)
-            
+
         if platform.system() == 'Darwin':
-            path = os.path.join(os.path.expanduser('~'), '/Library/LaunchAgents/com.automagica.robot.plist')
+            path = os.path.join(os.path.expanduser(
+                '~'), '/Library/LaunchAgents/com.automagica.robot.plist')
             os.remove(path)
 
 
 def main():
     app = Automagica()
 
+
 if __name__ == '__main__':
     main()
 else:
     from .activities import *
-

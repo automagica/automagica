@@ -4,7 +4,7 @@ import setuptools
 from distutils.core import setup
 
 setup(name='Automagica',
-      version='1.0.1',
+      version='1.0.2',
       description='Robot for Automagica - Smart Robotic Process Automation',
       author='Oakwood Technologies BVBA',
       author_email='mail@oakwood.ai',
@@ -18,6 +18,7 @@ setup(name='Automagica',
           'bin/mac64/chromedriver',
           'bin/linux64/chromedriver']},
       install_requires=[
+          'plyer==1.4.0',
           'python-socketio==4.3.0',
           'PyAutoGUI==0.9.36',
           'opencv-python==3.4.2.17',
