@@ -307,8 +307,8 @@ class Automagica():
         self.add_startup()
         self.kill_process('automagica')
 
-        command = 'automagica --daemon'
-        subprocess.Popen(command, close_fds=True)
+        cmd = sys.executable + ' -m automagica --daemon'
+        subprocess.Popen(cmd, close_fds=True)
 
     def logout(self):
         self.kill_process('automagica')
