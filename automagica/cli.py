@@ -7,7 +7,7 @@ import sys
 from time import sleep
 
 
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 
 parser = argparse.ArgumentParser(
     description='Automagica Robot v' + __version__)
@@ -305,13 +305,15 @@ class Automagica():
         self.save_config()
 
         self.add_startup()
-        self.kill_process('automagica')
+        self.kill_process('python')
+
+        sleep(3)
 
         cmd = sys.executable + ' -m automagica --daemon'
-        subprocess.Popen(cmd, close_fds=True)
+        subprocess.Popen(cmd)
 
     def logout(self):
-        self.kill_process('automagica')
+        self.kill_process('python')
         self.remove_startup()
 
     def add_startup(self):
