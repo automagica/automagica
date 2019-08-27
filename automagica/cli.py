@@ -7,7 +7,7 @@ import sys
 from time import sleep
 
 
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 
 parser = argparse.ArgumentParser(
     description='Automagica Robot v' + __version__)

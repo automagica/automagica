@@ -4,7 +4,7 @@ import setuptools
 from distutils.core import setup
 
 setup(name='Automagica',
-      version='1.0.4',
+      version='1.0.5',
       description='Robot for Automagica - Smart Robotic Process Automation',
       author='Oakwood Technologies BVBA',
       author_email='mail@oakwood.ai',
