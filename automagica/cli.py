@@ -101,7 +101,7 @@ class Automagica():
 
         # Was a file specified?
         if args.file:
-            with open(args.file) as f:
+            with open(args.file, newline='') as f:
                 script = f.read()
         else:
             script = args.script
@@ -200,7 +200,7 @@ class Automagica():
             fn = str(job_id)+'.py'
             path = os.path.join(os.getcwd(), fn)
 
-            with open(fn, 'w') as f:
+            with open(fn, 'w', newline='') as f:
                 f.write(data['schedule']['script']['code'])
 
             cmd = sys.executable + ' -u -m automagica -f ' + path
