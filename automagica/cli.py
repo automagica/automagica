@@ -198,9 +198,9 @@ class Automagica():
 
             # Save backup of the script
             fn = str(job_id)+'.py'
-            path = os.path.join(os.getcwd(), fn)
+            path = os.path.join(os.path.expanduser('~'), fn)
 
-            with open(fn, 'w', newline='') as f:
+            with open(path, 'w', newline='') as f:
                 f.write(data['schedule']['script']['code'])
 
             cmd = sys.executable + ' -u -m automagica -f ' + path
