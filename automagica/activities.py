@@ -488,7 +488,7 @@ Browser activities
 '''
 
 
-def ChromeBrowser(ignore_images=False, headless=False):
+def ChromeBrowser(ignore_images=False, headless=False, incognito=False):
     '''
 
     Opens the Chrome Browser in a Selenium instance.
@@ -496,6 +496,7 @@ def ChromeBrowser(ignore_images=False, headless=False):
     Args:
         ignore_images (bool): do not load images
         headless (bool): run without a window
+        incognito (bool): run in private mode
 
     Returns:
         webdriver: Selenium Webdriver
@@ -506,11 +507,13 @@ def ChromeBrowser(ignore_images=False, headless=False):
 
     '''
     if platform.system() == 'Linux':
-        chromedriver_path = '\\bin\\webdriver\\linux64\\chromedriver'
+        chromedriver_path = os.path.join('bin', 'linux64', 'chromedriver')
     elif platform.system() == 'Windows':
-        chromedriver_path = '\\bin\\win32\\chromedriver.exe'
+        chromedriver_path = os.path.join('bin', 'win32', 'chromedriver.exe')
+    elif platform.system() == 'Darwin':
+        chromedriver_path = os.path.join('bin', 'mac64', 'chromedriver')
     else:
-        chromedriver_path = '\\bin\\mac64\\chromedriver.exe'
+        raise NotImplementedError('{} is unsupported system.'.format(platform.system()))
 
     from selenium.webdriver import Chrome, ChromeOptions
 
@@ -518,6 +521,9 @@ def ChromeBrowser(ignore_images=False, headless=False):
 
     if headless:
         chrome_options.add_argument("--headless")
+
+    if incognito:
+        chrome_options.add_argument("--incognito")
 
     if ignore_images:
         prefs = {"profile.managed_default_content_settings.images": 2}
