@@ -7,7 +7,7 @@ import sys
 from time import sleep
 
 
-__version__ = '1.0.6'
+__version__ = '1.0.7'
 
 parser = argparse.ArgumentParser(
     description='Automagica Robot v' + __version__)
@@ -79,7 +79,7 @@ class Automagica():
 
         # Environment variable override Automagica Portal URL
         self.url = os.environ.get(
-            'AUTOMAGICA_URL', 'https://portal.automagica.dev')
+            'AUTOMAGICA_URL', 'https://bots.portal.automagica.dev')
 
         # Custom config specified?
         if args.config:
