@@ -4,11 +4,11 @@ import setuptools
 from distutils.core import setup
 
 setup(name='Automagica',
-      version='1.0.7',
+      version='1.0.8',
       description='Robot for Automagica - Smart Robotic Process Automation',
       author='Oakwood Technologies BVBA',
       author_email='mail@oakwood.ai',
-      url='https://automagica.dev/',
+      url='https://automagica.io/',
       entry_points={
           'console_scripts': ['automagica=automagica.cli:main'],
       },
@@ -31,8 +31,7 @@ setup(name='Automagica',
           'beautifulsoup4==4.6.0',
           'py-trello==0.13.0'] + (
               ['pywinauto==0.6.5', 'pywin32==223'] if sys.platform.startswith('win') else [
-                                                                              ]
-          )
-    ,
-      include_package_data = True
+              ]
+      ),
+      include_package_data=True
       )
