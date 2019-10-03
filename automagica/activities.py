@@ -551,6 +551,7 @@ OCR activities
 
 
 def ExtractTextFromImage(filename=None):
+    import pytesseract
     if platform.system() == 'Windows':
         pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract'
     from pytesseract import image_to_string
