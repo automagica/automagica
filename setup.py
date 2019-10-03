@@ -29,6 +29,7 @@ setup(name='Automagica',
           'PyPDF2==1.26.0',
           'psutil==5.4.6',
           'beautifulsoup4==4.6.0',
+          'websocket-client==0.56.0',
           'py-trello==0.13.0'] + (
               ['pywinauto==0.6.5', 'pywin32==223'] if sys.platform.startswith('win') else [
               ]
