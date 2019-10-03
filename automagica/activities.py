@@ -502,7 +502,7 @@ def ChromeBrowser(ignore_images=False, headless=False):
 
     Example:
         browser = ChromeBrowser(ignore_iamges=True)
-        browser.get('https://automagica.be')
+        browser.get('https://automagica.io')
 
     '''
     if platform.system() == 'Linux':

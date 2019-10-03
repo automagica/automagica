@@ -4,11 +4,11 @@ Automagica is an open source Smart Robotic Process Automation (SRPA) platform. W
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
 
-Refer to our [website](https://www.automagica.be) for more information, registered users can access the [portal](https://portal.automagica.be). For more info see the [documentation](https://automagica.readthedocs.io).
+Refer to our [website](https://www.automagica.io) for more information, registered users can access the [portal](https://portal.automagica.io). For more info see the [documentation](https://automagica.readthedocs.io).
 
 ## Important update!
 - We're on PyPi now!
-- Follow our [blog](https://blog.automagica.dev) to stay up to date with the latest changes!
+- Follow our [blog](https://automagica.io) to stay up to date with the latest changes!
 
 
 ## Need expert support?
@@ -25,7 +25,7 @@ We can support you end-to-end in all your automation needs, from estimating auto
 ```
 pip install automagica --upgrade
 ```
-2. In order to register your machine with the Automagica portal (sign up for free [here](https://portal.automagica.be)), run the following command: (optional)
+2. In order to register your machine with the Automagica portal (sign up for free [here](https://portal.automagica.io)), run the following command: (optional)
 ```
 automagica --login
 ```

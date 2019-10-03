@@ -88,7 +88,7 @@ Automagica is based on the Python language.
 # Getting started
 
 
-Refer to our [website](https://www.automagica.be) for more information, registered users can access the [portal](https://portal.automagica.be). More details also available on our [github](https://github.com/OakwoodAI/automagica).
+Refer to our [website](https://www.automagica.io) for more information, registered users can access the [portal](https://portal.automagica.io). More details also available on our [github](https://github.com/OakwoodAI/automagica).
 
 Alternatively you can use Automagica locally by starting your Python script with:
 ```
@@ -272,9 +272,9 @@ Text can be typed in the selected field using the function:
 ```
 Type(text, interval_seconds=0.001)
 ```
-The first argument is the text entered as a string, while variable is the time between key strokes. Pay attention that you can only press single character keys. Keys like ":", "F1",... can not be part of the first argument.  Following example types "automagica.be/" in the selected field (in this case is that the chrome search bar) and presses enter:
+The first argument is the text entered as a string, while variable is the time between key strokes. Pay attention that you can only press single character keys. Keys like ":", "F1",... can not be part of the first argument.  Following example types "automagica.io/" in the selected field (in this case is that the chrome search bar) and presses enter:
 ```
-Type("automagica.be/", interval_seconds=0.01)
+Type("automagica.io/", interval_seconds=0.01)
 PressKey("enter")
 ```
 ![Imgur](https://i.imgur.com/ibeLf7f.gif)
