@@ -15,6 +15,7 @@ Refer to our [website](https://www.automagica.io) for more information, register
 We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Please send an e-mail to [sales@automagica.io](mailto:sales@automagica.io) for enquiries and rates.
 
 ## Getting started
+[![Play](https://i.imgur.com/kkvLWNc.png)](https://www.youtube.com/watch?v=C5447eGY7_0)
 
 ### Prerequisites
 1. Python 3.7 from https://www.python.org
