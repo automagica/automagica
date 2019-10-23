@@ -4,7 +4,7 @@ import setuptools
 from distutils.core import setup
 
 setup(name='Automagica',
-      version='1.0.10',
+      version='2.0.0',
       description='Robot for Automagica - Smart Robotic Process Automation',
       author='Oakwood Technologies BVBA',
       author_email='mail@oakwood.ai',
@@ -28,10 +28,13 @@ setup(name='Automagica',
           'python-docx==0.8.6',
           'PyPDF2==1.26.0',
           'psutil==5.4.6',
+          'keyring==13.0.0',
+          'PySimpleGUI==4.4.1',
           'beautifulsoup4==4.6.0',
           'websocket-client==0.56.0',
+          'cryptography==2.3.1',
           'py-trello==0.13.0'] + (
-              ['pywinauto==0.6.5', 'pywin32==223'] if sys.platform.startswith('win') else [
+              ['pywinauto==0.6.5', 'pywin32==225'] if sys.platform.startswith('win') else [
               ]
       ),
       include_package_data=True
