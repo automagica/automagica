@@ -203,7 +203,7 @@ class Automagica:
             fn = str(job_id) + ".py"
             path = os.path.join(os.path.expanduser("~"), fn)
 
-            with open(path, "w", newline="") as f:
+            with open(path, "w", newline="", encoding="utf-8") as f:
                 f.write(data["schedule"]["script"]["code"])
 
             cmd = '"' + sys.executable + '" -u -m automagica -f ' + '"' + path + '"'
