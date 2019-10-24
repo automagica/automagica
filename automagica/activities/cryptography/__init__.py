@@ -94,8 +94,7 @@ def generate_key_from_password(password, salt=None):
 
 def generate_hash_from_file(file, method='md5', buffer_size = 65536):
 	"""
-	Generate hash from file. Can be used to create unique identifier for file validation or comparison
-
+	Generate hash from file. Can be used to create unique identifier for file validation or comparison.
 
 	:param file: File to hash
 	:param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes.
