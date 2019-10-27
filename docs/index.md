@@ -850,7 +850,7 @@ As a final note for the function to work optimal, it is important that the file 
 
 If a file needs to be copied from one to an other directory, the following function can be used:
 ```
-MoveFile(old_path=\"old_pathname\", new_location=\"new_location_path\")
+CopyFile(old_path=\"old_pathname\", new_location=\"new_location_path\")
 ```
 The inputs work in exactly the same way as in the MoveFile function and the copied file needs to be closed for the function to work properly. Also keep in mind that if the new location already contains a file with exactly the same name as the copy,it will be overwritten by the copied file.   
 
