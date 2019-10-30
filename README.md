@@ -12,7 +12,7 @@ Refer to our [website](https://www.automagica.io) for more information, register
 
 
 ## Need expert support?
-We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Please send an e-mail to [sales@automagica.io](mailto:sales@automagica.io) for enquiries and rates.
+We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Please send an e-mail to [mail@oakwood.ai](mailto:mail@oakwood.ai) for enquiries and rates.
 
 ## Getting started
 [![Play](https://i.imgur.com/kkvLWNc.png)](https://www.youtube.com/watch?v=C5447eGY7_0)
