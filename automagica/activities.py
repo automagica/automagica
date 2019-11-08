@@ -1,4 +1,6 @@
 def activity(func):
+    """Wrapper for Automagica activities
+    """
     from functools import wraps
     import logging
 
@@ -213,7 +215,7 @@ def ask_credentials(
 
 
 """
-Browser Applications
+Browsers
 """
 
 
@@ -236,6 +238,7 @@ class Chrome:
         import os
         from selenium.webdriver import Chrome, ChromeOptions
 
+
         # Check what OS we are on
         if platform.system() == "Linux":
             chromedriver_path = "\\bin\\webdriver\\linux64\\chromedriver"
@@ -253,13 +256,40 @@ class Chrome:
             prefs = {"profile.managed_default_content_settings.images": 2}
             chrome_options.add_experimental_option("prefs", prefs)
 
-        self.browser = Chrome(
+        return Chrome(
             os.path.abspath("") + chromedriver_path, chrome_options=chrome_options
         )
 
+        
+
     @activity
-    def browse(self, url):
-        self.browser.get(url)
+    def save_all_image(self, target_folder_path=None):
+        import requests
+        import os
+        from urllib.parse import urlparse
+        
+        images = self.browser.find_elements_by_tag_name('img') 
+
+        for image in images:
+            url = image.get_attribute('src')
+            a = urlparse(url)
+            filename = os.path.basename(a.path)
+            
+            with open(os.path.join(target_folder_path, filename), 'wb') as f:
+                try:
+                    r = requests.get(url)
+                    f.write(r.content)
+                except:
+                    pass
+                
+            
+
+
+    
+    @activity
+    def extract_all_text(self):
+        return ''
+
 
 
 """
@@ -1137,9 +1167,180 @@ class Excel:
         """
         return worksheet.Range(range_).Value
 
+class PowerPoint:
+	def __init__(self, visible=True, path=None):
+		"""Start Excel Application
+
+		For this activity to work, PowerPoint needs to be installed on the system.
+
+		:parameter path: Enter a path to open an existing PowerPoint presentation. If no path is specified a new presentation will be initialized, this is the default value.
+		:parameter visible: Show PowerPoint in the foreground if True or hide if False, defaults to True.
+		"""
+		self.app = self._launch(path)
+		self.app.Visible = visible
+
+
+	def _launch(self, path):
+		"""Utility function to create the Excel application scope object
+
+		:return: Application object (win32com.client)
+		"""
+		try:
+			import win32com.client
+
+			app = win32com.client.gencache.EnsureDispatch("PowerPoint.Application")
+
+		except:
+			raise Exception(
+				"Could not launch PowerPoint, do you have Microsoft Office installed on Windows?")
+
+		if path:
+			return app.Presentations.Open(file_path)
+		else:
+			return app.Presentations.Add()
+
+	@activity
+	def new_presentation(self):
+		"""New PowerPoint presentation
+		Creates a new presentation and returns the presentation object
+		"""
+		return self.app.Presentations.Add()
+
+	@activity
+	def save(self, path):
+		"""Save PowerPoint Slidedeck
+
+		:parameter path: Save the PowerPoint presentation. Default value is the home directory.
+		"""
+		if not path:
+			file_path = os.path.expanduser("~")
+
+		return presentation.SaveAs(path)
+
+	@activity
+	def quit(self):
+		"""Close PowerPoint Application
+		"""
+		return self.app.Application.Quit()
+
+
+	@activity
+	def add_slide(self, index=None, type='blank'):
+		"""Add PowerPoint Slides
+		Adds slides to a presentation
+
+		:parameter index: Index where the slide should be inserted. Default value is as final slide.
+		:parmeter type: Type of the slide to be added. Supports following types: blank, chart, text, title and picture.
+		"""
+		if type == 'blank':
+			type_id = 12
+		if type == 'chart':
+			type_id = 8
+		if type == 'text':
+			type_id = 2
+		if type == 'title':
+			type_id = 1
+		if type == 'picture':
+			type_id = 36
+		
+		if not index:
+			index = self.app.Slides.Count + 1 
+
+		return self.app.Slides.Add(index,type_id)
+
+	@activity
+	def number_of_slides(self):
+		"""Return the number of slides
+		"""
+		return self.app.Slides.Count
+
+	@activity
+	def add_text(self, text, index=None, font_size=48, font_name=None, bold=False, margin_bottom=100, margin_left=100, margin_right=100, margin_top=100):
+		"""Add text to a slide
+
+		:parameter index: Slide index to add text. If none is specified, a new slide will be added as final slide
+		:parmeter text: Text to be added
+		:parameter font_size: Fontsize, default value is 48
+		:parameter font_name: Fontname, if not specified will take default PowerPoint font
+		:parameter bold: Toggle bold with True or False, default value is False
+		:parameter margin_bottom: Margin from the bottom in pixels, default value is 100 pixels
+		:parameter margin_left: Margin from the left in pixels, default value is 100 pixels
+		:parameter margin_right: Margin from the right in pixels, default value is 100 pixels
+		:parameter margin_top: Margin from the top in pixels, default value is 100 pixels
+		"""
+
+		if not index:
+			index = self.app.Slides.Count + 1 
+			self.app.Slides.Add(index, 12)
+		text_box = self.app.Slides(index).Shapes.AddTextbox(1,100, 100,200, 50).TextFrame.TextRange
+		text_box.Text = text
+		text_box.Font.Size = font_size
+		if font_name:
+			text_box.Font.Name = font_name
+		text_box.Font.Bold = bold
+
+	@activity
+	def delete_slide(self,index=None):
+		"""Delete slide
+		
+		:parameter index: Slide index to be deleted. If none is specified, last slide will be deleted
+		"""
+		if not index:
+			index = self.app.Slides.Count 
+
+		return self.app.Slides(index).Delete()
+
+	@activity
+	def replace_text(self, placeholder, value):
+		"""Replace text slide
+		Can be used for example to replace arbitrary placeholder value in a PowerPoint. 
+		For example when using template slidedeck, using 'XXXX' as a placeholder, this can be easily be replaced to the name of the audience.. 
+		Take note that all strings are case sensitive.
+		
+		:parameter placeholder: Placeholder value (string) in the Powerpoint, this will be replaced, e.g. 'Company Name'
+		:parameter value: Value (string) to replace the placeholder values with. It is recommended to make this unique in your PowerPoint to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
+		"""
+		for slide in self.app.Slides:
+			for shape in slide.Shapes:
+				shape.TextFrame.TextRange.Text = shape.TextFrame.TextRange.Text.replace(placeholder,value)
+
+	@activity
+	def export_to_pdf(self, path=None):
+		"""Export PowerPoint presentation to PDF file
+
+		:parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
+		"""
+		if not path:
+			path = os.path.expanduser("~") + 'pdf_export.pdf'
+
+		return self.ActivePresentation.ExportAsFixedFormat(path, 2, PrintRange=None)
+
+
+	def export_slides_to_images(self, path=None, type='png'):
+		"""Export PowerPoint slides to seperate image files
+
+		:parameter path: Output path where image files will be exported to. Default path is home directory.
+		:parameter type: Output type of the images, supports 'png' and 'jpg' with 'png' as default value
+		"""
+		if not path:
+			path = os.path.expanduser("~")
+
+		return self.ActivePresentation.Export(path, 'png')
+		
+	def merge(self, path=None, second_path='png'):
+		"""Export PowerPoint slides to seperate image files
+
+		:parameter path: Output path where image files will be exported to. Default path is home directory.
+		:parameter type: Output type of the images, supports 'png' and 'jpg' with 'png' as default value
+		"""
+		if not path:
+			path = os.path.expanduser("~")
+
+		return self.ActivePresentation.Export(path, 'png')
+
 
 class ExcelFile:
-    pass
+	pass
 
 
 """
