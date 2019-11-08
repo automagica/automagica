@@ -1071,7 +1071,7 @@ Microsoft® Office Excel
 
 
 class Excel:
-    def __init__(self, visible=True):
+    def __init__(self, visible=True, path=None):
         """Start Excel Application
 
         For this activity to work, Microsoft Office Excel needs to be installed on the system.
@@ -1079,6 +1079,7 @@ class Excel:
         Thanks to https://pythonexcels.com/python/2009/10/05/python-excel-mini-cookbook for the great examples.
 
         :parameter visible: Show Excel in the foreground if True or hide if False, defaults to True.
+        :parameter path: Enter a path to open Excel with an existing Excel file. If no path is specified a workbook will be initialized, this is the default value.
         """
         self.app = self._launch()
         self.app.Visible = visible
@@ -1098,7 +1099,10 @@ class Excel:
                 "Could not launch Excel, do you have Microsoft Office installed on Windows?"
             )
 
-        return app
+        if path:
+			return app.Worksbooks.Open(file_path)
+		else:
+			return app.Workbooks.Add()
 
     @activity
     def new_workbook(self):
@@ -1121,14 +1125,6 @@ class Excel:
         """Close Excel Application
         """
         return self.app.Application.Quit()
-
-    @activity
-    def open_workbook(self, file_path):
-        """Open Excel Workbook
-
-        :parameter file_path: Path to the Excel file to open
-        """
-        return self.app.Workbooks.Open(file_path)
 
     @activity
     def add_worksheet(self, workbook, name=None):
@@ -1168,14 +1164,15 @@ class Excel:
         return worksheet.Range(range_).Value
 
 class PowerPoint:
-	def __init__(self, visible=True, path=None):
+	def __init__(self, visible=True, path=None, add_slide=True):
 		"""Start Excel Application
 
 		For this activity to work, PowerPoint needs to be installed on the system.
 
-		:parameter path: Enter a path to open an existing PowerPoint presentation. If no path is specified a new presentation will be initialized, this is the default value.
 		:parameter visible: Show PowerPoint in the foreground if True or hide if False, defaults to True.
-		"""
+		:parameter path: Enter a path to open an existing PowerPoint presentation. If no path is specified a new presentation will be initialized, this is the default value.
+        :parameter add_slide: Add an initial empty slide when creating new PowerPointfile, this prevents errors since most manipulations require a non-empty presentation. Default value is True
+        """
 		self.app = self._launch(path)
 		self.app.Visible = visible
 
@@ -1200,22 +1197,15 @@ class PowerPoint:
 			return app.Presentations.Add()
 
 	@activity
-	def new_presentation(self):
-		"""New PowerPoint presentation
-		Creates a new presentation and returns the presentation object
-		"""
-		return self.app.Presentations.Add()
-
-	@activity
-	def save(self, path):
+	def save(self, path=None):
 		"""Save PowerPoint Slidedeck
 
-		:parameter path: Save the PowerPoint presentation. Default value is the home directory.
+		:parameter path: Save the PowerPoint presentation. Default value is the home directory and filename 'presentation.pptx'
 		"""
 		if not path:
-			file_path = os.path.expanduser("~")
+			path = os.path.expanduser("~") + '\presentation.pptx'
 
-		return presentation.SaveAs(path)
+		return self.app.SaveAs(path)
 
 	@activity
 	def quit(self):
@@ -1310,33 +1300,30 @@ class PowerPoint:
 
 		:parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
 		"""
+
+        if self.app.Slides.Count == 0:
+            raise Exception('Please add a slide first bedore exporting the presentation.')
+
 		if not path:
-			path = os.path.expanduser("~") + 'pdf_export.pdf'
+			path = os.path.expanduser("~") + '/pdf_export.pdf'
+        
+		return  self.app.ExportAsFixedFormat2(path, 2, PrintRange=None)
 
-		return self.ActivePresentation.ExportAsFixedFormat(path, 2, PrintRange=None)
-
-
+    @activity
 	def export_slides_to_images(self, path=None, type='png'):
 		"""Export PowerPoint slides to seperate image files
 
 		:parameter path: Output path where image files will be exported to. Default path is home directory.
 		:parameter type: Output type of the images, supports 'png' and 'jpg' with 'png' as default value
 		"""
+
+        if self.app.Slides.Count == 0:
+            raise Exception('Please add a slide first bedore exporting the presentation.')
+
 		if not path:
 			path = os.path.expanduser("~")
 
-		return self.ActivePresentation.Export(path, 'png')
-		
-	def merge(self, path=None, second_path='png'):
-		"""Export PowerPoint slides to seperate image files
-
-		:parameter path: Output path where image files will be exported to. Default path is home directory.
-		:parameter type: Output type of the images, supports 'png' and 'jpg' with 'png' as default value
-		"""
-		if not path:
-			path = os.path.expanduser("~")
-
-		return self.ActivePresentation.Export(path, 'png')
+		return self.app.Export(path, 'png')
 
 
 class ExcelFile:
