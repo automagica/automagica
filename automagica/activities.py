@@ -806,6 +806,7 @@ def ConvertWordToPDF(word_filename=None, pdf_filename=None):
         word_document = word.Documents.Open(word_filename)
         word_document.SaveAs(pdf_filename, FileFormat=17)
         word_document.Close()
+        word.Quit()
     else:
         print('Not implemented for other platforms than Windows.')
 
