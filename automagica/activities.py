@@ -100,16 +100,452 @@ class ActiveDirectory:
 
         if password:
             self.pyad.set_defaults(password=password)
-
+    @activity
     def get_object_by_distinguished_name(self, distinguished_name):
         return self.pyad.from_dn(distinguished_name)
 
+
+"""
+Cryptography
+"""
+
+@activity
+def generate_random_key():
+	"""Generates a random Fernet key. 
+
+	Fernet guarantees that a message encrypted using it cannot be manipulated or read without the key. Fernet is an implementation of symmetric (also known as “secret key”) authenticated cryptography
+	"""
+	import os
+	from cryptography.fernet import Fernet
+	key = Fernet.generate_key()
+
+	return key
+
+@activity
+def encrypt_text_with_key(text, key):
+	"""Encrypts string with (Fernet) key, returns bytes-like object.
+
+	:param text: Text to be encrypted.
+	:param path: Path where key is stored.
+	"""
+	from cryptography.fernet import Fernet
+	f = Fernet(key)
+
+	return f.encrypt(text.encode('utf-8'))
+
+@activity
+def decrypt_text_with_key(encrypted_text, key):
+	"""Decrypts bytes-like object to string with (Fernet) key
+	
+	:param encrypted_text: Text to be encrypted.
+	:param path: Path where key is stored.
+	"""
+	from cryptography.fernet import Fernet
+	f = Fernet(key)
+
+	return f.decrypt(encrypted_text).decode("utf-8") 
+
+@activity
+def encrypt_file_with_key(input_file, output_file, key):
+	"""Encrypts file with (Fernet) key
+	
+	:param input_file: File to be encrypted.
+	:param output_file: Outputfile, returns a bytes-like can be an arbitrary .
+	"""
+	from cryptography.fernet import Fernet
+
+	with open(input_file, 'rb') as f:
+		data = f.read()
+
+	fernet = Fernet(key)
+	encrypted = fernet.encrypt(data)
+
+	with open(output_file, 'wb') as f:
+		f.write(encrypted)
+
+@activity
+def decrypt_file_with_key(input_file, output_file, key):
+	"""Decrypts file with (Fernet) key
+	
+	:param input_file: Bytes-like file to be decrypted.
+	:param output_file: Outputfile, make sure to give this the same extension as basefile before encryption.
+	"""
+	from cryptography.fernet import Fernet
+
+	with open(input_file, 'rb') as f:
+		data = f.read()
+
+	fernet = Fernet(key)
+	encrypted = fernet.decrypt(data)
+
+	with open(output_file, 'wb') as f:
+		f.write(encrypted)
+
+@activity
+def generate_key_from_password(password, salt=None):
+	"""Generates (Fernet) key based on password and salt.
+	
+	:param text: text to be encrypted.
+	:param salt: Salt to generate key in combination with password. Default value is the hostname. Take in to account that hostname is necessary to generate key, e.g. when files are encrypted with salt 'A' and password 'B', both elements are necessary to decrypt files.
+	"""
+	import base64
+	from cryptography.hazmat.backends import default_backend
+	from cryptography.hazmat.primitives import hashes
+	from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+	import socket
+
+	# If no salt is set, use hostname as salt
+	if not salt:
+		salt = socket.gethostname().encode('utf-8')
+	
+	kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),length=32,salt=salt,iterations=500000,backend=default_backend())
+	key = base64.urlsafe_b64encode(kdf.derive(password.encode('utf-8'))) 
+	
+	return key
+
+@activity
+def generate_hash_from_file(file, method='md5', buffer_size = 65536):
+	"""Generate hash from file. Can be used to create unique identifier for file validation or comparison.
+
+	:param file: File to hash
+	:param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes.
+	:param buffer_size: Buffer size for reading file in chunks, default value is 64kb
+	"""
+	import sys
+	import hashlib
+
+	# Arbitrary buffer size. 64kb for compatibility with most systems
+	buffer_size = 65536  
+
+	if method == 'md5':
+		hash_list = hashlib.md5()
+	if method == 'sha256':
+		hash_list = hashlib.sha1()
+	if method == 'blake2b':
+		hash_list = hashlib.blake2b()
+
+	with open(file, 'rb') as f:
+		while True:
+			data = f.read(buffer_size)
+			if data:
+				hash_list.update(data)
+			else:
+				return hash_list.hexdigest()
+
+@activity			
+def generate_hash_from_text(text, method='md5'):
+	"""Generate hash from text.
+	
+	:param file: Text to hash
+	:param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes.
+	"""
+	import sys
+	import hashlib
+
+	encoded_text = text.encode('utf-8')
+
+	if method == 'md5':
+		return hashlib.md5(encoded_text).hexdigest()
+	if method == 'sha256':
+		return hashlib.sha256(encoded_text).hexdigest()
+	if method == 'blake2b':
+		return hashlib.balke2b(encoded_text).hexdigest()
+
+"""
+Random
+"""
+
+@activity
+def generate_random_name(locale=None):
+	"""Generates a random name.
+
+	:param locale: Add a locale to generate popular name for selected locale.
+		ar_EG - Arabic (Egypt)
+		ar_PS - Arabic (Palestine)
+		ar_SA - Arabic (Saudi Arabia)
+		bg_BG - Bulgarian
+		bs_BA - Bosnian
+		cs_CZ - Czech
+		de_DE - German
+		dk_DK - Danish
+		el_GR - Greek
+		en_AU - English (Australia)
+		en_CA - English (Canada)
+		en_GB - English (Great Britain)
+		en_NZ - English (New Zealand)
+		en_US - English (United States)
+		es_ES - Spanish (Spain)
+		es_MX - Spanish (Mexico)
+		et_EE - Estonian
+		fa_IR - Persian (Iran)
+		fi_FI - Finnish
+		fr_FR - French
+		hi_IN - Hindi
+		hr_HR - Croatian
+		hu_HU - Hungarian
+		hy_AM - Armenian
+		it_IT - Italian
+		ja_JP - Japanese
+		ka_GE - Georgian (Georgia)
+		ko_KR - Korean
+		lt_LT - Lithuanian
+		lv_LV - Latvian
+		ne_NP - Nepali
+		nl_NL - Dutch (Netherlands)
+		no_NO - Norwegian
+		pl_PL - Polish
+		pt_BR - Portuguese (Brazil)
+		pt_PT - Portuguese (Portugal)
+		ro_RO - Romanian
+		ru_RU - Russian
+		sl_SI - Slovene
+		sv_SE - Swedish
+		tr_TR - Turkish
+		uk_UA - Ukrainian
+		zh_CN - Chinese (China)
+		zh_TW - Chinese (Taiwan)
+	"""
+	from faker import Faker
+	if locale:
+		seed = Faker(locale)
+	else:
+		seed = Faker()
+	return seed.name()
+
+def generate_random_sentence(locale=None):
+	"""Generates a random sentence.
+
+	:param locale: Add a locale to generate sentences for selected locale (language).
+		ar_EG - Arabic (Egypt)
+		ar_PS - Arabic (Palestine)
+		ar_SA - Arabic (Saudi Arabia)
+		bg_BG - Bulgarian
+		bs_BA - Bosnian
+		cs_CZ - Czech
+		de_DE - German
+		dk_DK - Danish
+		el_GR - Greek
+		en_AU - English (Australia)
+		en_CA - English (Canada)
+		en_GB - English (Great Britain)
+		en_NZ - English (New Zealand)
+		en_US - English (United States)
+		es_ES - Spanish (Spain)
+		es_MX - Spanish (Mexico)
+		et_EE - Estonian
+		fa_IR - Persian (Iran)
+		fi_FI - Finnish
+		fr_FR - French
+		hi_IN - Hindi
+		hr_HR - Croatian
+		hu_HU - Hungarian
+		hy_AM - Armenian
+		it_IT - Italian
+		ja_JP - Japanese
+		ka_GE - Georgian (Georgia)
+		ko_KR - Korean
+		lt_LT - Lithuanian
+		lv_LV - Latvian
+		ne_NP - Nepali
+		nl_NL - Dutch (Netherlands)
+		no_NO - Norwegian
+		pl_PL - Polish
+		pt_BR - Portuguese (Brazil)
+		pt_PT - Portuguese (Portugal)
+		ro_RO - Romanian
+		ru_RU - Russian
+		sl_SI - Slovene
+		sv_SE - Swedish
+		tr_TR - Turkish
+		uk_UA - Ukrainian
+		zh_CN - Chinese (China)
+		zh_TW - Chinese (Taiwan)
+	"""
+	from faker import Faker
+	if locale:
+		seed = Faker(locale)
+	else:
+		seed = Faker()
+	return seed.sentence()
+
+@activity
+def generate_random_address(locale=None):
+    """Generates a random address.
+
+	:param locale: Add a locale to generate addresses for selected locale.
+		ar_EG - Arabic (Egypt)
+		ar_PS - Arabic (Palestine)
+		ar_SA - Arabic (Saudi Arabia)
+		bg_BG - Bulgarian
+		bs_BA - Bosnian
+		cs_CZ - Czech
+		de_DE - German
+		dk_DK - Danish
+		el_GR - Greek
+		en_AU - English (Australia)
+		en_CA - English (Canada)
+		en_GB - English (Great Britain)
+		en_NZ - English (New Zealand)
+		en_US - English (United States)
+		es_ES - Spanish (Spain)
+		es_MX - Spanish (Mexico)
+		et_EE - Estonian
+		fa_IR - Persian (Iran)
+		fi_FI - Finnish
+		fr_FR - French
+		hi_IN - Hindi
+		hr_HR - Croatian
+		hu_HU - Hungarian
+		hy_AM - Armenian
+		it_IT - Italian
+		ja_JP - Japanese
+		ka_GE - Georgian (Georgia)
+		ko_KR - Korean
+		lt_LT - Lithuanian
+		lv_LV - Latvian
+		ne_NP - Nepali
+		nl_NL - Dutch (Netherlands)
+		no_NO - Norwegian
+		pl_PL - Polish
+		pt_BR - Portuguese (Brazil)
+		pt_PT - Portuguese (Portugal)
+		ro_RO - Romanian
+		ru_RU - Russian
+		sl_SI - Slovene
+		sv_SE - Swedish
+		tr_TR - Turkish
+		uk_UA - Ukrainian
+		zh_CN - Chinese (China)
+		zh_TW - Chinese (Taiwan)
+	"""
+	from faker import Faker
+	if locale:
+		seed = Faker(locale)
+	else:
+		seed = Faker()
+	return seed.address()
+
+@activity
+def generate_random_number(lower_limit=0,upper_limit=10, fractional=False):
+	"""Generates a random number. Can be integers (not a fractional number) or a float (fractional number).
+
+	:param lower_limit: Lower limit for random number
+	:param upper_limit: Upper limit for random number
+	:param fractional: Setting this to True will generate fractional number. Default value is False and only generates whole numbers.
+	"""
+	import random 
+	if fractional:
+		return random.uniform(lower_limit, upper_limit)
+	else:
+		return random.randrange(lower_limit,upper_limit,1)
+
+@activity
+def generate_random_boolean():
+	"""Generates a random boolean (True or False)
+	"""
+	import random 
+	return bool(random.getrandbits(1))
+
+@activity
+def generate_random_beep(max_duration=2000, max_frequency=5000):
+	"""Generates a random beep, only works on Windows
+
+	:param max_duration: Maximum random duration in miliseconds. Default value is 2 miliseconds
+	:param max_frequency: Maximum random frequency in Hz. Default value is 5000 Hz.
+	"""
+	import winsound
+	import random
+	frequency = random.randrange(5000)
+	duration = random.randrange(2000)
+	winsound.Beep(frequency, duration)
+
+@activity
+def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
+	"""Generate a random date. 
+
+	:param days_in_past: Days in the past for which oldest random date is generated, default is 1000 days
+	:param format: Formatting of the dates, replace with 'None' to get raw datetime format. 
+	e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
+	%a	Abbreviated weekday name.	 
+	%A	Full weekday name.	 
+	%b	Abbreviated month name.	 
+	%B	Full month name.	 
+	%c	Predefined date and time representation.	 
+	%d	Day of the month as a decimal number [01,31].	 
+	%H	Hour (24-hour clock) as a decimal number [00,23].	 
+	%I	Hour (12-hour clock) as a decimal number [01,12].	 
+	%j	Day of the year as a decimal number [001,366].	 
+	%m	Month as a decimal number [01,12].	 
+	%M	Minute as a decimal number [00,59].	 
+	%p	AM or PM.
+	%S	Second as a decimal number [00,61].	
+	%U	Week number of the year (Sunday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Sunday are considered to be in week 0.	(3)
+	%w	Weekday as a decimal number [0(Sunday),6].	 
+	%W	Week number of the year (Monday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Monday are considered to be in week 0.	(3)
+	%x	Predefined date representation.	 
+	%X	Predefined time representation.	 
+	%y	Year without century as a decimal number [00,99].	 
+	%Y	Year with century as a decimal number.
+	%Z	Time zone name (no characters if no time zone exists).
+    """
+
+	import random
+	import datetime
+
+	latest  = datetime.datetime.now()
+	earliest = latest - datetime.timedelta(days=days_in_past)
+	delta_seconds = (latest - earliest).total_seconds()
+
+	random_date = earliest + datetime.timedelta(seconds = random.randrange(delta_seconds))
+
+	if format:
+		return random_date.strftime(format)
+	else:
+		return random_date
+
+
+@activity
+def generate_unique_identifier():
+    """Generates a random UUID
+    """
+    from uuid import uuid4
+
+    return str(uuid4())
+
+@activity
+def random_animal_picture(preferred_animal=None):
+    """Returns url for a random picture
+
+    Note that this service uses an external database, we can not garantuee the quality and availability. 
+    The purpose of this activity is mainly for testing to generate dummy data. Will most likely return a picture of a cat, dog or fox.
+
+    :parameter preferred_animal: Return a preferred animal, if not specified will return what is available at the moment. Options are 'cat', 'dog' or 'fox'.
+    """
+    import requests
+    import random
+
+    api_options = [{'animal' : 'cat', 'url' :'https://aws.random.cat/meow', 'image_tag' : 'file'}, {'animal' : 'dog', 'url' :'https://random.dog/woof.json', 'image_tag' : 'url'}, {'animal' : 'fox', 'url' :'https://randomfox.ca/floof/', 'image_tag' : 'image'}]
+    
+    if preferred_animal:
+        if preferred_animal in ['dog', 'cat', 'fox']:
+            option = list(filter(lambda api_option: api_option['animal'] == preferred_animal, api_options))[0]
+            response = requests.get(option['url'])
+            if response.status_code != 200:
+                raise Exception('Could not retreive image from external database')
+            return response.json()[option['image_tag']]
+    
+    random.shuffle(api_options)
+    for item in api_options:
+        response = requests.get(item['url'])
+        if response.status_code != 200:
+            continue
+        else:
+            return response.json()[item['image_tag']]
 
 
 """
 Ask user input
 """
-
 
 @activity
 def ask_user_input(title="Title", label="Input", password=False):
@@ -1615,6 +2051,19 @@ def desktop_path():
 
     return os.path.join(os.path.expanduser("~"), "Desktop")
 
+@activity
+def set_wallpaper(image_path):
+    '''Sets desktop wallpaper
+
+    :parameter image_path: Path to the image. This image will be set as desktop wallpaper
+    '''
+    import ctypes
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path , 0)
+
+
+@activity
+def download_image_from_url(url):
+    pass
 
 @activity
 def display_message_box(body, title="Message", type="info"):
@@ -2122,19 +2571,6 @@ def apply_image_watermark_to_pdf(
     #    output_file.write(outputStream)
 
 
-"""
-Random
-"""
-
-
-@activity
-def generate_unique_identifier():
-    """
-    Generates a UUID
-    """
-    from uuid import uuid4
-
-    return str(uuid4())
 
 
 """
@@ -2246,6 +2682,13 @@ def get_time_since_last_boot():
 """
 Image operations
 """
+
+@activity
+def download_image_from_url():
+    """
+    TODO
+    """
+    return
 
 
 @activity
