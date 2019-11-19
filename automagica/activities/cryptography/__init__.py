@@ -1,3 +1,4 @@
+@activity
 def generate_random_key():
 	"""
 	Generates a random Fernet key. 
@@ -9,6 +10,7 @@ def generate_random_key():
 
 	return key
 
+@activity
 def encrypt_text_with_key(text, key):
 	"""
 	Encrypts string with (Fernet) key, returns bytes-like object.
@@ -21,6 +23,7 @@ def encrypt_text_with_key(text, key):
 
 	return f.encrypt(text.encode('utf-8'))
 
+@activity
 def decrypt_text_with_key(encrypted_text, key):
 	"""
 	Decrypts bytes-like object to string with (Fernet) key
@@ -33,6 +36,7 @@ def decrypt_text_with_key(encrypted_text, key):
 
 	return f.decrypt(encrypted_text).decode("utf-8") 
 
+@activity
 def encrypt_file_with_key(input_file, output_file, key):
 	"""
 	Encrypts file with (Fernet) key
@@ -51,6 +55,7 @@ def encrypt_file_with_key(input_file, output_file, key):
 	with open(output_file, 'wb') as f:
 		f.write(encrypted)
 
+@activity
 def decrypt_file_with_key(input_file, output_file, key):
 	"""
 	Decrypts file with (Fernet) key
@@ -69,7 +74,7 @@ def decrypt_file_with_key(input_file, output_file, key):
 	with open(output_file, 'wb') as f:
 		f.write(encrypted)
 
-
+@activity
 def generate_key_from_password(password, salt=None):
 	"""
 	Generates (Fernet) key based on password and salt.
@@ -92,6 +97,7 @@ def generate_key_from_password(password, salt=None):
 	
 	return key
 
+@activity
 def generate_hash_from_file(file, method='md5', buffer_size = 65536):
 	"""
 	Generate hash from file. Can be used to create unique identifier for file validation or comparison.
@@ -120,7 +126,8 @@ def generate_hash_from_file(file, method='md5', buffer_size = 65536):
 				hash_list.update(data)
 			else:
 				return hash_list.hexdigest()
-			
+
+@activity			
 def generate_hash_from_text(text, method='md5'):
 	"""
 	Generate hash from text.

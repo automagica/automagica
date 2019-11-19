@@ -1517,10 +1517,10 @@ class Excel:
         :parameter visible: Show Excel in the foreground if True or hide if False, defaults to True.
         :parameter path: Enter a path to open Excel with an existing Excel file. If no path is specified a workbook will be initialized, this is the default value.
         """
-        self.app = self._launch()
+        self.app = self._launch(path)
         self.app.Visible = visible
 
-    def _launch(self):
+    def _launch(self, path):
         """Utility function to create the Excel application scope object
 
         :return: Application object (win32com.client)
@@ -1532,8 +1532,7 @@ class Excel:
 
         except:
             raise Exception(
-                "Could not launch Excel, do you have Microsoft Office installed on Windows?"
-            )
+                "Could not launch Excel, do you have Microsoft Office installed on Windows?")
 
         if path:
 			return app.Worksbooks.Open(file_path)
@@ -1548,13 +1547,15 @@ class Excel:
         return self.app.Workbooks.Add()
 
     @activity
-    def save_workbook(self, workbook, file_path):
+    def save_workbook(self, path=None):
         """Save Excel Workbook
 
-        :parameter workbook: Workbook object which is retrieved with either new_workbook or open_workbook
-        :parameter file_path: Save the Excel workbook to this path
-        """
-        return workbook.SaveAs(file_path)
+		:parameter path: Save the Excel workbook. Default value is the home directory and filename 'workboox.xlsx'
+		"""
+		if not path:
+			path = os.path.expanduser("~") + '\workbook.xlsx'
+
+		return self.app.SaveAs(path)
 
     @activity
     def quit(self):
