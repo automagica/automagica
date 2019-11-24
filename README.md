@@ -306,6 +306,9 @@ For the `Type`-function to work, you need to set the "United States-Internationa
 ## Known issues
 - Run after boot might not work for Linux/OSX systems. This will be fixed soon®.
 
+## Telegram Community
+Join us in [Telegram](https://t.me/automagica)!
+
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
 - [PyAutoGUI](https://github.com/asweigart/pyautogui)
