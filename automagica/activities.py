@@ -332,7 +332,7 @@ def ProcessRunning(name):
     '''
     if name:
         for p in psutil.process_iter():
-            if name in p.name():
+            if name in p.name().lower():
                 return True
     return False
 
@@ -352,7 +352,7 @@ def ChromeRunning():
     Returns True is Chrome is running.
     '''
     for p in psutil.process_iter():
-        if "chrome.exe" in p.name():
+        if "chrome.exe" in p.name().lower():
             return True
     return False
 
@@ -372,7 +372,7 @@ def ExcelRunning():
     Returns True is Excel is running.
     '''
     for p in psutil.process_iter():
-        if "excel.exe" in p.name():
+        if "excel.exe" in p.name().lower():
             return True
     return False
 
@@ -382,7 +382,7 @@ def PowerpointRunning():
     Returns True is Powerpoint is running.
     '''
     for p in psutil.process_iter():
-        if "powerpnt.exe" in p.name().lower:
+        if "powerpnt.exe" in p.name().lower():
             return True
     return False
 
