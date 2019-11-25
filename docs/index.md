@@ -1324,9 +1324,12 @@ excel_path = "Enter Path to Excel Here" #example: C:\\Users\Bob\\Desktop\\RPA Ex
 lookup_terms = []
 for col in range(2,10):
     try:
-        lookup_terms.append(ExcelReadCell(excel_path, 2, col))
+        lookup_terms.append(ExcelRowCol(excel_path, 1, col))
     except:
         pass
+
+# Remove None from the list
+lookup_terms = list(filter(lambda x: x is not None, lookup_terms))
 
 # Open Chrome
 browser = ChromeBrowser()
@@ -1352,7 +1355,7 @@ for j,item in enumerate(lookup_terms):
 
     # Write found urls to Excel
     for i,url in enumerate(urls):
-        ExcelWriteCell(excel_path, row=i+2, col=j+2, write_value=url)
+        ExcelWriteRowCol(excel_path, r=i+2, c=j+2, write_value=url)
 
 # Exit the browser
 browser.quit()
