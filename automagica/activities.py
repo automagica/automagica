@@ -111,145 +111,145 @@ Cryptography
 
 @activity
 def generate_random_key():
-	"""Generates a random Fernet key. 
+    """Generates a random Fernet key. 
 
-	Fernet guarantees that a message encrypted using it cannot be manipulated or read without the key. Fernet is an implementation of symmetric (also known as “secret key”) authenticated cryptography
-	"""
-	import os
-	from cryptography.fernet import Fernet
-	key = Fernet.generate_key()
+    Fernet guarantees that a message encrypted using it cannot be manipulated or read without the key. Fernet is an implementation of symmetric (also known as “secret key”) authenticated cryptography
+    """
+    import os
+    from cryptography.fernet import Fernet
+    key = Fernet.generate_key()
 
-	return key
+    return key
 
 @activity
 def encrypt_text_with_key(text, key):
-	"""Encrypts string with (Fernet) key, returns bytes-like object.
+    """Encrypts string with (Fernet) key, returns bytes-like object.
 
-	:param text: Text to be encrypted.
-	:param path: Path where key is stored.
-	"""
-	from cryptography.fernet import Fernet
-	f = Fernet(key)
+    :param text: Text to be encrypted.
+    :param path: Path where key is stored.
+    """
+    from cryptography.fernet import Fernet
+    f = Fernet(key)
 
-	return f.encrypt(text.encode('utf-8'))
+    return f.encrypt(text.encode('utf-8'))
 
 @activity
 def decrypt_text_with_key(encrypted_text, key):
-	"""Decrypts bytes-like object to string with (Fernet) key
-	
-	:param encrypted_text: Text to be encrypted.
-	:param path: Path where key is stored.
-	"""
-	from cryptography.fernet import Fernet
-	f = Fernet(key)
+    """Decrypts bytes-like object to string with (Fernet) key
+    
+    :param encrypted_text: Text to be encrypted.
+    :param path: Path where key is stored.
+    """
+    from cryptography.fernet import Fernet
+    f = Fernet(key)
 
-	return f.decrypt(encrypted_text).decode("utf-8") 
+    return f.decrypt(encrypted_text).decode("utf-8") 
 
 @activity
 def encrypt_file_with_key(input_file, output_file, key):
-	"""Encrypts file with (Fernet) key
-	
-	:param input_file: File to be encrypted.
-	:param output_file: Outputfile, returns a bytes-like can be an arbitrary .
-	"""
-	from cryptography.fernet import Fernet
+    """Encrypts file with (Fernet) key
+    
+    :param input_file: File to be encrypted.
+    :param output_file: Outputfile, returns a bytes-like can be an arbitrary .
+    """
+    from cryptography.fernet import Fernet
 
-	with open(input_file, 'rb') as f:
-		data = f.read()
+    with open(input_file, 'rb') as f:
+        data = f.read()
 
-	fernet = Fernet(key)
-	encrypted = fernet.encrypt(data)
+    fernet = Fernet(key)
+    encrypted = fernet.encrypt(data)
 
-	with open(output_file, 'wb') as f:
-		f.write(encrypted)
+    with open(output_file, 'wb') as f:
+        f.write(encrypted)
 
 @activity
 def decrypt_file_with_key(input_file, output_file, key):
-	"""Decrypts file with (Fernet) key
-	
-	:param input_file: Bytes-like file to be decrypted.
-	:param output_file: Outputfile, make sure to give this the same extension as basefile before encryption.
-	"""
-	from cryptography.fernet import Fernet
+    """Decrypts file with (Fernet) key
+    
+    :param input_file: Bytes-like file to be decrypted.
+    :param output_file: Outputfile, make sure to give this the same extension as basefile before encryption.
+    """
+    from cryptography.fernet import Fernet
 
-	with open(input_file, 'rb') as f:
-		data = f.read()
+    with open(input_file, 'rb') as f:
+        data = f.read()
 
-	fernet = Fernet(key)
-	encrypted = fernet.decrypt(data)
+    fernet = Fernet(key)
+    encrypted = fernet.decrypt(data)
 
-	with open(output_file, 'wb') as f:
-		f.write(encrypted)
+    with open(output_file, 'wb') as f:
+        f.write(encrypted)
 
 @activity
 def generate_key_from_password(password, salt=None):
-	"""Generates (Fernet) key based on password and salt.
-	
-	:param text: text to be encrypted.
-	:param salt: Salt to generate key in combination with password. Default value is the hostname. Take in to account that hostname is necessary to generate key, e.g. when files are encrypted with salt 'A' and password 'B', both elements are necessary to decrypt files.
-	"""
-	import base64
-	from cryptography.hazmat.backends import default_backend
-	from cryptography.hazmat.primitives import hashes
-	from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-	import socket
+    """Generates (Fernet) key based on password and salt.
+    
+    :param text: text to be encrypted.
+    :param salt: Salt to generate key in combination with password. Default value is the hostname. Take in to account that hostname is necessary to generate key, e.g. when files are encrypted with salt 'A' and password 'B', both elements are necessary to decrypt files.
+    """
+    import base64
+    from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+    import socket
 
-	# If no salt is set, use hostname as salt
-	if not salt:
-		salt = socket.gethostname().encode('utf-8')
-	
-	kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),length=32,salt=salt,iterations=500000,backend=default_backend())
-	key = base64.urlsafe_b64encode(kdf.derive(password.encode('utf-8'))) 
-	
-	return key
+    # If no salt is set, use hostname as salt
+    if not salt:
+        salt = socket.gethostname().encode('utf-8')
+    
+    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),length=32,salt=salt,iterations=500000,backend=default_backend())
+    key = base64.urlsafe_b64encode(kdf.derive(password.encode('utf-8'))) 
+    
+    return key
 
 @activity
 def generate_hash_from_file(file, method='md5', buffer_size = 65536):
-	"""Generate hash from file. Can be used to create unique identifier for file validation or comparison.
+    """Generate hash from file. Can be used to create unique identifier for file validation or comparison.
 
-	:param file: File to hash
-	:param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes.
-	:param buffer_size: Buffer size for reading file in chunks, default value is 64kb
-	"""
-	import sys
-	import hashlib
+    :param file: File to hash
+    :param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes.
+    :param buffer_size: Buffer size for reading file in chunks, default value is 64kb
+    """
+    import sys
+    import hashlib
 
-	# Arbitrary buffer size. 64kb for compatibility with most systems
-	buffer_size = 65536  
+    # Arbitrary buffer size. 64kb for compatibility with most systems
+    buffer_size = 65536  
 
-	if method == 'md5':
-		hash_list = hashlib.md5()
-	if method == 'sha256':
-		hash_list = hashlib.sha1()
-	if method == 'blake2b':
-		hash_list = hashlib.blake2b()
+    if method == 'md5':
+        hash_list = hashlib.md5()
+    if method == 'sha256':
+        hash_list = hashlib.sha1()
+    if method == 'blake2b':
+        hash_list = hashlib.blake2b()
 
-	with open(file, 'rb') as f:
-		while True:
-			data = f.read(buffer_size)
-			if data:
-				hash_list.update(data)
-			else:
-				return hash_list.hexdigest()
+    with open(file, 'rb') as f:
+        while True:
+            data = f.read(buffer_size)
+            if data:
+                hash_list.update(data)
+            else:
+                return hash_list.hexdigest()
 
 @activity			
 def generate_hash_from_text(text, method='md5'):
-	"""Generate hash from text.
-	
-	:param file: Text to hash
-	:param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes.
-	"""
-	import sys
-	import hashlib
+    """Generate hash from text.
+    
+    :param file: Text to hash
+    :param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes.
+    """
+    import sys
+    import hashlib
 
-	encoded_text = text.encode('utf-8')
+    encoded_text = text.encode('utf-8')
 
-	if method == 'md5':
-		return hashlib.md5(encoded_text).hexdigest()
-	if method == 'sha256':
-		return hashlib.sha256(encoded_text).hexdigest()
-	if method == 'blake2b':
-		return hashlib.balke2b(encoded_text).hexdigest()
+    if method == 'md5':
+        return hashlib.md5(encoded_text).hexdigest()
+    if method == 'sha256':
+        return hashlib.sha256(encoded_text).hexdigest()
+    if method == 'blake2b':
+        return hashlib.balke2b(encoded_text).hexdigest()
 
 """
 Random
@@ -257,251 +257,251 @@ Random
 
 @activity
 def generate_random_name(locale=None):
-	"""Generates a random name.
+    """Generates a random name.
 
-	:param locale: Add a locale to generate popular name for selected locale.
-		ar_EG - Arabic (Egypt)
-		ar_PS - Arabic (Palestine)
-		ar_SA - Arabic (Saudi Arabia)
-		bg_BG - Bulgarian
-		bs_BA - Bosnian
-		cs_CZ - Czech
-		de_DE - German
-		dk_DK - Danish
-		el_GR - Greek
-		en_AU - English (Australia)
-		en_CA - English (Canada)
-		en_GB - English (Great Britain)
-		en_NZ - English (New Zealand)
-		en_US - English (United States)
-		es_ES - Spanish (Spain)
-		es_MX - Spanish (Mexico)
-		et_EE - Estonian
-		fa_IR - Persian (Iran)
-		fi_FI - Finnish
-		fr_FR - French
-		hi_IN - Hindi
-		hr_HR - Croatian
-		hu_HU - Hungarian
-		hy_AM - Armenian
-		it_IT - Italian
-		ja_JP - Japanese
-		ka_GE - Georgian (Georgia)
-		ko_KR - Korean
-		lt_LT - Lithuanian
-		lv_LV - Latvian
-		ne_NP - Nepali
-		nl_NL - Dutch (Netherlands)
-		no_NO - Norwegian
-		pl_PL - Polish
-		pt_BR - Portuguese (Brazil)
-		pt_PT - Portuguese (Portugal)
-		ro_RO - Romanian
-		ru_RU - Russian
-		sl_SI - Slovene
-		sv_SE - Swedish
-		tr_TR - Turkish
-		uk_UA - Ukrainian
-		zh_CN - Chinese (China)
-		zh_TW - Chinese (Taiwan)
-	"""
-	from faker import Faker
-	if locale:
-		seed = Faker(locale)
-	else:
-		seed = Faker()
-	return seed.name()
+    :param locale: Add a locale to generate popular name for selected locale.
+        ar_EG - Arabic (Egypt)
+        ar_PS - Arabic (Palestine)
+        ar_SA - Arabic (Saudi Arabia)
+        bg_BG - Bulgarian
+        bs_BA - Bosnian
+        cs_CZ - Czech
+        de_DE - German
+        dk_DK - Danish
+        el_GR - Greek
+        en_AU - English (Australia)
+        en_CA - English (Canada)
+        en_GB - English (Great Britain)
+        en_NZ - English (New Zealand)
+        en_US - English (United States)
+        es_ES - Spanish (Spain)
+        es_MX - Spanish (Mexico)
+        et_EE - Estonian
+        fa_IR - Persian (Iran)
+        fi_FI - Finnish
+        fr_FR - French
+        hi_IN - Hindi
+        hr_HR - Croatian
+        hu_HU - Hungarian
+        hy_AM - Armenian
+        it_IT - Italian
+        ja_JP - Japanese
+        ka_GE - Georgian (Georgia)
+        ko_KR - Korean
+        lt_LT - Lithuanian
+        lv_LV - Latvian
+        ne_NP - Nepali
+        nl_NL - Dutch (Netherlands)
+        no_NO - Norwegian
+        pl_PL - Polish
+        pt_BR - Portuguese (Brazil)
+        pt_PT - Portuguese (Portugal)
+        ro_RO - Romanian
+        ru_RU - Russian
+        sl_SI - Slovene
+        sv_SE - Swedish
+        tr_TR - Turkish
+        uk_UA - Ukrainian
+        zh_CN - Chinese (China)
+        zh_TW - Chinese (Taiwan)
+    """
+    from faker import Faker
+    if locale:
+        seed = Faker(locale)
+    else:
+        seed = Faker()
+    return seed.name()
 
 def generate_random_sentence(locale=None):
-	"""Generates a random sentence.
+    """Generates a random sentence.
 
-	:param locale: Add a locale to generate sentences for selected locale (language).
-		ar_EG - Arabic (Egypt)
-		ar_PS - Arabic (Palestine)
-		ar_SA - Arabic (Saudi Arabia)
-		bg_BG - Bulgarian
-		bs_BA - Bosnian
-		cs_CZ - Czech
-		de_DE - German
-		dk_DK - Danish
-		el_GR - Greek
-		en_AU - English (Australia)
-		en_CA - English (Canada)
-		en_GB - English (Great Britain)
-		en_NZ - English (New Zealand)
-		en_US - English (United States)
-		es_ES - Spanish (Spain)
-		es_MX - Spanish (Mexico)
-		et_EE - Estonian
-		fa_IR - Persian (Iran)
-		fi_FI - Finnish
-		fr_FR - French
-		hi_IN - Hindi
-		hr_HR - Croatian
-		hu_HU - Hungarian
-		hy_AM - Armenian
-		it_IT - Italian
-		ja_JP - Japanese
-		ka_GE - Georgian (Georgia)
-		ko_KR - Korean
-		lt_LT - Lithuanian
-		lv_LV - Latvian
-		ne_NP - Nepali
-		nl_NL - Dutch (Netherlands)
-		no_NO - Norwegian
-		pl_PL - Polish
-		pt_BR - Portuguese (Brazil)
-		pt_PT - Portuguese (Portugal)
-		ro_RO - Romanian
-		ru_RU - Russian
-		sl_SI - Slovene
-		sv_SE - Swedish
-		tr_TR - Turkish
-		uk_UA - Ukrainian
-		zh_CN - Chinese (China)
-		zh_TW - Chinese (Taiwan)
-	"""
-	from faker import Faker
-	if locale:
-		seed = Faker(locale)
-	else:
-		seed = Faker()
-	return seed.sentence()
+    :param locale: Add a locale to generate sentences for selected locale (language).
+        ar_EG - Arabic (Egypt)
+        ar_PS - Arabic (Palestine)
+        ar_SA - Arabic (Saudi Arabia)
+        bg_BG - Bulgarian
+        bs_BA - Bosnian
+        cs_CZ - Czech
+        de_DE - German
+        dk_DK - Danish
+        el_GR - Greek
+        en_AU - English (Australia)
+        en_CA - English (Canada)
+        en_GB - English (Great Britain)
+        en_NZ - English (New Zealand)
+        en_US - English (United States)
+        es_ES - Spanish (Spain)
+        es_MX - Spanish (Mexico)
+        et_EE - Estonian
+        fa_IR - Persian (Iran)
+        fi_FI - Finnish
+        fr_FR - French
+        hi_IN - Hindi
+        hr_HR - Croatian
+        hu_HU - Hungarian
+        hy_AM - Armenian
+        it_IT - Italian
+        ja_JP - Japanese
+        ka_GE - Georgian (Georgia)
+        ko_KR - Korean
+        lt_LT - Lithuanian
+        lv_LV - Latvian
+        ne_NP - Nepali
+        nl_NL - Dutch (Netherlands)
+        no_NO - Norwegian
+        pl_PL - Polish
+        pt_BR - Portuguese (Brazil)
+        pt_PT - Portuguese (Portugal)
+        ro_RO - Romanian
+        ru_RU - Russian
+        sl_SI - Slovene
+        sv_SE - Swedish
+        tr_TR - Turkish
+        uk_UA - Ukrainian
+        zh_CN - Chinese (China)
+        zh_TW - Chinese (Taiwan)
+    """
+    from faker import Faker
+    if locale:
+        seed = Faker(locale)
+    else:
+        seed = Faker()
+    return seed.sentence()
 
 @activity
 def generate_random_address(locale=None):
     """Generates a random address.
 
-	:param locale: Add a locale to generate addresses for selected locale.
-		ar_EG - Arabic (Egypt)
-		ar_PS - Arabic (Palestine)
-		ar_SA - Arabic (Saudi Arabia)
-		bg_BG - Bulgarian
-		bs_BA - Bosnian
-		cs_CZ - Czech
-		de_DE - German
-		dk_DK - Danish
-		el_GR - Greek
-		en_AU - English (Australia)
-		en_CA - English (Canada)
-		en_GB - English (Great Britain)
-		en_NZ - English (New Zealand)
-		en_US - English (United States)
-		es_ES - Spanish (Spain)
-		es_MX - Spanish (Mexico)
-		et_EE - Estonian
-		fa_IR - Persian (Iran)
-		fi_FI - Finnish
-		fr_FR - French
-		hi_IN - Hindi
-		hr_HR - Croatian
-		hu_HU - Hungarian
-		hy_AM - Armenian
-		it_IT - Italian
-		ja_JP - Japanese
-		ka_GE - Georgian (Georgia)
-		ko_KR - Korean
-		lt_LT - Lithuanian
-		lv_LV - Latvian
-		ne_NP - Nepali
-		nl_NL - Dutch (Netherlands)
-		no_NO - Norwegian
-		pl_PL - Polish
-		pt_BR - Portuguese (Brazil)
-		pt_PT - Portuguese (Portugal)
-		ro_RO - Romanian
-		ru_RU - Russian
-		sl_SI - Slovene
-		sv_SE - Swedish
-		tr_TR - Turkish
-		uk_UA - Ukrainian
-		zh_CN - Chinese (China)
-		zh_TW - Chinese (Taiwan)
-	"""
-	from faker import Faker
-	if locale:
-		seed = Faker(locale)
-	else:
-		seed = Faker()
-	return seed.address()
+    :param locale: Add a locale to generate addresses for selected locale.
+        ar_EG - Arabic (Egypt)
+        ar_PS - Arabic (Palestine)
+        ar_SA - Arabic (Saudi Arabia)
+        bg_BG - Bulgarian
+        bs_BA - Bosnian
+        cs_CZ - Czech
+        de_DE - German
+        dk_DK - Danish
+        el_GR - Greek
+        en_AU - English (Australia)
+        en_CA - English (Canada)
+        en_GB - English (Great Britain)
+        en_NZ - English (New Zealand)
+        en_US - English (United States)
+        es_ES - Spanish (Spain)
+        es_MX - Spanish (Mexico)
+        et_EE - Estonian
+        fa_IR - Persian (Iran)
+        fi_FI - Finnish
+        fr_FR - French
+        hi_IN - Hindi
+        hr_HR - Croatian
+        hu_HU - Hungarian
+        hy_AM - Armenian
+        it_IT - Italian
+        ja_JP - Japanese
+        ka_GE - Georgian (Georgia)
+        ko_KR - Korean
+        lt_LT - Lithuanian
+        lv_LV - Latvian
+        ne_NP - Nepali
+        nl_NL - Dutch (Netherlands)
+        no_NO - Norwegian
+        pl_PL - Polish
+        pt_BR - Portuguese (Brazil)
+        pt_PT - Portuguese (Portugal)
+        ro_RO - Romanian
+        ru_RU - Russian
+        sl_SI - Slovene
+        sv_SE - Swedish
+        tr_TR - Turkish
+        uk_UA - Ukrainian
+        zh_CN - Chinese (China)
+        zh_TW - Chinese (Taiwan)
+    """
+    from faker import Faker
+    if locale:
+        seed = Faker(locale)
+    else:
+        seed = Faker()
+    return seed.address()
 
 @activity
 def generate_random_number(lower_limit=0,upper_limit=10, fractional=False):
-	"""Generates a random number. Can be integers (not a fractional number) or a float (fractional number).
+    """Generates a random number. Can be integers (not a fractional number) or a float (fractional number).
 
-	:param lower_limit: Lower limit for random number
-	:param upper_limit: Upper limit for random number
-	:param fractional: Setting this to True will generate fractional number. Default value is False and only generates whole numbers.
-	"""
-	import random 
-	if fractional:
-		return random.uniform(lower_limit, upper_limit)
-	else:
-		return random.randrange(lower_limit,upper_limit,1)
+    :param lower_limit: Lower limit for random number
+    :param upper_limit: Upper limit for random number
+    :param fractional: Setting this to True will generate fractional number. Default value is False and only generates whole numbers.
+    """
+    import random 
+    if fractional:
+        return random.uniform(lower_limit, upper_limit)
+    else:
+        return random.randrange(lower_limit,upper_limit,1)
 
 @activity
 def generate_random_boolean():
-	"""Generates a random boolean (True or False)
-	"""
-	import random 
-	return bool(random.getrandbits(1))
+    """Generates a random boolean (True or False)
+    """
+    import random 
+    return bool(random.getrandbits(1))
 
 @activity
 def generate_random_beep(max_duration=2000, max_frequency=5000):
-	"""Generates a random beep, only works on Windows
+    """Generates a random beep, only works on Windows
 
-	:param max_duration: Maximum random duration in miliseconds. Default value is 2 miliseconds
-	:param max_frequency: Maximum random frequency in Hz. Default value is 5000 Hz.
-	"""
-	import winsound
-	import random
-	frequency = random.randrange(5000)
-	duration = random.randrange(2000)
-	winsound.Beep(frequency, duration)
+    :param max_duration: Maximum random duration in miliseconds. Default value is 2 miliseconds
+    :param max_frequency: Maximum random frequency in Hz. Default value is 5000 Hz.
+    """
+    import winsound
+    import random
+    frequency = random.randrange(5000)
+    duration = random.randrange(2000)
+    winsound.Beep(frequency, duration)
 
 @activity
 def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
-	"""Generate a random date. 
+    """Generate a random date. 
 
-	:param days_in_past: Days in the past for which oldest random date is generated, default is 1000 days
-	:param format: Formatting of the dates, replace with 'None' to get raw datetime format. 
-	e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
-	%a	Abbreviated weekday name.	 
-	%A	Full weekday name.	 
-	%b	Abbreviated month name.	 
-	%B	Full month name.	 
-	%c	Predefined date and time representation.	 
-	%d	Day of the month as a decimal number [01,31].	 
-	%H	Hour (24-hour clock) as a decimal number [00,23].	 
-	%I	Hour (12-hour clock) as a decimal number [01,12].	 
-	%j	Day of the year as a decimal number [001,366].	 
-	%m	Month as a decimal number [01,12].	 
-	%M	Minute as a decimal number [00,59].	 
-	%p	AM or PM.
-	%S	Second as a decimal number [00,61].	
-	%U	Week number of the year (Sunday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Sunday are considered to be in week 0.	(3)
-	%w	Weekday as a decimal number [0(Sunday),6].	 
-	%W	Week number of the year (Monday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Monday are considered to be in week 0.	(3)
-	%x	Predefined date representation.	 
-	%X	Predefined time representation.	 
-	%y	Year without century as a decimal number [00,99].	 
-	%Y	Year with century as a decimal number.
-	%Z	Time zone name (no characters if no time zone exists).
+    :param days_in_past: Days in the past for which oldest random date is generated, default is 1000 days
+    :param format: Formatting of the dates, replace with 'None' to get raw datetime format. 
+    e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
+    %a	Abbreviated weekday name.	 
+    %A	Full weekday name.	 
+    %b	Abbreviated month name.	 
+    %B	Full month name.	 
+    %c	Predefined date and time representation.	 
+    %d	Day of the month as a decimal number [01,31].	 
+    %H	Hour (24-hour clock) as a decimal number [00,23].	 
+    %I	Hour (12-hour clock) as a decimal number [01,12].	 
+    %j	Day of the year as a decimal number [001,366].	 
+    %m	Month as a decimal number [01,12].	 
+    %M	Minute as a decimal number [00,59].	 
+    %p	AM or PM.
+    %S	Second as a decimal number [00,61].	
+    %U	Week number of the year (Sunday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Sunday are considered to be in week 0.	(3)
+    %w	Weekday as a decimal number [0(Sunday),6].	 
+    %W	Week number of the year (Monday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Monday are considered to be in week 0.	(3)
+    %x	Predefined date representation.	 
+    %X	Predefined time representation.	 
+    %y	Year without century as a decimal number [00,99].	 
+    %Y	Year with century as a decimal number.
+    %Z	Time zone name (no characters if no time zone exists).
     """
 
-	import random
-	import datetime
+    import random
+    import datetime
 
-	latest  = datetime.datetime.now()
-	earliest = latest - datetime.timedelta(days=days_in_past)
-	delta_seconds = (latest - earliest).total_seconds()
+    latest  = datetime.datetime.now()
+    earliest = latest - datetime.timedelta(days=days_in_past)
+    delta_seconds = (latest - earliest).total_seconds()
 
-	random_date = earliest + datetime.timedelta(seconds = random.randrange(delta_seconds))
+    random_date = earliest + datetime.timedelta(seconds = random.randrange(delta_seconds))
 
-	if format:
-		return random_date.strftime(format)
-	else:
-		return random_date
+    if format:
+        return random_date.strftime(format)
+    else:
+        return random_date
 
 
 @activity
@@ -654,8 +654,8 @@ def ask_credentials(
 Browsers
 """
 
-
-class Chrome:
+import selenium.webdriver
+class Chrome(selenium.webdriver.Chrome):
     def __init__(self, load_images=True, headless=False):
         """Opens the Chrome Browser with the Selenium webdriver.
         Args:
@@ -672,8 +672,6 @@ class Chrome:
         """
         import platform
         import os
-        from selenium.webdriver import Chrome, ChromeOptions
-
 
         # Check what OS we are on
         if platform.system() == "Linux":
@@ -683,7 +681,7 @@ class Chrome:
         else:
             chromedriver_path = "\\bin\\mac64\\chromedriver.exe"
 
-        chrome_options = ChromeOptions()
+        chrome_options = selenium.webdriver.ChromeOptions()
 
         if headless:
             chrome_options.add_argument("--headless")
@@ -691,20 +689,20 @@ class Chrome:
         if not load_images:
             prefs = {"profile.managed_default_content_settings.images": 2}
             chrome_options.add_experimental_option("prefs", prefs)
-
-        return Chrome(
-            os.path.abspath("") + chromedriver_path, chrome_options=chrome_options
-        )
-
         
+        selenium.webdriver.Chrome.__init__(self, os.path.abspath("") + chromedriver_path, options=chrome_options)
 
     @activity
-    def save_all_image(self, target_folder_path=None):
+    def save_all_images(self, target_folder_path):
+        """Save all images on current page in the Browser
+        """
         import requests
         import os
         from urllib.parse import urlparse
         
-        images = self.browser.find_elements_by_tag_name('img') 
+        paths = []
+        
+        images = self.find_elements_by_tag_name('img') 
 
         for image in images:
             url = image.get_attribute('src')
@@ -715,18 +713,36 @@ class Chrome:
                 try:
                     r = requests.get(url)
                     f.write(r.content)
+                    paths.append(os.path.join(target_folder_path, filename))
                 except:
                     pass
-                
-            
-
-
+        
+        return paths
     
     @activity
-    def extract_all_text(self):
-        return ''
-
-
+    def find_elements_by_text(self, text):
+        """Find elements by text in the Browser
+        """
+        return self.find_elements_by_xpath("//*[contains(text(), '" + text + "')] | //*[@value='" + text + "']")
+    
+    @activity
+    def find_element_by_text(self, text):
+        """Find element by text in the Browser
+        """
+        return self.find_element_by_xpath("//*[contains(text(), '" + text + "')] | //*[@value='" + text + "']")
+    
+    @activity
+    def highlight(self, element):
+        """Highlight element in the Browser
+        """
+        driver = element._parent
+        
+        def apply_style(s):
+            driver.execute_script("arguments[0].setAttribute('style', arguments[1]);",
+                                  element, s)
+        original_style = element.get_attribute('style')
+        
+        apply_style("background: yellow; border: 2px solid red;")
 
 """
 Credentials
@@ -895,23 +911,63 @@ FTP
 
 class FTP:
     def __init__(self, server, username, password):
+        """Create FPT connection
+
+        :param server: Name of the server
+        :param username: Username 
+        :param password: Password
+        """
         import ftplib
 
         self.connection = ftplib.FTP(server)
         self.connection.login(username, password)
 
     @activity
-    def download_file(self, from_path, to_path):
+    def download_file(self, from_path, to_path=None):
+        """Download file from FTP server
+
+        :param from_path: Path to the file on the FPT server to download
+        :param to_path: Destination path for downloaded files. Standard is the home directory
+
+        :return: 
+        """
+        # Set to user home if no path specified
+        if not to_path:
+            to_path = os.path.expanduser("~")
+
+        self.connection.retrbinary("RETR " + from_path, open(to_path, "wb").write)
+
+    @activity
+    def upload_file(self, from_path, to_path=None):
+        """Upload file to FTP server
+
+        :param from_path: Path file that will be uploaded
+        :param to_path: Destination path for uploade files. Standard is the main directory
+
+        :return: 
+        """
+        # Set to user home if no path specified
+        if not to_path:
+            to_path = "/"
+
         self.connection.retrbinary("RETR " + from_path, open(to_path, "wb").write)
 
     @activity
     def enumerate_files(self, path="/"):
+        """Generate a list of all the files in the FTP directory
+
+        :return: List object
+        """
         self.connection.cwd(path)
         lines = self.connection.retrlines("LIST")
         return lines
 
     @activity
     def directory_exists(self, path):
+        """Check if FTP directory exists
+
+        :return: Boolean
+        """
         try:
             self.connection.cwd(path)
             return True
@@ -920,6 +976,10 @@ class FTP:
 
     @activity
     def create_directory(self, directory_name, path="/"):
+        """Create FTP directory
+        
+        :param directory_name: Name of the new directory, should be a string e.g. 'my_directory'
+        """
         self.connection.cwd(path)
         try:
             self.connection.mkd(directory_name)
@@ -936,6 +996,30 @@ Keyboard
 @activity
 def press_key(key=None):
     """Press and release an entered key.
+
+    Possible keys:
+    ['\t', '\n', '\r', ' ', '!', '"', '#', '$', '%', '&', "'", '(',
+    ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7',
+    '8', '9', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
+    'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+    'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~',
+    'accept', 'add', 'alt', 'altleft', 'altright', 'apps', 'backspace',
+    'browserback', 'browserfavorites', 'browserforward', 'browserhome',
+    'browserrefresh', 'browsersearch', 'browserstop', 'capslock', 'clear',
+    'convert', 'ctrl', 'ctrlleft', 'ctrlright', 'decimal', 'del', 'delete',
+    'divide', 'down', 'end', 'enter', 'esc', 'escape', 'execute', 'f1', 'f10',
+    'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f2', 'f20',
+    'f21', 'f22', 'f23', 'f24', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9',
+    'final', 'fn', 'hanguel', 'hangul', 'hanja', 'help', 'home', 'insert', 'junja',
+    'kana', 'kanji', 'launchapp1', 'launchapp2', 'launchmail',
+    'launchmediaselect', 'left', 'modechange', 'multiply', 'nexttrack',
+    'nonconvert', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6',
+    'num7', 'num8', 'num9', 'numlock', 'pagedown', 'pageup', 'pause', 'pgdn',
+    'pgup', 'playpause', 'prevtrack', 'print', 'printscreen', 'prntscrn',
+    'prtsc', 'prtscr', 'return', 'right', 'scrolllock', 'select', 'separator',
+    'shift', 'shiftleft', 'shiftright', 'sleep', 'space', 'stop', 'subtract', 'tab',
+    'up', 'volumedown', 'volumemute', 'volumeup', 'win', 'winleft', 'winright', 'yen',
+    'command', 'option', 'optionleft', 'optionright']
     """
     from pyautogui import press
 
@@ -946,6 +1030,34 @@ def press_key(key=None):
 @activity
 def press_key_combination(first_key, second_key, third_key=None):
     """Press a combination of two or three keys simultaneously.
+
+    Possible keys:
+    ['\t', '\n', '\r', ' ', '!', '"', '#', '$', '%', '&', "'", '(',
+    ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7',
+    '8', '9', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
+    'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+    'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~',
+    'accept', 'add', 'alt', 'altleft', 'altright', 'apps', 'backspace',
+    'browserback', 'browserfavorites', 'browserforward', 'browserhome',
+    'browserrefresh', 'browsersearch', 'browserstop', 'capslock', 'clear',
+    'convert', 'ctrl', 'ctrlleft', 'ctrlright', 'decimal', 'del', 'delete',
+    'divide', 'down', 'end', 'enter', 'esc', 'escape', 'execute', 'f1', 'f10',
+    'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f2', 'f20',
+    'f21', 'f22', 'f23', 'f24', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9',
+    'final', 'fn', 'hanguel', 'hangul', 'hanja', 'help', 'home', 'insert', 'junja',
+    'kana', 'kanji', 'launchapp1', 'launchapp2', 'launchmail',
+    'launchmediaselect', 'left', 'modechange', 'multiply', 'nexttrack',
+    'nonconvert', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6',
+    'num7', 'num8', 'num9', 'numlock', 'pagedown', 'pageup', 'pause', 'pgdn',
+    'pgup', 'playpause', 'prevtrack', 'print', 'printscreen', 'prntscrn',
+    'prtsc', 'prtscr', 'return', 'right', 'scrolllock', 'select', 'separator',
+    'shift', 'shiftleft', 'shiftright', 'sleep', 'space', 'stop', 'subtract', 'tab',
+    'up', 'volumedown', 'volumemute', 'volumeup', 'win', 'winleft', 'winright', 'yen',
+    'command', 'option', 'optionleft', 'optionright']
+
+    :param first_key: First key to press
+    :param second_key: Second key to press
+    :param third_key: Third key to press, this is optional.
     """
     from pyautogui import hotkey
 
@@ -1081,6 +1193,20 @@ def right_click_image(filename=None):
 Folder Operations
 """
 
+@activity
+def get_files_in_folder(path, extension=''):
+    import os
+
+    paths = []
+    for dirpath,_,filenames in os.walk(path):
+        for f in filenames:
+            full_path = os.path.abspath(os.path.join(dirpath, f))
+            if extension:
+                if not full_path.endswith(extension):
+                    continue
+            paths.append(full_path)
+    
+    return paths
 
 @activity
 def create_folder(path):
@@ -1280,15 +1406,126 @@ def wait_for_image(filename=None, timeout=120):
         except TypeError:
             sleep(1)
 
+"""
+Microsoft® Office Word
+"""
+
+class Word:
+    def __init__(self, visible=True, file_path=None):
+        """Start Word Application
+
+        For this activity to work, Microsoft Office Word needs to be installed on the system.
+
+        :parameter visible: Show Word in the foreground if True or hide if False, defaults to True.
+        :parameter path: Enter a path to open Word with an existing Word file. If no path is specified a document will be initialized, this is the default value.
+        """
+        self.file_path = file_path
+
+        self.app = self._launch()
+        self.app.Visible = visible
+        
+
+    def _launch(self):
+        """Utility function to create the Word application scope object
+
+        :return: Application object (win32com.client)
+        """
+        try:
+            import win32com.client
+
+            app = win32com.client.gencache.EnsureDispatch("Word.Application")
+
+        except:
+            raise Exception(
+                "Could not launch Word, do you have Microsoft Office installed on Windows?"
+            )
+
+        if self.file_path:
+            app.Documents.Open(self.file_path)
+        else:
+            app.Documents.Add()
+
+        return app
+
+    @activity
+    def append_text(self, text):
+        """Append text at end of Word document
+        """
+        wc = win32com.client.constants
+        self.app.Selection.EndKey(Unit=wc.wdStory)
+        self.app.Selection.TypeText(text)
+ 
+    @activity
+    def replace_all(self, text, replacement_text):
+        """Replace all occurences of text in Word document
+        """
+        self.app.Selection.GoTo(0)
+        self.app.Selection.Find.Text = text
+        self.app.Selection.Find.Replacement.Text = replacement_text
+        self.app.Selection.Find.Execute(Replace=2, Forward=True)
+        
+    @activity
+    def read_all_text(self):
+        """Read all text from Word document
+        """
+        return self.app.ActiveDocument.Content.Text
+    
+    @activity
+    def export_to_pdf(self, file_path):
+        """Export Word document to PDF
+        """
+        self.app.ActiveDocument.ExportAsFixedFormat(OutputFileName=file_path,
+            ExportFormat=17,
+            OpenAfterExport=False,
+            OptimizeFor=0,
+            CreateBookmarks=1,
+            DocStructureTags=True
+            )
+    
+    @activity
+    def export_to_html(self, file_path):
+        """Export Word document to HTML
+        """
+        wc = win32com.client.constants
+        word.app.ActiveDocument.WebOptions.RelyOnCSS = 1
+        word.app.ActiveDocument.WebOptions.OptimizeForBrowser = 1
+        word.app.ActiveDocument.WebOptions.BrowserLevel = 0 
+        word.app.ActiveDocument.WebOptions.OrganizeInFolder = 0
+        word.app.ActiveDocument.WebOptions.UseLongFileNames = 1
+        word.app.ActiveDocument.WebOptions.RelyOnVML = 0
+        word.app.ActiveDocument.WebOptions.AllowPNG = 1
+        word.app.ActiveDocument.SaveAs(FileName= file_path, FileFormat= wc.wdFormatHTML)
+        
+
+    @activity
+    def set_footers(self, text):
+        """Set footers of Word document
+        """
+        for section in self.app.ActiveDocument.Sections:
+            for footer in section.Footers:
+                footer.Range.Text = text
+
+
+    @activity
+    def set_headers(self, text):
+        """Set headers of Word document
+        """
+        for section in self.app.ActiveDocument.Sections:
+            for footer in section.Headers:
+                footer.Range.Text = text
 
 """
 Microsoft® Office Outlook
 """
-
-
 class Outlook:
-    def __init__(self):
+    def __init__(self, account_name=None):
         self.app = self._launch()
+        self.account_name = account_name
+
+        """Start Outlook Application
+
+        For this activity to work, Outlook needs to be installed on the system.
+        """
 
     def _launch(self):
         """Utility function to create the Outlook application scope object
@@ -1298,7 +1535,7 @@ class Outlook:
         try:
             import win32com.client
 
-            app = win32com.client.Dispatch("outlook.application")
+            app = win32com.client.gencache.EnsureDispatch("outlook.application")
 
         except:
             raise Exception(
@@ -1307,11 +1544,10 @@ class Outlook:
 
         return app
 
-    @activity
-    def send_email(
-        self, to_address, subject, body, html_body=None, attachment_paths=None
+    def send_mail(
+        self, to_address, subject="", body="", html_body=None, attachment_paths=None
     ):
-        """Send an e-mail with Outlook.
+        """Send an e-mail with Outlook
 
         :param to_address: The e-mail address the e-mail should be sent to
         :param subject: The subject of the e-mail
@@ -1339,9 +1575,7 @@ class Outlook:
         # Send the e-mail
         mail.Send()
 
-    @property
-    @activity
-    def folders(self, limit=100):
+    def get_folders(self, limit=999):
         """Retrieve list of folders from Outlook
 
         :param limit: Maximum number of folders to retrieve
@@ -1349,67 +1583,168 @@ class Outlook:
 
         folders = []
 
-        for i in range(limit):
-            try:
-                box = self.app.GetNamespace("MAPI").GetDefaultFolder(i)
-                name = box.Name
-                folders.append(name)
-            except:
-                pass
+        if self.account_name:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+        else:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+        for folder in found_folders:
+            name = folder.Name
+            folders.append(name)
 
         return folders
 
-    @property
-    @activity
-    def messages(self, folder_name="Inbox", limit=10, fields=None):
+    def get_mails(self, folder_name="Inbox", fields=None):
         """Retrieve list of messages from Outlook
         
         :param folder_name: Name of the Outlook folder, can be found using :function:`get_folders`.
         :param limit: Number of messages to retrieve
+        :param fields: Fields (properties) of e-mail messages to give, requires tupl Stadard is 'Subject', 'Body', 'SentOn' and 'SenderEmailAddress'.
 
         :return: List of dictionaries containing the e-mail messages with from, to, subject, body and html.
         """
 
         if not fields:
-            fields = ("To", "Subject", "Body", "SentOn")
+            fields = ("Subject", "Body", "SenderEmailAddress")
 
         messages = []
 
-        # Find the appropriate folder
-        for i in range(limit):
-            try:
-                box = self.app.GetNamespace("MAPI").GetDefaultFolder(i)
-                name = box.Name
-                if name == folder_name:
-                    break
-            except:
-                pass
+        if self.account_name:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+        else:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+        for folder in found_folders:
+            name = folder.Name
+            if name == folder_name:
+                break
         else:
             raise Exception(
                 "Could not find the folder with name '{}'.".format(folder_name)
             )
 
         # Loop over the items in the folder
-        for item in box.Items:
-            try:
-                message = {}
+        for item in folder.Items:
+            message = {}
 
-                for key in item._prop_map_get_:
-                    if key in fields:
-                        message[key] = getattr(item, key)
+            for key in fields:
+                try:
+                    message[key] = getattr(item, key)
+                except AttributeError:
+                    pass
 
-                messages.append(message)
-
-            except:
-                pass
+            messages.append(message)
 
         return messages
 
-    @activity
+    def delete_mails(
+        self,
+        folder_name="Inbox",
+        limit=0,
+        subject_contains="",
+        body_contains="",
+        sender_contains="",
+    ):
+        """Delete e-mails from Outlook
+
+        Deletes email messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
+
+        :param folder_name: Name of the Outlook folder, can be found using :method:`get_folders`
+        :param limit: Maximum number of e-mails to delete in one go
+        :param subject_contains: Only delete e-mail if subject contains this
+        :param body_contains: Only delete e-mail if body contains this
+        :param sender_contains: Only delete e-mail if sender contains this
+        
+        """
+        # Find the appropriate folder
+        if self.account_name:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+        else:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+        for folder in found_folders:
+            name = folder.Name
+            if name == folder_name:
+                break
+        else:
+            raise Exception(
+                "Could not find the folder with name '{}'.".format(folder_name)
+            )
+
+        # Loop over the items in the folder
+        for i, item in enumerate(folder.Items):
+
+            if limit:
+                if i > limit:
+                    break
+
+            if subject_contains in item.Subject:
+                if body_contains in item.Body:
+                    if sender_contains in item.SenderEmailAddress:
+                        item.Delete()
+
+    def move_mails(
+        self,
+        source_folder_name="Inbox",
+        target_folder_name="Archive",
+        limit=0,
+        subject_contains="",
+        body_contains="",
+        sender_contains="",
+    ):
+        """Move e-mails from Outlook from one folder to another
+
+        Deletes email messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
+
+        :param source_folder_name: Name of the Outlook source folder from where e-mails will be moved, can be found using :method:`get_folders`
+        :param target_folder_name: Name of the Outlook destination folder to where e-mails will be moved, can be found using :method:`get_folders`
+        :param limit: Maximum number of e-mails to move in one go
+        :param subject_contains: Only move e-mail if subject contains this
+        :param body_contains: Only move e-mail if body contains this
+        :param sender_contains: Only move e-mail if sender contains this
+        """
+        # Find the appropriate source folder
+        if self.account_name:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+        else:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+        for source_folder in found_folders:
+            name = source_folder.Name
+            if name == source_folder_name:
+                break
+        else:
+            raise Exception(
+                "Could not find the folder with name '{}'.".format(source_folder_name)
+            )
+
+        # Find the appropriate target folder
+        if self.account_name:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+        else:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+        for target_folder in found_folders:
+            name = target_folder.Name
+            if name == target_folder_name:
+                break
+        else:
+            raise Exception(
+                "Could not find the folder with name '{}'.".format(target_folder_name)
+            )
+
+        # Loop over the items in the folder
+        for i, item in enumerate(source_folder.Items):
+
+            if limit:
+                if i > limit:
+                    break
+
+            if subject_contains in item.Subject:
+                if body_contains in item.Body:
+                    if sender_contains in item.SenderEmailAddress:
+                        item.Move(target_folder)
+
     def save_attachments(self, folder_name="Inbox", target_folder_path=None):
         """Save all attachments from Outlook
 
         :param folder_name: Name of the Outlook folder, can be found using :function:`get_folders`.
+        :param target_folder_path: Path where attachments will be saved. Default is the home directory.
 
         :return: List of paths to saved attachments.
         """
@@ -1422,21 +1757,20 @@ class Outlook:
             target_folder_path = os.path.expanduser("~")
 
         # Find the appropriate folder
-        for i in range(999):
-            try:
-                box = self.app.GetDefaultFolder(i)
-                name = box.Name
-                if name == folder_name:
-                    break
-            except:
-                pass
+        if self.account_name:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+        else:
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+        for folder in found_folders:
+            name = folder.Name
+            if name == folder_name:
+                break
         else:
             raise Exception(
                 "Could not find the folder with name '{}'.".format(folder_name)
             )
-
         # Loop over the items in the folder
-        for item in box.Items:
+        for item in folder.Items:
             for attachment in item.Attachments:
                 path = os.path.join(target_folder_path, attachment.FileName)
                 attachment.SaveAsFile(path)
@@ -1444,12 +1778,10 @@ class Outlook:
 
         return paths
 
-    @property
-    @activity
-    def contacts(self, limit=9999, fields=None):
+    def get_contacts(self, fields=None):
         """Retrieve list of contacts from Outlook
         
-        :return: List of dictionaries containing the e-mail messages with from, to, subject, body and html.
+        :return: List of dictionaries containing the contact details.
         """
         import win32com.client
 
@@ -1473,10 +1805,9 @@ class Outlook:
 
         return contacts
 
-    @property
-    @activity
+    
     def add_contact(self, email, first_name="", last_name=""):
-        """Create a contact in Outlook
+        """Add a contact in Outlook
 
         :param email: The e-mail address for the contact
         :param first_name: First name for the contact (optional)
@@ -1496,9 +1827,12 @@ class Outlook:
 
         contact.Save()
 
-    @activity
+
     def quit(self):
+        """Quit Outlook
+        """
         self.app.Application.Quit()
+
 
 
 """
@@ -1507,7 +1841,7 @@ Microsoft® Office Excel
 
 
 class Excel:
-    def __init__(self, visible=True, path=None):
+    def __init__(self, visible=True, file_path=None):
         """Start Excel Application
 
         For this activity to work, Microsoft Office Excel needs to be installed on the system.
@@ -1517,8 +1851,11 @@ class Excel:
         :parameter visible: Show Excel in the foreground if True or hide if False, defaults to True.
         :parameter path: Enter a path to open Excel with an existing Excel file. If no path is specified a workbook will be initialized, this is the default value.
         """
+        self.file_path = file_path
+
         self.app = self._launch()
         self.app.Visible = visible
+        
 
     def _launch(self):
         """Utility function to create the Excel application scope object
@@ -1535,236 +1872,453 @@ class Excel:
                 "Could not launch Excel, do you have Microsoft Office installed on Windows?"
             )
 
-        if path:
-			return app.Worksbooks.Open(file_path)
-		else:
-			return app.Workbooks.Add()
+        if self.file_path:
+            app.Workbooks.Open(self.file_path)
+        else:
+            app.Workbooks.Add()
+
+        return app
 
     @activity
-    def new_workbook(self):
-        """New Excel Workbook
-        Creates a new workbook and returns the workbook object
-        """
-        return self.app.Workbooks.Add()
-
-    @activity
-    def save_workbook(self, workbook, file_path):
-        """Save Excel Workbook
-
-        :parameter workbook: Workbook object which is retrieved with either new_workbook or open_workbook
-        :parameter file_path: Save the Excel workbook to this path
-        """
-        return workbook.SaveAs(file_path)
-
-    @activity
-    def quit(self):
-        """Close Excel Application
-        """
-        return self.app.Application.Quit()
-
-    @activity
-    def add_worksheet(self, workbook, name=None):
-        """Add Excel Worksheet
-        Adds a worksheet to a workbook
+    def add_worksheet(self, name=None):
+        """Add Excel worksheet
+        Adds a worksheet to the current workbook
 
         :parameter workbook: Workbook object which is retrieved with either new_workbook or open_workbook
         :parmeter name: Give the sheet a name (optional)
         """
-        worksheet = workbook.Worksheets.Add()
+        worksheet = self.app.ActiveWorkbook.Worksheets.Add()
         if name:
             worksheet.Name = name
-        return worksheet
+
 
     @activity
-    def write_cell(self, worksheet, row, column, value):
-        """Write Excel Cell
+    def activate_worksheet(self, name):
+        """Activate worksheet in Excel
+        
+        :parameter name: Name of the worksheet to activate
         """
-        worksheet.Cells(row, column).Value = value
+        for worksheet in self.app.ActiveWorkbook.Worksheets:
+            if worksheet.Name == name:
+                worksheet.Activate()
+                
+    @activity
+    def save(self):
+        """Save active Excel Workbook
+        """
+        self.app.ActiveWorkbook.Save()
 
     @activity
-    def read_cell(self, worksheet, row, column):
-        """Read Excel Cell
+    def save_as(self, file_path):
+        """Save current Excel Workbook to another location
         """
-        return worksheet.Cells(row, column).Value
+        self.app.DisplayAlerts = False
+        self.app.ActiveWorkbook.SaveAs(file_path)
+        self.app.DisplayAlerts = True
+        
+    @activity
+    def write_cell(self, column, row, value):
+        """Write Excel cell
+        """
+        self.app.ActiveWorkbook.ActiveSheet.Cells(row, column).Value = value
 
     @activity
-    def write_range(self, worksheet, range_, value):
-        """Write Excel Range
+    def read_cell(self, column, row):
+        """Read Excel cell
         """
-        worksheet.Range(range_).Value = value
+        return self.app.ActiveWorkbook.ActiveSheet.Cells(row, column).Value
 
     @activity
-    def read_range(self, worksheet, range_):
-        """Read Excel Range
+    def write_range(self, range_, value):
+        """Write Excel range
         """
-        return worksheet.Range(range_).Value
+        self.app.ActiveWorkbook.ActiveSheet.Range(range_).Value = value
+
+    @activity
+    def read_range(self, range_):
+        """Read Excel range
+        """
+        return self.app.ActiveWorkbook.ActiveSheet.Range(range_).Value
+
+    @activity
+    def run_macro(self, name):
+        """Run Excel macro
+        """
+        return self.app.Run(name)
+
+    @activity
+    def get_worksheet_names(self):
+        """Get worksheet names from active workbook in Excel
+        """
+        names = []
+        
+        for worksheet in self.app.ActiveWorkbook.Worksheets:
+            names.append(worksheet.Name)
+        
+        return names
+
+    @activity
+    def get_table(self, name):
+        """Get table from active workbook in Excel
+        """
+        data = []
+
+        for worksheet in self.app.ActiveWorkbook.Worksheets:
+            for list_object in worksheet.ListObjects:
+                if list_object.Name == name:
+                    for row in list_object.DataBodyRange.Value:
+                        data_row = {}
+                        for i, column in enumerate(list_object.HeaderRowRange.Value[0]):
+                            data_row[column] = row[i]
+                        data.append(data_row)
+                        
+        return data
+
+    @activity
+    def activate_range(self, range_):
+        self.app.ActiveWorkBook.ActiveSheet.Range(range_).Select()
+
+    @activity
+    def activate_first_empty_cell_down(self):
+        """Activate first empty cell down in Excel
+        """
+        column = self.app.ActiveCell.Column
+        row = self.app.ActiveCell.Row
+        for cell in self.app.ActiveWorkbook.ActiveSheet.Columns(column).Cells:
+            if not cell.Value and cell.Row > row:
+                cell.Select()
+                break
+
+    @activity
+    def activate_first_empty_cell_right(self):
+        """Activate first empty cell down in Excel
+        """
+        column = self.app.ActiveCell.Column
+        row = self.app.ActiveCell.Row
+        for cell in self.app.ActiveWorkbook.ActiveSheet.Rows(row).Cells:
+            if not cell.Value and cell.Column > column:
+                cell.Select()
+                break   
+
+    @activity
+    def activate_first_empty_cell_left(self):
+        """Activate first empty cell left in Excel
+        """
+        column = self.app.ActiveCell.Column
+        row = self.app.ActiveCell.Row
+
+        for i in range(column):
+            if column-i > 0:
+                cell = self.app.ActiveWorkbook.ActiveSheet.Cells(row, column-i)
+                if not cell.Value:
+                    cell.Select()
+                    break
+
+    @activity
+    def activate_first_empty_cell_up(self):
+        """Activate first empty cell up in Excel
+        """
+        column = self.app.ActiveCell.Column
+        row = self.app.ActiveCell.Row
+
+        for i in range(row):
+            if row-i > 0:
+                cell = self.app.ActiveWorkbook.ActiveSheet.Cells(row-i, column)
+                if not cell.Value:
+                    cell.Select()
+                    break
+
+    @activity
+    def write_cell_formuila(self, column, row, formula):
+        """Write Excel cell formula
+        """
+        self.app.ActiveWorkbook.ActiveSheet.Cells(row, column).Formula = formula
+    
+    @activity
+    def read_cell_formuila(self, column, row, formula):
+        """Read Excel cell formula
+        """
+        return self.app.ActiveWorkbook.ActiveSheet.Cells(row, column).Formula
+
+
+    @activity
+    def insert_empty_row(self, range_):
+        """Insert empty row in range in Excel
+        """
+        self.app.ActiveWorkbook.ActiveSheet.Range(range_).EntireRow.Insert()
+
+    @activity
+    def insert_empty_column(self, range_):
+        """Insert empty column in range in Excel
+        """
+        self.app.ActiveWorkbook.ActiveSheet.Range(range_).EntireColumn.Insert()
+
+    @activity
+    def delete_row(self, range_):
+        """Delete row in range in Excel
+        """
+        self.app.ActiveWorkbook.ActiveSheet.Range(range_).EntireRow.Delete()
+
+    @activity
+    def delete_column(self, range_):
+        """Delete column in range in Excel
+        """
+        self.app.ActiveWorkbook.ActiveSheet.Range(range_).EntireColumn.Delete()
+        
+    @activity
+    def export_to_pdf(self, file_path):
+        self.app.ActiveWorkbook.ActiveSheet.ExportAsFixedFormat(0, file_path, 0, True, True)
+
+    @activity
+    def insert_data_as_table(self, data, range_='A1', table_style="TableStyleMedium2"):
+        """Insert list of dictionaries as a table in Excel
+        """
+        row = self.app.ActiveWorkbook.ActiveSheet.Range(range_).Row
+        column = self.app.ActiveWorkbook.ActiveSheet.Range(range_).Column
+
+        column_names = list(data[0].keys())
+        data_values = [[d[key] for key in data[0].keys()] for d in data]
+
+        values = [column_names] + data_values
+        for i in range(len(values)):
+            for j in range(len(values[0])):
+                self.app.ActiveWorkbook.ActiveSheet.Cells(row+i,column+j).Value = values[i][j]
+
+        start_cell = self.app.ActiveWorkbook.ActiveSheet.Cells(row,column)
+        end_cell = self.app.ActiveWorkbook.ActiveSheet.Cells(row+i,column+j)
+        self.app.ActiveWorkbook.ActiveSheet.Range(start_cell, end_cell).Select()
+        self.app.ActiveSheet.ListObjects.Add().TableStyle = table_style
+
+    @activity
+    def read_worksheet(self, name=None, headers=False):
+        """Read data from worksheet to a list of lists
+        """
+        if name:
+            self.activate_worksheet(name)
+        
+        data = self.app.ActiveWorkbook.ActiveSheet.UsedRange.Value
+        
+        if isinstance(data, str):
+            return data
+        
+        # Remove empty columns and rows
+        data = [list(x) for x in data if any(x)]
+        transposed = list(map(list, zip(*data)))
+        transposed = [row for row in transposed if any(row)]
+        data = list(map(list, zip(*transposed)))
+
+        if headers:
+            header_row = data[0]
+            data = data[1:]
+            data = [{column:row[i] for i, column in enumerate(header_row)} for row in data] 
+        
+        return data
+
+    @activity
+    def quit(self):
+        """Close Excel
+        """
+        self.app.Application.Quit()
+
 
 class PowerPoint:
-	def __init__(self, visible=True, path=None, add_slide=True):
-		"""Start Excel Application
+    def __init__(self, visible=True, path=None, add_slide=True):
+        """Start Excel Application
 
-		For this activity to work, PowerPoint needs to be installed on the system.
+        For this activity to work, PowerPoint needs to be installed on the system.
 
-		:parameter visible: Show PowerPoint in the foreground if True or hide if False, defaults to True.
-		:parameter path: Enter a path to open an existing PowerPoint presentation. If no path is specified a new presentation will be initialized, this is the default value.
+        :parameter visible: Show PowerPoint in the foreground if True or hide if False, defaults to True.
+        :parameter path: Enter a path to open an existing PowerPoint presentation. If no path is specified a new presentation will be initialized, this is the default value.
         :parameter add_slide: Add an initial empty slide when creating new PowerPointfile, this prevents errors since most manipulations require a non-empty presentation. Default value is True
         """
-		self.app = self._launch(path)
-		self.app.Visible = visible
+        self.app = self._launch(path)
+        self.app.Visible = visible
 
 
-	def _launch(self, path):
-		"""Utility function to create the Excel application scope object
+    def _launch(self, path):
+        """Utility function to create the Excel application scope object
 
-		:return: Application object (win32com.client)
-		"""
-		try:
-			import win32com.client
+        :return: Application object (win32com.client)
+        """
+        try:
+            import win32com.client
 
-			app = win32com.client.gencache.EnsureDispatch("PowerPoint.Application")
+            app = win32com.client.gencache.EnsureDispatch("PowerPoint.Application")
 
-		except:
-			raise Exception(
-				"Could not launch PowerPoint, do you have Microsoft Office installed on Windows?")
+        except:
+            raise Exception(
+                "Could not launch PowerPoint, do you have Microsoft Office installed on Windows?")
 
-		if path:
-			return app.Presentations.Open(file_path)
-		else:
-			return app.Presentations.Add()
-
-	@activity
-	def save(self, path=None):
-		"""Save PowerPoint Slidedeck
-
-		:parameter path: Save the PowerPoint presentation. Default value is the home directory and filename 'presentation.pptx'
-		"""
-		if not path:
-			path = os.path.expanduser("~") + '\presentation.pptx'
-
-		return self.app.SaveAs(path)
-
-	@activity
-	def quit(self):
-		"""Close PowerPoint Application
-		"""
-		return self.app.Application.Quit()
-
-
-	@activity
-	def add_slide(self, index=None, type='blank'):
-		"""Add PowerPoint Slides
-		Adds slides to a presentation
-
-		:parameter index: Index where the slide should be inserted. Default value is as final slide.
-		:parmeter type: Type of the slide to be added. Supports following types: blank, chart, text, title and picture.
-		"""
-		if type == 'blank':
-			type_id = 12
-		if type == 'chart':
-			type_id = 8
-		if type == 'text':
-			type_id = 2
-		if type == 'title':
-			type_id = 1
-		if type == 'picture':
-			type_id = 36
-		
-		if not index:
-			index = self.app.Slides.Count + 1 
-
-		return self.app.Slides.Add(index,type_id)
-
-	@activity
-	def number_of_slides(self):
-		"""Return the number of slides
-		"""
-		return self.app.Slides.Count
-
-	@activity
-	def add_text(self, text, index=None, font_size=48, font_name=None, bold=False, margin_bottom=100, margin_left=100, margin_right=100, margin_top=100):
-		"""Add text to a slide
-
-		:parameter index: Slide index to add text. If none is specified, a new slide will be added as final slide
-		:parmeter text: Text to be added
-		:parameter font_size: Fontsize, default value is 48
-		:parameter font_name: Fontname, if not specified will take default PowerPoint font
-		:parameter bold: Toggle bold with True or False, default value is False
-		:parameter margin_bottom: Margin from the bottom in pixels, default value is 100 pixels
-		:parameter margin_left: Margin from the left in pixels, default value is 100 pixels
-		:parameter margin_right: Margin from the right in pixels, default value is 100 pixels
-		:parameter margin_top: Margin from the top in pixels, default value is 100 pixels
-		"""
-
-		if not index:
-			index = self.app.Slides.Count + 1 
-			self.app.Slides.Add(index, 12)
-		text_box = self.app.Slides(index).Shapes.AddTextbox(1,100, 100,200, 50).TextFrame.TextRange
-		text_box.Text = text
-		text_box.Font.Size = font_size
-		if font_name:
-			text_box.Font.Name = font_name
-		text_box.Font.Bold = bold
-
-	@activity
-	def delete_slide(self,index=None):
-		"""Delete slide
-		
-		:parameter index: Slide index to be deleted. If none is specified, last slide will be deleted
-		"""
-		if not index:
-			index = self.app.Slides.Count 
-
-		return self.app.Slides(index).Delete()
-
-	@activity
-	def replace_text(self, placeholder, value):
-		"""Replace text slide
-		Can be used for example to replace arbitrary placeholder value in a PowerPoint. 
-		For example when using template slidedeck, using 'XXXX' as a placeholder, this can be easily be replaced to the name of the audience.. 
-		Take note that all strings are case sensitive.
-		
-		:parameter placeholder: Placeholder value (string) in the Powerpoint, this will be replaced, e.g. 'Company Name'
-		:parameter value: Value (string) to replace the placeholder values with. It is recommended to make this unique in your PowerPoint to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
-		"""
-		for slide in self.app.Slides:
-			for shape in slide.Shapes:
-				shape.TextFrame.TextRange.Text = shape.TextFrame.TextRange.Text.replace(placeholder,value)
-
-	@activity
-	def export_to_pdf(self, path=None):
-		"""Export PowerPoint presentation to PDF file
-
-		:parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
-		"""
-
-        if self.app.Slides.Count == 0:
-            raise Exception('Please add a slide first bedore exporting the presentation.')
-
-		if not path:
-			path = os.path.expanduser("~") + '/pdf_export.pdf'
-        
-		return  self.app.ExportAsFixedFormat2(path, 2, PrintRange=None)
+        if path:
+            return app.Presentations.Open(file_path)
+        else:
+            return app.Presentations.Add()
 
     @activity
-	def export_slides_to_images(self, path=None, type='png'):
-		"""Export PowerPoint slides to seperate image files
+    def save(self, path=None):
+        """Save PowerPoint Slidedeck
 
-		:parameter path: Output path where image files will be exported to. Default path is home directory.
-		:parameter type: Output type of the images, supports 'png' and 'jpg' with 'png' as default value
-		"""
+        :parameter path: Save the PowerPoint presentation. Default value is the home directory and filename 'presentation.pptx'
+        """
+        if not path:
+            path = os.path.expanduser("~") + '\presentation.pptx'
+
+        return self.app.SaveAs(path)
+
+    @activity
+    def quit(self):
+        """Close PowerPoint Application
+        """
+        return self.app.Application.Quit()
+
+
+    @activity
+    def add_slide(self, index=None, type='blank'):
+        """Add PowerPoint Slides
+        Adds slides to a presentation
+
+        :parameter index: Index where the slide should be inserted. Default value is as final slide.
+        :parmeter type: Type of the slide to be added. Supports following types: blank, chart, text, title and picture.
+        """
+        if type == 'blank':
+            type_id = 12
+        if type == 'chart':
+            type_id = 8
+        if type == 'text':
+            type_id = 2
+        if type == 'title':
+            type_id = 1
+        if type == 'picture':
+            type_id = 36
+        
+        if not index:
+            index = self.app.Slides.Count + 1 
+
+        return self.app.Slides.Add(index,type_id)
+
+    @activity
+    def number_of_slides(self):
+        """Return the number of slides
+        """
+        return self.app.Slides.Count
+
+    @activity
+    def add_text(self, text, index=None, font_size=48, font_name=None, bold=False, margin_bottom=100, margin_left=100, margin_right=100, margin_top=100):
+        """Add text to a slide
+
+        :parameter index: Slide index to add text. If none is specified, a new slide will be added as final slide
+        :parmeter text: Text to be added
+        :parameter font_size: Fontsize, default value is 48
+        :parameter font_name: Fontname, if not specified will take default PowerPoint font
+        :parameter bold: Toggle bold with True or False, default value is False
+        :parameter margin_bottom: Margin from the bottom in pixels, default value is 100 pixels
+        :parameter margin_left: Margin from the left in pixels, default value is 100 pixels
+        :parameter margin_right: Margin from the right in pixels, default value is 100 pixels
+        :parameter margin_top: Margin from the top in pixels, default value is 100 pixels
+        """
+
+        if not index:
+            index = self.app.Slides.Count + 1 
+            self.app.Slides.Add(index, 12)
+        text_box = self.app.Slides(index).Shapes.AddTextbox(1,100, 100,200, 50).TextFrame.TextRange
+        text_box.Text = text
+        text_box.Font.Size = font_size
+        if font_name:
+            text_box.Font.Name = font_name
+        text_box.Font.Bold = bold
+
+    @activity
+    def delete_slide(self,index=None):
+        """Delete slide
+        
+        :parameter index: Slide index to be deleted. If none is specified, last slide will be deleted
+        """
+        if not index:
+            index = self.app.Slides.Count 
+
+        return self.app.Slides(index).Delete()
+
+    @activity
+    def replace_text(self, placeholder, value):
+        """Replace text slide
+        Can be used for example to replace arbitrary placeholder value in a PowerPoint. 
+        For example when using template slidedeck, using 'XXXX' as a placeholder, this can be easily be replaced to the name of the audience.. 
+        Take note that all strings are case sensitive.
+        
+        :parameter placeholder: Placeholder value (string) in the Powerpoint, this will be replaced, e.g. 'Company Name'
+        :parameter value: Value (string) to replace the placeholder values with. It is recommended to make this unique in your PowerPoint to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
+        """
+        for slide in self.app.Slides:
+            for shape in slide.Shapes:
+                shape.TextFrame.TextRange.Text = shape.TextFrame.TextRange.Text.replace(placeholder,value)
+
+    @activity
+    def export_to_pdf(self, path=None):
+        """Export PowerPoint presentation to PDF file
+
+        :parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
+        """
 
         if self.app.Slides.Count == 0:
             raise Exception('Please add a slide first bedore exporting the presentation.')
 
-		if not path:
-			path = os.path.expanduser("~")
+        if not path:
+            path = os.path.expanduser("~") + '/pdf_export.pdf'
+        
+        return  self.app.ExportAsFixedFormat2(path, 2, PrintRange=None)
 
-		return self.app.Export(path, 'png')
+    @activity
+    def export_slides_to_images(self, path=None, type='png'):
+        """Export PowerPoint slides to seperate image files
+
+        :parameter path: Output path where image files will be exported to. Default path is home directory.
+        :parameter type: Output type of the images, supports 'png' and 'jpg' with 'png' as default value
+        """
+
+        if self.app.Slides.Count == 0:
+            raise Exception('Please add a slide first bedore exporting the presentation.')
+
+        if not path:
+            path = os.path.expanduser("~")
+
+        return self.app.Export(path, 'png')
 
 
 class ExcelFile:
-	pass
+    pass
 
+"""
+Microsoft Salesforce
+"""
+
+def sf_api_call(action, key, parameters = {}, method = 'get', data = {}):
+    """Activity to make calls to Salesforce REST API.
+
+    :params action: Action (the URL)
+    :params key: Authorisation key 
+    :params parameters: URL params
+    :params method: Method (get, post or patch)
+    :params data: Data for POST/PATCH.
+    """
+    headers = {
+        'Content-type': 'application/json',
+        'Accept-Encoding': 'gzip',
+        'Authorization': 'Bearer ' + key
+    }
+    if method == 'get':
+        r = requests.request(method, instance_url+action, headers=headers, params=parameters, timeout=30)
+    elif method in ['post', 'patch']:
+        r = requests.request(method, instance_url+action, headers=headers, json=data, params=parameters, timeout=10)
+    else:
+        raise ValueError('Method should be get or post or patch.')
+    print('Debug: API %s call: %s' % (method, r.url) )
+    if r.status_code < 300:
+        if method=='patch':
+            return None
+        else:
+            return r.json()
+    else:
+        raise Exception('API error when calling %s : %s' % (r.url, r.content))
 
 """
 E-mail (SMTP)
@@ -1775,11 +2329,12 @@ E-mail (SMTP)
 def send_mail_smtp(
     smtp_host, smtp_user, smtp_password, to_address, subject="", message="", port=587
 ):
-    """
-    This function lets you send emails with an e-mail address. The first and second arguments require the
-    mail address and password of your e-mail account. The destination is the receiving mail address. The subject
-    and message variables contain respectively the mail subject and the text in the mail. The port variable is standard
-    587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
+    """This function lets you send emails with an e-mail address. 
+    
+    The first and second arguments require the mail address and password of your e-mail account. 
+    The destination is the receiving mail address. The subject and message variables contain respectively 
+    the mail subject and the text in the mail. The port variable is standard 587. 
+    In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
     """
     BODY = "\r\n".join(
         [
@@ -1840,6 +2395,12 @@ def check_user_password(username, password):
         return False
     return True
 
+@activity
+def lock_windows():
+    """Locks Windows requiring login to continue
+    """
+    import ctypes
+    ctypes.windll.user32.LockWorkStation()
 
 @activity
 def is_logged_in():
@@ -1865,6 +2426,12 @@ def desktop_locked():
     """
     return not is_logged_in()
 
+@activity
+def get_username():
+    """Get current logged in user's username
+    """
+    import getpass
+    return getpass.getuser()
 
 @activity
 def set_to_clipboard(text):
@@ -2066,8 +2633,34 @@ def download_image_from_url(url):
     pass
 
 @activity
-def display_message_box(body, title="Message", type="info"):
+def download_file_from_url(url, target_path=''):
+    """Download file from a URL
+
+    :param url: Source URL to download file from
+    :param target_path: Target path. If no path is given will download in working directory.
     """
+    import requests
+    import re
+    import os
+
+    r = requests.get(url, stream=True)
+
+    if r.status_code == 200:
+        if not target_path:
+            fn = os.path.basename(url)
+            target_path = os.path.join(os.getcwd(), fn)
+
+        with open(target_path, 'wb') as f:
+            f.write(r.content)
+
+        return target_path
+
+    else:
+        raise Exception('Could not download file from {}'.format(url))
+
+@activity
+def display_message_box(body, title="Message", type="info"):
+    """    
     Shows a pop-up message with title and body. Three possible types, info, error and warning with the default value info.
     """
     import tkinter
@@ -2087,6 +2680,13 @@ def display_message_box(body, title="Message", type="info"):
     if type == "info":
         messagebox.showinfo(title, body)
     return
+
+@activity
+def list_of_dicts(data):
+    """Convert list of dictionaries to pandas dataframe
+    """
+    import pandas
+    return pd.Dataframe(data)
 
 
 @activity
@@ -2253,8 +2853,8 @@ def wait_file_exists(path):
 
 @activity
 def write_list_to_file(list_to_write, file):
-    """
-    Writes a list to a .txt file. Every element of the entered list is written on a new
+    """Writes a list to a .txt file. Every element of the entered list is written on a new
+
     line of the text file. The .txt file is entered with a path. If the path does not exist
     yet, the function will create a new .txt file at the specified path and write it. If the 
     path does exist, the function writes the list in the existing file.
@@ -2266,8 +2866,8 @@ def write_list_to_file(list_to_write, file):
 
 @activity
 def read_list_from_file(file):
-    """
-    This function writes the content of a entered .txt file to a list and returns that list. 
+    """This function writes the content of a entered .txt file to a list and returns that list. 
+
     Every new line from the .txt file becomes a new element of the list. The function will 
     not work if the entered path is not attached to a .txt file.
     """
@@ -2305,6 +2905,14 @@ def copy_file(from_path, to_path):
 
     shutil.copy(from_path, to_path)
 
+@activity
+def send_to_printer(file):
+    """Send file to default printer to print
+
+    :parameter file: Path to the file to print, should be a printable file
+    """
+    import os
+    os.startfile(file, 'print')
 
 @activity
 def create_directory(path):
@@ -2421,7 +3029,7 @@ def read_text_from_pdf(file_path):
 
     text = ""
 
-    with open(file_path, "rb") as f:
+    with open(file_path, 'rb') as f:
         reader = PdfFileReader(f)
         for i in range(reader.numPages):
             page = reader.getPage(i)
@@ -2495,82 +3103,41 @@ def extract_images_from_pdf(file_path):
                         img = Image.frombytes(mode, size, data)
                         img.save(obj[1:] + ".png")
 
-                    elif objects[obj]["/Filter"] == "/DCTDecode":
-                        img = open(obj[1:] + ".jpg", "wb")
-                        img.write(data)
-                        img.close()
-
                     elif objects[obj]["/Filter"] == "/JPXDecode":
                         img = open(obj[1:] + ".jp2", "wb")
                         img.write(data)
                         img.close()
 
-
 @activity
-def save_page_from_pdf_as_image(file_path, page_number):
-    """
-    TODO
-    """
-    pass
-
-
-@activity
-def apply_text_watermark_to_pdf(file_path, text, font="Helvetica-Bold", size=36):
-    """
-    TODO
-    """
-    pass
-
-
-@activity
-def apply_image_watermark_to_pdf(
-    folder_path, text="Automagica", watermark_image_path=""
+def apply_watermark_to_pdf(
+    file_path, watermark_path, output_path=''
 ):
+    """Watermark a PDF
+
+    :param file_path: Filepath to the document that will be watermarked. Should be pdf file.
+    :param watermark_path: Filepath to the watermark. Should be pdf file.
     """
-	TODO
-	Open a directory containing .pdf files. All files in directory will be marked.
-	Fill in text if you want to watermark with text.
-	Fill in picture_path if you want to watermark with image.
-	"""
-    from reportlab.pdfgen import canvas
     from PyPDF2 import PdfFileWriter, PdfFileReader
     import os
 
-    # picture_path = 'company_logo.png'
-    # # Folder in which PDF files will be watermarked. (Could be shared folder)
-    # folder_path = './mydir'
+    watermark = PdfFileReader(open(watermark_path, "rb"))
 
-    # c = canvas.Canvas('watermark.pdf')
+    input_file = PdfFileReader(open(file_path, "rb"))
 
-    # # if picture_path:
-    # #     c.drawImage(picture_path, 15, 15)
+    page_count = input_file.getNumPages()
 
-    # if text:
-    # 	c.setFontSize(22)
-    # 	c.setFont('Helvetica-Bold', 36)
-    # 	c.drawString(15, 15,text)
+    output_file = PdfFileWriter()
 
-    # c.save()
-    # watermark = PdfFileReader(open("watermark.pdf", "rb"))
+    for page_number in range(page_count):
+       input_page = input_file.getPage(page_number)
+       input_page.mergePage(watermark.getPage(0))
+       output_file.addPage(input_page)
 
-    # for file in os.listdir(folder_path):
-    # 	if file.endswith(".pdf"):
+    if not output_path:
+        output_path = file_path.replace('.pdf', '_watermarked.pdf')
 
-    # # output_file = PdfFileWriter()
-    # #input_file = PdfFileReader(open(folder_path + '/'+ file, "rb"))
-
-    # page_count = input_file.getNumPages()
-
-    # for page_number in range(page_count):
-    #    input_page = input_file.getPage(page_number)
-    #    input_page.mergePage(watermark.getPage(0))
-    #    output_file.addPage(input_page)
-    # output_path = folder_path + '/'+ file.split('.pdf')[0] + '_watermarked' + '.pdf'
-
-    # with open(output_path, "wb") as outputStream:
-    #    output_file.write(outputStream)
-
-
+    with open(output_path, "wb") as outputStream:
+       output_file.write(outputStream)
 
 
 """
@@ -2823,6 +3390,29 @@ def display_message_box(body, title="Message", type="info"):
 Process
 """
 
+@activity
+def run(task):
+    """Use Windows Run to boot a process
+
+    Note this uses keyboard inputs which means this process can be disrupted by interfering inputs
+
+    :param task: Name of the task to run e.g. 'mspaint.exe'
+    """
+    from pyautogui import hotkey, typewrite, press
+    import time
+
+    hotkey('winleft', 'r')
+    time.sleep(0.2)
+
+    import platform
+
+    # Set keyboard layout for Windows platform
+    if platform.system() == "Windows":
+        from win32api import LoadKeyboardLayout
+        LoadKeyboardLayout("00000409", 1)
+
+    typewrite(task, interval=0.01)
+    press('enter')
 
 @activity
 def is_process_running(name):
@@ -2830,6 +3420,8 @@ def is_process_running(name):
     Checks if given process name (name) is currently running on the system.
     Returns True or False.
     """
+    import psutil
+
     if name:
         for p in psutil.process_iter():
             if name in p.name():
@@ -2840,15 +3432,18 @@ def is_process_running(name):
 
 @activity
 def get_running_processes():
+    """Get names of unique processes currently running on the system.
+
+    :return: List of unique running processes
     """
-    Returns a list with all names of unique processes currently running on the system.
-    """
+    import psutil
+
     process_list = []
 
     for p in psutil.process_iter():
         process_list.append(p.name())
 
-    return set(process_list)
+    return list(set(process_list))
 
 
 @activity
