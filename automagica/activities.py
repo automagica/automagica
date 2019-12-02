@@ -1857,7 +1857,7 @@ class Excel:
         self.app.Visible = visible
         
 
-    def _launch(self):
+    def _launch(self, path):
         """Utility function to create the Excel application scope object
 
         :return: Application object (win32com.client)
@@ -1869,8 +1869,7 @@ class Excel:
 
         except:
             raise Exception(
-                "Could not launch Excel, do you have Microsoft Office installed on Windows?"
-            )
+                "Could not launch Excel, do you have Microsoft Office installed on Windows?")
 
         if self.file_path:
             app.Workbooks.Open(self.file_path)
