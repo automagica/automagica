@@ -6,6 +6,7 @@ import uuid
 import psutil
 from time import sleep
 import pyautogui
+import pytesseract
 '''
 Delay activities
 '''
