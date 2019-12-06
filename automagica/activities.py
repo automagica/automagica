@@ -57,55 +57,6 @@ def telemetry(func):
 
 
 """
-Text-to-speech (TTS)
-"""
-
-
-@activity
-def speak(text, speed=None):
-    """Speak
-    Use the Text-To-Speech engine available on your system
-
-    :param text: The text which should be said
-    :param speed: Multiplication factor for the speed at which the text should be pronounced. 
-    """
-    import pyttsx3
-
-    engine = pyttsx3.init()
-
-    if speed:
-        default_rate = engine.getProperty("rate")
-        engine.setProperty("rate", speed * default_rate)
-
-    engine.say(text)
-    engine.runAndWait()
-
-
-"""
-Active Directory
-"""
-
-
-class ActiveDirectory:
-    def __init__(self, ldap_server=None, username=None, password=None):
-        import pyad
-
-        self.pyad = pyad
-        
-        if ldap_server:
-            self.pyad.set_defaults(ldap_server=ldap_server)
-
-        if username:
-            self.pyad.set_defaults(username=username)
-
-        if password:
-            self.pyad.set_defaults(password=password)
-    @activity
-    def get_object_by_distinguished_name(self, distinguished_name):
-        return self.pyad.from_dn(distinguished_name)
-
-
-"""
 Cryptography
 """
 
@@ -254,6 +205,27 @@ def generate_hash_from_text(text, method='md5'):
 """
 Random
 """
+
+@activity
+def generate_random_number(lower_limit=0,upper_limit=10, fractional=False):
+    """Generates a random number. Can be integers (not a fractional number) or a float (fractional number).
+
+    :param lower_limit: Lower limit for random number
+    :param upper_limit: Upper limit for random number
+    :param fractional: Setting this to True will generate fractional number. Default value is False and only generates whole numbers.
+    """
+    import random 
+    if fractional:
+        return random.uniform(lower_limit, upper_limit)
+    else:
+        return random.randrange(lower_limit,upper_limit,1)
+
+@activity
+def generate_random_boolean():
+    """Generates a random boolean (True or False)
+    """
+    import random 
+    return bool(random.getrandbits(1))
 
 @activity
 def generate_random_name(locale=None):
@@ -425,26 +397,6 @@ def generate_random_address(locale=None):
         seed = Faker()
     return seed.address()
 
-@activity
-def generate_random_number(lower_limit=0,upper_limit=10, fractional=False):
-    """Generates a random number. Can be integers (not a fractional number) or a float (fractional number).
-
-    :param lower_limit: Lower limit for random number
-    :param upper_limit: Upper limit for random number
-    :param fractional: Setting this to True will generate fractional number. Default value is False and only generates whole numbers.
-    """
-    import random 
-    if fractional:
-        return random.uniform(lower_limit, upper_limit)
-    else:
-        return random.randrange(lower_limit,upper_limit,1)
-
-@activity
-def generate_random_boolean():
-    """Generates a random boolean (True or False)
-    """
-    import random 
-    return bool(random.getrandbits(1))
 
 @activity
 def generate_random_beep(max_duration=2000, max_frequency=5000):
@@ -506,7 +458,7 @@ def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
 
 @activity
 def generate_unique_identifier():
-    """Generates a random UUID
+    """Generates a random UUID4
     """
     from uuid import uuid4
 
@@ -524,7 +476,10 @@ def random_animal_picture(preferred_animal=None):
     import requests
     import random
 
-    api_options = [{'animal' : 'cat', 'url' :'https://aws.random.cat/meow', 'image_tag' : 'file'}, {'animal' : 'dog', 'url' :'https://random.dog/woof.json', 'image_tag' : 'url'}, {'animal' : 'fox', 'url' :'https://randomfox.ca/floof/', 'image_tag' : 'image'}]
+    api_options = [ {'animal' : 'cat', 'url' :'https://aws.random.cat/meow', 'image_tag' : 'file'}, 
+                    {'animal' : 'dog', 'url' :'https://random.dog/woof.json', 'image_tag' : 'url'}, 
+                    {'animal' : 'fox', 'url' :'https://randomfox.ca/floof/', 'image_tag' : 'image'}
+                    ]
     
     if preferred_animal:
         if preferred_animal in ['dog', 'cat', 'fox']:
@@ -587,7 +542,6 @@ def ask_user_input(title="Title", label="Input", password=False):
 
     return value
 
-
 @activity
 def ask_user_password(label="Password"):
     """Ask user for password
@@ -648,6 +602,83 @@ def ask_credentials(
     password = values[1]
 
     return username, password
+
+def display_message_box(title="Title", message="Example message"):
+    """Shows a pop-up message with title and message. 
+
+    :param title: Title for the pop-up window
+    :param message: The message to be shown to the user
+    """
+    import PySimpleGUI as sg
+
+    sg.ChangeLookAndFeel("SystemDefault")
+
+    text = sg.Text(message, background_color="#2196F3", text_color="white")
+
+    ok_button = sg.OK(button_color=("white", "#0069C0"))
+
+    layout = [[text], [ok_button]]
+
+    window = sg.Window(
+        title,
+        layout,
+        icon="icon.ico",
+        no_titlebar=True,
+        background_color="#2196F3",
+        element_justification="center",
+        use_default_focus=False,
+    )
+    _, values = window.Read()
+    window.Close()
+    value = values[0]
+
+    return value
+
+@activity
+def display_osd_message(message, seconds=5):
+    """Display custom overlay message
+
+    Can be used to display a message for a limited amount of time. Can be used for illustration, debugging or as OSD.
+
+    :param message: Message to be displayed
+    """
+    if "DISABLE_AUTOMAGICA_OSD" in globals():
+        return
+
+    import tkinter, win32api, win32con, pywintypes
+    from win32api import GetSystemMetrics
+
+    screen_width = GetSystemMetrics(0)
+    screen_height = GetSystemMetrics(1)
+
+    root = tkinter.Tk()
+    label = tkinter.Label(
+        text=message, font=("Helvetica", "30"), fg="white", bg="black", borderwidth=10
+    )
+    label.master.overrideredirect(True)
+    label.config(anchor=tkinter.CENTER)
+    label.master.geometry(
+        "+{}+{}".format(int(screen_width / 2), int(screen_height - 250))
+    )
+    label.master.lift()
+    label.master.wm_attributes("-topmost", True)
+    label.master.wm_attributes("-disabled", True)
+    label.master.wm_attributes("-transparentcolor", "black")
+
+    hWindow = pywintypes.HANDLE(int(label.master.frame(), 16))
+
+    exStyle = (
+        win32con.WS_EX_COMPOSITED
+        | win32con.WS_EX_LAYERED
+        | win32con.WS_EX_NOACTIVATE
+        | win32con.WS_EX_TOPMOST
+        | win32con.WS_EX_TRANSPARENT
+    )
+    win32api.SetWindowLong(hWindow, win32con.GWL_EXSTYLE, exStyle)
+
+    label.after(seconds * 1000, lambda: root.destroy())
+    label.pack()
+    label.mainloop()
 
 
 """
@@ -745,7 +776,7 @@ class Chrome(selenium.webdriver.Chrome):
         apply_style("background: yellow; border: 2px solid red;")
 
 """
-Credentials
+Credential Management
 """
 
 
@@ -784,124 +815,6 @@ def get_credential(username=None, system="Automagica"):
     import keyring
 
     return keyring.get_password(system, username)
-
-
-"""
-Cryptography
-"""
-
-
-@activity
-def generate_random_key():
-    """
-    Generates a random Fernet key. 
-    Fernet guarantees that a message encrypted using it cannot be manipulated or read without the key. Fernet is an implementation of symmetric (also known as “secret key”) authenticated cryptography
-    """
-    import os
-    from cryptography.fernet import Fernet
-
-    key = Fernet.generate_key()
-
-    return key
-
-
-@activity
-def encrypt_message_with_key(message, key):
-    """
-    Encrypts string with (Fernet) key, returns bytes-like object.
-
-    :param message: Message to be encrypted.
-    :param path: Path where key is stored.
-    """
-    from cryptography.fernet import Fernet
-
-    f = Fernet(key)
-    return f.encrypt(message.encode("utf-8"))
-
-
-@activity
-def decrypt_message_with_key(encrypted_message, key):
-    """
-    Decrypts bytes-like object to string with (Fernet) key
-    
-    :param encrypted_message: Message to be encrypted.
-    :param path: Path where key is stored.
-    """
-    from cryptography.fernet import Fernet
-
-    f = Fernet(key)
-    return f.decrypt(encrypted_message).decode("utf-8")
-
-
-@activity
-def encrypt_file_with_key(input_file, output_file, key):
-    """
-    Encrypts file with (Fernet) key
-    
-    :param input_file: File to be encrypted.
-    :param output_file: Outputfile, returns a bytes-like can be an arbitrary .
-    """
-    from cryptography.fernet import Fernet
-
-    with open(input_file, "rb") as f:
-        data = f.read()
-
-    fernet = Fernet(key)
-    encrypted = fernet.encrypt(data)
-
-    with open(output_file, "wb") as f:
-        f.write(encrypted)
-
-
-@activity
-def decrypt_file_with_key(input_file, output_file, key):
-    """
-    Decrypts file with (Fernet) key
-
-    :param input_file: Bytes-like file to be decrypted.
-    :param output_file: Outputfile, make sure to give this the same extension as basefile before encryption.
-    """
-    from cryptography.fernet import Fernet
-
-    with open(input_file, "rb") as f:
-        data = f.read()
-
-    fernet = Fernet(key)
-    encrypted = fernet.decrypt(data)
-
-    with open(output_file, "wb") as f:
-        f.write(encrypted)
-
-
-@activity
-def generate_key_from_password(password, salt=None):
-    """
-    Encrypts string with (Fernet) key, returns bytes-like object.
-
-    :param message: Message to be encrypted.
-    :param path: Path where key is stored.
-    """
-
-    import base64
-    from cryptography.hazmat.backends import default_backend
-    from cryptography.hazmat.primitives import hashes
-    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-    import socket
-
-    # If no salt is set, use hostname as salt
-    if not salt:
-        salt = socket.gethostname().encode("utf-8")
-
-    kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=salt,
-        iterations=500000,
-        backend=default_backend(),
-    )
-    key = base64.urlsafe_b64encode(kdf.derive(password.encode("utf-8")))
-
-    return key
 
 
 """
@@ -1068,11 +981,13 @@ def press_key_combination(first_key, second_key, third_key=None):
 
 
 @activity
-def type_keys(text=None, interval_seconds=0.001):
-    """
-    Type text in the current active field. The first argument represent the text and is entered as a string. 
-    The second variable is the time between two keystrokes. Pay attention that you can only press single 
-    character keys. Keys like ":", "F1",... can not be part of the text argument.
+def type_keys(text='', interval_seconds=0.01):
+    """Keyboard typing
+    
+    Types text in the current active field by simulating keyboard typing. 
+
+    :param text: Text in string format to type. Note that you can only press single character keys. Special keys like ":", "F1",... can not be part of the text argument.
+    :param interval_seconds: Time in seconds between two keystrokes. Defautl value is 0.01 seconds.
     """
     from pyautogui import typewrite
     import platform
@@ -1089,23 +1004,44 @@ def type_keys(text=None, interval_seconds=0.001):
 Mouse
 """
 
-
 @activity
-def get_mouse_position():
-    """
-    Displays a message box with the absolute coordinates of the current position of the mouse.
+def get_mouse_position(delay=None, to_clipboard=False):
+    """Get the x and y pixel coördinates of current mouse position.
+
+    These coördinates represent the absolute pixel position of the mouse on the computer screen. 
+    The x-coördinate starts on the left side and increases going right. The y-coördinate increases going down.
+
+        0,0       X increases -->
+    +---------------------------+
+    |                           | Y increases
+    |                           |     |
+    |   1920 x 1080 screen      |     |
+    |                           |     V
+    |                           |
+    |                           |
+    +---------------------------+ 1919, 1079
+
+    :param delay: Delay in seconds before capturing mouse position.
+    :param to_clipboard: Put the coördinates in the clipboard e.g. 'x=1, y=1'
+
+    :return: Tuple with (x, y) coördinates
     """
     from pyautogui import position
+    from time import sleep
+
+    if delay:
+        sleep(delay)
 
     coord = position()
-    coordstring = "x: " + str(coord[0]) + "\r\ny: " + str(coord[1]) + ""
-    return display_message_box(coordstring, "Mouse Position")
 
+    if to_clipboard:
+        set_to_clipboard("x=" + str(coord[0]) + ", y=" + str(coord[1]) + "")
+
+    return coord[0], coord[1]
 
 @activity
 def click(x=None, y=None):
-    """
-    Clicks on a pixel position on the visible screen determined by x and y coördinates.
+    """Clicks on a pixel position on the visible screen determined by x and y coördinates.
     """
     from pyautogui import click
 
@@ -1114,8 +1050,9 @@ def click(x=None, y=None):
 
 @activity
 def double_click(x=None, y=None):
-    """
-    Double clicks on a pixel position on the visible screen determined by x and y coördinates.
+    """Double clicks on a pixel position on the visible screen determined by x and y coördinates.
+
+    :param x: 
     """
     from pyautogui import doubleClick
 
@@ -1124,8 +1061,7 @@ def double_click(x=None, y=None):
 
 @activity
 def right_click(x=None, y=None):
-    """
-    Right clicks on a pixel position on the visible screen determined by x and y coördinates.
+    """Right clicks on a pixel position on the visible screen determined by x and y coördinates.
     """
     from pyautogui import rightClick
 
@@ -1134,8 +1070,7 @@ def right_click(x=None, y=None):
 
 @activity
 def move_mouse_to(x=None, y=None):
-    """
-    Moves te pointer to a x-y position.
+    """Moves te pointer to a x-y position.
     """
     from pyautogui import moveTo
 
@@ -1144,8 +1079,7 @@ def move_mouse_to(x=None, y=None):
 
 @activity
 def move_mouse_relative(x=None, y=None):
-    """
-    Moves the mouse an x- and y- distance relative to its current pixel position.
+    """Moves the mouse an x- and y- distance relative to its current pixel position.
     """
     from pyautogui import moveRel
 
@@ -1154,8 +1088,7 @@ def move_mouse_relative(x=None, y=None):
 
 @activity
 def drag_mouse_to(x=None, y=None, button="left"):
-    """
-    Drag the mouse from its current position to a entered x-y position, while holding a specified button.
+    """Drag the mouse from its current position to a entered x-y position, while holding a specified button.
     """
     from pyautogui import dragTo
 
@@ -1164,6 +1097,16 @@ def drag_mouse_to(x=None, y=None, button="left"):
 
 @activity
 def click_image(filename=None):
+    """Click on similar image on the screen
+
+    This function searches the screen for a match with template image and clicks directly in the middle.
+    Note that this only finds exact matches.
+
+    :param filename: Path to the template image.
+    """
+    if not filename:
+        return
+
     from pyautogui import locateCenterOnScreen, click
 
     x, y = locateCenterOnScreen(filename)
@@ -1173,6 +1116,16 @@ def click_image(filename=None):
 
 @activity
 def double_click_image(filename=None):
+    """DOuble click on similar image on the screen
+
+    This function searches the screen for a match with template image and doubleclicks directly in the middle.
+    Note that this only finds exact matches.
+
+    :param filename: Path to the template image.
+    """
+    if not filename:
+        return
+
     from pyautogui import locateCenterOnScreen, click
 
     x, y = locateCenterOnScreen(filename)
@@ -1182,11 +1135,40 @@ def double_click_image(filename=None):
 
 @activity
 def right_click_image(filename=None):
+    """Right click on similar image on the screen
+
+    This function searches the screen for a match with template image and right clicks directly in the middle.
+    Note that this only finds exact matches.
+
+    :param filename: Path to the template image.
+    """
+    if not filename:
+        return
+
     from pyautogui import locateCenterOnScreen, rightClick
 
     x, y = locateCenterOnScreen(filename)
 
     return rightClick(x, y)
+
+@activity
+def locate_image_on_screen(filename=None):
+    """Find similar image on the screen
+
+    This function searches the screen for a match with template image and clicks directly in the middle.
+    Note that this only finds exact matches.
+
+    :param filename: Path to the template image.
+
+    :return: Tuple with (x, y) coördinates
+    """
+    if not filename:
+        return
+    from pyautogui import locateCenterOnScreen, click
+
+    x, y = locateCenterOnScreen(filename)
+
+    return x, y
 
 
 """
@@ -1194,8 +1176,20 @@ Folder Operations
 """
 
 @activity
-def get_files_in_folder(path, extension=''):
+def get_files_in_folder(path=None, extension=None):
+    """List all files in a folder and subfolders
+
+    Checks all folders and subfolders for files. This could take some time for large repositories. 
+
+    :param path: Path of the folder to retreive files from. Default folder is the home directory.
+    :param extension: Optional filter on certain extensions, for example 'pptx', 'exe,' xlsx', 'txt', .. Default value is no filter.
+
+    :return: List of files with their full path
+    """
     import os
+
+    if not path:
+            path = os.path.expanduser("~")
 
     paths = []
     for dirpath,_,filenames in os.walk(path):
@@ -1210,8 +1204,9 @@ def get_files_in_folder(path, extension=''):
 
 @activity
 def create_folder(path):
-    """
-    Creates new folder at the given path
+    """Creates new folder at the given path
+
+    :param path: Full path of folder that will be created
     """
     import os
 
@@ -1221,9 +1216,10 @@ def create_folder(path):
 
 @activity
 def rename_folder(path, new_name):
-    """
-    Entering "C:\\Users\\OldFolder as old_path" and "NewFolder" as new_folder_name changes
-    the name of the directory in C:\\Users from "OldFolder" to "NewFolder".
+    """Rename a folder
+
+    :param path: Full path of folder that will be renamed
+    :param new_name: New name of the folder e.g. 'new_folder'.
     """
     import os
 
@@ -1235,22 +1231,29 @@ def rename_folder(path, new_name):
 
 
 @activity
-def show_folder(path):
-    """
-    Entering "C:\\Users\\Downloads\\Automagica" will open the folder "Automagica" if the path exists.
+def show_folder(path=None):
+    """Open a folder with the default explorer.
+
+    :param path: Full path of folder that will be opened. Default value is the home directory
     """
     import os
+
+    if not path:
+        path = os.path.expanduser("~")
 
     if os.path.isdir(path):
         os.startfile(path)
 
 
 @activity
-def move_folder(old_path, new_location):
-    """
-    Entering "C:\\Users\\Oldlocation\\Automagica" as old_path and "C:\\Users\\Newlocation"
-    as new_location moves the folder "Automagica" from directory "Oldlocation" to directory "Newlocation".
+def move_folder(old_path, new_path):
+    """Move a folder
+
+    Moves a folder from one place to another.
     If the new location already contains a folder with the same name, a random 8 character uid is added to the name.
+
+    :param old_path: Full path to the source location of the folder
+    :param new_path: Full path to the destination location of the folder
     """
     from uuid import uuid4
     import os
@@ -1261,20 +1264,21 @@ def move_folder(old_path, new_location):
         if not os.path.isdir(new_path):
             os.rename(old_path, new_path)
         elif os.path.isdir(new_path):
-            new_path = new_path + " (" + str(uuid4())[:8] + ")"
+            new_path = new_path + "_" + str(uuid4())[:8]
             os.rename(old_path, new_path)
 
 
 @activity
 def remove_folder(path, allow_root=False, delete_read_only=True):
-    """
-    Entering "C:\\Users\\Documents\\Automagica" removes the folder "Automagica" including all of its subdirectories and files.
-    Standard, the safety variable allow_root is False. When False the function checks whether the path lenght has a minimum of 10 characters. 
-    This is to prevent entering for example "\\" as a path resulting in deleting the root and all of its subdirectories.
-    To turn off this safety check, explicitly set allow_root to True. For the function to work optimal, all files present in the
-    directory must be closed.
+    """Remove a folder including all subfolders
+
+    For the function to work optimal, all files and subfolders in the main targetfolder should be closed.
+
+    :param path: Full path to the folder that will be deleted
+    :param allow_root: Allow paths with an arbitrary length of 10 characters or shorter to be deleted. Default value is False.
     """
     import os
+    import shutil
 
     if len(path) > 10 or allow_root:
         if os.path.isdir(path):
@@ -1283,12 +1287,12 @@ def remove_folder(path, allow_root=False, delete_read_only=True):
 
 @activity
 def empty_folder(path, allow_root=False):
-    """
-    Entering "C:\\Users\\Documents\\Automagica" removes all the files and folders saved in the "Automagica" folder but maintains the folder itself.
-    Standard, the safety variable allow_root is False. When False the function checks whether the path lenght has a minimum of 10 characters. 
-    This is to prevent entering for example "\\" as a path resulting in deleting the root and all of its subdirectories.
-    To turn off this safety check, explicitly set allow_root to True. For the function to work optimal, all files present in the directory
-    must be closed.
+    """Remove all contents from a folder
+
+    For the function to work optimal, all files and subfolders in the main targetfolder should be closed.
+
+    :param path: Full path to the folder that will be emptied
+    :param allow_root: Allow paths with an arbitrary length of 10 characters or shorter to be emptied. Default value is False.
     """
     import os
 
@@ -1303,10 +1307,11 @@ def empty_folder(path, allow_root=False):
 
 @activity
 def folder_exists(path):
-    """
-    This function checks whether the folder with the given path exists, e.g. by entering...
-    "C:\\Users\\Documents\\Automagica", the function returns True if the folder exists or False if 
-    it doesn't exist.
+    """Checks whether folder exists, 
+ 
+    :param path: Full path to folder
+
+    :return: Boolean
     """
     import os
 
@@ -1314,14 +1319,18 @@ def folder_exists(path):
 
 
 @activity
-def copy_folder(old_path, new_location):
-    """
-    By entering "C:\\Users\\Documents\\Automagica" as old_path and "C:\\Users\\Downloads" as new_location...
-    the function copies the folder "Automagica" together with all its contents to the new location. The folder name...
-    remains unchanged, except when the folder already exists a 8 character random uid will be added to the name.
+def copy_folder(old_path, new_path):
+    """Copy a folder
+
+    Copies a folder from one place to another.
+    If the new location already contains a folder with the same name, a random 8 character uid is added to the name.
+
+    :param old_path: Full path to the source location of the folder
+    :param new_path: Full path to the destination location of the folder
     """
     from uuid import uuid4
     import os
+    import shutil
 
     new_path = new_location + "\\" + old_path.split("\\")[-1]
     if os.path.isdir(old_path):
@@ -1329,30 +1338,43 @@ def copy_folder(old_path, new_location):
             shutil.copytree(old_path, new_path)
         elif os.path.isdir(new_path):
             if os.path.isdir(new_path):
-                new_path = new_path + " (" + str(uuid4())[:8] + ")"
+                new_path = new_path + "_" + str(uuid4())[:8]
             shutil.copytree(old_path, new_path)
     return
 
 
 @activity
-def zip_folder(dir_path, new_path):
+def zip_folder(path, new_path=None):
+    """Zip a folder and it's contents
+
+
+    :param path: Full path to the source location of the folder that will be zipped
+    :param new_path: Full path to save the zipped folder. If no path is specified a folder with the original folder name plus 8 random characters
+
     """
-    Creates a zipped directory of a directory specified by the first argument. The newly zipped directory 
-    receives a path specified by the second argument.
-    """
-    if os.path.isdir(dir_path):
-        shutil.make_archive(new_path, "zip", dir_path)
+    import zipfile
+    import os
+    import shutil
+    from uuid import uuid4
+
+    if not new_path:
+        from uuid import uuid4
+        new_path = path + "_" + str(uuid4())[:8]
+    if os.path.isdir(path):
+        shutil.make_archive(new_path, "zip", path)
     return
 
 
 @activity
 def unzip(path, new_path=False):
-    """
-    Unzips a folder specified by the first variable. The unzipped folder will be stored in a directory specified by
-    new_path. If this second variable is omitted, the unzipped folder will be stored in the same directory as the 
-    zipped folder is located. 
+    """Unzips a file or folder 
+
+    :param path: Full path to the source location of the file or folder that will be unzipped
+    :param new_path: Full path to save unzipped contents. If no path is specified the unzipped contents will be stored in the same directory as the zipped file is located. 
     """
     import zipfile
+    import os
+    import shutil
 
     if os.path.exists(path):
         zipp = zipfile.ZipFile(path)
@@ -1365,26 +1387,17 @@ def unzip(path, new_path=False):
     return
 
 
-@activity
-def wait_folder_exists(path):
-    """
-    Wait until a folder with the entered path exists.
-    """
-    from time import sleep
-
-    while not os.path.exists(path):
-        sleep(1)
-    return
-
-
 """
 Delay
 """
 
-
 @activity
 def wait(seconds=1):
-    """Wait for the specified amount of seconds
+    """Wait function
+    
+    Not that this activity is blocking. This means that subsequent activities will not occur until the the specified waiting time has expired.
+    
+    :param seconds: Time in seconds to wait
     """
     from time import sleep
 
@@ -1392,19 +1405,44 @@ def wait(seconds=1):
 
 
 @activity
-def wait_for_image(filename=None, timeout=120):
+def wait_for_image(path=None, timeout=60):
+    """Waits for an image to appear on the screen
+
+    Note that this activity waits for an exact match of the template image to appear on the screen. 
+    Small variations, such as color or resolution could result in a mismatch.
+
+    :param path: Full or relative path to the template image.
+    :param timeout: Maximum time in seconds to wait before continuing. Default value is 60 seconds.
     """
-    Waits for an image to appear on the screen
-    """
+
     from pyautogui import locateCenterOnScreen
     from time import sleep
 
     for _ in range(timeout):
         try:
-            locateCenterOnScreen(filename)
+            locateCenterOnScreen(path)
             break
         except TypeError:
             sleep(1)
+
+@activity
+def wait_folder_exists(path, timeout=60):
+    """Wait until a folder with the entered path exists.
+
+    :param path: Full path to folder.
+    :param timeout: Maximum time in seconds to wait before continuing. Default value is 60 seconds.
+    """
+    from time import sleep
+
+    while not os.path.exists(path):
+        sleep(1)
+    return
+
+    for _ in range(timeout):
+        if os.path.exists(path):
+            break
+            sleep(1)
+
 
 """
 Microsoft® Office Word
@@ -1450,31 +1488,55 @@ class Word:
     @activity
     def append_text(self, text):
         """Append text at end of Word document
+
+        :param text: Text to append to document
         """
+        import win32com.client
+
         wc = win32com.client.constants
         self.app.Selection.EndKey(Unit=wc.wdStory)
         self.app.Selection.TypeText(text)
  
     @activity
-    def replace_all(self, text, replacement_text):
-        """Replace all occurences of text in Word document
+    def replace_text(self, placeholder_text, replacement_text):
+        """Replace all occurences of text in document
+
+        Can be used for example to replace arbitrary placeholder value. 
+        For example when using template slidedeck, using 'XXXX' as a placeholder.
+        Take note that all strings are case sensitive.
+        
+        :parameter placeholder_text: Placeholder text value (string) in the document, this will be replaced, e.g. 'Company Name'
+        :parameter replacement_text: Text (string) to replace the placeholder values with. It is recommended to make this unique to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
         """
+
         self.app.Selection.GoTo(0)
-        self.app.Selection.Find.Text = text
+        self.app.Selection.Find.Text = placeholder_text
         self.app.Selection.Find.Replacement.Text = replacement_text
         self.app.Selection.Find.Execute(Replace=2, Forward=True)
         
     @activity
-    def read_all_text(self):
+    def read_all_text(self, return_as_list=False):
         """Read all text from Word document
+
+        :param return_as_list: Set this paramater to True to return text as a list of strings. Default value is False.
         """
+
+        if return_as_list:
+            return self.app.ActiveDocument.Content.Text.split('\r') 
         return self.app.ActiveDocument.Content.Text
     
     @activity
-    def export_to_pdf(self, file_path):
+    def export_to_pdf(self, path=None):
         """Export Word document to PDF
+
+        :parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
         """
-        self.app.ActiveDocument.ExportAsFixedFormat(OutputFileName=file_path,
+
+        if not path:
+            import os
+            path = os.path.expanduser("~") + '/pdf_export.pdf'
+
+        self.app.ActiveDocument.ExportAsFixedFormat(OutputFileName=path,
             ExportFormat=17,
             OpenAfterExport=False,
             OptimizeFor=0,
@@ -1483,9 +1545,17 @@ class Word:
             )
     
     @activity
-    def export_to_html(self, file_path):
+    def export_to_html(self, path=None):
         """Export Word document to HTML
+
+        :parameter path: Output path where HTML file will be exported to. Default path is home directory with filename 'html_export.html'.
         """
+        if not path:
+            import os
+            path = os.path.expanduser("~") + '/pdf_export.pdf'
+
+        import win32com.client
+
         wc = win32com.client.constants
         word.app.ActiveDocument.WebOptions.RelyOnCSS = 1
         word.app.ActiveDocument.WebOptions.OptimizeForBrowser = 1
@@ -1494,12 +1564,14 @@ class Word:
         word.app.ActiveDocument.WebOptions.UseLongFileNames = 1
         word.app.ActiveDocument.WebOptions.RelyOnVML = 0
         word.app.ActiveDocument.WebOptions.AllowPNG = 1
-        word.app.ActiveDocument.SaveAs(FileName= file_path, FileFormat= wc.wdFormatHTML)
+        word.app.ActiveDocument.SaveAs(FileName= path, FileFormat= wc.wdFormatHTML)
         
 
     @activity
     def set_footers(self, text):
         """Set footers of Word document
+
+        :param text: Text to put in the footer
         """
         for section in self.app.ActiveDocument.Sections:
             for footer in section.Footers:
@@ -1509,10 +1581,120 @@ class Word:
     @activity
     def set_headers(self, text):
         """Set headers of Word document
+
+        :param text: Text to put in the header
         """
         for section in self.app.ActiveDocument.Sections:
             for footer in section.Headers:
                 footer.Range.Text = text
+
+
+class WordFile: 
+    def __init__(self, file_path=None):
+        """Read and Write xlsx files. 
+
+        These activities can read, write and edit Word (docx) files without the need of having Word installed. 
+        Note that, in contrary to working with the :func: 'Word' activities, a file get saved directly after manipulation.
+
+        :parameter file_path: Enter a path to open Word with an existing Word file. If no path is specified a 'document.docx' will be initialized in the home directory, this is the default value. If a document with the same name already exists the file will be overwritten.
+        """  
+
+        self.file_path = file_path
+
+        self.app = self._launch()
+
+    def _launch(self):
+
+        from docx import Document
+        import os
+
+        if self.file_path:
+            if not os.path.exists(self.file_path):
+                document = Document(self.file_path)
+        else:         
+            path = os.path.expanduser("~") + '\document.docx'
+            document = Document()
+            document.save(path)
+            self.file_path = path
+
+    @activity
+    def read_all_text(self, return_as_list=False):
+        """Read all text from Word document
+
+        :param return_as_list: Set this paramater to True to return text as a list of strings. Default value is False.
+        """
+
+        from docx import Document
+
+        document = Document(self.file_path)
+        text = []
+        for paragraph in document.paragraphs:
+            text.append(paragraph.text) 
+    
+        if return_as_list:
+            return text
+        return '\r'.join(map(str, text))
+
+    @activity
+    def append_text(self, text, auto_save=True):
+        """Append text at end of Word document
+
+        :param text: Text to append
+        :param auto_save: Save document after performing activity. Default value is True
+        """
+        from docx import Document
+
+        document = Document(self.file_path)
+        document.add_paragraph(text)
+
+        if auto_save:
+            document.save(self.file_path)
+
+    @activity
+    def save(self):
+
+        document.save(self.file_path)
+
+    @activity
+    def save_as(self, path):
+
+        document.save(path)
+
+    @activity
+    def set_headers(self,text, auto_save=True):
+        """Set headers of Word document
+
+        :param text: Text to put in the header
+        :param auto_save: Save document after performing activity. Default value is True
+        """
+        from docx import Document
+
+        document = Document(self.file_path)
+        document.add_heading(text)
+
+        if auto_save:
+            document.save(self.file_path)
+
+    @activity
+    def replace_text(self, placeholder_text, replacement_text, auto_save=True):
+        """Replace all occurences of text in document
+
+        Can be used for example to replace arbitrary placeholder value. 
+        For example when using template slidedeck, using 'XXXX' as a placeholder.
+        Take note that all strings are case sensitive.
+        
+        :parameter placeholder_text: Placeholder text value (string) in the document, this will be replaced, e.g. 'Company Name'
+        :parameter replacement_text: Text (string) to replace the placeholder values with. It is recommended to make this unique to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
+        :param auto_save: Save document after performing activity. Default value is True
+        """
+        from docx import Document
+
+        document = Document(self.file_path)
+        for paragraph in document.paragraphs:
+            paragraph.text = paragraph.text.replace(placeholder_text, replacement_text)
+
+        if auto_save:
+            document.save(self.file_path)
 
 """
 Microsoft® Office Outlook
@@ -1781,6 +1963,8 @@ class Outlook:
     def get_contacts(self, fields=None):
         """Retrieve list of contacts from Outlook
         
+        :param fields: Fields can be specified as a tuple with their exact names. Standard value is None returning "LastName", "FirstName" and "Email1Address".
+
         :return: List of dictionaries containing the contact details.
         """
         import win32com.client
@@ -1838,6 +2022,111 @@ class Outlook:
 """
 Microsoft® Office Excel
 """
+        
+class ExcelFile:
+    def __init__(self, file_path=None):
+        """Read and Write xlsx files. 
+
+        This activity can read, write and edit Excel (xlsx) files without the need of having Excel installed. 
+        Note that, in contrary to working with the :func: 'Excel' activities, a file get saved directly after manipulation.
+
+        :parameter file_path: Enter a path to open Excel with an existing Excel file. If no path is specified a 'workbook.xlsx' will be initialized in the home directory, this is the default value. If a workbook with the same name already exists the file will be overwritten.
+        """
+
+        self.file_path = file_path
+        self.sheet_name = None  
+
+        self.app = self._launch()
+
+    def _launch(self):
+
+        import openpyxl
+        import os
+        
+        if self.file_path:
+            if not os.path.exists(self.file_path):
+                #self.book(self.file_path)
+                self.book = openpyxl.load_workbook(self.file_path)
+        else:
+            path = os.path.expanduser("~") + '\workbook.xlsx'
+            self.book = openpyxl.load_workbook(path)
+            self.file_path = path
+
+    @activity
+    def activate_worksheet(self, name):
+        """Activates a worksheet
+
+        Activate a worksheet. By default the first worksheet is activated.
+
+        :param name: Name of the worksheet to activate.        
+        """
+
+        self.sheet_name= name
+
+    @activity
+    def save_as(self, path):
+        """Save current Workbook to another location
+
+        :param path: Path where workbook will be saved
+        """
+
+        self.book.save(path)
+
+    @activity
+    def write_cell(self, column, row, value, auto_save=True):
+        """Write Excel cell
+
+        :param column: Column number (integer) to write
+        :param row: Row number (integer) to write
+        :param value: Value to write to specific cell
+        :param auto_save: Save document after performing activity. Default value is True
+        """
+        
+        if self.sheet_name:
+            sheet = book[self.sheet_name]
+        else:
+            sheet = book.active
+        
+        sheet.cell(row=row, column=column).value = value
+        
+        if auto_save:
+            self.book.save(self.file_path)
+
+    @activity
+    def read_cell(self, column, row):
+        """ Read Excel cell
+        
+        :param column: Column number (integer) to read
+        :param row: Row number (integer) to read
+
+        :return: Cell value
+        """
+        if self.sheet_name:
+            sheet = self.book[self.sheet_name]
+        else:
+            sheet = self.book.active
+
+        return sheet.cell(row=row, column=column).value
+
+    @activity
+    def add_worksheet(self, name, auto_save=True):
+        """Add a new worksheet
+
+        :param name: Name of the worksheet to add
+        :param auto_save: Save document after performing activity. Default value is True
+        """
+
+        self.book.create_sheet(name)
+        if auto_save:
+            self.book.save(self.file_path)
+
+    @activity
+    def get_worksheet_names(self):
+        """Get worksheet names
+        """
+
+        return self.book.sheetnames
+
 
 
 class Excel:
@@ -1845,9 +2134,7 @@ class Excel:
         """Start Excel Application
 
         For this activity to work, Microsoft Office Excel needs to be installed on the system.
-
-        Thanks to https://pythonexcels.com/python/2009/10/05/python-excel-mini-cookbook for the great examples.
-
+        
         :parameter visible: Show Excel in the foreground if True or hide if False, defaults to True.
         :parameter path: Enter a path to open Excel with an existing Excel file. If no path is specified a workbook will be initialized, this is the default value.
         """
@@ -1857,7 +2144,7 @@ class Excel:
         self.app.Visible = visible
         
 
-    def _launch(self, path):
+    def _launch(self):
         """Utility function to create the Excel application scope object
 
         :return: Application object (win32com.client)
@@ -1876,6 +2163,8 @@ class Excel:
         else:
             app.Workbooks.Add()
 
+        self.workbook = app.ActiveWorkbook
+    
         return app
 
     @activity
@@ -1886,7 +2175,7 @@ class Excel:
         :parameter workbook: Workbook object which is retrieved with either new_workbook or open_workbook
         :parmeter name: Give the sheet a name (optional)
         """
-        worksheet = self.app.ActiveWorkbook.Worksheets.Add()
+        worksheet = self.workbook.Worksheets.Add()
         if name:
             worksheet.Name = name
 
@@ -1897,7 +2186,7 @@ class Excel:
         
         :parameter name: Name of the worksheet to activate
         """
-        for worksheet in self.app.ActiveWorkbook.Worksheets:
+        for worksheet in self.workbook.Worksheets:
             if worksheet.Name == name:
                 worksheet.Activate()
                 
@@ -1905,53 +2194,76 @@ class Excel:
     def save(self):
         """Save active Excel Workbook
         """
-        self.app.ActiveWorkbook.Save()
+        self.workbook.Save()
+
 
     @activity
-    def save_as(self, file_path):
+    def save_as(self, path):
         """Save current Excel Workbook to another location
+
+        :param path: Path where workbook will be saved
         """
         self.app.DisplayAlerts = False
-        self.app.ActiveWorkbook.SaveAs(file_path)
+        self.workbook.SaveAs(path)
         self.app.DisplayAlerts = True
         
     @activity
     def write_cell(self, column, row, value):
         """Write Excel cell
+
+        :param column: Column number (integer) to write
+        :param row: Row number (integer) to write
+        :param value: Value to write to specific cell
         """
-        self.app.ActiveWorkbook.ActiveSheet.Cells(row, column).Value = value
+        self.workbook.ActiveSheet.Cells(row, column).Value = value
 
     @activity
     def read_cell(self, column, row):
         """Read Excel cell
+
+        :param column: Column number (integer) to read
+        :param row: Row number (integer) to read
+
+        :return: Cell value
         """
-        return self.app.ActiveWorkbook.ActiveSheet.Cells(row, column).Value
+        return self.workbook.ActiveSheet.Cells(row, column).Value
 
     @activity
     def write_range(self, range_, value):
         """Write Excel range
+
+        :param range_: Range to write to, e.g. "A1:D10"
+        :param value: Value to write to range
         """
-        self.app.ActiveWorkbook.ActiveSheet.Range(range_).Value = value
+        self.workbook.ActiveSheet.Range(range_).Value = value
 
     @activity
     def read_range(self, range_):
         """Read Excel range
+
+        :param range_: Range to read from, e.g. "A1:D10"
+
+        :return value: Values in param range
         """
-        return self.app.ActiveWorkbook.ActiveSheet.Range(range_).Value
+        return self.workbook.ActiveSheet.Range(range_).Value
 
     @activity
     def run_macro(self, name):
         """Run Excel macro
+
+        :param name: Name of the macro to run. 
         """
         return self.app.Run(name)
 
     @activity
     def get_worksheet_names(self):
         """Get worksheet names from active workbook in Excel
+
+        :return: List is worksheet names
         """
         names = []
         
-        for worksheet in self.app.ActiveWorkbook.Worksheets:
+        for worksheet in self.workbook.Worksheets:
             names.append(worksheet.Name)
         
         return names
@@ -1959,10 +2271,12 @@ class Excel:
     @activity
     def get_table(self, name):
         """Get table from active workbook in Excel
+
+        :param: List of table names
         """
         data = []
 
-        for worksheet in self.app.ActiveWorkbook.Worksheets:
+        for worksheet in self.workbook.Worksheets:
             for list_object in worksheet.ListObjects:
                 if list_object.Name == name:
                     for row in list_object.DataBodyRange.Value:
@@ -1970,12 +2284,16 @@ class Excel:
                         for i, column in enumerate(list_object.HeaderRowRange.Value[0]):
                             data_row[column] = row[i]
                         data.append(data_row)
-                        
+        
         return data
 
     @activity
     def activate_range(self, range_):
-        self.app.ActiveWorkBook.ActiveSheet.Range(range_).Select()
+        """Activate range
+
+        :param range_: Range to activate, e.g. "A1:D10"
+        """
+        self.workbook.ActiveSheet.Range(range_).Select()
 
     @activity
     def activate_first_empty_cell_down(self):
@@ -1983,7 +2301,7 @@ class Excel:
         """
         column = self.app.ActiveCell.Column
         row = self.app.ActiveCell.Row
-        for cell in self.app.ActiveWorkbook.ActiveSheet.Columns(column).Cells:
+        for cell in self.workbook.ActiveSheet.Columns(column).Cells:
             if not cell.Value and cell.Row > row:
                 cell.Select()
                 break
@@ -1994,7 +2312,7 @@ class Excel:
         """
         column = self.app.ActiveCell.Column
         row = self.app.ActiveCell.Row
-        for cell in self.app.ActiveWorkbook.ActiveSheet.Rows(row).Cells:
+        for cell in self.workbook.ActiveSheet.Rows(row).Cells:
             if not cell.Value and cell.Column > column:
                 cell.Select()
                 break   
@@ -2008,7 +2326,7 @@ class Excel:
 
         for i in range(column):
             if column-i > 0:
-                cell = self.app.ActiveWorkbook.ActiveSheet.Cells(row, column-i)
+                cell = self.workbook.ActiveSheet.Cells(row, column-i)
                 if not cell.Value:
                     cell.Select()
                     break
@@ -2022,58 +2340,98 @@ class Excel:
 
         for i in range(row):
             if row-i > 0:
-                cell = self.app.ActiveWorkbook.ActiveSheet.Cells(row-i, column)
+                cell = self.workbook.ActiveSheet.Cells(row-i, column)
                 if not cell.Value:
                     cell.Select()
                     break
 
     @activity
-    def write_cell_formuila(self, column, row, formula):
+    def write_cell_formula(self, column, row, formula):
         """Write Excel cell formula
+
+        :param column: Column number (integer) to write formula
+        :param row: Row number (integer) to write formula
+        :param value: Formula to write to specific cell e.g. "=10*RAND()"
         """
-        self.app.ActiveWorkbook.ActiveSheet.Cells(row, column).Formula = formula
+        self.workbook.ActiveSheet.Cells(row, column).Formula = formula
     
     @activity
-    def read_cell_formuila(self, column, row, formula):
+    def read_cell_formula(self, column, row, formula):
         """Read Excel cell formula
+
+        :param column: Column number (integer) to read formula
+        :param row: Row number (integer) to read formula
+
+        :return: Cell value
         """
-        return self.app.ActiveWorkbook.ActiveSheet.Cells(row, column).Formula
+        return self.workbook.ActiveSheet.Cells(row, column).Formula
 
 
     @activity
-    def insert_empty_row(self, range_):
-        """Insert empty row in range in Excel
+    def insert_empty_row(self, row):
+        """Insert emtpy row
+
+        Existing data will shift down
+
+        :param row: Row number (integer) where to insert empty row e.g 1
         """
-        self.app.ActiveWorkbook.ActiveSheet.Range(range_).EntireRow.Insert()
+        row_range = 'A' + str(row)
+        self.workbook.ActiveSheet.Range(row_range).EntireRow.Insert()
 
     @activity
-    def insert_empty_column(self, range_):
-        """Insert empty column in range in Excel
+    def insert_empty_column(self, column):
+        """Insert empty column
+
+        Existing columns will shift to the right
+
+        :param column: Column letter (string) where to insert empty column e.g. 'A'
         """
-        self.app.ActiveWorkbook.ActiveSheet.Range(range_).EntireColumn.Insert()
+        column_range = str(column) + '1'
+        self.workbook.ActiveSheet.Range(column_range).EntireColumn.Insert()
 
     @activity
-    def delete_row(self, range_):
-        """Delete row in range in Excel
+    def delete_row(self, row):
+        """Delete row in Excel
+
+        Existing data will shift up
+
+        :param row: Row number (integer) where to delete row e.g 1
         """
-        self.app.ActiveWorkbook.ActiveSheet.Range(range_).EntireRow.Delete()
+        row_range = 'A' + str(row)
+        self.workbook.ActiveSheet.Range(row_range).EntireRow.Delete()
 
     @activity
     def delete_column(self, range_):
-        """Delete column in range in Excel
+        """Delete column in Excel
+
+        Existing columns will shift to the left
+
+        :param column: Column letter (string) where to delete  column e.g. 'A'
         """
-        self.app.ActiveWorkbook.ActiveSheet.Range(range_).EntireColumn.Delete()
+        column_range = str(column) + '1'
+        self.workbook.ActiveSheet.Range(column_range).EntireColumn.Delete()
         
     @activity
-    def export_to_pdf(self, file_path):
-        self.app.ActiveWorkbook.ActiveSheet.ExportAsFixedFormat(0, file_path, 0, True, True)
+    def export_to_pdf(self, path=None):
+        """Export Excel workbook
+
+        :parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
+        """
+        if not path:
+            import os
+            path = os.path.expanduser("~") + '/pdf_export.pdf'
+
+        self.workbook.ActiveSheet.ExportAsFixedFormat(0, path, 0, True, True)
 
     @activity
     def insert_data_as_table(self, data, range_='A1', table_style="TableStyleMedium2"):
         """Insert list of dictionaries as a table in Excel
+
+        :param data: List of dictionaries to write as table
+        :param range_: Range or startingpoint for table e.g. 'A1'
         """
-        row = self.app.ActiveWorkbook.ActiveSheet.Range(range_).Row
-        column = self.app.ActiveWorkbook.ActiveSheet.Range(range_).Column
+        row = self.workbook.ActiveSheet.Range(range_).Row
+        column = self.workbook.ActiveSheet.Range(range_).Column
 
         column_names = list(data[0].keys())
         data_values = [[d[key] for key in data[0].keys()] for d in data]
@@ -2081,21 +2439,26 @@ class Excel:
         values = [column_names] + data_values
         for i in range(len(values)):
             for j in range(len(values[0])):
-                self.app.ActiveWorkbook.ActiveSheet.Cells(row+i,column+j).Value = values[i][j]
+                self.workbook.ActiveSheet.Cells(row+i,column+j).Value = values[i][j]
 
-        start_cell = self.app.ActiveWorkbook.ActiveSheet.Cells(row,column)
-        end_cell = self.app.ActiveWorkbook.ActiveSheet.Cells(row+i,column+j)
-        self.app.ActiveWorkbook.ActiveSheet.Range(start_cell, end_cell).Select()
+        start_cell = self.workbook.ActiveSheet.Cells(row,column)
+        end_cell = self.workbook.ActiveSheet.Cells(row+i,column+j)
+        self.workbook.ActiveSheet.Range(start_cell, end_cell).Select()
         self.app.ActiveSheet.ListObjects.Add().TableStyle = table_style
 
     @activity
     def read_worksheet(self, name=None, headers=False):
         """Read data from worksheet to a list of lists
+
+        :param name: Optional name of worksheet to read. If no name is specified will take active sheet
+        :param headers: Boolean to treat first row as headers. Default value is False
+
+        :retun: List of dictionaries with sheet data
         """
         if name:
             self.activate_worksheet(name)
         
-        data = self.app.ActiveWorkbook.ActiveSheet.UsedRange.Value
+        data = self.workbook.ActiveSheet.UsedRange.Value
         
         if isinstance(data, str):
             return data
@@ -2116,6 +2479,8 @@ class Excel:
     @activity
     def quit(self):
         """Close Excel
+
+        This closes excel, make sure to use :func: 'save' or 'save_as' if you would like to save before quitting.
         """
         self.app.Application.Quit()
 
@@ -2238,14 +2603,15 @@ class PowerPoint:
         return self.app.Slides(index).Delete()
 
     @activity
-    def replace_text(self, placeholder, value):
-        """Replace text slide
+    def replace_text(self, placeholder_text, replacement_text):
+        """Replace all occurences of text in Powerpoint slides
+
         Can be used for example to replace arbitrary placeholder value in a PowerPoint. 
-        For example when using template slidedeck, using 'XXXX' as a placeholder, this can be easily be replaced to the name of the audience.. 
+        For example when using a template slidedeck, using 'XXXX' as a placeholder.
         Take note that all strings are case sensitive.
         
-        :parameter placeholder: Placeholder value (string) in the Powerpoint, this will be replaced, e.g. 'Company Name'
-        :parameter value: Value (string) to replace the placeholder values with. It is recommended to make this unique in your PowerPoint to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
+        :parameter placeholder_text: Placeholder value (string) in the Powerpoint, this will be replaced, e.g. 'Company Name'
+        :parameter replacement_text: Text (string) to replace the placeholder values with. It is recommended to make this unique in your PowerPoint to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
         """
         for slide in self.app.Slides:
             for shape in slide.Shapes:
@@ -2262,6 +2628,7 @@ class PowerPoint:
             raise Exception('Please add a slide first bedore exporting the presentation.')
 
         if not path:
+            import os
             path = os.path.expanduser("~") + '/pdf_export.pdf'
         
         return  self.app.ExportAsFixedFormat2(path, 2, PrintRange=None)
@@ -2283,8 +2650,6 @@ class PowerPoint:
         return self.app.Export(path, 'png')
 
 
-class ExcelFile:
-    pass
 
 """
 Microsoft Salesforce
@@ -2432,6 +2797,27 @@ def get_username():
     import getpass
     return getpass.getuser()
 
+class ActiveDirectory:
+    """ Interface to Windows Active Directory through ADSI
+    """
+
+    def __init__(self, ldap_server=None, username=None, password=None):
+        import pyad
+
+        self.pyad = pyad
+        
+        if ldap_server:
+            self.pyad.set_defaults(ldap_server=ldap_server)
+
+        if username:
+            self.pyad.set_defaults(username=username)
+
+        if password:
+            self.pyad.set_defaults(password=password)
+    @activity
+    def get_object_by_distinguished_name(self, distinguished_name):
+        return self.pyad.from_dn(distinguished_name)
+
 @activity
 def set_to_clipboard(text):
     """Set any text to the Windows clipboard. 
@@ -2494,8 +2880,7 @@ def run_vbs_script(script_path, parameters=[]):
 
 @activity
 def beep(frequency=1000, duration=250):
-    """
-    Makes a beeping sound.
+    """Make a beeping sound.
     Choose frequency (Hz) and duration (ms), standard is 1000 Hz and 250 ms.
     """
     import winsound
@@ -2504,93 +2889,23 @@ def beep(frequency=1000, duration=250):
 
 
 @activity
-def run_calculator():
+def speak(text, speed=None):
+    """Use the Text-To-Speech engine available on your system
+
+    :param text: The text which should be said
+    :param speed: Multiplication factor for the speed at which the text should be pronounced. 
     """
-    Open Calculator.
-    """
-    import subprocess
+    import pyttsx3
 
-    subprocess.Popen("calc.exe")
+    engine = pyttsx3.init()
 
+    if speed:
+        default_rate = engine.getProperty("rate")
+        engine.setProperty("rate", speed * default_rate)
 
-@activity
-def run_paint():
-    """
-    Open MS Paint.
-    """
-    import subprocess
+    engine.say(text)
+    engine.runAndWait()
 
-    subprocess.Popen("mspaint.exe")
-
-
-@activity
-def run_notepad():
-    """
-    Open Notepad
-    """
-    import subprocess
-
-    subprocess.Popen("notepad.exe")
-
-
-@activity
-def run_snipping_tool():
-    """
-    Open Snipping Tool.
-    """
-    import subprocess
-
-    subprocess.Popen("SnippingTool.exe")
-
-
-@activity
-def run_control_panel():
-    """
-    Open Windows Control Panel.
-    """
-    import subprocess
-
-    subprocess.Popen("control.exe")
-
-
-@activity
-def run_clean_manager():
-    """
-    Open Clean Manager.
-    """
-    import subprocess
-
-    subprocess.Popen("cleanmgr.exe")
-
-
-@activity
-def run_dialer():
-    """
-    Open Windows Dialer.
-    """
-    import subprocess
-
-    subprocess.Popen("dialer.exe")
-
-
-@activity
-def run_volume_mixer():
-    """
-    Open Windows Volume Mixer.
-    """
-    import subprocess
-
-    subprocess.Popen("SndVol.exe")
-
-
-@activity
-def run_xps_viewer():
-    """
-    Open Windows XPS Viewer.
-    """
-    import subprocess
-
-    subprocess.Popen("xpsrchvw")
 
 
 """
@@ -2601,6 +2916,7 @@ Utilities
 @activity
 def home_path():
     """Returns the current user's home path
+
     :return: Path to the current user's home folder
     """
     from os.path import expanduser
@@ -2657,82 +2973,9 @@ def download_file_from_url(url, target_path=''):
     else:
         raise Exception('Could not download file from {}'.format(url))
 
-@activity
-def display_message_box(body, title="Message", type="info"):
-    """    
-    Shows a pop-up message with title and body. Three possible types, info, error and warning with the default value info.
-    """
-    import tkinter
-    from tkinter import messagebox
-
-    # hide main window
-    root = tkinter.Tk()
-    root.withdraw()
-
-    if not body:
-        messagebox.showwarning("Warning", "No input for message box")
-
-    if type == "error":
-        messagebox.showwarning(title, body)
-    if type == "warning":
-        messagebox.showwarning(title, body)
-    if type == "info":
-        messagebox.showinfo(title, body)
-    return
-
-@activity
-def list_of_dicts(data):
-    """Convert list of dictionaries to pandas dataframe
-    """
-    import pandas
-    return pd.Dataframe(data)
-
-
-@activity
-def display_osd_message(message, seconds=5):
-    if "DISABLE_AUTOMAGICA_OSD" in globals():
-        return
-
-    import tkinter, win32api, win32con, pywintypes
-    from win32api import GetSystemMetrics
-
-    screen_width = GetSystemMetrics(0)
-    screen_height = GetSystemMetrics(1)
-
-    root = tkinter.Tk()
-    label = tkinter.Label(
-        text=message, font=("Helvetica", "30"), fg="white", bg="black", borderwidth=10
-    )
-    label.master.overrideredirect(True)
-    label.config(anchor=tkinter.CENTER)
-    label.master.geometry(
-        "+{}+{}".format(int(screen_width / 2), int(screen_height - 250))
-    )
-    label.master.lift()
-    label.master.wm_attributes("-topmost", True)
-    label.master.wm_attributes("-disabled", True)
-    label.master.wm_attributes("-transparentcolor", "black")
-
-    hWindow = pywintypes.HANDLE(int(label.master.frame(), 16))
-
-    exStyle = (
-        win32con.WS_EX_COMPOSITED
-        | win32con.WS_EX_LAYERED
-        | win32con.WS_EX_NOACTIVATE
-        | win32con.WS_EX_TOPMOST
-        | win32con.WS_EX_TRANSPARENT
-    )
-    win32api.SetWindowLong(hWindow, win32con.GWL_EXSTYLE, exStyle)
-
-    label.after(seconds * 1000, lambda: root.destroy())
-    label.pack()
-    label.mainloop()
-
-
 """
 Trello
 """
-
 
 class TrelloInterface:
     pass
@@ -2749,7 +2992,7 @@ class TrelloInterface:
         token="",
         token_secret="any",
     ):
-        """
+        """Add card to a Trello board
         For this you need a Trello API key, secret and token. 
         Token secret can be any string, but should be altered for security purposes.
         """
@@ -2784,11 +3027,15 @@ System
 
 @activity
 def rename_file(old_path, new_file_name):
+    """Rename a file
+    
+    This activity will not rename the file if a file with the desired name already exists in the folder.
+
+    :param old_path: Full path to the file that will be renamed
+    :param new_file_name: Name of the new file
     """
-    Entering "C:\\Users\\Documents\\Automagica.docx" as "old_path" and "Automagica123.docx" as new_file_name changes
-    the name of the directory in C:\\Users\\Documents from Automagica to Automagica123. The function will not
-    rename a file if a file with the desired name already exists in the folder.
-    """
+    import os
+
     if os.path.isfile(old_path):
         base_path = old_path.split("\\")[:-1]
         new_path = "\\".join(base_path) + "\\" + new_file_name
@@ -2798,13 +3045,16 @@ def rename_file(old_path, new_file_name):
 
 @activity
 def move_file(old_path, new_location):
-    """
-    Entering "C:\\Users\\Documents\\Automagica.docx" as old_path and "C:\\Users\\Downloads"
-    as new_location moves the file Automagica.docx from directory "Documents" to directory "Downloads".
+    """Move a file
+
     If the new location already contains a file with the same name, a random 8 character uid will be added 
     in front of the name before the file is moved.
+
+    :param old_path: Full path to the file that will be renamed
+    :param new_location: Path to the folder where file will be moved to
     """
     import uuid
+    import os
 
     name = old_path.split("\\")[-1]
     new_path = new_location + "\\" + name
@@ -2819,10 +3069,12 @@ def move_file(old_path, new_location):
 
 @activity
 def remove_file(path):
+    """Remove a file
+
+    :param: Full path to the file that will be deleted.
     """
-    Entering "C:\\Users\\Downloads\\Automagica.xlsx" will delete the file named "Automagica.xlsx" at the location specified by
-    the given path.
-    """
+
+    import os
     if os.path.isfile(path):
         os.remove(path)
     return
@@ -2835,6 +3087,7 @@ def file_exists(path):
     "C:\\Users\\Documents\\Automagica.docx", the function returns True if the file exists or False
     if it doesn't exist.
     """
+    import os
     return os.path.isfile(path)
 
 
@@ -2844,6 +3097,7 @@ def wait_file_exists(path):
     Wait until a file with the entered path exists.
     """
     from time import sleep
+    import os
 
     while not os.path.exists(path):
         sleep(1)
@@ -2852,8 +3106,9 @@ def wait_file_exists(path):
 
 @activity
 def write_list_to_file(list_to_write, file):
-    """Writes a list to a .txt file. Every element of the entered list is written on a new
-
+    """Writes a list to a  text (.txt) file. 
+    
+    Every element of the entered list is written on a new
     line of the text file. The .txt file is entered with a path. If the path does not exist
     yet, the function will create a new .txt file at the specified path and write it. If the 
     path does exist, the function writes the list in the existing file.
