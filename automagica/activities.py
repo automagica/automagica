@@ -905,79 +905,145 @@ class FTP:
 Keyboard
 """
 
+def easy_key_translation(key):
+    """Acitivy supporting key translations
+    """
+    
+    if not key:
+        return ''
+
+    key_translation = {'backspace' : '{BACKSPACE}',
+    'break' : '{BREAK}',
+    'capslock' : '{CAPSLOCK}',
+    'delete' : '{DELETE}',
+    'alt' : '%',
+    'ctrl': '^',
+    'shift': '+',                   
+    'downarrow' : '{DOWN}',
+    'end' : '{END}',
+    'enter' : '{ENTER}',
+    'escape' : '{ESC}',
+    'help' : '{HELP}',
+    'home' : '{HOME}',
+    'insert' : '{INSERT}',
+    'win' : '^{Esc}',
+    'leftarrow' : '{LEFT}',
+    'numlock' : '{NUMLOCK}',
+    'pagedown' : '{PGDN}',
+    'pageup' : '{PGUP}',
+    'printscreen' : '{PRTSC}',
+    'rightarrow' : '{RIGHT}',
+    'scrolllock' : '{SCROLLLOCK}',
+    'tab' : '{TAB}',
+    'uparrow' : '{UP}',
+    'f1' : '{F1}',
+    'f2' : '{F2}',
+    'f3' : '{F3}',
+    'f4' : '{F4}',
+    'f5' : '{F5}',
+    'f6' : '{F6}',
+    'f7' : '{F7}',
+    'f8' : '{F8}',
+    'f9' : '{F9}',
+    'f10' : '{F10}',
+    'f11' : '{F11}',
+    'f12' : '{F12}',
+    'f13' : '{F13}',
+    'f14' : '{F14}',
+    'f15' : '{F15}',
+    'f16' : '{F16}',
+    '+' : '{+}',
+    '^' : '{^}',
+    '%' : '{%}',
+    '~' : '{~}',
+    '(' : '{(}',
+    ')' : '{)}',
+    '[' : '{[}',
+    ']' : '{]}',
+    '{' : '{{}',
+    '}' : '{}}'
+    }
+
+
+    if key_translation.get(key):
+        return key_translation.get(key)
+    
+    return key
 
 @activity
 def press_key(key=None):
     """Press and release an entered key.
 
-    Possible keys:
-    ['\t', '\n', '\r', ' ', '!', '"', '#', '$', '%', '&', "'", '(',
-    ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7',
-    '8', '9', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
-    'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-    'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~',
-    'accept', 'add', 'alt', 'altleft', 'altright', 'apps', 'backspace',
-    'browserback', 'browserfavorites', 'browserforward', 'browserhome',
-    'browserrefresh', 'browsersearch', 'browserstop', 'capslock', 'clear',
-    'convert', 'ctrl', 'ctrlleft', 'ctrlright', 'decimal', 'del', 'delete',
-    'divide', 'down', 'end', 'enter', 'esc', 'escape', 'execute', 'f1', 'f10',
-    'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f2', 'f20',
-    'f21', 'f22', 'f23', 'f24', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9',
-    'final', 'fn', 'hanguel', 'hangul', 'hanja', 'help', 'home', 'insert', 'junja',
-    'kana', 'kanji', 'launchapp1', 'launchapp2', 'launchmail',
-    'launchmediaselect', 'left', 'modechange', 'multiply', 'nexttrack',
-    'nonconvert', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6',
-    'num7', 'num8', 'num9', 'numlock', 'pagedown', 'pageup', 'pause', 'pgdn',
-    'pgup', 'playpause', 'prevtrack', 'print', 'printscreen', 'prntscrn',
-    'prtsc', 'prtscr', 'return', 'right', 'scrolllock', 'select', 'separator',
-    'shift', 'shiftleft', 'shiftright', 'sleep', 'space', 'stop', 'subtract', 'tab',
-    'up', 'volumedown', 'volumemute', 'volumeup', 'win', 'winleft', 'winright', 'yen',
-    'command', 'option', 'optionleft', 'optionright']
-    """
-    from pyautogui import press
+    Supported keys:
+    [ ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', 
+    '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<',
+     '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 
+    'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+     't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace', 
+     'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter',
+    'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11',
+    'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 
+    'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win']
 
-    if key:
-        return press(key)
+
+    If you are using this on Mac Os you might need to grant acces to your terminal application.
+    (Security Preferences > Security & Privacy > Privacy > Accessibility)
+
+
+    """
+    import platform
+
+    # Check if system is not running Windows
+    if platform.system() != "Windows":
+        from pyautogui import press
+
+        if key:
+            return press(key)
+
+    import win32com.client
+    shell = win32com.client.Dispatch("WScript.Shell")
+    shell.SendKeys(easy_key_translation(key), 0)
 
 
 @activity
-def press_key_combination(first_key, second_key, third_key=None):
+def press_key_combination(first_key, second_key, third_key=None, force_pyautogui=False):
     """Press a combination of two or three keys simultaneously.
 
-    Possible keys:
-    ['\t', '\n', '\r', ' ', '!', '"', '#', '$', '%', '&', "'", '(',
-    ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7',
-    '8', '9', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
-    'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-    'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~',
-    'accept', 'add', 'alt', 'altleft', 'altright', 'apps', 'backspace',
-    'browserback', 'browserfavorites', 'browserforward', 'browserhome',
-    'browserrefresh', 'browsersearch', 'browserstop', 'capslock', 'clear',
-    'convert', 'ctrl', 'ctrlleft', 'ctrlright', 'decimal', 'del', 'delete',
-    'divide', 'down', 'end', 'enter', 'esc', 'escape', 'execute', 'f1', 'f10',
-    'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f2', 'f20',
-    'f21', 'f22', 'f23', 'f24', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9',
-    'final', 'fn', 'hanguel', 'hangul', 'hanja', 'help', 'home', 'insert', 'junja',
-    'kana', 'kanji', 'launchapp1', 'launchapp2', 'launchmail',
-    'launchmediaselect', 'left', 'modechange', 'multiply', 'nexttrack',
-    'nonconvert', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6',
-    'num7', 'num8', 'num9', 'numlock', 'pagedown', 'pageup', 'pause', 'pgdn',
-    'pgup', 'playpause', 'prevtrack', 'print', 'printscreen', 'prntscrn',
-    'prtsc', 'prtscr', 'return', 'right', 'scrolllock', 'select', 'separator',
-    'shift', 'shiftleft', 'shiftright', 'sleep', 'space', 'stop', 'subtract', 'tab',
-    'up', 'volumedown', 'volumemute', 'volumeup', 'win', 'winleft', 'winright', 'yen',
-    'command', 'option', 'optionleft', 'optionright']
+    Supported keys:
+    [ ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', 
+    '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<',
+     '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 
+    'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+     't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace', 
+     'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter',
+    'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11',
+    'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 
+    'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win']
 
     :param first_key: First key to press
     :param second_key: Second key to press
     :param third_key: Third key to press, this is optional.
+    :param force_pyautogui: Set parameter to true to force the use of pyautogui. This could help when certain keypresses do not work correctly.
     """
-    from pyautogui import hotkey
+    
+    import platform
 
-    if not third_key:
-        return hotkey(first_key, second_key)
-    if third_key:
-        return hotkey(first_key, second_key, third_key)
+    # Check if system is not running Windows
+    if first_key == 'win' or second_key == 'win' or third_key == 'win':
+        force_pyautogui = True
+    if platform.system() != "Windows" or force_pyautogui:
+        from pyautogui import hotkey
+
+        if not third_key:
+            return hotkey(first_key, second_key)
+        if third_key:
+            return hotkey(first_key, second_key, third_key)
+
+    import win32com.client
+    shell = win32com.client.Dispatch("WScript.Shell")
+    key_combination = easy_key_translation(first_key) + easy_key_translation(second_key) + easy_key_translation(third_key)
+    shell.SendKeys(easy_key_translation(key_combination), 0)
+    
 
 
 @activity
@@ -989,15 +1055,19 @@ def type_keys(text='', interval_seconds=0.01):
     :param text: Text in string format to type. Note that you can only press single character keys. Special keys like ":", "F1",... can not be part of the text argument.
     :param interval_seconds: Time in seconds between two keystrokes. Defautl value is 0.01 seconds.
     """
-    from pyautogui import typewrite
+    
     import platform
 
     # Set keyboard layout for Windows platform
-    if platform.system() == "Windows":
-        from win32api import LoadKeyboardLayout
+    if platform.system() != "Windows":
+        from pyautogui import typewrite
+        return typewrite(text, interval=interval_seconds)
 
-        LoadKeyboardLayout("00000409", 1)
-    return typewrite(text, interval=interval_seconds)
+    shell = win32com.client.Dispatch("WScript.Shell")
+    import time
+    for character in text:
+        shell.SendKeys(easy_key_translation(character), 0)
+        time.sleep(interval_seconds)
 
 
 """
@@ -1035,9 +1105,33 @@ def get_mouse_position(delay=None, to_clipboard=False):
     coord = position()
 
     if to_clipboard:
-        set_to_clipboard("x=" + str(coord[0]) + ", y=" + str(coord[1]) + "")
+        set_to_clipboard("x=" + str(coord[0]) + ", y=" + str(coord[1]))
 
     return coord[0], coord[1]
+
+@activity
+def display_mouse_position(duration=10):
+    """Display mouse position
+    
+    Displays mouse position in an overlay. Refreshes every two seconds.
+    Can be used to find mouse position of element on the screen
+
+    :param duration: Duration to show overlay.
+    """
+
+    if duration < 1 or type(duration) != int:
+        return
+
+    from pyautogui import position
+    from time import sleep
+
+    duration_half = int(duration / 2)
+    for i in range(0,duration_half, 2):
+        coord = position()
+        message = "x=" + str(coord[0]) + ", y=" + str(coord[1])
+        display_osd_message(message, seconds=2)
+        sleep(2)
+
 
 @activity
 def click(x=None, y=None):
@@ -3797,6 +3891,7 @@ def start_process(path):
 
 @activity
 def kill_process(name=None):
+    import os
     return os.system("taskkill /f /im " + name + " >nul 2>&1")
 
 
