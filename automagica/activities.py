@@ -1426,14 +1426,13 @@ def copy_folder(old_path, new_path):
     import os
     import shutil
 
-    new_path = new_location + "\\" + old_path.split("\\")[-1]
+    new_path = new_path + "\\" + old_path.split("\\")[-1]
     if os.path.isdir(old_path):
         if not os.path.isdir(new_path):
             shutil.copytree(old_path, new_path)
         elif os.path.isdir(new_path):
-            if os.path.isdir(new_path):
-                new_path = new_path + "_" + str(uuid4())[:8]
-            shutil.copytree(old_path, new_path)
+            new_path = new_path + "_" + str(uuid4())[:8]
+        shutil.copytree(old_path, new_path)
     return
 
 
@@ -1521,7 +1520,9 @@ def wait_for_image(path=None, timeout=60):
 
 @activity
 def wait_folder_exists(path, timeout=60):
-    """Wait until a folder with the entered path exists.
+    """Wait until a folder exists.
+
+    Not that this activity is blocking and will keep the system waiting.
 
     :param path: Full path to folder.
     :param timeout: Maximum time in seconds to wait before continuing. Default value is 60 seconds.
@@ -2975,7 +2976,9 @@ def run_vbs_script(script_path, parameters=[]):
 @activity
 def beep(frequency=1000, duration=250):
     """Make a beeping sound.
-    Choose frequency (Hz) and duration (ms), standard is 1000 Hz and 250 ms.
+
+    :param frequency: Integer to specify frequency (Hz), default value is 1000 Hz
+    :param duration: Integer to specify duration of beep in miliseconds (ms), default value is 250 ms.
     """
     import winsound
 
@@ -3029,17 +3032,12 @@ def desktop_path():
 
 @activity
 def set_wallpaper(image_path):
-    '''Sets desktop wallpaper
+    """Sets desktop wallpaper
 
     :parameter image_path: Path to the image. This image will be set as desktop wallpaper
-    '''
+    """
     import ctypes
     ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path , 0)
-
-
-@activity
-def download_image_from_url(url):
-    pass
 
 @activity
 def download_file_from_url(url, target_path=''):
@@ -3165,7 +3163,7 @@ def move_file(old_path, new_location):
 def remove_file(path):
     """Remove a file
 
-    :param: Full path to the file that will be deleted.
+    :param path: Full path to the file that will be deleted.
     """
 
     import os
@@ -3176,51 +3174,65 @@ def remove_file(path):
 
 @activity
 def file_exists(path):
-    """
-    This function checks whether the file with the given path exists, e.g. by entering
-    "C:\\Users\\Documents\\Automagica.docx", the function returns True if the file exists or False
-    if it doesn't exist.
+    """Check if file exists
+
+    This function checks whether the file with the given path exists.
+
+    :param path: Full path to the file to check.
+
+    return: True or False (boolean)
     """
     import os
     return os.path.isfile(path)
 
-
 @activity
-def wait_file_exists(path):
-    """
-    Wait until a file with the entered path exists.
+def wait_file_exists(path, timeout=60):
+    """Wait until a file exists.
+
+    Not that this activity is blocking and will keep the system waiting.
+
+    :param path: Full path to file.
+    :param timeout: Maximum time in seconds to wait before continuing. Default value is 60 seconds.
     """
     from time import sleep
-    import os
 
     while not os.path.exists(path):
         sleep(1)
     return
 
+    for _ in range(timeout):
+        if os.path.exists(path):
+            break
+            sleep(1)
 
 @activity
-def write_list_to_file(list_to_write, file):
+def write_list_to_file(list_to_write, file_path):
     """Writes a list to a  text (.txt) file. 
     
-    Every element of the entered list is written on a new
-    line of the text file. The .txt file is entered with a path. If the path does not exist
-    yet, the function will create a new .txt file at the specified path and write it. If the 
-    path does exist, the function writes the list in the existing file.
+    Every element of the entered list is written on a new line of the text file.
+    
+    :param list_to_write: List to write to .txt file
+    :param path: Path to the text-file. If the specified path does not exist, the function will create a new .txt file. 
     """
-    with open(file, "w") as filehandle:
+    with open(file_path, "w") as filehandle:
         filehandle.writelines("%s\n" % place for place in list_to_write)
     return
 
 
 @activity
-def read_list_from_file(file):
-    """This function writes the content of a entered .txt file to a list and returns that list. 
-
-    Every new line from the .txt file becomes a new element of the list. The function will 
+def read_list_from_txt(file_path):
+    """Read txt file
+    
+    This activity writes the content of a .txt file to a list and returns that list. 
+    Every new line from the .txt file becomes a new element of the list. The activity will 
     not work if the entered path is not attached to a .txt file.
+
+    :param path: Path to the .txt file
+
+    :return: List with contents of specified .txt file
     """
     written_list = []
-    with open(file, "r") as filehandle:
+    with open(file_path, "r") as filehandle:
         filecontents = filehandle.readlines()
         for line in filecontents:
             current_place = line[:-1]
@@ -3246,67 +3258,67 @@ def append_line(text, file_path):
 
 
 @activity
-def copy_file(from_path, to_path):
-    """Copy a file from a path to a path. Can be a folder
+def copy_file(old_path, new_path=None):
+    """Copy a file
+
+    Copies a file from one place to another.
+    If the new location already contains a file with the same name, a random 8 character uid is added to the name.
+
+    :param old_path: Full path to the source location of the folder
+    :param new_path: Optional full path to the destination location of the folder. If not specified file will be copied to the same location with a random 8 character uid is added to the name.
     """
+    from uuid import uuid4
+    import os
     import shutil
 
-    shutil.copy(from_path, to_path)
+    if not new_path:
+        new_path = old_path
+
+    if os.path.isfile(old_path):
+        if not os.path.isfile(new_path):
+            shutil.copy(old_path, new_path)
+        elif os.path.isfile(new_path):
+            filename, file_extension = os.path.splitext(old_path)
+            new_path = filename + "_" + str(uuid4())[:8] + file_extension
+        shutil.copy(old_path, new_path)
+    return
+
+@activity
+def get_file_extension(path):
+    """Get extension of a file
+    
+    :param path: Path to file to get extension from
+
+    :return: String with extension, e.g. '.txt'
+    """
+
+    import os 
+    filename, file_extension = os.path.splitext(old_path)
+
+    return file_extension
+
 
 @activity
 def send_to_printer(file):
     """Send file to default printer to print
+
+    This activity sends a file to the printer. Make sure to have a default printer set up.
 
     :parameter file: Path to the file to print, should be a printable file
     """
     import os
     os.startfile(file, 'print')
 
-@activity
-def create_directory(path):
-    pass
-
-
-@activity
-def create_file(path):
-    pass
-
-
-@activity
-def delete_file():
-    pass
-
-
-@activity
-def wait_for_file_change():
-    pass
-
-
-@activity
-def path_exists():
-    pass
-
-
-@activity
-def read_text_file():
-    pass
-
-
-@activity
-def write_text_file():
-    pass
-
-
 """
 Automagica Portal Reporting
-For more information, see https://automagica.io or sign up directly for the Automagica Portal at https://portal.automagica.io.
 """
 
 
 @activity
 def insert_table_header(data):
-    """
-    Inserts the header of an Automagica Report.
+    """Inserts the header of an Automagica Report.
+
+    :param data: List of dictionaries that will be parsed as headers
     """
     data_keys = []
 
@@ -3329,8 +3341,10 @@ def insert_table_header(data):
 
 @activity
 def insert_table_item(item, keys):
-    """
-    Inserts the header of an Automagica Report.
+    """Inserts the header of an Automagica Report.
+
+    :param item: Item to add
+    :param keys: Keys to add
     """
     print(
         "AUTOMAGICA_MARKDOWN_START: "
@@ -3341,10 +3355,13 @@ def insert_table_item(item, keys):
 
 @activity
 def insert_table(data):
-    """
+    """Add data to portal reporting
+
     Function to report in the Automagica Portal. Can be used to generate reports, 
     logs and worklists. Only available to users with access to the Portal. 
     This outputs a list of flat dicts to a markdown table with headers to the console.
+
+    :param data: List of dictionaries to add to portal
     """
     keys = insert_table_header(data)
 
@@ -3354,9 +3371,9 @@ def insert_table(data):
 
 @activity
 def insert_title(title="My title", level=1):
-    """
-    Function to insert a report title in the Automagica Portal.
-    This outputs a string as a title to the console.
+    """Function to insert a report title in the Automagica Portal.
+    
+    :param title: String to add as title
     """
     print("AUTOMAGICA_MARKDOWN_START: " + "#" * level + " :AUTOMAGICA_MARKDOWN_END")
 
@@ -3370,6 +3387,8 @@ PDF
 def read_text_from_pdf(file_path):
     """Extracts the text from a PDF
 
+    This activity reads text from a pdf file. Can only read PDF files that contain a text layer.
+    
     :param file_path: Path to the PDF (either relative or absolute)
     :return: The text from the PDF
     """
@@ -3391,6 +3410,7 @@ def join_pdf_files(file_paths, output_path):
     """Merges multiple PDFs into a single file
 
     :param file_paths: List of paths to PDF files
+    :param output_path: Full path where joined pdf files can be written
     """
     from PyPDF2 import PdfFileMerger, PdfFileReader
 
@@ -3426,7 +3446,10 @@ def extract_page_range_from_pdf(file_path, start_page, end_page, output_path):
 @activity
 def extract_images_from_pdf(file_path):
     """Save a specific page from a PDF as an image
+
     Credits to user Sylvain on Stackoverflow (https://stackoverflow.com/a/34116472)
+
+    :param file_path: Full path to store extracted images
     """
     from PyPDF2 import PdfFileReader
     from PIL import Image
@@ -3458,8 +3481,7 @@ def extract_images_from_pdf(file_path):
 
 @activity
 def apply_watermark_to_pdf(
-    file_path, watermark_path, output_path=''
-):
+    file_path, watermark_path, output_path=''):
     """Watermark a PDF
 
     :param file_path: Filepath to the document that will be watermarked. Should be pdf file.
@@ -3495,9 +3517,10 @@ System monitoring
 
 @activity
 def get_cpu_load(measure_time=1):
-    """
-    Returns average CPU load for all cores.
-    Measures once every second, adjust measure_time (seconds) to get a longer averaged measured time. Standard measure_time is 1 second.
+    """Get  average CPU load for all cores.
+
+    param measure_time: Time (seconds) to measure load. Displayed load is an average over measured_time. Standard measure_time is 1 second.
+
     """
     import psutil
 
@@ -3509,9 +3532,9 @@ def get_cpu_load(measure_time=1):
 
 @activity
 def get_number_of_cpu(logical=True):
-    """
-    Returns the number of CPU's in the current system. 
-    The parameter 'logical' determines if only logical units are added to the count, default value is True.
+    """Get the number of CPU's in the current system. 
+
+    :param logical: Determines if only logical units are added to the count, default value is True.
     """
     import psutil
 
@@ -3520,8 +3543,8 @@ def get_number_of_cpu(logical=True):
 
 @activity
 def get_cpu_frequency():
-    """
-    Returns frequency at which CPU currently operates.
+    """Get frequency at which CPU currently operates.
+    
     Also shows minimum and maximum frequency.
     """
     import psutil
@@ -3531,8 +3554,9 @@ def get_cpu_frequency():
 
 @activity
 def get_cpu_stats():
-    """
-    Returns CPU statistics: Number of CTX switches, intterupts, soft-interrupts and systemcalls.
+    """Get CPU statistics
+    
+    Number of CTX switches, intterupts, soft-interrupts and systemcalls.
     """
     import psutil
 
@@ -3541,9 +3565,10 @@ def get_cpu_stats():
 
 @activity
 def get_memory_stats(mem_type="swap"):
-    """
-    Returns memory statistics: total, used, free and percentage in use.
-    Choose mem_type = 'virtual' for virtual memory, and mem_type = 'swap' for swap memory (standard).
+    """Get  memory statistics
+    
+    Total, used, free and percentage in use.
+    :param mem_type: Choose mem_type = 'virtual' for virtual memory, and mem_type = 'swap' for swap memory (standard).
     """
     import psutil
 
@@ -3555,8 +3580,9 @@ def get_memory_stats(mem_type="swap"):
 
 @activity
 def get_disk_stats():
-    """
-    Returns disk statistics of main disk: total, used, free and percentage in use.
+    """Get disk statistics of main disk
+    
+    Total, used, free and percentage in use.
     """
     import psutil
 
@@ -3565,7 +3591,8 @@ def get_disk_stats():
 
 @activity
 def get_disk_partitions():
-    """
+    """Get disk partition info
+
     Returns tuple with info for every partition.
     """
     import psutil
@@ -3575,7 +3602,8 @@ def get_disk_partitions():
 
 @activity
 def get_boot_time():
-    """
+    """Get most recent boot time
+
     Returns time PC was booted in seconds after the epoch.
     """
     import psutil
@@ -3585,7 +3613,8 @@ def get_boot_time():
 
 @activity
 def get_time_since_last_boot():
-    """
+    """Get uptime since last boot
+
     Returns time since last boot in seconds.
     """
     import time
@@ -3598,18 +3627,14 @@ def get_time_since_last_boot():
 Image operations
 """
 
-@activity
-def download_image_from_url():
-    """
-    TODO
-    """
-    return
-
 
 @activity
 def show_image(path):
-    """
+    """Open image in default viewer
+
     Displays an image specified by the path variable on the default imaging program.
+
+    :param path: Full path to image
     """
     from PIL import Image
 
@@ -3620,9 +3645,9 @@ def show_image(path):
 
 @activity
 def rotate_image(path, angle=90):
-    """
-    Entering "C:\\Users\\Pictures\\Automagica.jpg" as path and an a angle of 90 rotates the picture specified by the first
-    argument over 90 degrees. Pay attention, because angles other than 90, 180, 270, 360 can resize the picture. 
+    """Rotate an image
+
+    :param angle: Degrees to rotate image. Note that angles other than 90, 180, 270, 360 can resize the picture. 
     """
     from PIL import Image
 
@@ -3633,10 +3658,14 @@ def rotate_image(path, angle=90):
 
 @activity
 def resize_image(path, size):
-    """
+    """Resize image
+
     Resizes the image specified by the path variable. The size is specifie by the second argument. This is a tuple with the
     width and height in pixels. E.g. ResizeImage("C:\\Users\\Pictures\\Automagica.jpg", (300, 400)) gives the image a width
     of 300 pixels and a height of 400 pixels.
+
+    :param path: Path to the image
+    :param size: Tuple with new size e.g. (300, 400)
     """
     from PIL import Image
 
@@ -3647,6 +3676,10 @@ def resize_image(path, size):
 
 @activity
 def get_image_width(path):
+    """Get with of image
+
+    :param path: Path to image
+    """
     from PIL import Image
 
     im = Image.open(path)
@@ -3658,6 +3691,10 @@ def get_image_width(path):
 
 @activity
 def get_image_height(path):
+    """Get height of image
+
+    :param path: Path to image
+    """
     from PIL import Image
 
     im = Image.open(path)
@@ -3669,28 +3706,23 @@ def get_image_height(path):
 
 @activity
 def crop_image(path, box=None):
-    """
-    Crops the image specified by path to a region determined by the box variable. This variable is a 4 tuple who defines the
-    left, upper, right and lower pixel coördinate e.g.: (left, upper, right, lower).
+    """Crpo image
+    Crops the image specified by path to a region determined by the box variable.
+
+    :param path: Path to image
+    :param box:  A tuple that defines the left, upper, right and lower pixel coördinate e.g.: (left, upper, right, lower)
     """
     im = Image.open(path)
     return im.crop(box).save(path)
 
 
-@activity
-def image_format(path):
-    """
-    Returns the format of an image specified by the input path. E.g. entering "C:\\Users\\Pictures\\Automagica.jpg"
-    returns a message box saying JPEG.
-    """
-    im = Image.open(path)
-    return DisplayMessageBox(im.format)
-
 
 @activity
 def mirror_image_horizontally(path):
-    """
-    Mirrors an image with a given path from left to right.
+    """Mirror image
+    Mirrors an image with a given path horizontally from left to right.
+
+    :param path: Path to image
     """
     im = Image.open(path)
     return im.transpose(Image.FLIP_LEFT_RIGHT).save(path)
@@ -3699,39 +3731,12 @@ def mirror_image_horizontally(path):
 @activity
 def mirror_image_vertically(path):
     """
-    Mirrors an image with a given path from top to bottom.
+    Mirrors an image with a given path vertically from top to bottom.
+
+    :param path: Path to image
     """
     im = Image.open(path)
     return im.transpose(Image.FLIP_TOP_BOTTOM).save(path)
-
-
-"""
-Message boxes
-"""
-
-
-@activity
-def display_message_box(body, title="Message", type="info"):
-    """
-    Shows a pop-up message with title and body. Three possible types, info, error and warning with the default value info.
-    """
-    import tkinter
-    from tkinter import messagebox
-
-    # hide main window
-    root = tkinter.Tk()
-    root.withdraw()
-
-    if not body:
-        messagebox.showwarning("Warning", "No input for message box")
-
-    if type == "error":
-        messagebox.showwarning(title, body)
-    if type == "warning":
-        messagebox.showwarning(title, body)
-    if type == "info":
-        messagebox.showinfo(title, body)
-    return
 
 
 """
@@ -3750,7 +3755,7 @@ def run(task):
     import time
 
     hotkey('winleft', 'r')
-    time.sleep(0.2)
+    time.sleep(0.5)
 
     import platform
 
@@ -3764,9 +3769,11 @@ def run(task):
 
 @activity
 def is_process_running(name):
-    """
+    """Check if process is running
     Checks if given process name (name) is currently running on the system.
-    Returns True or False.
+
+    :param name: Name of process
+    :return: Boolean
     """
     import psutil
 
@@ -3795,95 +3802,11 @@ def get_running_processes():
 
 
 @activity
-def is_chrome_running():
-    """
-    Returns True is Chrome is running.
-    """
-    return is_process_running("chrome.exe")
-
-
-@activity
-def is_word_running():
-    """
-    Returns True is Word is running.
-    """
-    return is_process_running("winword.exe")
-
-
-@activity
-def is_excel_running():
-    """
-    Returns True is Excel is running.
-    """
-    return is_process_running("excel.exe")
-
-
-@activity
-def is_powerpoint_running():
-    """
-    Returns True is Powerpoint is running.
-    """
-    return is_process_running("powerpnt.exe")
-
-
-@activity
-def is_dropbox_running():
-    """
-    Returns True is Dropbox is running.
-    """
-    return is_process_running("dropbox.exe")
-
-
-@activity
-def is_firefox_running():
-    """
-    Returns True is Firefox is running.
-    """
-    return is_process_running("firefox.exe")
-
-
-@activity
-def is_teamviewer_running():
-    """
-    Returns True is Teamviewer is running.
-    """
-    return is_process_running("teamviewer.exe")
-
-
-@activity
-def is_skype_running():
-    """
-    Returns True is Skype is running.
-    """
-    return is_process_running("skypehost.exe")
-
-
-@activity
-def is_edge_running():
-    """
-    Returns True is Microsoft Edge is running.
-    """
-    return is_process_running("edge.exe")
-
-
-@activity
-def is_onedrive_running():
-    """
-    Returns True is Onedrive is running.
-    """
-    return is_process_running("onedrive.exe")
-
-
-@activity
-def is_illustrator_running():
-    """
-    Returns True is Illustrator is running.
-    """
-    return is_process_running("illustrator.exe")
-
-
-@activity
 def start_process(path):
+    """Start a program or process
+
+    :param path: Path to executable
+    """
     from subprocess import Popen
 
     return Popen(path)
@@ -3891,6 +3814,12 @@ def start_process(path):
 
 @activity
 def kill_process(name=None):
+    """Kill a process
+
+    Kills a process forcefully
+
+    :param name: Name of the process
+    """
     import os
     return os.system("taskkill /f /im " + name + " >nul 2>&1")
 
@@ -3904,7 +3833,9 @@ Optical Character Recognition
 def extract_text_from_image(file_path):
     """Extract text from image
     
-    Extracts any text from an image
+    Extracts any text from an image. Requires tesseract to be installed locally
+
+    :param file_path: Path to image
     """
     import pytesseract
     from pytesseract import image_to_string
@@ -3925,16 +3856,24 @@ Office 365
 
 
 @activity
-def send_email_with_outlook365():
+def send_email_with_outlook365(client_id, client_secret, to_email, subject='', body=''):
+    """Send email directly with Office Outlook 365
+
+    :param client_id: Client id for office 365 account
+    :param client_secret: Client secret for office 365 account
+    :param to_email: E-mail to send to
+    :param subject: Optional subject
+    :param body: Optional body of the email
+    """
     from O365 import Account
 
-    credentials = ("client_id", "client_secret")
+    credentials = (client_id, client_secret)
 
     account = Account(credentials)
     m = account.new_message()
-    m.to.add("to_example@example.com")
-    m.subject = "Testing!"
-    m.body = "George Best quote: I've stopped drinking, but only while I'm asleep."
+    m.to.add(to_email)
+    m.subject = subject
+    m.body = body
     m.send()
 
 
