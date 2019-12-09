@@ -680,7 +680,6 @@ def display_osd_message(message, seconds=5):
     label.pack()
     label.mainloop()
 
-
 """
 Browsers
 """
@@ -3828,32 +3827,173 @@ def kill_process(name=None):
 Optical Character Recognition
 """
 
+@activity
+def extract_text_ocr(path=None):
+    """Get text with OCR
+    
+    This activity extracts all text from the current screen or an image if a path is specified.
+    
+    :param path: Path to image from where text will be extracted. If no path is specified a screenshot of current screen will be used.
+    
+    :return: String with all text from current screen
+    """
+
+    import requests
+    import base64
+    import os
+    import json
+
+    if not path:
+        import PIL.ImageGrab
+        img = PIL.ImageGrab.grab()
+        path = os.path.join(os.path.expanduser("~"), "ocr_temp.jpg")
+        img.save(path, "JPEG")
+
+    # Open file and encode as Base 64
+    with open(path, 'rb') as f:
+        image_base64 = base64.b64encode(f.read()).decode('utf-8')
+
+    # Get Bot API_key
+    config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+
+    # Read JSON
+    with open(config_path) as json_file:
+        local_data = json.load(json_file)
+        api_key = str(local_data['bot_secret']) # Your API key    
+
+    # Prepare data for request
+    data = {
+            "image_base64": image_base64,
+            "api_key": api_key
+           }
+
+    # Post request to API
+    r = requests.post('https://ocr.automagica.com/', json=data)
+
+    # Print results
+    return r.json()['text']
 
 @activity
-def extract_text_from_image(file_path):
-    """Extract text from image
+def find_text_on_screen_ocr(text, criteria=None):
+    """Find text on screen with OCR
+
+    This activity finds position (coördinates) of specified text on the current screen using OCR.
+
+    :param text: Text to find. Only exact matches are returned.
+    :param criteria: Criteria to select on if multiple matches are found. If no criteria is specified all matches will be returned.
+    Options are 'first', which returns the first match closest to the upper left corner,
+    'last' returns the last match closest to the lower right corner, random selects a random match.
     
-    Extracts any text from an image. Requires tesseract to be installed locally
-
-    :param file_path: Path to image
+    :return: Dictionary or list of dictionaries with matches with following elements: 'h' height in pixels, 'text' the matched text,
+    'w' the width in pixels, 'x' absolute x-coördinate , 'y' absolute y-coördinate. Returns nothing if no matches are found
     """
-    import pytesseract
-    from pytesseract import image_to_string
-    import platform
-    from PIL import Image
 
-    if platform.system() == "Windows":
-        pytesseract.pytesseract.tesseract_cmd = (
-            "C:\\Program Files (x86)\\Tesseract-OCR\\tesseract"
-        )
+    import requests
+    import base64
+    import os
+    import json
 
-    return image_to_string(Image.open(file_path))
+    import PIL.ImageGrab
+    img = PIL.ImageGrab.grab()
+    path = os.path.join(os.path.expanduser("~"), "ocr_temp.jpg")
+    img.save(path, "JPEG")
 
+    # Open file and encode as Base 64
+    with open(path, 'rb') as f:
+        image_base64 = base64.b64encode(f.read()).decode('utf-8')
+
+    # Get Bot API_key
+    config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+
+    # Read JSON
+    with open(config_path) as json_file:
+        local_data = json.load(json_file)
+        api_key = str(local_data['bot_secret']) # Your API key    
+
+    # Prepare data for request
+    data = {
+            "image_base64": image_base64,
+            "api_key": api_key
+           }
+
+    # Post request to API
+    r = requests.post('https://ocr.automagica.com/', json=data)
+
+    # Print results
+    data = r.json()['locations']
+
+    # Find all matches
+    matches = []
+    for item in data:
+        if item['text'] == text:
+            matches.append(item)
+
+    if not matches:
+        return None
+
+    if criteria:
+        if len(matches) > 0:
+            if criteria == 'first':
+                best_match = matches[0]
+            if criteria == 'last':
+                best_match = matches[-1]
+            if criteria == 'random':
+                import random
+                best_match = random.choice(matches)
+
+            return best_match
+    
+    else:
+        return matches
+
+@activity
+def click_on_text_ocr(text):
+    """Click on text with OCR
+
+    This activity clicks on position (coördinates) of specified text on the current screen using OCR.
+
+    :param text: Text to find. Only exact matches are returned.
+    """
+    position = find_text_on_screen_ocr(text, criteria='first')
+    if position:
+        from pyautogui import click
+        x = int(position['x'] + position['w']/2)
+        y = int(position['y']+ position['h']/2)
+        return click(x=x, y=y)
+
+@activity
+def double_click_on_text_ocr(text):
+    """Double click on text with OCR
+
+    This activity double clicks on position (coördinates) of specified text on the current screen using OCR.
+
+    :param text: Text to find. Only exact matches are returned.
+    """
+    position = find_text_on_screen_ocr(text, criteria='first')
+    if position:
+        from pyautogui import doubleClick
+        x = int(position['x'] + position['w']/2)
+        y = int(position['y']+ position['h']/2)
+        return doubleClick(x=x, y=y)
+
+@activity
+def right_click_on_text_ocr(text):
+    """Right click on text with OCR
+
+    This activity Right clicks on position (coördinates) of specified text on the current screen using OCR.
+
+    :param text: Text to find. Only exact matches are returned.
+    """
+    position = find_text_on_screen_ocr(text, criteria='first')
+    if position:
+        from pyautogui import rightClick
+        x = int(position['x'] + position['w']/2)
+        y = int(position['y']+ position['h']/2)
+        return rightClick(x=x, y=y)
 
 """
 Office 365
 """
-
 
 @activity
 def send_email_with_outlook365(client_id, client_secret, to_email, subject='', body=''):
@@ -3880,7 +4020,6 @@ def send_email_with_outlook365(client_id, client_secret, to_email, subject='', b
 """
 SAP
 """
-
 
 class SAPGUI:
     def __init__(self):
