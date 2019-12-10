@@ -6,6 +6,8 @@ def activity(func):
 
     @wraps(func)
     def wrapper(*args, **kwargs):
+        """Wrapper function
+        """
         if func.__doc__:
             name = func.__doc__.split("\n")[0]
         else:
@@ -19,6 +21,7 @@ def activity(func):
 
 def telemetry(func):
     """Automagica Activity Telemetry
+
     This allows us to collect information on the usage of 
     certain Automagica functionalities in order for us to keep improving 
     the software. If you would like to disable telemetry, make sure the 
@@ -46,7 +49,7 @@ def telemetry(func):
                 "platform": platform.system(),
                 "release": platform.release(),
             },
-        }
+            }
 
         try:
             r = requests.post(
