@@ -53,7 +53,7 @@ def telemetry(func):
 
         try:
             r = requests.post(
-                "https://telemetry.automagica.io/api", json=data, timeout=1
+                "https://telemetry.automagica.com/api", json=data, timeout=1
             )
         except:
             pass
@@ -65,9 +65,23 @@ Cryptography
 
 @activity
 def generate_random_key():
-    """Generates a random Fernet key. 
+    """Generates random key. 
 
-    Fernet guarantees that a message encrypted using it cannot be manipulated or read without the key. Fernet is an implementation of symmetric (also known as “secret key”) authenticated cryptography
+    Generate random Fernet key. Fernet guarantees that a message encrypted using it cannot be manipulated or read without the key. Fernet is an implementation of symmetric (also known as “secret key”) authenticated cryptography
+
+    :return: Bytes-like objec
+
+        :Example:
+
+    >>> generate_random_key()
+    b'AYv6ZPVgnrUtHDbGZqAopRyAo9r0_UKrA2Rm3K_NjIo='
+
+    Keywords
+        random, key, fernet, hash, security, cryptography, password, secure
+
+    Icon
+        <i class="fal fa-key-skeleton"></i>
+        
     """
     import os
     from cryptography.fernet import Fernet
@@ -77,10 +91,26 @@ def generate_random_key():
 
 @activity
 def encrypt_text_with_key(text, key):
-    """Encrypts string with (Fernet) key, returns bytes-like object.
+    """Encrypt string 
+    
+    Encrypt string with (Fernet) key, 
 
     :param text: Text to be encrypted.
     :param path: Path where key is stored.
+
+    :return: bytes-like object.
+
+        :Example:
+
+    >>> key = generate_random_key()
+    >>> encrypt_text_with_key('Sample text', key)
+    b'gAAAAABd8lpG8fNqcj5eXrPPHlx4KeCm-1TgX3jkyhStMfIlgGImIa-qaINZAj8XcxPcG8iu84iT56b_qAW9c5qpe7btUFhtxQ=='
+
+    Keywords
+        random, encryption, secure, security, hash, password, fernet, text
+
+    Icon
+        <i class="fal fa-lock"></i>
     """
     from cryptography.fernet import Fernet
     f = Fernet(key)
@@ -89,10 +119,28 @@ def encrypt_text_with_key(text, key):
 
 @activity
 def decrypt_text_with_key(encrypted_text, key):
-    """Decrypts bytes-like object to string with (Fernet) key
+    """Decrypt
+    
+    Dexrypt bytes-like object to string with (Fernet) key
+
+    :return: String
     
     :param encrypted_text: Text to be encrypted.
     :param path: Path where key is stored.
+
+        :Example:
+
+    >>> key = generate_random_key()
+    >>> encrypted_text = encrypt_text_with_key('Sample text', key)
+    >>> decrypt_text_with_key(encrypted_text, key)
+    'Sample text'
+
+    Keywords
+        decrypt, random, unlock, un-lock hash, security, cryptography, password, secure, hash, text
+
+    Icon
+        <i class="fal fa-lock-open"></i>
+        
     """
     from cryptography.fernet import Fernet
     f = Fernet(key)
@@ -100,47 +148,122 @@ def decrypt_text_with_key(encrypted_text, key):
     return f.decrypt(encrypted_text).decode("utf-8") 
 
 @activity
-def encrypt_file_with_key(input_file, output_file, key):
-    """Encrypts file with (Fernet) key
+def encrypt_file_with_key(input_path, key, output_path=None):
+    """Encrypt file 
     
-    :param input_file: File to be encrypted.
-    :param output_file: Outputfile, returns a bytes-like can be an arbitrary .
-    """
-    from cryptography.fernet import Fernet
+    Encrypte file with (Fernet) key. Note that file will be unusable unless unlocked with the same key.
+    
+    :param input_file: Full path to file to be encrypted.
+    :param output_file: Output path. Default is the same directory with "_encrypted" added to the name
 
-    with open(input_file, 'rb') as f:
+    :return: Path to encrypted file
+
+        :Example:
+
+    >>> key = generate_random_key()
+    >>> # Create a textfile to illustrate file encryption
+    >>> textfile_path = make_textfile()
+    >>> # Encrypt the textfile
+    >>> encrypt_file_with_key(textfile_path, key=key)
+    'C:\\Users\\<username>\\generated_textfile_encrypted.txt'
+
+    Keywords
+        encrypt, random, password, secure, secure file, lock
+
+    Icon
+        <i class="fal fa-door-closed"></i>
+    """
+    
+    # Set path if not specified
+    import os
+    if not output_path:
+        filepath = os.path.dirname(input_path)
+        base = os.path.basename(input_path)
+        filename = os.path.splitext(base)[0]
+        extension = os.path.splitext(base)[1]
+        output_path = os.path.join(filepath, filename + '_encrypted' + extension)
+    
+    from cryptography.fernet import Fernet
+    with open(input_path, 'rb') as f:
         data = f.read()
 
     fernet = Fernet(key)
     encrypted = fernet.encrypt(data)
 
-    with open(output_file, 'wb') as f:
+    with open(output_path, 'wb') as f:
         f.write(encrypted)
 
+    return output_path
+
 @activity
-def decrypt_file_with_key(input_file, output_file, key):
+def decrypt_file_with_key(input_path, key, output_path=None):
     """Decrypts file with (Fernet) key
     
     :param input_file: Bytes-like file to be decrypted.
-    :param output_file: Outputfile, make sure to give this the same extension as basefile before encryption.
-    """
-    from cryptography.fernet import Fernet
+    :param output_file: Outputfile, make sure to give this the same extension as basefile before encryption. Default is the same directory with "_decrypted" added to the name 
+    
+    :return: Path to decrypted file
 
-    with open(input_file, 'rb') as f:
+        :Example:
+
+    >>> key = generate_random_key()
+    >>> # Create a textfile to encrypt file
+    >>> textfile_path = make_textfile()
+    >>> # Encrypt the textfile
+    >>> encrypted_textfile = encrypt_file_with_key(textfile_path, key=key)
+    >>> # Decrypt the newly encrypted file
+    >>> decrypt_file_with_key(encrypted_textfile, key=key)
+    'C:\\Users\\<username>\\generated_textfile_encrypted_decrypted.txt'
+
+    Keywords
+        decrypt, random, password, secure, secure file, unlock
+
+    Icon
+        <i class="fal fa-door-open"></i>
+    
+    """
+    # Set path if not specified
+    import os
+    if not output_path:
+        filepath = os.path.dirname(input_path)
+        base = os.path.basename(input_path)
+        filename = os.path.splitext(base)[0]
+        extension = os.path.splitext(base)[1]
+        output_path = os.path.join(filepath, filename + '_decrypted' + extension)
+    
+    from cryptography.fernet import Fernet
+    with open(input_path, 'rb') as f:
         data = f.read()
 
     fernet = Fernet(key)
-    encrypted = fernet.decrypt(data)
+    decrypted = fernet.decrypt(data)
 
-    with open(output_file, 'wb') as f:
-        f.write(encrypted)
+    with open(output_path, 'wb') as f:
+        f.write(decrypted)
+
+    return output_path
 
 @activity
 def generate_key_from_password(password, salt=None):
-    """Generates (Fernet) key based on password and salt.
+    """Generate key based on password and salt
+
+    Generate key based on password and salt. If both password and salt are known the key can be regenerated.
     
-    :param text: text to be encrypted.
+    :param password: Passwords
     :param salt: Salt to generate key in combination with password. Default value is the hostname. Take in to account that hostname is necessary to generate key, e.g. when files are encrypted with salt 'A' and password 'B', both elements are necessary to decrypt files.
+
+    :return: Bytes-like object
+
+        :Example:
+
+    >>> key = generate_key_from_password(password='Sample password')
+    b'7jGGF5w_xyI0CIZGCmLlnNyUvFpNvIUY08JCHopgAmm8='
+
+    Keywords
+        random, key, fernet, hash, security, cryptography, password, secure, salt
+
+    Icon
+        <i class="fad fa-key-skeleton"></i>
     """
     import base64
     from cryptography.hazmat.backends import default_backend
@@ -158,12 +281,30 @@ def generate_key_from_password(password, salt=None):
     return key
 
 @activity
-def generate_hash_from_file(file, method='md5', buffer_size = 65536):
-    """Generate hash from file. Can be used to create unique identifier for file validation or comparison.
+def generate_hash_from_file(input_path, method='md5', buffer_size = 65536):
+    """Generate hash from file 
+    
+    Can be used to create unique identifier for file validation or comparison.
 
     :param file: File to hash
-    :param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes.
+    :param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes. Default method is 'md5'.
     :param buffer_size: Buffer size for reading file in chunks, default value is 64kb
+
+    :return: Bytes-like object
+
+        :Example:
+
+    >>> # Generate a text file to illustrate hash
+    >>> textfile_path = make_textfile()
+    >>> # Get hash from textfile
+    >>> generate_hash_from_file(textfile_path)
+    '1ba249ca5931f3c85fe44d354c2f274d'
+
+    Keywords
+        Hash, mdf5, sha256, blake2b, identifier, unique, hashing, fingerprint, comparison
+
+    Icon
+        <i class="fal fa-fingerprint"></i>
     """
     import sys
     import hashlib
@@ -178,7 +319,7 @@ def generate_hash_from_file(file, method='md5', buffer_size = 65536):
     if method == 'blake2b':
         hash_list = hashlib.blake2b()
 
-    with open(file, 'rb') as f:
+    with open(input_path, 'rb') as f:
         while True:
             data = f.read(buffer_size)
             if data:
@@ -191,7 +332,19 @@ def generate_hash_from_text(text, method='md5'):
     """Generate hash from text.
     
     :param file: Text to hash
-    :param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes.
+    :param method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes. Default method is 'md5'.
+
+
+        :Example:
+
+    >>> generate_hash_from_text('Sample text')
+    '1ba249ca5931f3c85fe44d354c2f274d'
+    Keywords
+        Hash, mdf5, sha256, blake2b, identifier, unique, hashing, fingerprint, text, comparison
+
+    Icon
+        <i class="fad fa-fingerprint"></i>
+    
     """
     import sys
     import hashlib
@@ -211,11 +364,26 @@ Random
 
 @activity
 def generate_random_number(lower_limit=0,upper_limit=10, fractional=False):
-    """Generates a random number. Can be integers (not a fractional number) or a float (fractional number).
+    """Generate a random number. 
+    
+    Random numbers can be integers (not a fractional number) or a float (fractional number).
 
     :param lower_limit: Lower limit for random number
     :param upper_limit: Upper limit for random number
     :param fractional: Setting this to True will generate fractional number. Default value is False and only generates whole numbers.
+    
+    :return: Random integer or float
+    
+        :Example:
+
+    >>> generate_random_number()
+    7
+
+    Keywords:
+        random number, random integer, dice, gamble, rng, random
+
+    Icon
+        <i class="fal fa-dice"></i>
     """
     import random 
     if fractional:
@@ -225,60 +393,90 @@ def generate_random_number(lower_limit=0,upper_limit=10, fractional=False):
 
 @activity
 def generate_random_boolean():
-    """Generates a random boolean (True or False)
+    """Generate random boolean 
+
+    Generates a random boolean (True or False)
+
+    :return: Boolean
+
+        :Example:
+
+    >>> generate_random_boolean()
+    True
+
+    Keywords:
+        random, dice, gamble, rng, coin, coinflip, heads, tails
+
+    Icon
+        <i class="fal fa-coin"></i>
     """
     import random 
     return bool(random.getrandbits(1))
 
 @activity
 def generate_random_name(locale=None):
-    """Generates a random name.
+    """Generate random name.
+
+    Generates a random name. Adding a locale adds a more common name in the specified locale. Provides first name and last name.
 
     :param locale: Add a locale to generate popular name for selected locale.
-        ar_EG - Arabic (Egypt)
-        ar_PS - Arabic (Palestine)
-        ar_SA - Arabic (Saudi Arabia)
-        bg_BG - Bulgarian
-        bs_BA - Bosnian
-        cs_CZ - Czech
-        de_DE - German
-        dk_DK - Danish
-        el_GR - Greek
-        en_AU - English (Australia)
-        en_CA - English (Canada)
-        en_GB - English (Great Britain)
-        en_NZ - English (New Zealand)
-        en_US - English (United States)
-        es_ES - Spanish (Spain)
-        es_MX - Spanish (Mexico)
-        et_EE - Estonian
-        fa_IR - Persian (Iran)
-        fi_FI - Finnish
-        fr_FR - French
-        hi_IN - Hindi
-        hr_HR - Croatian
-        hu_HU - Hungarian
-        hy_AM - Armenian
-        it_IT - Italian
-        ja_JP - Japanese
-        ka_GE - Georgian (Georgia)
-        ko_KR - Korean
-        lt_LT - Lithuanian
-        lv_LV - Latvian
-        ne_NP - Nepali
-        nl_NL - Dutch (Netherlands)
-        no_NO - Norwegian
-        pl_PL - Polish
-        pt_BR - Portuguese (Brazil)
-        pt_PT - Portuguese (Portugal)
-        ro_RO - Romanian
-        ru_RU - Russian
-        sl_SI - Slovene
-        sv_SE - Swedish
-        tr_TR - Turkish
-        uk_UA - Ukrainian
-        zh_CN - Chinese (China)
-        zh_TW - Chinese (Taiwan)
+        -   ar_EG - Arabic (Egypt)
+        -   ar_PS - Arabic (Palestine)
+        -   ar_SA - Arabic (Saudi Arabia)
+        -   bg_BG - Bulgarian
+        -   bs_BA - Bosnian
+        -   cs_CZ - Czech
+        -   de_DE - German
+        -   dk_DK - Danish
+        -   el_GR - Greek
+        -   en_AU - English (Australia)
+        -   en_CA - English (Canada)
+        -   en_GB - English (Great Britain)
+        -   en_NZ - English (New Zealand)
+        -   en_US - English (United States)
+        -   es_ES - Spanish (Spain)
+        -   es_MX - Spanish (Mexico)
+        -   et_EE - Estonian
+        -   fa_IR - Persian (Iran)
+        -   fi_FI - Finnish
+        -   fr_FR - French
+        -   hi_IN - Hindi
+        -   hr_HR - Croatian
+        -   hu_HU - Hungarian
+        -   hy_AM - Armenian
+        -   it_IT - Italian
+        -   ja_JP - Japanese
+        -   ka_GE - Georgian (Georgia)
+        -   ko_KR - Korean
+        -   lt_LT - Lithuanian
+        -   lv_LV - Latvian
+        -   ne_NP - Nepali
+        -   nl_NL - Dutch (Netherlands)
+        -   no_NO - Norwegian
+        -   pl_PL - Polish
+        -   pt_BR - Portuguese (Brazil)
+        -   pt_PT - Portuguese (Portugal)
+        -   ro_RO - Romanian
+        -   ru_RU - Russian
+        -   sl_SI - Slovene
+        -   sv_SE - Swedish
+        -   tr_TR - Turkish
+        -   uk_UA - Ukrainian
+        -   zh_CN - Chinese (China)
+        -   zh_TW - Chinese (Taiwan)
+
+    :return: Name as string
+
+        :Example:
+
+    >>> generate_random_name()
+    'Michelle Murphy'
+
+    Keywords
+        random, dummy name, name, name generater, fake person, fake, person, surname, lastname, fake name generator
+
+    Icon
+        <i class="fal fa-user-tag"></i>
     """
     from faker import Faker
     if locale:
@@ -288,53 +486,68 @@ def generate_random_name(locale=None):
     return seed.name()
 
 def generate_random_sentence(locale=None):
-    """Generates a random sentence.
+    """Generates random sentence.
 
-    :param locale: Add a locale to generate sentences for selected locale (language).
-        ar_EG - Arabic (Egypt)
-        ar_PS - Arabic (Palestine)
-        ar_SA - Arabic (Saudi Arabia)
-        bg_BG - Bulgarian
-        bs_BA - Bosnian
-        cs_CZ - Czech
-        de_DE - German
-        dk_DK - Danish
-        el_GR - Greek
-        en_AU - English (Australia)
-        en_CA - English (Canada)
-        en_GB - English (Great Britain)
-        en_NZ - English (New Zealand)
-        en_US - English (United States)
-        es_ES - Spanish (Spain)
-        es_MX - Spanish (Mexico)
-        et_EE - Estonian
-        fa_IR - Persian (Iran)
-        fi_FI - Finnish
-        fr_FR - French
-        hi_IN - Hindi
-        hr_HR - Croatian
-        hu_HU - Hungarian
-        hy_AM - Armenian
-        it_IT - Italian
-        ja_JP - Japanese
-        ka_GE - Georgian (Georgia)
-        ko_KR - Korean
-        lt_LT - Lithuanian
-        lv_LV - Latvian
-        ne_NP - Nepali
-        nl_NL - Dutch (Netherlands)
-        no_NO - Norwegian
-        pl_PL - Polish
-        pt_BR - Portuguese (Brazil)
-        pt_PT - Portuguese (Portugal)
-        ro_RO - Romanian
-        ru_RU - Russian
-        sl_SI - Slovene
-        sv_SE - Swedish
-        tr_TR - Turkish
-        uk_UA - Ukrainian
-        zh_CN - Chinese (China)
-        zh_TW - Chinese (Taiwan)
+    Generates a random sentence. Specifying locale changes language and content based on locale.
+
+    :param locale: Add a locale to generate popular name for selected locale.
+        -   ar_EG - Arabic (Egypt)
+        -   ar_PS - Arabic (Palestine)
+        -   ar_SA - Arabic (Saudi Arabia)
+        -   bg_BG - Bulgarian
+        -   bs_BA - Bosnian
+        -   cs_CZ - Czech
+        -   de_DE - German
+        -   dk_DK - Danish
+        -   el_GR - Greek
+        -   en_AU - English (Australia)
+        -   en_CA - English (Canada)
+        -   en_GB - English (Great Britain)
+        -   en_NZ - English (New Zealand)
+        -   en_US - English (United States)
+        -   es_ES - Spanish (Spain)
+        -   es_MX - Spanish (Mexico)
+        -   et_EE - Estonian
+        -   fa_IR - Persian (Iran)
+        -   fi_FI - Finnish
+        -   fr_FR - French
+        -   hi_IN - Hindi
+        -   hr_HR - Croatian
+        -   hu_HU - Hungarian
+        -   hy_AM - Armenian
+        -   it_IT - Italian
+        -   ja_JP - Japanese
+        -   ka_GE - Georgian (Georgia)
+        -   ko_KR - Korean
+        -   lt_LT - Lithuanian
+        -   lv_LV - Latvian
+        -   ne_NP - Nepali
+        -   nl_NL - Dutch (Netherlands)
+        -   no_NO - Norwegian
+        -   pl_PL - Polish
+        -   pt_BR - Portuguese (Brazil)
+        -   pt_PT - Portuguese (Portugal)
+        -   ro_RO - Romanian
+        -   ru_RU - Russian
+        -   sl_SI - Slovene
+        -   sv_SE - Swedish
+        -   tr_TR - Turkish
+        -   uk_UA - Ukrainian
+        -   zh_CN - Chinese (China)
+        -   zh_TW - Chinese (Taiwan)
+
+    :return: Random sentence as string
+
+        :Example:
+
+    >>> generate_random_sentence()
+    'The age of automation is going to be the age of do-it-yourself'
+
+    Keywords
+        random, sentence, lorem ipsum, text generater, filler, place holder, noise, random text
+
+    Icon
+        <i class="fal fa-comment-alt-lines"></i>
     """
     from faker import Faker
     if locale:
@@ -345,53 +558,69 @@ def generate_random_sentence(locale=None):
 
 @activity
 def generate_random_address(locale=None):
-    """Generates a random address.
+    """Generates random address.
 
-    :param locale: Add a locale to generate addresses for selected locale.
-        ar_EG - Arabic (Egypt)
-        ar_PS - Arabic (Palestine)
-        ar_SA - Arabic (Saudi Arabia)
-        bg_BG - Bulgarian
-        bs_BA - Bosnian
-        cs_CZ - Czech
-        de_DE - German
-        dk_DK - Danish
-        el_GR - Greek
-        en_AU - English (Australia)
-        en_CA - English (Canada)
-        en_GB - English (Great Britain)
-        en_NZ - English (New Zealand)
-        en_US - English (United States)
-        es_ES - Spanish (Spain)
-        es_MX - Spanish (Mexico)
-        et_EE - Estonian
-        fa_IR - Persian (Iran)
-        fi_FI - Finnish
-        fr_FR - French
-        hi_IN - Hindi
-        hr_HR - Croatian
-        hu_HU - Hungarian
-        hy_AM - Armenian
-        it_IT - Italian
-        ja_JP - Japanese
-        ka_GE - Georgian (Georgia)
-        ko_KR - Korean
-        lt_LT - Lithuanian
-        lv_LV - Latvian
-        ne_NP - Nepali
-        nl_NL - Dutch (Netherlands)
-        no_NO - Norwegian
-        pl_PL - Polish
-        pt_BR - Portuguese (Brazil)
-        pt_PT - Portuguese (Portugal)
-        ro_RO - Romanian
-        ru_RU - Russian
-        sl_SI - Slovene
-        sv_SE - Swedish
-        tr_TR - Turkish
-        uk_UA - Ukrainian
-        zh_CN - Chinese (China)
-        zh_TW - Chinese (Taiwan)
+    Generates a random address. Specifying locale changes random locations and streetnames based on locale.
+
+    :param locale: Add a locale to generate popular name for selected locale.
+        -   ar_EG - Arabic (Egypt)
+        -   ar_PS - Arabic (Palestine)
+        -   ar_SA - Arabic (Saudi Arabia)
+        -   bg_BG - Bulgarian
+        -   bs_BA - Bosnian
+        -   cs_CZ - Czech
+        -   de_DE - German
+        -   dk_DK - Danish
+        -   el_GR - Greek
+        -   en_AU - English (Australia)
+        -   en_CA - English (Canada)
+        -   en_GB - English (Great Britain)
+        -   en_NZ - English (New Zealand)
+        -   en_US - English (United States)
+        -   es_ES - Spanish (Spain)
+        -   es_MX - Spanish (Mexico)
+        -   et_EE - Estonian
+        -   fa_IR - Persian (Iran)
+        -   fi_FI - Finnish
+        -   fr_FR - French
+        -   hi_IN - Hindi
+        -   hr_HR - Croatian
+        -   hu_HU - Hungarian
+        -   hy_AM - Armenian
+        -   it_IT - Italian
+        -   ja_JP - Japanese
+        -   ka_GE - Georgian (Georgia)
+        -   ko_KR - Korean
+        -   lt_LT - Lithuanian
+        -   lv_LV - Latvian
+        -   ne_NP - Nepali
+        -   nl_NL - Dutch (Netherlands)
+        -   no_NO - Norwegian
+        -   pl_PL - Polish
+        -   pt_BR - Portuguese (Brazil)
+        -   pt_PT - Portuguese (Portugal)
+        -   ro_RO - Romanian
+        -   ru_RU - Russian
+        -   sl_SI - Slovene
+        -   sv_SE - Swedish
+        -   tr_TR - Turkish
+        -   uk_UA - Ukrainian
+        -   zh_CN - Chinese (China)
+        -   zh_TW - Chinese (Taiwan)
+
+    :return: Random address as string
+
+        :Example:
+
+    >>> generate_random_address()
+    '5639 Cynthia Bridge Suite 610
+    'Port Nancy, GA 95894'
+
+    Keywords
+        random, address, random address, fake person , fake address, fake person generator
+
+    Icon
+        <i class="fal fa-map-marked-alt"></i>
     """
     from faker import Faker
     if locale:
@@ -403,10 +632,24 @@ def generate_random_address(locale=None):
 
 @activity
 def generate_random_beep(max_duration=2000, max_frequency=5000):
-    """Generates a random beep, only works on Windows
+    """Generates beep
+
+    Generates a random beep, only works on Windows
 
     :param max_duration: Maximum random duration in miliseconds. Default value is 2 miliseconds
     :param max_frequency: Maximum random frequency in Hz. Default value is 5000 Hz.
+
+    :return: Sound
+
+        :Example: 
+    
+    >>> generate_random_beep()
+
+    Keywords
+        beep, sound, random, noise, alert, notification
+
+    Icon
+        <i class="fal fa-volume-up"></i>
     """
     import winsound
     import random
@@ -418,30 +661,45 @@ def generate_random_beep(max_duration=2000, max_frequency=5000):
 def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
     """Generate a random date. 
 
+    Generates a random date.
+
+    -   %a	Abbreviated weekday name.	 
+    -   %A	Full weekday name.	 
+    -   %b	Abbreviated month name.	 
+    -   %B	Full month name.	 
+    -   %c	Predefined date and time representation.	 
+    -   %d	Day of the month as a decimal number [01,31].	 
+    -   %H	Hour (24-hour clock) as a decimal number [00,23].	 
+    -   %I	Hour (12-hour clock) as a decimal number [01,12].	 
+    -   %j	Day of the year as a decimal number [001,366].	 
+    -   %m	Month as a decimal number [01,12].	 
+    -   %M	Minute as a decimal number [00,59].	 
+    -   %p	AM or PM.
+    -   %S	Second as a decimal number [00,61].	
+    -   %U	Week number of the year (Sunday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Sunday are considered to be in week 0.	
+    -   %w	Weekday as a decimal number [0(Sunday),6].	 
+    -   %W	Week number of the year (Monday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Monday are considered to be in week 0.	
+    -   %x	Predefined date representation.	 
+    -   %X	Predefined time representation.	 
+    -   %y	Year without century as a decimal number [00,99].	 
+    -   %Y	Year with century as a decimal number.
+    -   %Z	Time zone name (no characters if no time zone exists).
+
     :param days_in_past: Days in the past for which oldest random date is generated, default is 1000 days
-    :param format: Formatting of the dates, replace with 'None' to get raw datetime format. 
-    e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
-    %a	Abbreviated weekday name.	 
-    %A	Full weekday name.	 
-    %b	Abbreviated month name.	 
-    %B	Full month name.	 
-    %c	Predefined date and time representation.	 
-    %d	Day of the month as a decimal number [01,31].	 
-    %H	Hour (24-hour clock) as a decimal number [00,23].	 
-    %I	Hour (12-hour clock) as a decimal number [01,12].	 
-    %j	Day of the year as a decimal number [001,366].	 
-    %m	Month as a decimal number [01,12].	 
-    %M	Minute as a decimal number [00,59].	 
-    %p	AM or PM.
-    %S	Second as a decimal number [00,61].	
-    %U	Week number of the year (Sunday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Sunday are considered to be in week 0.	(3)
-    %w	Weekday as a decimal number [0(Sunday),6].	 
-    %W	Week number of the year (Monday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Monday are considered to be in week 0.	(3)
-    %x	Predefined date representation.	 
-    %X	Predefined time representation.	 
-    %y	Year without century as a decimal number [00,99].	 
-    %Y	Year with century as a decimal number.
-    %Z	Time zone name (no characters if no time zone exists).
+    :param format: Formatting of the dates, replace with 'None' to get raw datetime format. e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
+
+    :return: Random date as string
+
+        :Example: 
+    
+    >>> generate_random_date()
+    01/01/2020 13:37'
+
+    Keywords
+        random, date, datetime, random date, fake date , calendar
+
+    Icon
+        <i class="fal fa-calendar-alt"></i>
     """
 
     import random
@@ -461,44 +719,26 @@ def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
 
 @activity
 def generate_unique_identifier():
-    """Generates a random UUID4
+    """Generate unique identifier
+    
+    Generates a random UUID4 (universally unique identifier). While the probability that a UUID will be duplicated is not zero, it is close enough to zero to be negligible.
+
+    :return: Identifier as string
+
+        :Example:
+
+    >>> generate_unique_identifier()
+    'd72fd7ea-d682-4f78-8ca1-0ed34142a992'
+
+    Keywords
+        unique, identifier, primary key, random
+
+    Icon
+        <i class="fal fa-random"></i>
     """
     from uuid import uuid4
 
     return str(uuid4())
-
-@activity
-def random_animal_picture(preferred_animal=None):
-    """Returns url for a random picture
-
-    Note that this service uses an external database, we can not garantuee the quality and availability. 
-    The purpose of this activity is mainly for testing to generate dummy data. Will most likely return a picture of a cat, dog or fox.
-
-    :parameter preferred_animal: Return a preferred animal, if not specified will return what is available at the moment. Options are 'cat', 'dog' or 'fox'.
-    """
-    import requests
-    import random
-
-    api_options = [ {'animal' : 'cat', 'url' :'https://aws.random.cat/meow', 'image_tag' : 'file'}, 
-                    {'animal' : 'dog', 'url' :'https://random.dog/woof.json', 'image_tag' : 'url'}, 
-                    {'animal' : 'fox', 'url' :'https://randomfox.ca/floof/', 'image_tag' : 'image'}
-                    ]
-    
-    if preferred_animal:
-        if preferred_animal in ['dog', 'cat', 'fox']:
-            option = list(filter(lambda api_option: api_option['animal'] == preferred_animal, api_options))[0]
-            response = requests.get(option['url'])
-            if response.status_code != 200:
-                raise Exception('Could not retreive image from external database')
-            return response.json()[option['image_tag']]
-    
-    random.shuffle(api_options)
-    for item in api_options:
-        response = requests.get(item['url'])
-        if response.status_code != 200:
-            continue
-        else:
-            return response.json()[item['image_tag']]
 
 
 """
@@ -508,10 +748,25 @@ Ask user input
 @activity
 def ask_user_input(title="Title", label="Input", password=False):
     """Ask user for input
-    Prompt the user for an input
+
+    Prompt the user for an input with a pop-up window. 
 
     :param title: Title for the pop-up window
     :param message: The message to be shown to the user
+
+    :return: Inputted text as string
+
+        :Example:
+
+    >>> ask_user_input()
+    >>> # Type in text and press 'submit', e.g. 'Sample text'
+    'Sample text'
+
+    Keywords
+        user input, pop-up, interaction, popup, window, feedback, screen, ad-hoc, attended
+
+    Icon
+        <i class="fal fa-window-maximize"></i>
     """
     import PySimpleGUI as sg
 
@@ -538,6 +793,7 @@ def ask_user_input(title="Title", label="Input", password=False):
         background_color="#2196F3",
         element_justification="center",
         use_default_focus=False,
+        keep_on_top=True
     )
     _, values = window.Read()
     window.Close()
@@ -548,10 +804,25 @@ def ask_user_input(title="Title", label="Input", password=False):
 @activity
 def ask_user_password(label="Password"):
     """Ask user for password
+    
     Prompt the user for a password. The password will be masked on screen while entering.
 
     :param title: Title for the pop-up window
     :param message: The message to be shown to the user
+
+    :return: Inputted password as string
+
+        :Example:
+
+    >>> ask_user_password()
+    >>> # Type in password and press 'submit', e.g. 'Sample password'
+    'Sample password'
+
+    Keywords
+        user input, pop-up, interaction, interactive, credential, popup, window, feedback, password, screen, login, attended
+
+    Icon
+        <i class="far fa-window-maximize"></i>
     """
     return ask_user_input(title="Password", label=label, password=True)
 
@@ -562,12 +833,27 @@ def ask_credentials(
     dialogue_text_username="Username:",
     dialogue_text_password="Password:",
 ):
-    """Ask a user for credentials
+    """Ask user for credentials
+
     Prompt a popup which asks user for username and password and returns in plain text. Password will be masked.
 
     :param title: Title for the popup
     :param dialogue_text: Dialogue text for username
     :param dialogue_text: Dialogue text for password
+
+    :return: Typle with nputted username and password as strings
+
+        :Example:
+
+    >>> ask_credentials()
+    >>> # Type in Username and Password 'submit', e.g. 'Sample username' and 'Sample password'
+    ('Sample username', 'Sample password')
+
+    Keywords
+        user input, credentials, interactive, pop-up, interaction, popup, window, feedback, password, screen, login, attended
+
+    Icon
+        <i class="fad fa-window-maximize"></i>
     """
     import PySimpleGUI as sg
 
@@ -597,6 +883,7 @@ def ask_credentials(
         background_color="#2196F3",
         element_justification="center",
         use_default_focus=False,
+        keep_on_top=True
     )
     _, values = window.Read()
 
@@ -607,10 +894,24 @@ def ask_credentials(
     return username, password
 
 def display_message_box(title="Title", message="Example message"):
-    """Shows a pop-up message with title and message. 
+    """Shows message box
+
+    A pop-up message with title and message. 
 
     :param title: Title for the pop-up window
     :param message: The message to be shown to the user
+
+    :return: True if user presses 'OK'
+
+    >>> display_message_box()
+    >>> # Wait till user presses 'OK'
+    True
+
+    Keywords
+        message box, warning, info, popup, window, feedback, screen, attended
+
+    Icon
+        <i class="fas fa-window-maximize"></i>
     """
     import PySimpleGUI as sg
 
@@ -630,58 +931,82 @@ def display_message_box(title="Title", message="Example message"):
         background_color="#2196F3",
         element_justification="center",
         use_default_focus=False,
+        keep_on_top=True
     )
     _, values = window.Read()
     window.Close()
-    value = values[0]
 
-    return value
+    return True
 
 @activity
-def display_osd_message(message, seconds=5):
-    """Display custom overlay message
+def display_osd_message(message='Example message', seconds=5):
+    """Display overlay message
 
-    Can be used to display a message for a limited amount of time. Can be used for illustration, debugging or as OSD.
+    Display custom OSD (on-screen display) message. Can be used to display a message for a limited amount of time. Can be used for illustration, debugging or as OSD.
 
     :param message: Message to be displayed
+
+    >>> display_osd_message()
+
+    Keywords
+        message box, osd, overlay, info warning, info, popup, window, feedback, screen, login, attended
+
+    Icon
+        <i class="fal fa-monitor-heart-rate"></i>
     """
     if "DISABLE_AUTOMAGICA_OSD" in globals():
         return
 
-    import tkinter, win32api, win32con, pywintypes
-    from win32api import GetSystemMetrics
+    from threading import Thread
 
-    screen_width = GetSystemMetrics(0)
-    screen_height = GetSystemMetrics(1)
+    def load_osd():
+        import tkinter
+        import win32con
+        import pywintypes
+        import win32api
 
-    root = tkinter.Tk()
-    label = tkinter.Label(
-        text=message, font=("Helvetica", "30"), fg="white", bg="black", borderwidth=10
-    )
-    label.master.overrideredirect(True)
-    label.config(anchor=tkinter.CENTER)
-    label.master.geometry(
-        "+{}+{}".format(int(screen_width / 2), int(screen_height - 250))
-    )
-    label.master.lift()
-    label.master.wm_attributes("-topmost", True)
-    label.master.wm_attributes("-disabled", True)
-    label.master.wm_attributes("-transparentcolor", "black")
+        screen_width = win32api.GetSystemMetrics(0)
+        screen_height = win32api.GetSystemMetrics(1)
 
-    hWindow = pywintypes.HANDLE(int(label.master.frame(), 16))
+        root = tkinter.Tk()
+        label = tkinter.Label(
+            text=message, font=("Helvetica", "30"), fg="white", bg="black", borderwidth=10
+        )
+        label.master.overrideredirect(True)
+        label.config(anchor=tkinter.CENTER)
+        label.master.geometry(
+            "+{}+{}".format(int(screen_width / 2), int(screen_height - 250))
+        )
+        label.master.lift()
+        label.master.wm_attributes("-topmost", True)
+        label.master.wm_attributes("-disabled", True)
+        label.master.wm_attributes("-transparentcolor", "black")
 
-    exStyle = (
-        win32con.WS_EX_COMPOSITED
-        | win32con.WS_EX_LAYERED
-        | win32con.WS_EX_NOACTIVATE
-        | win32con.WS_EX_TOPMOST
-        | win32con.WS_EX_TRANSPARENT
-    )
-    win32api.SetWindowLong(hWindow, win32con.GWL_EXSTYLE, exStyle)
+        hWindow = pywintypes.HANDLE(int(label.master.frame(), 16))
 
-    label.after(seconds * 1000, lambda: root.destroy())
-    label.pack()
-    label.mainloop()
+        exStyle = (
+            win32con.WS_EX_COMPOSITED
+            | win32con.WS_EX_LAYERED
+            | win32con.WS_EX_NOACTIVATE
+            | win32con.WS_EX_TOPMOST
+            | win32con.WS_EX_TRANSPARENT
+        )
+        win32api.SetWindowLong(hWindow, win32con.GWL_EXSTYLE, exStyle)
+
+        label.after(seconds * 1000, lambda: root.destroy())
+        label.pack()
+        label.mainloop()
+
+    t = Thread(target=load_osd)
+    try:
+        t.start()
+    except:
+        pass
+    finally:
+        try:
+            t.kill()
+        except:
+            pass
 
 """
 Browsers
@@ -690,17 +1015,45 @@ Browsers
 import selenium.webdriver
 class Chrome(selenium.webdriver.Chrome):
     def __init__(self, load_images=True, headless=False):
-        """Opens the Chrome Browser with the Selenium webdriver.
-        Args:
-            load_images (bool): do not load images
-            headless (bool): run without a window
+        """Opens Chrome Browser
+        
+        Open the Chrome Browser with the Selenium webdriver. Canb be used to automate manipulations in the browser.
+        Different elements can be found as:
 
-        Returns:
-            webdriver: Selenium Webdriver
+        -   Xpath: e.g. browser.find_element_by_xpath() or browser.xpath()
+        One can easily find an xpath by right clicking an element -> inspect. Look for the element in the menu and right click -> copy -> xpath
+        find_element_by_id
+        -   Name: find_element_by_name
+        -   Link text: find_element_by_link_text
+        -   Partial link text: find_element_by_partial_link_text
+        -   Tag name: find_element_by_tag_name
+        -   Class name: find_element_by_class_name
+        -   Css selector: find_element_by_css_selector
 
-        Example:
-            browser = ChromeBrowser(ignore_iamges=True)
-            browser.get('https://automagica.io')
+        Elements can be manipulated by:
+
+        - Clicking: e.g. element.click()
+        - Typing: e.g. element.send_keys()
+
+        :param load_images: Do not load images (bool). This could speed up loading pages
+        :param headless: Run headless, this means running without a visible window (bool)
+
+        return: wWbdriver: Selenium Webdriver
+
+        :Example:
+
+        >>>  # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://automagica.com')
+        >>> # Close browser
+        >>> browser.quit()
+
+        Keywords
+            chrome, browsing, browser, internet, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            <i class="fab fa-chrome"></i>
 
         """
         import platform
@@ -723,15 +1076,42 @@ class Chrome(selenium.webdriver.Chrome):
             prefs = {"profile.managed_default_content_settings.images": 2}
             chrome_options.add_experimental_option("prefs", prefs)
         
-        selenium.webdriver.Chrome.__init__(self, os.path.abspath("") + chromedriver_path, options=chrome_options)
+        selenium.webdriver.Chrome.__init__(self, os.path.abspath(__file__).replace('activities.py', '') + chromedriver_path)
 
     @activity
-    def save_all_images(self, target_folder_path):
-        """Save all images on current page in the Browser
+    def save_all_images(self, output_path=None):
+        """Save all images
+
+        Save all images on current page in the Browser
+
+        :param output_path: Path where images can be saved. Default value is home directory.
+
+        :return: List with paths to images
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://www.nytimes.com/')
+        >>> # Save all images
+        >>> browser.save_all_images()
+        >>> browser.quit()
+        ['C:\\Users\\<username>\\image1.png', 'C:\\Users\\<username>\\image2.jpg', 'C:\\Users\\<username>\\image4.gif']
+
+        Keywords
+            image scraping, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            <i class="fal fa-scanner-image"></i>
+
         """
         import requests
         import os
         from urllib.parse import urlparse
+
+        if not output_path:
+            output_path = os.path.expanduser("~")
         
         paths = []
         
@@ -742,11 +1122,11 @@ class Chrome(selenium.webdriver.Chrome):
             a = urlparse(url)
             filename = os.path.basename(a.path)
             
-            with open(os.path.join(target_folder_path, filename), 'wb') as f:
+            with open(os.path.join(output_path, filename), 'wb') as f:
                 try:
                     r = requests.get(url)
                     f.write(r.content)
-                    paths.append(os.path.join(target_folder_path, filename))
+                    paths.append(os.path.join(output_path, filename))
                 except:
                     pass
         
@@ -754,19 +1134,104 @@ class Chrome(selenium.webdriver.Chrome):
     
     @activity
     def find_elements_by_text(self, text):
-        """Find elements by text in the Browser
+        """Find browser elements by text
+
+        Find all elements by their text. Text does not need to match exactly, part of text is enough.
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://nytimes.com')
+        >>> # Find elements by text
+        >>> browser.find_elements_by_text('world')
+        [webelement1, webelement2 , .. ]
+
+        Keywords
+            element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            <i class="fal fa-text"></i>
+
         """
-        return self.find_elements_by_xpath("//*[contains(text(), '" + text + "')] | //*[@value='" + text + "']")
+        return self.find_elements_by_xpath("//*[contains(text(), '" + text.lower() + "')] | //*[@value='" + text.lower() + "']")
     
     @activity
     def find_element_by_text(self, text):
-        """Find element by text in the Browser
+        """Find browser element by text
+
+        Find one element by text. Text does not need to match exactly, part of text is enough.
+            
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://nytimes.com')
+        >>> # Find elements by text
+        >>> browser.find_element_by_text('world')
+        webelement
+
+        Keywords
+            element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            <i class="fal fa-text"></i>
+
         """
-        return self.find_element_by_xpath("//*[contains(text(), '" + text + "')] | //*[@value='" + text + "']")
+        return self.find_element_by_xpath("//*[contains(text(), '" + text.lower() + "')] | //*[@value='" + text.lower() + "']")
     
+    @activity
+    def find_all_links(self):
+        """Find all links in browser
+
+        Find all links on a webpage in the  the browser
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://nytimes.com')
+        >>> # Find elements by text
+        >>> browser.find_all_links()
+        [webelement1, webelement2 , .. ]
+
+        Keywords
+            random, element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            <i class="fal fa-window-restore"></i>
+
+    """
+        return self.find_elements_by_xpath("//a[@href]")
+
     @activity
     def highlight(self, element):
         """Highlight element in the Browser
+
+        Highlight elements in yellow in the browser
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://wikipedia.org')
+        >>> # Find all links
+        >>> links = browser.find_all_links()
+        >>> # Select first link to highlight for illustration
+        >>> first_link = links[0]
+        >>> # Highlight first link
+        >>> browser.highlight(first_link)
+
+        Keywords
+            element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            <i class="fal fa-highlighter"></i>
+
         """
         driver = element._parent
         
@@ -777,6 +1242,85 @@ class Chrome(selenium.webdriver.Chrome):
         
         apply_style("background: yellow; border: 2px solid red;")
 
+    @activity
+    def exit(self):
+        """Exit the browser
+
+        Quit the browser by exiting gracefully. One can also use the native 'quit' function, e.g. 'browser.quit()'
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://automagica.com')
+        >>> # Close browser
+        >>> browser.exit()
+
+
+        Keywords
+            quit, exit, close, element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            <i class="fal fa-window-close"></i>
+
+        """
+        self.quit()
+
+    @activity
+    def find_xpaths(self, element):
+        """Find all xpath in browser
+
+        Find all elements with specified xpath on a webpage in the the browser. Can also use native 'find_elements_by_xpath' function e.g. browser.find_elements_by_xpath()
+        You can easily
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://wikipedia.org')
+        >>> # Find element by xpath
+        >>> browser.find_xpaths('//*[@id="js-link-box-en"]')
+        [webelement1, webelement2 , .. ]
+
+        Keywords
+            random, element, xpath, xml, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            <i class="fad fa-times"></i>
+
+    """
+
+        return self.find_elements_by_xpath(element)
+
+    @activity
+    def find_xpath(self, element):
+        """Find xpath in browser
+
+        Find all element with specified xpath on a webpage in the the browser. Can also use native 'find_elements_by_xpath' function e.g. browser.find_element_by_xpath()
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://wikipedia.org')
+        >>> # Find element by xpath
+        >>> elements = browser.find_xpath('//*[@id="js-link-box-en"]')
+        >>> # We can now use this element, for example to click on
+        >>> element.click()
+
+        Keywords
+            random, xpath, element, xml element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            <i class="fal fa-times"></i>
+
+    """
+
+        return self.find_element_by_xpath(element)
+
 """
 Credential Management
 """
@@ -784,11 +1328,26 @@ Credential Management
 
 @activity
 def set_credential(username=None, password=None, system="Automagica"):
-    """Add a credential which stores credentials locally. All parameters should be Unicode text. 
+    """Set credential
+    
+    Add a credential which stores credentials locally and securely. All parameters should be Unicode text. 
 
     :param username: Username for which credential will be added.
     :param password: Password to add
     :param system: Name of the system for which credentials are stored. Extra safety measure and method for keeping passwords for similar usernames on different applications a part. Highly recommended to change default value.
+    
+    :return: Stores credentials locally
+
+        :Example:
+
+    >>> set_credential('SampleUsername', 'SamplePassword')
+
+    Keywords
+        credential, login, password, username, store, vault, secure, credentials, store, log in, encrypt
+
+    Icon
+        <i class="fab fa-fort-awesome"></i>
+    
     """
     import keyring
 
@@ -797,10 +1356,25 @@ def set_credential(username=None, password=None, system="Automagica"):
 
 @activity
 def delete_credential(username=None, password=None, system="Automagica"):
-    """Delete a locally stored credential. All parameters should be Unicode text. 
+    """Delete credential.
+
+    Delete a locally stored credential. All parameters should be Unicode text. 
 
     :param username: Username for which credential (username + password) will be deleted.
     :param system: Name of the system for which password will be deleted. 
+
+
+        :Example:
+
+    >>> set_credential('SampleUsername', 'SamplePassword')
+    >>> delete_credential('SampleUsername', 'SamplePassword')
+
+    Keywords
+        credential, delete, login, password, username, store, vault, secure, credentials, store, log in, encrypt
+
+    Icon
+        <i class="fal fa-shredder"></i>
+
     """
     import keyring
 
@@ -809,10 +1383,27 @@ def delete_credential(username=None, password=None, system="Automagica"):
 
 @activity
 def get_credential(username=None, system="Automagica"):
-    """Get a saved credential. All parameters should be Unicode text. 
+    """Get credential. 
+    
+    Get a locally stored redential. All parameters should be Unicode text. 
 
     :param username: Username to get password for.
     :param system: Name of the system for which credentials are retreived.
+
+    :return: Stored credential as string
+
+        :Example:
+
+    >>> set_credential('SampleUsername', 'SamplePassword')
+    >>> get_credential('SampleUsername')
+    'SamplePassword'
+
+    Keywords
+        credential, get, delete, login, password, username, store, vault, secure, credentials, store, log in, encrypt
+
+    Icon
+        <i class="fas fa-key"></i>
+
     """
     import keyring
 
@@ -826,11 +1417,26 @@ FTP
 
 class FTP:
     def __init__(self, server, username, password):
-        """Create FPT connection
+        """Create FTP connection
+        
+        Can be used to automate activites for FTP
 
         :param server: Name of the server
         :param username: Username 
         :param password: Password
+
+            :Example:
+
+        >>> # This example uses the Rebex FPT test server.
+        >>> # Take caution uploading and downloading from this server as it is public
+        >>> ftp = FTP('test.rebex.net', 'demo', 'password')
+
+        Keywords
+            FTP, file transfer protocol, filezilla, winscp, server, remote, folder, folders
+
+        Icon
+            <i class="fal fa-folder-tree"></i>
+
         """
         import ftplib
 
@@ -838,70 +1444,176 @@ class FTP:
         self.connection.login(username, password)
 
     @activity
-    def download_file(self, from_path, to_path=None):
+    def download_file(self, input_path, output_path=None):
         """Download file from FTP server
 
-        :param from_path: Path to the file on the FPT server to download
-        :param to_path: Destination path for downloaded files. Standard is the home directory
+        Downloads a file from FTP server. Connection needs to be established first.
+
+        :param input_path: Path to the file on the FPT server to download
+        :param output_path: Destination path for downloaded files. Default is the same directory with "_downloaded" added to the name
+
+        :return: Path to output file as string 
+
+            :Example:
+
+        >>> # This example uses the Rebex FPT test server.
+        >>> # Take caution uploading and downloading from this server as it is public
+        >>> ftp = FTP('test.rebex.net', 'demo', 'password')
+        >>> # Download Rebex public file 'readme.txt'
+        >>> ftp.download_file('readme.txt')
+        'C:\\Users\\<username>\\readme_downloaded.txt'
+
+        Keywords
+            FTP, file transfer protocol, download, filezilla, winscp, server, remote, folder, folders
+
+        Icon
+            <i class="fal fa-download"></i>
 
         :return: 
         """
-        # Set to user home if no path specified
-        if not to_path:
-            to_path = os.path.expanduser("~")
+        # Set path if not specified
+        if not output_path:
+            import os
+            filepath = os.path.expanduser("~")
+            base = os.path.basename(input_path)
+            filename = os.path.splitext(base)[0]
+            extension = os.path.splitext(base)[1]
+            output_path = os.path.join(filepath, filename + '_downloaded' + extension)
 
-        self.connection.retrbinary("RETR " + from_path, open(to_path, "wb").write)
+        self.connection.retrbinary("RETR " + input_path, open(output_path, "wb").write)
+
+        return output_path
 
     @activity
-    def upload_file(self, from_path, to_path=None):
+    def upload_file(self, input_path, output_path=None):
         """Upload file to FTP server
 
         :param from_path: Path file that will be uploaded
-        :param to_path: Destination path for uploade files. Standard is the main directory
+        :param to_path: Destination path to upload. 
 
-        :return: 
+        :return: Patht to uploaded file as string
+
+            :Example:
+
+        >>> # This example uses the Rebex FPT test server.
+        >>> # Take caution uploading and downloading from this server as it is public
+        >>> ftp = FTP('test.rebex.net', 'demo', 'password')
+        >>> # Create a .txt file for illustration
+        >>> textfile = make_textfile()
+        >>> # Upload file to FTP test server
+        >>> # Not that this might result in a persmission error for public FPT's
+        >>> ftp.upload_file(textfile)
+
+        Keywords
+            FTP, upload, fptfile transfer protocol, filezilla, winscp, server, remote, folder, folders
+
+        Icon
+            <i class="fal fa-upload"></i>
         """
         # Set to user home if no path specified
-        if not to_path:
-            to_path = "/"
+        if not output_path:
+            output_path = "/"
 
-        self.connection.retrbinary("RETR " + from_path, open(to_path, "wb").write)
+        self.connection.retrbinary("RETR " + input_path, open(output_path, "wb").write)
+
 
     @activity
     def enumerate_files(self, path="/"):
-        """Generate a list of all the files in the FTP directory
+        """List of FTP files
 
-        :return: List object
+        Generate a list of all the files in the FTP directory
+
+        :param path: Path to list files from. Default is the main directory
+
+        :return: Prints list of all files and directories
+        
+            :Example:
+
+        >>> # This example uses the Rebex FPT test server.
+        >>> # Take caution uploading and downloading from this server as it is public
+        >>> ftp = FTP('test.rebex.net', 'demo', 'password')
+        >>> # Show all files in main directory
+        >>> ftp.enumerate_files()
+        10-27-15  03:46PM       <DIR>          pub
+        04-08-14  03:09PM                  403 readme.txt
+        '226 Transfer complete.'
+
+        Keywords
+            FTP, list, upload, fptfile transfer protocol, filezilla, winscp, server, remote, folder, folders
+
+        Icon
+            <i class="fas fa-list-ol"></i>
         """
         self.connection.cwd(path)
         lines = self.connection.retrlines("LIST")
         return lines
 
     @activity
-    def directory_exists(self, path):
+    def directory_exists(self, path="/"):
         """Check if FTP directory exists
 
+        :param path: Path to check on existence. Default is main directory
+
         :return: Boolean
+
+            :Example:
+
+        >>> # This example uses the Rebex FPT test server.
+        >>> # Take caution uploading and downloading from this server as it is public
+        >>> ftp = FTP('test.rebex.net', 'demo', 'password')
+        >>> # Check if 'pub' folder exists in main directory
+        >>> ftp.directory_exists('\\pub')
+        True
+
+        Keywords
+            FTP, list, upload, fptfile transfer protocol, filezilla, winscp, server, remote, folder, folders
+
+        Icon
+            <i class="fas fa-list-ol"></i>
+
         """
         try:
             self.connection.cwd(path)
             return True
-        except IOError:
+        except:
             return False
 
     @activity
     def create_directory(self, directory_name, path="/"):
         """Create FTP directory
+
+        Create a FTP directory. Note that sufficient permissions are present
         
         :param directory_name: Name of the new directory, should be a string e.g. 'my_directory'
-        """
-        self.connection.cwd(path)
-        try:
-            self.connection.mkd(directory_name)
-        except error_perm as e:
-            if not e.args[0].startswith("550"):  # Exists already
-                raise
+        :param path: Path to parent directory where to make new directory. Default is main directory
 
+        :return: Boolean if creation was succesful (True) or failed (False)
+            :Example:
+
+        >>> # This example uses the Rebex FPT test server.
+        >>> # Trying to create a directory will most likely fail due to permission
+        >>> ftp = FTP('test.rebex.net', 'demo', 'password')
+        >>> # Create directory
+        >>> ftp.create_directory('brand_new_directory')      
+        False
+
+        Keywords
+            FTP, create, create folder, new, new folder, fptfile transfer protocol, filezilla, winscp, server, remote, folder, folders
+
+        Icon
+            <i class="fal fa-folder-plus"></i>
+
+        """
+        try:
+            self.connection.cwd(path)
+            try:
+                self.connection.mkd(directory_name)
+                return True
+            except error_perm as e:
+                if not e.args[0].startswith("550"):  # Exists already
+                    raise
+        except:
+            return False
 
 """
 Keyboard
@@ -963,7 +1675,7 @@ def easy_key_translation(key):
     '[' : '{[}',
     ']' : '{]}',
     '{' : '{{}',
-    '}' : '{}}'
+    '}' : '{}}',
     }
 
 
@@ -974,23 +1686,34 @@ def easy_key_translation(key):
 
 @activity
 def press_key(key=None):
-    """Press and release an entered key.
+    """Press key
+
+    Press and release an entered key. Make sure your keyboard is on US layout (standard QWERTY). 
+    If you are using this on Mac Os you might need to grant acces to your terminal application. (Security Preferences > Security & Privacy > Privacy > Accessibility)
 
     Supported keys:
-    [ ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', 
-    '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<',
-     '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 
-    'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-     't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace', 
-     'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter',
-    'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11',
-    'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 
-    'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win']
+        ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win']
 
+    :param key: Key to press
 
-    If you are using this on Mac Os you might need to grant acces to your terminal application.
-    (Security Preferences > Security & Privacy > Privacy > Accessibility)
+    :return: Keypress
 
+        :Example:
+
+    >>> # Open notepad to illustrate typing
+    >>> run('notepad.exe')
+    >>> # Press some keys
+    >>> press_key('a')
+    >>> press_key('enter')
+    >>> press_key('b')
+    >>> press_key('enter')
+    >>> press_key('c')
+
+    Keywords
+        keyboard, typing, type, key, keystroke, hotkey, press, press key
+
+    Icon
+        <i class="fal fa-keyboard"></i>
 
     """
     import platform
@@ -1009,23 +1732,33 @@ def press_key(key=None):
 
 @activity
 def press_key_combination(first_key, second_key, third_key=None, force_pyautogui=False):
-    """Press a combination of two or three keys simultaneously.
+    """Press key combination
+
+    Press a combination of two or three keys simultaneously. Make sure your keyboard is on US layout (standard QWERTY).
 
     Supported keys:
-    [ ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', 
-    '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<',
-     '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 
-    'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-     't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace', 
-     'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter',
-    'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11',
-    'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 
-    'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win']
+        ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win']
 
     :param first_key: First key to press
     :param second_key: Second key to press
     :param third_key: Third key to press, this is optional.
     :param force_pyautogui: Set parameter to true to force the use of pyautogui. This could help when certain keypresses do not work correctly.
+    
+    :return: Key combination
+
+        :Example:
+
+    >>> # Open notepad to illustrate typing
+    >>> run('notepad.exe')
+    >>> # Press 'ctrl + s' to prompt save window 
+    >>> press_key_combination('ctrl', 's')
+
+    Keywords
+        keyboard, key combination, shortcut, typing, type, key, keystroke, hotkey, press, press key
+
+    Icon
+        <i class="fad fa-keyboard"></i>
+
     """
     
     import platform
@@ -1052,10 +1785,30 @@ def press_key_combination(first_key, second_key, third_key=None, force_pyautogui
 def type_keys(text='', interval_seconds=0.01):
     """Keyboard typing
     
-    Types text in the current active field by simulating keyboard typing. 
+    Types text in the current active field by simulating keyboard typing.  Make sure your keyboard is on US layout (standard QWERTY).
+
+    Supported keys:
+        ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win']
+
 
     :param text: Text in string format to type. Note that you can only press single character keys. Special keys like ":", "F1",... can not be part of the text argument.
     :param interval_seconds: Time in seconds between two keystrokes. Defautl value is 0.01 seconds.
+
+    :return: Keystrokes
+
+        :Example:
+
+    >>> # Open notepad to illustrate typing
+    >>> run('notepad.exe')
+    >>> # Type a story
+    >>> type_keys('Why was the robot mad? \n They kept pushing his buttons!')
+
+    Keywords
+        keyboard, keystrokes, key combination, shortcut, typing, type, key, keystroke, hotkey, press, press key
+
+    Icon
+        <i class="fal fa-typewriter"></i>
+
     """
     
     import platform
@@ -1065,6 +1818,7 @@ def type_keys(text='', interval_seconds=0.01):
         from pyautogui import typewrite
         return typewrite(text, interval=interval_seconds)
 
+    import win32com.client
     shell = win32com.client.Dispatch("WScript.Shell")
     import time
     for character in text:
@@ -1078,25 +1832,26 @@ Mouse
 
 @activity
 def get_mouse_position(delay=None, to_clipboard=False):
-    """Get the x and y pixel coördinates of current mouse position.
-
-    These coördinates represent the absolute pixel position of the mouse on the computer screen. 
-    The x-coördinate starts on the left side and increases going right. The y-coördinate increases going down.
-
-        0,0       X increases -->
-    +---------------------------+
-    |                           | Y increases
-    |                           |     |
-    |   1920 x 1080 screen      |     |
-    |                           |     V
-    |                           |
-    |                           |
-    +---------------------------+ 1919, 1079
+    """Get mouse coördinates
+    
+    Get the x and y pixel coördinates of current mouse position.
+    These coördinates represent the absolute pixel position of the mouse on the computer screen. The x-coördinate starts on the left side and increases going right. The y-coördinate increases going down.
 
     :param delay: Delay in seconds before capturing mouse position.
     :param to_clipboard: Put the coördinates in the clipboard e.g. 'x=1, y=1'
 
     :return: Tuple with (x, y) coördinates
+
+        :Example:
+
+    >>> get_mouse_position()
+    (314, 271)
+
+    Keywords
+        mouse, mouse automation, click, right click, mouse button, move mouse, position, pixel
+
+    Icon
+        <i class="fal fa-mouse"></i>
     """
     from pyautogui import position
     from time import sleep
@@ -1115,11 +1870,24 @@ def get_mouse_position(delay=None, to_clipboard=False):
 def display_mouse_position(duration=10):
     """Display mouse position
     
-    Displays mouse position in an overlay. Refreshes every two seconds.
-    Can be used to find mouse position of element on the screen
+    Displays mouse position in an overlay. Refreshes every two seconds. Can be used to find mouse position of element on the screen. 
+    These coördinates represent the absolute pixel position of the mouse on the computer screen. The x-coördinate starts on the left side and increases going right. The y-coördinate increases going down.
 
     :param duration: Duration to show overlay.
+
+    :return: Overlay with (x, y) coördinates
+
+        :Example:
+
+    >>> display_mouse_position()
+
+    Keywords
+        mouse, osd, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
+
+    Icon
+        <i class="far fa-search"></i>
     """
+
 
     if duration < 1 or type(duration) != int:
         return
@@ -1137,7 +1905,24 @@ def display_mouse_position(duration=10):
 
 @activity
 def click(x=None, y=None):
-    """Clicks on a pixel position on the visible screen determined by x and y coördinates.
+    """Mouse click
+    
+    Clicks on a pixel position on the visible screen determined by x and y coördinates.
+
+    :param x: X-coördinate
+    :param y: Y-coördinate
+
+    :return: Mouse click on (x, y) coördinates
+
+        :Example:
+
+    >>> click(x=100, y=100)
+
+    Keywords
+        mouse, osd, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
+
+    Icon
+        <i class="fas fa-mouse-pointer"></i>
     """
     from pyautogui import click
 
@@ -1146,9 +1931,24 @@ def click(x=None, y=None):
 
 @activity
 def double_click(x=None, y=None):
-    """Double clicks on a pixel position on the visible screen determined by x and y coördinates.
+    """Double mouse click
 
-    :param x: 
+    Double clicks on a pixel position on the visible screen determined by x and y coördinates.
+
+    :param x: X-coördinate
+    :param y: Y-coördinate
+
+    :return: Double mouse click on (x, y) coördinates
+
+        :Example:
+
+    >>> double_click(x=100, y=100)
+
+    Keywords
+        mouse, osd, overlay, double, double click, doubleclick show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
+
+    Icon
+        <i class="far fa-mouse-pointer"></i>
     """
     from pyautogui import doubleClick
 
@@ -1157,8 +1957,26 @@ def double_click(x=None, y=None):
 
 @activity
 def right_click(x=None, y=None):
-    """Right clicks on a pixel position on the visible screen determined by x and y coördinates.
+    """Right click
+    
+    Right clicks on a pixel position on the visible screen determined by x and y coördinates.
+
+    :param x: X-coördinate
+    :param y: Y-coördinate
+
+    :return: Right mouse click on (x, y) coördinates
+
+        :Example:
+
+    >>> right_click(x=100, y=100)
+
+    Keywords
+        mouse, osd, right click, right, rightclick, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
+
+    Icon
+        <i class="far fa-mouse-pointer"></i>
     """
+
     from pyautogui import rightClick
 
     return rightClick(x, y)
@@ -1166,8 +1984,26 @@ def right_click(x=None, y=None):
 
 @activity
 def move_mouse_to(x=None, y=None):
-    """Moves te pointer to a x-y position.
+    """Move mouse
+    
+    Moves te pointer to a x-y position.
+
+    :param x: X-coördinate
+    :param y: Y-coördinate
+
+    :return: Move mouse to (x, y) coördinates
+
+        :Example:
+
+    >>> move_mouse_to(x=100, y=100)
+
+    Keywords
+        mouse, osd, move mouse, right click, right, rightclick, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
+
+    Icon
+        <i class="fal fa-bullseye-pointer"></i>
     """
+
     from pyautogui import moveTo
 
     return moveTo(x, y)
@@ -1175,8 +2011,28 @@ def move_mouse_to(x=None, y=None):
 
 @activity
 def move_mouse_relative(x=None, y=None):
-    """Moves the mouse an x- and y- distance relative to its current pixel position.
+    """Move mouse relative
+    
+    Moves the mouse an x- and y- distance relative to its current pixel position.
+
+    :param x: X-coördinate
+    :param y: Y-coördinate
+
+    :return: Move mouse (x, y) coördinates
+
+        :Example:
+
+    >>> move_mouse_to(x=100, y=100)
+    >>> wait(1)
+    >>> move_mouse_relative(x=10, y=10)
+
+    Keywords
+        mouse, osd, move mouse, right click, right, rightclick, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
+
+    Icon
+        <i class="fad fa-bullseye-pointer"></i>
     """
+
     from pyautogui import moveRel
 
     return moveRel(x, y)
@@ -1184,19 +2040,56 @@ def move_mouse_relative(x=None, y=None):
 
 @activity
 def drag_mouse_to(x=None, y=None, button="left"):
-    """Drag the mouse from its current position to a entered x-y position, while holding a specified button.
+    """Drag mouse
+
+    Drag the mouse from its current position to a entered x-y position, while holding a specified button.
+
+    :param x: X-coördinate
+    :param y: Y-coördinate
+    :param button: Button to hold while dragging. Options are 'left', 'middle' and 'right'. Standard value is 'left'.
+
+    :return: Drag mouse (x, y) coördinates
+
+        :Example:
+
+    >>> move_mouse_to(x=100, y=100)
+    >>> drag_mouse_to(x=1, y=1)
+
+    Keywords
+        mouse, osd, move mouse, right click, right, rightclick, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
+
+    Icon
+        <i class="fad fa-bullseye-pointer"></i>
     """
     from pyautogui import dragTo
 
     return dragTo(x, y, 0.2, button=button)
 
+def random_screen_snippet(size=100):
+    """Random screen
+
+    :param size: Size 
+    """
+    import PIL.ImageGrab
+    img = PIL.ImageGrab.grab()
+
+    width, height = img.size
+
+    import random
+    random_left = random.randrange(1,width,1)
+    random_top = random.randrange(1,height,1)
+
+    left, top, right, bottom = random_left, random_top, random_left + 100, random_top + 100
+    cropped = img.crop( ( left, top, right, bottom ) )
+
+    path = os.path.join(os.path.expanduser("~"), "random_crop.jpg")
+    cropped.save(path, "JPEG")
 
 @activity
 def click_image(filename=None):
-    """Click on similar image on the screen
+    """Click on image
 
-    This function searches the screen for a match with template image and clicks directly in the middle.
-    Note that this only finds exact matches.
+    This function searches the screen for a match with template image and clicks directly in the middle. Note that this only finds exact matches.
 
     :param filename: Path to the template image.
     """
@@ -1875,7 +2768,7 @@ class Outlook:
     def get_mails(self, folder_name="Inbox", fields=None):
         """Retrieve list of messages from Outlook
         
-        :param folder_name: Name of the Outlook folder, can be found using :function:`get_folders`.
+        :param folder_name: Name of the Outlook folder, can be found using `get_folders`.
         :param limit: Number of messages to retrieve
         :param fields: Fields (properties) of e-mail messages to give, requires tupl Stadard is 'Subject', 'Body', 'SentOn' and 'SenderEmailAddress'.
 
@@ -1926,7 +2819,7 @@ class Outlook:
 
         Deletes email messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
 
-        :param folder_name: Name of the Outlook folder, can be found using :method:`get_folders`
+        :param folder_name: Name of the Outlook folder, can be found using `get_folders`
         :param limit: Maximum number of e-mails to delete in one go
         :param subject_contains: Only delete e-mail if subject contains this
         :param body_contains: Only delete e-mail if body contains this
@@ -1972,8 +2865,8 @@ class Outlook:
 
         Deletes email messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
 
-        :param source_folder_name: Name of the Outlook source folder from where e-mails will be moved, can be found using :method:`get_folders`
-        :param target_folder_name: Name of the Outlook destination folder to where e-mails will be moved, can be found using :method:`get_folders`
+        :param source_folder_name: Name of the Outlook source folder from where e-mails will be moved, can be found using `get_folders`
+        :param target_folder_name: Name of the Outlook destination folder to where e-mails will be moved, can be found using `get_folders`
         :param limit: Maximum number of e-mails to move in one go
         :param subject_contains: Only move e-mail if subject contains this
         :param body_contains: Only move e-mail if body contains this
@@ -2022,7 +2915,7 @@ class Outlook:
     def save_attachments(self, folder_name="Inbox", target_folder_path=None):
         """Save all attachments from Outlook
 
-        :param folder_name: Name of the Outlook folder, can be found using :function:`get_folders`.
+        :param folder_name: Name of the Outlook folder, can be found using `get_folders`.
         :param target_folder_path: Path where attachments will be saved. Default is the home directory.
 
         :return: List of paths to saved attachments.
@@ -2981,6 +3874,12 @@ def beep(frequency=1000, duration=250):
 
     :param frequency: Integer to specify frequency (Hz), default value is 1000 Hz
     :param duration: Integer to specify duration of beep in miliseconds (ms), default value is 250 ms.
+    
+    return: Sound
+
+    Icon
+        <i class="fad fa-volume-up"></i>
+    
     """
     import winsound
 
@@ -3258,6 +4157,28 @@ def append_line(text, file_path):
     with open(file_path, "a") as f:
         f.write("\n" + text)
 
+@activity
+def make_textfile(text='Sample text', output_path=None):
+    """Make text file
+
+    Initialize text file
+
+    :parameter text: The text line to write to the end of the file. Default text is 'Sample text'
+    :parameter output_path: Ouput path. Will write to home directory
+
+    :return: Path as string
+    """
+    
+    # Set to user home if no path specified
+    import os
+    if not output_path:
+        output_path = os.path.join(os.path.expanduser("~"), "generated_textfile.txt")
+    with open(output_path, "w") as file:
+        file.write(text)
+
+    return output_path
+
+    
 
 @activity
 def copy_file(old_path, new_path=None):
@@ -3746,7 +4667,7 @@ Process
 """
 
 @activity
-def run(task):
+def run_manual(task):
     """Use Windows Run to boot a process
 
     Note this uses keyboard inputs which means this process can be disrupted by interfering inputs
@@ -3768,6 +4689,17 @@ def run(task):
 
     typewrite(task, interval=0.01)
     press('enter')
+
+@activity
+def run(process):
+    """Run process
+
+    Use subprocess to open a windows process
+
+    :param process: Process to open e.g: 'calc.exe', 'notepad.exe', 'control.exe', 'mspaint.exe'.
+    """
+    import subprocess
+    subprocess.Popen(process)
 
 @activity
 def is_process_running(name):
@@ -3883,12 +4815,10 @@ def find_text_on_screen_ocr(text, criteria=None):
     This activity finds position (coördinates) of specified text on the current screen using OCR.
 
     :param text: Text to find. Only exact matches are returned.
-    :param criteria: Criteria to select on if multiple matches are found. If no criteria is specified all matches will be returned.
-    Options are 'first', which returns the first match closest to the upper left corner,
-    'last' returns the last match closest to the lower right corner, random selects a random match.
+    :param criteria: Criteria to select on if multiple matches are found. If no criteria is specified all matches will be returned. Options are 'first', which returns the first match closest to the upper left corner, 'last' returns the last match closest to the lower right corner, random selects a random match.
     
-    :return: Dictionary or list of dictionaries with matches with following elements: 'h' height in pixels, 'text' the matched text,
-    'w' the width in pixels, 'x' absolute x-coördinate , 'y' absolute y-coördinate. Returns nothing if no matches are found
+    :return: Dictionary or list of dictionaries with matches with following elements: 'h' height in pixels, 'text' the matched text,'w' the width in pixels, 'x' absolute x-coördinate , 'y' absolute y-coördinate. Returns nothing if no matches are found
+
     """
 
     import requests
@@ -3928,7 +4858,7 @@ def find_text_on_screen_ocr(text, criteria=None):
     # Find all matches
     matches = []
     for item in data:
-        if item['text'] == text:
+        if item['text'].lower() == text.lower():
             matches.append(item)
 
     if not matches:

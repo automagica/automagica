@@ -6,25 +6,29 @@ import subprocess
 import sys
 from time import sleep
 
-
-__version__ = "1.0.10"
+__version__ = "2.0.0"
 
 parser = argparse.ArgumentParser(description="Automagica Robot v" + __version__)
 
-parser.add_argument("--login", default="", type=str, help="Log in with access key")
-
-parser.add_argument("--logout", dest="logout", action="store_true", help="Log out")
-
 parser.add_argument(
-    "--daemon", dest="daemon", action="store_true", help="Run robot as a daemon"
+    "--connect",
+    default="",
+    type=str,
+    help="Connect to Automagica Portal with user secret",
 )
 
 parser.add_argument(
-    "--foreground",
-    dest="foreground",
-    default=False,
+    "--disconnect",
+    dest="disconnect",
     action="store_true",
-    help="Keep process in the foreground",
+    help="Disconnect from Automagica Portal",
+)
+
+parser.add_argument(
+    "--bot",
+    dest="bot",
+    action="store_true",
+    help="Run bot connected to Automagica Portal",
 )
 
 parser.add_argument(
@@ -58,11 +62,19 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--verbose",
-    dest="verbose",
+    "--debug",
+    dest="debug",
     default=False,
     action="store_true",
-    help="Verbose logging",
+    help="Debug level logging",
+)
+
+parser.add_argument(
+    "-e",
+    "--edit",
+    default="",
+    type=str,
+    help="Edit Automagica script in Automagica Lab using the script id",
 )
 
 
@@ -72,10 +84,12 @@ class Automagica:
         args = parser.parse_args()
 
         # Set up logging
-        self._setup_logging(verbose=args.verbose)
+        self._setup_logging(debug=args.debug)
 
         # Environment variable override Automagica Portal URL
-        self.url = os.environ.get("AUTOMAGICA_URL", "https://bots.portal.automagica.io")
+        self.url = os.environ.get(
+            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+        )
 
         # Custom config specified?
         if args.config:
@@ -83,16 +97,24 @@ class Automagica:
         else:
             self.config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
 
-        self.config = self.load_config()
+        self.config = self._load_config()
 
-        if args.login:
-            self.login(args.login)
+        # Download and run Jupyter Notebook (.ipynb)
+        if args.edit:
+            self.edit(args.edit)
 
-        if args.logout:
-            self.logout()
+        # Connect to Automagica Portal
+        if args.connect:
+            user_secret = args.connect.split("[")[1].split("]")[0]
+            self.connect(user_secret)
 
-        if args.daemon:
-            self.daemon(foreground=args.foreground)
+        # Disconnect from Automagica Portal
+        if args.disconnect:
+            self.disconnect()
+
+        # Start Automagica Bot manually
+        if args.bot:
+            self.bot()
 
         # Was a file specified?
         if args.file:
@@ -114,8 +136,8 @@ class Automagica:
         # Run script
         exec(script, globals())
 
-    def _setup_logging(self, verbose=False):
-        if verbose:
+    def _setup_logging(self, debug=False):
+        if debug:
             log_level = logging.INFO
         else:
             log_level = logging.WARNING
@@ -136,11 +158,117 @@ class Automagica:
         logger.addHandler(file_handler)
         logger.addHandler(stdout_handler)
 
-    def save_config(self):
+    def edit(self, url):
+        """Edit a script from the Automagica Portal
+        """
+        from time import sleep
+        import requests
+        import re
+        import subprocess
+
+        try:
+            script_id = None
+            script_version_id = None
+
+            if url.startswith("automagica://"):
+                ids = url.replace("automagica://", "").split("/")
+
+            if len(ids) == 1:
+                script_id = ids[0]
+
+            if len(ids) == 2:
+                script_id = ids[0]
+                script_version_id = ids[1]
+
+            # Check if Automagica folder exists
+            target_folder = os.path.join(os.path.expanduser("~"), ".automagica")
+
+            if not os.path.exists(target_folder):
+                os.mkdir(target_folder)
+
+            # Retrieve URL
+            headers = {
+                "user_secret": self.config["user_secret"],
+                "script_id": script_id,
+            }
+
+            if script_version_id:
+                headers["script_version_id"] = script_version_id
+
+            print(headers)
+
+            r = requests.get(self.url + "/api/script", headers=headers)
+
+            import re
+
+            print(r.content)
+
+            d = r.headers["content-disposition"]
+            fname = re.findall("filename=(.+)", d)[0]
+
+            path = os.path.join(target_folder, fname)
+
+            with open(path, "wb") as f:
+                f.write(r.content)
+
+            notebook_path = path
+
+            # Run notebook server
+            import subprocess
+
+            my_env = os.environ.copy()
+            my_env["JUPYTER_CONFIG_DIR"] = os.path.abspath(__file__).replace(
+                "cli.py", "lab\\.jupyter"
+            )
+
+            print(my_env["JUPYTER_CONFIG_DIR"])
+
+            process = subprocess.Popen(
+                'jupyter notebook "{}"'.format(notebook_path), env=my_env
+            )
+
+            # While server is running, check for changes of the path
+            last_known_modification = os.path.getmtime(notebook_path)
+
+            with open(notebook_path, "r") as f:
+                last_known_binary = f.read()
+
+            print(
+                "Automagica's Jupyter Notebook server running. Do not close this window."
+            )
+
+            while not process.poll():
+                last_modification = os.path.getmtime(notebook_path)
+
+                if last_known_modification < last_modification:
+
+                    last_known_modification = last_modification
+
+                    with open(notebook_path, "r") as f:
+                        last_binary = f.read()
+
+                    if last_known_binary != last_binary:
+                        last_known_binary = last_binary
+
+                        r = requests.post(
+                            self.url + "/api/script", headers=headers
+                        ).json()
+
+                        with open(notebook_path, "rb") as f:
+                            files = {"file": (notebook_path, f)}
+                            _ = requests.post(r["url"], data=r["fields"], files=files)
+
+                sleep(1)
+
+        except:
+            logging.exception("oops")
+            input()
+
+    def _save_config(self):
         with open(self.config_path, "w") as f:
             json.dump(self.config, f)
 
-    def load_config(self):
+    def _load_config(self):
         try:
             with open(self.config_path, "r") as f:
                 config = json.load(f)
@@ -148,7 +276,7 @@ class Automagica:
         except FileNotFoundError:
             config = {}
             self.config = config
-            self.save_config()
+            self._save_config()
 
         return config
 
@@ -164,143 +292,147 @@ class Automagica:
             ticker="Automagica",
         )
 
-    def daemon(self, foreground=False):
-        import socketio
+    def _alive(self):
+        import requests
+        import os
+        from time import sleep
 
-        if not foreground:
-            # Hide console if we're on Windows
-            if os.name == "nt":
-                import ctypes
-
-                ctypes.windll.user32.ShowWindow(
-                    ctypes.windll.kernel32.GetConsoleWindow(), 0
-                )
-
-        sio = socketio.Client()
-
-        if not self.config.get("bot_id"):
-            raise Exception("You need to log in first!")
-
-        @sio.on("connect", namespace="/bot")
-        def connect():
-            logging.info("Connected")
-
-            # After connecting, send authentication message
-            sio.emit(
-                "auth",
-                {"bot_id": self.config["bot_id"], "version": __version__},
-                namespace="/bot",
-            )
-
-        @sio.on("run", namespace="/bot")
-        def run(data):
-            logging.info("Running script")
-            logging.info(str(data))
-
-            job_id = data["schedule"]["job"]["id"]
-
-            # Save backup of the script
-            fn = str(job_id) + ".py"
-            path = os.path.join(os.path.expanduser("~"), fn)
-
-            with open(path, "w", newline="") as f:
-                f.write(data["schedule"]["script"]["code"])
-
-            cmd = '"' + sys.executable + '" -u -m automagica -f ' + '"' + path + '"'
-
-            p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-            self.notification(
-                "Script {} (job #{}) started.".format(
-                    data["schedule"]["script"]["name"], data["schedule"]["job"]["id"]
-                )
-            )
-
-            @sio.on("kill", namespace="/bot")
-            def kill(job):
-                if job == job_id:
-                    p.kill()
-                    logging.info("Stopping job")
-
-            # Read STDOUT
-            for line in iter(p.stdout.readline, b""):
-                if line:
-                    output = {
-                        "output": line.decode("utf-8"),
-                        "job_id": job_id,
-                        "bot_id": self.config["bot_id"],
-                    }
-                    sio.emit("output", output, namespace="/bot")
-
-            # Read STDERR
-            for line in iter(p.stderr.readline, b""):
-                if line:
-                    error = {
-                        "error": line.decode("utf-8"),
-                        "job_id": job_id,
-                        "bot_id": self.config["bot_id"],
-                    }
-                    sio.emit("error", error, namespace="/bot")
-
-            # Wait for process to finish
-            p.wait()
-
-            # Retrieve status code
-            code = p.poll()
-
-            result = {"job_id": job_id, "bot_id": self.config["bot_id"]}
-
-            if code == 0:  # Success
-                result["type"] = "success"
-            else:  # Failure
-                result["type"] = "failure"
-
-            logging.info("Finished script!")
-            self.notification(
-                "Script {} (job #{}) finished.".format(
-                    data["schedule"]["script"]["name"], data["schedule"]["job"]["id"]
-                )
-            )
-
-            sio.emit("finish", result, namespace="/bot")
-
-        @sio.on("disconnect", namespace="/bot")
-        def disconnect():
-            logging.info("Disconnected")
-
-        @sio.on("authed", namespace="/bot")
-        def authed(data):
-            logging.info(
-                "Authenticated to Automagica as {}".format(data["bot"]["name"])
-            )
-            self.notification(
-                "Connected as {} to Automagica!".format(data["bot"]["name"])
-            )
-
-        @sio.on("error", namespace="/bot")
-        def error(data):
-            logging.info(data.get("error"))
-            try:
-                from tkinter import messagebox
-
-                messagebox.showwarning("Error", data.get("error"))
-
-                if data.get("url"):
-                    import webbrowser
-
-                    webbrowser.open(data["url"])
-            except:
-                logging.error(data.get("error"))
+        headers = {"bot_secret": self.config["bot_secret"]}
 
         while True:
             try:
-                sio.connect(self.url)
-                sio.wait()
+                _ = requests.post(self.url + "/api/bot/alive", headers=headers)
+                print(_.content)
             except:
-                logging.info("Could not connect to Automagica, retrying in 5 seconds.")
-                sleep(5)
+                logging.exception("Could not reach Automagica Portal.")
+            sleep(30)
 
-    def kill_process(self, name):
+    def run(self, notebook, parameters=None, cell_timeout=600):
+        from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError
+        from nbformat.notebooknode import from_dict
+
+        ep = ExecutePreprocessor(timeout=cell_timeout, kernel_name="python3")
+
+        if parameters:
+            parameter_node = from_dict(
+                {
+                    "cell_type": "code",
+                    "metadata": {"tags": ["parameters"]},
+                    "source": parameters,
+                }
+            )
+            for i, cell in enumerate(notebook.cells):
+                if cell.metadata:
+                    if cell.metadata.tags:
+                        if "default-parameters" in cell.metadata.tags:
+                            break
+            else:
+                i = 0
+            notebook.cells.insert(i, parameter_node)
+
+        errors = False
+
+        try:
+            out = ep.preprocess(notebook)
+
+        except CellExecutionError:
+            errors = True
+
+        finally:
+            return notebook, errors
+
+    def bot(self):
+        global CURRENT_JOB
+
+        from threading import Thread
+        import requests
+
+        # Start seperate thread to let portal know I'm alive
+        t = Thread(target=self._alive)
+
+        t.start()
+
+        while True:
+            # Get next job
+            headers = {"bot_secret": self.config["bot_secret"]}
+
+            try:
+                r = requests.get(self.url + "/api/job/next", headers=headers)
+
+                print(r.content)
+                job = r.json()
+
+                # We got a job!
+                if job:
+                    logging.info("Received job {}".format(job["job_id"]))
+
+                    CURRENT_JOB = job["job_id"]
+
+                    headers = {
+                        "script_id": job["script_id"],
+                        "script_version_id": job.get("script_version_id"),
+                        "bot_secret": self.config["bot_secret"],
+                    }
+
+                    # Retrieve notebook
+                    r = requests.get(
+                        self.url + "/api/script", headers=headers, stream=True
+                    )
+
+                    from io import BytesIO
+                    import nbformat
+
+                    notebook = nbformat.read(BytesIO(r.content), as_version=4)
+
+                    output, errors = self.run(
+                        notebook,
+                        parameters=job.get("parameters"),
+                        cell_timeout=-1,  # No timeout
+                    )
+
+                    if not errors:
+                        # Completed without exceptions
+                        job["status"] = "completed"
+                        logging.exception("Completed job {}".format(job["job_id"]))
+
+                    else:
+                        # Exceptions occured
+                        job["status"] = "failed"
+                        logging.exception("Failed job {}".format(job["job_id"]))
+
+                    headers = {
+                        "bot_secret": self.config["bot_secret"],
+                        "job_id": job["job_id"],
+                        "job_status": job["status"],
+                    }
+
+                    r = requests.post(self.url + "/api/job", headers=headers).json()
+
+                    from io import BytesIO
+
+                    data = nbformat.writes(output, version=4)
+
+                    fileobj = BytesIO()
+
+                    fileobj.write(data.encode("utf-8"))
+
+                    fileobj.seek(0)
+
+                    files = {"file": ("notebook.ipynb", fileobj)}
+
+                    _ = requests.post(r["url"], data=r["fields"], files=files)
+
+                    CURRENT_JOB = None
+
+                # We did not get a job!
+                else:
+                    sleep(10)
+
+            except:
+                logging.exception("Could not reach portal.")
+                sleep(10)
+
+    def _kill_processes_by_name(self, name):
         import psutil
 
         for proc in psutil.process_iter():
@@ -309,30 +441,49 @@ class Automagica:
                     proc.kill()
                     proc.wait()
 
-    def login(self, bot_id):
-        self.config["bot_id"] = bot_id
-        self.save_config()
+    def connect(self, user_secret):
+        import requests
+        import socket
+        import os
+
+        headers = {"user_secret": user_secret}
+        data = {"name": socket.gethostname()}
+
+        print(headers)
+        print(data)
+
+        r = requests.post(self.url + "/api/bot/setup", json=data, headers=headers)
+
+        if r.status_code != 200:
+            raise Exception("Could not connect to Automagica Portal")
+
+        data = r.json()
+
+        self.config["user_secret"] = user_secret
+        self.config["bot_secret"] = data["bot_secret"]
+        self._save_config()
 
         self.add_startup()
-        self.kill_process("python")
+        self._kill_processes_by_name("python")
 
         sleep(3)
 
-        cmd = sys.executable + " -m automagica --daemon"
+        cmd = sys.executable + " -m automagica --bot"
         subprocess.Popen(cmd)
 
-    def logout(self):
-        self.kill_process("python")
+    def disconnect(self):
+        self._kill_processes_by_name("python")
         self.remove_startup()
 
     def add_startup(self):
         import platform
 
-        cmd = sys.executable + " -m automagica --daemon"
+        cmd = sys.executable + " -m automagica --bot"
 
         if platform.system() == "Windows":
             import winreg as reg
 
+            # Add to start-up
             registry = reg.OpenKey(
                 reg.HKEY_CURRENT_USER,
                 "Software\Microsoft\Windows\CurrentVersion\Run",
@@ -340,6 +491,25 @@ class Automagica:
                 reg.KEY_WRITE,
             )
             reg.SetValueEx(registry, "Automagica", 0, reg.REG_SZ, cmd)
+            reg.CloseKey(registry)
+
+            registry = reg.OpenKey(
+                reg.HKEY_CLASSES_ROOT, "Automagica", 0, reg.KEY_WRITE
+            )
+            reg.SetValueEx(registry, "", 0, reg.REG_SZ, "URL:automagica")
+            reg.SetValueEx(registry, "URL Protocol", 0, reg.REG_SZ, "")
+
+            # Register automagica:// protocol
+            registry = reg.OpenKey(
+                reg.HKEY_CLASSES_ROOT,
+                "Automagica\\shell\\open\\command",
+                0,
+                reg.KEY_WRITE,
+            )
+            reg.SetValueEx(
+                registry, "", 0, reg.REG_SZ, sys.executable + " -m automagica -e %1"
+            )
+
             reg.CloseKey(registry)
 
         if platform.system() == "Linux":
