@@ -9,7 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=source
 set BUILDDIR=build
-set SPHINXPROJ=AutomagicaDocumentation
+set SPHINXPROJ=Automagica
 
 if "%1" == "" goto help
 
