@@ -947,6 +947,7 @@ def display_message_box(title="Title", message="Example message"):
 
         :Example:
 
+    >>> # Show pop-up with message
     >>> display_message_box()
     >>> # Wait till user presses 'OK'
     True
@@ -993,6 +994,7 @@ def display_osd_message(message='Example message', seconds=5):
 
         :Example:
 
+    >>> # Display overlay message
     >>> display_osd_message()
 
     Keywords
@@ -1332,7 +1334,7 @@ class Chrome(selenium.webdriver.Chrome):
         >>> # Go to a website
         >>> browser.get('https://wikipedia.org')
         >>> # Find element by xpath
-        >>> browser.find_xpaths('//*[@id="js-link-box-en"]')
+        >>> browser.find_xpaths('//*[@id=\'js-link-box-en\']')
         [webelement1, webelement2 , .. ]
 
         Keywords
@@ -1357,7 +1359,7 @@ class Chrome(selenium.webdriver.Chrome):
         >>> # Go to a website
         >>> browser.get('https://wikipedia.org')
         >>> # Find element by xpath
-        >>> elements = browser.find_xpath('//*[@id="js-link-box-en"]')
+        >>> elements = browser.find_xpath('//*[@id=\'js-link-box-en\']')
         >>> # We can now use this element, for example to click on
         >>> element.click()
 
@@ -3625,7 +3627,7 @@ class Outlook:
             :Example:
 
         >>> outlook = Outlook()
-        >>> outlook.delete_mails(subject_contains="hello")
+        >>> outlook.delete_mails(subject_contains='hello')
 
         Keywords
             outlook, remove e-mails, delete mail, remove mail
@@ -3678,7 +3680,7 @@ class Outlook:
             :Example:
 
         >>> outlook = Outlook()
-        >>> outlook.move_mails(subject_contains="move me")
+        >>> outlook.move_mails(subject_contains='move me')
 
         Keywords
             outlook, move e-mail, move e-mail to folder
