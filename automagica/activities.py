@@ -3203,7 +3203,7 @@ Icon: las la-file-word
 class WordFile:
     @activity
     def __init__(self, file_path=None):
-        """Read and Write Word files. 
+        """Read and Write Word files
 
         These activities can read, write and edit Word (docx) files without the need of having Word installed. 
         Note that, in contrary to working with the :func: 'Word' activities, a file get saved directly after manipulation.
@@ -5284,7 +5284,7 @@ Icon: las la-cloud
 
 @activity
 def send_email_with_outlook365(client_id, client_secret, to_email, subject='', body=''):
-    """Send email directly with Office Outlook 365
+    """Send email Office Outlook 365
 
     :parameter client_id: Client id for office 365 account
     :parameter client_secret: Client secret for office 365 account
@@ -6032,7 +6032,7 @@ Icon: lab la-trello
 
 
 @activity
-def add_card(title="My card", description="My description", board_name="My board", list_name="My list", api_key="", api_secret="", token="", token_secret="any"):
+def add_trello_card(title="My card", description="My description", board_name="My board", list_name="My list", api_key="", api_secret="", token="", token_secret="any"):
     """Add Trello Card
 
     Add a card to the Trello board. For this you need a Trello API key, secret and token. 
@@ -6048,7 +6048,7 @@ def add_card(title="My card", description="My description", board_name="My board
 
         :Example:
 
-    >>> add_card(title='ExampleTitle', description='ExampleDescription')
+    >>> add_trello_card(title='ExampleTitle', description='ExampleDescription', api_key='SampleKey', api_secret='ApiSecret', token='SampleToken')
 
     Keywords
         trello
@@ -7093,7 +7093,7 @@ def resize_image(path, size):
 
 @activity
 def get_image_width(path):
-    """Image width
+    """Get image width
 
     Get with of image
 
@@ -7124,7 +7124,7 @@ def get_image_width(path):
 
 @activity
 def get_image_height(path):
-    """Image height
+    """Get image height
 
     Get height of image
 
@@ -7187,7 +7187,7 @@ def crop_image(path, box=None):
 
 @activity
 def mirror_image_horizontally(path):
-    """Mirror image y
+    """Mirror image horizontally
 
     Mirrors an image with a given path horizontally from left to right.
 
@@ -7215,7 +7215,7 @@ def mirror_image_horizontally(path):
 
 @activity
 def mirror_image_vertically(path):
-    """Mirror image x
+    """Mirror image vertically
 
     Mirrors an image with a given path vertically from top to bottom.
 
@@ -7418,13 +7418,13 @@ def extract_text_ocr(path=None):
         :Example:
 
     >>> # Make a textfile with some text to recognize
-    >>> # testfile = make_textfile(text='OCR Example')
+    >>> testfile = make_textfile(text='OCR Example')
     >>> # Open the textfile
     >>> open_file(testfile)
     >>> # Find the text with OCR
-    >>> extracted_text = find_text_on_screen_ocr(text='OCR Example)
-    >>> # Check if the extraxted_text contains the original word
-    >>> 'OCR Example' in extraxted_text
+    >>> extracted_text = find_text_on_screen_ocr(text='OCR Example')
+    >>> # Check if the extracted_text contains the original word
+    >>> 'OCR Example' in extracted_text
     True
 
     Keywords
@@ -7484,11 +7484,11 @@ def find_text_on_screen_ocr(text, criteria=None):
         :Example:
 
     >>> # Make a textfile with some text to recognize
-    >>> # testfile = make_textfile(text='OCR Example')
+    >>> testfile = make_textfile(text='OCR Example')
     >>> # Open the textfile
     >>> open_file(testfile)
     >>> # Find the text with OCR
-    >>> find_text_on_screen_ocr(text='OCR Example)
+    >>> find_text_on_screen_ocr(text='OCR Example')
 
     Keywords
         OCR, vision, AI, screen, citrix, read, optical character recognition
@@ -7568,11 +7568,11 @@ def click_on_text_ocr(text):
         :Example:
 
     >>> # Make a textfile with some text to recognize
-    >>> # testfile = make_textfile(text='OCR Example')
+    >>> testfile = make_textfile(text='OCR Example')
     >>> # Open the textfile
     >>> open_file(testfile)
     >>> # Find the text with OCR and click on it
-    >>> click_on_text(text='OCR Example)
+    >>> click_on_text(text='OCR Example')
 
     Keywords
         OCR, vision, AI, screen, citrix, read, optical character recognition, click
@@ -7599,11 +7599,11 @@ def double_click_on_text_ocr(text):
         :Example:
 
     >>> # Make a textfile with some text to recognize
-    >>> # testfile = make_textfile(text='OCR Example')
+    >>> testfile = make_textfile(text='OCR Example')
     >>> # Open the textfile
     >>> open_file(testfile)
     >>> # Find the text with OCR and double click on it
-    >>> double_click_on_text(text='OCR Example)
+    >>> double_click_on_text(text='OCR Example')
 
     Keywords
         OCR, vision, AI, screen, citrix, read, optical character recognition, click, double click
@@ -7632,11 +7632,11 @@ def right_click_on_text_ocr(text):
         :Example:
 
     >>> # Make a textfile with some text to recognize
-    >>> # testfile = make_textfile(text='OCR Example')
+    >>> testfile = make_textfile(text='OCR Example')
     >>> # Open the textfile
     >>> open_file(testfile)
     >>> # Find the text with OCR and right click on it
-    >>> right_click_on_text(text='OCR Example)
+    >>> right_click_on_text(text='OCR Example')
 
     Keywords
         OCR, vision, AI, screen, citrix, read, optical character recognition, click, right click
