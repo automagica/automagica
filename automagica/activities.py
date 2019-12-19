@@ -60,8 +60,8 @@ def telemetry(func):
 
 
 """
-<Title Cryptography Title>
-<Icon las la-shield-alt Icon>
+Cryptography
+Icon: las la-shield-alt
 """
 
 
@@ -378,7 +378,7 @@ def generate_hash_from_text(text, method='md5'):
 
 """
 Random
-<Icon las la-dice-d6 Icon>
+Icon: las la-dice-d6
 """
 
 
@@ -771,8 +771,8 @@ def generate_unique_identifier():
 
 
 """
-<Title User Input Title>
-<Icon lab la-wpforms Icon>
+User Input
+Icon: lab la-wpforms
 """
 
 
@@ -1040,8 +1040,8 @@ def display_osd_message(message='Example message', seconds=5):
 
 
 """
-<Title Browser Title>
-<Icon lab la-chrome Icon>
+Browser
+Icon: lab la-chrome
 """
 
 import selenium.webdriver
@@ -1353,8 +1353,8 @@ class Chrome(selenium.webdriver.Chrome):
 
 
 """
-<Title Credential Management Title>
-<Icon las la-key Icon>
+Credential Management
+Icon: las la-key
 """
 
 
@@ -1443,8 +1443,8 @@ def get_credential(username=None, system="Automagica"):
 
 
 """
-<Title FTP Title>
-<Icon las la-key Icon>
+FTP
+Icon: las la-key
 """
 
 
@@ -1651,8 +1651,8 @@ class FTP:
 
 
 """
-<Title Keyboard Title>
-<Icon las la-keyboard Icon>
+Keyboard
+Icon: las la-keyboard
 """
 
 
@@ -1863,8 +1863,8 @@ def type_text(text='', interval_seconds=0.01):
 
 
 """
-<Title Mouse Title>
-<Icon las la-mouse-pointer Icon>
+Mouse
+Icon: las la-mouse-pointer
 """
 
 
@@ -2105,8 +2105,8 @@ def drag_mouse_to(x=None, y=None, button="left"):
 
 
 """
-<Title Image Title>
-<Icon las la-image Icon>
+Image
+Icon: las la-image
 """
 
 
@@ -2339,8 +2339,8 @@ def locate_image_on_screen(filename=None):
 
 
 """
-<Title Folder Operations Title>
-<Icon las la-folder-open Icon>
+Folder Operations
+Icon: las la-folder-open
 """
 
 
@@ -2815,8 +2815,8 @@ def unzip(path, to_path=None):
 
 
 """
-<Title Delay Title>
-<Icon las la-hourglass Icon>
+Delay
+Icon: las la-hourglass
 """
 
 
@@ -2919,8 +2919,8 @@ def wait_folder_exists(path, timeout=60):
 
 
 """
-<Title Word Application Title>
-<Icon las la-file-word Icon>
+Word Application
+Icon: las la-file-word
 """
 
 
@@ -3184,6 +3184,7 @@ class Word:
 
 """
 Word File
+Icon: las la-file-word
 """
 
 class WordFile:
@@ -3381,7 +3382,8 @@ class WordFile:
 
 
 """
-Outlook (application)
+Outlook Application
+Icon: las la-envelope
 """
 
 
@@ -3852,7 +3854,8 @@ class Outlook:
 
 
 """
-Excel (application)
+Excel Application
+Icon: las la-file-excel
 """
 
 
@@ -4669,7 +4672,8 @@ class Excel:
         self.app.Application.Quit()
 
 """
-Excel (file)
+Excel File
+Icon: las la-file-excel
 """
 
 class ExcelFile:
@@ -4878,7 +4882,8 @@ class ExcelFile:
 
 
 """
-PowerPoint (application)
+PowerPoint Application
+icon: las la-file-powerpoint
 """
 
 
@@ -5191,6 +5196,7 @@ class PowerPoint:
 
 """
 Office 365
+Icon: las la-cloud
 """
 
 
@@ -5229,6 +5235,7 @@ def send_email_with_outlook365(client_id, client_secret, to_email, subject='', b
 
 """
 Salesforce
+Icon: lab la-salesforce
 """
 
 
@@ -5282,6 +5289,7 @@ def salesforce_api_call(action, key, parameters={}, method='get', data={}):
 
 """
 E-mail (SMTP)
+Icon: las la-at
 """
 
 
@@ -5329,6 +5337,7 @@ def send_mail_smtp(smtp_host, smtp_user, smtp_password, to_address, subject="", 
 
 """
 Windows OS
+icon: lab la-windows
 """
 
 
@@ -5649,6 +5658,7 @@ def beep(frequency=1000, duration=500):
 
 """
 Text-to-Speech
+Icon: las la-volume-up
 """
 
 
@@ -5691,6 +5701,7 @@ def speak(text, speed=None):
 
 """
 Active Directory
+Icon: las la-user
 """
 
 
@@ -5734,6 +5745,7 @@ class ActiveDirectory:
 
 """
 Utilities
+icon: las la-toolbox
 """
 
 
@@ -5910,6 +5922,7 @@ def download_file_from_url(url, filename=None, path=None):
 
 """
 Trello
+Icon: lab la-trello
 """
 
 
@@ -5965,6 +5978,7 @@ def add_card(title="My card", description="My description", board_name="My board
 
 """
 System
+Icon: las la-laptop
 """
 
 
@@ -6391,6 +6405,7 @@ def send_to_printer(file):
 
 """
 PDF
+Icon: las la-file-pdf
 """
 
 @activity
@@ -6632,6 +6647,7 @@ def apply_watermark_to_pdf(
 
 """
 System Monitoring
+Icon: las la-wave-square
 """
 
 
@@ -6871,6 +6887,7 @@ def get_time_since_last_boot():
 
 """
 Image Processing
+Icon: las la-photo-video
 """
 
 
@@ -7119,6 +7136,7 @@ def mirror_image_vertically(path):
 
 """
 Process
+Icon: las la-play
 """
 
 
@@ -7276,6 +7294,7 @@ def kill_process(name=None):
 
 """
 Optical Character Recognition (OCR)
+Icon: las la-glasses
 """
 
 
