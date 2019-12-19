@@ -67,7 +67,7 @@ Icon: las la-shield-alt
 
 @activity
 def generate_random_key():
-    """Generate random key
+    """Random key
 
     Generate random Fernet key. Fernet guarantees that a message encrypted using it cannot be manipulated or read without the key. Fernet is an implementation of symmetric (also known as “secret key”) authenticated cryptography
 
@@ -253,7 +253,7 @@ def decrypt_file_with_key(input_path, key, output_path=None):
 
 @activity
 def generate_key_from_password(password, salt=None):
-    """Generate key
+    """Key from password
 
     Generate key based on password and salt. If both password and salt are known the key can be regenerated.
 
@@ -292,7 +292,7 @@ def generate_key_from_password(password, salt=None):
 
 @activity
 def generate_hash_from_file(input_path, method='md5', buffer_size=65536):
-    """Generate file hash
+    """Hash from file
 
     Generate hash from file 
 
@@ -384,7 +384,7 @@ Icon: las la-dice-d6
 
 @activity
 def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
-    """Generate random number
+    """Random number
 
     Random numbers can be integers (not a fractional number) or a float (fractional number).
 
@@ -414,7 +414,7 @@ def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
 
 @activity
 def generate_random_boolean():
-    """Generate random boolean
+    """Random boolean
 
     Generates a random boolean (True or False)
 
@@ -437,7 +437,7 @@ def generate_random_boolean():
 
 @activity
 def generate_random_name(locale=None):
-    """Generate random name
+    """Random name
 
     Generates a random name. Adding a locale adds a more common name in the specified locale. Provides first name and last name.
 
@@ -510,7 +510,7 @@ def generate_random_name(locale=None):
 
 
 def generate_random_sentence(locale=None):
-    """Generate random sentence
+    """Random sentence
 
     Generates a random sentence. Specifying locale changes language and content based on locale.
 
@@ -584,7 +584,7 @@ def generate_random_sentence(locale=None):
 
 @activity
 def generate_random_address(locale=None):
-    """Generate random address
+    """Random address
 
     Generates a random address. Specifying locale changes random locations and streetnames based on locale.
 
@@ -659,7 +659,7 @@ def generate_random_address(locale=None):
 
 @activity
 def generate_random_beep(max_duration=2000, max_frequency=5000):
-    """Generate random beep
+    """Random beep
 
     Generates a random beep, only works on Windows
 
@@ -687,7 +687,7 @@ def generate_random_beep(max_duration=2000, max_frequency=5000):
 
 @activity
 def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
-    """Generate random date
+    """Random date
 
     Generates a random date.
 
@@ -748,7 +748,7 @@ def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
 
 @activity
 def generate_unique_identifier():
-    """Generate unique identifier (U)
+    """Generate unique identifier
 
     Generates a random UUID4 (universally unique identifier). While the probability that a UUID will be duplicated is not zero, it is close enough to zero to be negligible.
 
@@ -932,6 +932,8 @@ def display_message_box(title="Title", message="Example message"):
 
     :return: True if user presses 'OK'
 
+        :Example:
+
     >>> display_message_box()
     >>> # Wait till user presses 'OK'
     True
@@ -975,6 +977,8 @@ def display_osd_message(message='Example message', seconds=5):
     Display custom OSD (on-screen display) message. Can be used to display a message for a limited amount of time. Can be used for illustration, debugging or as OSD.
 
     :parameter message: Message to be displayed
+
+        :Example:
 
     >>> display_osd_message()
 
@@ -1048,6 +1052,7 @@ import selenium.webdriver
 
 
 class Chrome(selenium.webdriver.Chrome):
+    @activity
     def __init__(self, load_images=True, headless=False):
         """Opens Chrome Browser
 
@@ -1074,7 +1079,7 @@ class Chrome(selenium.webdriver.Chrome):
 
         return: wWbdriver: Selenium Webdriver
 
-        :Example:
+            :Example:
 
         >>>  # Open the browser
         >>> browser = Chrome()
@@ -1169,7 +1174,7 @@ class Chrome(selenium.webdriver.Chrome):
 
     @activity
     def find_elements_by_text(self, text):
-        """Find browser elements by text
+        """Find elements by text
 
         Find all elements by their text. Text does not need to match exactly, part of text is enough.
 
@@ -1187,7 +1192,7 @@ class Chrome(selenium.webdriver.Chrome):
             element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
 
         Icon
-            las la-text
+            las la-align-center
 
         """
         return self.find_elements_by_xpath("//*[contains(text(), '" + text.lower() + "')] | //*[@value='" + text.lower() + "']")
@@ -1212,7 +1217,7 @@ class Chrome(selenium.webdriver.Chrome):
             element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
 
         Icon
-            las la-text
+            las la-align-center
 
         """
         return self.find_element_by_xpath("//*[contains(text(), '" + text.lower() + "')] | //*[@value='" + text.lower() + "']")
@@ -1378,7 +1383,7 @@ def set_credential(username=None, password=None, system="Automagica"):
         credential, login, password, username, store, vault, secure, credentials, store, log in, encrypt
 
     Icon
-        lab la-key
+        las la-key
 
     """
     import keyring
@@ -1449,6 +1454,7 @@ Icon: las la-key
 
 
 class FTP:
+    @activity
     def __init__(self, server, username, password):
         """Create FTP connection
 
@@ -1478,8 +1484,8 @@ class FTP:
 
     @activity
     def download_file(self, input_path, output_path=None):
-        """Download file from FTP server
-
+        """Download file
+        
         Downloads a file from FTP server. Connection needs to be established first.
 
         :parameter input_path: Path to the file on the FPT server to download
@@ -1520,7 +1526,9 @@ class FTP:
 
     @activity
     def upload_file(self, input_path, output_path=None):
-        """Upload file to FTP server
+        """Upload file
+        
+        Upload file to FTP server
 
         :parameter from_path: Path file that will be uploaded
         :parameter to_path: Destination path to upload. 
@@ -1553,7 +1561,7 @@ class FTP:
 
     @activity
     def enumerate_files(self, path="/"):
-        """List of FTP files
+        """List FTP files
 
         Generate a list of all the files in the FTP directory
 
@@ -1584,7 +1592,9 @@ class FTP:
 
     @activity
     def directory_exists(self, path="/"):
-        """Check if FTP directory exists
+        """Check FTP directory
+        
+        Check if FTP directory exists
 
         :parameter path: Path to check on existence. Default is main directory
 
@@ -1924,7 +1934,7 @@ def display_mouse_position(duration=10):
         mouse, osd, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
 
     Icon
-        lar la-search
+        lars la-search-location
     """
 
     if duration < 1 or type(duration) != int:
@@ -1986,7 +1996,7 @@ def double_click(x=None, y=None):
         mouse, osd, overlay, double, double click, doubleclick show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
 
     Icon
-        lar la-mouse-pointer
+        las la-mouse-pointer
     """
     from pyautogui import doubleClick
 
@@ -2012,7 +2022,7 @@ def right_click(x=None, y=None):
         mouse, osd, right click, right, rightclick, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
 
     Icon
-        lar la-mouse-pointer
+        las la-mouse-pointer
     """
 
     from pyautogui import rightClick
@@ -2130,7 +2140,7 @@ def random_screen_snippet(size=100, path=None):
         image, random, testing, screengrab, snippet
 
     Icon
-        lar la-crop-alt
+        las la-crop-alt
 
     """
     import PIL.ImageGrab
@@ -2173,7 +2183,7 @@ def take_screenshot(path=None):
         image, screenshot, printscreen,
 
     Icon
-        lar la-expand
+        las la-expand
 
     """
     import PIL.ImageGrab
@@ -2423,7 +2433,7 @@ def create_folder(path=None):
         create folder, folder, folders, make folder, new folder, folder manipulation, explorer, nautilus
 
     Icon
-        lar la-folder-plus
+        las la-folder-plus
     """
     import os
 
@@ -2604,7 +2614,7 @@ def remove_folder(path, allow_root=False, delete_read_only=True):
         folder, delete folder, delete, nautilus, folder manipulation, explorer, delete folder, remove, remove folder
 
     Icon
-        lar la-folder-minus
+        las la-folder-minus
 
     """
     import os
@@ -2618,8 +2628,9 @@ def remove_folder(path, allow_root=False, delete_read_only=True):
 
 @activity
 def empty_folder(path, allow_root=False):
-    """Remove all contents from a folder
-
+    """Empty folder
+    
+    Remove all contents from a folder
     For the function to work optimal, all files and subfolders in the main targetfolder should be closed.
 
     :parameter path: Full path to the folder that will be emptied
@@ -2758,7 +2769,7 @@ def zip_folder(path, new_path=None):
         zip, zipping, winrar, rar, 7zip, compress, unzip
 
     Icon
-        lar la-archive
+        las la-archive
     """
     import zipfile
     import os
@@ -2925,6 +2936,7 @@ Icon: las la-file-word
 
 
 class Word:
+    @activity
     def __init__(self, visible=True, file_path=None):
         """Start Word Application
 
@@ -3113,7 +3125,8 @@ class Word:
             word, html, document, export, save as
 
         Icon
-            lar la-html5
+            las la-html5
+
         """
         if not path:
             import os
@@ -3188,6 +3201,7 @@ Icon: las la-file-word
 """
 
 class WordFile:
+    @activity
     def __init__(self, file_path=None):
         """Read and Write Word files. 
 
@@ -3195,6 +3209,20 @@ class WordFile:
         Note that, in contrary to working with the :func: 'Word' activities, a file get saved directly after manipulation.
 
         :parameter file_path: Enter a path to open Word with an existing Word file. If no path is specified a 'document.docx' will be initialized in the home directory, this is the default value. If a document with the same name already exists the file will be overwritten.
+
+            :Example:
+
+        >>> wordfile = WordFile()
+        >>> wordfile.append_text('Some sample text')
+        >>> wordfile.read_all_text()
+        'Some sample text'
+
+        Keywords
+            word, read, text, file
+
+        Icon
+            las la-file-word
+
         """
 
         self.file_path = file_path
@@ -3388,10 +3416,22 @@ Icon: las la-envelope
 
 
 class Outlook:
+    @activity
     def __init__(self, account_name=None):
         """Start Outlook Application
 
         For this activity to work, Outlook needs to be installed on the system.
+
+            :Example:
+            
+        >>> outlook = Outlook()
+
+        Keywords
+            outlook, send e-mail, send mail
+
+        Icon
+            las la-mail-bulk
+        
         """
         self.app = self._launch()
         self.account_name = account_name
@@ -3415,9 +3455,7 @@ class Outlook:
         return app
 
     @activity
-    def send_mail(
-        self, to_address, subject="", body="", html_body=None, attachment_paths=None
-    ):
+    def send_mail(self, to_address, subject="", body="", html_body=None, attachment_paths=None):
         """Send e-mail
 
         Send an e-mail using Outlook
@@ -3560,14 +3598,7 @@ class Outlook:
         return messages
 
     @activity
-    def delete_mails(
-        self,
-        folder_name="Inbox",
-        limit=0,
-        subject_contains="",
-        body_contains="",
-        sender_contains="",
-    ):
+    def delete_mails(self,folder_name="Inbox",limit=0,subject_contains="",body_contains="",sender_contains=""):
         """Delete e-mails
 
         Deletes e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -3619,15 +3650,7 @@ class Outlook:
                         item.Delete()
 
     @activity
-    def move_mails(
-        self,
-        source_folder_name="Inbox",
-        target_folder_name="Archive",
-        limit=0,
-        subject_contains="",
-        body_contains="",
-        sender_contains="",
-    ):
+    def move_mails(self,source_folder_name="Inbox",target_folder_name="Archive",limit=0,subject_contains="",body_contains="",sender_contains=""):
         """Move e-mails
 
         Move e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -3860,6 +3883,7 @@ Icon: las la-file-excel
 
 
 class Excel:
+    @activity
     def __init__(self, visible=True, file_path=None):
         """Start Excel Application
 
@@ -3867,6 +3891,18 @@ class Excel:
 
         :parameter visible: Show Excel in the foreground if True or hide if False, defaults to True.
         :parameter path: Enter a path to open Excel with an existing Excel file. If no path is specified a workbook will be initialized, this is the default value.
+
+            :Example:
+
+        >>> # Open Excel
+        >>> excel = Excel()
+
+        Keywords
+            excel, add worksheet, add tab
+
+        Icon
+            las la-file-excel
+
         """
         self.file_path = file_path
 
@@ -4677,6 +4713,7 @@ Icon: las la-file-excel
 """
 
 class ExcelFile:
+    @activity
     def __init__(self, file_path=None):
         """Read and Write xlsx files. 
 
@@ -4684,6 +4721,18 @@ class ExcelFile:
         Note that, in contrary to working with the :func: 'Excel' activities, a file get saved directly after manipulation.
 
         :parameter file_path: Enter a path to open Excel with an existing Excel file. If no path is specified a 'workbook.xlsx' will be initialized in the home directory, this is the default value. If a workbook with the same name already exists the file will be overwritten.
+        
+            :Example:
+
+        >>> # Open a new Excel file
+        >>> excel_file = ExcelFile()
+        
+        Keywords
+            excel, open, start, xlsx
+
+        Icon
+            las la-file-excel    
+
         """
 
         self.file_path = file_path
@@ -4888,14 +4937,27 @@ icon: las la-file-powerpoint
 
 
 class PowerPoint:
+    @activity
     def __init__(self, visible=True, path=None, add_slide=True):
-        """Start Excel Application
+        """Start PowerPoint Application
 
         For this activity to work, PowerPoint needs to be installed on the system.
 
         :parameter visible: Show PowerPoint in the foreground if True or hide if False, defaults to True.
         :parameter path: Enter a path to open an existing PowerPoint presentation. If no path is specified a new presentation will be initialized, this is the default value.
         :parameter add_slide: Add an initial empty slide when creating new PowerPointfile, this prevents errors since most manipulations require a non-empty presentation. Default value is True
+        
+            :Example:
+            
+        >>> # Start PowerPoint
+        >>> powerpoint = PowerPoint()
+
+        Keywords
+            powerpoint, ppt
+
+        Icon
+            las la-file-powerpoint
+        
         """
         self.app = self._launch(path)
         self.app.Visible = visible
@@ -4953,6 +5015,26 @@ class PowerPoint:
     @activity
     def quit(self):
         """Close PowerPoint Application
+
+        Close PowerPoint
+
+        :parameter index: Index where the slide should be inserted. Default value is as final slide.
+        :parmeter type: Type of the slide to be added. Supports following types: blank, chart, text, title and picture.
+
+            :Example:
+            
+        >>> # Start PowerPoint
+        >>> powerpoint = PowerPoint()
+        >>> # Close PowerPoint
+        >>> powerpoint.quit()
+
+
+        Keywords
+            powerpoint, ppt, quit, exit
+
+        Icon
+            las la-file-powerpoint
+
         """
         return self.app.Application.Quit()
 
@@ -5238,7 +5320,7 @@ Salesforce
 Icon: lab la-salesforce
 """
 
-
+@activity
 def salesforce_api_call(action, key, parameters={}, method='get', data={}):
     """Salesforce API
 
@@ -5369,7 +5451,7 @@ def set_user_password(username, password):
 
 @activity
 def validate_user_password(username, password):
-    """Validate Windows password
+    """Check Windows password
 
     Validates a Windows user password if it is correct
 
@@ -5420,7 +5502,7 @@ def lock_windows():
         windows, user, password, account, lock, freeze, hibernate, sleep, lockescreen
 
     Icon
-        lar la-user-lock
+        las la-user-lock
 
     """
     import ctypes
@@ -5503,7 +5585,7 @@ def get_username():
 
 @activity
 def set_to_clipboard(text):
-    """Text to clipboard
+    """Set clipboard
 
     Set any text to the Windows clipboard. 
 
@@ -5522,7 +5604,7 @@ def set_to_clipboard(text):
         copy, clipboard, clip board, ctrl c, ctrl v, paste
 
     Icon
-        lar la-clipboard-check
+        las la-clipboard-check
     """
     import win32clipboard
 
@@ -5622,7 +5704,7 @@ def run_vbs_script(script_path, parameters=[]):
         vbs, VBScript
 
     Icon
-        lar la-cogs
+        las la-cogs
     """
     import subprocess
 
@@ -5683,7 +5765,7 @@ def speak(text, speed=None):
         sound, speech, text, speech to text, speech-to-text, translate, read, read out loud
 
     Icon
-        lar la-keynote
+        las la-microphone-alt
 
 
     """
@@ -5705,26 +5787,28 @@ Icon: las la-user
 """
 
 
-class ActiveDirectory:
-    """ Interface to Windows Active Directory through ADSI
+class ActiveDirectory():
 
-    Activity to connect the ADSI interface to Microsoft Active Directory.
-    Connects to the AD domain to which the machine is joined by default.
-
-        :Example:
-
-    >>> ad = ActiveDirectory()
-    >>> ad.get_object_by_distinguished_name('SampleDN')
-
-    Keywords
-        AD, active directory, activedirectory
-
-    Icon
-        lar la-audio-description
-
-    """
-
+    @activity
     def __init__(self, ldap_server=None, username=None, password=None):
+        """AD interface
+        
+        Interface to Windows Active Directory through ADSI
+
+        Activity to connect the ADSI interface to Microsoft Active Directory.
+        Connects to the AD domain to which the machine is joined by default.
+
+            :Example:
+
+        >>> ad = ActiveDirectory()
+
+        Keywords
+            AD, active directory, activedirectory
+
+        Icon
+            las la-audio-description
+
+        """
         import pyad
 
         self.pyad = pyad
@@ -5740,6 +5824,25 @@ class ActiveDirectory:
 
     @activity
     def get_object_by_distinguished_name(self, distinguished_name):
+        """Get AD object by name
+        
+        Interface to Windows Active Directory through ADSI
+
+        Activity to connect the ADSI interface to Microsoft Active Directory.
+        Connects to the AD domain to which the machine is joined by default.
+
+            :Example:
+
+        >>> ad = ActiveDirectory()
+        >>> ad.get_object_by_distinguished_name('SampleDN')
+
+        Keywords
+            AD, active directory, activedirectory
+
+        Icon
+            las la-audio-description
+
+        """
         return self.pyad.from_dn(distinguished_name)
 
 
@@ -5751,7 +5854,7 @@ icon: las la-toolbox
 
 @activity
 def home_path(subdir=None):
-    """Home path
+    """Get user home path
 
     Returns the current user's home path
 
@@ -5774,7 +5877,7 @@ def home_path(subdir=None):
         home, home path, homepath, home directory, homedir
 
     Icon
-        lar la-home
+        las la-home
 
     """
     import os
@@ -5786,7 +5889,7 @@ def home_path(subdir=None):
 
 @activity
 def desktop_path(subdir=None):
-    """Desktop path
+    """Get desktop path
 
     Returns the current user's desktop path
 
@@ -5851,7 +5954,7 @@ def open_file(path):
 
 @activity
 def set_wallpaper(image_path):
-    """Change wallpaper
+    """Set wallpaper
 
     Set Windows desktop wallpaper with the the specified image
 
@@ -5871,7 +5974,7 @@ def set_wallpaper(image_path):
         desktop, desktop path, desktoppath, desktop directory, desktopdir
 
     Icon
-        lar la-desktop
+        las la-desktop
 
     """
     import ctypes
@@ -5898,6 +6001,8 @@ def download_file_from_url(url, filename=None, path=None):
     Keywords
         download, download url, save, request
 
+    Icon
+        las la-cloud-download-alt
     """
     import requests
     import re
@@ -5949,7 +6054,7 @@ def add_card(title="My card", description="My description", board_name="My board
         trello
 
     Icon
-
+        lab la-trello
 
     """
     from trello import TrelloClient
@@ -6232,7 +6337,9 @@ def read_list_from_txt(file_path):
 
 @activity
 def append_line(text, file_path):
-    """Append a text line to a file and creates the file if it does not exist yet.
+    """Append to .txt
+    
+    Append a text line to a file and creates the file if it does not exist yet.
 
     :parameter text: The text line to write to the end of the file
     :parameter file_path: Path to the file to write to
@@ -6379,9 +6486,9 @@ def get_file_extension(path):
 
 @activity
 def send_to_printer(file):
-    """Send file to default printer to print
-
-    This activity sends a file to the printer. Make sure to have a default printer set up.
+    """Print
+    
+    Send file to default printer to priner. This activity sends a file to the printer. Make sure to have a default printer set up.
 
     :parameter file: Path to the file to print, should be a printable file
 
@@ -6499,6 +6606,9 @@ def extract_page_range_from_pdf(file_path, start_page, end_page, output_path=Non
     :parameter end_page: Page number to end with, with 0 being the first page
     :param output_path: Output path, if no path is provided same path as input will be used with 'extracted' added to the name
 
+
+        :Example:
+
     >>> # Caution, for this example to work a .pdf example file will be downloaded from automagica.com FTP
     >>> example_pdf = download_file_from_url('http://automagica.com/examples/example_document.pdf')
     >>> # Join the PDF file three times to create multi page
@@ -6591,8 +6701,7 @@ def extract_images_from_pdf(file_path):
 
 
 @activity
-def apply_watermark_to_pdf(
-        file_path, watermark_path, output_path=''):
+def apply_watermark_to_pdf(file_path, watermark_path, output_path=''):
     """Watermark a PDF
 
     :parameter file_path: Filepath to the document that will be watermarked. Should be pdf file.
@@ -6893,9 +7002,7 @@ Icon: las la-photo-video
 
 @activity
 def show_image(path):
-    """
-
-    Open image in default viewer
+    """Show image
 
     Displays an image specified by the path variable on the default imaging program.
 
