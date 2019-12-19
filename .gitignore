@@ -7,3 +7,4 @@ build
 dist
 .ipynb_checkpoints
 docs/build
+migrated
