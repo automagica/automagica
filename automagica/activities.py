@@ -264,6 +264,7 @@ def generate_key_from_password(password, salt=None):
 
         :Example:
 
+    >>> # Generate a key from password
     >>> key = generate_key_from_password(password='Sample password')
     b'7jGGF5w_xyI0CIZGCmLlnNyUvFpNvIUY08JCHopgAmm8='
 
@@ -353,6 +354,7 @@ def generate_hash_from_text(text, method='md5'):
 
         :Example:
 
+    >>> # Generate a hast from text
     >>> generate_hash_from_text('Sample text')
     '1ba249ca5931f3c85fe44d354c2f274d'
 
@@ -396,6 +398,7 @@ def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
 
         :Example:
 
+    >>> # Generate a random number
     >>> generate_random_number()
     7
 
@@ -422,6 +425,7 @@ def generate_random_boolean():
 
         :Example:
 
+    >>> # Generate a random boolean
     >>> generate_random_boolean()
     True
 
@@ -492,6 +496,7 @@ def generate_random_name(locale=None):
 
         :Example:
 
+    >>> # Generate a random name
     >>> generate_random_name()
     'Michelle Murphy'
 
@@ -565,6 +570,7 @@ def generate_random_sentence(locale=None):
 
         :Example:
 
+    >>> # Generate a random sentence
     >>> generate_random_sentence()
     'The age of automation is going to be the age of do-it-yourself'
 
@@ -639,6 +645,7 @@ def generate_random_address(locale=None):
 
         :Example:
 
+    >>> # Generate a random address
     >>> generate_random_address()
     '5639 Cynthia Bridge Suite 610
     'Port Nancy, GA 95894'
@@ -670,6 +677,7 @@ def generate_random_beep(max_duration=2000, max_frequency=5000):
 
         :Example: 
 
+    >>> # Generate a random beep
     >>> generate_random_beep()
 
     Keywords
@@ -720,6 +728,7 @@ def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
 
         :Example: 
 
+    >>> # Generate a random date
     >>> generate_random_date()
     01/01/2020 13:37'
 
@@ -756,6 +765,7 @@ def generate_unique_identifier():
 
         :Example:
 
+    >>> # Generate unique identifier
     >>> generate_unique_identifier()
     'd72fd7ea-d682-4f78-8ca1-0ed34142a992'
 
@@ -789,6 +799,7 @@ def ask_user_input(title="Title", label="Input", password=False):
 
         :Example:
 
+    >>> # Make a window pop-up ask for user input
     >>> ask_user_input()
     >>> # Type in text and press 'submit', e.g. 'Sample text'
     'Sample text'
@@ -846,6 +857,7 @@ def ask_user_password(label="Password"):
 
         :Example:
 
+    >>> # Make a window pop-up ask for user password
     >>> ask_user_password()
     >>> # Type in password and press 'submit', e.g. 'Sample password'
     'Sample password'
@@ -1081,7 +1093,7 @@ class Chrome(selenium.webdriver.Chrome):
 
             :Example:
 
-        >>>  # Open the browser
+        >>> # Open the browser
         >>> browser = Chrome()
         >>> # Go to a website
         >>> browser.get('https://automagica.com')
@@ -4146,6 +4158,7 @@ class Excel:
         >>> excel.add_worksheet('My Example Worksheet')
         >>> # Insert a text in every cell in this range
         >>> excel.write_range('A1:D5', 'Hello World!')
+        >>> # Read the same range
         >>> excel.read_range('A1:D5')
         [['Hello World', 'Hello World', 'Hello World', 'Hello World'], ...]
 
@@ -4191,7 +4204,9 @@ class Excel:
 
         >>> # Open Excel
         >>> excel = Excel()
+        >>> # Add a worksheet
         >>> excel.add_worksheet('My Example Worksheet')
+        >>> # Get all worksheet names
         >>> excel.get_worksheet_names()
         ['Sheet1', 'My Example Worksheet']
 
