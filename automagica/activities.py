@@ -885,6 +885,7 @@ def ask_credentials(title="Credentials required", dialogue_text_username="Userna
 
         :Example:
 
+    >>> # Make a window pop-up ask user credentials
     >>> ask_credentials()
     >>> # Type in Username and Password 'submit', e.g. 'Sample username' and 'Sample password'
     ('Sample username', 'Sample password')
