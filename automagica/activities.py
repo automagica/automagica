@@ -75,6 +75,7 @@ def generate_random_key():
 
         :Example:
 
+    >>> # Generate a random key
     >>> generate_random_key()
     b'AYv6ZPVgnrUtHDbGZqAopRyAo9r0_UKrA2Rm3K_NjIo='
 
@@ -104,7 +105,9 @@ def encrypt_text_with_key(text, key):
 
         :Example:
 
+    >>> # Generate a random key
     >>> key = generate_random_key()
+    >>> # Encrypt text with this key
     >>> encrypt_text_with_key('Sample text', key)
     b'gAAAAABd8lpG8fNqcj5eXrPPHlx4KeCm-1TgX3jkyhStMfIlgGImIa-qaINZAj8XcxPcG8iu84iT56b_qAW9c5qpe7btUFhtxQ=='
 
@@ -133,8 +136,11 @@ def decrypt_text_with_key(encrypted_text, key):
 
         :Example:
 
+    >>> # Generate a random key
     >>> key = generate_random_key()
+    >>> # Encrypt text with generated key
     >>> encrypted_text = encrypt_text_with_key('Sample text', key)
+    >>> # Decrypt text with same key
     >>> decrypt_text_with_key(encrypted_text, key)
     'Sample text'
 
@@ -163,6 +169,7 @@ def encrypt_file_with_key(input_path, key, output_path=None):
 
         :Example:
 
+    >>> # Generate a random key
     >>> key = generate_random_key()
     >>> # Create a textfile to illustrate file encryption
     >>> textfile_path = make_textfile()
@@ -213,6 +220,7 @@ def decrypt_file_with_key(input_path, key, output_path=None):
 
         :Example:
 
+    >>> # Generate a random key
     >>> key = generate_random_key()
     >>> # Create a textfile to encrypt file
     >>> textfile_path = make_textfile()
@@ -1069,7 +1077,7 @@ import selenium.webdriver
 class Chrome(selenium.webdriver.Chrome):
     @activity
     def __init__(self, load_images=True, headless=False):
-        """Opens Chrome Browser
+        """Open Chrome Browser
 
         Open the Chrome Browser with the Selenium webdriver. Canb be used to automate manipulations in the browser.
         Different elements can be found as:
@@ -4859,7 +4867,7 @@ class ExcelFile:
 
     @activity
     def read_cell(self, column, row):
-        """ Read cell
+        """Read cell
 
         :parameter column: Column number (integer) to read
         :parameter row: Row number (integer) to read
@@ -5806,7 +5814,6 @@ Icon: las la-user
 
 
 class ActiveDirectory():
-
     @activity
     def __init__(self, ldap_server=None, username=None, password=None):
         """AD interface
