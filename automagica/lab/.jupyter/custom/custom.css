@@ -1,15 +1,10 @@
-.btn {
-    background-color: #2195f3;
-    color: white;
-    font-size: 15px;
-    padding: 5px;
-    margin: 5px;
+body {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 
-.notebook_app {
-    background: url("https://i.imgur.com/2lABo0v.png") no-repeat;
-    background-position: bottom -900px right -50px;
-
+.btn {
+    background-color: white;
+    color: #007bff;
 }
 
 .btn:hover {
@@ -17,40 +12,77 @@
     color: white;
 }
 
-#filelink {
-    display: none;
+.notebook_app {
+    background: url("automagica-lab.png") no-repeat;
+    background-position: bottom -900px right -50px;
+
 }
 
-#logout {
-    display: none;
-}
-
-#kernel_logo_widget {
-    display: none;
-}
-
-.kernel_indicator_name {
-    display: none;
-}
-
-#notification_trusted { 
+/* Hiding confusing elements */
+#filelink,
+#logout,
+#kernel_logo_widget,
+#cmd_palette,
+#kernel_indicator,
+#kernel_indicator_icon,
+#notification_trusted,
+#menu-change-kernel { 
     display: none !important;
 }
 
-#save_widget {
+#save_widget,
+#modal_indicator {
     color: white !important;
 }
+
+.shadow {
+    box-shadow: rgba(0, 0, 0, 0.13) 10px 10px 21px 5px;
+ }
+
 
 #ipython_notebook img{                                                                                        
     display:block;
     /* logo url here */
-    background: url("https://i.imgur.com/VmqhLJs.png") no-repeat;
+    background: url("logo-white.png") no-repeat;
     background-size: contain;
     width: 233px;
     height: 33px;
     padding-left: 233px;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+#header {
+    background-color: #007BFF !important;
+}
+
+.navbar-default {
+    background-color: #007BFF !important;
+    border: 0px;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: rgba(255,255,255,.5);
+}
+
+.navbar-default .navbar-nav > li > a:active {
+    color: rgba(255,255,255,.75);
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+    color: rgba(255,255,255,.75);
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: rgba(255,255,255,.75);
+    background-color: #007BFF !important;
+}
+
+
+
+.header-bar {
+    background-color: #007BFF !important;
+    border: 0px;
 }
 
 #notebook_name {
