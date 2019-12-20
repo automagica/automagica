@@ -24,12 +24,19 @@ define([
         if (appname === 'NotebookApp') {
             Jupyter.notebook.set_autosave_interval(0);
 
-            Jupyter.notebook.kernel.execute('from automagica.activities import *');
+
+            $('a:contains("Kernel")').text('Bot');
+
+            $('a:contains("Widgets")').hide();
+
+            $('#cell_type option[value="raw"]').hide();
+            $('#cell_type option[value="heading"]').hide();
+
 
 
             $('#maintoolbar-container').append(`
-            <a href="#" onclick="Jupyter.notebook.execute_all_cells();" class="btn btn-success">Run all</a>
-            <a href="#" onclick="Jupyter.notebook.clear_all_output();" class="btn btn-success">Clear output</a>`);
+            <a href="#" onclick="Jupyter.notebook.execute_all_cells();" class="btn">Run all</a>
+            <a href="#" onclick="Jupyter.notebook.clear_all_output();" class="btn">Clear output</a>`);
 
             $('head').append('<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">')
 
@@ -39,7 +46,12 @@ define([
                 categories = data;
 
                 htmlToInsert += `
-            <div style="z-index: 1000000; top: 150px; bottom: 0; left: 20px; position: fixed; width: 300px; overflow-y: scroll; height:800px;">
+            <div id="activities" style="z-index: 1000000; top: 150px; left: 20px; position: fixed; width: 300px; background-color: white;" class="shadow">
+            <div id="activitiesheader" style="cursor: move; font-size: 15px; padding: 10px; background-color: white;"><i class="las la-grip-vertical"></i> Activities</div>
+            <div>
+            <input type="text" placeholder="Search" class="form-control" id="search_activities" onkeyup="filterActivities(this.value);" onBlur="Jupyter.keyboard_manager.enable();" onFocus="Jupyter.keyboard_manager.disable();">
+            </div>
+            <div style=" overflow-y: scroll; height:600px;">
             <div class="panel-group" role="tablist">
             <div class="panel panel-default">`;
                 categories.forEach(function (category, i) {
@@ -52,14 +64,15 @@ define([
                     );
 
                     htmlToInsert += `
-                <div data-keywords="`+ category_keywords + `" class="panel-heading category_container" role="tab" id="category_` + i + `">
+                <div data-keywords="`+ category_keywords + `" class="panel-heading category_header" id="category_header_` + i + `">
                     <h4 class="panel-title">
-                        <a class="collapsed" data-toggle="collapse" href="#`+ i + `" aria-expanded="false" aria-controls="` + i + `">
+                        <a data-toggle="collapse" href="#" data-target="#category_` + i + `">
                             <i class="`+ category.icon + ` la-lw"></i>&nbsp;&nbsp;` + category.name + `
                         </a>
                     </h4>
                 </div>
-                <div id="`+ i + `" class="panel-collapse collapse category_panel" role="tabpanel" aria-labelledby="category_` + i + `">
+
+                <div data-keywords="`+ category_keywords + `" id="category_` + i + `" class="panel-collapse collapse category_panel">
                     <ul class="list-group">`;
 
                     category.activities.forEach(function (activity) {
@@ -75,7 +88,7 @@ define([
                 </div>`;
                 });
 
-                htmlToInsert += `</div></div></div>`;
+                htmlToInsert += `</div></div></div></div>`;
 
                 htmlToInsert += `
                 <style>
@@ -88,7 +101,7 @@ define([
                 var notebook = document.getElementById('notebook');
                 notebook.insertAdjacentHTML('beforeend', htmlToInsert);
 
-
+                dragElement(document.getElementById("activities"));
 
 
 
@@ -107,3 +120,93 @@ function insertSnippet(cell_type, contents) {
     cell.focus_cell();
 }
 
+function filterActivities(q) {
+    var category_panels = $('.category_panel');
+    var category_headers = $('.category_header');
+    var activity_containers = $('.activity_container')
+
+    if (q.length > 0) {
+        // hide panels and expand resulting panels
+        category_panels.each(function (index) {
+            if ($(this).attr('data-keywords').toLowerCase().includes(q.toLowerCase())) {
+                $(this).collapse('show');
+            }
+        });
+
+        // hide category buttons and show matches
+        category_headers.each(function (index) {
+            $(this).hide();
+            if ($(this).attr('data-keywords').toLowerCase().includes(q.toLowerCase())) {
+                $(this).show();
+            }
+        });
+
+        // hide activiy buttons and show matches
+        activity_containers.each(function (index) {
+            $(this).hide();
+            if ($(this).attr('data-keywords').toLowerCase().includes(q.toLowerCase())) {
+                $(this).show();
+            }
+        });
+
+
+    } else {
+        category_panels.each(function (index) {
+            //$(this).show();
+            // $(this).collapse('show');
+            $(this).collapse('hide');
+
+        });
+
+        category_headers.each(function (index) {
+            $(this).show();
+        });
+
+        activity_containers.each(function (index) {
+            $(this).show();
+        });
+
+    }
+}
+
+
+function dragElement(elmnt) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (document.getElementById(elmnt.id + "header")) {
+        // if present, the header is where you move the DIV from:
+        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+    } else {
+        // otherwise, move the DIV from anywhere inside the DIV:
+        elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}
