@@ -99,7 +99,7 @@ def encrypt_text_with_key(text, key):
     Encrypt text with (Fernet) key, 
 
     :parameter text: Text to be encrypted.
-    :parameter path: Path where key is stored.
+    :parameter key: Path where key is stored.
 
     :return: bytes-like object.
 
@@ -132,7 +132,7 @@ def decrypt_text_with_key(encrypted_text, key):
     :return: String
 
     :parameter encrypted_text: Text to be encrypted.
-    :parameter path: Path where key is stored.
+    :parameter key: Path where key is stored.
 
         :Example:
 
@@ -163,6 +163,7 @@ def encrypt_file_with_key(input_path, key, output_path=None):
     Encrypt file with (Fernet) key. Note that file will be unusable unless unlocked with the same key.
 
     :parameter input_file: Full path to file to be encrypted.
+    :parameter key: Path where key is stored.
     :parameter output_file: Output path. Default is the same directory with "_encrypted" added to the name
 
     :return: Path to encrypted file
@@ -214,6 +215,7 @@ def decrypt_file_with_key(input_path, key, output_path=None):
     Decrypts file with (Fernet) key
 
     :parameter input_file: Bytes-like file to be decrypted.
+    :parameter key: Path where key is stored.
     :parameter output_file: Outputfile, make sure to give this the same extension as basefile before encryption. Default is the same directory with "_decrypted" added to the name 
 
     :return: Path to decrypted file
@@ -702,7 +704,7 @@ def generate_random_beep(max_duration=2000, max_frequency=5000):
 
 
 @activity
-def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
+def generate_random_date(formatting='%m/%d/%Y %I:%M', days_in_past=1000):
     """Random date
 
     Generates a random date.
@@ -730,7 +732,7 @@ def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
     -   %Z	Time zone name (no characters if no time zone exists).
 
     :parameter days_in_past: Days in the past for which oldest random date is generated, default is 1000 days
-    :parameter format: Formatting of the dates, replace with 'None' to get raw datetime format. e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
+    :parameter formatting: Formatting of the dates, replace with 'None' to get raw datetime format. e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
 
     :return: Random date as string
 
@@ -757,8 +759,8 @@ def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
     random_date = earliest + \
         datetime.timedelta(seconds=random.randrange(delta_seconds))
 
-    if format:
-        return random_date.strftime(format)
+    if formatting:
+        return random_date.strftime(formatting)
     else:
         return random_date
 
@@ -942,7 +944,7 @@ def ask_credentials(title="Credentials required", dialogue_text_username="Userna
 
     return username, password
 
-
+@activity
 def display_message_box(title="Title", message="Example message"):
     """Shows message box
 
@@ -1185,13 +1187,14 @@ class Chrome(selenium.webdriver.Chrome):
             a = urlparse(url)
             filename = os.path.basename(a.path)
 
-            with open(os.path.join(output_path, filename), 'wb') as f:
-                try:
-                    r = requests.get(url)
-                    f.write(r.content)
-                    paths.append(os.path.join(output_path, filename))
-                except:
-                    pass
+            if filename:
+                with open(os.path.join(output_path, filename), 'wb') as f:
+                    try:
+                        r = requests.get(url)
+                        f.write(r.content)
+                        paths.append(os.path.join(output_path, filename))
+                    except:
+                        pass
 
         return paths
 
@@ -5062,7 +5065,7 @@ class PowerPoint:
             las la-file-powerpoint
 
         """
-        return self.app.Application.Quit()
+        self.app.Application.Quit()
 
     @activity
     def add_slide(self, index=None, type='blank'):
@@ -6427,7 +6430,7 @@ def make_textfile(text='Sample text', output_path=None):
     if not output_path:
         output_path = os.path.join(
             os.path.expanduser("~"), "generated_textfile.txt")
-    with open(output_path, "w") as file:
+    with open(output_path, "w", encoding="utf-8") as file:
         file.write(text)
 
     return output_path
