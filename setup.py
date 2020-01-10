@@ -22,7 +22,7 @@ setup(
     install_requires=[
         "requests==2.18.4",
         "plyer==1.4.0",
-        "Pillow==5.0.0",
+        "Pillow==7.0.0",
         "PyAutoGUI==0.9.36",
         "selenium==3.7.0",
         "openpyxl==2.4.8",
