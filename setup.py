@@ -30,7 +30,6 @@ setup(
         "PyPDF2==1.26.0",
         "faker==2.0.3",
         "psutil==5.4.6",
-        "keyring==13.0.0",
         "PySimpleGUI==4.4.1",
         "keyring==13.0.0",
         "cryptography==2.3.1",
