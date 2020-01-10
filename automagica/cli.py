@@ -165,6 +165,7 @@ class Automagica:
         import requests
         import re
         import subprocess
+        import sys
 
         try:
             script_id = None
@@ -195,13 +196,9 @@ class Automagica:
             if script_version_id:
                 headers["script_version_id"] = script_version_id
 
-            print(headers)
-
             r = requests.get(self.url + "/api/script", headers=headers)
 
             import re
-
-            print(r.content)
 
             d = r.headers["content-disposition"]
             fname = re.findall("filename=(.+)", d)[0]
@@ -221,10 +218,11 @@ class Automagica:
                 "cli.py", "lab\\.jupyter"
             )
 
-            print(my_env["JUPYTER_CONFIG_DIR"])
+
+            cmd = sys.executable + ' -m notebook "{}"'.format(notebook_path)
 
             process = subprocess.Popen(
-                'jupyter notebook "{}"'.format(notebook_path), env=my_env
+                cmd, env=my_env
             )
 
             # While server is running, check for changes of the path

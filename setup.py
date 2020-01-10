@@ -17,6 +17,13 @@ setup(
             "bin/win32/chromedriver.exe",
             "bin/mac64/chromedriver",
             "bin/linux64/chromedriver",
+            "lab/.jupyter/custom/automagica-lab.png",
+            "lab/.jupyter/custom/custom.css",
+            "lab/.jupyter/custom/custom.js",
+            "lab/.jupyter/custom/favicon.png",
+            "lab/.jupyter/custom/logo.png",
+            "lab/.jupyter/custom/logo-white.png",
+            "icon.ico"
         ]
     },
     install_requires=[
@@ -39,7 +46,7 @@ setup(
         "jupyterlab==1.2.4",
         "py-trello==0.13.0",
     ]
-    + (["pywinauto==0.6.5", "pywin32==225"] if sys.platform.startswith("win") else []),
+    + (["pywinauto==0.6.5", "pywin32==227"] if sys.platform.startswith("win") else []),
     include_package_data=True,
 )
 
