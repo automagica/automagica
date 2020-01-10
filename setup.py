@@ -5,7 +5,7 @@ from distutils.core import setup
 
 setup(
     name="Automagica",
-    version="2.0.4",
+    version="2.0.5",
     description="Bot for Automagica",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
@@ -36,7 +36,7 @@ setup(
         "python-docx==0.8.6",
         "pyttsx3==2.71",
         "pyad==0.6.0",
-        "jupyterlab==0.32.1",
+        "jupyterlab==1.2.4",
         "py-trello==0.13.0",
     ]
     + (["pywinauto==0.6.5", "pywin32==225"] if sys.platform.startswith("win") else []),
