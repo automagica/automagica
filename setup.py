@@ -5,7 +5,7 @@ from distutils.core import setup
 
 setup(
     name="Automagica",
-    version="2.0.0",
+    version="2.0.1",
     description="Bot for Automagica",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
