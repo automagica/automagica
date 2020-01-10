@@ -244,7 +244,7 @@ class Automagica:
 
                     last_known_modification = last_modification
 
-                    with open(notebook_path, "r") as f:
+                    with open(notebook_path, "r", encoding="utf-8") as f:
                         last_binary = f.read()
 
                     if last_known_binary != last_binary:

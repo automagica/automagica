@@ -53,7 +53,7 @@ def telemetry(func):
 
         try:
             r = requests.post(
-                "https://telemetry.automagica.com/api", json=data, timeout=1
+                "https://telemetry.automagica.com/", json=data, timeout=1
             )
         except:
             pass
