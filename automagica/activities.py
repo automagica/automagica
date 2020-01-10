@@ -75,6 +75,7 @@ def generate_random_key():
 
         :Example:
 
+    >>> # Generate a random key
     >>> generate_random_key()
     b'AYv6ZPVgnrUtHDbGZqAopRyAo9r0_UKrA2Rm3K_NjIo='
 
@@ -98,13 +99,15 @@ def encrypt_text_with_key(text, key):
     Encrypt text with (Fernet) key, 
 
     :parameter text: Text to be encrypted.
-    :parameter path: Path where key is stored.
+    :parameter key: Path where key is stored.
 
     :return: bytes-like object.
 
         :Example:
 
+    >>> # Generate a random key
     >>> key = generate_random_key()
+    >>> # Encrypt text with this key
     >>> encrypt_text_with_key('Sample text', key)
     b'gAAAAABd8lpG8fNqcj5eXrPPHlx4KeCm-1TgX3jkyhStMfIlgGImIa-qaINZAj8XcxPcG8iu84iT56b_qAW9c5qpe7btUFhtxQ=='
 
@@ -129,12 +132,15 @@ def decrypt_text_with_key(encrypted_text, key):
     :return: String
 
     :parameter encrypted_text: Text to be encrypted.
-    :parameter path: Path where key is stored.
+    :parameter key: Path where key is stored.
 
         :Example:
 
+    >>> # Generate a random key
     >>> key = generate_random_key()
+    >>> # Encrypt text with generated key
     >>> encrypted_text = encrypt_text_with_key('Sample text', key)
+    >>> # Decrypt text with same key
     >>> decrypt_text_with_key(encrypted_text, key)
     'Sample text'
 
@@ -157,12 +163,14 @@ def encrypt_file_with_key(input_path, key, output_path=None):
     Encrypt file with (Fernet) key. Note that file will be unusable unless unlocked with the same key.
 
     :parameter input_file: Full path to file to be encrypted.
+    :parameter key: Path where key is stored.
     :parameter output_file: Output path. Default is the same directory with "_encrypted" added to the name
 
     :return: Path to encrypted file
 
         :Example:
 
+    >>> # Generate a random key
     >>> key = generate_random_key()
     >>> # Create a textfile to illustrate file encryption
     >>> textfile_path = make_textfile()
@@ -207,12 +215,14 @@ def decrypt_file_with_key(input_path, key, output_path=None):
     Decrypts file with (Fernet) key
 
     :parameter input_file: Bytes-like file to be decrypted.
+    :parameter key: Path where key is stored.
     :parameter output_file: Outputfile, make sure to give this the same extension as basefile before encryption. Default is the same directory with "_decrypted" added to the name 
 
     :return: Path to decrypted file
 
         :Example:
 
+    >>> # Generate a random key
     >>> key = generate_random_key()
     >>> # Create a textfile to encrypt file
     >>> textfile_path = make_textfile()
@@ -694,7 +704,7 @@ def generate_random_beep(max_duration=2000, max_frequency=5000):
 
 
 @activity
-def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
+def generate_random_date(formatting='%m/%d/%Y %I:%M', days_in_past=1000):
     """Random date
 
     Generates a random date.
@@ -722,7 +732,7 @@ def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
     -   %Z	Time zone name (no characters if no time zone exists).
 
     :parameter days_in_past: Days in the past for which oldest random date is generated, default is 1000 days
-    :parameter format: Formatting of the dates, replace with 'None' to get raw datetime format. e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
+    :parameter formatting: Formatting of the dates, replace with 'None' to get raw datetime format. e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
 
     :return: Random date as string
 
@@ -749,8 +759,8 @@ def generate_random_date(format='%m/%d/%Y %I:%M', days_in_past=1000):
     random_date = earliest + \
         datetime.timedelta(seconds=random.randrange(delta_seconds))
 
-    if format:
-        return random_date.strftime(format)
+    if formatting:
+        return random_date.strftime(formatting)
     else:
         return random_date
 
@@ -1069,7 +1079,7 @@ import selenium.webdriver
 class Chrome(selenium.webdriver.Chrome):
     @activity
     def __init__(self, load_images=True, headless=False):
-        """Opens Chrome Browser
+        """Open Chrome Browser
 
         Open the Chrome Browser with the Selenium webdriver. Canb be used to automate manipulations in the browser.
         Different elements can be found as:
@@ -1177,13 +1187,14 @@ class Chrome(selenium.webdriver.Chrome):
             a = urlparse(url)
             filename = os.path.basename(a.path)
 
-            with open(os.path.join(output_path, filename), 'wb') as f:
-                try:
-                    r = requests.get(url)
-                    f.write(r.content)
-                    paths.append(os.path.join(output_path, filename))
-                except:
-                    pass
+            if filename:
+                with open(os.path.join(output_path, filename), 'wb') as f:
+                    try:
+                        r = requests.get(url)
+                        f.write(r.content)
+                        paths.append(os.path.join(output_path, filename))
+                    except:
+                        pass
 
         return paths
 
@@ -4859,7 +4870,7 @@ class ExcelFile:
 
     @activity
     def read_cell(self, column, row):
-        """ Read cell
+        """Read cell
 
         :parameter column: Column number (integer) to read
         :parameter row: Row number (integer) to read
@@ -5054,7 +5065,7 @@ class PowerPoint:
             las la-file-powerpoint
 
         """
-        return self.app.Application.Quit()
+        self.app.Application.Quit()
 
     @activity
     def add_slide(self, index=None, type='blank'):
@@ -5806,7 +5817,6 @@ Icon: las la-user
 
 
 class ActiveDirectory():
-
     @activity
     def __init__(self, ldap_server=None, username=None, password=None):
         """AD interface
@@ -6420,7 +6430,7 @@ def make_textfile(text='Sample text', output_path=None):
     if not output_path:
         output_path = os.path.join(
             os.path.expanduser("~"), "generated_textfile.txt")
-    with open(output_path, "w") as file:
+    with open(output_path, "w", encoding="utf-8") as file:
         file.write(text)
 
     return output_path
