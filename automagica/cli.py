@@ -493,11 +493,16 @@ class Automagica:
             reg.SetValueEx(registry, "Automagica", 0, reg.REG_SZ, cmd)
             reg.CloseKey(registry)
 
+            registry = reg.CreateKey(reg.HKEY_CLASSES_ROOT, 'Automagica')
+
             registry = reg.OpenKey(
                 reg.HKEY_CLASSES_ROOT, "Automagica", 0, reg.KEY_WRITE
             )
+
             reg.SetValueEx(registry, "", 0, reg.REG_SZ, "URL:automagica")
             reg.SetValueEx(registry, "URL Protocol", 0, reg.REG_SZ, "")
+
+            registry = reg.CreateKey(reg.HKEY_CLASSES_ROOT, "Automagica\\shell\\open\\command")
 
             # Register automagica:// protocol
             registry = reg.OpenKey(
@@ -506,6 +511,7 @@ class Automagica:
                 0,
                 reg.KEY_WRITE,
             )
+            
             reg.SetValueEx(
                 registry, "", 0, reg.REG_SZ, sys.executable + " -m automagica -e %1"
             )
