@@ -5,7 +5,7 @@ from distutils.core import setup
 
 setup(
     name="Automagica",
-    version="2.0.1",
+    version="2.0.2",
     description="Bot for Automagica",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
@@ -31,7 +31,7 @@ setup(
         "faker==2.0.3",
         "psutil==5.4.6",
         "PySimpleGUI==4.15.1",
-        "keyring==13.0.0",
+        "keyring==21.0.0",
         "cryptography==2.3.1",
         "python-docx==0.8.6",
         "pyttsx3==2.71",
