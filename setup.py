@@ -20,7 +20,7 @@ setup(
         ]
     },
     install_requires=[
-        "requests==2.18.4",
+        "requests==2.22.0",
         "plyer==1.4.0",
         "Pillow==7.0.0",
         "PyAutoGUI==0.9.36",
