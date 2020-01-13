@@ -2,7 +2,9 @@
 # Automagica
 Automagica is an open source Smart Robotic Process Automation (SRPA) platform. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries .
 
-![](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
+![Automagica Logo](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
+
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif" align="center">
 
 Refer to our [website](https://www.automagica.com) for more information, registered users can access the [portal](https://portal.automagica.com). For more info see the [documentation](https://portal.automagica.com).
 
@@ -19,7 +21,7 @@ We can support you end-to-end in all your automation needs, from estimating auto
 
 ## Installation
 
-For Windows you can download the one-click installer on [portal](https://portal.automagica.com).
+For Windows you can download the one-click installer on the [Automagica Portal](https://portal.automagica.com/register).
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/portal_screenshots.JPG)
 
@@ -55,18 +57,33 @@ Automagica officially supports Windows 10. Linux and MacOS are not officially su
 
 ## Examples
 
+Try out the one-click examples:
+* [Webscraping in Chrome](https://portal.automagica.com/register)
+* [Read and write data in Excel](https://portal.automagica.com/register)
+* [Automatically make a PowerPoint presentation](https://portal.automagica.com/register)
+* [Change your Windows wallpaper](https://portal.automagica.com/register)
+* [Manipulate files and folders](https://portal.automagica.com/register)
+* [Use OCR to read images and click buttons](https://portal.automagica.com/register)
+
 Browser working with Excel:
 
-![](https://github.com/OakwoodAI/automagica/blob/master/images/browser_excel.gif)
+![Excel Example Automagica](https://github.com/OakwoodAI/automagica/blob/master/images/browser_excel.gif)
 
 SAP Automation (Production example, sensitive information is blurred):
 
-![](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
+![Sap Example Automagica](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
 
 Folder and File manipulation
 
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/USPresidents.gif" width="800">
 
+## Activities
+
+An overview of all official Automagica activities:
+
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/android.svg" width="20">
+
+* <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/android.svg" width="20"> Activity
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
