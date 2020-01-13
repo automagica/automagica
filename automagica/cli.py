@@ -83,6 +83,8 @@ class Automagica:
         # Process arguments
         args = parser.parse_args()
 
+        self.args = args
+
         # Set up logging
         self._setup_logging(debug=args.debug)
 
@@ -221,7 +223,7 @@ class Automagica:
 
             cmd = sys.executable + ' -m notebook "{}"'.format(notebook_path)
 
-            if not args.debug:
+            if not self.args.debug:
                 self.try_to_hide_console()
 
 
@@ -355,7 +357,7 @@ class Automagica:
 
         t.start()
 
-        if not args.debug:
+        if not self.args.debug:
             self.try_to_hide_console()
 
         while True:
