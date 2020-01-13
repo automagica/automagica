@@ -106,5 +106,6 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [pyttsx3](https://pypi.org/project/pyttsx3/)
 - [pyad](https://pypi.org/project/pyad/)
 - [jupyterlab](https://jupyterlab.readthedocs.io/en/stable/)
+- [Icons8 Line Awesome](https://github.com/icons8/line-awesome)
 
 A special thanks goes out to all the above-mentioned repository contributers! :heart:
