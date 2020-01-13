@@ -21,6 +21,8 @@ We can support you end-to-end in all your automation needs, from estimating auto
 
 For Windows you can download the one-click installer on [portal](https://portal.automagica.com).
 
+![](https://github.com/OakwoodAI/automagica/blob/master/images/portal_screenshots.JPG)
+
 #### Developers 
 
 #### Developer Installation
