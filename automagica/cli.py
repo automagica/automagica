@@ -221,9 +221,14 @@ class Automagica:
 
             cmd = sys.executable + ' -m notebook "{}"'.format(notebook_path)
 
+            if not args.debug:
+                self.try_to_hide_console()
+
+
             process = subprocess.Popen(
                 cmd, env=my_env
             )
+
 
             # While server is running, check for changes of the path
             last_known_modification = os.path.getmtime(notebook_path)
@@ -350,6 +355,9 @@ class Automagica:
 
         t.start()
 
+        if not args.debug:
+            self.try_to_hide_console()
+
         while True:
             # Get next job
             headers = {"bot_secret": self.config["bot_secret"]}
@@ -468,6 +476,17 @@ class Automagica:
 
         cmd = sys.executable + " -m automagica --bot"
         subprocess.Popen(cmd)
+        self.try_to_hide_console()
+
+        import webbrowser
+        webbrowser.open(self.url)
+
+    def try_to_hide_console(self): 
+        if os.name == 'nt':
+            import ctypes
+            ctypes.windll.user32.ShowWindow(
+                ctypes.windll.kernel32.GetConsoleWindow(), 0)
+
 
     def disconnect(self):
         self._kill_processes_by_name("python")
