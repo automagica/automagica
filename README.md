@@ -2,7 +2,7 @@
 # Automagica
 Automagica is an open source Smart Robotic Process Automation (SRPA) platform. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries .
 
-<align="center" img src="https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif">
+[Love Automagica Example](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
 
 Refer to our [website](https://www.automagica.com) for more information, registered users can access the [portal](https://portal.automagica.com). For more info see the [documentation](https://portal.automagica.com).
 
@@ -239,7 +239,7 @@ Process | Description
 **Office 365** | ‌‌ 
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/envelope-solid.svg" width="20"> Send email Office Outlook 365 | :parameter client_id: Client id for office 365 account:parameter client_secret: Client secret for office 365 account:parameter to_email: E-mail to send to:parameter subject: Optional subject:parameter body: Optional body of the email
 **Salesforce** | ‌‌ 
-<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/salesforce-solid.svg" width="20"> Salesforce API | Activity to make calls to Salesforce REST API.
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/salesforce.svg" width="20"> Salesforce API | Activity to make calls to Salesforce REST API.
 **E-mail (SMTP)** | ‌‌ 
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/mail-bulk-solid.svg" width="20"> Mail with SMTP | This function lets you send emails with an e-mail address.
 **Windows OS** | ‌‌ 
@@ -266,7 +266,7 @@ Process | Description
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/desktop-solid.svg" width="20"> Set wallpaper | Set Windows desktop wallpaper with the the specified image
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/cloud-download-alt-solid.svg" width="20"> Download file from a URL | :parameter url: Source URL to download file from:parameter filename::parameter path: Target path. If no path is given will download to the home directory
 **Trello** | ‌‌ 
-<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/trello-solid.svg" width="20"> Add Trello Card | Add a card to the Trello board. For this you need a Trello API key, secret and token.
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/trello.svg" width="20"> Add Trello Card | Add a card to the Trello board. For this you need a Trello API key, secret and token.
 **System** | ‌‌ 
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/file-contract-solid.svg" width="20"> Rename a file | This activity will rename a file. If the the desired name already exists in the folder file will not be renamed.
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/file-export-solid.svg" width="20"> Move a file | If the new location already contains a file with the same name, a random 4 character uid will be added in front of the name before the file is moved.
@@ -312,7 +312,7 @@ Process | Description
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/list-solid.svg" width="20"> Get running processes | Get names of unique processes currently running on the system.
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/window-close-solid.svg" width="20"> Kill process | Kills a process forcefully
 **Optical Character Recognition (OCR)** | ‌‌ 
-<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/readme-solid.svg" width="20"> Get text with OCR | This activity extracts all text from the current screen or an image if a path is specified.
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/readme.svg" width="20"> Get text with OCR | This activity extracts all text from the current screen or an image if a path is specified.
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/glasses-solid.svg" width="20"> Find text on screen with OCR | This activity finds position (coordinates) of specified text on the current screen using OCR.
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/mouse-pointer-solid.svg" width="20"> Click on text with OCR | This activity clicks on position (coordinates) of specified text on the current screen using OCR.
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/mouse-pointer-solid.svg" width="20"> Double click on text with OCR | This activity double clicks on position (coordinates) of specified text on the current screen using OCR.
