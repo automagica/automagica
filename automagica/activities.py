@@ -5999,7 +5999,7 @@ def set_wallpaper(image_path):
     >>> set_wallpaper(screenshot)
 
     Keywords
-        desktop, desktop path, desktoppath, desktop directory, desktopdir
+        desktop, desktop path, desktoppath, desktop directory, desktopdir, wallpaper, wall paper, wall
 
     Icon
         las la-desktop
