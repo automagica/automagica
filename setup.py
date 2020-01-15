@@ -28,10 +28,10 @@ setup(
     },
     install_requires=[
         "requests==2.22.0",
-        "plyer==1.4.0",
-        "Pillow==7.0.0",
-        "PyAutoGUI==0.9.36",
-        "selenium==3.7.0",
+        "selenium==3.7.0"
+    ]
+    + (["pywinauto==0.6.5", 
+        "pywin32==227",
         "openpyxl==2.4.8",
         "python-docx==0.8.6",
         "PyPDF2==1.26.0",
@@ -45,8 +45,9 @@ setup(
         "pyad==0.6.0",
         "jupyterlab==1.2.4",
         "py-trello==0.13.0",
-    ]
-    + (["pywinauto==0.6.5", "pywin32==227"] if sys.platform.startswith("win") else []),
+        "plyer==1.4.0",
+        "Pillow==7.0.0",
+        "PyAutoGUI==0.9.36"
+        ] if sys.platform.startswith("win") else []),
     include_package_data=True,
 )
-

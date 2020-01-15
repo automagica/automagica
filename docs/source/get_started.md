@@ -28,7 +28,7 @@ A string can be a word or a sentence, in Python a string starts and ends with ap
 my_string = 'This can be everything'
 ``` 
 
-### Nmber:
+### Number:
 
 An integer is a number:
 
