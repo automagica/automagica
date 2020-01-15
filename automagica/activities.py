@@ -7700,8 +7700,8 @@ def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=N
         :Example:
     >>> # Run a UiPath process
     >>> arguments = {'firstname': 'John', 'lastname': 'Doe'}
-    >>> execute_uipath_process(r"C:\UiPath\Path\To\Main.xaml", arguments=arguments) # Point this to your UiPath project location
-    Completed UiPath process "C:\UiPath\Path\To\Main.xaml"
+    >>> execute_uipath_process(r"C:\Processes UiPath\my_process.xaml", arguments=arguments)
+    Completed UiPath process "C:\Processes UiPath\my_process.xaml"
 
     Keywords
         RPA, UiPath, Studio, robot, orchestrator, xaml, ui path
