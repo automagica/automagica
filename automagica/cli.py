@@ -220,17 +220,12 @@ class Automagica:
                 "cli.py", "lab\\.jupyter"
             )
 
-
             cmd = sys.executable + ' -m notebook "{}"'.format(notebook_path)
 
             if not self.args.debug:
                 self.try_to_hide_console()
 
-
-            process = subprocess.Popen(
-                cmd, env=my_env
-            )
-
+            process = subprocess.Popen(cmd, env=my_env)
 
             # While server is running, check for changes of the path
             last_known_modification = os.path.getmtime(notebook_path)
@@ -477,18 +472,26 @@ class Automagica:
         sleep(3)
 
         cmd = sys.executable + " -m automagica --bot"
+
+        if self.args.debug:
+            cmd += "  --debug"
+
         subprocess.Popen(cmd)
-        self.try_to_hide_console()
+
+        if not self.args.debug:
+            self.try_to_hide_console()
 
         import webbrowser
+
         webbrowser.open(self.url)
 
-    def try_to_hide_console(self): 
-        if os.name == 'nt':
+    def try_to_hide_console(self):
+        if os.name == "nt":
             import ctypes
-            ctypes.windll.user32.ShowWindow(
-                ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
+            ctypes.windll.user32.ShowWindow(
+                ctypes.windll.kernel32.GetConsoleWindow(), 0
+            )
 
     def disconnect(self):
         self._kill_processes_by_name("python")
@@ -512,7 +515,7 @@ class Automagica:
             reg.SetValueEx(registry, "Automagica", 0, reg.REG_SZ, cmd)
             reg.CloseKey(registry)
 
-            registry = reg.CreateKey(reg.HKEY_CLASSES_ROOT, 'Automagica')
+            registry = reg.CreateKey(reg.HKEY_CLASSES_ROOT, "Automagica")
 
             registry = reg.OpenKey(
                 reg.HKEY_CLASSES_ROOT, "Automagica", 0, reg.KEY_WRITE
@@ -521,7 +524,9 @@ class Automagica:
             reg.SetValueEx(registry, "", 0, reg.REG_SZ, "URL:automagica")
             reg.SetValueEx(registry, "URL Protocol", 0, reg.REG_SZ, "")
 
-            registry = reg.CreateKey(reg.HKEY_CLASSES_ROOT, "Automagica\\shell\\open\\command")
+            registry = reg.CreateKey(
+                reg.HKEY_CLASSES_ROOT, "Automagica\\shell\\open\\command"
+            )
 
             # Register automagica:// protocol
             registry = reg.OpenKey(
@@ -530,7 +535,7 @@ class Automagica:
                 0,
                 reg.KEY_WRITE,
             )
-            
+
             reg.SetValueEx(
                 registry, "", 0, reg.REG_SZ, sys.executable + " -m automagica -e %1"
             )
