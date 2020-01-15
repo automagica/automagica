@@ -1,48 +1,41 @@
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/logo.png)
-# Automagica
-Automagica is an open source Smart Robotic Process Automation (SRPA) platform. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries .
+# Automagica - Smart Robotic Process Automation
+Automagica is Smart Robotic Process Automation (SRPA) platform for fully automating tedious, manual tasks with software. 
+
+This repository is for the open source Python library, where all the Automagica building blocks are. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries.
 
 ![Love Automagica Example](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
 
-Refer to our [website](https://www.automagica.com) for more information, registered users can access the [portal](https://portal.automagica.com). For more info see the [documentation](https://portal.automagica.com).
+Refer to the [Automagica official website](https://www.automagica.com) for more information. Registered users can access the [Automagica Portal](https://portal.automagica.com). For more info see the [documentation](https://portal.automagica.com).
 
-## Important update!
-- [Portal 2.0](https://portal.automagica.com) is now live!
-- You can still access the old portal on [old portal](https://portal.automagica.io)
-- Follow our [blog](https://automagica.com) to stay up to date with the latest changes!
+## Important information
+- We just launched the latest version of our [Automagica Portal](https://portal.automagica.com)
+- Follow our [blog](https://automagica.com/blog) to stay up to date
+- We opened a group on [Telegram](https://t.me/automagica) for the community
+- You can now run automations developed with UiPath, Blue Prism, Automation Anywhere, AutoIt and Robot Framework with Automagica!
 
 
 ## Need expert support?
-We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Please send an e-mail to [sales@automagica.be](mailto:sales@automagica.be) for enquiries and rates.
+We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Please send an e-mail to [sales@automagica.com](mailto:sales@automagica.com) for enquiries and rates.
 
 ## Getting started
 
 ## Installation
 
-For Windows you can download the one-click installer on the [Automagica Portal](https://portal.automagica.com/register).
+The easiest way to install Automagica is by using the installer for Windows which can be downloaded from the [Automagica Portal](https://portal.automagica.com).
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/portal_screenshots.JPG)
 
-#### Developers 
+#### Developers and other platforms
 
-#### Developer Installation
+If you wish to only install the Automagica Python library (without registering for the Automagica Portal), follow the below steps.
 
-If you wish to only install the open source component without the portal functionalities:
+- Download and install [Python 3.7](https://www.python.org)
 
-Download and install [Python 3.7](https://www.python.org)
-
-Install the latest version Automagica on your machine:
+- Install the latest version Automagica on your machine:
 ```
 pip install automagica --upgrade
 ```
-
-#### Developer Uninstall procedure
-
-To remove Automagica, run the following commands:
-```
-pip uninstall automagica
-```
-
 #### Importing the activities
 
 Before getting started in development mode, don't forget to import the activities from automagica in your python script. If unsure, it is possible to import all the activities for development purposes by starting your script with:
