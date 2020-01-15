@@ -4227,7 +4227,10 @@
                     "desktop path",
                     "desktoppath",
                     "desktop directory",
-                    "desktopdir"
+                    "desktopdir",
+                    "wallpaper",
+                    "wall paper",
+                    "wall"
                 ],
                 "icon": "las la-desktop"
             },
@@ -5409,6 +5412,188 @@
                     "right click"
                 ],
                 "icon": "las la-mouse-pointer"
+            }
+        ]
+    },
+    {
+        "name": "UiPath",
+        "icon": "las la-robot",
+        "activities": [
+            {
+                "function_call": "execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=None)",
+                "name": "Execute a UiPath process",
+                "description": "This activity allows you to execute a process designed with the UiPath Studio. All console output from the Write Line activity (https://docs.uipath.com/activities/docs/write-line) will be printed as output.",
+                "parameters": [
+                    {
+                        "name": " project_file_path",
+                        "description": " path to the project file (as created within the UiPath Studio)\n"
+                    },
+                    {
+                        "name": " arguments",
+                        "description": " dictionary with input arguments/parameters for the process to use in UiPath (optional)\n"
+                    },
+                    {
+                        "name": " uirobot_exe_path",
+                        "description": " path to UiPath's UiRobot.exe (optional)\n"
+                    }
+                ],
+                "return": "",
+                "example": ">>> arguments = {'firstname': 'John', 'lastname': 'Doe'}\n>>> execute_uipath_process(r\"C:\\UiPath\\Path\\To\\Main.xaml\", arguments=arguments) # Point this to your UiPath project location\nCompleted UiPath process \"C:\\UiPath\\Path\\To\\Main.xaml\"\n",
+                "snippet": "arguments = {'firstname': 'John', 'lastname': 'Doe'}\nexecute_uipath_process(r\"C:\\UiPath\\Path\\To\\Main.xaml\", arguments=arguments) # Point this to your UiPath project location\n",
+                "keywords": [
+                    "RPA",
+                    "UiPath",
+                    "Studio",
+                    "robot",
+                    "orchestrator",
+                    "xaml",
+                    "ui path"
+                ],
+                "icon": "las la-robot"
+            }
+        ]
+    },
+    {
+        "name": "AutoIt",
+        "icon": "las la-robot",
+        "activities": [
+            {
+                "function_call": "run_autoit_script(script_path, arguments=None, autoit_exe_path=None)",
+                "name": "Execute a AutoIt script",
+                "description": "This activity allows you to run an AutoIt script. If you use the ConsoleWrite function (https://www.autoitscript.com/autoit3/docs/functions/ConsoleWrite.htm), the output will be presented to you.",
+                "parameters": [
+                    {
+                        "name": " script_path",
+                        "description": " path to the '.au3' script file\n"
+                    },
+                    {
+                        "name": " arguments",
+                        "description": " string with input arguments/parameters for the script (optional)\n"
+                    },
+                    {
+                        "name": " autoit_exe_path",
+                        "description": " path to AutoIt.exe (optional)\n"
+                    }
+                ],
+                "return": "",
+                "example": ">>> arguments = 'John'\n>>> run_autoit_script(r\"C:\\AutoIt\\Scripts\\MyScript.au3\", arguments=arguments) # Point this to your AutoIt Script\nCompleted AutoIt script \"C:\\AutoIt\\Scripts\\MyScript.au3\"\n",
+                "snippet": "arguments = 'John'\nrun_autoit_script(r\"C:\\AutoIt\\Scripts\\MyScript.au3\", arguments=arguments) # Point this to your AutoIt Script\n",
+                "keywords": [
+                    "RPA",
+                    "AutoIt",
+                    "au3",
+                    "au"
+                ],
+                "icon": "las la-robot"
+            }
+        ]
+    },
+    {
+        "name": "Robot Framework",
+        "icon": "las la-robot",
+        "activities": [
+            {
+                "function_call": "execute_robotframework_test(test_case_path, variables=None)",
+                "name": "Execute a Robot Framework test case",
+                "description": "This activity allows you to run a Robot Framework test case. Console output of the test case will be printed.",
+                "parameters": [
+                    {
+                        "name": " test_case_path",
+                        "description": " path to the '.robot' test case file\n"
+                    },
+                    {
+                        "name": " variables",
+                        "description": " dictionary with variable declarations\n"
+                    }
+                ],
+                "return": "",
+                "example": ">>> variables = {'FIRSTNAME': 'John', 'LASTNAME': 'Doe'}\n>>> execute_robotframework_test(r\"C:\\Test Cases\\my_test_case.robot\", variables=variables) # Point this to your Robot Framework test case\nCompleted Robot Framework test case \"C:\\Test Cases\\my_test_case.robot\"\n",
+                "snippet": "variables = {'FIRSTNAME': 'John', 'LASTNAME': 'Doe'}\nexecute_robotframework_test(r\"C:\\Test Cases\\my_test_case.robot\", variables=variables) # Point this to your Robot Framework test case\n",
+                "keywords": [
+                    "RPA",
+                    "robot framework",
+                    "robotframework",
+                    "robot"
+                ],
+                "icon": "las la-robot"
+            }
+        ]
+    },
+    {
+        "name": "Blue Prism",
+        "icon": "las la-robot",
+        "activities": [
+            {
+                "function_call": "run_blueprism_process(process_name, username='', password='', sso=False, inputs=None, automatec_exe_path=None)",
+                "name": "Run a Blue Prism process",
+                "description": "This activity allows you to run a Blue Prism process.",
+                "parameters": [
+                    {
+                        "name": " process_name",
+                        "description": " name of the process in Blue Prism\n"
+                    },
+                    {
+                        "name": " username",
+                        "description": " Blue Prism username\n"
+                    },
+                    {
+                        "name": " password",
+                        "description": " Blue Prism password\n"
+                    },
+                    {
+                        "name": " sso",
+                        "description": " Run as single-sign on user with Blue Prism\n"
+                    },
+                    {
+                        "name": " inputs",
+                        "description": " dictionary with inputs declarations (optional)\n"
+                    },
+                    {
+                        "name": " automatec_exe_path",
+                        "description": " path to Blue Prism's AutomateC.exe (optional)\n"
+                    }
+                ],
+                "return": "",
+                "example": ">>> inputs = {'firstname': 'John', 'lastname': 'Doe'}\n>>> run_blueprism_process(\"My Example Process\", username=\"user\", password=\"password\", inputs=inputs)\nCompleted Blue Prism process \"My Example Process\"\n",
+                "snippet": "inputs = {'firstname': 'John', 'lastname': 'Doe'}\nrun_blueprism_process(\"My Example Process\", username=\"user\", password=\"password\", inputs=inputs)\n",
+                "keywords": [
+                    "RPA",
+                    "blueprism",
+                    "blue prism",
+                    "robot"
+                ],
+                "icon": "las la-robot"
+            }
+        ]
+    },
+    {
+        "name": "Automation Anywhere",
+        "icon": "las la-robot",
+        "activities": [
+            {
+                "function_call": "run_automationanywhere_task(task_file_path, aaplayer_exe_path=None)",
+                "name": "Run an Automation Anywhere task",
+                "description": "This activity allows you to run an Automation Anywhere task.",
+                "parameters": [
+                    {
+                        "name": " task_file_path",
+                        "description": " path to the task file of Automation Anywhere\n"
+                    },
+                    {
+                        "name": " aaplayer_exe_path",
+                        "description": " path to the AAPlayer.exe (optional)\n"
+                    }
+                ],
+                "return": "",
+                "example": ">>> run_automationanywhere_task(r\"C:\\AutomationAnywhereTasks\\MyTask.atmx\")\nCompleted Automation Anywhere task \"C:\\AutomationAnywhereTasks\\MyTask.atmx\"\n",
+                "snippet": "run_automationanywhere_task(r\"C:\\AutomationAnywhereTasks\\MyTask.atmx\")\n",
+                "keywords": [
+                    "RPA",
+                    "automation anywhere",
+                    "aa",
+                    "robot"
+                ],
+                "icon": "las la-robot"
             }
         ]
     }
