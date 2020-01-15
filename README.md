@@ -317,7 +317,17 @@ Process | Description
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/mouse-pointer-solid.svg" width="20"> Click on text with OCR | This activity clicks on position (coordinates) of specified text on the current screen using OCR.
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/mouse-pointer-solid.svg" width="20"> Double click on text with OCR | This activity double clicks on position (coordinates) of specified text on the current screen using OCR.
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/mouse-pointer-solid.svg" width="20"> Right click on text with OCR | This activity Right clicks on position (coordinates) of specified text on the current screen using OCR.
-|<img width=250/>|  ‌‌|
+**UiPath** | ‌‌ 
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/robot-solid.svg" width="20"> Execute a UiPath process | This activity allows you to execute a process designed with the UiPath Studio. All console output from the Write Line activity (https://docs.uipath.com/activities/docs/write-line) will be printed as output.
+**AutoIt** | ‌‌ 
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/robot-solid.svg" width="20"> Execute a AutoIt script | This activity allows you to run an AutoIt script. If you use the ConsoleWrite function (https://www.autoitscript.com/autoit3/docs/functions/ConsoleWrite.htm), the output will be presented to you.
+**Robot Framework** | ‌‌ 
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/robot-solid.svg" width="20"> Execute a Robot Framework test case | This activity allows you to run a Robot Framework test case. Console output of the test case will be printed.
+**Blue Prism** | ‌‌ 
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/robot-solid.svg" width="20"> Run a Blue Prism process | This activity allows you to run a Blue Prism process.
+**Automation Anywhere** | ‌‌ 
+<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/robot-solid.svg" width="20"> Run an Automation Anywhere task | This activity allows you to run an Automation Anywhere task.
+|<img width=100/>|  ‌‌|
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:

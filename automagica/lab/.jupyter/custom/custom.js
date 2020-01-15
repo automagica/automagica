@@ -42,7 +42,7 @@ define([
 
             var categories;
 
-            $.getJSON('https://raw.githubusercontent.com/OakwoodAI/Automagica/v2.0/docs/portal/activities.json', function (data) {
+            $.getJSON('https://raw.githubusercontent.com/OakwoodAI/Automagica/master/docs/portal/activities.json', function (data) {
                 categories = data;
 
                 htmlToInsert += `
