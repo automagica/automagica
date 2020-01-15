@@ -1,6 +1,6 @@
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/logo.png)
 # Automagica - Smart Robotic Process Automation
-Automagica is Smart Robotic Process Automation (SRPA) platform for fully automating tedious, manual tasks with software. 
+Automagica is a Smart Robotic Process Automation (SRPA) platform for fully automating tedious, manual tasks with software. 
 
 This repository is for the open source Python library, where all the Automagica building blocks are. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries.
 
