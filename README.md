@@ -6,13 +6,13 @@ This repository is for the open source Python library, where all the Automagica 
 
 ![Love Automagica Example](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
 
-Refer to the [Automagica official website](https://www.automagica.com) for more information. Registered users can access the [Automagica Portal](https://portal.automagica.com). For more info see the [documentation](https://portal.automagica.com).
+Refer to the [Automagica official website](https://www.automagica.com) for more information. Registered users can access the [Automagica Portal](https://portal.automagica.com). For more info see the [documentation](https://automagica.readthedocs.io).
 
 ## Important information
 - We just launched the latest version of our [Automagica Portal](https://portal.automagica.com)
 - Follow our [blog](https://automagica.com/blog) to stay up to date
 - We opened a group on [Telegram](https://t.me/automagica) for the community
-- You can now run automations developed with UiPath, Blue Prism, Automation Anywhere, AutoIt and Robot Framework with Automagica!
+- You can now also run automations developed with UiPath, Blue Prism, Automation Anywhere, AutoIt and Robot Framework with Automagica Portal](https://portal.automagica.com)!
 
 
 ## Need expert support?
