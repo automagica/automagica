@@ -32,12 +32,13 @@ User Input
 .. autofunction:: ask_user_input
 .. autofunction:: ask_user_password
 .. autofunction:: ask_credentials
+.. autofunction:: display_message_box
 .. autofunction:: display_osd_message
 
 
 Browser
 -------
-.. autoclass:: display_osd_message
+.. autoclass:: Chrome
    :members:
 
 
@@ -50,7 +51,7 @@ Credential Management
 
 FTP
 ---
-.. autoclass:: get_credential
+.. autoclass:: FTP
    :members:
 
 
@@ -107,37 +108,37 @@ Delay
 
 Word Application
 ----------------
-.. autoclass:: wait_folder_exists
+.. autoclass:: Word
    :members:
 
 
 Word File
 ---------
-.. autoclass:: wait_folder_exists
+.. autoclass:: WordFile
    :members:
 
 
 Outlook Application
 -------------------
-.. autoclass:: wait_folder_exists
+.. autoclass:: Outlook
    :members:
 
 
 Excel Application
 -----------------
-.. autoclass:: wait_folder_exists
+.. autoclass:: Excel
    :members:
 
 
 Excel File
 ----------
-.. autoclass:: wait_folder_exists
+.. autoclass:: ExcelFile
    :members:
 
 
 PowerPoint Application
 ----------------------
-.. autoclass:: wait_folder_exists
+.. autoclass:: PowerPoint
    :members:
 
 
@@ -178,7 +179,7 @@ Text-to-Speech
 
 Active Directory
 ----------------
-.. autoclass:: speak
+.. autoclass:: ActiveDirectory
    :members:
 
 
