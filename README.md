@@ -347,4 +347,7 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [jupyterlab](https://jupyterlab.readthedocs.io/en/stable/)
 - [Icons8 Line Awesome](https://github.com/icons8/line-awesome)
 
-A special thanks goes out to all the above-mentioned repository contributers! :heart:
+#### Special contributor mentions:
+- [ygxiao](https://github.com/ygxiao)
+
+A special thanks goes out to all the above-mentioned libraries, repositories and contributers! :heart:
