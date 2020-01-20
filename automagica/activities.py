@@ -1078,7 +1078,7 @@ import selenium.webdriver
 
 class Chrome(selenium.webdriver.Chrome):
     @activity
-    def __init__(self, load_images=True, headless=False):
+    def __init__(self, load_images=True, headless=False, incognito=False, disable_extension=False):
         """Open Chrome Browser
 
         Open the Chrome Browser with the Selenium webdriver. Canb be used to automate manipulations in the browser.
@@ -1132,7 +1132,11 @@ class Chrome(selenium.webdriver.Chrome):
             chromedriver_path = "\\bin\\mac64\\chromedriver.exe"
 
         chrome_options = selenium.webdriver.ChromeOptions()
-
+        if incognito:
+            chrome_options.add_argument("--incognito")
+        if disable_extension:
+            # To disable the error message popup: "Loading of unpacked extensions is disabled by the administrator"
+            chrome_options.add_experimental_option("useAutomationExtension", False)
         if headless:
             chrome_options.add_argument("--headless")
 
@@ -1141,7 +1145,7 @@ class Chrome(selenium.webdriver.Chrome):
             chrome_options.add_experimental_option("prefs", prefs)
 
         selenium.webdriver.Chrome.__init__(self, os.path.abspath(
-            __file__).replace('activities.py', '') + chromedriver_path)
+            __file__).replace('activities.py', '') + chromedriver_path, chrome_options=chrome_options)
 
     @activity
     def save_all_images(self, output_path=None):
@@ -7678,283 +7682,3 @@ def right_click_on_text_ocr(text):
         x = int(position['x'] + position['w']/2)
         y = int(position['y'] + position['h']/2)
         return rightClick(x=x, y=y)
-
-
-
-"""
-UiPath
-Icon: las la-robot
-"""
-
-@activity
-def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=None):
-    """Execute a UiPath process
-
-    This activity allows you to execute a process designed with the UiPath Studio. All console output from the Write Line activity (https://docs.uipath.com/activities/docs/write-line) will be printed as output.
-
-    :parameter project_file_path: path to the project file (as created within the UiPath Studio)
-    :parameter arguments: dictionary with input arguments/parameters for the process to use in UiPath (optional)
-    :parameter uirobot_exe_path: path to UiPath's UiRobot.exe (optional)
-    
-
-        :Example:
-    >>> # Run a UiPath process
-    >>> arguments = {'firstname': 'John', 'lastname': 'Doe'}
-    >>> execute_uipath_process(r"C:\Processes UiPath\my_process.xaml", arguments=arguments)
-    Completed UiPath process "C:\Processes UiPath\my_process.xaml"
-
-    Keywords
-        RPA, UiPath, Studio, robot, orchestrator, xaml, ui path
-
-    Icon
-        las la-robot
-    """
-
-    import subprocess
-    import json
-
-    if not uirobot_exe_path:
-        uirobot_exe_path = r"C:\Program Files (x86)\UiPath\Studio\UiRobot.exe"
-
-    cmd = ' -f "{}"'.format(project_file_path)
-
-    if arguments:
-        cmd =+ ' --input "{}"'.format(json.dumps(arguments))
-
-    uirobot_exe_path = '"'+uirobot_exe_path+'"'
-
-    process = subprocess.Popen(uirobot_exe_path + cmd)
-
-    out, err = process.communicate()
-
-    if out:
-        print('Output:')
-        print(out)
-
-    if err:
-        print('Errors:')
-        print(err)
-
-    print('Completed UiPath process "{}"'.format(project_file_path))
-
-
-
-"""
-AutoIt 
-Icon: las la-robot
-"""
-
-@activity
-def run_autoit_script(script_path, arguments=None, autoit_exe_path=None):
-    """Execute a AutoIt script
-
-    This activity allows you to run an AutoIt script. If you use the ConsoleWrite function (https://www.autoitscript.com/autoit3/docs/functions/ConsoleWrite.htm), the output will be presented to you.
-
-    :parameter script_path: path to the '.au3' script file
-    :parameter arguments: string with input arguments/parameters for the script (optional)
-    :parameter autoit_exe_path: path to AutoIt.exe (optional)
-    
-
-        :Example:
-    >>> # Run an AutoIt script
-    >>> arguments = 'John'
-    >>> run_autoit_script(r"C:\AutoIt\Scripts\MyScript.au3", arguments=arguments) # Point this to your AutoIt Script
-    Completed AutoIt script "C:\AutoIt\Scripts\MyScript.au3"
-
-    Keywords
-        RPA, AutoIt, au3, au
-
-    Icon
-        las la-robot
-    """
-
-    import subprocess
-    import json
-
-    if not autoit_exe_path:
-        autoit_exe_path = r"C:\Program Files (x86)\AutoIt3\AutoIt3_x64.exe"
-
-    cmd = ' "{}"'.format(script_path)
-
-    if arguments:
-        cmd =+ ' "{}"'.format(json.dumps(arguments))
-
-    autoit_exe_path = '"'+autoit_exe_path+'"'
-
-    process = subprocess.Popen(autoit_exe_path + cmd)
-
-    out, err = process.communicate()
-
-    if out:
-        print('Output:')
-        print(out)
-
-    if err:
-        print('Errors:')
-        print(err)
-
-    print('Completed AutoIt script "{}"'.format(script_path))
-
-
-
-"""
-Robot Framework 
-Icon: las la-robot
-"""
-
-@activity
-def execute_robotframework_test(test_case_path, variables=None):
-    """Execute a Robot Framework test case
-
-    This activity allows you to run a Robot Framework test case. Console output of the test case will be printed.
-
-    :parameter test_case_path: path to the '.robot' test case file
-    :parameter variables: dictionary with variable declarations
-
-        :Example:
-    >>> # Run an Robot Framework test case
-    >>> variables = {'FIRSTNAME': 'John', 'LASTNAME': 'Doe'}
-    >>> execute_robotframework_test(r"C:\Test Cases\my_test_case.robot", variables=variables) # Point this to your Robot Framework test case
-    Completed Robot Framework test case "C:\Test Cases\my_test_case.robot"
-
-    Keywords
-        RPA, robot framework, robotframework, robot
-
-    Icon
-        las la-robot
-    """
-
-    import subprocess
-    import json
-
-    cmd = ' "{}"'.format(test_case_path)
-
-    if variables:
-        variables_parameter = ' --variables '.join(['{}:{}'.format(key, value) for key, value in variables.items()])
-        cmd =+ variables_parameter
-
-    process = subprocess.Popen('robot' + cmd)
-
-    out, err = process.communicate()
-
-    if out:
-        print('Output:')
-        print(out)
-
-    if err:
-        print('Errors:')
-        print(err)
-
-    print('Completed Robot Framework test case "{}"'.format(test_case_path))
-
-
-"""
-Blue Prism
-Icon: las la-robot
-"""
-
-@activity
-def run_blueprism_process(process_name, username='', password='', sso=False, inputs=None, automatec_exe_path=None):
-    """Run a Blue Prism process
-
-    This activity allows you to run a Blue Prism process.
-
-    :parameter process_name: name of the process in Blue Prism
-    :parameter username: Blue Prism username
-    :parameter password: Blue Prism password
-    :parameter sso: Run as single-sign on user with Blue Prism
-    :parameter inputs: dictionary with inputs declarations (optional)
-    :parameter automatec_exe_path: path to Blue Prism's AutomateC.exe (optional)
-    
-
-        :Example:
-    >>> # Run a Blue Prism process
-    >>> inputs = {'firstname': 'John', 'lastname': 'Doe'}
-    >>> run_blueprism_process("My Example Process", username="user", password="password", inputs=inputs)
-    Completed Blue Prism process "My Example Process"
-
-    Keywords
-        RPA, blueprism, blue prism, robot
-
-    Icon
-        las la-robot
-    """
-
-    import subprocess
-    import json
-
-    cmd = ' /run "{}"'.format(process_name)
-
-    if not sso:
-        cmd += ' /user {} {}'.format(username, password)
-    else:
-        cmd += ' /sso'
-
-    if inputs:
-        inputs_parameters = ''.join(["<input name='{}' type='text' value='{}' /></inputs>".format(key, value) for key, value in inputs.items()])
-        cmd =+ ' ' + inputs_parameters
-
-    automatec_exe_path = '"'+automatec_exe_path+'"'
-
-    process = subprocess.Popen(automatec_exe_path + cmd)
-
-    out, err = process.communicate()
-
-    if out:
-        print('Output:')
-        print(out)
-
-    if err:
-        print('Errors:')
-        print(err)
-
-    print('Completed Blue Prism process "{}"'.format(test_case_path))
-
-
-
-"""
-Automation Anywhere
-Icon: las la-robot
-"""
-
-@activity
-def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
-    """Run an Automation Anywhere task
-
-    This activity allows you to run an Automation Anywhere task.
-
-    :parameter task_file_path: path to the task file of Automation Anywhere
-    :parameter aaplayer_exe_path: path to the AAPlayer.exe (optional)
-
-        :Example:
-    >>> # Run an Automation Anywhere task
-    >>> run_automationanywhere_task(r"C:\AutomationAnywhereTasks\MyTask.atmx")
-    Completed Automation Anywhere task "C:\AutomationAnywhereTasks\MyTask.atmx"
-
-    Keywords
-        RPA, automation anywhere, aa, robot
-
-    Icon
-        las la-robot
-    """
-
-    import subprocess
-    import json
-
-    cmd = ' "/f{}/e"'.format(task_file_path)
-
-    aaplayer_exe_path = '"'+aaplayer_exe_path+'"'
-
-    process = subprocess.Popen(aaplayer_exe_path + cmd)
-
-    out, err = process.communicate()
-
-    if out:
-        print('Output:')
-        print(out)
-
-    if err:
-        print('Errors:')
-        print(err)
-
-    print('Completed Automation Anywhere task "{}"'.format(test_case_path))
