@@ -172,11 +172,6 @@ Windows OS
 .. autofunction:: beep
 
 
-Text-to-Speech
---------------
-.. autofunction:: speak
-
-
 Active Directory
 ----------------
 .. autoclass:: ActiveDirectory

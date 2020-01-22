@@ -249,8 +249,6 @@ Process | Description
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/clipboard-solid.svg" width="20"> [Empty clipboard](https://automagica.readthedocs.io/activities.html#automagica.activities.clear_clipboard) | Empty text from clipboard. Getting clipboard data after this should return in None
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/cogs-solid.svg" width="20"> [Run VBSscript](https://automagica.readthedocs.io/activities.html#automagica.activities.run_vbs_script) | Run a VBScript file
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/volume-up-solid.svg" width="20"> [Beep](https://automagica.readthedocs.io/activities.html#automagica.activities.beep) | Make a beeping sound. Make sure your volume is up and you have hardware connected.
-**Text-to-Speech** | ‌‌ 
-<img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/microphone-alt-solid.svg" width="20"> [Speak](https://automagica.readthedocs.io/activities.html#automagica.activities.speak) | Use the Text-To-Speech engine available on your system to read text
 **Active Directory** | ‌‌ 
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/audio-description-solid.svg" width="20"> [AD interface](https://automagica.readthedocs.io/activities.html#automagica.activities.ActiveDirectory) | Interface to Windows Active Directory through ADSI
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/audio-description-solid.svg" width="20"> [Get AD object by name](https://automagica.readthedocs.io/activities.html#automagica.activities.get_object_by_distinguished_name) | Interface to Windows Active Directory through ADSI
