@@ -5773,48 +5773,6 @@ def beep(frequency=1000, duration=500):
     winsound.Beep(frequency, duration)
 
 
-"""
-Text-to-Speech
-Icon: las la-volume-up
-"""
-
-
-@activity
-def speak(text, speed=None):
-    """Speak
-
-    Use the Text-To-Speech engine available on your system to read text
-
-    :parameter text: The text which should be said
-    :parameter speed: Multiplication factor for the speed at which the text should be pronounced. 
-
-    :return: Spoken text
-
-        :Example:
-
-    >>> # Read the following text out loud
-    >>> speak('How do robots eat guacamole?')
-    >>> speak('With microchips!')
-
-    Keywords
-        sound, speech, text, speech to text, speech-to-text, translate, read, read out loud, speak
-
-    Icon
-        las la-microphone-alt
-
-
-    """
-    import pyttsx3
-
-    engine = pyttsx3.init()
-
-    if speed:
-        default_rate = engine.getProperty("rate")
-        engine.setProperty("rate", speed * default_rate)
-
-    engine.say(text)
-    engine.runAndWait()
-
 
 """
 Active Directory

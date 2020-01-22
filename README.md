@@ -326,8 +326,9 @@ Process | Description
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
+- [requests](https://github.com/psf/requests) 
 - [PyAutoGUI](https://github.com/asweigart/pyautogui)
-- [Selenium](https://github.com/baijum/selenium-python)
+- [Selenium](https://github.com/baijum/selenium-python) 
 - [PyWinAuto](https://github.com/pywinauto/pywinauto)
 - [OpenPyXL](https://bitbucket.org/openpyxl/openpyxl)
 - [python-docx](https://github.com/python-openxml/python-docx)
@@ -342,12 +343,11 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [Keyring](https://pypi.org/project/keyring/)
 - [PySimpleGUI](https://pysimplegui.readthedocs.io/en/latest/)
 - [Cryptography](https://pypi.org/project/cryptography/)
-- [pyttsx3](https://pypi.org/project/pyttsx3/)
 - [pyad](https://pypi.org/project/pyad/)
 - [jupyterlab](https://jupyterlab.readthedocs.io/en/stable/)
 - [Icons8 Line Awesome](https://github.com/icons8/line-awesome)
 
-#### Special contributor mentions:
+#### Special contributor mentions
 - [ygxiao](https://github.com/ygxiao)
 
 A special thanks goes out to all the above-mentioned libraries, repositories and contributers! :heart:
