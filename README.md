@@ -1,5 +1,5 @@
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/logo.png)
-# Automagica - Smart Robotic Process Automation
+# Automagica - Smart Robotic Process Automation [![Downloads](https://pepy.tech/badge/automagica/month)](https://pepy.tech/project/automagica/month)
 Automagica is a Smart Robotic Process Automation (SRPA) platform for fully automating tedious, manual tasks with software. 
 
 [![Github Signup Automagica](https://i.imgur.com/PKvMCSl.jpg)](https://portal.automagica.com/github/login)
