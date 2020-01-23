@@ -21,7 +21,7 @@ install_requires = [
     "py-trello==0.13.0",  # BSD 3-Clause "New" or "Revised" License
     "plyer==1.4.0",  # MIT License
     "Pillow==7.0.0",  # PIL License (permissive)
-    "PyAutoGUI==0.9.36",  # BSD 3-Clause "New" license
+    "PyAutoGUI==0.9.48",  # BSD 3-Clause "New" license
 ]
 
 # Windows-only dependencies
