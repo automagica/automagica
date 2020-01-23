@@ -28,6 +28,22 @@ The easiest way to install Automagica is by using the installer for Windows whic
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/portal_screenshots.JPG)
 
+## Other OSes than Windows
+### Fedora-like distributions of Linux such as Red Hat Enterprise Linux or CentOS
+You can install Automagica by running the following commands:
+
+```
+sudo yum install python3-devel
+sudo pip3 install automagica -U
+```
+### Debian-like distributions of Linux such as Ubuntu
+You can install Automagica by running the following commands:
+```
+sudo apt-get install python3-devel
+sudo pip3 install automagica -U
+```
+
+
 #### Developers and other platforms
 
 If you wish to only install the Automagica Python library (without registering for the Automagica Portal), follow the below steps.
@@ -44,9 +60,7 @@ Before getting started in development mode, don't forget to import the activitie
 ```
 from automagica import *
 ```
-### Support
 
-Automagica officially supports Windows 10. Linux and MacOS are not officially supported.
 
 ## Examples
 
