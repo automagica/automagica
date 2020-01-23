@@ -1127,11 +1127,11 @@ class Chrome(selenium.webdriver.Chrome):
 
         # Check what OS we are on
         if platform.system() == "Linux":
-            chromedriver_path = "\\bin\\webdriver\\linux64\\chromedriver"
+            chromedriver_path = "bin/linux64/chromedriver"
         elif platform.system() == "Windows":
             chromedriver_path = "\\bin\\win32\\chromedriver.exe"
         else:
-            chromedriver_path = "\\bin\\mac64\\chromedriver.exe"
+            chromedriver_path = "bin/mac64/chromedriver"
 
         chrome_options = selenium.webdriver.ChromeOptions()
         if incognito:
