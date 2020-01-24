@@ -26,11 +26,8 @@ class InstallationWrapper(install):
         # In case of Linux, make the chromedriver executable (superuser required)
         if platform.system() == "Linux":
             import os
-            import automagica
 
-            library_path = automagica.__file__.replace("__init__.py", "")
-
-            chromedriver_path = os.path.join(library_path, "bin/linux64/chromedriver")
+            chromedriver_path = "/usr/local/lib/python3.7/site-packages/automagica/bin/linux64/chromedriver"
             os.chmod(chromedriver_path, 0o111)
 
 
