@@ -1,4 +1,4 @@
-from .utilities import activity
+from .utilities import activity, only_supported_for
 
 """
 Cryptography
@@ -954,6 +954,8 @@ def display_osd_message(message='Example message', seconds=5):
     Icon
         las la-tv
     """
+    only_supported_for("Windows")
+
     if "DISABLE_AUTOMAGICA_OSD" in globals():
         return
 
@@ -1250,8 +1252,6 @@ class Chrome(selenium.webdriver.Chrome):
         def apply_style(s):
             driver.execute_script("arguments[0].setAttribute('style', arguments[1]);",
                                   element, s)
-        original_style = element.get_attribute('style')
-
         apply_style("background: yellow; border: 2px solid red;")
 
     @activity
@@ -2116,6 +2116,8 @@ def random_screen_snippet(size=100, path=None):
         las la-crop-alt
 
     """
+    only_supported_for("Windows", "Darwin")
+
     import PIL.ImageGrab
     img = PIL.ImageGrab.grab()
 
@@ -2159,6 +2161,8 @@ def take_screenshot(path=None):
         las la-expand
 
     """
+    only_supported_for("Windows", "Darwin")
+
     import PIL.ImageGrab
     img = PIL.ImageGrab.grab()
 
@@ -2929,6 +2933,8 @@ class Word:
             lar la-file-word
 
         """
+        only_supported_for("Windows")
+
         self.file_path = file_path
 
         self.app = self._launch()
@@ -3406,6 +3412,8 @@ class Outlook:
             las la-mail-bulk
         
         """
+        only_supported_for("Windows")
+
         self.app = self._launch()
         self.account_name = account_name
 
@@ -3877,6 +3885,8 @@ class Excel:
             las la-file-excel
 
         """
+        only_supported_for("Windows")
+
         self.file_path = file_path
 
         self.app = self._launch()
@@ -4935,6 +4945,8 @@ class PowerPoint:
             las la-file-powerpoint
         
         """
+        only_supported_for("Windows")
+
         self.app = self._launch(path)
         self.app.Visible = visible
 
@@ -5419,6 +5431,8 @@ def set_user_password(username, password):
         las la-passport
 
     """
+    only_supported_for("Windows")
+    
     from win32com import adsi
 
     user = adsi.ADsGetObject("WinNT://localhost/%s,user" % username)
@@ -5448,6 +5462,8 @@ def validate_user_password(username, password):
         las la-passport
 
     """
+    only_supported_for("Windows")
+
     from win32security import LogonUser
     from win32con import LOGON32_LOGON_INTERACTIVE, LOGON32_PROVIDER_DEFAULT
 
@@ -5481,6 +5497,8 @@ def lock_windows():
         las la-user-lock
 
     """
+    only_supported_for("Windows")
+
     import ctypes
     ctypes.windll.user32.LockWorkStation()
 
@@ -5504,6 +5522,8 @@ def is_logged_in():
     Icon
         lar la-user
     """
+    only_supported_for("Windows")
+
     import subprocess
 
     output = subprocess.check_output("TASKLIST")
@@ -5534,6 +5554,8 @@ def is_desktop_locked():
         las la-user
 
     """
+    only_supported_for("Windows")
+
     return not is_logged_in()
 
 
@@ -5555,6 +5577,8 @@ def get_username():
         las la-user
 
     """
+    only_supported_for("Windows")
+
     import getpass
     return getpass.getuser()
 
@@ -5582,6 +5606,8 @@ def set_to_clipboard(text):
     Icon
         las la-clipboard-check
     """
+    only_supported_for("Windows")
+
     import win32clipboard
 
     win32clipboard.OpenClipboard()
@@ -5615,6 +5641,8 @@ def get_from_clipboard():
         las la-clipboard-list
 
     """
+    only_supported_for("Windows")
+
     import win32clipboard
 
     win32clipboard.OpenClipboard()
@@ -5654,6 +5682,8 @@ def clear_clipboard():
     Icon
         las la-clipboard
     """
+    only_supported_for("Windows")
+
     from ctypes import windll
 
     if windll.user32.OpenClipboard(None):
@@ -5682,6 +5712,8 @@ def run_vbs_script(script_path, parameters=[]):
     Icon
         las la-cogs
     """
+    only_supported_for("Windows")
+
     import subprocess
 
     subprocess.call(["cscript.exe", script_path] + parameters)
@@ -5709,6 +5741,8 @@ def beep(frequency=1000, duration=500):
         las la-volume-up
 
     """
+    only_supported_for("Windows")
+
     import winsound
 
     winsound.Beep(frequency, duration)
@@ -5910,6 +5944,8 @@ def set_wallpaper(image_path):
         las la-desktop
 
     """
+    only_supported_for("Windows")
+
     import ctypes
     ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 0)
 
@@ -7612,6 +7648,7 @@ def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=N
     Icon
         las la-robot
     """
+    only_supported_for("Windows")
 
     import subprocess
     import json
@@ -7670,6 +7707,7 @@ def run_autoit_script(script_path, arguments=None, autoit_exe_path=None):
     Icon
         las la-robot
     """
+    only_supported_for("Windows")
 
     import subprocess
     import json
@@ -7782,6 +7820,7 @@ def run_blueprism_process(process_name, username='', password='', sso=False, inp
     Icon
         las la-robot
     """
+    only_supported_for("Windows")
 
     import subprocess
     import json
@@ -7840,6 +7879,7 @@ def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
     Icon
         las la-robot
     """
+    only_supported_for("Windows")
 
     import subprocess
     import json

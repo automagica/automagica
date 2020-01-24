@@ -56,3 +56,17 @@ def telemetry(func):
         except:
             pass
 
+
+def only_supported_for(*args):
+    """Utility function for checking platform support
+
+    Example usage:
+    only_supported_for("Windows", "Linux")
+    """
+    import platform
+
+    if platform.system() not in args:
+        raise NotImplementedError(
+            "This activity is currently only supported for {}.".format(", ".join(args))
+        )
+
