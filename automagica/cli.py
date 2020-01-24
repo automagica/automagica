@@ -216,16 +216,23 @@ class Automagica:
             import subprocess
 
             my_env = os.environ.copy()
-            my_env["JUPYTER_CONFIG_DIR"] = os.path.abspath(__file__).replace(
-                "cli.py", "lab\\.jupyter"
-            )
+
+            path = os.path.abspath(__file__).replace("cli.py", "")
+
+            my_env["JUPYTER_CONFIG_DIR"] = os.path.join(path, "lab/.jupyter")
 
             cmd = sys.executable + ' -m notebook "{}"'.format(notebook_path)
 
             if not self.args.debug:
                 self.try_to_hide_console()
 
-            process = subprocess.Popen(cmd, env=my_env)
+            import platform
+
+            if platform.system() == "Linux":
+                process = subprocess.Popen(cmd, env=my_env, shell=True)
+
+            else:
+                process = subprocess.Popen(cmd, env=my_env)
 
             # While server is running, check for changes of the path
             last_known_modification = os.path.getmtime(notebook_path)
@@ -260,8 +267,10 @@ class Automagica:
 
                 sleep(1)
 
+            print("Automagica's Jupyter Notebook server closed.")
+
         except:
-            logging.exception("oops")
+            logging.exception("Something went wrong...")
             input()
 
     def _save_config(self):
