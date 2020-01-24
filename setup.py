@@ -23,12 +23,16 @@ class InstallationWrapper(install):
 
         import platform
 
-        # In case of Linux, make the chromedriver executable (superuser required)
         if platform.system() == "Linux":
-            import os
+            import subprocess
 
-            chromedriver_path = "/usr/local/lib/python3.7/site-packages/automagica/bin/linux64/chromedriver"
-            os.chmod(chromedriver_path, 0o111)
+            # Make binaries executable
+            binaries_path = "/usr/local/lib/python3.7/site-packages/automagica/bin"
+            subprocess.call(["chmod", "-R", "+x", binaries_path])
+
+            # Make lab-folder writeable (required by Jupyter Notebook)
+            lab_path = "/usr/local/lib/python3.7/site-packages/automagica/lab"
+            subprocess.call(["chmod", "-R", "777", lab_path])
 
 
 # Cross-platform dependencies
