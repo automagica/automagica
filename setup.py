@@ -39,7 +39,7 @@ package_data = {
         "lab/.jupyter/custom/favicon.png",  # Copyrighted by Oakwood Technologies BVBA
         "lab/.jupyter/custom/logo.png",  # Copyrighted by Oakwood Technologies BVBA
         "lab/.jupyter/custom/logo-white.png",  # Copyrighted by Oakwood Technologies BVBA
-        "icon.ico",
+        "icon.ico",  # Copyrighted by Oakwood Technologies BVBA
     ]
 }
 
@@ -56,3 +56,18 @@ setup(
     install_requires=install_requires,
     include_package_data=True,
 )
+
+# In case of Linux, make the chromedriver executable (superuser required)
+import platform
+
+if platform.system() == "Linux":
+    import automagica
+
+    library_path = automagica.__file__.replace("__init__.py", "")
+
+    import os
+    import stat
+
+    chromedriver_path = os.path.join(library_path, "bin/linux64/chromedriver")
+    st = os.stat(chromedriver_path)
+    os.chmod(chromedriver_path, st.st_mode | stat.S_IEXEC)
