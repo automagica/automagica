@@ -77,7 +77,7 @@ package_data = {
 
 setup(
     name="Automagica",
-    version="2.0.10",
+    version="2.0.11",
     description="Bot for Automagica",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
