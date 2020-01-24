@@ -1,7 +1,35 @@
 #!/usr/bin/env python
 import sys
-import setuptools
 from distutils.core import setup
+
+import setuptools
+from setuptools.command.install import install
+
+
+class InstallationWrapper(install):
+    def run(self):
+        """
+        Custom installation wrapper to do pre-installation 
+        and post-installation (i.e. to change permissions 
+        on chromedriver binaries on Linux)
+        """
+        install.run(self)
+
+        # In case of Linux, make the chromedriver executable (superuser required)
+        import platform
+
+        if platform.system() == "Linux":
+            import automagica
+
+            library_path = automagica.__file__.replace("__init__.py", "")
+
+            import os
+            import stat
+
+            chromedriver_path = os.path.join(library_path, "bin/linux64/chromedriver")
+            st = os.stat(chromedriver_path)
+            os.chmod(chromedriver_path, st.st_mode | stat.S_IEXEC)
+
 
 # Cross-platform dependencies
 install_requires = [
@@ -55,19 +83,5 @@ setup(
     package_data=package_data,
     install_requires=install_requires,
     include_package_data=True,
+    cmdclass={"install": InstallationWrapper},
 )
-
-# In case of Linux, make the chromedriver executable (superuser required)
-import platform
-
-if platform.system() == "Linux":
-    import automagica
-
-    library_path = automagica.__file__.replace("__init__.py", "")
-
-    import os
-    import stat
-
-    chromedriver_path = os.path.join(library_path, "bin/linux64/chromedriver")
-    st = os.stat(chromedriver_path)
-    os.chmod(chromedriver_path, st.st_mode | stat.S_IEXEC)
