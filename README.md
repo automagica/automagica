@@ -33,16 +33,17 @@ The easiest way to install Automagica is by using the installer for Windows whic
 You can install Automagica by running the following commands:
 
 ```
-sudo yum install python3-devel
+sudo yum install python3-devel chromium -y
 sudo pip3 install automagica -U
 ```
 ### Debian-like distributions of Linux such as Ubuntu
 You can install Automagica by running the following commands:
 ```
-sudo apt-get install python3-devel
+sudo apt-get install python3-devel chromium -y
 sudo pip3 install automagica -U
 ```
-
+### Important 
+If you would like to run browser automations, you also need to install Chromium or Chrome.
 
 #### Developers and other platforms
 

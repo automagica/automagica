@@ -13,22 +13,25 @@ class InstallationWrapper(install):
         and post-installation (i.e. to change permissions 
         on chromedriver binaries on Linux)
         """
+
+        # Pre-install
+
+        # Install
         install.run(self)
 
-        # In case of Linux, make the chromedriver executable (superuser required)
+        # Post-install
+
         import platform
 
+        # In case of Linux, make the chromedriver executable (superuser required)
         if platform.system() == "Linux":
+            import os
             import automagica
 
             library_path = automagica.__file__.replace("__init__.py", "")
 
-            import os
-            import stat
-
             chromedriver_path = os.path.join(library_path, "bin/linux64/chromedriver")
-            st = os.stat(chromedriver_path)
-            os.chmod(chromedriver_path, st.st_mode | stat.S_IEXEC)
+            os.chmod(chromedriver_path, 0o111)
 
 
 # Cross-platform dependencies
