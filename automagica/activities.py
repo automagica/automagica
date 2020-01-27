@@ -5748,6 +5748,264 @@ def beep(frequency=1000, duration=500):
     winsound.Beep(frequency, duration)
 
 
+@activity
+def get_all_network_interface_names():
+    """Get all network interface names
+
+    Returns a list of all network interfaces of the current machine
+
+        :Example:
+    >>> get_all_network_interface_names()
+    ['Microsoft Kernel Debug Network Adapter', 'Realtek Gaming GbE Family Controller', 'WAN Miniport (SSTP)']
+
+    Keywords
+        networking, connection, list
+
+    Icon
+        las la-ethernet
+
+    """
+    only_supported_for("Windows")
+
+    import subprocess
+
+    rows = subprocess.check_output('wmic nic get name')
+
+    results = [row.strip() for row in rows.decode('utf-8').split('\n')[1:]]
+
+    return results
+
+@activity
+def enable_network_interface(name):
+    """Enable network interface
+
+    Enables a network interface by its name.
+
+        :Example:
+    >>> enable_network_interface('Realtek Gaming GbE Family Controller')
+
+    Keywords
+        networking, connection, enable
+
+    Icon
+        las la-ethernet
+    """
+    only_supported_for("Windows")
+    import subprocess
+
+    subprocess.check_output('wmic path win32_networkadapter where name="{}" call enable'.format(name))
+
+@activity
+def disable_network_interface(name):
+    """Disable network interface
+
+    Disables a network interface by its name.
+
+        :Example:
+    >>> disable_network_interface('Realtek Gaming GbE Family Controller')
+    
+    Keywords
+        networking, connection, disable
+
+    Icon
+        las la-ethernet
+    """
+    only_supported_for("Windows")
+
+    import subprocess
+
+    subprocess.check_output('wmic path win32_networkadapter where name="{}" call disable'.format(name))
+
+@activity
+def get_default_printer_name():
+    """Get default printer
+
+    Returns the name of the printer selected as default
+
+        :Example:
+    >>> get_default_printer_name()
+    'Epson MF742C/744C'
+
+    Keywords
+        printing, get default printer name, default printer
+
+    Icon
+        las la-print
+    """
+    only_supported_for("Windows")
+
+    import win32print
+
+    return win32print.GetDefaultPrinter()
+
+
+
+
+@activity
+def set_default_printer(name):
+    """Set default printer
+
+    Set the default printer.
+
+        :Example:
+    >>> set_default_printer('Epson MF742C/744C')
+
+    Keywords
+        printing, set default printer name, default printer
+
+    Icon
+        las la-print
+    """
+    only_supported_for("Windows")
+
+    import win32print
+
+    return win32print.SetDefaultPrinter(name)
+
+
+@activity
+def remove_printer(name):
+    """Remove printer
+
+    Removes a printer by its name
+
+        :Example:
+    >>> remove_printer('Epson MF742C/744C')
+
+    Keywords
+        printing, remove printer, printer
+
+    Icon
+        las la-print
+    """
+    only_supported_for("Windows")
+
+    import win32print
+
+    return win32print.DeletePrinter(name)
+
+
+@activity
+def get_service_status(name):
+    """Get service status
+
+    Returns the status of a service on the machine
+
+        :Example:
+    >>> get_service_status('Windows Backup')
+    'stopped'
+
+    Keywords
+        services, get service status, status
+
+    Icon
+        las la-cog
+    """
+    only_supported_for('Windows')
+
+    import psutil
+
+    for s in psutil.win_service_iter():
+        if s.name() == name or s.display_name() == name:
+            return s.status()
+
+
+@activity
+def start_service(name):
+    """Start a service
+
+    Starts a Windows service
+
+        :Example:
+    >>> start_service('Windows Backup')
+
+    Keywords
+        services, start a service, start
+
+    Icon
+        las la-cog
+    """
+
+    import win32serviceutil
+
+    win32serviceutil.StartService(name)
+
+@activity
+def stop_service(name):
+    """Stop a service
+
+    Stops a Windows service
+
+        :Example:
+    >>> stop_service('Windows Backup')
+
+    Keywords
+        services, stop a service, stop
+
+    Icon
+        las la-cog
+    """
+
+    import win32serviceutil
+
+    win32serviceutil.StopService(name)
+
+
+"""
+SNMP
+Icon: las la-ethernet
+"""
+
+
+def snmp_get(target, oids, credentials, port=161, engine=None, context=None):
+    """SNMP Get
+    
+    Retrieves data from an SNMP agent using SNMP (Simple Network Management Protocol)
+
+        :Example:
+    >>> snmp_get()
+
+    Keywords
+        snmp, simple network management protocol, protocols, get
+
+    Icon
+        las la-ethernet
+
+    """
+    # Adaptation of Alessandro Maggio's implementation in QuickSNMP (MIT License)
+    # (Copyright (c) 2018 Alessandro Maggio) (https://github.com/alessandromaggio/quicksnmp)
+
+    from pysnmp import hlapi
+
+    if not engine:
+        engine = hlapi.SnmpEngine()
+
+    if not context:
+        context = hlapi.ContextData()
+
+    def construct_object_types(list_of_oids):
+        object_types = []
+        for oid in list_of_oids:
+            object_types.append(hlapi.ObjectType(hlapi.ObjectIdentity(oid)))
+        return object_types
+
+
+    def construct_value_pairs(list_of_pairs):
+        pairs = []
+        for key, value in list_of_pairs.items():
+            pairs.append(hlapi.ObjectType(hlapi.ObjectIdentity(key), value))
+        return pairs
+
+    handler = hlapi.getCmd(
+        engine,
+        credentials,
+        hlapi.UdpTransportTarget((target, port)),
+        context,
+        *construct_object_types(oids)
+    )
+
+    return fetch(handler, 1)[0]
+
 
 """
 Active Directory
@@ -7901,3 +8159,4 @@ def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
         print(err)
 
     print('Completed Automation Anywhere task "{}"'.format(test_case_path))
+

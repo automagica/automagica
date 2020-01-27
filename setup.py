@@ -54,6 +54,7 @@ install_requires = [
     "plyer==1.4.0",  # MIT License
     "Pillow==7.0.0",  # PIL License (permissive)
     "PyAutoGUI==0.9.48",  # BSD 3-Clause "New" license
+    "pysnmp==4.4.12" # BSD 2-Clause "Simplified" License
 ]
 
 # Windows-only dependencies
