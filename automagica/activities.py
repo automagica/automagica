@@ -6170,9 +6170,14 @@ def open_file(path):
         lar la-file
 
     """
-
-    import os
-    os.startfile(path)
+    import sys
+    if sys.platform == "win32":
+        import os
+        os.startfile(path)
+    else:
+        from subprocess import call
+        opener = "open" if sys.platform == "darwin" else "xdg-open"
+        call([opener, path])
 
     return path
 

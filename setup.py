@@ -57,9 +57,6 @@ install_requires = [
     "pysnmp==4.4.12" # BSD 2-Clause "Simplified" License
 ]
 
-# Windows-only dependencies
-if sys.platform.startswith("win"):
-    install_requires += ["pywin32==227"]  # BSD 3-Clause "New" or "Revised" License
 
 package_data = {
     "automagica": [
@@ -78,7 +75,7 @@ package_data = {
 
 setup(
     name="Automagica",
-    version="2.0.11",
+    version="2.0.12",
     description="Bot for Automagica",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
