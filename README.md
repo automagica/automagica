@@ -363,5 +363,6 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 
 #### Special contributor mentions
 - [ygxiao](https://github.com/ygxiao)
+- [jjlehtinen](https://github.com/jjlehtinen)
 
 A special thanks goes out to all the above-mentioned libraries, repositories and contributers! :heart:
