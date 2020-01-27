@@ -6160,7 +6160,7 @@ def hide_window(title):
         las la-window-restore
     """
     only_supported_for("Windows")
-    
+
     import win32con
     import win32gui
 
@@ -6171,13 +6171,43 @@ def hide_window(title):
 
     win32gui.ShowWindow(handle, win32con.SW_HIDE)
 
+"""
+Terminal
+Icon: las la-terminal
+"""
+
+@activity
+def run_ssh_command(user, host, command):
+    """Run SSH command
+
+    Runs a command over SSH (Secure Shell)
+
+        :Example:
+    >>> run_ssh_command('root', 'machine', 'ls -a')
+    '. .. .bashrc'
+
+    Keywords
+        ssh, command
+
+    Icon
+        las la-terminal
+    """
+    import subprocess
+
+    return subprocess.Popen(
+            "ssh {user}@{host} {cmd}".format(user=user, host=host, cmd=command), 
+            shell=True, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.PIPE
+        ).communicate()
+
 
 """
 SNMP
 Icon: las la-ethernet
 """
 
-
+@activity
 def snmp_get(target, oids, credentials, port=161, engine=None, context=None):
     """SNMP Get
     
