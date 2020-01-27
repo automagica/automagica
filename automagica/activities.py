@@ -5925,6 +5925,7 @@ def start_service(name):
     Icon
         las la-cog
     """
+    only_supported_for("Windows")
 
     import win32serviceutil
 
@@ -5945,10 +5946,230 @@ def stop_service(name):
     Icon
         las la-cog
     """
+    only_supported_for("Windows")
 
     import win32serviceutil
 
     win32serviceutil.StopService(name)
+
+@activity
+def set_window_to_foreground(title):
+    """Set window to foreground
+
+    Sets a window to foreground by its title.
+
+        :Example:
+    >>> set_window_to_foreground('Notepad - Untitled')
+
+    Keywords
+        window, foreground
+
+    Icon
+        las la-window-restore
+    """
+    only_supported_for("Windows")
+
+    import win32gui
+
+    handle = win32gui.FindWindow(None, title)
+
+    if not handle:
+        raise Exception('Could not find a window with title "{}"'.format(title))
+
+    win32gui.SetForegroundWindow(handle)
+
+
+@activity
+def get_foreground_window_title():
+    """Get foreground window title
+    
+    Retrieve the title of the current foreground window
+
+        :Example:
+    >>> get_foreground_window_title()
+    'IPython'
+
+    Keywords
+        window, foreground, title
+
+    Icon
+        las la-window-restore
+    """
+    only_supported_for("Windows")
+
+    import win32gui
+
+    handle = win32gui.GetForegroundWindow()
+
+    return win32gui.GetWindowText(handle)
+
+
+@activity
+def close_window(title):
+    """Close window
+    
+    Closes a window by its title
+
+        :Example:
+    >>> close_window('Untitled - Notepad')
+
+    Keywords
+        window, close, title
+
+    Icon
+        las la-window-restore
+    """
+    only_supported_for("Windows")
+
+    import win32gui
+
+    handle = win32gui.FindWindow(None, title)
+
+    if not handle:
+        raise Exception('Could not find a window with title "{}"'.format(title))
+
+    win32gui.DestroyWindow(handle)
+
+
+@activity
+def maximize_window(title):
+    """Maximize window
+    
+    Maximizes a window by its title
+
+        :Example:
+    >>> maximize_window('Untitled - Notepad')
+
+    Keywords
+        window, maximize, title
+
+    Icon
+        las la-window-restore
+    """
+    only_supported_for("Windows")
+
+    import win32con
+    import win32gui
+
+    handle = win32gui.FindWindow(None, title)
+
+    if not handle:
+        raise Exception('Could not find a window with title "{}"'.format(title))
+
+    win32gui.ShowWindow(handle, win32con.SW_SHOWMAXIMIZED)
+    win32gui.SetForegroundWindow(handle)
+
+
+@activity
+def restore_window(title):
+    """Restore window
+    
+    Restore a window by its title
+
+        :Example:
+    >>> restore_window('Untitled - Notepad')
+
+    Keywords
+        window, restore, title
+
+    Icon
+        las la-window-restore
+    """
+    only_supported_for("Windows")
+
+    import win32con
+    import win32gui
+
+    handle = win32gui.FindWindow(None, title)
+
+    if not handle:
+        raise Exception('Could not find a window with title "{}"'.format(title))
+
+    win32gui.ShowWindow(handle, win32con.SW_RESTORE)
+    win32gui.SetForegroundWindow(handle)
+
+
+@activity
+def minimize_window(title):
+    """Minimize window
+    
+    Minimizes a window by its title
+
+        :Example:
+    >>> minimize_window(title)
+
+    Keywords
+        window, minimize, title
+
+    Icon
+        las la-window-restore
+    """
+    only_supported_for("Windows")
+
+    import win32gui
+
+    handle = win32gui.FindWindow(None, title)
+
+    if not handle:
+        raise Exception('Could not find a window with title "{}"'.format(title))
+
+    win32gui.CloseWindow(handle)
+
+
+@activity
+def resize_window(title, x, y, width, height):
+    """Resize window
+    
+    Resize a window by its title
+
+        :Example:
+    >>> resize_window('Untitled - Notepad', 100, 200, 300, 400)
+
+    Keywords
+        window, resize, title
+
+    Icon
+        las la-window-restore
+    """
+    only_supported_for("Windows")
+
+    import win32gui
+
+    handle = win32gui.FindWindow(None, title)
+
+    if not handle:
+        raise Exception('Could not find a window with title "{}"'.format(title))
+
+    win32gui.MoveWindow(handle, x, y, width, height, True)
+    win32gui.SetForegroundWindow(handle)
+
+
+@activity
+def hide_window(title):
+    """Hide window
+    
+    Hides a window from the user desktop by using it's title
+
+        :Example:
+    >>> hide_window('Untitled - Notepad')
+
+    Keywords
+        window, hide, title
+
+    Icon
+        las la-window-restore
+    """
+    only_supported_for("Windows")
+    
+    import win32con
+    import win32gui
+
+    handle = win32gui.FindWindow(None, title)
+
+    if not handle:
+        raise Exception('Could not find a window with title "{}"'.format(title))
+
+    win32gui.ShowWindow(handle, win32con.SW_HIDE)
 
 
 """
