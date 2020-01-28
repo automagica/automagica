@@ -5755,7 +5755,7 @@ def get_all_network_interface_names():
     Returns a list of all network interfaces of the current machine
 
         :Example:
-        
+
     >>> get_all_network_interface_names()
     ['Microsoft Kernel Debug Network Adapter', 'Realtek Gaming GbE Family Controller', 'WAN Miniport (SSTP)']
 
@@ -5782,6 +5782,8 @@ def enable_network_interface(name):
 
     Enables a network interface by its name.
 
+    :parameter name: Name of the network
+
         :Example:
 
     >>> enable_network_interface('Realtek Gaming GbE Family Controller')
@@ -5802,6 +5804,8 @@ def disable_network_interface(name):
     """Disable network interface
 
     Disables a network interface by its name.
+
+    :parameter name: Name of the network interface
 
         :Example:
 
@@ -5843,13 +5847,13 @@ def get_default_printer_name():
     return win32print.GetDefaultPrinter()
 
 
-
-
 @activity
 def set_default_printer(name):
     """Set default printer
 
     Set the default printer.
+
+    :parameter name: Printer name
 
         :Example:
 
@@ -5874,6 +5878,8 @@ def remove_printer(name):
 
     Removes a printer by its name
 
+    :parameter name: Printer name to remove
+
         :Example:
 
     >>> remove_printer('Epson MF742C/744C')
@@ -5896,6 +5902,8 @@ def get_service_status(name):
     """Get service status
 
     Returns the status of a service on the machine
+
+    :parameter name: Name of service
 
         :Example:
 
@@ -5923,6 +5931,8 @@ def start_service(name):
 
     Starts a Windows service
 
+    :parameter name: Name of service
+
         :Example:
 
     >>> start_service('Windows Backup')
@@ -5945,6 +5955,8 @@ def stop_service(name):
 
     Stops a Windows service
 
+    :parameter name: Name of service
+
         :Example:
 
     >>> stop_service('Windows Backup')
@@ -5966,6 +5978,8 @@ def set_window_to_foreground(title):
     """Set window to foreground
 
     Sets a window to foreground by its title.
+
+    :parameter name: Name of service
 
         :Example:
 
@@ -6021,6 +6035,8 @@ def close_window(title):
     
     Closes a window by its title
 
+    :parameter title: Title of window
+
         :Example:
 
     >>> close_window('Untitled - Notepad')
@@ -6048,6 +6064,8 @@ def maximize_window(title):
     """Maximize window
     
     Maximizes a window by its title
+
+    :parameter title: Title of window
 
         :Example:
 
@@ -6079,6 +6097,8 @@ def restore_window(title):
     
     Restore a window by its title
 
+    :parameter title: Title of window
+
         :Example:
 
     >>> restore_window('Untitled - Notepad')
@@ -6109,6 +6129,8 @@ def minimize_window(title):
     
     Minimizes a window by its title
 
+    :parameter title: Title of window
+
         :Example:
 
     >>> minimize_window(title)
@@ -6136,6 +6158,8 @@ def resize_window(title, x, y, width, height):
     """Resize window
     
     Resize a window by its title
+
+    :parameter title: Title of window
 
         :Example:
 
@@ -6165,6 +6189,8 @@ def hide_window(title):
     """Hide window
     
     Hides a window from the user desktop by using it's title
+
+    :parameter title: Title of window
 
         :Example:
 
@@ -6199,6 +6225,10 @@ def run_ssh_command(user, host, command):
 
     Runs a command over SSH (Secure Shell)
 
+    :parameter user: User
+    :parameter host: Host
+    :parameter command: Command
+
         :Example:
 
     >>> run_ssh_command('root', 'machine', 'ls -a')
@@ -6230,6 +6260,13 @@ def snmp_get(target, oids, credentials, port=161, engine=None, context=None):
     """SNMP Get
     
     Retrieves data from an SNMP agent using SNMP (Simple Network Management Protocol)
+
+    :parameter target: Target
+    :parameter oids: oids
+    :parameter credentials: credentials
+    :parameter port: Port (default 161)
+    :parameter engine: Engine (default none)
+    :parameter context: Contect (default none)
 
         :Example:
 
