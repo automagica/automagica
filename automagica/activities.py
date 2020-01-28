@@ -3308,6 +3308,10 @@ class WordFile:
     def save_as(self, path):
         """Save as
 
+        Save file on specified path
+
+        :param path: Path to save Wordfile to
+
             :Example:
             
         >>> wordfile = WordFile()
@@ -3704,6 +3708,8 @@ class Outlook:
     def save_attachments(self, folder_name="Inbox", target_folder_path=None):
         """Save attachments
 
+        Save all attachments from certain folder
+
         :parameter folder_name: Name of the Outlook folder, can be found using `get_folders`.
         :parameter target_folder_path: Path where attachments will be saved. Default is the home directory.
 
@@ -3756,6 +3762,8 @@ class Outlook:
     @activity
     def get_contacts(self, fields=None):
         """Retrieve contacts
+
+        Retrieve all contacts 
 
         :parameter fields: Fields can be specified as a tuple with their exact names. Standard value is None returning "LastName", "FirstName" and "Email1Address".
 
@@ -4771,6 +4779,8 @@ class ExcelFile:
     def save_as(self, path):
         """Save as
 
+        Save file as
+
         :parameter path: Path where workbook will be saved
         
             :Example:
@@ -4795,6 +4805,8 @@ class ExcelFile:
     @activity
     def write_cell(self, column, row, value, auto_save=True):
         """Write cell
+
+        Write a cell based on column and row
 
         :parameter column: Column number (integer) to write
         :parameter row: Row number (integer) to write
@@ -4828,6 +4840,8 @@ class ExcelFile:
     @activity
     def read_cell(self, column, row):
         """Read cell
+
+        Read a cell based on column and row
 
         :parameter column: Column number (integer) to read
         :parameter row: Row number (integer) to read
@@ -4864,6 +4878,8 @@ class ExcelFile:
     def add_worksheet(self, name, auto_save=True):
         """Add worksheet
 
+        Add a worksheet
+
         :parameter name: Name of the worksheet to add
         :parameter auto_save: Save document after performing activity. Default value is True
 
@@ -4891,6 +4907,8 @@ class ExcelFile:
     @activity
     def get_worksheet_names(self):
         """Get worksheet names
+
+        Get worksheet names
 
         :return: List of worksheet names
 
@@ -5273,6 +5291,8 @@ Icon: las la-cloud
 @activity
 def send_email_with_outlook365(client_id, client_secret, to_email, subject='', body=''):
     """Send email Office Outlook 365
+
+    Send email Office Outlook 365
 
     :parameter client_id: Client id for office 365 account
     :parameter client_secret: Client secret for office 365 account
