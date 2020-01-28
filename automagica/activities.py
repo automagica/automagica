@@ -5755,6 +5755,7 @@ def get_all_network_interface_names():
     Returns a list of all network interfaces of the current machine
 
         :Example:
+        
     >>> get_all_network_interface_names()
     ['Microsoft Kernel Debug Network Adapter', 'Realtek Gaming GbE Family Controller', 'WAN Miniport (SSTP)']
 
@@ -5782,6 +5783,7 @@ def enable_network_interface(name):
     Enables a network interface by its name.
 
         :Example:
+
     >>> enable_network_interface('Realtek Gaming GbE Family Controller')
 
     Keywords
@@ -5802,6 +5804,7 @@ def disable_network_interface(name):
     Disables a network interface by its name.
 
         :Example:
+
     >>> disable_network_interface('Realtek Gaming GbE Family Controller')
     
     Keywords
@@ -5823,6 +5826,7 @@ def get_default_printer_name():
     Returns the name of the printer selected as default
 
         :Example:
+
     >>> get_default_printer_name()
     'Epson MF742C/744C'
 
@@ -5848,6 +5852,7 @@ def set_default_printer(name):
     Set the default printer.
 
         :Example:
+
     >>> set_default_printer('Epson MF742C/744C')
 
     Keywords
@@ -5870,6 +5875,7 @@ def remove_printer(name):
     Removes a printer by its name
 
         :Example:
+
     >>> remove_printer('Epson MF742C/744C')
 
     Keywords
@@ -5892,6 +5898,7 @@ def get_service_status(name):
     Returns the status of a service on the machine
 
         :Example:
+
     >>> get_service_status('Windows Backup')
     'stopped'
 
@@ -5917,6 +5924,7 @@ def start_service(name):
     Starts a Windows service
 
         :Example:
+
     >>> start_service('Windows Backup')
 
     Keywords
@@ -5938,6 +5946,7 @@ def stop_service(name):
     Stops a Windows service
 
         :Example:
+
     >>> stop_service('Windows Backup')
 
     Keywords
@@ -5959,6 +5968,7 @@ def set_window_to_foreground(title):
     Sets a window to foreground by its title.
 
         :Example:
+
     >>> set_window_to_foreground('Notepad - Untitled')
 
     Keywords
@@ -5986,6 +5996,7 @@ def get_foreground_window_title():
     Retrieve the title of the current foreground window
 
         :Example:
+
     >>> get_foreground_window_title()
     'IPython'
 
@@ -6011,6 +6022,7 @@ def close_window(title):
     Closes a window by its title
 
         :Example:
+
     >>> close_window('Untitled - Notepad')
 
     Keywords
@@ -6038,6 +6050,7 @@ def maximize_window(title):
     Maximizes a window by its title
 
         :Example:
+
     >>> maximize_window('Untitled - Notepad')
 
     Keywords
@@ -6067,6 +6080,7 @@ def restore_window(title):
     Restore a window by its title
 
         :Example:
+
     >>> restore_window('Untitled - Notepad')
 
     Keywords
@@ -6096,6 +6110,7 @@ def minimize_window(title):
     Minimizes a window by its title
 
         :Example:
+
     >>> minimize_window(title)
 
     Keywords
@@ -6123,6 +6138,7 @@ def resize_window(title, x, y, width, height):
     Resize a window by its title
 
         :Example:
+
     >>> resize_window('Untitled - Notepad', 100, 200, 300, 400)
 
     Keywords
@@ -6151,6 +6167,7 @@ def hide_window(title):
     Hides a window from the user desktop by using it's title
 
         :Example:
+
     >>> hide_window('Untitled - Notepad')
 
     Keywords
@@ -6183,6 +6200,7 @@ def run_ssh_command(user, host, command):
     Runs a command over SSH (Secure Shell)
 
         :Example:
+
     >>> run_ssh_command('root', 'machine', 'ls -a')
     '. .. .bashrc'
 
@@ -6214,6 +6232,7 @@ def snmp_get(target, oids, credentials, port=161, engine=None, context=None):
     Retrieves data from an SNMP agent using SNMP (Simple Network Management Protocol)
 
         :Example:
+
     >>> snmp_get()
 
     Keywords
