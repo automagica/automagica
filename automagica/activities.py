@@ -4559,6 +4559,8 @@ class Excel:
     def export_to_pdf(self, path=None):
         """Export to PDF
 
+        Export to PDF
+
         :parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
         
             :Example:
@@ -5153,6 +5155,8 @@ class PowerPoint:
     @activity
     def delete_slide(self, index=None):
         """Delete slide
+
+        Delete a slide
 
         :parameter index: Slide index to be deleted. If none is specified, last slide will be deleted
 
@@ -6544,6 +6548,8 @@ def set_wallpaper(image_path):
 def download_file_from_url(url, filename=None, path=None):
     """Download file from a URL
 
+    Download file from a URL
+
     :parameter url: Source URL to download file from
     :parameter filename: 
     :parameter path: Target path. If no path is given will download to the home directory
@@ -6735,6 +6741,8 @@ def move_file(from_path, to_path):
 @activity
 def remove_file(path):
     """Remove a file
+
+    Remove a file 
 
     :parameter path: Full path to the file that will be deleted.
 
@@ -7262,6 +7270,8 @@ def extract_images_from_pdf(file_path):
 @activity
 def apply_watermark_to_pdf(file_path, watermark_path, output_path=''):
     """Watermark a PDF
+
+    Watermark a PDF 
 
     :parameter file_path: Filepath to the document that will be watermarked. Should be pdf file.
     :parameter watermark_path: Filepath to the watermark. Should be pdf file.
