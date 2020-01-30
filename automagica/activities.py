@@ -3308,6 +3308,10 @@ class WordFile:
     def save_as(self, path):
         """Save as
 
+        Save file on specified path
+
+        :param path: Path to save Wordfile to
+
             :Example:
             
         >>> wordfile = WordFile()
@@ -3704,6 +3708,8 @@ class Outlook:
     def save_attachments(self, folder_name="Inbox", target_folder_path=None):
         """Save attachments
 
+        Save all attachments from certain folder
+
         :parameter folder_name: Name of the Outlook folder, can be found using `get_folders`.
         :parameter target_folder_path: Path where attachments will be saved. Default is the home directory.
 
@@ -3756,6 +3762,8 @@ class Outlook:
     @activity
     def get_contacts(self, fields=None):
         """Retrieve contacts
+
+        Retrieve all contacts 
 
         :parameter fields: Fields can be specified as a tuple with their exact names. Standard value is None returning "LastName", "FirstName" and "Email1Address".
 
@@ -4551,6 +4559,8 @@ class Excel:
     def export_to_pdf(self, path=None):
         """Export to PDF
 
+        Export to PDF
+
         :parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
         
             :Example:
@@ -4769,6 +4779,8 @@ class ExcelFile:
     def save_as(self, path):
         """Save as
 
+        Save file as
+
         :parameter path: Path where workbook will be saved
         
             :Example:
@@ -4793,6 +4805,8 @@ class ExcelFile:
     @activity
     def write_cell(self, column, row, value, auto_save=True):
         """Write cell
+
+        Write a cell based on column and row
 
         :parameter column: Column number (integer) to write
         :parameter row: Row number (integer) to write
@@ -4826,6 +4840,8 @@ class ExcelFile:
     @activity
     def read_cell(self, column, row):
         """Read cell
+
+        Read a cell based on column and row
 
         :parameter column: Column number (integer) to read
         :parameter row: Row number (integer) to read
@@ -4862,6 +4878,8 @@ class ExcelFile:
     def add_worksheet(self, name, auto_save=True):
         """Add worksheet
 
+        Add a worksheet
+
         :parameter name: Name of the worksheet to add
         :parameter auto_save: Save document after performing activity. Default value is True
 
@@ -4889,6 +4907,8 @@ class ExcelFile:
     @activity
     def get_worksheet_names(self):
         """Get worksheet names
+
+        Get worksheet names
 
         :return: List of worksheet names
 
@@ -5134,6 +5154,8 @@ class PowerPoint:
     def delete_slide(self, index=None):
         """Delete slide
 
+        Delete a slide
+
         :parameter index: Slide index to be deleted. If none is specified, last slide will be deleted
 
             :Example:
@@ -5271,6 +5293,8 @@ Icon: las la-cloud
 @activity
 def send_email_with_outlook365(client_id, client_secret, to_email, subject='', body=''):
     """Send email Office Outlook 365
+
+    Send email Office Outlook 365
 
     :parameter client_id: Client id for office 365 account
     :parameter client_secret: Client secret for office 365 account
@@ -5753,6 +5777,7 @@ def get_all_network_interface_names():
     Returns a list of all network interfaces of the current machine
 
         :Example:
+
     >>> get_all_network_interface_names()
     ['Microsoft Kernel Debug Network Adapter', 'Realtek Gaming GbE Family Controller', 'WAN Miniport (SSTP)']
 
@@ -5779,7 +5804,10 @@ def enable_network_interface(name):
 
     Enables a network interface by its name.
 
+    :parameter name: Name of the network
+
         :Example:
+
     >>> enable_network_interface('Realtek Gaming GbE Family Controller')
 
     Keywords
@@ -5799,7 +5827,10 @@ def disable_network_interface(name):
 
     Disables a network interface by its name.
 
+    :parameter name: Name of the network interface
+
         :Example:
+
     >>> disable_network_interface('Realtek Gaming GbE Family Controller')
     
     Keywords
@@ -5821,6 +5852,7 @@ def get_default_printer_name():
     Returns the name of the printer selected as default
 
         :Example:
+
     >>> get_default_printer_name()
     'Epson MF742C/744C'
 
@@ -5837,15 +5869,16 @@ def get_default_printer_name():
     return win32print.GetDefaultPrinter()
 
 
-
-
 @activity
 def set_default_printer(name):
     """Set default printer
 
     Set the default printer.
 
+    :parameter name: Printer name
+
         :Example:
+
     >>> set_default_printer('Epson MF742C/744C')
 
     Keywords
@@ -5867,7 +5900,10 @@ def remove_printer(name):
 
     Removes a printer by its name
 
+    :parameter name: Printer name to remove
+
         :Example:
+
     >>> remove_printer('Epson MF742C/744C')
 
     Keywords
@@ -5889,7 +5925,10 @@ def get_service_status(name):
 
     Returns the status of a service on the machine
 
+    :parameter name: Name of service
+
         :Example:
+
     >>> get_service_status('Windows Backup')
     'stopped'
 
@@ -5914,7 +5953,10 @@ def start_service(name):
 
     Starts a Windows service
 
+    :parameter name: Name of service
+
         :Example:
+
     >>> start_service('Windows Backup')
 
     Keywords
@@ -5935,7 +5977,10 @@ def stop_service(name):
 
     Stops a Windows service
 
+    :parameter name: Name of service
+
         :Example:
+
     >>> stop_service('Windows Backup')
 
     Keywords
@@ -5956,7 +6001,10 @@ def set_window_to_foreground(title):
 
     Sets a window to foreground by its title.
 
+    :parameter name: Name of service
+
         :Example:
+
     >>> set_window_to_foreground('Notepad - Untitled')
 
     Keywords
@@ -5984,6 +6032,7 @@ def get_foreground_window_title():
     Retrieve the title of the current foreground window
 
         :Example:
+
     >>> get_foreground_window_title()
     'IPython'
 
@@ -6008,7 +6057,10 @@ def close_window(title):
     
     Closes a window by its title
 
+    :parameter title: Title of window
+
         :Example:
+
     >>> close_window('Untitled - Notepad')
 
     Keywords
@@ -6035,7 +6087,10 @@ def maximize_window(title):
     
     Maximizes a window by its title
 
+    :parameter title: Title of window
+
         :Example:
+
     >>> maximize_window('Untitled - Notepad')
 
     Keywords
@@ -6064,7 +6119,10 @@ def restore_window(title):
     
     Restore a window by its title
 
+    :parameter title: Title of window
+
         :Example:
+
     >>> restore_window('Untitled - Notepad')
 
     Keywords
@@ -6093,7 +6151,10 @@ def minimize_window(title):
     
     Minimizes a window by its title
 
+    :parameter title: Title of window
+
         :Example:
+
     >>> minimize_window(title)
 
     Keywords
@@ -6120,7 +6181,10 @@ def resize_window(title, x, y, width, height):
     
     Resize a window by its title
 
+    :parameter title: Title of window
+
         :Example:
+
     >>> resize_window('Untitled - Notepad', 100, 200, 300, 400)
 
     Keywords
@@ -6148,7 +6212,10 @@ def hide_window(title):
     
     Hides a window from the user desktop by using it's title
 
+    :parameter title: Title of window
+
         :Example:
+
     >>> hide_window('Untitled - Notepad')
 
     Keywords
@@ -6180,7 +6247,12 @@ def run_ssh_command(user, host, command):
 
     Runs a command over SSH (Secure Shell)
 
+    :parameter user: User
+    :parameter host: Host
+    :parameter command: Command
+
         :Example:
+
     >>> run_ssh_command('root', 'machine', 'ls -a')
     '. .. .bashrc'
 
@@ -6211,7 +6283,15 @@ def snmp_get(target, oids, credentials, port=161, engine=None, context=None):
     
     Retrieves data from an SNMP agent using SNMP (Simple Network Management Protocol)
 
+    :parameter target: Target
+    :parameter oids: oids
+    :parameter credentials: credentials
+    :parameter port: Port (default 161)
+    :parameter engine: Engine (default none)
+    :parameter context: Contect (default none)
+
         :Example:
+
     >>> snmp_get()
 
     Keywords
@@ -6466,6 +6546,8 @@ def set_wallpaper(image_path):
 def download_file_from_url(url, filename=None, path=None):
     """Download file from a URL
 
+    Download file from a URL
+
     :parameter url: Source URL to download file from
     :parameter filename: 
     :parameter path: Target path. If no path is given will download to the home directory
@@ -6657,6 +6739,8 @@ def move_file(from_path, to_path):
 @activity
 def remove_file(path):
     """Remove a file
+
+    Remove a file 
 
     :parameter path: Full path to the file that will be deleted.
 
@@ -7184,6 +7268,8 @@ def extract_images_from_pdf(file_path):
 @activity
 def apply_watermark_to_pdf(file_path, watermark_path, output_path=''):
     """Watermark a PDF
+
+    Watermark a PDF 
 
     :parameter file_path: Filepath to the document that will be watermarked. Should be pdf file.
     :parameter watermark_path: Filepath to the watermark. Should be pdf file.
