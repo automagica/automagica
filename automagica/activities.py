@@ -4732,9 +4732,7 @@ class ExcelFile:
         import os
 
         if self.file_path:
-            if not os.path.exists(self.file_path):
-                # self.book(self.file_path)
-                self.book = openpyxl.load_workbook(self.file_path)
+            self.book = openpyxl.load_workbook(self.file_path)
         else:
             path = os.path.join(os.path.expanduser("~"), 'workbook.xlsx')
             self.book = openpyxl.load_workbook(path)
