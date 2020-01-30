@@ -4730,19 +4730,15 @@ class ExcelFile:
             las la-file-excel    
 
         """
+        import openpyxl
+        import os
 
         self.file_path = file_path
         self.sheet_name = None
 
-        self.app = self._launch()
-
-    def _launch(self):
-
-        import openpyxl
-        import os
-
         if self.file_path:
             self.book = openpyxl.load_workbook(self.file_path)
+
         else:
             path = os.path.join(os.path.expanduser("~"), 'workbook.xlsx')
             self.book = openpyxl.load_workbook(path)
@@ -4828,9 +4824,9 @@ class ExcelFile:
             las la-file-excel
         """
         if self.sheet_name:
-            sheet = book[self.sheet_name]
+            sheet = self.book[self.sheet_name]
         else:
-            sheet = book.active
+            sheet = self.book.active
 
         sheet.cell(row=row, column=column).value = value
 
