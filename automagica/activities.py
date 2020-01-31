@@ -6539,13 +6539,12 @@ def set_wallpaper(image_path):
 
 
 @activity
-def download_file_from_url(url, filename=None, path=None):
+def download_file_from_url(url, path=None):
     """Download file from a URL
 
     Download file from a URL
 
     :parameter url: Source URL to download file from
-    :parameter filename: 
     :parameter path: Target path. If no path is given will download to the home directory
 
     :return: Target path as string
@@ -6554,7 +6553,7 @@ def download_file_from_url(url, filename=None, path=None):
 
     >>> # Download robot picture from the wikipedia robot page
     >>> picture_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Atlas_from_boston_dynamics.jpg/220px-Atlas_from_boston_dynamics.jpg'
-    >>> download_file_from_url(url = picture_url, filename = 'robot.jpg')
+    >>> download_file_from_url(url = picture_url, path='robot.jpg')
     'C:\\Users\\<username>\\robot.jpg'
 
     Keywords
