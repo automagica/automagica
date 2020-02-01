@@ -7232,8 +7232,11 @@ def extract_images_from_pdf(file_path):
     from PIL import Image
 
     extracted_images = []
+
     with open(file_path, "rb") as f:
+        
         reader = PdfFileReader(f)
+
         for i in range(reader.getNumPages()):
             page = reader.getPage(i)
             objects = page["/Resources"]["/XObject"].getObject()
@@ -7251,13 +7254,15 @@ def extract_images_from_pdf(file_path):
                     if objects[obj]["/Filter"] == "/FlateDecode":
                         img = Image.frombytes(mode, size, data)
                         img.save(obj[1:] + ".png")
-                        extraced_images.append(obj[1:] + ".png")
+                        extracted_images.append(obj[1:] + ".png")
 
                     elif objects[obj]["/Filter"] == "/JPXDecode":
                         img = open(obj[1:] + ".jp2", "wb")
-                        extraced_images.append(obj[1:] + ".jp2")
+                        extracted_images.append(obj[1:] + ".jp2")
                         img.write(data)
                         img.close()
+    
+    return extracted_images
 
 
 @activity
