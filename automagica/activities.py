@@ -1016,8 +1016,10 @@ Browser
 Icon: lab la-chrome
 """
 
-import selenium.webdriver
-
+try:
+    import selenium.webdriver
+except:
+    pass
 
 class Chrome(selenium.webdriver.Chrome):
     @activity
