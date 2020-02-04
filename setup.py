@@ -56,6 +56,7 @@ install_requires = [
     "PyAutoGUI==0.9.48",  # BSD 3-Clause "New" license
     "pysnmp==4.4.12",  # BSD 2-Clause "Simplified" License
     "pandas==1.0.0",  # BSD 3-Clause
+    "mss==5.0.0", # MIT License
 ]
 
 

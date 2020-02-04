@@ -339,16 +339,21 @@ class Automagica:
                 i = 0
             notebook.cells.insert(i, parameter_node)
 
-        errors = False
+        error = None
 
         try:
             out = ep.preprocess(notebook)
 
-        except CellExecutionError:
-            errors = True
+        except CellExecutionError as e:
+
+            try:
+                lines = [line.strip() for line in str(e.traceback).split('\n') if line]
+                error = lines[-1]
+            except:
+                error = 'Exception: unknown error.'
 
         finally:
-            return notebook, errors
+            return notebook, error
 
     def bot(self):
         global CURRENT_JOB
@@ -396,13 +401,13 @@ class Automagica:
 
                     notebook = nbformat.read(BytesIO(r.content), as_version=4)
 
-                    output, errors = self.run(
+                    output, error = self.run(
                         notebook,
                         parameters=job.get("parameters"),
                         cell_timeout=-1,  # No timeout
                     )
 
-                    if not errors:
+                    if not error:
                         # Completed without exceptions
                         job["status"] = "completed"
                         logging.exception("Completed job {}".format(job["job_id"]))
@@ -410,6 +415,10 @@ class Automagica:
                     else:
                         # Exceptions occured
                         job["status"] = "failed"
+                        job['error'] = error
+
+
+
                         logging.exception("Failed job {}".format(job["job_id"]))
 
                     headers = {
@@ -418,6 +427,10 @@ class Automagica:
                         "job_status": job["status"],
                     }
 
+                    if error:
+                        headers['job_error'] = error
+
+                    # Request S3 upload URL for Job Notebook
                     r = requests.post(self.url + "/api/job", headers=headers).json()
 
                     from io import BytesIO
@@ -435,6 +448,23 @@ class Automagica:
                     _ = requests.post(r["url"], data=r["fields"], files=files)
 
                     CURRENT_JOB = None
+
+                    
+                    if error:
+                        # Request S3 Upload URL for screenshot
+                        r = requests.post(self.url + "/api/job/screenshot", headers=headers).json()
+
+                        # We should upload
+                        if r.get('url'):
+                            import mss
+                            
+                            with mss.mss() as sct:
+                                sct.compression_level = 9
+                                filename = sct.shot(mon=-1)
+
+                            with open(filename, 'rb') as fileobj:
+                                files = {"file": ("screenshot.png", fileobj)}
+                                _ = requests.post(r["url"], data=r["fields"], files=files)
 
                 # We did not get a job!
                 else:
