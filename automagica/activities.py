@@ -4959,7 +4959,7 @@ class ExcelFile:
 
 """
 PowerPoint Application
-icon: las la-file-powerpoint
+Icon: las la-file-powerpoint
 """
 
 
@@ -5452,7 +5452,7 @@ def send_mail_smtp(smtp_host, smtp_user, smtp_password, to_address, subject="", 
 
 """
 Windows OS
-icon: lab la-windows
+Icon: lab la-windows
 """
 
 
@@ -6259,6 +6259,7 @@ def hide_window(title):
 
     win32gui.ShowWindow(handle, win32con.SW_HIDE)
 
+
 """
 Terminal
 Icon: las la-terminal
@@ -6425,7 +6426,7 @@ class ActiveDirectory():
 
 """
 Utilities
-icon: las la-toolbox
+Icon: las la-toolbox
 """
 
 
@@ -8166,7 +8167,7 @@ def click_on_text_ocr(text):
     >>> # Open the textfile
     >>> open_file(testfile)
     >>> # Find the text with OCR and click on it
-    >>> click_on_text(text='OCR Example')
+    >>> click_on_text_ocr(text='OCR Example')
 
     Keywords
         OCR, vision, AI, screen, citrix, read, optical character recognition, click
@@ -8197,7 +8198,7 @@ def double_click_on_text_ocr(text):
     >>> # Open the textfile
     >>> open_file(testfile)
     >>> # Find the text with OCR and double click on it
-    >>> double_click_on_text(text='OCR Example')
+    >>> double_click_on_text_ocr(text='OCR Example')
 
     Keywords
         OCR, vision, AI, screen, citrix, read, optical character recognition, click, double click
@@ -8230,7 +8231,7 @@ def right_click_on_text_ocr(text):
     >>> # Open the textfile
     >>> open_file(testfile)
     >>> # Find the text with OCR and right click on it
-    >>> right_click_on_text(text='OCR Example')
+    >>> right_click_on_text_ocr(text='OCR Example')
 
     Keywords
         OCR, vision, AI, screen, citrix, read, optical character recognition, click, right click
@@ -8739,3 +8740,75 @@ class SAPGUI():
         sleep(duration)
         self.sapgui.FindById(identifier).Visualize(0)
             
+
+
+"""
+Portal
+Icon: las la-robot
+"""
+def create_new_job(script_name, script_version_id=None, priority=0, parameters=None):
+    """Create a new job in the Automagica Portal
+
+    This activity creates a new job in the Automagica Portal for a given script. The bot performing this activity will need to be assigned to the script it creates a job for.
+
+    :parameter script_name: name of the script
+    :parameter script_version_id: id of a specific version of the script, if not provided it will use the latest version (optional)
+    :parameter priority: priority level of the script. higher priority levels are performed first. (optional)
+    :parameter parameters: parameters for the script (optional)
+
+        :Example:
+
+    >>> # Create a job in the Automagica Portal
+    >>> create_new_job('My script')
+    Job 1234567890 created
+
+    Keywords
+        queueing, script, job, create job, new job
+
+    Icon
+        las la-robot
+    """
+    import requests
+    import os
+    import json
+
+    # Get Bot API_key
+    config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+
+    # Read JSON
+    with open(config_path) as json_file:
+        local_data = json.load(json_file)
+        bot_secret = str(local_data['bot_secret'])
+
+    headers = {
+        'bot_secret': bot_secret,
+        'script': script_name,
+    }
+
+    if script_version_id:
+        headers['script_version_id'] = script_version_id
+    
+    data = {}
+
+    if priority:
+        data['priority'] = priority
+    
+    if parameters:
+        data['parameters'] = parameters
+
+    r = requests.post(os.environ.get("AUTOMAGICA_PORTAL_URL", 'https://portal.automagica.com') + '/api/job/new', json=data, headers=headers)
+    
+    try:
+
+        result = r.json()
+        
+    except:
+
+        raise Exception('Could not create job in Portal for unknown reason.')
+
+    if result.get('error'):
+
+        raise Exception(result['error'])
+
+    else:
+        print(result['message'])
