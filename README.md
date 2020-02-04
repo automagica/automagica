@@ -1,6 +1,4 @@
-<img src="https://i.imgur.com/CcCfjMD.png" width="200">  
-<img src="https://github.com/OakwoodAI/automagica/blob/master/images/logo.png" width="300"> 
-
+![](https://github.com/OakwoodAI/automagica/blob/master/images/logo.png)
 # Automagica - Smart Robotic Process Automation [![Downloads](https://pepy.tech/badge/automagica/month)](https://pepy.tech/project/automagica/month)
 Automagica is a Smart Robotic Process Automation (SRPA) platform for fully automating tedious, manual tasks with software. 
 
@@ -21,8 +19,6 @@ Refer to the [Automagica official website](https://www.automagica.com) for more 
 
 ## Need expert support?
 We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Please send an e-mail to [sales@automagica.com](mailto:sales@automagica.com) for enquiries and rates.
-
-<img src="https://i.imgur.com/OYJ164c.png" width="300">
 
 ## Getting started
 
