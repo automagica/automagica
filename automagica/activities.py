@@ -4730,19 +4730,15 @@ class ExcelFile:
             las la-file-excel    
 
         """
+        import openpyxl
+        import os
 
         self.file_path = file_path
         self.sheet_name = None
 
-        self.app = self._launch()
-
-    def _launch(self):
-
-        import openpyxl
-        import os
-
         if self.file_path:
             self.book = openpyxl.load_workbook(self.file_path)
+
         else:
             path = os.path.join(os.path.expanduser("~"), 'workbook.xlsx')
             self.book = openpyxl.load_workbook(path)
@@ -4855,9 +4851,9 @@ class ExcelFile:
             las la-file-excel
         """
         if self.sheet_name:
-            sheet = book[self.sheet_name]
+            sheet = self.book[self.sheet_name]
         else:
-            sheet = book.active
+            sheet = self.book.active
 
         sheet.cell(row=row, column=column).value = value
 
@@ -5011,7 +5007,7 @@ class PowerPoint:
                 "Could not launch PowerPoint, do you have Microsoft Office installed on Windows?")
 
         if path:
-            return app.Presentations.Open(file_path)
+            return app.Presentations.Open(path)
         else:
             return app.Presentations.Add()
 
@@ -6570,13 +6566,12 @@ def set_wallpaper(image_path):
 
 
 @activity
-def download_file_from_url(url, filename=None, path=None):
+def download_file_from_url(url, path=None):
     """Download file from a URL
 
     Download file from a URL
 
     :parameter url: Source URL to download file from
-    :parameter filename: 
     :parameter path: Target path. If no path is given will download to the home directory
 
     :return: Target path as string
@@ -6585,7 +6580,7 @@ def download_file_from_url(url, filename=None, path=None):
 
     >>> # Download robot picture from the wikipedia robot page
     >>> picture_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Atlas_from_boston_dynamics.jpg/220px-Atlas_from_boston_dynamics.jpg'
-    >>> download_file_from_url(url = picture_url, filename = 'robot.jpg')
+    >>> download_file_from_url(url = picture_url, path='robot.jpg')
     'C:\\Users\\<username>\\robot.jpg'
 
     Keywords
@@ -7264,8 +7259,11 @@ def extract_images_from_pdf(file_path):
     from PIL import Image
 
     extracted_images = []
+
     with open(file_path, "rb") as f:
+        
         reader = PdfFileReader(f)
+
         for i in range(reader.getNumPages()):
             page = reader.getPage(i)
             objects = page["/Resources"]["/XObject"].getObject()
@@ -7283,13 +7281,15 @@ def extract_images_from_pdf(file_path):
                     if objects[obj]["/Filter"] == "/FlateDecode":
                         img = Image.frombytes(mode, size, data)
                         img.save(obj[1:] + ".png")
-                        extraced_images.append(obj[1:] + ".png")
+                        extracted_images.append(obj[1:] + ".png")
 
                     elif objects[obj]["/Filter"] == "/JPXDecode":
                         img = open(obj[1:] + ".jp2", "wb")
-                        extraced_images.append(obj[1:] + ".jp2")
+                        extracted_images.append(obj[1:] + ".jp2")
                         img.write(data)
                         img.close()
+    
+    return extracted_images
 
 
 @activity
@@ -8527,3 +8527,215 @@ def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
 
     print('Completed Automation Anywhere task "{}"'.format(test_case_path))
 
+
+
+"""
+SAP GUI
+Icon: las la-briefcase
+"""
+
+class SAPGUI():
+    def __init__(self, sap_logon_exe_path=None, delay=1):
+        """Start SAP GUI
+
+        For this activity to work, SAP GUI needs to be installed on the system.
+
+        :parameter sap_logon_exe_path: Specifiy the installation location of the saplogon.exe if not at the default location.
+        :parameter delay: Number of seconds to wait between tries for attaching to the SAP process
+
+            :Example:
+
+        >>> # Log in to SAP GUI
+        >>> sap = SAPGUI()
+        >>> sap.login('System', '001', 'username', 'password')
+
+        Keywords
+            sap, sap gui, sap client
+        
+        Icon
+            las la-briefcase
+        """
+        from subprocess import Popen
+        import win32com.client
+        from time import sleep
+
+        # Run SAP process
+        if not sap_logon_exe_path:
+            self.sap_logon_exe_path = r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui\saplogon.exe"
+        
+        self.process = Popen(self.sap_logon_exe_path)
+
+        # Try to connect to SAP GUI
+        for i in range(10):
+            try:
+                self.sapgui = win32com.client.GetObject("SAPGUI").GetScriptingEngine
+                break
+            except:
+                sleep(delay)
+        else:
+            raise Exception('Could not connect to the SAP GUI. Did you enable scripting in the SAP GUI?')
+
+    @activity
+    def quit(self):
+        """Quit SAP GUI
+
+        Quits the SAP GUI completely and forcibly.
+
+            :Example:
+            
+        >>> # Log in to SAP GUI
+        >>> sap = SAPGUI()
+        >>> sap.login('System', '001', 'username', 'password')
+        >>> # Quit SAP
+        >>> sap.quit()
+
+        Keywords
+            sap, sap gui, sap client, quit
+        
+        Icon
+            las la-briefcase
+        """
+        self.process.kill()
+        
+    @property
+    def connections(self):
+        """Returns connections for SAP GUI
+        """
+        connections = []
+        
+        for connection_id in range(0, self.sapgui.Children.Count):
+            connections.append(self.sapgui.Children(connection_id))
+            
+        return connections
+    
+    @activity
+    def login(self, environment, client, username, password, force=True):
+        """Log in to SAP GUI
+
+        Logs in to an SAP system on SAP GUI.
+
+            :Example:
+            
+        >>> # Log in to SAP GUI
+        >>> sap = SAPGUI()
+        >>> sap.login('System', '001', 'username', 'password')
+
+        Keywords
+            sap, sap gui, sap client, login
+        
+        Icon
+            las la-briefcase
+        """
+        # Open the connection window
+        self.sapgui.OpenConnection(environment, True)
+        
+        # Identify SAP session
+        self.session = self.sapgui.FindById('ses[0]')
+        
+        # Log in to SAP
+        self.session.findById("wnd[0]/usr/txtRSYST-MANDT").text = client
+        self.session.findById("wnd[0]/usr/txtRSYST-BNAME").text = username
+        self.session.findById("wnd[0]/usr/pwdRSYST-BCODE").text = password
+        self.session.findById("wnd[0]").sendVKey(0)
+
+        # Continue even if other logged in sessions detected
+        if force:
+            try:
+                self.session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").select()
+                self.session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").setFocus()
+                self.session.findById("wnd[1]/tbar[0]/btn[0]").press()
+            except:
+                pass
+        
+    @activity
+    def click(self, identifier):
+        """Click on a sAP GUI element
+
+        Clicks on an identifier in the SAP GUI.
+
+            :Example:
+            
+        >>> # Log in to SAP GUI
+        >>> sap = SAPGUI()
+        >>> sap.login('System', '001', 'username', 'password')
+        >>> logout_button = '/app/con[0]/ses[0]/wnd[0]/tbar[0]/btn[15]'
+        >>> sap.highlight(logout_button)
+        >>> sap.click(logout_button)
+
+        Keywords
+            sap, sap gui, sap client, click
+        
+        Icon
+            las la-briefcase
+        """
+        self.sapgui.findById(identifier).Press()
+
+    @activity
+    def get_text(self, identifier):
+        """Get text from a SAP GUI element
+
+        Retrieves the text from a SAP GUI element.
+
+            :Example:
+            
+        >>> # Log in to SAP GUI
+        >>> sap = SAPGUI()
+        >>> sap.login('System', '001', 'username', 'password')
+        >>> status_bar = '/app/con[0]/ses[0]/wnd[0]/sbar/pane[0]'
+        >>> sap.get_text(status_bar)
+
+        Keywords
+            sap, sap gui, sap client, get text
+        
+        Icon
+            las la-briefcase
+        """
+        return self.sapgui.findById(identifier).text
+
+    @activity
+    def set_text(self, identifier, text):
+        """Set text of a SAP GUI element
+
+        Sets the text of a SAP GUI element.
+
+            :Example:
+            
+        >>> # Log in to SAP GUI
+        >>> sap = SAPGUI()
+        >>> sap.login('System', '001', 'username', 'password')
+        >>> sap.set_text('/app/con[0]/ses[0]/wnd[0]/tbar[0]/okcd', 'Hello!')
+
+        Keywords
+            sap, sap gui, sap client, set text
+        
+        Icon
+            las la-briefcase
+        """
+        self.sapgui.FindById(identifier).text = text
+
+    @activity
+    def highlight(self, identifier, duration=1):
+        """Highlights a SAP GUI element
+
+        Temporarily highlights a SAP GUI element
+
+            :Example:
+            
+        >>> # Log in to SAP GUI
+        >>> sap = SAPGUI()
+        >>> sap.login('System', '001', 'username', 'password')
+        >>> sap.highlight('/app/con[0]/ses[0]/wnd[0]/tbar[0]/okcd', 'Hello!')
+
+        Keywords
+            sap, sap gui, sap client, highlight
+        
+        Icon
+            las la-briefcase
+        """
+        from time import sleep
+        
+        self.sapgui.FindById(identifier).Visualize(1)
+
+        sleep(duration)
+        self.sapgui.FindById(identifier).Visualize(0)
+            

@@ -55,6 +55,7 @@ install_requires = [
     "Pillow==7.0.0",  # PIL License (permissive)
     "PyAutoGUI==0.9.48",  # BSD 3-Clause "New" license
     "pysnmp==4.4.12",  # BSD 2-Clause "Simplified" License
+    "pandas==1.0.0",  # BSD 3-Clause
 ]
 
 
@@ -75,7 +76,7 @@ package_data = {
 
 setup(
     name="Automagica",
-    version="2.0.13",
+    version="2.0.15",
     description="Bot for Automagica",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
