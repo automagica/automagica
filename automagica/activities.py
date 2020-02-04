@@ -4749,6 +4749,33 @@ class ExcelFile:
             self.file_path = path
 
     @activity
+    def to_dataframe(self):
+        """Export file to dataframe 
+
+        Export to pandas dataframe
+
+        :parameter file_path: Enter a path to open Excel with an existing Excel file. If no path is specified a 'workbook.xlsx' will be initialized in the home directory, this is the default value. If a workbook with the same name already exists the file will be overwritten.
+        
+            :Example:
+
+        >>> # Open a new Excel file
+        >>> excel_file = ExcelFile()
+        >>> # Convert to Dataframe
+        >>> df = excel_file.to_dataframe()
+        
+        Keywords
+            excel, open, start, xlsx, dataframe,
+
+        Icon
+            las la-file-excel    
+
+        """
+
+        import pandas as pd
+        return pd.read_excel(self.file_path)
+
+
+    @activity
     def activate_worksheet(self, name):
         """Activate worksheet
 
