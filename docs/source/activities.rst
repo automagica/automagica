@@ -1,8 +1,9 @@
-
 .. module:: automagica.activities
 
 Activities
 ==========
+
+
 
 Cryptography
 ------------
@@ -170,6 +171,33 @@ Windows OS
 .. autofunction:: clear_clipboard
 .. autofunction:: run_vbs_script
 .. autofunction:: beep
+.. autofunction:: get_all_network_interface_names
+.. autofunction:: enable_network_interface
+.. autofunction:: disable_network_interface
+.. autofunction:: get_default_printer_name
+.. autofunction:: set_default_printer
+.. autofunction:: remove_printer
+.. autofunction:: get_service_status
+.. autofunction:: start_service
+.. autofunction:: stop_service
+.. autofunction:: set_window_to_foreground
+.. autofunction:: get_foreground_window_title
+.. autofunction:: close_window
+.. autofunction:: maximize_window
+.. autofunction:: restore_window
+.. autofunction:: minimize_window
+.. autofunction:: resize_window
+.. autofunction:: hide_window
+
+
+Terminal
+--------
+.. autofunction:: run_ssh_command
+
+
+SNMP
+----
+.. autofunction:: snmp_get
 
 
 Active Directory
@@ -283,3 +311,18 @@ Blue Prism
 Automation Anywhere
 -------------------
 .. autofunction:: run_automationanywhere_task
+
+
+SAP GUI
+-------
+.. autofunction:: quit
+.. autofunction:: login
+.. autofunction:: click
+.. autofunction:: get_text
+.. autofunction:: set_text
+.. autofunction:: highlight
+
+
+Portal
+------
+.. autofunction:: create_new_job

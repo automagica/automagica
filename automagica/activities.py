@@ -1805,10 +1805,10 @@ def press_key_combination(first_key, second_key, third_key=None, force_pyautogui
 def type_text(text='', interval_seconds=0.01):
     """Type text
 
-    Types text in the current active field by simulating keyboard typing.  Make sure your keyboard is on US layout (standard QWERTY).
-
-    Supported keys: 
-    ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win'
+    Types text in the current active field by simulating keyboard typing.  Make sure your keyboard is on US layout (standard QWERTY). 
+    
+    Supported keys:
+        ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win'
 
     :parameter text: Text in string format to type. Note that you can only press single character keys. Special keys like ":", "F1",... can not be part of the text argument.
     :parameter interval_seconds: Time in seconds between two keystrokes. Defautl value is 0.01 seconds.
@@ -1827,7 +1827,6 @@ def type_text(text='', interval_seconds=0.01):
 
     Icon
         las la-keyboard
-
     """
 
     import platform
@@ -8263,6 +8262,7 @@ def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=N
     
 
         :Example:
+
     >>> # Run a UiPath process
     >>> arguments = {'firstname': 'John', 'lastname': 'Doe'}
     >>> execute_uipath_process(r"C:\Processes UiPath\my_process.xaml", arguments=arguments)
@@ -8322,6 +8322,7 @@ def run_autoit_script(script_path, arguments=None, autoit_exe_path=None):
     
 
         :Example:
+
     >>> # Run an AutoIt script
     >>> arguments = 'John'
     >>> run_autoit_script(r"C:\AutoIt\Scripts\MyScript.au3", arguments=arguments) # Point this to your AutoIt Script
@@ -8379,6 +8380,7 @@ def execute_robotframework_test(test_case_path, variables=None):
     :parameter variables: dictionary with variable declarations
 
         :Example:
+
     >>> # Run an Robot Framework test case
     >>> variables = {'FIRSTNAME': 'John', 'LASTNAME': 'Doe'}
     >>> execute_robotframework_test(r"C:\Test Cases\my_test_case.robot", variables=variables) # Point this to your Robot Framework test case
@@ -8435,6 +8437,7 @@ def run_blueprism_process(process_name, username='', password='', sso=False, inp
     
 
         :Example:
+
     >>> # Run a Blue Prism process
     >>> inputs = {'firstname': 'John', 'lastname': 'Doe'}
     >>> run_blueprism_process("My Example Process", username="user", password="password", inputs=inputs)
@@ -8495,6 +8498,7 @@ def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
     :parameter aaplayer_exe_path: path to the AAPlayer.exe (optional)
 
         :Example:
+
     >>> # Run an Automation Anywhere task
     >>> run_automationanywhere_task(r"C:\AutomationAnywhereTasks\MyTask.atmx")
     Completed Automation Anywhere task "C:\AutomationAnywhereTasks\MyTask.atmx"
@@ -8746,6 +8750,8 @@ class SAPGUI():
 Portal
 Icon: las la-robot
 """
+
+@activity
 def create_new_job(script_name, script_version_id=None, priority=0, parameters=None):
     """Create a new job in the Automagica Portal
 
