@@ -21,8 +21,8 @@ ENV HOME=/root \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=C.UTF-8 \
     DISPLAY=:0.0 \
-    DISPLAY_WIDTH=1920 \
-    DISPLAY_HEIGHT=1080
+    DISPLAY_WIDTH=1900 \
+    DISPLAY_HEIGHT=920
 
 RUN echo '[supervisord]\n\
 nodaemon=true\n\
@@ -52,8 +52,10 @@ RUN apt-get install python3 \
                     python3-dev \
                     chromium -y
 
-RUN pip3 install automagica -U
-
-CMD ["supervisord", "-c", "supervisord.conf"]
+RUN mkdir code
+COPY . /code
+WORKDIR /code
+RUN pip3 install -e .
+CMD ["supervisord", "-c", "/supervisord.conf"]
 
 EXPOSE 8080

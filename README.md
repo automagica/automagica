@@ -358,6 +358,16 @@ Process | Description
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/robot-solid.svg" width="20"> [Run an Automation Anywhere task](https://automagica.readthedocs.io/activities.html#automagica.activities.run_automationanywhere_task) | This activity allows you to run an Automation Anywhere task.
 |<img width=300/>|  ‌‌|
 
+## Docker Support (Experimental)
+This is still under heavy development, but we're exploring possibilities of running Automagica robots in a containerized desktop. You can try this with docker with the following commands:
+```
+git pull https://github.com/oakwoodai/automagica
+cd automagica
+docker build . -t automagica
+docker run -it -p 8080:8080 automagica
+```
+Then browse to http://localhost:8080/vnc.html
+
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
