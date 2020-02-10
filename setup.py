@@ -25,13 +25,17 @@ class InstallationWrapper(install):
 
         if platform.system() == "Linux":
             import subprocess
+            import os
+            import automagica
+
+            automagica_path = automagica.__file__.replace('__init__.py', '')
 
             # Make binaries executable
-            binaries_path = "/usr/local/lib/python3.7/site-packages/automagica/bin"
+            binaries_path = os.path.join(automagica_path, "bin")
             subprocess.call(["chmod", "-R", "+x", binaries_path])
 
             # Make lab-folder writeable (required by Jupyter Notebook)
-            lab_path = "/usr/local/lib/python3.7/site-packages/automagica/lab"
+            lab_path = os.path.join(automagica_path, "lab")
             subprocess.call(["chmod", "-R", "777", lab_path])
 
 
@@ -77,7 +81,7 @@ package_data = {
 
 setup(
     name="Automagica",
-    version="2.0.15",
+    version="2.0.17",
     description="Bot for Automagica",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",

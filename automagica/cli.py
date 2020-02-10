@@ -6,7 +6,7 @@ import subprocess
 import sys
 from time import sleep
 
-__version__ = "2.0.15"
+__version__ = "2.0.17"
 
 parser = argparse.ArgumentParser(description="Automagica Robot v" + __version__)
 
@@ -375,8 +375,6 @@ class Automagica:
 
             try:
                 r = requests.get(self.url + "/api/job/next", headers=headers)
-
-                print(r.content)
                 job = r.json()
 
                 # We got a job!
