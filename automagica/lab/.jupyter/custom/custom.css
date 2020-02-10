@@ -4,11 +4,11 @@ body {
 
 .btn {
     background-color: white;
-    color: #007bff;
+    color: #2196f3;
 }
 
 .btn:hover {
-    background-color: #0069c0;
+    background-color: #2196f3;
     color: white;
 }
 
@@ -53,11 +53,11 @@ body {
 }
 
 #header {
-    background-color: #007BFF !important;
+    background-color: #2196f3 !important;
 }
 
 .navbar-default {
-    background-color: #007BFF !important;
+    background-color: #2196f3 !important;
     border: 0px;
 }
 
@@ -75,13 +75,13 @@ body {
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
     color: rgba(255,255,255,.75);
-    background-color: #007BFF !important;
+    background-color: #2196f3 !important;
 }
 
 
 
 .header-bar {
-    background-color: #007BFF !important;
+    background-color: #2196f3 !important;
     border: 0px;
 }
 
