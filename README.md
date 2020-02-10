@@ -13,6 +13,7 @@ Refer to the [Automagica official website](https://www.automagica.com) for more 
 ## Important information
 - We just launched the latest version of our [Automagica Portal](https://portal.automagica.com)
 - Follow our [blog](https://automagica.com/blog) to stay up to date
+- We're on [Discord](https://discord.gg/PbY85WA) now as well!
 - We opened a group on [Telegram](https://t.me/automagica) for the community
 - You can now also run automations developed with UiPath, Blue Prism, Automation Anywhere, AutoIt and Robot Framework with [Automagica Portal](https://portal.automagica.com)!
 
