@@ -89,7 +89,7 @@ Folder and File manipulation
 ## Docker Support (Experimental)
 This is still under heavy development, but we're exploring possibilities of running Automagica robots in a containerized desktop. You can try this with docker with the following commands:
 ```
-git pull https://github.com/oakwoodai/automagica
+git clone https://github.com/oakwoodai/automagica
 cd automagica
 docker build . -t automagica
 docker run -it -p 8080:8080 automagica
