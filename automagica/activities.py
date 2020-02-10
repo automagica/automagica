@@ -8258,7 +8258,7 @@ def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=N
     cmd = ' -f "{}"'.format(project_file_path)
 
     if arguments:
-        cmd =+ ' --input "{}"'.format(json.dumps(arguments))
+        cmd += ' --input "{}"'.format(json.dumps(arguments))
 
     uirobot_exe_path = '"'+uirobot_exe_path+'"'
 
