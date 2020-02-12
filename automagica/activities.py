@@ -8817,3 +8817,659 @@ def create_new_job(script_name, script_version_id=None, priority=0, parameters=N
 
     else:
         print(result['message'])
+
+
+"""
+Vision
+Icon: las la-eye
+"""
+
+class SnippingTool():
+    def __init__(self, image):
+        """
+        Starts a full screen snipping tool for selecting coordinates
+        """
+        import tkinter as tk
+        from PIL import ImageTk
+
+        self.root = tk.Tk()
+
+        w = self.root.winfo_screenwidth()
+        h = self.root.winfo_screenheight()
+
+        # Change window to size of full screen
+        self.root.geometry("{}x{}".format(w, h))
+
+        # Bring window to full screen and top most level
+        self.root.attributes('-fullscreen', True)
+        self.root.attributes("-topmost", True)
+
+        # Keep reference of some things
+        self.x = self.y = 0
+        self.rect = None
+        self.start_x = None
+        self.start_y = None
+
+        # Create the canvas
+        self.canvas = tk.Canvas(
+            self.root,
+            width=w,
+            height=h,
+            cursor="crosshair")
+
+        self.canvas.pack()
+
+        # Add the screenshot
+        img = ImageTk.PhotoImage(image)
+
+        self.canvas.create_image(
+            (0, 0), image=img, anchor="nw")
+
+        # Connect the event handlers
+        self.canvas.bind("<ButtonPress-1>", self.on_button_press)
+        self.canvas.bind("<B1-Motion>", self.on_move_press)
+        self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
+
+        self.root.mainloop()
+
+    def on_button_press(self, event):
+        # Update coordinates
+        self.start_x = event.x
+        self.start_y = event.y
+
+        # If no rectangle is drawn yet, draw one
+        if not self.rect:
+            self.rect = self.canvas.create_rectangle(
+                self.x, self.y, 1, 1, fill="", outline="red")
+
+    def on_move_press(self, event):
+        # Update coordinates
+        self.end_x, self.end_y = (event.x, event.y)
+
+        # expand rectangle as you drag the mouse
+        self.canvas.coords(self.rect, self.start_x,
+                           self.start_y, self.end_x, self.end_y)
+
+    def on_button_release(self, event):
+        # Update global variable
+        global coordinates
+
+        coordinates = (self.start_x, self.start_y, self.end_x, self.end_y)
+
+        # Close the window
+        self.root.destroy()
+
+
+def get_screen_dimensions():
+    """
+    Returns primary screen width and height in pixels
+    """
+    import mss
+
+    with mss.mss() as sct:
+
+        # Find primary monitor
+        for monitor in sct.monitors:
+            if monitor["left"] == 0 and monitor["top"] == 0:
+                break
+
+    return monitor['width'], monitor['height']
+
+
+def capture_screen():
+    """
+    Captures the screen to a Pillow Image object
+    """
+    from PIL import Image
+    import mss
+
+    with mss.mss() as sct:
+
+        # Find primary monitor
+        for monitor in sct.monitors:
+            if monitor["left"] == 0 and monitor["top"] == 0:
+                break
+
+        sct_img = sct.grab(monitor)
+
+    img = Image.frombytes("RGB", sct_img.size, sct_img.bgra, "raw", "BGRX")
+
+    return img
+
+
+def insert_cell_below(content, type_="code"):
+    """
+    Inserts a cell in the current Jupyter Notebook below the currently
+    activated cell
+    """
+    from IPython.display import Javascript, display
+
+    javascript = """
+    var cell;
+    cell = Jupyter.notebook.insert_cell_below('{}');
+    cell.set_text("{}");
+    """.format(
+        type_, content
+    )
+
+    if type_ == "markdown":
+        javascript += """
+        cell.execute();
+        """
+
+    display(Javascript(javascript))
+
+
+def select_rectangle_on_screen():
+    """
+    Presents the user with a window which allows him/her to select
+    a rectangle on the screen and returns the coordinates in the carthesian
+    coordinate system
+    """
+    global coordinates
+
+    screenshot = capture_screen()
+    app = SnippingTool(screenshot)
+
+    return coordinates
+
+
+def vision_recorder():
+    import requests
+    from io import BytesIO
+    import os
+    import base64
+    import PySimpleGUI as sg
+    import json
+
+    sg.ChangeLookAndFeel("SystemDefault")
+
+    # First prompt for selecting an action
+    text = sg.Text('Please select an action to perform with Automagica Vision',
+                   background_color="#2196F3", text_color="white")
+
+    options = ['Click', 'Double Click', 'Right Click',
+               'Read Text', 'Wait Appear', 'Wait Disappear']
+
+    buttons = [
+        sg.Button(option, button_color=("white", "#0069C0")) for option in options
+    ]
+
+    layout = [[text], buttons]
+
+    window = sg.Window(
+        "Select vision",
+        layout,
+        # icon="icon.ico",
+        no_titlebar=True,
+        background_color="#2196F3",
+        element_justification="center",
+        use_default_focus=False,
+        keep_on_top=True
+    )
+
+    action, _ = window.Read()  # Read button click from window
+    window.Close()
+    del(window)
+
+    # Second prompt to instruct the user
+    text = sg.Text('Please select the area of the element on the screen',
+                   background_color="#2196F3", text_color="white")
+
+    layout = [[text], [sg.Button('OK', button_color=("white", "#0069C0"))]]
+
+    window2 = sg.Window(
+        "",
+        layout,
+        # icon="icon.ico",
+        no_titlebar=True,
+        background_color="#2196F3",
+        element_justification="center",
+        use_default_focus=False,
+        keep_on_top=True
+    )
+
+    _, _ = window2.Read()  # Read button click from window
+    window2.Close()
+    del(window2)
+
+    screenshot = capture_screen()
+
+    # Present the user with a selection window
+    target = select_rectangle_on_screen()
+
+    anchors = []
+
+    message = 'An anchor is a reference point for the computer vision algorithm and allows the automation to be more robust. Would you like to add an anchor?'
+
+    for i in range(3):
+        text = sg.Text(message,
+                       background_color="#2196F3", text_color="white")
+
+        choices = ['Yes', 'No']
+
+        buttons = [
+            sg.Button(choice, button_color=("white", "#0069C0")) for choice in choices
+        ]
+
+        layout = [[text], buttons]
+
+        window3 = sg.Window(
+            "Select Anchor",
+            layout,
+            # icon="icon.ico",
+            no_titlebar=True,
+            background_color="#2196F3",
+            element_justification="center",
+            use_default_focus=False,
+            keep_on_top=True
+        )
+
+        choice, _ = window3.Read()
+        window3.Close()
+        del(window3)
+
+        if choice == 'Yes':
+            anchor = select_rectangle_on_screen()
+            anchors.append(anchor)
+            message = 'Would you like to add another anchor?'
+
+        if choice == 'No':
+            break
+
+    # Upload to Automagica Vision API
+    buffered = BytesIO()
+    screenshot.save(buffered, format="PNG")
+    image_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+    # Get Bot API_key
+    config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+
+    # Read JSON
+    with open(config_path) as json_file:
+        local_data = json.load(json_file)
+        api_key = str(local_data['bot_secret'])
+
+    data = {
+        "api_key": api_key,  # Automagica Vision API key
+        "target": target,  # Target
+        "anchors": anchors,  # Anchors
+        "image_base64": image_base64,  # Screenshot of the example screen
+    }
+
+    url = os.environ.get('AUTOMAGICA_VISION_URL',
+                         'https://vision.automagica.com') + "/train/element"
+
+    r = requests.post(url, json=data)
+
+    try:
+        result = r.json()
+    except Exception:
+        raise Exception(
+            "Could not reach Automagica Vision API. Please \
+                try again later or contact support@automagica.com"
+        )
+
+    if result.get("sample_id"):
+
+        # Create iPython Output Image
+        from IPython.display import Image as IPythonImage
+
+        x1 = min([target[0]] + [anchor[0] for anchor in anchors])
+        y1 = min([target[1]] + [anchor[1] for anchor in anchors])
+        x2 = max([target[2]] + [anchor[2] for anchor in anchors])
+        y2 = max([target[3]] + [anchor[3] for anchor in anchors])
+
+        buffered = BytesIO()
+
+        from PIL import ImageDraw
+
+        draw = ImageDraw.Draw(screenshot)
+        draw.rectangle(target, outline="green", width=3)
+
+        for anchor in anchors:
+            draw.rectangle(anchor, outline="red", width=3)
+
+        preview_img = screenshot.crop(box=[x1-5, y1-5, x2+5, y2+5])
+        preview_img.save(buffered, format="JPEG")
+        preview_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+        if action == 'Click':
+            insert_cell_below(
+                "<img src='data:image/jpeg;base64, {}'>".format(
+                    preview_base64),
+                type_="markdown")
+            insert_cell_below(
+                "click_vision('{}')".format(result["sample_id"]),
+                type_="code"
+            )
+
+        if action == 'Double Click':
+            insert_cell_below(
+                "<img src='data:image/jpeg;base64, {}'>".format(
+                    preview_base64),
+                type_="markdown")
+            insert_cell_below(
+                "double_click_vision('{}')".format(result["sample_id"]),
+                type_="code"
+            )
+
+        if action == 'Right Click':
+            insert_cell_below(
+                "<img src='data:image/jpeg;base64, {}'>".format(
+                    preview_base64),
+                type_="markdown")
+            insert_cell_below(
+                "right_click_vision('{}')".format(result["sample_id"]),
+                type_="code"
+            )
+
+        if action == 'Read Text':
+            insert_cell_below(
+                "<img src='data:image/jpeg;base64, {}'>".format(
+                    preview_base64),
+                type_="markdown")
+            insert_cell_below(
+                "read_vision('{}')".format(result["sample_id"]),
+                type_="code"
+            )
+
+        if action == 'Wait Appear':
+            insert_cell_below(
+                "<img src='data:image/jpeg;base64, {}'>".format(
+                    preview_base64),
+                type_="markdown")
+            insert_cell_below(
+                "wait_appear_vision('{}')".format(result["sample_id"]),
+                type_="code"
+            )
+
+        if action == 'Wait Disappear':
+            insert_cell_below(
+                "<img src='data:image/jpeg;base64, {}'>".format(
+                    preview_base64),
+                type_="markdown")
+            insert_cell_below(
+                "wait_disappear_vision('{}')".format(result["sample_id"]),
+                type_="code"
+            )
+
+    else:
+        if result.get("error"):
+            raise Exception(result["error"])
+        else:
+            raise Exception(
+                "Could not reach Automagica Vision API. Please \
+                    try again later or contact support@automagica.com"
+            )
+
+
+def detect_vision(sample_id, detect_target=True):
+    import requests
+    from io import BytesIO
+    import os
+    import base64
+    import json
+
+    screenshot = capture_screen()
+
+    # Convert to base64
+    buffered = BytesIO()
+    screenshot.save(buffered, format="PNG")
+    image_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+    # Get Bot API_key
+    config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+
+    # Read JSON
+    with open(config_path) as json_file:
+        local_data = json.load(json_file)
+        api_key = str(local_data['bot_secret'])
+
+    data = {
+        "api_key": api_key,  # Automagica Vision API key
+        "sample_id": sample_id,
+        "image_base64": image_base64,  # Screenshot of the example screen
+        "detect_target": detect_target
+    }
+
+    url = os.environ.get('AUTOMAGICA_VISION_URL',
+                         'https://vision.automagica.com') + "/detect/element"
+
+    r = requests.post(url, json=data)
+
+    try:
+        data = r.json()
+    except Exception:
+        raise Exception(
+            'An unknown error occurred accessing the Automagica Vision API. Please try again later.')
+
+    if data.get('error'):
+        raise Exception(data['error'])
+
+    return data['location']
+
+
+def get_center_of_rectangle(rectangle):
+    """
+    Returns center of rectangle in carthesian coordinate system
+    """
+    return (
+        int((rectangle[0] + rectangle[2]) / 2),
+        int((rectangle[1] + rectangle[3]) / 2)
+    )
+
+@activity
+def click_vision(sample_id, delay=1):
+    """Detect and click on an element with the Automagica Vision API
+
+    This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
+
+    :parameter sample_id: the sample ID provided by the Vision Recorder
+
+        :Example:
+
+    >>> click_vision('abc123abc123')
+
+    Keywords
+        click, computer vision, vision, AI
+
+    Icon
+        las la-eye
+    """
+    from pyautogui import click
+    from time import sleep
+
+    sleep(delay) # Default delay
+
+    location = detect_vision(sample_id)
+    x, y = get_center_of_rectangle(location)
+
+    click(x, y)
+
+@activity
+def double_click_vision(sample_id, delay=1):
+    """Detect and double click on an element with the Automagica Vision API
+
+    This activity allows the bot to detect and double click on an element by using the Automagica Vision API with a provided sample ID.
+
+    :parameter sample_id: the sample ID provided by the Vision Recorder
+
+        :Example:
+
+    >>> double_click_vision('abc123abc123')
+
+    Keywords
+        double click, computer vision, vision, AI
+
+    Icon
+        las la-eye
+    """
+    from pyautogui import doubleClick
+    from time import sleep
+
+    sleep(delay) # Default delay
+
+    location = detect_vision(sample_id)
+    x, y = get_center_of_rectangle(location)
+
+    doubleClick(x, y)
+
+@activity
+def right_click_vision(sample_id, delay=1):
+    """Detect and right click on an element with the Automagica Vision API
+
+    This activity allows the bot to detect and right click on an element by using the Automagica Vision API with a provided sample ID.
+
+    :parameter sample_id: the sample ID provided by the Vision Recorder
+
+        :Example:
+
+    >>> right_click_vision('abc123abc123')
+
+    Keywords
+        right click, computer vision, vision, AI
+
+    Icon
+        las la-eye
+    """
+    from pyautogui import rightClick
+    from time import sleep
+
+    sleep(delay) # Default delay
+
+    location = detect_vision(sample_id)
+    x, y = get_center_of_rectangle(location)
+
+    rightClick(x, y)
+
+@activity
+def wait_appear_vision(sample_id, delay=1, timeout=30):
+    """Detect and click on an element with the Automagica Vision API
+
+    This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
+
+    :parameter sample_id: the sample ID provided by the Vision Recorder
+
+        :Example:
+
+    >>> wait_appear_vision('abc123abc123')
+
+    Keywords
+        click, computer vision, vision, AI
+
+    Icon
+        las la-eye
+    """
+    from time import sleep
+
+    sleep(delay) # Default delay
+
+    increment = 5
+
+    for i in range(int(timeout/increment)):
+        try:
+            _ = detect_vision(sample_id)
+            break
+        except Exception:
+            pass
+
+        sleep(increment)
+
+    else:
+        raise Exception(
+            'Element did not appear within {} seconds'.format(timeout))
+
+@activity
+def wait_disappear_vision(sample_id, delay=1, timeout=30):
+    """Detect and click on an element with the Automagica Vision API
+
+    This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
+
+    :parameter sample_id: the sample ID provided by the Vision Recorder
+
+        :Example:
+
+    >>> wait_disappear_vision('abc123abc123')
+
+    Keywords
+        wait, disappear, computer vision, vision, AI
+
+    Icon
+        las la-eye
+    """
+    from time import sleep
+    
+    sleep(delay) # Default delay
+
+    increment = 5
+
+    for i in range(int(timeout/increment)):
+        try:
+            _ = detect_vision(sample_id)
+        except Exception:
+            break
+
+        sleep(increment)
+
+    else:
+        raise Exception(
+            'Element did not disappear within {} seconds'.format(timeout))
+
+@activity
+def read_vision(sample_id, delay=1):
+    """Detect and click on an element with the Automagica Vision API
+
+    This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
+
+    :parameter sample_id: the sample ID provided by the Vision Recorder
+
+        :Example:
+
+    >>> click_vision('abc123abc123')
+
+    Keywords
+        click, computer vision, vision, AI
+
+    Icon
+        las la-eye
+    """
+    from io import BytesIO
+    import requests
+    import base64
+    import os
+    import json
+
+    from time import sleep
+    
+    sleep(delay) # Default delay
+
+    location = detect_vision(sample_id, detect_target=False)
+
+    screenshot = capture_screen()
+
+    image = screenshot.crop(location)
+
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    image_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+    # Get Bot API_key
+    config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+
+    # Read JSON
+    with open(config_path) as json_file:
+        local_data = json.load(json_file)
+        api_key = str(local_data['bot_secret'])  # Your API key
+
+    # Prepare data for request
+    data = {
+        "image_base64": image_base64,
+        "api_key": api_key
+    }
+
+    # Post request to API
+    r = requests.post('https://ocr.automagica.com/', json=data)
+
+    # Print results
+    return r.json()['text']
