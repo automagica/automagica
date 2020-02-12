@@ -3044,7 +3044,8 @@ class Word:
 
         if return_as_list:
             return self.app.ActiveDocument.Content.Text.split('\r')
-        return self.app.ActiveDocument.Content.Text
+
+        return self.app.ActiveDocument.Content.Text.replace('\r', '\n')
 
     @activity
     def export_to_pdf(self, path=None):
