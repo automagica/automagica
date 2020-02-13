@@ -1215,7 +1215,7 @@ class Chrome(selenium.webdriver.Chrome):
         [webelement1, webelement2 , .. ]
 
         Keywords
-            random, element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+            random, element,link, links element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
 
         Icon
             las la-window-restore
@@ -1234,6 +1234,43 @@ class Chrome(selenium.webdriver.Chrome):
                     pass
         if links:
             return links
+
+    @activity
+    def find_first_link(self, contains=None):
+        """Find first link on a webpage
+
+        Find first link on a webpage
+
+        :parameter contains: Criteria of substring that url must contain to be included
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://nytimes.com')
+        >>> # Find elements by text
+        >>> browser.find_first_link()
+
+
+        Keywords
+            random, link, links, element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            las la-window-restore
+        """
+        if contains:
+            for element in self.find_elements_by_xpath("//a[@href]"):
+                try:
+                    href_el = element.get_attribute("href")
+                    if contains:
+                            if contains in element.get_attribute("href"):
+                                return element.get_attribute("href")
+                    else:
+                        return element.get_attribute("href")
+                except:
+                    pass
+
 
     @activity
     def highlight(self, element):
