@@ -1172,7 +1172,7 @@ class Chrome(selenium.webdriver.Chrome):
         return self.find_elements_by_xpath("//*[contains(text(), '" + text.lower() + "')] | //*[@value='" + text.lower() + "']")
 
     @activity
-    def find_element_by_text(self, text):
+    def by_text(self, text):
         """Find element by text
 
         Find one element by text. Text does not need to match exactly, part of text is enough.
@@ -1184,7 +1184,7 @@ class Chrome(selenium.webdriver.Chrome):
         >>> # Go to a website
         >>> browser.get('https://nytimes.com')
         >>> # Find elements by text
-        >>> browser.find_element_by_text('world')
+        >>> browser.by_text('world')
         webelement
 
         Keywords
@@ -1197,10 +1197,12 @@ class Chrome(selenium.webdriver.Chrome):
         return self.find_element_by_xpath("//*[contains(text(), '" + text.lower() + "')] | //*[@value='" + text.lower() + "']")
 
     @activity
-    def find_all_links(self):
+    def find_all_links(self, contains=None):
         """Find all links
 
         Find all links on a webpage in the browser
+
+        :parameter contains: Criteria of substring that url must contain to be included
 
             :Example:
 
@@ -1218,7 +1220,20 @@ class Chrome(selenium.webdriver.Chrome):
         Icon
             las la-window-restore
         """
-        return self.find_elements_by_xpath("//a[@href]")
+        links = []
+        if contains:
+            for element in self.find_elements_by_xpath("//a[@href]"):
+                try:
+                    href_el = element.get_attribute("href")
+                    if contains:
+                            if contains in element.get_attribute("href"):
+                                links.append(element.get_attribute("href"))
+                    else:
+                        links.append(element.get_attribute("href"))
+                except:
+                    pass
+        if links:
+            return links
 
     @activity
     def highlight(self, element):
@@ -1274,11 +1289,12 @@ class Chrome(selenium.webdriver.Chrome):
 
         Icon
             las la-window-close
+
         """
         self.quit()
 
     @activity
-    def find_all_xpaths(self, element):
+    def by_xpaths(self, element):
         """Find all XPaths
 
         Find all elements with specified xpath on a webpage in the the browser. Can also use native 'find_elements_by_xpath' function e.g. browser.find_elements_by_xpath()
@@ -1290,8 +1306,8 @@ class Chrome(selenium.webdriver.Chrome):
         >>> browser = Chrome()
         >>> # Go to a website
         >>> browser.get('https://wikipedia.org')
-        >>> # Find element by xpath
-        >>> browser.find_xpaths('//*[@id=\'js-link-box-en\']')
+        >>> # Find elements by xpaths
+        >>> browser.by_xpaths('//*[@id=\'js-link-box-en\']')
         [webelement1, webelement2 , .. ]
 
         Keywords
@@ -1304,7 +1320,7 @@ class Chrome(selenium.webdriver.Chrome):
         return self.find_elements_by_xpath(element)
 
     @activity
-    def find_xpath(self, element):
+    def by_xpath(self, element):
         """Find XPath in browser
 
         Find all element with specified xpath on a webpage in the the browser. Can also use native 'find_elements_by_xpath' function e.g. browser.find_element_by_xpath()
@@ -1316,7 +1332,7 @@ class Chrome(selenium.webdriver.Chrome):
         >>> # Go to a website
         >>> browser.get('https://wikipedia.org')
         >>> # Find element by xpath
-        >>> elements = browser.find_xpath('//*[@id=\'js-link-box-en\']')
+        >>> elements = browser.by_xpath('//*[@id=\'js-link-box-en\']')
         >>> # We can now use this element, for example to click on
         >>> element.click()
 
@@ -1325,9 +1341,141 @@ class Chrome(selenium.webdriver.Chrome):
 
         Icon
             las la-times
+
         """
         return self.find_element_by_xpath(element)
 
+    @activity
+    def by_class(self, element):
+        """Find class in browser
+
+        Find element with specified class on a webpage in the the browser. Can also use native 'find_element_by_class_name' function e.g. browser.find_element_by_class_name()
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://wikipedia.org')
+        >>> # Find element by class
+        >>> elements = browser.by_class('search-input')
+        >>> # We can now use this element, for example to click on
+        >>> element.click()
+
+        Keywords
+            browser, class, classes, element, xml element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            las la-times
+
+        """
+        return self.find_element_by_class_name(element)
+
+    @activity
+    def by_classes(self, element):
+        """Find class in browser
+
+        Find all elements with specified class on a webpage in the the browser. Can also use native 'find_elements_by_class_name' function e.g. browser.find_elements_by_class_name()
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://wikipedia.org')
+        >>> # Find elements by class
+        >>> elements = browser.by_classes('search-input')
+        >>> # We can now use this element, for example to click on
+        >>> element.click()
+
+        Keywords
+            browser, class, classes, element, xml element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            las la-times
+
+        """
+        return self.find_elements_by_class_name(element)
+
+    @activity
+    def by_class_and_by_text(self, element, text):
+        """Find element in browser based on class and text
+
+        Find all elements with specified class and text on a webpage in the the browser. 
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://wikipedia.org')
+        >>> # Find elements by class and text
+        >>> element = browser.by_classes_and_by_text('search-input', 'Free dictionary)
+        >>> # We can now use this element, for example to click on
+        >>> element.click()
+
+        Keywords
+            browser, class, text, name classes, element, xml element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            las la-times
+
+        """
+        for element in self.find_elements_by_class_name(element):
+            if element.text == text:
+                return element
+
+    @activity
+    def by_id(self, element):
+        """Find id in browser
+
+        Find element with specified id on a webpage in the the browser. Can also use native 'find_element_by_id' function e.g. browser.find_element_by_id()
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://wikipedia.org')
+        >>> # Find element by class
+        >>> elements = browser.by_cid('search-input')
+        >>> # We can now use this element, for example to click on
+        >>> element.click()
+
+        Keywords
+            browser, class, classes, element, xml element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            las la-times
+
+        """
+        return self.find_element_by_id(element)
+
+
+        @activity
+        def switch_to_iframe(self, name='iframe'):
+            """Switch to iframe in browser
+
+            Switch to an iframe in the browser
+
+                :Example:
+
+            >>> # Open the browser
+            >>> browser = Chrome()
+            >>> # Go to a website
+            >>> browser.get('https://www.w3schools.com/html/html_iframe.asp')
+            >>> # Switch to iframe
+            >>> browser.switch_to_iframe()
+
+            Keywords
+                browser, class, classes, element, xml element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+            Icon
+                las la-times
+
+            """
+
+            return self.switch_to.frame(self.find_element_by_tag_name("iframe"))
 
 """
 Credential Management
@@ -2798,6 +2946,33 @@ def unzip(path, to_path=None):
             zipp.extractall(to_path)
         zipp.close()
     return to_path
+
+@activity
+def most_recent_file(path=None):
+    """Return most recent file in directory
+
+    Return most recent file in directory
+
+    :parameter path: Path which will be scanned for most recent file
+
+    :return: Path to most recent file
+
+        :Example:
+
+    >>> # Find most recent file in homedir
+    >>> most_recent_file(path=homedir())
+
+    Keywords
+        find file, file, recent, newest, latest, recent
+
+    Icon
+        las la-clock
+    """
+
+    import os
+    files = os.listdir(path)
+    paths = [os.path.join(path, basename) for basename in files]
+    return max(paths, key=os.path.getctime)
 
 
 """
@@ -5454,6 +5629,111 @@ Windows OS
 Icon: lab la-windows
 """
 
+@activity
+def start_remote_desktop(ip, username, password=None, desktop_width=1920, desktop_height=1080):
+    """Login to Windows Remote Desktop
+
+    Create a RDP and login to Windows Remote Desktop
+
+    :parameter ip: IP address of remote desktop
+    :parameter username: Username
+    :parameter password: Password
+    :parameter desktop_width: Resolution (width) of desktop, standard value is 1920 (full HD)
+    :parameter desktop_height: Resolution (height) of desktop, standard value is 1080 (full HD)
+
+        :Example:
+
+    >>> start_remote_desktop('123.456.789.10','Administrator', 'SamplePassword')
+
+    Keywords
+        windows, user, password, remote desktop, remote, citrix, vnc, remotedesktop
+
+    Icon
+        las la-passport
+
+    """
+    only_supported_for("Windows")
+    
+    rdp_raw = """
+    screen mode id:i:1
+    use multimon:i:0
+    session bpp:i:32
+    compression:i:1
+    keyboardhook:i:2
+    audiocapturemode:i:0
+    videoplaybackmode:i:1
+    connection type:i:7
+    networkautodetect:i:1
+    bandwidthautodetect:i:1
+    displayconnectionbar:i:1
+    enableworkspacereconnect:i:0
+    disable wallpaper:i:0
+    allow font smoothing:i:0
+    allow desktop composition:i:0
+    disable full window drag:i:1
+    disable menu anims:i:1
+    disable themes:i:0
+    disable cursor setting:i:0
+    bitmapcachepersistenable:i:1
+    audiomode:i:0
+    redirectprinters:i:1
+    redirectcomports:i:0
+    redirectsmartcards:i:1
+    redirectclipboard:i:1
+    redirectposdevices:i:0
+    autoreconnection enabled:i:1
+    authentication level:i:2
+    prompt for credentials:i:0
+    negotiate security layer:i:1
+    remoteapplicationmode:i:0
+    alternate shell:s:
+    shell working directory:s:
+    gatewayhostname:s:
+    gatewayusagemethod:i:4
+    gatewaycredentialssource:i:4
+    gatewayprofileusagemethod:i:0
+    promptcredentialonce:i:0
+    gatewaybrokeringtype:i:0
+    use redirection server name:i:0
+    rdgiskdcproxy:i:0
+    kdcproxyname:s:
+    """
+    rdp_raw = rdp_raw + '\n' + 'username:s:' + username
+    rdp_raw = rdp_raw + '\n' + 'full address:s:' + ip
+    rdp_raw = rdp_raw + '\n' + 'desktopwidth:i:' + str(desktop_width)
+    rdp_raw = rdp_raw + '\n' + 'desktopheight:i:' + str(desktop_height)
+    
+    import os
+    output_path = os.path.join(os.path.expanduser("~"), "remote_desktop.rdp")
+
+    with open(output_path, "w", encoding="utf-8") as file:
+        file.write(rdp_raw)
+    
+    import subprocess
+    subprocess.Popen(['cmd.exe', '/c', output_path])
+
+    return output_path
+
+@activity
+def close_remote_desktop():
+    """Stop Windows Remote Desktop
+
+    Stop Windows Remote Desktop
+
+        :Example:
+
+    >>> close_remote_desktop()
+
+    Keywords
+        windows, user, password, remote desktop, remote, citrix, vnc, remotedesktop, stop
+
+    Icon
+        las la-passport
+
+    """
+    only_supported_for("Windows")
+    import os
+    return os.system("taskkill /f /im mstsc.exe >nul 2>&1")
 
 @activity
 def set_user_password(username, password):
@@ -6499,6 +6779,36 @@ def desktop_path(subdir=None):
 
 
 @activity
+def downloads_path():
+    """Get downloads path
+
+    Returns the current user's default download path
+
+    :return: Path to the current user's downloads folder
+
+        :Example:
+
+    >>> # Find downloads path
+    >>> print( downloads_path() )
+
+    Keywords
+        download, download path, downloadpath, download directory, download dir, downloaddir
+
+    Icon
+        lar la-download
+    """
+    import os
+    if os.name == 'nt':
+        import winreg
+        sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+        downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+            location = winreg.QueryValueEx(key, downloads_guid)[0]
+        return location
+    else:
+        return os.path.join(os.path.expanduser('~'), 'downloads')
+
+@activity
 def open_file(path):
     """Open file
 
@@ -6566,7 +6876,7 @@ def set_wallpaper(image_path):
 
 
 @activity
-def download_file_from_url(url, path=None):
+def download_file_from_url(url, filename=None, path=None):
     """Download file from a URL
 
     Download file from a URL
