@@ -1020,7 +1020,7 @@ import selenium.webdriver
 
 class Chrome(selenium.webdriver.Chrome):
     @activity
-    def __init__(self, load_images=True, headless=False, incognito=False, disable_extension=False):
+    def __init__(self, load_images=True, headless=False, incognito=False, disable_extension=False, maximize_window=True, focus_window=True):
         """Open Chrome Browser
 
         Open the Chrome Browser with the Selenium webdriver. Canb be used to automate manipulations in the browser.
@@ -1090,6 +1090,12 @@ class Chrome(selenium.webdriver.Chrome):
 
         selenium.webdriver.Chrome.__init__(self, os.path.abspath(
             __file__).replace('activities.py', '') + chromedriver_path, chrome_options=chrome_options)
+
+        if maximize_window:
+            self.maximize_window()
+
+        if focus_window:
+            self.switch_to_window(self.current_window_handle)
 
     @activity
     def save_all_images(self, output_path=None):
