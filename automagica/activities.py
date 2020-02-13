@@ -8366,7 +8366,10 @@ def extract_text_ocr(path=None):
     }
 
     # Post request to API
-    r = requests.post('https://ocr.automagica.com/', json=data)
+    url = os.environ.get('AUTOMAGICA_OCR_URL',
+                         'https://ocr.automagica.com') + "/"
+
+    r = requests.post(url, json=data)
 
     # Print results
     return r.json()['text']
@@ -8429,7 +8432,10 @@ def find_text_on_screen_ocr(text, criteria=None):
     }
 
     # Post request to API
-    r = requests.post('https://ocr.automagica.com/', json=data)
+    url = os.environ.get('AUTOMAGICA_OCR_URL',
+                         'https://ocr.automagica.com') + "/"
+
+    r = requests.post(url, json=data)
 
     # Print results
     data = r.json()['locations']
@@ -9778,7 +9784,10 @@ def read_vision(sample_id, delay=1):
     }
 
     # Post request to API
-    r = requests.post('https://ocr.automagica.com/', json=data)
+    url = os.environ.get('AUTOMAGICA_OCR_URL',
+                         'https://ocr.automagica.com') + "/"
+
+    r = requests.post(url, json=data)
 
     # Print results
     return r.json()['text']
