@@ -3384,6 +3384,27 @@ class Word:
             for footer in section.Headers:
                 footer.Range.Text = text
 
+    @activity
+    def quit(self):
+        """Quit Word
+
+        This closes Word, make sure to use 'save' or 'save_as' if you would like to save before quitting.
+        
+            :Example:
+            
+        >>> # Open Word  
+        >>> word = Word()
+        >>> # Quit Word
+        >>> word.quit()
+        
+        Keywords
+            excel, exit, quit, close
+
+        Icon
+             la-file-word
+        """
+        self.app.Application.Quit()
+
 
 """
 Word File
@@ -4897,7 +4918,7 @@ class Excel:
     def quit(self):
         """Quit Excel
 
-        This closes Excel, make sure to use :func: 'save' or 'save_as' if you would like to save before quitting.
+        This closes Excel, make sure to use 'save' or 'save_as' if you would like to save before quitting.
         
             :Example:
             
@@ -5768,7 +5789,7 @@ def close_remote_desktop():
     """
     only_supported_for("Windows")
     import os
-    return os.system("taskkill /f /im mstsc.exe >nul 2>&1")
+    os.system("taskkill /f /im mstsc.exe >nul 2>&1")
 
 @activity
 def set_user_password(username, password):
