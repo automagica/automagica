@@ -3403,7 +3403,7 @@ class Word:
         Icon
              la-file-word
         """
-        self.app.Application.Quit()
+        self.app.Application.Quit(0)
 
 
 """
