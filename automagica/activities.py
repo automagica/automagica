@@ -3009,7 +3009,7 @@ def most_recent_file(path=None):
     import os
     files = os.listdir(path)
     paths = [os.path.join(path, basename) for basename in files]
-    return max(paths, key=os.path.getctime)
+    return max(paths, key=os.path.getatime)
 
 
 """
