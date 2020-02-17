@@ -1020,7 +1020,7 @@ import selenium.webdriver
 
 class Chrome(selenium.webdriver.Chrome):
     @activity
-    def __init__(self, load_images=True, headless=False, incognito=False, disable_extension=False):
+    def __init__(self, load_images=True, headless=False, incognito=False, disable_extension=False, maximize_window=True, focus_window=True):
         """Open Chrome Browser
 
         Open the Chrome Browser with the Selenium webdriver. Canb be used to automate manipulations in the browser.
@@ -1090,6 +1090,12 @@ class Chrome(selenium.webdriver.Chrome):
 
         selenium.webdriver.Chrome.__init__(self, os.path.abspath(
             __file__).replace('activities.py', '') + chromedriver_path, chrome_options=chrome_options)
+
+        if maximize_window:
+            self.maximize_window()
+
+        if focus_window:
+            self.switch_to_window(self.current_window_handle)
 
     @activity
     def save_all_images(self, output_path=None):
@@ -1215,7 +1221,7 @@ class Chrome(selenium.webdriver.Chrome):
         [webelement1, webelement2 , .. ]
 
         Keywords
-            random, element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+            random, element,link, links element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
 
         Icon
             las la-window-restore
@@ -1234,6 +1240,43 @@ class Chrome(selenium.webdriver.Chrome):
                     pass
         if links:
             return links
+
+    @activity
+    def find_first_link(self, contains=None):
+        """Find first link on a webpage
+
+        Find first link on a webpage
+
+        :parameter contains: Criteria of substring that url must contain to be included
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://nytimes.com')
+        >>> # Find elements by text
+        >>> browser.find_first_link()
+
+
+        Keywords
+            random, link, links, element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            las la-window-restore
+        """
+        if contains:
+            for element in self.find_elements_by_xpath("//a[@href]"):
+                try:
+                    href_el = element.get_attribute("href")
+                    if contains:
+                            if contains in element.get_attribute("href"):
+                                return element.get_attribute("href")
+                    else:
+                        return element.get_attribute("href")
+                except:
+                    pass
+
 
     @activity
     def highlight(self, element):
@@ -2972,7 +3015,7 @@ def most_recent_file(path=None):
     import os
     files = os.listdir(path)
     paths = [os.path.join(path, basename) for basename in files]
-    return max(paths, key=os.path.getctime)
+    return max(paths, key=os.path.getatime)
 
 
 """
@@ -3346,6 +3389,27 @@ class Word:
         for section in self.app.ActiveDocument.Sections:
             for footer in section.Headers:
                 footer.Range.Text = text
+
+    @activity
+    def quit(self):
+        """Quit Word
+
+        This closes Word, make sure to use 'save' or 'save_as' if you would like to save before quitting.
+        
+            :Example:
+            
+        >>> # Open Word  
+        >>> word = Word()
+        >>> # Quit Word
+        >>> word.quit()
+        
+        Keywords
+            excel, exit, quit, close
+
+        Icon
+             la-file-word
+        """
+        self.app.Application.Quit(0)
 
 
 """
@@ -4860,7 +4924,7 @@ class Excel:
     def quit(self):
         """Quit Excel
 
-        This closes Excel, make sure to use :func: 'save' or 'save_as' if you would like to save before quitting.
+        This closes Excel, make sure to use 'save' or 'save_as' if you would like to save before quitting.
         
             :Example:
             
@@ -5654,50 +5718,48 @@ def start_remote_desktop(ip, username, password=None, desktop_width=1920, deskto
     """
     only_supported_for("Windows")
     
-    rdp_raw = """
-    screen mode id:i:1
-    use multimon:i:0
-    session bpp:i:32
-    compression:i:1
-    keyboardhook:i:2
-    audiocapturemode:i:0
-    videoplaybackmode:i:1
-    connection type:i:7
-    networkautodetect:i:1
-    bandwidthautodetect:i:1
-    displayconnectionbar:i:1
-    enableworkspacereconnect:i:0
-    disable wallpaper:i:0
-    allow font smoothing:i:0
-    allow desktop composition:i:0
-    disable full window drag:i:1
-    disable menu anims:i:1
-    disable themes:i:0
-    disable cursor setting:i:0
-    bitmapcachepersistenable:i:1
-    audiomode:i:0
-    redirectprinters:i:1
-    redirectcomports:i:0
-    redirectsmartcards:i:1
-    redirectclipboard:i:1
-    redirectposdevices:i:0
-    autoreconnection enabled:i:1
-    authentication level:i:2
-    prompt for credentials:i:0
-    negotiate security layer:i:1
-    remoteapplicationmode:i:0
-    alternate shell:s:
-    shell working directory:s:
-    gatewayhostname:s:
-    gatewayusagemethod:i:4
-    gatewaycredentialssource:i:4
-    gatewayprofileusagemethod:i:0
-    promptcredentialonce:i:0
-    gatewaybrokeringtype:i:0
-    use redirection server name:i:0
-    rdgiskdcproxy:i:0
-    kdcproxyname:s:
-    """
+    rdp_raw = """screen mode id:i:1
+use multimon:i:0
+session bpp:i:32
+compression:i:1
+keyboardhook:i:2
+audiocapturemode:i:0
+videoplaybackmode:i:1
+connection type:i:7
+networkautodetect:i:1
+bandwidthautodetect:i:1
+displayconnectionbar:i:1
+enableworkspacereconnect:i:0
+disable wallpaper:i:0
+allow font smoothing:i:0
+allow desktop composition:i:0
+disable full window drag:i:1
+disable menu anims:i:1
+disable themes:i:0
+disable cursor setting:i:0
+bitmapcachepersistenable:i:1
+audiomode:i:0
+redirectprinters:i:1
+redirectcomports:i:0
+redirectsmartcards:i:1
+redirectclipboard:i:1
+redirectposdevices:i:0
+autoreconnection enabled:i:1
+authentication level:i:2
+prompt for credentials:i:0
+negotiate security layer:i:1
+remoteapplicationmode:i:0
+alternate shell:s:
+shell working directory:s:
+gatewayhostname:s:
+gatewayusagemethod:i:4
+gatewaycredentialssource:i:4
+gatewayprofileusagemethod:i:0
+promptcredentialonce:i:0
+gatewaybrokeringtype:i:0
+use redirection server name:i:0
+rdgiskdcproxy:i:0
+kdcproxyname:s:"""
     rdp_raw = rdp_raw + '\n' + 'username:s:' + username
     rdp_raw = rdp_raw + '\n' + 'full address:s:' + ip
     rdp_raw = rdp_raw + '\n' + 'desktopwidth:i:' + str(desktop_width)
@@ -5733,7 +5795,7 @@ def close_remote_desktop():
     """
     only_supported_for("Windows")
     import os
-    return os.system("taskkill /f /im mstsc.exe >nul 2>&1")
+    os.system("taskkill /f /im mstsc.exe >nul 2>&1")
 
 @activity
 def set_user_password(username, password):
