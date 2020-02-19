@@ -1315,7 +1315,7 @@ class Chrome(selenium.webdriver.Chrome):
     def exit(self):
         """Exit the browser
 
-        Quit the browser by exiting gracefully. One can also use the native 'quit' function, e.g. 'browser.quit()'
+        Quit the browser by exiting gracefully. One can also use the native 'quit' function
 
             :Example:
 
@@ -1340,8 +1340,7 @@ class Chrome(selenium.webdriver.Chrome):
     def by_xpaths(self, element):
         """Find all XPaths
 
-        Find all elements with specified xpath on a webpage in the the browser. Can also use native 'find_elements_by_xpath' function e.g. browser.find_elements_by_xpath()
-        You can easily
+        Find all elements with specified xpath on a webpage in the the browser. Can also use native 'find_elements_by_xpath' 
 
             :Example:
 
@@ -1366,7 +1365,7 @@ class Chrome(selenium.webdriver.Chrome):
     def by_xpath(self, element):
         """Find XPath in browser
 
-        Find all element with specified xpath on a webpage in the the browser. Can also use native 'find_elements_by_xpath' function e.g. browser.find_element_by_xpath()
+        Find all element with specified xpath on a webpage in the the browser. Can also use native 'find_elements_by_xpath' 
 
             :Example:
 
@@ -1392,7 +1391,7 @@ class Chrome(selenium.webdriver.Chrome):
     def by_class(self, element):
         """Find class in browser
 
-        Find element with specified class on a webpage in the the browser. Can also use native 'find_element_by_class_name' function e.g. browser.find_element_by_class_name()
+        Find element with specified class on a webpage in the the browser. Can also use native 'find_element_by_class_name'
 
             :Example:
 
@@ -1418,7 +1417,7 @@ class Chrome(selenium.webdriver.Chrome):
     def by_classes(self, element):
         """Find class in browser
 
-        Find all elements with specified class on a webpage in the the browser. Can also use native 'find_elements_by_class_name' function e.g. browser.find_elements_by_class_name()
+        Find all elements with specified class on a webpage in the the browser. Can also use native 'find_elements_by_class_name' function
 
             :Example:
 
@@ -1472,7 +1471,7 @@ class Chrome(selenium.webdriver.Chrome):
     def by_id(self, element):
         """Find id in browser
 
-        Find element with specified id on a webpage in the the browser. Can also use native 'find_element_by_id' function e.g. browser.find_element_by_id()
+        Find element with specified id on a webpage in the the browser. Can also use native 'find_element_by_id' function
 
             :Example:
 
@@ -5349,7 +5348,7 @@ class PowerPoint:
     def number_of_slides(self):
         """Slide count
         
-        :return: The number of slides
+        Returns the number of slides
 
             :Example:
             
