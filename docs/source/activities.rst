@@ -98,6 +98,7 @@ Folder Operations
 .. autofunction:: copy_folder
 .. autofunction:: zip_folder
 .. autofunction:: unzip
+.. autofunction:: most_recent_file
 
 
 Delay
@@ -160,6 +161,9 @@ E-mail (SMTP)
 
 Windows OS
 ----------
+.. autofunction:: find_window_title
+.. autofunction:: start_remote_desktop
+.. autofunction:: close_remote_desktop
 .. autofunction:: set_user_password
 .. autofunction:: validate_user_password
 .. autofunction:: lock_windows
@@ -210,6 +214,7 @@ Utilities
 ---------
 .. autofunction:: home_path
 .. autofunction:: desktop_path
+.. autofunction:: downloads_path
 .. autofunction:: open_file
 .. autofunction:: set_wallpaper
 .. autofunction:: download_file_from_url
@@ -326,3 +331,13 @@ SAP GUI
 Portal
 ------
 .. autofunction:: create_new_job
+
+
+Vision
+------
+.. autofunction:: click_vision
+.. autofunction:: double_click_vision
+.. autofunction:: right_click_vision
+.. autofunction:: wait_appear_vision
+.. autofunction:: wait_disappear_vision
+.. autofunction:: read_vision

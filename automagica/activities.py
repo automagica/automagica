@@ -5694,6 +5694,63 @@ Icon: lab la-windows
 """
 
 @activity
+def find_window_title(searchterm, partial=True):
+    """Find window with specific title
+
+    Find a specific window based on the name, either a perfect match or a partial match.
+
+    :parameter searchterm: Ttile to look for, e.g. 'Calculator' when looking for the Windows calculator
+    :parameter partial: Option to look for titles partially, e.g. 'Edge' will result in finding 'Microsoft Edge' when partial is set to True. Default value is True
+
+        :Example:
+
+    >>> # Make textfile
+    >>> testfile = make_textfile()
+    >>> # Open the file
+    >>> open_file(testfile)
+    >>> #Find 'Notepad' in window titles
+    >>> find_window_title('Notepad')
+    'generated_textfile.txt - Notepad'
+
+    Keywords
+        windows, user, password, remote desktop, remote, citrix, vnc, remotedesktop
+
+    Icon
+        lab la-readme
+    """
+
+    import ctypes
+ 
+    EnumWindows = ctypes.windll.user32.EnumWindows
+    EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int))
+    GetWindowText = ctypes.windll.user32.GetWindowTextW
+    GetWindowTextLength = ctypes.windll.user32.GetWindowTextLengthW
+    IsWindowVisible = ctypes.windll.user32.IsWindowVisible
+    
+    titles = []
+    def foreach_window(hwnd, lParam):
+        if IsWindowVisible(hwnd):
+            length = GetWindowTextLength(hwnd)
+            buff = ctypes.create_unicode_buffer(length + 1)
+            GetWindowText(hwnd, buff, length + 1)
+            titles.append(buff.value)
+        return True
+    EnumWindows(EnumWindowsProc(foreach_window), 0)
+    
+    if partial:
+        for title in titles:
+            if searchterm in title:
+                return title
+
+    if not partial:
+        for title in titles:
+            if searchterm == title:
+                return title
+    
+    else:
+        return False
+
+@activity
 def start_remote_desktop(ip, username, password=None, desktop_width=1920, desktop_height=1080):
     """Login to Windows Remote Desktop
 
