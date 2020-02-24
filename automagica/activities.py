@@ -464,7 +464,7 @@ def generate_random_name(locale=None):
         seed = Faker()
     return seed.name()
 
-
+@activity
 def generate_random_sentence(locale=None):
     """Random sentence
 
@@ -526,7 +526,7 @@ def generate_random_sentence(locale=None):
     'The age of automation is going to be the age of do-it-yourself'
 
     Keywords
-        random, sentence, lorem ipsum, text generater, filler, place holder, noise, random text
+        random, sentence, lorem ipsum, text generater, filler, place holder, noise, random text, random txt, text generation, nlp
 
     Icon
         las la-comment
