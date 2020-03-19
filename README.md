@@ -431,3 +431,7 @@ A special thanks goes out to all the above-mentioned libraries, repositories and
 
 
 <img src="https://i.imgur.com/eQYywRd.png" width="300">
+
+
+#### Commercial license
+Contact us at [sales@automagica.com](mailto:sales@automagica.com)
