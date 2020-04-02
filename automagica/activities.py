@@ -2113,44 +2113,70 @@ def display_mouse_position(duration=10):
 
 
 @activity
-def click(x=None, y=None):
+def click(element_id=None, x=None, y=None, delay=0.1):
     """Mouse click
 
-    Clicks on a pixel position on the visible screen determined by x and y coordinates.
+    Clicks on an element based on the element ID (vision) or pixel position determined by x and y coordinates.
 
+    :parameter element_id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
+    :parameter delay: Delay between clicks in seconds, standard value is 100 ms. 
 
-    :return: Mouse click on (x, y) coordinates
+    :return: Mouse click
 
         :Example:
 
+    >>> # Click on a vision element, use the recorder() function to define elements
+    >>> recorder()
+    >>> # Use the element ID found by the recorder, e.g.: click(element_id='ABCD')
+    >>> # Alternatively, click on coordinates
     >>> click(x=100, y=100)
 
     Keywords
-        mouse, osd, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
+        mouse, vision, mouse, osd, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
 
     Icon
         las la-mouse-pointer
     """
-    from pyautogui import click
+    if delay:
+        from time import sleep
+        sleep(delay) # Default delay
 
-    return click(x, y)
+    if id:
+        location = detect_vision(sample_id)
+        x, y = get_center_of_rectangle(location)
+
+        from pyautogui import click
+        return click(x, y)
+
+    if x and y:
+        from pyautogui import click
+        return click(x, y)
+
+    else:
+        raise Exception("Could not click, did you enter a valid ID or coordinates")
 
 
 @activity
-def double_click(x=None, y=None):
+def double_click(element_id=None, x=None, y=None, delay=0.1):
     """Double mouse click
 
-    Double clicks on a pixel position on the visible screen determined by x and y coordinates.
+    Double clicks on an element based on the element ID (vision) or pixel position determined by x and y coordinates.
 
+    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
+    :parameter delay: Delay between double clicks in seconds, standard value is 100 ms. 
 
-    :return: Double mouse click on (x, y) coordinates
+    :return: Double mouse click
 
         :Example:
 
+    >>> # Click on a vision element, use the recorder() function to define elements
+    >>> recorder()
+    >>> # Use the element ID found by the recorder, e.g.: double_click(element_id='ABCD')
+    >>> # Alternatively, click on coordinates
     >>> double_click(x=100, y=100)
 
     Keywords
@@ -2159,24 +2185,44 @@ def double_click(x=None, y=None):
     Icon
         las la-mouse-pointer
     """
-    from pyautogui import doubleClick
+    if delay:
+        from time import sleep
+        sleep(delay) # Default delay
 
-    return doubleClick(x, y)
+    if id:
+        location = detect_vision(sample_id)
+        x, y = get_center_of_rectangle(location)
+
+        from pyautogui import click
+        return doubleClick(x, y)
+
+    if x and y:
+        from pyautogui import click
+        return doubleClick(x, y)
+
+    else:
+        raise Exception("Could not click, did you enter a valid ID or coordinates")
 
 
 @activity
 def right_click(x=None, y=None):
     """Right click
 
-    Right clicks on a pixel position on the visible screen determined by x and y coordinates.
+    Right clicks on an element based on the element ID (vision) or pixel position determined by x and y coordinates.
 
+    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
+    :parameter delay: Delay between double clicks in seconds, standard value is 100 ms. 
 
-    :return: Right mouse click on (x, y) coordinates
+    :return: Right mouse click
 
         :Example:
 
+    >>> # Click on a vision element, use the recorder() function to define elements
+    >>> recorder()
+    >>> # Use the element ID found by the recorder, e.g.: right_click(element_id='ABCD')
+    >>> # Alternatively, click on coordinates
     >>> right_click(x=100, y=100)
 
     Keywords
@@ -2186,9 +2232,23 @@ def right_click(x=None, y=None):
         las la-mouse-pointer
     """
 
-    from pyautogui import rightClick
+    if delay:
+        from time import sleep
+        sleep(delay) # Default delay
 
-    return rightClick(x, y)
+    if id:
+        location = detect_vision(sample_id)
+        x, y = get_center_of_rectangle(location)
+
+        from pyautogui import click
+        return doubleClick(x, y)
+
+    if x and y:
+        from pyautogui import click
+        return doubleClick(x, y)
+
+    else:
+        raise Exception("Could not click, did you enter a valid ID or coordinates")
 
 
 @activity
@@ -9409,7 +9469,7 @@ def select_rectangle_on_screen():
     return coordinates
 
 
-def vision_recorder():
+def recorder():
     import requests
     from io import BytesIO
     import os
@@ -9693,6 +9753,7 @@ def get_center_of_rectangle(rectangle):
         int((rectangle[0] + rectangle[2]) / 2),
         int((rectangle[1] + rectangle[3]) / 2)
     )
+
 
 @activity
 def click_vision(sample_id, delay=1):
