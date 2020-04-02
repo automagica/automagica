@@ -2143,7 +2143,7 @@ def click(element_id=None, x=None, y=None, delay=0.1):
         from time import sleep
         sleep(delay) # Default delay
 
-    if id:
+    if element_id:
         location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
@@ -2189,7 +2189,7 @@ def double_click(element_id=None, x=None, y=None, delay=0.1):
         from time import sleep
         sleep(delay) # Default delay
 
-    if id:
+    if element_id:
         location = detect_vision(sample_id)
         x, y = get_center_of_rectangle(location)
 
@@ -2236,7 +2236,7 @@ def right_click(x=None, y=None):
         from time import sleep
         sleep(delay) # Default delay
 
-    if id:
+    if element_id:
         location = detect_vision(sample_id)
         x, y = get_center_of_rectangle(location)
 
