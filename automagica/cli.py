@@ -8,7 +8,8 @@ from time import sleep
 
 __version__ = "2.0.17"
 
-parser = argparse.ArgumentParser(description="Automagica Robot v" + __version__)
+parser = argparse.ArgumentParser(
+    description="Automagica Robot v" + __version__)
 
 parser.add_argument(
     "--connect",
@@ -35,7 +36,8 @@ parser.add_argument(
     "--config", dest="config", action="store_true", help="Alternate path to config"
 )
 
-parser.add_argument("-f", "--file", default="", type=str, help="Path to script file")
+parser.add_argument("-f", "--file", default="",
+                    type=str, help="Path to script file")
 
 parser.add_argument(
     "-s",
@@ -77,6 +79,11 @@ parser.add_argument(
     help="Edit Automagica script in Automagica Lab using the script id",
 )
 
+subparsers = parser.add_subparsers(help='sub-command help', dest='command')
+
+parser_recorder = subparsers.add_parser(
+    'recorder', help='Recorder help')
+
 
 class Automagica:
     def __init__(self):
@@ -97,7 +104,8 @@ class Automagica:
         if args.config:
             self.config_path = args.config
         else:
-            self.config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+            self.config_path = os.path.join(
+                os.path.expanduser("~"), "automagica.json")
 
         self.config = self._load_config()
 
@@ -117,6 +125,10 @@ class Automagica:
         # Start Automagica Bot manually
         if args.bot:
             self.bot()
+
+        if args.command == 'recorder':
+            from .recorder import recorder
+            recorder()
 
         # Was a file specified?
         if args.file:
@@ -144,7 +156,8 @@ class Automagica:
         else:
             log_level = logging.WARNING
 
-        formatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
+        formatter = logging.Formatter(
+            "%(asctime)s [%(levelname)s]: %(message)s")
 
         logger = logging.getLogger()
         logger.setLevel(log_level)
@@ -184,7 +197,8 @@ class Automagica:
                 script_version_id = ids[1]
 
             # Check if Automagica folder exists
-            target_folder = os.path.join(os.path.expanduser("~"), ".automagica")
+            target_folder = os.path.join(
+                os.path.expanduser("~"), ".automagica")
 
             if not os.path.exists(target_folder):
                 os.mkdir(target_folder)
@@ -263,7 +277,8 @@ class Automagica:
 
                         with open(notebook_path, "rb") as f:
                             files = {"file": (notebook_path, f)}
-                            _ = requests.post(r["url"], data=r["fields"], files=files)
+                            _ = requests.post(
+                                r["url"], data=r["fields"], files=files)
 
                 sleep(1)
 
@@ -347,7 +362,8 @@ class Automagica:
         except CellExecutionError as e:
 
             try:
-                lines = [line.strip() for line in str(e.traceback).split('\n') if line]
+                lines = [line.strip()
+                         for line in str(e.traceback).split('\n') if line]
                 error = lines[-1]
             except:
                 error = 'Exception: unknown error.'
@@ -408,16 +424,15 @@ class Automagica:
                     if not error:
                         # Completed without exceptions
                         job["status"] = "completed"
-                        logging.exception("Completed job {}".format(job["job_id"]))
+                        logging.exception(
+                            "Completed job {}".format(job["job_id"]))
 
                     else:
                         # Exceptions occured
                         job["status"] = "failed"
                         job['error'] = error
-
-
-
-                        logging.exception("Failed job {}".format(job["job_id"]))
+                        logging.exception(
+                            "Failed job {}".format(job["job_id"]))
 
                     headers = {
                         "bot_secret": self.config["bot_secret"],
@@ -429,7 +444,8 @@ class Automagica:
                         headers['job_error'] = error
 
                     # Request S3 upload URL for Job Notebook
-                    r = requests.post(self.url + "/api/job", headers=headers).json()
+                    r = requests.post(self.url + "/api/job",
+                                      headers=headers).json()
 
                     from io import BytesIO
 
@@ -447,22 +463,23 @@ class Automagica:
 
                     CURRENT_JOB = None
 
-                    
                     if error:
                         # Request S3 Upload URL for screenshot
-                        r = requests.post(self.url + "/api/job/screenshot", headers=headers).json()
+                        r = requests.post(
+                            self.url + "/api/job/screenshot", headers=headers).json()
 
                         # We should upload
                         if r.get('url'):
                             import mss
-                            
+
                             with mss.mss() as sct:
                                 sct.compression_level = 9
                                 filename = sct.shot(mon=-1)
 
                             with open(filename, 'rb') as fileobj:
                                 files = {"file": ("screenshot.png", fileobj)}
-                                _ = requests.post(r["url"], data=r["fields"], files=files)
+                                _ = requests.post(
+                                    r["url"], data=r["fields"], files=files)
 
                 # We did not get a job!
                 else:
@@ -492,7 +509,8 @@ class Automagica:
         print(headers)
         print(data)
 
-        r = requests.post(self.url + "/api/bot/setup", json=data, headers=headers)
+        r = requests.post(self.url + "/api/bot/setup",
+                          json=data, headers=headers)
 
         if r.status_code != 200:
             raise Exception("Could not connect to Automagica Portal")

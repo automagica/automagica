@@ -1,12 +1,23 @@
+import os
 import tkinter as tk
 from tkinter import font
 
 
 def style_button(button, font_size=10):
-    button.config(fg='white', bg='#1B97F3', activebackground='#0069c0',
-                  activeforeground='white', borderwidth=0, padx=5, pady=5)
+    from tkinter import font
+
+    button.config(fg='white',
+                  bg='#1B97F3',
+                  activebackground='#0069c0',
+                  activeforeground='white',
+                  borderwidth=0,
+                  padx=5,
+                  pady=5)
+
     custom_font = font.Font(family='Helvetica', size=font_size)
+
     button['font'] = custom_font
+
     return button
 
 
@@ -20,7 +31,10 @@ class RecorderWindow(tk.Tk):
         # Configuratiions
         self.configure(bg='white')
         self.title('Automagica Recorder')
-        self.iconbitmap('static/automagica.ico')
+
+        icon_path = os.path.join(os.path.abspath(__file__).replace(
+            'gui.py', ''), 'icons', 'automagica.ico')
+        self.iconbitmap(icon_path)
         self.option_add("*Font", 'Helvetica')
 
         # Center on screen
