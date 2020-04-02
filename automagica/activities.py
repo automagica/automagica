@@ -2267,10 +2267,12 @@ def right_click(element_id=None, x=None, y=None, delay=0.1):
 def move_mouse_to(x=None, y=None):
     """Move mouse
 
-    Moves te pointer to a x-y position.
+    Moves te pointer to an element based on the element ID (vision) or pixel position determined by x and y coordinates x-y position.
 
+    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
+    :parameter delay: Delay between movements in seconds, standard value is 100 ms. 
 
     :return: Move mouse to (x, y) coordinates
 
@@ -9159,7 +9161,7 @@ class SAPGUI():
                 pass
         
     @activity
-    def click(self, identifier):
+    def click_sap(self, identifier):
         """Click on a sAP GUI element
 
         Clicks on an identifier in the SAP GUI.
@@ -9171,7 +9173,7 @@ class SAPGUI():
         >>> sap.login('System', '001', 'username', 'password')
         >>> logout_button = '/app/con[0]/ses[0]/wnd[0]/tbar[0]/btn[15]'
         >>> sap.highlight(logout_button)
-        >>> sap.click(logout_button)
+        >>> sap.click_sap(logout_button)
 
         Keywords
             sap, sap gui, sap client, click
@@ -9735,7 +9737,7 @@ def detect_vision(element_id, detect_target=True):
 
     data = {
         "api_key": api_key,  # Automagica Vision API key
-        "element_id": element_id,
+        "sample_id": element_id,
         "image_base64": image_base64,  # Screenshot of the example screen
         "detect_target": detect_target
     }
@@ -9883,7 +9885,7 @@ def wait_vanish(element_id, delay=1, timeout=30):
             'Element did not disappear within {} seconds'.format(timeout))
 
 @activity
-def read_text(element_id, delay=0.1):
+def read_text(element_id, delay=1):
     """Detect and click on an element with the Automagica Vision API
 
     This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
@@ -9894,7 +9896,8 @@ def read_text(element_id, delay=0.1):
 
     >>> # Record an element to read
     >>> recorder()
-    >>> read_vision('abc123abc123')
+    >>> Read the text in the element
+    >>> text = read_text('abc123abc123')
 
     Keywords
         click, computer vision, vision, AI
