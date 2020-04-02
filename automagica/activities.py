@@ -2198,11 +2198,11 @@ def double_click(element_id=None, x=None, y=None, delay=0.1):
         location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
-        from pyautogui import click
+        from pyautogui import doubleClick
         return doubleClick(x, y)
 
     if x and y:
-        from pyautogui import click
+        from pyautogui import doubleClick
         return doubleClick(x, y)
 
     else:
@@ -2210,7 +2210,7 @@ def double_click(element_id=None, x=None, y=None, delay=0.1):
 
 
 @activity
-def right_click(x=None, y=None):
+def right_click(element_id=None, x=None, y=None, delay=0.1):
     """Right click
 
     Right clicks on an element based on the element ID (vision) or pixel position determined by x and y coordinates.
@@ -2245,11 +2245,11 @@ def right_click(x=None, y=None):
         location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
-        from pyautogui import click
+        from pyautogui import rightClick
         return rightClick(x, y)
 
     if x and y:
-        from pyautogui import click
+        from pyautogui import rightClick
         return rightClick(x, y)
 
     else:
