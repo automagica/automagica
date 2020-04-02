@@ -1991,11 +1991,11 @@ def press_key_combination(first_key, second_key, third_key=None, force_pyautogui
 
 
 @activity
-def type_text(text='', interval_seconds=0.01):
-    """Type text
+def typing(text, element_id=None, interval_seconds=0.01):
+    """Type text and characters
 
-    Types text in the current active field by simulating keyboard typing.  Make sure your keyboard is on US layout (standard QWERTY). 
-    
+    Simulate keystrokes. If an element ID is specified, text will be typed in a specific field or element based on the element ID (vision) by the recorder.
+
     Supported keys:
         ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win'
 
@@ -2012,11 +2012,17 @@ def type_text(text='', interval_seconds=0.01):
     >>> type_text('Why was the robot mad? \n They kept pushing his buttons!')
 
     Keywords
-        keyboard, keystrokes, key combination, shortcut, typing, type, key, keystroke, hotkey, press, press key
+        keyboard, keystrokes, key combination, shortcut, typing, type, key, keystroke, hotkey, press, press key, send keys, keystrokes
 
     Icon
         las la-keyboard
     """
+
+    if element_id:
+        location = detect_vision(element_id)
+        x, y = get_center_of_rectangle(location)
+        from pyautogui import click
+        return click(x, y)
 
     import platform
 
@@ -2031,7 +2037,6 @@ def type_text(text='', interval_seconds=0.01):
     for character in text:
         shell.SendKeys(easy_key_translation(character), 0)
         time.sleep(interval_seconds)
-
 
 """
 Mouse
@@ -2190,7 +2195,7 @@ def double_click(element_id=None, x=None, y=None, delay=0.1):
         sleep(delay) # Default delay
 
     if element_id:
-        location = detect_vision(sample_id)
+        location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
         from pyautogui import click
@@ -2213,7 +2218,7 @@ def right_click(x=None, y=None):
     :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
-    :parameter delay: Delay between double clicks in seconds, standard value is 100 ms. 
+    :parameter delay: Delay between right clicks in seconds, standard value is 100 ms. 
 
     :return: Right mouse click
 
@@ -2222,7 +2227,7 @@ def right_click(x=None, y=None):
     >>> # Click on a vision element, use the recorder() function to define elements
     >>> recorder()
     >>> # Use the element ID found by the recorder, e.g.: right_click(element_id='ABCD')
-    >>> # Alternatively, click on coordinates
+    >>> # Alternatively, right click on coordinates
     >>> right_click(x=100, y=100)
 
     Keywords
@@ -2237,15 +2242,15 @@ def right_click(x=None, y=None):
         sleep(delay) # Default delay
 
     if element_id:
-        location = detect_vision(sample_id)
+        location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
         from pyautogui import click
-        return doubleClick(x, y)
+        return rightClick(x, y)
 
     if x and y:
         from pyautogui import click
-        return doubleClick(x, y)
+        return rightClick(x, y)
 
     else:
         raise Exception("Could not click, did you enter a valid ID or coordinates")
