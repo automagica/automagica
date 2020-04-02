@@ -1991,7 +1991,7 @@ def press_key_combination(first_key, second_key, third_key=None, force_pyautogui
 
 
 @activity
-def typing(text, element_id=None, interval_seconds=0.01):
+def typing(text, element_id=None, clear=False, interval_seconds=0.01):
     """Type text and characters
 
     Simulate keystrokes. If an element ID is specified, text will be typed in a specific field or element based on the element ID (vision) by the recorder.
@@ -2000,6 +2000,8 @@ def typing(text, element_id=None, interval_seconds=0.01):
         ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win'
 
     :parameter text: Text in string format to type. Note that you can only press single character keys. Special keys like ":", "F1",... can not be part of the text argument.
+    :parameter element_id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :parameter clear: Attempts to clear the element before typing using hotkeys. Be cautious when using this method as a vision mismatch could result in deleting unwanted data. Default value is False
     :parameter interval_seconds: Time in seconds between two keystrokes. Defautl value is 0.01 seconds.
 
     :return: Keystrokes
@@ -2021,8 +2023,13 @@ def typing(text, element_id=None, interval_seconds=0.01):
     if element_id:
         location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
+        
         from pyautogui import click
-        return click(x, y)
+        click(x, y)
+
+    if clear:
+        press_key_combination('ctrl','a')
+        press_key('del')
 
     import platform
 
@@ -9610,7 +9617,7 @@ def recorder():
                 try again later or contact support@automagica.com"
         )
 
-    if result.get("sample_id"):
+    if result.get("element_id"):
 
         # Create iPython Output Image
         from IPython.display import Image as IPythonImage
@@ -9640,7 +9647,7 @@ def recorder():
                     preview_base64),
                 type_="markdown")
             insert_cell_below(
-                "click_vision('{}')".format(result["sample_id"]),
+                "click_vision('{}')".format(result["element_id"]),
                 type_="code"
             )
 
@@ -9650,7 +9657,7 @@ def recorder():
                     preview_base64),
                 type_="markdown")
             insert_cell_below(
-                "double_click_vision('{}')".format(result["sample_id"]),
+                "double_click_vision('{}')".format(result["element_id"]),
                 type_="code"
             )
 
@@ -9660,7 +9667,7 @@ def recorder():
                     preview_base64),
                 type_="markdown")
             insert_cell_below(
-                "right_click_vision('{}')".format(result["sample_id"]),
+                "right_click_vision('{}')".format(result["element_id"]),
                 type_="code"
             )
 
@@ -9670,7 +9677,7 @@ def recorder():
                     preview_base64),
                 type_="markdown")
             insert_cell_below(
-                "read_vision('{}')".format(result["sample_id"]),
+                "read_vision('{}')".format(result["element_id"]),
                 type_="code"
             )
 
@@ -9680,7 +9687,7 @@ def recorder():
                     preview_base64),
                 type_="markdown")
             insert_cell_below(
-                "wait_appear_vision('{}')".format(result["sample_id"]),
+                "wait_appear_vision('{}')".format(result["element_id"]),
                 type_="code"
             )
 
@@ -9690,7 +9697,7 @@ def recorder():
                     preview_base64),
                 type_="markdown")
             insert_cell_below(
-                "wait_disappear_vision('{}')".format(result["sample_id"]),
+                "wait_disappear_vision('{}')".format(result["element_id"]),
                 type_="code"
             )
 
@@ -9704,7 +9711,7 @@ def recorder():
             )
 
 
-def detect_vision(sample_id, detect_target=True):
+def detect_vision(element_id, detect_target=True):
     import requests
     from io import BytesIO
     import os
@@ -9728,7 +9735,7 @@ def detect_vision(sample_id, detect_target=True):
 
     data = {
         "api_key": api_key,  # Automagica Vision API key
-        "sample_id": sample_id,
+        "element_id": element_id,
         "image_base64": image_base64,  # Screenshot of the example screen
         "detect_target": detect_target
     }
@@ -9761,99 +9768,53 @@ def get_center_of_rectangle(rectangle):
 
 
 @activity
-def click_vision(sample_id, delay=1):
-    """Detect and click on an element with the Automagica Vision API
+def is_visible(element_id, delay=1, timeout=30):
+    """Check if element is visible on screen
 
-    This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
+    This activity can be used to check if a certain element is visible on the screen. 
+    Note that this uses Automagica vision and uses some advanced an fuzzy matching algorithms for finding identical elements.
 
-    :parameter sample_id: the sample ID provided by the Vision Recorder
+    :parameter element_id: Element ID provided by the recorder
+
+    :return: True if visble, False if not
 
         :Example:
 
-    >>> click_vision('abc123abc123')
+    >>> # Use the recorder to find an element ID
+    >>> recorder()
+    >>> # Use ID to perform visibility check
+    >>> is_visible('abc123abc123')
 
     Keywords
-        click, computer vision, vision, AI
+        click, visible, is visible, appear,  computer vision, vision, AI
 
     Icon
         las la-eye
     """
-    from pyautogui import click
-    from time import sleep
 
-    sleep(delay) # Default delay
+    try:
+        _ = detect_vision(element_id)
+        return True
+    except Exception:
+        return False
 
-    location = detect_vision(sample_id)
-    x, y = get_center_of_rectangle(location)
-
-    click(x, y)
 
 @activity
-def double_click_vision(sample_id, delay=1):
-    """Detect and double click on an element with the Automagica Vision API
+def wait_appear(element_id, delay=1, timeout=30):
+    """Wait for an element to appear
 
-    This activity allows the bot to detect and double click on an element by using the Automagica Vision API with a provided sample ID.
+    Wait for an element that is defined the recorder
 
-    :parameter sample_id: the sample ID provided by the Vision Recorder
+    :parameter element_id: The element ID provided by the recorder
+    :parameter timeout: Maximum time to wait for an element
+
+    :return: Blocks while element not visible
 
         :Example:
 
-    >>> double_click_vision('abc123abc123')
-
-    Keywords
-        double click, computer vision, vision, AI
-
-    Icon
-        las la-eye
-    """
-    from pyautogui import doubleClick
-    from time import sleep
-
-    sleep(delay) # Default delay
-
-    location = detect_vision(sample_id)
-    x, y = get_center_of_rectangle(location)
-
-    doubleClick(x, y)
-
-@activity
-def right_click_vision(sample_id, delay=1):
-    """Detect and right click on an element with the Automagica Vision API
-
-    This activity allows the bot to detect and right click on an element by using the Automagica Vision API with a provided sample ID.
-
-    :parameter sample_id: the sample ID provided by the Vision Recorder
-
-        :Example:
-
-    >>> right_click_vision('abc123abc123')
-
-    Keywords
-        right click, computer vision, vision, AI
-
-    Icon
-        las la-eye
-    """
-    from pyautogui import rightClick
-    from time import sleep
-
-    sleep(delay) # Default delay
-
-    location = detect_vision(sample_id)
-    x, y = get_center_of_rectangle(location)
-
-    rightClick(x, y)
-
-@activity
-def wait_appear_vision(sample_id, delay=1, timeout=30):
-    """Detect and click on an element with the Automagica Vision API
-
-    This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
-
-    :parameter sample_id: the sample ID provided by the Vision Recorder
-
-        :Example:
-
+    >>> # Use the recorder to find the element ID to wait for
+    >>> recorder()
+    >>> # Wait for this elemement
     >>> wait_appear_vision('abc123abc123')
 
     Keywords
@@ -9870,7 +9831,7 @@ def wait_appear_vision(sample_id, delay=1, timeout=30):
 
     for i in range(int(timeout/increment)):
         try:
-            _ = detect_vision(sample_id)
+            _ = detect_vision(element_id)
             break
         except Exception:
             pass
@@ -9882,16 +9843,20 @@ def wait_appear_vision(sample_id, delay=1, timeout=30):
             'Element did not appear within {} seconds'.format(timeout))
 
 @activity
-def wait_disappear_vision(sample_id, delay=1, timeout=30):
+def wait_vanish(element_id, delay=1, timeout=30):
     """Detect and click on an element with the Automagica Vision API
 
     This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
 
-    :parameter sample_id: the sample ID provided by the Vision Recorder
+    :parameter element_id: The element ID provided by the recorder
+    :parameter timeout: Maximum time to wait for an element to vanish
 
         :Example:
 
-    >>> wait_disappear_vision('abc123abc123')
+    >>> # Use the recorder to find the element ID for the vanishing element
+    >>> recorder()
+    >>> # Wait for this elemement to vanish
+    >>> wait_vanish('abc123abc123')
 
     Keywords
         wait, disappear, computer vision, vision, AI
@@ -9907,7 +9872,7 @@ def wait_disappear_vision(sample_id, delay=1, timeout=30):
 
     for i in range(int(timeout/increment)):
         try:
-            _ = detect_vision(sample_id)
+            _ = detect_vision(element_id)
         except Exception:
             break
 
@@ -9918,16 +9883,18 @@ def wait_disappear_vision(sample_id, delay=1, timeout=30):
             'Element did not disappear within {} seconds'.format(timeout))
 
 @activity
-def read_vision(sample_id, delay=1):
+def read_text(element_id, delay=0.1):
     """Detect and click on an element with the Automagica Vision API
 
     This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
 
-    :parameter sample_id: the sample ID provided by the Vision Recorder
+    :parameter element_id: the sample ID provided by the Vision Recorder
 
         :Example:
 
-    >>> click_vision('abc123abc123')
+    >>> # Record an element to read
+    >>> recorder()
+    >>> read_vision('abc123abc123')
 
     Keywords
         click, computer vision, vision, AI
@@ -9945,7 +9912,7 @@ def read_vision(sample_id, delay=1):
     
     sleep(delay) # Default delay
 
-    location = detect_vision(sample_id, detect_target=False)
+    location = detect_vision(element_id, detect_target=False)
 
     screenshot = capture_screen()
 
