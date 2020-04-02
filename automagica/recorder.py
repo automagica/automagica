@@ -6,12 +6,18 @@ from time import sleep
 import PIL.ImageTk as pil_tk
 
 import pyperclip
-from gui import ImageButton, RecorderWindow, style_button
-from snippingtool import get_screen, select_rect
+from .gui import ImageButton, RecorderWindow, style_button
+from .snippingtool import get_screen, select_rect
+
+"""
+TODO
+- Add middle click
+- Add hover
+"""
 
 
 def activity_selection_window():
-    window = RecorderWindow(68*8, 80)
+    window = RecorderWindow(67*10, 80)
 
     def select_action(action):
         window.destroy()
@@ -23,20 +29,36 @@ def activity_selection_window():
 
     actions_grp = tk.LabelFrame(window, text='Actions', bg='white')
 
-    click_btn = ImageButton(actions_grp, 'static/click_button.png')
+    icons_path = os.path.join(os.path.abspath(
+        __file__).replace('recorder.py', ''), 'icons')
+
+    click_btn = ImageButton(actions_grp, os.path.join(
+        icons_path, 'click_button.png'))
     click_btn.config(command=lambda: select_action('click'))
     click_btn.pack(side=tk.LEFT)
 
     doubleclick_btn = ImageButton(
-        actions_grp, 'static/double_click_button.png')
+        actions_grp, os.path.join(icons_path, 'double_click_button.png'))
     doubleclick_btn.config(command=lambda: select_action('double_click'))
     doubleclick_btn.pack(side=tk.LEFT)
 
-    right_btn = ImageButton(actions_grp, 'static/right_click_button.png')
-    right_btn.pack(side=tk.LEFT)
-    right_btn.config(command=lambda: select_action('right_click'))
+    right_click_btn = ImageButton(actions_grp,  os.path.join(
+        icons_path, 'right_click_button.png'))
+    right_click_btn.pack(side=tk.LEFT)
+    right_click_btn.config(command=lambda: select_action('right_click'))
 
-    type_into_btn = ImageButton(actions_grp, 'static/type_into_button.png')
+    middle_click_btn = ImageButton(actions_grp,  os.path.join(
+        icons_path, 'middle_click_button.png'))
+    middle_click_btn.pack(side=tk.LEFT)
+    middle_click_btn.config(command=lambda: select_action('middle_click'))
+
+    move_to_btn = ImageButton(actions_grp,  os.path.join(
+        icons_path, 'move_to_button.png'))
+    move_to_btn.pack(side=tk.LEFT)
+    move_to_btn.config(command=lambda: select_action('move_to'))
+
+    type_into_btn = ImageButton(actions_grp,  os.path.join(
+        icons_path, 'type_into_button.png'))
     type_into_btn.pack(side=tk.LEFT)
     type_into_btn.config(command=lambda: select_action('type_into'))
 
@@ -44,11 +66,13 @@ def activity_selection_window():
 
     interpret_grp = tk.LabelFrame(window, text='Interpret', bg='white')
 
-    read_text_btn = ImageButton(interpret_grp, 'static/read_text_button.png')
+    read_text_btn = ImageButton(interpret_grp,  os.path.join(
+        icons_path, 'read_text_button.png'))
     read_text_btn.pack(side=tk.LEFT)
     read_text_btn.config(command=lambda: select_action('read_text'))
 
-    is_visible_btn = ImageButton(interpret_grp, 'static/is_visible_button.png')
+    is_visible_btn = ImageButton(interpret_grp,  os.path.join(
+        icons_path, 'is_visible_button.png'))
     is_visible_btn.pack(side=tk.LEFT)
     is_visible_btn.config(command=lambda: select_action('is_visible'))
 
@@ -56,11 +80,13 @@ def activity_selection_window():
 
     wait_grp = tk.LabelFrame(window, text='Wait', bg='white')
 
-    wait_appear_btn = ImageButton(wait_grp, 'static/wait_appear_button.png')
+    wait_appear_btn = ImageButton(wait_grp,  os.path.join(
+        icons_path, 'wait_appear_button.png'))
     wait_appear_btn.pack(side=tk.LEFT)
     wait_appear_btn.config(command=lambda: select_action('wait_appear'))
 
-    wait_vanish_btn = ImageButton(wait_grp, 'static/wait_vanish_button.png')
+    wait_vanish_btn = ImageButton(wait_grp,  os.path.join(
+        icons_path, 'wait_vanish_button.png'))
     wait_vanish_btn.pack(side=tk.LEFT)
     wait_vanish_btn.config(command=lambda: select_action('wait_vanish'))
 
@@ -217,7 +243,6 @@ def snippet_window(activity, element_id):
         'AUTOMAGICA_ID_URL', 'https://automagica.id'),
         element_id)
     snippet = 'from automagica import *\n\n# {}\n{}("{}")'.format(
-        activity,
         url,
         activity,
         element_id)
