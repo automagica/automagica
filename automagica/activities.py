@@ -2144,7 +2144,7 @@ def click(element_id=None, x=None, y=None, delay=0.1):
         sleep(delay) # Default delay
 
     if id:
-        location = detect_vision(sample_id)
+        location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
         from pyautogui import click
