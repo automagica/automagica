@@ -78,8 +78,8 @@ define([
                     category.activities.forEach(function (activity) {
 
                         htmlToInsert += `
-                        <li data-keywords="`+ activity.keywords + `" class="list-group-item activity_container"><a data-title=` + JSON.stringify(activity.name) + ` data-snippet=` + JSON.stringify(activity.snippet) + ` href="#"
-                                onClick="insertSnippet('markdown', '### ' + this.getAttribute('data-title')); insertSnippet('code', this.getAttribute('data-snippet')); " title="`+ activity.description + `"><i class="` + activity.icon + ` la-lw"></i>&nbsp;&nbsp;` + activity.name + `</a></li> `;
+                        <li data-keywords="`+ activity.keywords + `" class="list-group-item activity_container"><a data-title=` + JSON.stringify(activity.name) + ` data-snippet=` + JSON.stringify(activity.function_call) + ` href="#"
+                                onClick="insertSnippet('code', this.getAttribute('data-snippet')); " title="`+ activity.description + `"><i class="` + activity.icon + ` la-lw"></i>&nbsp;&nbsp;` + activity.name + `</a></li> `;
 
                     });
 
@@ -100,6 +100,16 @@ define([
 
                 var notebook = document.getElementById('notebook');
                 notebook.insertAdjacentHTML('beforeend', htmlToInsert);
+
+
+                var buttonHTMLInsert = `
+                <div id="recorder" class="btn-group">
+                    <a href="#" title="Launch the Automagica Recorder" onclick="Jupyter.notebook.kernel.execute('from automagica import *; recorder()');" class="btn btn-default">🔴 Recorder (beta)</a>
+                </div>
+                `;
+
+                var toolbar = document.getElementById('maintoolbar-container');
+                toolbar.insertAdjacentHTML('beforeend', buttonHTMLInsert)
 
                 dragElement(document.getElementById("activities"));
 
