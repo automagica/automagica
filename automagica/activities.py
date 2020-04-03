@@ -2029,7 +2029,7 @@ def typing(text, element_id=None, clear=False, interval_seconds=0.01):
 
     if clear:
         press_key_combination('ctrl','a')
-        press_key('del')
+        press_key('delete')
 
     import platform
 

@@ -34,33 +34,33 @@ def activity_selection_window():
 
     click_btn = ImageButton(actions_grp, os.path.join(
         icons_path, 'click_button.png'))
-    click_btn.config(command=lambda: select_action('click'))
+    click_btn.config(command=lambda: select_action('click("'))
     click_btn.pack(side=tk.LEFT)
 
     doubleclick_btn = ImageButton(
         actions_grp, os.path.join(icons_path, 'double_click_button.png'))
-    doubleclick_btn.config(command=lambda: select_action('double_click'))
+    doubleclick_btn.config(command=lambda: select_action('double_click("'))
     doubleclick_btn.pack(side=tk.LEFT)
 
     right_click_btn = ImageButton(actions_grp,  os.path.join(
         icons_path, 'right_click_button.png'))
     right_click_btn.pack(side=tk.LEFT)
-    right_click_btn.config(command=lambda: select_action('right_click'))
+    right_click_btn.config(command=lambda: select_action('right_click("'))
 
     middle_click_btn = ImageButton(actions_grp,  os.path.join(
         icons_path, 'middle_click_button.png'))
     middle_click_btn.pack(side=tk.LEFT)
-    middle_click_btn.config(command=lambda: select_action('middle_click'))
+    middle_click_btn.config(command=lambda: select_action('middle_click("'))
 
     move_to_btn = ImageButton(actions_grp,  os.path.join(
         icons_path, 'move_to_button.png'))
     move_to_btn.pack(side=tk.LEFT)
-    move_to_btn.config(command=lambda: select_action('move_to'))
+    move_to_btn.config(command=lambda: select_action('move_mouse_to("'))
 
     type_into_btn = ImageButton(actions_grp,  os.path.join(
         icons_path, 'type_into_button.png'))
     type_into_btn.pack(side=tk.LEFT)
-    type_into_btn.config(command=lambda: select_action('type_into'))
+    type_into_btn.config(command=lambda: select_action('typing("Sample text", "'))
 
     actions_grp.pack(side=tk.LEFT)
 
@@ -69,12 +69,12 @@ def activity_selection_window():
     read_text_btn = ImageButton(interpret_grp,  os.path.join(
         icons_path, 'read_text_button.png'))
     read_text_btn.pack(side=tk.LEFT)
-    read_text_btn.config(command=lambda: select_action('read_text'))
+    read_text_btn.config(command=lambda: select_action('read_text("'))
 
     is_visible_btn = ImageButton(interpret_grp,  os.path.join(
         icons_path, 'is_visible_button.png'))
     is_visible_btn.pack(side=tk.LEFT)
-    is_visible_btn.config(command=lambda: select_action('is_visible'))
+    is_visible_btn.config(command=lambda: select_action('is_visible("'))
 
     interpret_grp.pack(side=tk.LEFT)
 
@@ -83,12 +83,12 @@ def activity_selection_window():
     wait_appear_btn = ImageButton(wait_grp,  os.path.join(
         icons_path, 'wait_appear_button.png'))
     wait_appear_btn.pack(side=tk.LEFT)
-    wait_appear_btn.config(command=lambda: select_action('wait_appear'))
+    wait_appear_btn.config(command=lambda: select_action('wait_appear("'))
 
     wait_vanish_btn = ImageButton(wait_grp,  os.path.join(
         icons_path, 'wait_vanish_button.png'))
     wait_vanish_btn.pack(side=tk.LEFT)
-    wait_vanish_btn.config(command=lambda: select_action('wait_vanish'))
+    wait_vanish_btn.config(command=lambda: select_action('wait_vanish("'))
 
     wait_grp.pack(side=tk.LEFT)
 
@@ -158,7 +158,7 @@ def add_anchors_window(screenshot, target, action):
         anchor_frame = tk.Frame(anchors_frame, highlightbackground="green",
                                 highlightcolor="green",
                                 highlightthickness=4,
-                                bd=0)
+                                bd=0, )
         anchor_frame.pack(side='left')
         anchor_img = pil_tk.PhotoImage(anchor_image)
         anchor_lbl = tk.Label(anchor_frame, image=anchor_img)
@@ -242,7 +242,7 @@ def snippet_window(activity, element_id):
     url = '{}/{}'.format(os.environ.get(
         'AUTOMAGICA_ID_URL', 'https://automagica.id'),
         element_id)
-    snippet = 'from automagica import *\n\n# {}\n{}("{}")'.format(
+    snippet = 'from automagica import *\n\n# {}\n{}{}")'.format(
         url,
         activity,
         element_id)

@@ -61,7 +61,7 @@ Keyboard
 --------
 .. autofunction:: press_key
 .. autofunction:: press_key_combination
-.. autofunction:: type_text
+.. autofunction:: typing
 
 
 Mouse
@@ -323,7 +323,7 @@ SAP GUI
 -------
 .. autofunction:: quit
 .. autofunction:: login
-.. autofunction:: click
+.. autofunction:: click_sap
 .. autofunction:: get_text
 .. autofunction:: set_text
 .. autofunction:: highlight
@@ -336,9 +336,7 @@ Portal
 
 Vision
 ------
-.. autofunction:: click_vision
-.. autofunction:: double_click_vision
-.. autofunction:: right_click_vision
-.. autofunction:: wait_appear_vision
-.. autofunction:: wait_disappear_vision
-.. autofunction:: read_vision
+.. autofunction:: is_visible
+.. autofunction:: wait_appear
+.. autofunction:: wait_vanish
+.. autofunction:: read_text
