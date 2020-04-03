@@ -80,23 +80,23 @@ package_data = {
         # Copyrighted by Oakwood Technologies BVBA
         "lab/.jupyter/custom/logo-white.png",
         "icon.ico",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/automagica.ico"  # Copyrighted by Oakwood Technologies BVBA
-        "icons/click_button.png",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/double_click_button.png",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/is_visible_button.png",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/middle_click_button.png",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/move_to_button.png",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/read_text_button.png",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/right_click_button.png",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/type_into_button.png",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/wait_appear_button.png",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/wait_vanish_button.png",  # Copyrighted by Oakwood Technologies BVBA
+        "icons/automagica.ico", # Copyrighted by Oakwood Technologies BVBA
+        "icons/click_button.png", # Copyrighted by Oakwood Technologies BVBA
+        "icons/double_click_button.png", # Copyrighted by Oakwood Technologies BVBA
+        "icons/is_visible_button.png", # Copyrighted by Oakwood Technologies BVBA
+        "icons/middle_click_button.png", # Copyrighted by Oakwood Technologies BVBA
+        "icons/move_to_button.png", # Copyrighted by Oakwood Technologies BVBA
+        "icons/read_text_button.png", # Copyrighted by Oakwood Technologies BVBA
+        "icons/right_click_button.png", # Copyrighted by Oakwood Technologies BVBA
+        "icons/type_into_button.png", # Copyrighted by Oakwood Technologies BVBA
+        "icons/wait_appear_button.png", # Copyrighted by Oakwood Technologies BVBA
+        "icons/wait_vanish_button.png", # Copyrighted by Oakwood Technologies BVBA        
     ]
 }
 
 setup(
     name="Automagica",
-    version="2.1.11",
+    version="2.1.12",
     description="Bot for Automagica",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
