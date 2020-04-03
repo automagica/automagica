@@ -30,7 +30,7 @@ class RecorderWindow(tk.Tk):
 
         # Configuratiions
         self.configure(bg='white')
-        self.title('Automagica Recorder')
+        self.title('Automagica Recorder (beta)')
 
         icon_path = os.path.join(os.path.abspath(__file__).replace(
             'gui.py', ''), 'icons', 'automagica.ico')

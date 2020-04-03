@@ -421,6 +421,22 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [pysnmp](https://github.com/etingof/pysnmp) and special thanks to [quicksnmp](https://github.com/alessandromaggio/quicksnmp)
 - [pandas](https://github.com/pandas-dev/pandas)
 
+## Contribute
+
+### Not a developer?
+No problem! You can contribute in the following ways:
+- Star our repository, the more people we can get involved the better! 😎
+- [Create an 'issue'](https://github.com/automagica/automagica/issues) on our GitHub with any features you feel are missing.
+- Notice something not working like expected? [Create an issue](https://github.com/automagica/automagica/issues), we won't bite!
+- Don't have a GitHub account? Feel free to send us an e-mail at [koen@automagica.com](mailto:koen@automagica.com) or [thomas@automagica.com](mailto:thomas@automagica.com).
+
+### Developers
+You can contribute in the following ways:
+- Pull requests with code and/or documentation
+- Feature requests, bug squatting, feel free to [create an issue](https://github.com/automagica/automagica/issues)!
+- If you're interested in joining our team, [send us an e-mail](mailto:koen@automagica.com).
+ 
+
 #### Special contributor mentions
 - [ygxiao](https://github.com/ygxiao)
 - [jjlehtinen](https://github.com/jjlehtinen)
@@ -431,5 +447,5 @@ A special thanks goes out to all the above-mentioned libraries, repositories and
 <img src="https://i.imgur.com/eQYywRd.png" width="300">
 
 
-#### Commercial license
-Contact us at [sales@automagica.com](mailto:sales@automagica.com)
+## Commercial license
+Need a commercial license for Automagica? Contact us at [sales@automagica.com](mailto:sales@automagica.com).

@@ -125,7 +125,8 @@ def add_anchors_window(screenshot, target, action):
     target_label = tk.Label(target_image_frame, image=target_img)
     target_label.pack()
 
-    anchors_frame = tk.LabelFrame(window, text='Anchors', bg='white')
+    anchors_frame = tk.LabelFrame(
+        window, text='Anchors', bg='white', padx=10, pady=10)
 
     anchors_content_lbl = tk.Label(
         anchors_frame, text='Add anchors to make the element detection more reliable.', bg='white')
@@ -181,6 +182,38 @@ def add_anchors_window(screenshot, target, action):
     def save():
         window.destroy()
 
+        import json
+
+        config_path = os.path.join(
+            os.path.expanduser("~"), "automagica.json")
+
+        def save_config(config):
+            with open(config_path, "w") as f:
+                json.dump(config, f)
+
+        try:
+            with open(config_path, "r") as f:
+                config = json.load(f)
+
+        except FileNotFoundError:
+            config = {}
+            save_config(config)
+
+        if not config.get('accepted_recorder_terms'):
+            from tkinter import messagebox
+            root = tk.Tk()
+            root.withdraw()
+            accepted = messagebox.askyesno(
+                'Important', 'By continuing, the information you provided in the previous steps will be uploaded to Automagica\'s Vision service. You can find the full terms on https://portal.automagica.com/tos. Do you accept the terms? You will only be prompted once on this machine.', parent=root)
+
+            if not accepted:
+                root.quit()
+                root.destroy()
+                return
+            else:
+                config['accepted_recorder_terms'] = True
+                save_config(config)
+
         import requests
         import base64
         from io import BytesIO
@@ -224,7 +257,7 @@ def add_anchors_window(screenshot, target, action):
     style_button(reset_btn, font_size=15)
     reset_btn.grid(row=0, column=0, sticky='w', padx=10, pady=10)
 
-    save_btn = tk.Button(window, text='Save', command=save)
+    save_btn = tk.Button(window, text='Next', command=save)
     style_button(save_btn, font_size=15)
     save_btn.grid(row=0, column=1, sticky='e', padx=10, pady=10)
 
@@ -249,6 +282,7 @@ def snippet_window(activity, element_id):
     snippet_input.insert(
         tk.END, snippet)
     snippet_input.config(state=tk.DISABLED)
+    snippet_input.configure(font=("Consolas", 12))
 
     buttons_frame = tk.Frame(window, bg='white')
     buttons_frame.grid(row=3, column=0)
@@ -276,7 +310,13 @@ def snippet_window(activity, element_id):
 
 
 def recorder():
-    activity_selection_window()
+    from threading import Thread
+
+    print('Launching Automagica Recorder')
+
+    t = Thread(target=activity_selection_window)
+
+    t.start()
 
 
 if __name__ == '__main__':
