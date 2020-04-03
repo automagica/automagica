@@ -116,11 +116,11 @@ def encrypt_file_with_key(input_path, key, output_path=None):
 
     >>> # Generate a random key
     >>> key = generate_random_key()
-    >>> # Create a textfile to illustrate file encryption
-    >>> textfile_path = make_textfile()
-    >>> # Encrypt the textfile
-    >>> encrypt_file_with_key(textfile_path, key=key)
-    'C:\\Users\\<username>\\generated_textfile_encrypted.txt'
+    >>> # Create a text file to illustrate file encryption
+    >>> text_file_path = make_text_file()
+    >>> # Encrypt the text file
+    >>> encrypt_file_with_key(text_file_path, key=key)
+    'C:\\Users\\<username>\\generated_text_file_encrypted.txt'
 
     Keywords
         encrypt, random, password, secure, secure file, lock
@@ -169,13 +169,13 @@ def decrypt_file_with_key(input_path, key, output_path=None):
 
     >>> # Generate a random key
     >>> key = generate_random_key()
-    >>> # Create a textfile to encrypt file
-    >>> textfile_path = make_textfile()
-    >>> # Encrypt the textfile
-    >>> encrypted_textfile = encrypt_file_with_key(textfile_path, key=key)
+    >>> # Create a text file to encrypt file
+    >>> text_file_path = make_text_file()
+    >>> # Encrypt the text file
+    >>> encrypted_text_file = encrypt_file_with_key(text_file_path, key=key)
     >>> # Decrypt the newly encrypted file
-    >>> decrypt_file_with_key(encrypted_textfile, key=key)
-    'C:\\Users\\<username>\\generated_textfile_encrypted_decrypted.txt'
+    >>> decrypt_file_with_key(encrypted_text_file, key=key)
+    'C:\\Users\\<username>\\generated_text_file_encrypted_decrypted.txt'
 
     Keywords
         decrypt, random, password, secure, secure file, unlock
@@ -269,9 +269,9 @@ def generate_hash_from_file(input_path, method="md5", buffer_size=65536):
         :Example:
 
     >>> # Generate a text file to illustrate hash
-    >>> textfile_path = make_textfile()
-    >>> # Get hash from textfile
-    >>> generate_hash_from_file(textfile_path)
+    >>> text_file_path = make_text_file()
+    >>> # Get hash from text file
+    >>> generate_hash_from_file(text_file_path)
     '1ba249ca5931f3c85fe44d354c2f274d'
 
     Keywords
@@ -1752,10 +1752,10 @@ class FTP:
         >>> # Take caution uploading and downloading from this server as it is public
         >>> ftp = FTP('test.rebex.net', 'demo', 'password')
         >>> # Create a .txt file for illustration
-        >>> textfile = make_textfile()
+        >>> text_file = make_text_file()
         >>> # Upload file to FTP test server
         >>> # Not that this might result in a persmission error for public FPT's
-        >>> ftp.upload_file(textfile)
+        >>> ftp.upload_file(text_file)
 
         Keywords
             FTP, upload, fptfile transfer protocol, filezilla, winscp, server, remote, folder, folders
@@ -2997,10 +2997,10 @@ def empty_folder(path, allow_root=False):
 
     >>> # Make new folder in home directory for illustration
     >>> testfolder = create_folder()
-    >>> # Make new textfile in this folder
+    >>> # Make new text file in this folder
     >>> import os
-    >>> textfile_location = os.path.join(testfolder, 'testfile.txt')
-    >>> make_textfile(output_path=textfile_location )
+    >>> text_file_location = os.path.join(testfolder, 'testfile.txt')
+    >>> make_text_file(output_path=text_file_location )
     >>> # Print all files in the testfolder
     >>> print( get_files_in_folder(testfolder) ) # Should show 
     >>> # Empty the folder
@@ -5998,13 +5998,13 @@ def find_window_title(searchterm, partial=True):
 
         :Example:
 
-    >>> # Make textfile
-    >>> testfile = make_textfile()
+    >>> # Make text file
+    >>> testfile = make_text_file()
     >>> # Open the file
     >>> open_file(testfile)
     >>> #Find 'Notepad' in window titles
     >>> find_window_title('Notepad')
-    'generated_textfile.txt - Notepad'
+    'generated_text_file.txt - Notepad'
 
     Keywords
         windows, user, password, remote desktop, remote, citrix, vnc, remotedesktop
@@ -7160,11 +7160,11 @@ def home_path(subdir=None):
     >>> # Home_path without arguments will return the home path
     >>> print( home_path() )
     >>> # When looking for a file in the home path, we can specify it
-    >>> # First make a sample textfile
-    >>> make_textfile()
+    >>> # First make a sample text file
+    >>> make_text_file()
     >>> # Refer to it
-    >>> home_path('generated_textfile.txt')
-    'C:\\Users\\<username>\\generated_textfile.txt'
+    >>> home_path('generated_text_file.txt')
+    'C:\\Users\\<username>\\generated_text_file.txt'
 
     Keywords
         home, home path, homepath, home directory, homedir
@@ -7195,11 +7195,11 @@ def desktop_path(subdir=None):
     >>> # Desktop_path without arguments will return the home path
     >>> print( desktop_path() )
     >>> # When looking for a file on the desktop, we can specify it
-    >>> # First make a sample textfile
-    >>> make_textfile()
+    >>> # First make a sample text file
+    >>> make_text_file()
     >>> # Refer to it
-    >>> desktop_path('generated_textfile.txt')
-    'C:\\Users\\<username>\\Desktop\\generated_textfile.txt'
+    >>> desktop_path('generated_text_file.txt')
+    'C:\\Users\\<username>\\Desktop\\generated_text_file.txt'
 
     Keywords
         desktop, desktop path, desktoppath, desktop directory, desktopdir
@@ -7259,8 +7259,8 @@ def open_file(path):
 
         :Example:
 
-    >>> # Make textfile
-    >>> testfile = make_textfile()
+    >>> # Make text file
+    >>> testfile = make_text_file()
     >>> # Open the file
     >>> open_file(testfile)
 
@@ -7444,11 +7444,11 @@ def rename_file(input_path, new_name=None):
 
         :Example:
 
-    >>> # Make new textfile in home directory
-    >>> textfile = make_textfile()
+    >>> # Make new text file in home directory
+    >>> text_file = make_text_file()
     >>> # Rename the file
-    >>> rename_file(textfile)
-    C:\\Users\\<username>\\generated_textfile_renamed.txt'
+    >>> rename_file(text_file)
+    C:\\Users\\<username>\\generated_text_file_renamed.txt'
 
     Keywords
         file, rename, rename file, organise file, files, file manipulation, explorer, nautilus
@@ -7488,12 +7488,12 @@ def move_file(from_path, to_path):
 
         :Example:
 
-    >>> # Make new textfile in home directory
-    >>> textfile = make_textfile()
+    >>> # Make new text file in home directory
+    >>> text_file = make_text_file()
     >>> # Make a folder to move the file to
     >>> new_folder = create_folder()
-    >>> # Move textfile to the folder
-    >>> move_file(textfile, new_folder)
+    >>> # Move text file to the folder
+    >>> move_file(text_file, new_folder)
 
     Keywords
         file, move, move file, organise file, files, file manipulation, explorer, nautilus
@@ -7529,10 +7529,10 @@ def remove_file(path):
 
         :Example:
 
-    >>> # Make new textfile in home directory
-    >>> textfile = make_textfile()
+    >>> # Make new text file in home directory
+    >>> text_file = make_text_file()
     >>> # Remove the file
-    >>> remove_file(textfile)
+    >>> remove_file(text_file)
 
     Keywords
         file, delete, erase, delete file, organise file, files, file manipulation, explorer, nautilus
@@ -7560,10 +7560,10 @@ def file_exists(path):
 
         :Example:
 
-    >>> # Make new textfile in home directory
-    >>> textfile = make_textfile()
+    >>> # Make new text file in home directory
+    >>> text_file = make_text_file()
     >>> # Check if file exists
-    >>> file_exists(textfile)
+    >>> file_exists(text_file)
     True
 
     Keywords
@@ -7588,10 +7588,10 @@ def wait_file_exists(path, timeout=60):
 
         :Example:
 
-    >>> # Make new textfile in home directory
-    >>> textfile = make_textfile()
+    >>> # Make new text file in home directory
+    >>> text_file = make_text_file()
     >>> # Wait untile file exists # Should pass immediatly
-    >>> wait_file_exists(textfile)
+    >>> wait_file_exists(text_file)
 
     Keywords
         file, wait, wait till exists, files, file manipulation, explorer, nautilus
@@ -7627,10 +7627,10 @@ def write_list_to_file(list_to_write, file_path):
     >>> # Make a list to write
     >>> robot_names = ['WALL-E', 'Terminator', 'R2D2']
     >>> # Create a new text file
-    >>> textfile = make_textfile()
-    >>> write_list_to_file(robot_names, textfile)
+    >>> text_file = make_text_file()
+    >>> write_list_to_file(robot_names, text_file)
     >>> # Open the file for illustration
-    >>> open_file(textfile)
+    >>> open_file(text_file)
 
     Keywords
         list, text, txt, list to file, write list, write
@@ -7661,10 +7661,10 @@ def read_list_from_txt(file_path):
     >>> # Make a list to write
     >>> robot_names = ['WALL-E', 'Terminator', 'R2D2']
     >>> # Create a new text file
-    >>> textfile = make_textfile()
-    >>> write_list_to_file(robot_names, textfile)
+    >>> text_file = make_text_file()
+    >>> write_list_to_file(robot_names, text_file)
     >>> # Read list from file
-    >>> read_list_from_txt(textfile)
+    >>> read_list_from_txt(text_file)
     ['WALL-E', 'Terminator', 'R2D2']
 
     Keywords
@@ -7695,13 +7695,13 @@ def append_line(text, file_path):
         :Example:
     
     >>> # Create a new text file
-    >>> textfile = make_textfile()
+    >>> text_file = make_text_file()
     >>> # Append a few lines to the file
-    >>> append_line('Line 1', textfile)
-    >>> append_line('Line 2', textfile)
-    >>> append_line('Line 3', textfile)
+    >>> append_line('Line 1', text_file)
+    >>> append_line('Line 2', text_file)
+    >>> append_line('Line 3', text_file)
     >>> # Open the file for illustration
-    >>> open_file(textfile)
+    >>> open_file(text_file)
 
     Keywords
         list, text, txt, list to file, write list, read, write txt, append text, append line, append, add to file, add
@@ -7721,7 +7721,7 @@ def append_line(text, file_path):
 
 
 @activity
-def make_textfile(text="Sample text", output_path=None):
+def make_text_file(text="Sample text", output_path=None):
     """Make text file
 
     Initialize text file
@@ -7734,11 +7734,11 @@ def make_textfile(text="Sample text", output_path=None):
         :Example:
 
     >>> # Create a new text file
-    >>> textfile = make_textfile()
-    C:\\Users\\<username>\\generated_textfile.txt'
+    >>> text_file = make_text_file()
+    C:\\Users\\<username>\\generated_text_file.txt'
 
     Keywords
-        make textfile, textfile, testfile, exampel file, make file, make, new file, new textfile, txt, new txt
+        make text file, text_file, testfile, exampel file, make file, make, new file, new text_file, txt, new txt
 
     Icon
         las la-file-alt
@@ -7749,11 +7749,42 @@ def make_textfile(text="Sample text", output_path=None):
     import os
 
     if not output_path:
-        output_path = os.path.join(os.path.expanduser("~"), "generated_textfile.txt")
+        output_path = os.path.join(os.path.expanduser("~"), "generated_text_file.txt")
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(text)
 
     return output_path
+
+
+@activity
+def read_text_file_to_list(file_path):
+    """ Read text file to list
+
+    Read a text file to a Python list-object
+
+    :parameter file_path: Path to the text file which should be read to a list
+
+    :return: List with the lines in the text file
+
+        :Example:
+
+    >>> # Create a new text file
+    >>> text_file = make_text_file(text="First line!\nSecond line!")
+    >>> # Read the text file to a list
+    >>> lines = read_text_file_to_list(text_file)
+    >>> lines
+
+    Keywords
+        read text file, list, reading text file
+
+    Icon
+        las la-copy
+
+    """
+    with open(file_path, "r") as f:
+        result = [line.strip() for line in f.readlines()]
+
+    return result
 
 
 @activity
@@ -7771,13 +7802,13 @@ def copy_file(old_path, new_path=None):
         :Example:
 
     >>> # Create a new text file
-    >>> textfile = make_textfile()
-    >>> # Copy the textfile
-    >>> copy_file(textfile)
-    C:\\Users\\<username>\\generated_textfile.txt'
+    >>> text_file = make_text_file()
+    >>> # Copy the text file
+    >>> copy_file(text_file)
+    C:\\Users\\<username>\\generated_text_file.txt'
 
     Keywords
-        make textfile, textfile, testfile, exampel file, make file, make, new file, new textfile, txt, new txt
+        make text file, text_file, testfile, example file, make file, make, new file, new text_file, txt, new txt
 
     Icon
         las la-copy
@@ -7801,21 +7832,21 @@ def copy_file(old_path, new_path=None):
 
 
 @activity
-def get_file_extension(path):
+def get_file_extension(file_path):
     """Get file extension
     
     Get extension of a file
 
-    :parameter path: Path to file to get extension from
+    :parameter file_path: Path to file to get extension from
 
     :return: String with extension, e.g. '.txt'
 
         :Example:
 
     >>> # Create a new text file
-    >>> textfile = make_textfile()
-    >>> # Get file extension of this textfile
-    >>> get_file_extension(textfile)
+    >>> text_file = make_text_file()
+    >>> # Get file extension of this text file
+    >>> get_file_extension(text_file)
     '.txt'
 
     Keywords
@@ -7828,7 +7859,7 @@ def get_file_extension(path):
 
     import os
 
-    filename, file_extension = os.path.splitext(path)
+    filename, file_extension = os.path.splitext(file_path)
 
     return file_extension
 
@@ -7845,9 +7876,9 @@ def send_to_printer(file):
 
     >>> # Caution as this example could result in a print from default printer
     >>> # Create a new text file
-    >>> textfile = make_textfile(text = 'What does a robot do at lunch? Take a megabyte!')
-    >>> # Print the textfile
-    >>> send_to_printer(textfile)
+    >>> text_file = make_text_file(text = 'What does a robot do at lunch? Take a megabyte!')
+    >>> # Print the text file
+    >>> send_to_printer(text_file)
 
     Keywords
         print, printer, printing, ink, export
@@ -8780,9 +8811,9 @@ def extract_text_ocr(path=None):
 
         :Example:
 
-    >>> # Make a textfile with some text to recognize
-    >>> testfile = make_textfile(text='OCR Example')
-    >>> # Open the textfile
+    >>> # Make a text file with some text to recognize
+    >>> testfile = make_text_file(text='OCR Example')
+    >>> # Open the text file
     >>> open_file(testfile)
     >>> # Find the text with OCR
     >>> extracted_text = find_text_on_screen_ocr(text='OCR Example')
@@ -8846,9 +8877,9 @@ def find_text_on_screen_ocr(text, criteria=None):
 
         :Example:
 
-    >>> # Make a textfile with some text to recognize
-    >>> testfile = make_textfile(text='OCR Example')
-    >>> # Open the textfile
+    >>> # Make a text file with some text to recognize
+    >>> testfile = make_text_file(text='OCR Example')
+    >>> # Open the text file
     >>> open_file(testfile)
     >>> # Find the text with OCR
     >>> find_text_on_screen_ocr(text='OCR Example')
@@ -8931,9 +8962,9 @@ def click_on_text_ocr(text):
 
         :Example:
 
-    >>> # Make a textfile with some text to recognize
-    >>> testfile = make_textfile(text='OCR Example')
-    >>> # Open the textfile
+    >>> # Make a text file with some text to recognize
+    >>> testfile = make_text_file(text='OCR Example')
+    >>> # Open the text file
     >>> open_file(testfile)
     >>> # Find the text with OCR and click on it
     >>> click_on_text_ocr(text='OCR Example')
@@ -8963,9 +8994,9 @@ def double_click_on_text_ocr(text):
 
         :Example:
 
-    >>> # Make a textfile with some text to recognize
-    >>> testfile = make_textfile(text='OCR Example')
-    >>> # Open the textfile
+    >>> # Make a text_file with some text to recognize
+    >>> testfile = make_text_file(text='OCR Example')
+    >>> # Open the text file
     >>> open_file(testfile)
     >>> # Find the text with OCR and double click on it
     >>> double_click_on_text_ocr(text='OCR Example')
@@ -8997,9 +9028,9 @@ def right_click_on_text_ocr(text):
 
         :Example:
 
-    >>> # Make a textfile with some text to recognize
-    >>> testfile = make_textfile(text='OCR Example')
-    >>> # Open the textfile
+    >>> # Make a text file with some text to recognize
+    >>> testfile = make_text_file(text='OCR Example')
+    >>> # Open the text file
     >>> open_file(testfile)
     >>> # Find the text with OCR and right click on it
     >>> right_click_on_text_ocr(text='OCR Example')
