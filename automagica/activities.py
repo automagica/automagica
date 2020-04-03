@@ -2264,7 +2264,7 @@ def right_click(element_id=None, x=None, y=None, delay=0.1):
 
 
 @activity
-def move_mouse_to(x=None, y=None):
+def move_mouse_to(element_id=None, x=None, y=None, delay=0.1):
     """Move mouse
 
     Moves te pointer to an element based on the element ID (vision) or pixel position determined by x and y coordinates x-y position.
@@ -2278,7 +2278,11 @@ def move_mouse_to(x=None, y=None):
 
         :Example:
 
+    >>> # Use recorder to find an element ID
+    >>> recorder()
+    >>> # Move mouse to element or coordinates
     >>> move_mouse_to(x=100, y=100)
+    >>> move_mouse_to(element_id='123exampleID')
 
     Keywords
         mouse, osd, move mouse, right click, right, rightclick, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
@@ -2287,9 +2291,21 @@ def move_mouse_to(x=None, y=None):
         las la-arrows-alt
     """
 
-    from pyautogui import moveTo
+    if delay:
+        from time import sleep
+        sleep(delay) # Default delay
 
-    return moveTo(x, y)
+    if element_id:
+        location = detect_vision(element_id)
+        x, y = get_center_of_rectangle(location)
+
+        from pyautogui import moveTo
+        return moveTo(x, y)
+
+    if x and y:
+        from pyautogui import moveTo
+        return moveTo(x, y)
+
 
 
 @activity
@@ -2322,19 +2338,26 @@ def move_mouse_relative(x=None, y=None):
 
 
 @activity
-def drag_mouse_to(x=None, y=None, button="left"):
+def drag_mouse_to(element_id=None, x=None, y=None, delay=0.1, button="left"):
     """Drag mouse
 
-    Drag the mouse from its current position to a entered x-y position, while holding a specified button.
+    Drags mouse to an element based on the element ID (vision) or pixel position determined by x and y coordinates x-y position.
 
+    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
+    :parameter delay: Delay between movements in seconds, standard value is 100 ms. 
     :parameter button: Button to hold while dragging. Options are 'left', 'middle' and 'right'. Standard value is 'left'.
 
-    :return: Drag mouse (x, y) coordinates
+    :return: Drag mouse 
 
         :Example:
 
+    >>> # Use the recorder to find an element ID to drag mouse to
+    >>> recorder()
+    >>> # Drag mouse to this element
+    >>> drag_mouse_to(element_id='123exampleID')
+    >>> # Alternatively, use coordinates
     >>> move_mouse_to(x=100, y=100)
     >>> drag_mouse_to(x=1, y=1)
 
@@ -2344,9 +2367,20 @@ def drag_mouse_to(x=None, y=None, button="left"):
     Icon
         las la-arrows-alt
     """
-    from pyautogui import dragTo
+    if delay:
+        from time import sleep
+        sleep(delay) # Default delay
 
-    return dragTo(x, y, 0.2, button=button)
+    if element_id:
+        location = detect_vision(element_id)
+        x, y = get_center_of_rectangle(location)
+
+        from pyautogui import dragTo
+        return dragTo(x, y, 0.2, button=button)
+
+    if x and y:
+        from pyautogui import dragTo
+        return dragTo(x, y, 0.2, button=button)
 
 
 """
