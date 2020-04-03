@@ -228,17 +228,17 @@ def add_anchors_window(screenshot, target, action):
         if not config.get("accepted_recorder_terms"):
             from tkinter import messagebox
 
-            root = tk.Tk()
-            root.withdraw()
+            accept_terms_window = tk.Tk()
+            accept_terms_window.withdraw()
             accepted = messagebox.askyesno(
                 "Important",
                 "By continuing, the information you provided in the previous steps will be uploaded to Automagica's Vision service. You can find the full terms on https://portal.automagica.com/tos. Do you accept the terms? You will only be prompted once on this machine.",
-                parent=root,
+                parent=accept_terms_window,
             )
 
             if not accepted:
-                root.quit()
-                root.destroy()
+                accept_terms_window.quit()
+                accept_terms_window.destroy()
                 return
             else:
                 config["accepted_recorder_terms"] = True
