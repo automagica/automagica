@@ -28,7 +28,7 @@ class InstallationWrapper(install):
             import os
             import automagica
 
-            automagica_path = automagica.__file__.replace('__init__.py', '')
+            automagica_path = automagica.__file__.replace("__init__.py", "")
 
             # Make binaries executable
             binaries_path = os.path.join(automagica_path, "bin")
@@ -48,7 +48,8 @@ install_requires = [
     "python-docx==0.8.6",  # MIT License
     "PyPDF2==1.26.0",  # BSD 3-Clause "New" or "Revised" License
     "faker==2.0.3",  # MIT License
-    "psutil==5.6.6",  # BSD 3-Clause "New" or "Revised" License (requires python3-devel on Ubuntu/Fedora)
+    # BSD 3-Clause "New" or "Revised" License (requires python3-devel on Ubuntu/Fedora)
+    "psutil==5.6.6",
     "PySimpleGUI==4.15.1",  # GNU Lesser General Public License v3.0
     "keyring==21.0.0",  # MIT License
     "cryptography==2.3.1",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
@@ -60,7 +61,7 @@ install_requires = [
     "PyAutoGUI==0.9.48",  # BSD 3-Clause "New" license
     "pysnmp==4.4.12",  # BSD 2-Clause "Simplified" License
     "pandas==1.0.0",  # BSD 3-Clause
-    "mss==5.0.0", # MIT License
+    "mss==5.0.0",  # MIT License
 ]
 
 
@@ -69,19 +70,21 @@ package_data = {
         "bin/win32/chromedriver.exe",  # BSD 3-Clause "New" or "Revised" License
         "bin/mac64/chromedriver",  # BSD 3-Clause "New" or "Revised" License
         "bin/linux64/chromedriver",  # BSD 3-Clause "New" or "Revised" License
-        "lab/.jupyter/custom/automagica-lab.png",  # Copyrighted by Oakwood Technologies BVBA
+        # Copyrighted by Oakwood Technologies BVBA
+        "lab/.jupyter/custom/automagica-lab.png",
         "lab/.jupyter/custom/custom.css",  # Copyrighted by Oakwood Technologies BVBA
         "lab/.jupyter/custom/custom.js",  # Copyrighted by Oakwood Technologies BVBA
         "lab/.jupyter/custom/favicon.png",  # Copyrighted by Oakwood Technologies BVBA
         "lab/.jupyter/custom/logo.png",  # Copyrighted by Oakwood Technologies BVBA
-        "lab/.jupyter/custom/logo-white.png",  # Copyrighted by Oakwood Technologies BVBA
+        # Copyrighted by Oakwood Technologies BVBA
+        "lab/.jupyter/custom/logo-white.png",
         "icon.ico",  # Copyrighted by Oakwood Technologies BVBA
     ]
 }
 
 setup(
     name="Automagica",
-    version="2.0.25",
+    version="2.1.0",
     description="Bot for Automagica",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
