@@ -3330,7 +3330,7 @@ class Word:
         For this activity to work, Microsoft Office Word needs to be installed on the system.
 
         :parameter visible: Show Word in the foreground if True or hide if False, defaults to True.
-        :parameter path: Enter a path to open Word with an existing Word file. If no path is specified a document will be initialized, this is the default value.
+        :parameter file_path: Enter a path to open Word with an existing Word file. If no path is specified a document will be initialized, this is the default value.
 
             :Example:
 
@@ -3372,6 +3372,48 @@ class Word:
             app.Documents.Add()
 
         return app
+
+    @activity
+    def save(self):
+        """Save
+
+        Save active Word document
+
+            :Example:
+        >>> # Start Word
+        >>> word = Word(file_path='document.docx')
+        >>> word.append_text('This is sample text')
+        >>> word.save()
+
+        Keywords
+            word, save, document
+
+        Icon
+            lar la-file-word
+        """
+        self.app.ActiveDocument.Save()
+
+    @activity
+    def save_as(self, file_path):
+        """Save As
+
+        Save active Word document to a specific location
+
+        :parameter file_path: Enter a path to open Word with an existing Word file. If no path is specified a document will be initialized, this is the default value.
+
+            :Example:
+        >>> # Start Word
+        >>> word = Word()
+        >>> word.append_text('This is sample text')
+        >>> word.save_as('document.docx')
+
+        Keywords
+            word, save as, document
+
+        Icon
+            lar la-file-word
+        """
+        self.app.ActiveDocument.SaveAs(file_path)
 
     @activity
     def append_text(self, text):
@@ -3460,12 +3502,12 @@ class Word:
         return self.app.ActiveDocument.Content.Text.replace("\r", "\n")
 
     @activity
-    def export_to_pdf(self, path=None):
+    def export_to_pdf(self, file_path=None):
         """Export to PDF
 
         Export the document to PDF
 
-        :parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
+        :parameter file_path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
 
             :Example:
 
@@ -3483,13 +3525,13 @@ class Word:
 
         """
 
-        if not path:
+        if not file_path:
             import os
 
-            path = os.path.expanduser("~") + "/pdf_export.pdf"
+            file_path = os.path.expanduser("~") + "/pdf_export.pdf"
 
         self.app.ActiveDocument.ExportAsFixedFormat(
-            OutputFileName=path,
+            OutputFileName=file_path,
             ExportFormat=17,
             OpenAfterExport=False,
             OptimizeFor=0,
@@ -3498,12 +3540,12 @@ class Word:
         )
 
     @activity
-    def export_to_html(self, path=None):
+    def export_to_html(self, file_path=None):
         """Export to HTML
 
         Export to HTML
 
-        :parameter path: Output path where HTML file will be exported to. Default path is home directory with filename 'html_export.html'.
+        :parameter file_path: Output path where HTML file will be exported to. Default path is home directory with filename 'html_export.html'.
 
             :Example:
 
@@ -3520,10 +3562,10 @@ class Word:
             las la-html5
 
         """
-        if not path:
+        if not file_path:
             import os
 
-            path = os.path.expanduser("~") + "/html_export.html"
+            file_path = os.path.expanduser("~") + "/html_export.html"
 
         import win32com.client
 
@@ -3535,7 +3577,7 @@ class Word:
         self.app.ActiveDocument.WebOptions.UseLongFileNames = 1
         self.app.ActiveDocument.WebOptions.RelyOnVML = 0
         self.app.ActiveDocument.WebOptions.AllowPNG = 1
-        self.app.ActiveDocument.SaveAs(FileName=path, FileFormat=wc.wdFormatHTML)
+        self.app.ActiveDocument.SaveAs(FileName=file_path, FileFormat=wc.wdFormatHTML)
 
     @activity
     def set_footers(self, text):
@@ -10197,4 +10239,3 @@ def read_text(element_id, delay=1):
 
     # Print results
     return r.json()["text"]
-
