@@ -28,6 +28,7 @@ def generate_random_key():
     """
     import os
     from cryptography.fernet import Fernet
+
     key = Fernet.generate_key()
 
     return key
@@ -59,9 +60,10 @@ def encrypt_text_with_key(text, key):
         las la-lock
     """
     from cryptography.fernet import Fernet
+
     f = Fernet(key)
 
-    return f.encrypt(text.encode('utf-8'))
+    return f.encrypt(text.encode("utf-8"))
 
 
 @activity
@@ -92,6 +94,7 @@ def decrypt_text_with_key(encrypted_text, key):
         las la-lock-open
     """
     from cryptography.fernet import Fernet
+
     f = Fernet(key)
 
     return f.decrypt(encrypted_text).decode("utf-8")
@@ -128,22 +131,23 @@ def encrypt_file_with_key(input_path, key, output_path=None):
 
     # Set path if not specified
     import os
+
     if not output_path:
         filepath = os.path.dirname(input_path)
         base = os.path.basename(input_path)
         filename = os.path.splitext(base)[0]
         extension = os.path.splitext(base)[1]
-        output_path = os.path.join(
-            filepath, filename + '_encrypted' + extension)
+        output_path = os.path.join(filepath, filename + "_encrypted" + extension)
 
     from cryptography.fernet import Fernet
-    with open(input_path, 'rb') as f:
+
+    with open(input_path, "rb") as f:
         data = f.read()
 
     fernet = Fernet(key)
     encrypted = fernet.encrypt(data)
 
-    with open(output_path, 'wb') as f:
+    with open(output_path, "wb") as f:
         f.write(encrypted)
 
     return output_path
@@ -181,22 +185,23 @@ def decrypt_file_with_key(input_path, key, output_path=None):
     """
     # Set path if not specified
     import os
+
     if not output_path:
         filepath = os.path.dirname(input_path)
         base = os.path.basename(input_path)
         filename = os.path.splitext(base)[0]
         extension = os.path.splitext(base)[1]
-        output_path = os.path.join(
-            filepath, filename + '_decrypted' + extension)
+        output_path = os.path.join(filepath, filename + "_decrypted" + extension)
 
     from cryptography.fernet import Fernet
-    with open(input_path, 'rb') as f:
+
+    with open(input_path, "rb") as f:
         data = f.read()
 
     fernet = Fernet(key)
     decrypted = fernet.decrypt(data)
 
-    with open(output_path, 'wb') as f:
+    with open(output_path, "wb") as f:
         f.write(decrypted)
 
     return output_path
@@ -233,17 +238,22 @@ def generate_key_from_password(password, salt=None):
 
     # If no salt is set, use hostname as salt
     if not salt:
-        salt = socket.gethostname().encode('utf-8')
+        salt = socket.gethostname().encode("utf-8")
 
-    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32,
-                     salt=salt, iterations=500000, backend=default_backend())
-    key = base64.urlsafe_b64encode(kdf.derive(password.encode('utf-8')))
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=500000,
+        backend=default_backend(),
+    )
+    key = base64.urlsafe_b64encode(kdf.derive(password.encode("utf-8")))
 
     return key
 
 
 @activity
-def generate_hash_from_file(input_path, method='md5', buffer_size=65536):
+def generate_hash_from_file(input_path, method="md5", buffer_size=65536):
     """Hash from file
 
     Generate hash from file 
@@ -277,14 +287,14 @@ def generate_hash_from_file(input_path, method='md5', buffer_size=65536):
     # Arbitrary buffer size. 64kb for compatibility with most systems
     buffer_size = 65536
 
-    if method == 'md5':
+    if method == "md5":
         hash_list = hashlib.md5()
-    if method == 'sha256':
+    if method == "sha256":
         hash_list = hashlib.sha1()
-    if method == 'blake2b':
+    if method == "blake2b":
         hash_list = hashlib.blake2b()
 
-    with open(input_path, 'rb') as f:
+    with open(input_path, "rb") as f:
         while True:
             data = f.read(buffer_size)
             if data:
@@ -294,7 +304,7 @@ def generate_hash_from_file(input_path, method='md5', buffer_size=65536):
 
 
 @activity
-def generate_hash_from_text(text, method='md5'):
+def generate_hash_from_text(text, method="md5"):
     """Hash from text
 
     Generate hash from text
@@ -319,13 +329,13 @@ def generate_hash_from_text(text, method='md5'):
     import sys
     import hashlib
 
-    encoded_text = text.encode('utf-8')
+    encoded_text = text.encode("utf-8")
 
-    if method == 'md5':
+    if method == "md5":
         return hashlib.md5(encoded_text).hexdigest()
-    if method == 'sha256':
+    if method == "sha256":
         return hashlib.sha256(encoded_text).hexdigest()
-    if method == 'blake2b':
+    if method == "blake2b":
         return hashlib.balke2b(encoded_text).hexdigest()
 
 
@@ -360,6 +370,7 @@ def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
         las la-dice
     """
     import random
+
     if fractional:
         return random.uniform(lower_limit, upper_limit)
     else:
@@ -387,6 +398,7 @@ def generate_random_boolean():
         las la-coins
     """
     import random
+
     return bool(random.getrandbits(1))
 
 
@@ -458,11 +470,13 @@ def generate_random_name(locale=None):
         las la-user-tag
     """
     from faker import Faker
+
     if locale:
         seed = Faker(locale)
     else:
         seed = Faker()
     return seed.name()
+
 
 @activity
 def generate_random_sentence(locale=None):
@@ -532,6 +546,7 @@ def generate_random_sentence(locale=None):
         las la-comment
     """
     from faker import Faker
+
     if locale:
         seed = Faker(locale)
     else:
@@ -608,6 +623,7 @@ def generate_random_address(locale=None):
         las la-map
     """
     from faker import Faker
+
     if locale:
         seed = Faker(locale)
     else:
@@ -639,13 +655,14 @@ def generate_random_beep(max_duration=2000, max_frequency=5000):
     """
     import winsound
     import random
+
     frequency = random.randrange(5000)
     duration = random.randrange(2000)
     winsound.Beep(frequency, duration)
 
 
 @activity
-def generate_random_date(formatting='%m/%d/%Y %I:%M', days_in_past=1000):
+def generate_random_date(formatting="%m/%d/%Y %I:%M", days_in_past=1000):
     """Random date
 
     Generates a random date.
@@ -697,8 +714,7 @@ def generate_random_date(formatting='%m/%d/%Y %I:%M', days_in_past=1000):
     earliest = latest - datetime.timedelta(days=days_in_past)
     delta_seconds = (latest - earliest).total_seconds()
 
-    random_date = earliest + \
-        datetime.timedelta(seconds=random.randrange(delta_seconds))
+    random_date = earliest + datetime.timedelta(seconds=random.randrange(delta_seconds))
 
     if formatting:
         return random_date.strftime(formatting)
@@ -786,7 +802,7 @@ def ask_user_input(title="Title", label="Input", password=False):
         background_color="#2196F3",
         element_justification="center",
         use_default_focus=False,
-        keep_on_top=True
+        keep_on_top=True,
     )
     _, values = window.Read()
     window.Close()
@@ -823,7 +839,11 @@ def ask_user_password(label="Password"):
 
 
 @activity
-def ask_credentials(title="Credentials required", dialogue_text_username="Username:", dialogue_text_password="Password:"):
+def ask_credentials(
+    title="Credentials required",
+    dialogue_text_username="Username:",
+    dialogue_text_password="Password:",
+):
     """Ask user for credentials
 
     Prompt a popup which asks user for username and password and returns in plain text. Password will be masked.
@@ -875,7 +895,7 @@ def ask_credentials(title="Credentials required", dialogue_text_username="Userna
         background_color="#2196F3",
         element_justification="center",
         use_default_focus=False,
-        keep_on_top=True
+        keep_on_top=True,
     )
     _, values = window.Read()
 
@@ -884,6 +904,7 @@ def ask_credentials(title="Credentials required", dialogue_text_username="Userna
     password = values[1]
 
     return username, password
+
 
 @activity
 def display_message_box(title="Title", message="Example message"):
@@ -927,7 +948,7 @@ def display_message_box(title="Title", message="Example message"):
         background_color="#2196F3",
         element_justification="center",
         use_default_focus=False,
-        keep_on_top=True
+        keep_on_top=True,
     )
     _, values = window.Read()
     window.Close()
@@ -936,7 +957,7 @@ def display_message_box(title="Title", message="Example message"):
 
 
 @activity
-def display_osd_message(message='Example message', seconds=5):
+def display_osd_message(message="Example message", seconds=5):
     """Display overlay message
 
     Display custom OSD (on-screen display) message. Can be used to display a message for a limited amount of time. Can be used for illustration, debugging or as OSD.
@@ -972,7 +993,11 @@ def display_osd_message(message='Example message', seconds=5):
 
         root = tkinter.Tk()
         label = tkinter.Label(
-            text=message, font=("Helvetica", "30"), fg="white", bg="black", borderwidth=10
+            text=message,
+            font=("Helvetica", "30"),
+            fg="white",
+            bg="black",
+            borderwidth=10,
         )
         label.master.overrideredirect(True)
         label.config(anchor=tkinter.CENTER)
@@ -1018,9 +1043,18 @@ Icon: lab la-chrome
 
 import selenium.webdriver
 
+
 class Chrome(selenium.webdriver.Chrome):
     @activity
-    def __init__(self, load_images=True, headless=False, incognito=False, disable_extension=False, maximize_window=True, focus_window=True):
+    def __init__(
+        self,
+        load_images=True,
+        headless=False,
+        incognito=False,
+        disable_extension=False,
+        maximize_window=True,
+        focus_window=True,
+    ):
         """Open Chrome Browser
 
         Open the Chrome Browser with the Selenium webdriver. Canb be used to automate manipulations in the browser.
@@ -1088,8 +1122,11 @@ class Chrome(selenium.webdriver.Chrome):
             prefs = {"profile.managed_default_content_settings.images": 2}
             chrome_options.add_experimental_option("prefs", prefs)
 
-        selenium.webdriver.Chrome.__init__(self, os.path.abspath(
-            __file__).replace('activities.py', '') + chromedriver_path, chrome_options=chrome_options)
+        selenium.webdriver.Chrome.__init__(
+            self,
+            os.path.abspath(__file__).replace("activities.py", "") + chromedriver_path,
+            chrome_options=chrome_options,
+        )
 
         if maximize_window:
             self.maximize_window()
@@ -1134,15 +1171,15 @@ class Chrome(selenium.webdriver.Chrome):
 
         paths = []
 
-        images = self.find_elements_by_tag_name('img')
+        images = self.find_elements_by_tag_name("img")
 
         for image in images:
-            url = image.get_attribute('src')
+            url = image.get_attribute("src")
             a = urlparse(url)
             filename = os.path.basename(a.path)
 
             if filename:
-                with open(os.path.join(output_path, filename), 'wb') as f:
+                with open(os.path.join(output_path, filename), "wb") as f:
                     try:
                         r = requests.get(url)
                         f.write(r.content)
@@ -1175,7 +1212,13 @@ class Chrome(selenium.webdriver.Chrome):
             las la-align-center
 
         """
-        return self.find_elements_by_xpath("//*[contains(text(), '" + text.lower() + "')] | //*[@value='" + text.lower() + "']")
+        return self.find_elements_by_xpath(
+            "//*[contains(text(), '"
+            + text.lower()
+            + "')] | //*[@value='"
+            + text.lower()
+            + "']"
+        )
 
     @activity
     def by_text(self, text):
@@ -1200,7 +1243,13 @@ class Chrome(selenium.webdriver.Chrome):
             las la-align-center
 
         """
-        return self.find_element_by_xpath("//*[contains(text(), '" + text.lower() + "')] | //*[@value='" + text.lower() + "']")
+        return self.find_element_by_xpath(
+            "//*[contains(text(), '"
+            + text.lower()
+            + "')] | //*[@value='"
+            + text.lower()
+            + "']"
+        )
 
     @activity
     def find_all_links(self, contains=None):
@@ -1232,8 +1281,8 @@ class Chrome(selenium.webdriver.Chrome):
                 try:
                     href_el = element.get_attribute("href")
                     if contains:
-                            if contains in element.get_attribute("href"):
-                                links.append(element.get_attribute("href"))
+                        if contains in element.get_attribute("href"):
+                            links.append(element.get_attribute("href"))
                     else:
                         links.append(element.get_attribute("href"))
                 except:
@@ -1270,13 +1319,12 @@ class Chrome(selenium.webdriver.Chrome):
                 try:
                     href_el = element.get_attribute("href")
                     if contains:
-                            if contains in element.get_attribute("href"):
-                                return element.get_attribute("href")
+                        if contains in element.get_attribute("href"):
+                            return element.get_attribute("href")
                     else:
                         return element.get_attribute("href")
                 except:
                     pass
-
 
     @activity
     def highlight(self, element):
@@ -1307,8 +1355,10 @@ class Chrome(selenium.webdriver.Chrome):
         driver = element._parent
 
         def apply_style(s):
-            driver.execute_script("arguments[0].setAttribute('style', arguments[1]);",
-                                  element, s)
+            driver.execute_script(
+                "arguments[0].setAttribute('style', arguments[1]);", element, s
+            )
+
         apply_style("background: yellow; border: 2px solid red;")
 
     @activity
@@ -1493,9 +1543,8 @@ class Chrome(selenium.webdriver.Chrome):
         """
         return self.find_element_by_id(element)
 
-
         @activity
-        def switch_to_iframe(self, name='iframe'):
+        def switch_to_iframe(self, name="iframe"):
             """Switch to iframe in browser
 
             Switch to an iframe in the browser
@@ -1518,6 +1567,7 @@ class Chrome(selenium.webdriver.Chrome):
             """
 
             return self.switch_to.frame(self.find_element_by_tag_name("iframe"))
+
 
 """
 Credential Management
@@ -1674,15 +1724,14 @@ class FTP:
         # Set path if not specified
         if not output_path:
             import os
+
             filepath = os.path.expanduser("~")
             base = os.path.basename(input_path)
             filename = os.path.splitext(base)[0]
             extension = os.path.splitext(base)[1]
-            output_path = os.path.join(
-                filepath, filename + '_downloaded' + extension)
+            output_path = os.path.join(filepath, filename + "_downloaded" + extension)
 
-        self.connection.retrbinary(
-            "RETR " + input_path, open(output_path, "wb").write)
+        self.connection.retrbinary("RETR " + input_path, open(output_path, "wb").write)
 
         return output_path
 
@@ -1718,8 +1767,7 @@ class FTP:
         if not output_path:
             output_path = "/"
 
-        self.connection.retrbinary(
-            "RETR " + input_path, open(output_path, "wb").write)
+        self.connection.retrbinary("RETR " + input_path, open(output_path, "wb").write)
 
     @activity
     def enumerate_files(self, path="/"):
@@ -1833,59 +1881,60 @@ def easy_key_translation(key):
     """
 
     if not key:
-        return ''
+        return ""
 
-    key_translation = {'backspace': '{BACKSPACE}',
-                       'break': '{BREAK}',
-                       'capslock': '{CAPSLOCK}',
-                       'delete': '{DELETE}',
-                       'alt': '%',
-                       'ctrl': '^',
-                       'shift': '+',
-                       'downarrow': '{DOWN}',
-                       'end': '{END}',
-                       'enter': '{ENTER}',
-                       'escape': '{ESC}',
-                       'help': '{HELP}',
-                       'home': '{HOME}',
-                       'insert': '{INSERT}',
-                       'win': '^{Esc}',
-                       'leftarrow': '{LEFT}',
-                       'numlock': '{NUMLOCK}',
-                       'pagedown': '{PGDN}',
-                       'pageup': '{PGUP}',
-                       'printscreen': '{PRTSC}',
-                       'rightarrow': '{RIGHT}',
-                       'scrolllock': '{SCROLLLOCK}',
-                       'tab': '{TAB}',
-                       'uparrow': '{UP}',
-                       'f1': '{F1}',
-                       'f2': '{F2}',
-                       'f3': '{F3}',
-                       'f4': '{F4}',
-                       'f5': '{F5}',
-                       'f6': '{F6}',
-                       'f7': '{F7}',
-                       'f8': '{F8}',
-                       'f9': '{F9}',
-                       'f10': '{F10}',
-                       'f11': '{F11}',
-                       'f12': '{F12}',
-                       'f13': '{F13}',
-                       'f14': '{F14}',
-                       'f15': '{F15}',
-                       'f16': '{F16}',
-                       '+': '{+}',
-                       '^': '{^}',
-                       '%': '{%}',
-                       '~': '{~}',
-                       '(': '{(}',
-                       ')': '{)}',
-                       '[': '{[}',
-                       ']': '{]}',
-                       '{': '{{}',
-                       '}': '{}}',
-                       }
+    key_translation = {
+        "backspace": "{BACKSPACE}",
+        "break": "{BREAK}",
+        "capslock": "{CAPSLOCK}",
+        "delete": "{DELETE}",
+        "alt": "%",
+        "ctrl": "^",
+        "shift": "+",
+        "downarrow": "{DOWN}",
+        "end": "{END}",
+        "enter": "{ENTER}",
+        "escape": "{ESC}",
+        "help": "{HELP}",
+        "home": "{HOME}",
+        "insert": "{INSERT}",
+        "win": "^{Esc}",
+        "leftarrow": "{LEFT}",
+        "numlock": "{NUMLOCK}",
+        "pagedown": "{PGDN}",
+        "pageup": "{PGUP}",
+        "printscreen": "{PRTSC}",
+        "rightarrow": "{RIGHT}",
+        "scrolllock": "{SCROLLLOCK}",
+        "tab": "{TAB}",
+        "uparrow": "{UP}",
+        "f1": "{F1}",
+        "f2": "{F2}",
+        "f3": "{F3}",
+        "f4": "{F4}",
+        "f5": "{F5}",
+        "f6": "{F6}",
+        "f7": "{F7}",
+        "f8": "{F8}",
+        "f9": "{F9}",
+        "f10": "{F10}",
+        "f11": "{F11}",
+        "f12": "{F12}",
+        "f13": "{F13}",
+        "f14": "{F14}",
+        "f15": "{F15}",
+        "f16": "{F16}",
+        "+": "{+}",
+        "^": "{^}",
+        "%": "{%}",
+        "~": "{~}",
+        "(": "{(}",
+        ")": "{)}",
+        "[": "{[}",
+        "]": "{]}",
+        "{": "{{}",
+        "}": "{}}",
+    }
 
     if key_translation.get(key):
         return key_translation.get(key)
@@ -1935,6 +1984,7 @@ def press_key(key=None):
             return press(key)
 
     import win32com.client
+
     shell = win32com.client.Dispatch("WScript.Shell")
     shell.SendKeys(easy_key_translation(key), 0)
 
@@ -1973,7 +2023,7 @@ def press_key_combination(first_key, second_key, third_key=None, force_pyautogui
     import platform
 
     # Check if system is not running Windows
-    if first_key == 'win' or second_key == 'win' or third_key == 'win':
+    if first_key == "win" or second_key == "win" or third_key == "win":
         force_pyautogui = True
     if platform.system() != "Windows" or force_pyautogui:
         from pyautogui import hotkey
@@ -1984,9 +2034,13 @@ def press_key_combination(first_key, second_key, third_key=None, force_pyautogui
             return hotkey(first_key, second_key, third_key)
 
     import win32com.client
+
     shell = win32com.client.Dispatch("WScript.Shell")
-    key_combination = easy_key_translation(
-        first_key) + easy_key_translation(second_key) + easy_key_translation(third_key)
+    key_combination = (
+        easy_key_translation(first_key)
+        + easy_key_translation(second_key)
+        + easy_key_translation(third_key)
+    )
     shell.SendKeys(easy_key_translation(key_combination), 0)
 
 
@@ -2023,27 +2077,32 @@ def typing(text, element_id=None, clear=False, interval_seconds=0.01):
     if element_id:
         location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
-        
+
         from pyautogui import click
+
         click(x, y)
 
     if clear:
-        press_key_combination('ctrl','a')
-        press_key('delete')
+        press_key_combination("ctrl", "a")
+        press_key("delete")
 
     import platform
 
     # Set keyboard layout for Windows platform
     if platform.system() != "Windows":
         from pyautogui import typewrite
+
         return typewrite(text, interval=interval_seconds)
 
     import win32com.client
+
     shell = win32com.client.Dispatch("WScript.Shell")
     import time
+
     for character in text:
         shell.SendKeys(easy_key_translation(character), 0)
         time.sleep(interval_seconds)
+
 
 """
 Mouse
@@ -2153,17 +2212,20 @@ def click(element_id=None, x=None, y=None, delay=0.1):
     """
     if delay:
         from time import sleep
-        sleep(delay) # Default delay
+
+        sleep(delay)  # Default delay
 
     if element_id:
         location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
         from pyautogui import click
+
         return click(x, y)
 
     if x and y:
         from pyautogui import click
+
         return click(x, y)
 
     else:
@@ -2199,17 +2261,20 @@ def double_click(element_id=None, x=None, y=None, delay=0.1):
     """
     if delay:
         from time import sleep
-        sleep(delay) # Default delay
+
+        sleep(delay)  # Default delay
 
     if element_id:
         location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
         from pyautogui import doubleClick
+
         return doubleClick(x, y)
 
     if x and y:
         from pyautogui import doubleClick
+
         return doubleClick(x, y)
 
     else:
@@ -2246,17 +2311,20 @@ def right_click(element_id=None, x=None, y=None, delay=0.1):
 
     if delay:
         from time import sleep
-        sleep(delay) # Default delay
+
+        sleep(delay)  # Default delay
 
     if element_id:
         location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
         from pyautogui import rightClick
+
         return rightClick(x, y)
 
     if x and y:
         from pyautogui import rightClick
+
         return rightClick(x, y)
 
     else:
@@ -2293,19 +2361,21 @@ def move_mouse_to(element_id=None, x=None, y=None, delay=0.1):
 
     if delay:
         from time import sleep
-        sleep(delay) # Default delay
+
+        sleep(delay)  # Default delay
 
     if element_id:
         location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
         from pyautogui import moveTo
+
         return moveTo(x, y)
 
     if x and y:
         from pyautogui import moveTo
-        return moveTo(x, y)
 
+        return moveTo(x, y)
 
 
 @activity
@@ -2369,17 +2439,20 @@ def drag_mouse_to(element_id=None, x=None, y=None, delay=0.1, button="left"):
     """
     if delay:
         from time import sleep
-        sleep(delay) # Default delay
+
+        sleep(delay)  # Default delay
 
     if element_id:
         location = detect_vision(element_id)
         x, y = get_center_of_rectangle(location)
 
         from pyautogui import dragTo
+
         return dragTo(x, y, 0.2, button=button)
 
     if x and y:
         from pyautogui import dragTo
+
         return dragTo(x, y, 0.2, button=button)
 
 
@@ -2415,21 +2488,28 @@ def random_screen_snippet(size=100, path=None):
     only_supported_for("Windows", "Darwin")
 
     import PIL.ImageGrab
+
     img = PIL.ImageGrab.grab()
 
     width, height = img.size
 
     import random
+
     random_left = random.randrange(1, width, 1)
     random_top = random.randrange(1, height, 1)
 
-    left, top, right, bottom = random_left, random_top, random_left + size, random_top + size
+    left, top, right, bottom = (
+        random_left,
+        random_top,
+        random_left + size,
+        random_top + size,
+    )
     cropped = img.crop((left, top, right, bottom))
 
     if not path:
         import os
-        path = os.path.join(os.path.expanduser(
-            "~"), "random_screensnippet.jpg")
+
+        path = os.path.join(os.path.expanduser("~"), "random_screensnippet.jpg")
     cropped.save(path, "JPEG")
 
     return path
@@ -2460,10 +2540,12 @@ def take_screenshot(path=None):
     only_supported_for("Windows", "Darwin")
 
     import PIL.ImageGrab
+
     img = PIL.ImageGrab.grab()
 
     if not path:
         import os
+
         path = os.path.join(os.path.expanduser("~"), "screenshot.jpg")
     img.save(path, "JPEG")
 
@@ -2628,7 +2710,9 @@ Icon: las la-folder-open
 
 
 @activity
-def get_files_in_folder(path=None, extension=None, show_full_path=True, scan_subfolders=False):
+def get_files_in_folder(
+    path=None, extension=None, show_full_path=True, scan_subfolders=False
+):
     """List files in folder
 
     List all files in a folder (and subfolders)
@@ -2718,8 +2802,9 @@ def create_folder(path=None):
         return path
 
     from uuid import uuid4
+
     folder_name = os.path.basename(path)
-    extended_folder_name = folder_name + '_' + str(uuid4())[:4]
+    extended_folder_name = folder_name + "_" + str(uuid4())[:4]
     parent_dir = os.path.abspath(os.path.join(path, os.pardir))
     path = os.path.abspath(os.path.join(parent_dir, extended_folder_name))
     os.makedirs(path)
@@ -2760,7 +2845,7 @@ def rename_folder(input_path, new_name=None):
 
     if not new_name:
         folder_name = os.path.basename(input_path)
-        new_name = folder_name + '_renamed'
+        new_name = folder_name + "_renamed"
 
     parent_dir = os.path.abspath(os.path.join(input_path, os.pardir))
     renamed_dir = os.path.join(parent_dir, new_name)
@@ -2852,8 +2937,7 @@ def move_folder(from_path, to_path):
         elif os.path.isdir(to_path):
             to_path_folder_name = os.path.basename(to_path)
             to_path_folder_name = to_path_folder_name + str(uuid4())[:4]
-            to_path_base_name = os.path.abspath(
-                os.path.join(to_path, os.pardir))
+            to_path_base_name = os.path.abspath(os.path.join(to_path, os.pardir))
             to_path = os.path.join(to_path_base_name, to_path_folder_name)
             shutil.move(from_path, to_path)
             return os.path.join(to_path, from_path_folder)
@@ -3010,10 +3094,10 @@ def copy_folder(from_path, to_path=None):
             shutil.copytree(from_path, to_path)
             return os.path.join(to_path, from_path_folder)
         elif os.path.isdir(to_path):
-            to_path_folder_name = os.path.basename(
-                to_path) + '_copy_' + str(uuid4())[:4]
-            to_path_base_name = os.path.abspath(
-                os.path.join(to_path, os.pardir))
+            to_path_folder_name = (
+                os.path.basename(to_path) + "_copy_" + str(uuid4())[:4]
+            )
+            to_path_base_name = os.path.abspath(os.path.join(to_path, os.pardir))
             to_path = os.path.join(to_path_base_name, to_path_folder_name)
             shutil.copytree(from_path, to_path)
             return os.path.join(to_path, from_path_folder)
@@ -3051,6 +3135,7 @@ def zip_folder(path, new_path=None):
 
     if not new_path:
         from uuid import uuid4
+
         new_path = path + "_" + str(uuid4())[:4]
     if os.path.isdir(path):
         shutil.make_archive(new_path, "zip", path)
@@ -3097,6 +3182,7 @@ def unzip(path, to_path=None):
         zipp.close()
     return to_path
 
+
 @activity
 def most_recent_file(path=None):
     """Return most recent file in directory
@@ -3120,6 +3206,7 @@ def most_recent_file(path=None):
     """
 
     import os
+
     files = os.listdir(path)
     paths = [os.path.join(path, basename) for basename in files]
     return max(paths, key=os.path.getatime)
@@ -3243,7 +3330,7 @@ class Word:
         For this activity to work, Microsoft Office Word needs to be installed on the system.
 
         :parameter visible: Show Word in the foreground if True or hide if False, defaults to True.
-        :parameter path: Enter a path to open Word with an existing Word file. If no path is specified a document will be initialized, this is the default value.
+        :parameter file_path: Enter a path to open Word with an existing Word file. If no path is specified a document will be initialized, this is the default value.
 
             :Example:
 
@@ -3272,7 +3359,7 @@ class Word:
             import win32com.client
 
             app = win32com.client.gencache.EnsureDispatch("Word.Application")
-            #app = win32com.client.dynamic.Dispatch("Word.Application")
+            # app = win32com.client.dynamic.Dispatch("Word.Application")
 
         except:
             raise Exception(
@@ -3285,6 +3372,48 @@ class Word:
             app.Documents.Add()
 
         return app
+
+    @activity
+    def save(self):
+        """Save
+
+        Save active Word document
+
+            :Example:
+        >>> # Start Word
+        >>> word = Word(file_path='document.docx')
+        >>> word.append_text('This is sample text')
+        >>> word.save()
+
+        Keywords
+            word, save, document
+
+        Icon
+            lar la-file-word
+        """
+        self.app.ActiveDocument.Save()
+
+    @activity
+    def save_as(self, file_path):
+        """Save As
+
+        Save active Word document to a specific location
+
+        :parameter file_path: Enter a path to open Word with an existing Word file. If no path is specified a document will be initialized, this is the default value.
+
+            :Example:
+        >>> # Start Word
+        >>> word = Word()
+        >>> word.append_text('This is sample text')
+        >>> word.save_as('document.docx')
+
+        Keywords
+            word, save as, document
+
+        Icon
+            lar la-file-word
+        """
+        self.app.ActiveDocument.SaveAs(file_path)
 
     @activity
     def append_text(self, text):
@@ -3368,17 +3497,17 @@ class Word:
         """
 
         if return_as_list:
-            return self.app.ActiveDocument.Content.Text.split('\r')
+            return self.app.ActiveDocument.Content.Text.split("\r")
 
-        return self.app.ActiveDocument.Content.Text.replace('\r', '\n')
+        return self.app.ActiveDocument.Content.Text.replace("\r", "\n")
 
     @activity
-    def export_to_pdf(self, path=None):
+    def export_to_pdf(self, file_path=None):
         """Export to PDF
 
         Export the document to PDF
 
-        :parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
+        :parameter file_path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
 
             :Example:
 
@@ -3396,25 +3525,27 @@ class Word:
 
         """
 
-        if not path:
+        if not file_path:
             import os
-            path = os.path.expanduser("~") + '/pdf_export.pdf'
 
-        self.app.ActiveDocument.ExportAsFixedFormat(OutputFileName=path,
-                                                    ExportFormat=17,
-                                                    OpenAfterExport=False,
-                                                    OptimizeFor=0,
-                                                    CreateBookmarks=1,
-                                                    DocStructureTags=True
-                                                    )
+            file_path = os.path.expanduser("~") + "/pdf_export.pdf"
+
+        self.app.ActiveDocument.ExportAsFixedFormat(
+            OutputFileName=file_path,
+            ExportFormat=17,
+            OpenAfterExport=False,
+            OptimizeFor=0,
+            CreateBookmarks=1,
+            DocStructureTags=True,
+        )
 
     @activity
-    def export_to_html(self, path=None):
+    def export_to_html(self, file_path=None):
         """Export to HTML
 
         Export to HTML
 
-        :parameter path: Output path where HTML file will be exported to. Default path is home directory with filename 'html_export.html'.
+        :parameter file_path: Output path where HTML file will be exported to. Default path is home directory with filename 'html_export.html'.
 
             :Example:
 
@@ -3431,22 +3562,22 @@ class Word:
             las la-html5
 
         """
-        if not path:
+        if not file_path:
             import os
-            path = os.path.expanduser("~") + '/pdf_export.pdf'
+
+            file_path = os.path.expanduser("~") + "/html_export.html"
 
         import win32com.client
 
         wc = win32com.client.constants
-        word.app.ActiveDocument.WebOptions.RelyOnCSS = 1
-        word.app.ActiveDocument.WebOptions.OptimizeForBrowser = 1
-        word.app.ActiveDocument.WebOptions.BrowserLevel = 0
-        word.app.ActiveDocument.WebOptions.OrganizeInFolder = 0
-        word.app.ActiveDocument.WebOptions.UseLongFileNames = 1
-        word.app.ActiveDocument.WebOptions.RelyOnVML = 0
-        word.app.ActiveDocument.WebOptions.AllowPNG = 1
-        word.app.ActiveDocument.SaveAs(
-            FileName=path, FileFormat=wc.wdFormatHTML)
+        self.app.ActiveDocument.WebOptions.RelyOnCSS = 1
+        self.app.ActiveDocument.WebOptions.OptimizeForBrowser = 1
+        self.app.ActiveDocument.WebOptions.BrowserLevel = 0
+        self.app.ActiveDocument.WebOptions.OrganizeInFolder = 0
+        self.app.ActiveDocument.WebOptions.UseLongFileNames = 1
+        self.app.ActiveDocument.WebOptions.RelyOnVML = 0
+        self.app.ActiveDocument.WebOptions.AllowPNG = 1
+        self.app.ActiveDocument.SaveAs(FileName=file_path, FileFormat=wc.wdFormatHTML)
 
     @activity
     def set_footers(self, text):
@@ -3524,6 +3655,7 @@ Word File
 Icon: las la-file-word
 """
 
+
 class WordFile:
     @activity
     def __init__(self, file_path=None):
@@ -3561,7 +3693,7 @@ class WordFile:
             if not os.path.exists(self.file_path):
                 document = Document(self.file_path)
         else:
-            path = os.path.expanduser("~") + '\document.docx'
+            path = os.path.expanduser("~") + "\document.docx"
             document = Document()
             document.save(path)
             self.file_path = path
@@ -3599,7 +3731,7 @@ class WordFile:
 
         if return_as_list:
             return text
-        return '\r'.join(map(str, text))
+        return "\r".join(map(str, text))
 
     @activity
     def append_text(self, text, auto_save=True):
@@ -3730,8 +3862,7 @@ class WordFile:
 
         document = Document(self.file_path)
         for paragraph in document.paragraphs:
-            paragraph.text = paragraph.text.replace(
-                placeholder_text, replacement_text)
+            paragraph.text = paragraph.text.replace(placeholder_text, replacement_text)
 
         if auto_save:
             document.save(self.file_path)
@@ -3774,8 +3905,7 @@ class Outlook:
         try:
             import win32com.client
 
-            app = win32com.client.gencache.EnsureDispatch(
-                "outlook.application")
+            app = win32com.client.gencache.EnsureDispatch("outlook.application")
 
         except:
             raise Exception(
@@ -3785,7 +3915,9 @@ class Outlook:
         return app
 
     @activity
-    def send_mail(self, to_address, subject="", body="", html_body=None, attachment_paths=None):
+    def send_mail(
+        self, to_address, subject="", body="", html_body=None, attachment_paths=None
+    ):
         """Send e-mail
 
         Send an e-mail using Outlook
@@ -3851,11 +3983,11 @@ class Outlook:
         folders = []
 
         if self.account_name:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(self.account_name).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+            )
         else:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(1).Folders
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for folder in found_folders:
             name = folder.Name
             folders.append(name)
@@ -3899,11 +4031,11 @@ class Outlook:
         messages = []
 
         if self.account_name:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(self.account_name).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+            )
         else:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(1).Folders
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for folder in found_folders:
             name = folder.Name
             if name == folder_name:
@@ -3928,7 +4060,14 @@ class Outlook:
         return messages
 
     @activity
-    def delete_mails(self,folder_name="Inbox",limit=0,subject_contains="",body_contains="",sender_contains=""):
+    def delete_mails(
+        self,
+        folder_name="Inbox",
+        limit=0,
+        subject_contains="",
+        body_contains="",
+        sender_contains="",
+    ):
         """Delete e-mails
 
         Deletes e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -3953,11 +4092,11 @@ class Outlook:
         """
         # Find the appropriate folder
         if self.account_name:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(self.account_name).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+            )
         else:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(1).Folders
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for folder in found_folders:
             name = folder.Name
             if name == folder_name:
@@ -3980,7 +4119,15 @@ class Outlook:
                         item.Delete()
 
     @activity
-    def move_mails(self,source_folder_name="Inbox",target_folder_name="Archive",limit=0,subject_contains="",body_contains="",sender_contains=""):
+    def move_mails(
+        self,
+        source_folder_name="Inbox",
+        target_folder_name="Archive",
+        limit=0,
+        subject_contains="",
+        body_contains="",
+        sender_contains="",
+    ):
         """Move e-mails
 
         Move e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -4005,36 +4152,34 @@ class Outlook:
         """
         # Find the appropriate source folder
         if self.account_name:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(self.account_name).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+            )
         else:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(1).Folders
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for source_folder in found_folders:
             name = source_folder.Name
             if name == source_folder_name:
                 break
         else:
             raise Exception(
-                "Could not find the folder with name '{}'.".format(
-                    source_folder_name)
+                "Could not find the folder with name '{}'.".format(source_folder_name)
             )
 
         # Find the appropriate target folder
         if self.account_name:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(self.account_name).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+            )
         else:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(1).Folders
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for target_folder in found_folders:
             name = target_folder.Name
             if name == target_folder_name:
                 break
         else:
             raise Exception(
-                "Could not find the folder with name '{}'.".format(
-                    target_folder_name)
+                "Could not find the folder with name '{}'.".format(target_folder_name)
             )
 
         # Loop over the items in the folder
@@ -4082,11 +4227,11 @@ class Outlook:
 
         # Find the appropriate folder
         if self.account_name:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(self.account_name).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+            )
         else:
-            found_folders = self.app.GetNamespace(
-                "MAPI").Folders.Item(1).Folders
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for folder in found_folders:
             name = folder.Name
             if name == folder_name:
@@ -4141,8 +4286,7 @@ class Outlook:
 
         mapi = self.app.GetNamespace("MAPI")
 
-        data = mapi.GetDefaultFolder(
-            win32com.client.constants.olFolderContacts)
+        data = mapi.GetDefaultFolder(win32com.client.constants.olFolderContacts)
 
         for item in data.Items:
             if item.Class == win32com.client.constants.olContact:
@@ -4257,7 +4401,8 @@ class Excel:
 
         except:
             raise Exception(
-                "Could not launch Excel, do you have Microsoft Office installed on Windows?")
+                "Could not launch Excel, do you have Microsoft Office installed on Windows?"
+            )
 
         if self.file_path:
             app.Workbooks.Open(self.file_path)
@@ -4375,7 +4520,8 @@ class Excel:
         """
         if not path:
             import os
-            path = os.path.expanduser("~") + '\workbook.xlsx'
+
+            path = os.path.expanduser("~") + "\workbook.xlsx"
 
         self.app.DisplayAlerts = False
         self.workbook.SaveAs(path)
@@ -4703,8 +4849,8 @@ class Excel:
         row = self.app.ActiveCell.Row
 
         for i in range(column):
-            if column-i > 0:
-                cell = self.workbook.ActiveSheet.Cells(row, column-i)
+            if column - i > 0:
+                cell = self.workbook.ActiveSheet.Cells(row, column - i)
                 if not cell.Value:
                     cell.Select()
                     break
@@ -4736,8 +4882,8 @@ class Excel:
         row = self.app.ActiveCell.Row
 
         for i in range(row):
-            if row-i > 0:
-                cell = self.workbook.ActiveSheet.Cells(row-i, column)
+            if row - i > 0:
+                cell = self.workbook.ActiveSheet.Cells(row - i, column)
                 if not cell.Value:
                     cell.Select()
                     break
@@ -4819,7 +4965,7 @@ class Excel:
         Icon
             las la-file-excel
         """
-        row_range = 'A' + str(row)
+        row_range = "A" + str(row)
         self.workbook.ActiveSheet.Range(row_range).EntireRow.Insert()
 
     @activity
@@ -4845,7 +4991,7 @@ class Excel:
         Icon
             las la-file-excel
         """
-        column_range = str(column) + '1'
+        column_range = str(column) + "1"
         self.workbook.ActiveSheet.Range(column_range).EntireColumn.Insert()
 
     @activity
@@ -4871,7 +5017,7 @@ class Excel:
         Icon
             las la-file-excel
         """
-        row_range = 'A' + str(row)
+        row_range = "A" + str(row)
         self.workbook.ActiveSheet.Range(row_range).EntireRow.Delete()
 
     @activity
@@ -4897,7 +5043,7 @@ class Excel:
         Icon
             las la-file-excel
         """
-        column_range = str(column) + '1'
+        column_range = str(column) + "1"
         self.workbook.ActiveSheet.Range(column_range).EntireColumn.Delete()
 
     @activity
@@ -4925,12 +5071,13 @@ class Excel:
         """
         if not path:
             import os
-            path = os.path.join(os.path.expanduser("~"), 'pdf_export.pdf')
+
+            path = os.path.join(os.path.expanduser("~"), "pdf_export.pdf")
 
         self.workbook.ActiveSheet.ExportAsFixedFormat(0, path, 0, True, True)
 
     @activity
-    def insert_data_as_table(self, data, range_='A1', table_style="TableStyleMedium2"):
+    def insert_data_as_table(self, data, range_="A1", table_style="TableStyleMedium2"):
         """Insert data as table
         
         Insert list of dictionaries as a table in Excel
@@ -4969,11 +5116,12 @@ class Excel:
         values = [column_names] + data_values
         for i in range(len(values)):
             for j in range(len(values[0])):
-                self.workbook.ActiveSheet.Cells(
-                    row+i, column+j).Value = values[i][j]
+                self.workbook.ActiveSheet.Cells(row + i, column + j).Value = values[i][
+                    j
+                ]
 
         start_cell = self.workbook.ActiveSheet.Cells(row, column)
-        end_cell = self.workbook.ActiveSheet.Cells(row+i, column+j)
+        end_cell = self.workbook.ActiveSheet.Cells(row + i, column + j)
         self.workbook.ActiveSheet.Range(start_cell, end_cell).Select()
         self.app.ActiveSheet.ListObjects.Add().TableStyle = table_style
 
@@ -5022,8 +5170,9 @@ class Excel:
         if headers:
             header_row = data[0]
             data = data[1:]
-            data = [{column: row[i]
-                     for i, column in enumerate(header_row)} for row in data]
+            data = [
+                {column: row[i] for i, column in enumerate(header_row)} for row in data
+            ]
 
         return data
 
@@ -5048,10 +5197,12 @@ class Excel:
         """
         self.app.Application.Quit()
 
+
 """
 Excel File
 Icon: las la-file-excel
 """
+
 
 class ExcelFile:
     @activity
@@ -5085,7 +5236,7 @@ class ExcelFile:
             self.book = openpyxl.load_workbook(self.file_path)
 
         else:
-            path = os.path.join(os.path.expanduser("~"), 'workbook.xlsx')
+            path = os.path.join(os.path.expanduser("~"), "workbook.xlsx")
             self.book = openpyxl.load_workbook(path)
             self.file_path = path
 
@@ -5113,8 +5264,8 @@ class ExcelFile:
         """
 
         import pandas as pd
-        return pd.read_excel(self.file_path)
 
+        return pd.read_excel(self.file_path)
 
     @activity
     def activate_worksheet(self, name):
@@ -5344,12 +5495,12 @@ class PowerPoint:
         try:
             import win32com.client
 
-            app = win32com.client.gencache.EnsureDispatch(
-                "PowerPoint.Application")
+            app = win32com.client.gencache.EnsureDispatch("PowerPoint.Application")
 
         except:
             raise Exception(
-                "Could not launch PowerPoint, do you have Microsoft Office installed on Windows?")
+                "Could not launch PowerPoint, do you have Microsoft Office installed on Windows?"
+            )
 
         if path:
             return app.Presentations.Open(path)
@@ -5382,7 +5533,8 @@ class PowerPoint:
         """
         if not path:
             import os
-            os.path.join(os.path.expanduser("~"), 'presentation.pptx')
+
+            os.path.join(os.path.expanduser("~"), "presentation.pptx")
 
         return self.app.SaveAs(path)
 
@@ -5413,7 +5565,7 @@ class PowerPoint:
         self.app.Application.Quit()
 
     @activity
-    def add_slide(self, index=None, type='blank'):
+    def add_slide(self, index=None, type="blank"):
         """Add PowerPoint Slides
 
         Adds slides to a presentation
@@ -5436,15 +5588,15 @@ class PowerPoint:
             las la-file-powerpoint
 
         """
-        if type == 'blank':
+        if type == "blank":
             type_id = 12
-        if type == 'chart':
+        if type == "chart":
             type_id = 8
-        if type == 'text':
+        if type == "text":
             type_id = 2
-        if type == 'title':
+        if type == "title":
             type_id = 1
-        if type == 'picture':
+        if type == "picture":
             type_id = 36
 
         if not index:
@@ -5477,7 +5629,18 @@ class PowerPoint:
         return self.app.Slides.Count
 
     @activity
-    def add_text(self, text, index=None, font_size=48, font_name=None, bold=False, margin_bottom=100, margin_left=100, margin_right=100, margin_top=100):
+    def add_text(
+        self,
+        text,
+        index=None,
+        font_size=48,
+        font_name=None,
+        bold=False,
+        margin_bottom=100,
+        margin_left=100,
+        margin_right=100,
+        margin_top=100,
+    ):
         """Text to slide
         
         Add text to a slide
@@ -5510,8 +5673,11 @@ class PowerPoint:
         if not index:
             index = self.app.Slides.Count + 1
             self.app.Slides.Add(index, 12)
-        text_box = self.app.Slides(index).Shapes.AddTextbox(
-            1, 100, 100, 200, 50).TextFrame.TextRange
+        text_box = (
+            self.app.Slides(index)
+            .Shapes.AddTextbox(1, 100, 100, 200, 50)
+            .TextFrame.TextRange
+        )
         text_box.Text = text
         text_box.Font.Size = font_size
         if font_name:
@@ -5577,7 +5743,9 @@ class PowerPoint:
         """
         for slide in self.app.Slides:
             for shape in slide.Shapes:
-                shape.TextFrame.TextRange.Text = shape.TextFrame.TextRange.Text.replace(placeholder_text, replacement_text)
+                shape.TextFrame.TextRange.Text = shape.TextFrame.TextRange.Text.replace(
+                    placeholder_text, replacement_text
+                )
 
     @activity
     def export_to_pdf(self, path=None):
@@ -5606,16 +5774,18 @@ class PowerPoint:
 
         if self.app.Slides.Count == 0:
             raise Exception(
-                'Please add a slide first bedore exporting the presentation.')
+                "Please add a slide first bedore exporting the presentation."
+            )
 
         if not path:
             import os
-            path = os.path.join(os.path.expanduser("~"), 'pdf_export.pdf')
+
+            path = os.path.join(os.path.expanduser("~"), "pdf_export.pdf")
 
         return self.app.ExportAsFixedFormat2(path, 2, PrintRange=None)
 
     @activity
-    def export_slides_to_images(self, path=None, type='png'):
+    def export_slides_to_images(self, path=None, type="png"):
         """Slides to images
         
         Export PowerPoint slides to seperate image files
@@ -5643,13 +5813,15 @@ class PowerPoint:
 
         if self.app.Slides.Count == 0:
             raise Exception(
-                'Please add a slide first bedore exporting the presentation.')
+                "Please add a slide first bedore exporting the presentation."
+            )
 
         if not path:
             import os
+
             path = os.path.expanduser("~")
 
-        return self.app.Export(path, 'png')
+        return self.app.Export(path, "png")
 
 
 """
@@ -5659,7 +5831,7 @@ Icon: las la-cloud
 
 
 @activity
-def send_email_with_outlook365(client_id, client_secret, to_email, subject='', body=''):
+def send_email_with_outlook365(client_id, client_secret, to_email, subject="", body=""):
     """Send email Office Outlook 365
 
     Send email Office Outlook 365
@@ -5698,8 +5870,9 @@ Salesforce
 Icon: lab la-salesforce
 """
 
+
 @activity
-def salesforce_api_call(action, key, parameters={}, method='get', data={}):
+def salesforce_api_call(action, key, parameters={}, method="get", data={}):
     """Salesforce API
 
     Activity to make calls to Salesforce REST API.
@@ -5725,26 +5898,37 @@ def salesforce_api_call(action, key, parameters={}, method='get', data={}):
 
     """
     headers = {
-        'Content-type': 'application/json',
-        'Accept-Encoding': 'gzip',
-        'Authorization': 'Bearer ' + key
+        "Content-type": "application/json",
+        "Accept-Encoding": "gzip",
+        "Authorization": "Bearer " + key,
     }
-    if method == 'get':
-        r = requests.request(method, instance_url+action,
-                             headers=headers, params=parameters, timeout=30)
-    elif method in ['post', 'patch']:
-        r = requests.request(method, instance_url+action,
-                             headers=headers, json=data, params=parameters, timeout=10)
+    if method == "get":
+        r = requests.request(
+            method,
+            instance_url + action,
+            headers=headers,
+            params=parameters,
+            timeout=30,
+        )
+    elif method in ["post", "patch"]:
+        r = requests.request(
+            method,
+            instance_url + action,
+            headers=headers,
+            json=data,
+            params=parameters,
+            timeout=10,
+        )
     else:
-        raise ValueError('Method should be get or post or patch.')
-    print('Debug: API %s call: %s' % (method, r.url))
+        raise ValueError("Method should be get or post or patch.")
+    print("Debug: API %s call: %s" % (method, r.url))
     if r.status_code < 300:
-        if method == 'patch':
+        if method == "patch":
             return None
         else:
             return r.json()
     else:
-        raise Exception('API error when calling %s : %s' % (r.url, r.content))
+        raise Exception("API error when calling %s : %s" % (r.url, r.content))
 
 
 """
@@ -5754,7 +5938,9 @@ Icon: las la-at
 
 
 @activity
-def send_mail_smtp(smtp_host, smtp_user, smtp_password, to_address, subject="", message="", port=587):
+def send_mail_smtp(
+    smtp_host, smtp_user, smtp_password, to_address, subject="", message="", port=587
+):
     """Mail with SMTP
 
     This function lets you send emails with an e-mail address. 
@@ -5800,6 +5986,7 @@ Windows OS
 Icon: lab la-windows
 """
 
+
 @activity
 def find_window_title(searchterm, partial=True):
     """Find window with specific title
@@ -5827,14 +6014,17 @@ def find_window_title(searchterm, partial=True):
     """
 
     import ctypes
- 
+
     EnumWindows = ctypes.windll.user32.EnumWindows
-    EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int))
+    EnumWindowsProc = ctypes.WINFUNCTYPE(
+        ctypes.c_bool, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int)
+    )
     GetWindowText = ctypes.windll.user32.GetWindowTextW
     GetWindowTextLength = ctypes.windll.user32.GetWindowTextLengthW
     IsWindowVisible = ctypes.windll.user32.IsWindowVisible
-    
+
     titles = []
+
     def foreach_window(hwnd, lParam):
         if IsWindowVisible(hwnd):
             length = GetWindowTextLength(hwnd)
@@ -5842,8 +6032,9 @@ def find_window_title(searchterm, partial=True):
             GetWindowText(hwnd, buff, length + 1)
             titles.append(buff.value)
         return True
+
     EnumWindows(EnumWindowsProc(foreach_window), 0)
-    
+
     if partial:
         for title in titles:
             if searchterm in title:
@@ -5853,12 +6044,15 @@ def find_window_title(searchterm, partial=True):
         for title in titles:
             if searchterm == title:
                 return title
-    
+
     else:
         return False
 
+
 @activity
-def start_remote_desktop(ip, username, password=None, desktop_width=1920, desktop_height=1080):
+def start_remote_desktop(
+    ip, username, password=None, desktop_width=1920, desktop_height=1080
+):
     """Login to Windows Remote Desktop
 
     Create a RDP and login to Windows Remote Desktop
@@ -5881,7 +6075,7 @@ def start_remote_desktop(ip, username, password=None, desktop_width=1920, deskto
 
     """
     only_supported_for("Windows")
-    
+
     rdp_raw = """screen mode id:i:1
 use multimon:i:0
 session bpp:i:32
@@ -5924,21 +6118,24 @@ gatewaybrokeringtype:i:0
 use redirection server name:i:0
 rdgiskdcproxy:i:0
 kdcproxyname:s:"""
-    rdp_raw = rdp_raw + '\n' + 'username:s:' + username
-    rdp_raw = rdp_raw + '\n' + 'full address:s:' + ip
-    rdp_raw = rdp_raw + '\n' + 'desktopwidth:i:' + str(desktop_width)
-    rdp_raw = rdp_raw + '\n' + 'desktopheight:i:' + str(desktop_height)
-    
+    rdp_raw = rdp_raw + "\n" + "username:s:" + username
+    rdp_raw = rdp_raw + "\n" + "full address:s:" + ip
+    rdp_raw = rdp_raw + "\n" + "desktopwidth:i:" + str(desktop_width)
+    rdp_raw = rdp_raw + "\n" + "desktopheight:i:" + str(desktop_height)
+
     import os
+
     output_path = os.path.join(os.path.expanduser("~"), "remote_desktop.rdp")
 
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(rdp_raw)
-    
+
     import subprocess
-    subprocess.Popen(['cmd.exe', '/c', output_path])
+
+    subprocess.Popen(["cmd.exe", "/c", output_path])
 
     return output_path
+
 
 @activity
 def close_remote_desktop():
@@ -5959,7 +6156,9 @@ def close_remote_desktop():
     """
     only_supported_for("Windows")
     import os
+
     os.system("taskkill /f /im mstsc.exe >nul 2>&1")
+
 
 @activity
 def set_user_password(username, password):
@@ -5982,7 +6181,7 @@ def set_user_password(username, password):
 
     """
     only_supported_for("Windows")
-    
+
     from win32com import adsi
 
     user = adsi.ADsGetObject("WinNT://localhost/%s,user" % username)
@@ -6050,6 +6249,7 @@ def lock_windows():
     only_supported_for("Windows")
 
     import ctypes
+
     ctypes.windll.user32.LockWorkStation()
 
 
@@ -6130,6 +6330,7 @@ def get_username():
     only_supported_for("Windows")
 
     import getpass
+
     return getpass.getuser()
 
 
@@ -6197,8 +6398,7 @@ def get_from_clipboard():
 
     win32clipboard.OpenClipboard()
     try:
-        data = str(win32clipboard.GetClipboardData(
-            win32clipboard.CF_UNICODETEXT))
+        data = str(win32clipboard.GetClipboardData(win32clipboard.CF_UNICODETEXT))
         return data
 
     except:
@@ -6320,11 +6520,12 @@ def get_all_network_interface_names():
 
     import subprocess
 
-    rows = subprocess.check_output('wmic nic get name')
+    rows = subprocess.check_output("wmic nic get name")
 
-    results = [row.strip() for row in rows.decode('utf-8').split('\n')[1:]]
+    results = [row.strip() for row in rows.decode("utf-8").split("\n")[1:]]
 
     return results
+
 
 @activity
 def enable_network_interface(name):
@@ -6347,7 +6548,10 @@ def enable_network_interface(name):
     only_supported_for("Windows")
     import subprocess
 
-    subprocess.check_output('wmic path win32_networkadapter where name="{}" call enable'.format(name))
+    subprocess.check_output(
+        'wmic path win32_networkadapter where name="{}" call enable'.format(name)
+    )
+
 
 @activity
 def disable_network_interface(name):
@@ -6371,7 +6575,10 @@ def disable_network_interface(name):
 
     import subprocess
 
-    subprocess.check_output('wmic path win32_networkadapter where name="{}" call disable'.format(name))
+    subprocess.check_output(
+        'wmic path win32_networkadapter where name="{}" call disable'.format(name)
+    )
+
 
 @activity
 def get_default_printer_name():
@@ -6466,7 +6673,7 @@ def get_service_status(name):
     Icon
         las la-cog
     """
-    only_supported_for('Windows')
+    only_supported_for("Windows")
 
     import psutil
 
@@ -6499,6 +6706,7 @@ def start_service(name):
 
     win32serviceutil.StartService(name)
 
+
 @activity
 def stop_service(name):
     """Stop a service
@@ -6522,6 +6730,7 @@ def stop_service(name):
     import win32serviceutil
 
     win32serviceutil.StopService(name)
+
 
 @activity
 def set_window_to_foreground(title):
@@ -6770,6 +6979,7 @@ Terminal
 Icon: las la-terminal
 """
 
+
 @activity
 def run_ssh_command(user, host, command):
     """Run SSH command
@@ -6794,17 +7004,18 @@ def run_ssh_command(user, host, command):
     import subprocess
 
     return subprocess.Popen(
-            "ssh {user}@{host} {cmd}".format(user=user, host=host, cmd=command), 
-            shell=True, 
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE
-        ).communicate()
+        "ssh {user}@{host} {cmd}".format(user=user, host=host, cmd=command),
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    ).communicate()
 
 
 """
 SNMP
 Icon: las la-ethernet
 """
+
 
 @activity
 def snmp_get(target, oids, credentials, port=161, engine=None, context=None):
@@ -6847,7 +7058,6 @@ def snmp_get(target, oids, credentials, port=161, engine=None, context=None):
             object_types.append(hlapi.ObjectType(hlapi.ObjectIdentity(oid)))
         return object_types
 
-
     def construct_value_pairs(list_of_pairs):
         pairs = []
         for key, value in list_of_pairs.items():
@@ -6871,7 +7081,7 @@ Icon: las la-user
 """
 
 
-class ActiveDirectory():
+class ActiveDirectory:
     @activity
     def __init__(self, ldap_server=None, username=None, password=None):
         """AD interface
@@ -7024,15 +7234,18 @@ def downloads_path():
         lar la-download
     """
     import os
-    if os.name == 'nt':
+
+    if os.name == "nt":
         import winreg
-        sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
-        downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+
+        sub_key = r"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+        downloads_guid = "{374DE290-123F-4565-9164-39C4925E467B}"
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
             location = winreg.QueryValueEx(key, downloads_guid)[0]
         return location
     else:
-        return os.path.join(os.path.expanduser('~'), 'downloads')
+        return os.path.join(os.path.expanduser("~"), "downloads")
+
 
 @activity
 def open_file(path):
@@ -7059,11 +7272,14 @@ def open_file(path):
 
     """
     import sys
+
     if sys.platform == "win32":
         import os
+
         os.startfile(path)
     else:
         from subprocess import call
+
         opener = "open" if sys.platform == "darwin" else "xdg-open"
         call([opener, path])
 
@@ -7098,6 +7314,7 @@ def set_wallpaper(image_path):
     only_supported_for("Windows")
 
     import ctypes
+
     ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 0)
 
 
@@ -7137,13 +7354,13 @@ def download_file_from_url(url, filename=None, path=None):
     r = requests.get(url, stream=True)
 
     if r.status_code == 200:
-        with open(path, 'wb') as f:
+        with open(path, "wb") as f:
             f.write(r.content)
 
         return path
 
     else:
-        raise Exception('Could not download file from {}'.format(url))
+        raise Exception("Could not download file from {}".format(url))
 
 
 """
@@ -7153,7 +7370,16 @@ Icon: lab la-trello
 
 
 @activity
-def add_trello_card(title="My card", description="My description", board_name="My board", list_name="My list", api_key="", api_secret="", token="", token_secret="any"):
+def add_trello_card(
+    title="My card",
+    description="My description",
+    board_name="My board",
+    list_name="My list",
+    api_key="",
+    api_secret="",
+    token="",
+    token_secret="any",
+):
     """Add Trello Card
 
     Add a card to the Trello board. For this you need a Trello API key, secret and token. 
@@ -7181,10 +7407,7 @@ def add_trello_card(title="My card", description="My description", board_name="M
     from trello import TrelloClient
 
     client = TrelloClient(
-        api_key=api_key,
-        api_secret=api_secret,
-        token=token,
-        token_secret=token_secret,
+        api_key=api_key, api_secret=api_secret, token=token, token_secret=token_secret
     )
 
     trello_boards = client.list_boards()
@@ -7240,7 +7463,7 @@ def rename_file(input_path, new_name=None):
 
     if not new_name:
         base, file_extension = os.path.splitext(input_path)
-        new_path = base + '_renamed' + file_extension
+        new_path = base + "_renamed" + file_extension
     else:
         base_path, filename = os.path.split(input_path)
         new_path = os.path.join(base_path, new_name)
@@ -7319,6 +7542,7 @@ def remove_file(path):
     """
 
     import os
+
     if os.path.isfile(path):
         os.remove(path)
     return path
@@ -7349,6 +7573,7 @@ def file_exists(path):
         las la-tasks
     """
     import os
+
     return os.path.isfile(path)
 
 
@@ -7484,7 +7709,7 @@ def append_line(text, file_path):
     Icon
         las la-tasks
     """
-    
+
     import os
 
     if not os.path.isfile(file_path):
@@ -7496,7 +7721,7 @@ def append_line(text, file_path):
 
 
 @activity
-def make_textfile(text='Sample text', output_path=None):
+def make_textfile(text="Sample text", output_path=None):
     """Make text file
 
     Initialize text file
@@ -7522,9 +7747,9 @@ def make_textfile(text='Sample text', output_path=None):
 
     # Set to user home if no path specified
     import os
+
     if not output_path:
-        output_path = os.path.join(
-            os.path.expanduser("~"), "generated_textfile.txt")
+        output_path = os.path.join(os.path.expanduser("~"), "generated_textfile.txt")
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(text)
 
@@ -7602,6 +7827,7 @@ def get_file_extension(path):
     """
 
     import os
+
     filename, file_extension = os.path.splitext(path)
 
     return file_extension
@@ -7630,13 +7856,15 @@ def send_to_printer(file):
         las la-print
     """
     import os
-    os.startfile(file, 'print')
+
+    os.startfile(file, "print")
 
 
 """
 PDF
 Icon: las la-file-pdf
 """
+
 
 @activity
 def read_text_from_pdf(file_path):
@@ -7666,7 +7894,7 @@ def read_text_from_pdf(file_path):
 
     text = ""
 
-    with open(file_path, 'rb') as f:
+    with open(file_path, "rb") as f:
         reader = PdfFileReader(f)
         for i in range(reader.numPages):
             page = reader.getPage(i)
@@ -7706,8 +7934,9 @@ def join_pdf_files(file_paths, output_path=None):
 
     if not output_path:
         import os
-        output_path = os.path.expanduser("~") + '\merged_pdf.pdf'
-        
+
+        output_path = os.path.expanduser("~") + "\merged_pdf.pdf"
+
     merger = PdfFileMerger()
     for file_path in file_paths:
         with open(file_path, "rb") as f:
@@ -7751,9 +7980,9 @@ def extract_page_range_from_pdf(file_path, start_page, end_page, output_path=Non
 
     if not output_path:
         import os
-        base, file_extension = os.path.splitext(file_path)
-        output_path = base + '_extracted' + file_extension
 
+        base, file_extension = os.path.splitext(file_path)
+        output_path = base + "_extracted" + file_extension
 
     with open(file_path, "rb") as f:
 
@@ -7797,7 +8026,7 @@ def extract_images_from_pdf(file_path):
     extracted_images = []
 
     with open(file_path, "rb") as f:
-        
+
         reader = PdfFileReader(f)
 
         for i in range(reader.getNumPages()):
@@ -7824,12 +8053,12 @@ def extract_images_from_pdf(file_path):
                         extracted_images.append(obj[1:] + ".jp2")
                         img.write(data)
                         img.close()
-    
+
     return extracted_images
 
 
 @activity
-def apply_watermark_to_pdf(file_path, watermark_path, output_path=''):
+def apply_watermark_to_pdf(file_path, watermark_path, output_path=""):
     """Watermark a PDF
 
     Watermark a PDF 
@@ -7861,8 +8090,7 @@ def apply_watermark_to_pdf(file_path, watermark_path, output_path=''):
 
     if not output_path:
         base, file_extension = os.path.splitext(file_path)
-        output_path = base + '_watermarked_' + file_extension
-
+        output_path = base + "_watermarked_" + file_extension
 
     watermark = PdfFileReader(open(watermark_path, "rb"))
 
@@ -7876,7 +8104,6 @@ def apply_watermark_to_pdf(file_path, watermark_path, output_path=''):
         input_page = input_file.getPage(page_number)
         input_page.mergePage(watermark.getPage(0))
         output_file.addPage(input_page)
-
 
     with open(output_path, "wb") as outputStream:
         output_file.write(outputStream)
@@ -8311,6 +8538,7 @@ def crop_image(path, box=None):
         las la-crop
     """
     from PIL import Image
+
     im = Image.open(path)
     return im.crop(box).save(path)
 
@@ -8339,6 +8567,7 @@ def mirror_image_horizontally(path):
         las la-caret-up
     """
     from PIL import Image
+
     im = Image.open(path)
     return im.transpose(Image.FLIP_LEFT_RIGHT).save(path)
 
@@ -8367,6 +8596,7 @@ def mirror_image_vertically(path):
         las la-caret-right
     """
     from PIL import Image
+
     im = Image.open(path)
     return im.transpose(Image.FLIP_TOP_BOTTOM).save(path)
 
@@ -8402,7 +8632,7 @@ def run_manual(task):
 
     import time
 
-    press_key_combination('win', 'r')
+    press_key_combination("win", "r")
     time.sleep(0.5)
 
     import platform
@@ -8410,10 +8640,11 @@ def run_manual(task):
     # Set keyboard layout for Windows platform
     if platform.system() == "Windows":
         from win32api import LoadKeyboardLayout
+
         LoadKeyboardLayout("00000409", 1)
 
     type_text(task)
-    press_key('enter')
+    press_key("enter")
 
 
 @activity
@@ -8436,6 +8667,7 @@ def run(process):
         las la-play
     """
     import subprocess
+
     subprocess.Popen(process)
 
 
@@ -8526,6 +8758,7 @@ def kill_process(name=None):
         las la-window-close
     """
     import os
+
     return os.system("taskkill /f /im " + name + " >nul 2>&1")
 
 
@@ -8571,13 +8804,14 @@ def extract_text_ocr(path=None):
 
     if not path:
         import PIL.ImageGrab
+
         img = PIL.ImageGrab.grab()
         path = os.path.join(os.path.expanduser("~"), "ocr_temp.jpg")
         img.save(path, "JPEG")
 
     # Open file and encode as Base 64
-    with open(path, 'rb') as f:
-        image_base64 = base64.b64encode(f.read()).decode('utf-8')
+    with open(path, "rb") as f:
+        image_base64 = base64.b64encode(f.read()).decode("utf-8")
 
     # Get Bot API_key
     config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
@@ -8585,22 +8819,18 @@ def extract_text_ocr(path=None):
     # Read JSON
     with open(config_path) as json_file:
         local_data = json.load(json_file)
-        api_key = str(local_data['bot_secret'])  # Your API key
+        api_key = str(local_data["bot_secret"])  # Your API key
 
     # Prepare data for request
-    data = {
-        "image_base64": image_base64,
-        "api_key": api_key
-    }
+    data = {"image_base64": image_base64, "api_key": api_key}
 
     # Post request to API
-    url = os.environ.get('AUTOMAGICA_OCR_URL',
-                         'https://ocr.automagica.com') + "/"
+    url = os.environ.get("AUTOMAGICA_OCR_URL", "https://ocr.automagica.com") + "/"
 
     r = requests.post(url, json=data)
 
     # Print results
-    return r.json()['text']
+    return r.json()["text"]
 
 
 @activity
@@ -8637,13 +8867,14 @@ def find_text_on_screen_ocr(text, criteria=None):
     import json
 
     import PIL.ImageGrab
+
     img = PIL.ImageGrab.grab()
     path = os.path.join(os.path.expanduser("~"), "ocr_capture.jpg")
     img.save(path, "JPEG")
 
     # Open file and encode as Base 64
-    with open(path, 'rb') as f:
-        image_base64 = base64.b64encode(f.read()).decode('utf-8')
+    with open(path, "rb") as f:
+        image_base64 = base64.b64encode(f.read()).decode("utf-8")
 
     # Get Bot API_key
     config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
@@ -8651,27 +8882,23 @@ def find_text_on_screen_ocr(text, criteria=None):
     # Read JSON
     with open(config_path) as json_file:
         local_data = json.load(json_file)
-        api_key = str(local_data['bot_secret'])  # Your API key
+        api_key = str(local_data["bot_secret"])  # Your API key
 
     # Prepare data for request
-    data = {
-        "image_base64": image_base64,
-        "api_key": api_key
-    }
+    data = {"image_base64": image_base64, "api_key": api_key}
 
     # Post request to API
-    url = os.environ.get('AUTOMAGICA_OCR_URL',
-                         'https://ocr.automagica.com') + "/"
+    url = os.environ.get("AUTOMAGICA_OCR_URL", "https://ocr.automagica.com") + "/"
 
     r = requests.post(url, json=data)
 
     # Print results
-    data = r.json()['locations']
+    data = r.json()["locations"]
 
     # Find all matches
     matches = []
     for item in data:
-        if item['text'].lower() == text.lower():
+        if item["text"].lower() == text.lower():
             matches.append(item)
 
     if not matches:
@@ -8679,12 +8906,13 @@ def find_text_on_screen_ocr(text, criteria=None):
 
     if criteria:
         if len(matches) > 0:
-            if criteria == 'first':
+            if criteria == "first":
                 best_match = matches[0]
-            if criteria == 'last':
+            if criteria == "last":
                 best_match = matches[-1]
-            if criteria == 'random':
+            if criteria == "random":
                 import random
+
                 best_match = random.choice(matches)
 
             return best_match
@@ -8716,11 +8944,12 @@ def click_on_text_ocr(text):
     Icon
         las la-mouse-pointer
     """
-    position = find_text_on_screen_ocr(text, criteria='first')
+    position = find_text_on_screen_ocr(text, criteria="first")
     if position:
         from pyautogui import click
-        x = int(position['x'] + position['w']/2)
-        y = int(position['y'] + position['h']/2)
+
+        x = int(position["x"] + position["w"] / 2)
+        y = int(position["y"] + position["h"] / 2)
         return click(x=x, y=y)
 
 
@@ -8749,11 +8978,12 @@ def double_click_on_text_ocr(text):
 
     """
 
-    position = find_text_on_screen_ocr(text, criteria='first')
+    position = find_text_on_screen_ocr(text, criteria="first")
     if position:
         from pyautogui import doubleClick
-        x = int(position['x'] + position['w']/2)
-        y = int(position['y'] + position['h']/2)
+
+        x = int(position["x"] + position["w"] / 2)
+        y = int(position["y"] + position["h"] / 2)
         return doubleClick(x=x, y=y)
 
 
@@ -8780,17 +9010,20 @@ def right_click_on_text_ocr(text):
     Icon
         las la-mouse-pointer
     """
-    position = find_text_on_screen_ocr(text, criteria='first')
+    position = find_text_on_screen_ocr(text, criteria="first")
     if position:
         from pyautogui import rightClick
-        x = int(position['x'] + position['w']/2)
-        y = int(position['y'] + position['h']/2)
+
+        x = int(position["x"] + position["w"] / 2)
+        y = int(position["y"] + position["h"] / 2)
         return rightClick(x=x, y=y)
+
 
 """
 UiPath
 Icon: las la-robot
 """
+
 
 @activity
 def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=None):
@@ -8829,28 +9062,28 @@ def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=N
     if arguments:
         cmd += ' --input "{}"'.format(json.dumps(arguments))
 
-    uirobot_exe_path = '"'+uirobot_exe_path+'"'
+    uirobot_exe_path = '"' + uirobot_exe_path + '"'
 
     process = subprocess.Popen(uirobot_exe_path + cmd)
 
     out, err = process.communicate()
 
     if out:
-        print('Output:')
+        print("Output:")
         print(out)
 
     if err:
-        print('Errors:')
+        print("Errors:")
         print(err)
 
     print('Completed UiPath process "{}"'.format(project_file_path))
-
 
 
 """
 AutoIt 
 Icon: las la-robot
 """
+
 
 @activity
 def run_autoit_script(script_path, arguments=None, autoit_exe_path=None):
@@ -8887,30 +9120,30 @@ def run_autoit_script(script_path, arguments=None, autoit_exe_path=None):
     cmd = ' "{}"'.format(script_path)
 
     if arguments:
-        cmd =+ ' "{}"'.format(json.dumps(arguments))
+        cmd = +' "{}"'.format(json.dumps(arguments))
 
-    autoit_exe_path = '"'+autoit_exe_path+'"'
+    autoit_exe_path = '"' + autoit_exe_path + '"'
 
     process = subprocess.Popen(autoit_exe_path + cmd)
 
     out, err = process.communicate()
 
     if out:
-        print('Output:')
+        print("Output:")
         print(out)
 
     if err:
-        print('Errors:')
+        print("Errors:")
         print(err)
 
     print('Completed AutoIt script "{}"'.format(script_path))
-
 
 
 """
 Robot Framework 
 Icon: las la-robot
 """
+
 
 @activity
 def execute_robotframework_test(test_case_path, variables=None):
@@ -8941,19 +9174,21 @@ def execute_robotframework_test(test_case_path, variables=None):
     cmd = ' "{}"'.format(test_case_path)
 
     if variables:
-        variables_parameter = ' --variables '.join(['{}:{}'.format(key, value) for key, value in variables.items()])
-        cmd =+ variables_parameter
+        variables_parameter = " --variables ".join(
+            ["{}:{}".format(key, value) for key, value in variables.items()]
+        )
+        cmd = +variables_parameter
 
-    process = subprocess.Popen('robot' + cmd)
+    process = subprocess.Popen("robot" + cmd)
 
     out, err = process.communicate()
 
     if out:
-        print('Output:')
+        print("Output:")
         print(out)
 
     if err:
-        print('Errors:')
+        print("Errors:")
         print(err)
 
     print('Completed Robot Framework test case "{}"'.format(test_case_path))
@@ -8964,8 +9199,16 @@ Blue Prism
 Icon: las la-robot
 """
 
+
 @activity
-def run_blueprism_process(process_name, username='', password='', sso=False, inputs=None, automatec_exe_path=None):
+def run_blueprism_process(
+    process_name,
+    username="",
+    password="",
+    sso=False,
+    inputs=None,
+    automatec_exe_path=None,
+):
     """Run a Blue Prism process
 
     This activity allows you to run a Blue Prism process.
@@ -8999,36 +9242,41 @@ def run_blueprism_process(process_name, username='', password='', sso=False, inp
     cmd = ' /run "{}"'.format(process_name)
 
     if not sso:
-        cmd += ' /user {} {}'.format(username, password)
+        cmd += " /user {} {}".format(username, password)
     else:
-        cmd += ' /sso'
+        cmd += " /sso"
 
     if inputs:
-        inputs_parameters = ''.join(["<input name='{}' type='text' value='{}' /></inputs>".format(key, value) for key, value in inputs.items()])
-        cmd =+ ' ' + inputs_parameters
+        inputs_parameters = "".join(
+            [
+                "<input name='{}' type='text' value='{}' /></inputs>".format(key, value)
+                for key, value in inputs.items()
+            ]
+        )
+        cmd = +" " + inputs_parameters
 
-    automatec_exe_path = '"'+automatec_exe_path+'"'
+    automatec_exe_path = '"' + automatec_exe_path + '"'
 
     process = subprocess.Popen(automatec_exe_path + cmd)
 
     out, err = process.communicate()
 
     if out:
-        print('Output:')
+        print("Output:")
         print(out)
 
     if err:
-        print('Errors:')
+        print("Errors:")
         print(err)
 
     print('Completed Blue Prism process "{}"'.format(test_case_path))
-
 
 
 """
 Automation Anywhere
 Icon: las la-robot
 """
+
 
 @activity
 def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
@@ -9058,22 +9306,21 @@ def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
 
     cmd = ' "/f{}/e"'.format(task_file_path)
 
-    aaplayer_exe_path = '"'+aaplayer_exe_path+'"'
+    aaplayer_exe_path = '"' + aaplayer_exe_path + '"'
 
     process = subprocess.Popen(aaplayer_exe_path + cmd)
 
     out, err = process.communicate()
 
     if out:
-        print('Output:')
+        print("Output:")
         print(out)
 
     if err:
-        print('Errors:')
+        print("Errors:")
         print(err)
 
     print('Completed Automation Anywhere task "{}"'.format(test_case_path))
-
 
 
 """
@@ -9081,7 +9328,8 @@ SAP GUI
 Icon: las la-briefcase
 """
 
-class SAPGUI():
+
+class SAPGUI:
     def __init__(self, sap_logon_exe_path=None, delay=1):
         """Start SAP GUI
 
@@ -9108,8 +9356,10 @@ class SAPGUI():
 
         # Run SAP process
         if not sap_logon_exe_path:
-            self.sap_logon_exe_path = r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui\saplogon.exe"
-        
+            self.sap_logon_exe_path = (
+                r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui\saplogon.exe"
+            )
+
         self.process = Popen(self.sap_logon_exe_path)
 
         # Try to connect to SAP GUI
@@ -9120,7 +9370,9 @@ class SAPGUI():
             except:
                 sleep(delay)
         else:
-            raise Exception('Could not connect to the SAP GUI. Did you enable scripting in the SAP GUI?')
+            raise Exception(
+                "Could not connect to the SAP GUI. Did you enable scripting in the SAP GUI?"
+            )
 
     @activity
     def quit(self):
@@ -9143,18 +9395,18 @@ class SAPGUI():
             las la-briefcase
         """
         self.process.kill()
-        
+
     @property
     def connections(self):
         """Returns connections for SAP GUI
         """
         connections = []
-        
+
         for connection_id in range(0, self.sapgui.Children.Count):
             connections.append(self.sapgui.Children(connection_id))
-            
+
         return connections
-    
+
     @activity
     def login(self, environment, client, username, password, force=True):
         """Log in to SAP GUI
@@ -9175,10 +9427,10 @@ class SAPGUI():
         """
         # Open the connection window
         self.sapgui.OpenConnection(environment, True)
-        
+
         # Identify SAP session
-        self.session = self.sapgui.FindById('ses[0]')
-        
+        self.session = self.sapgui.FindById("ses[0]")
+
         # Log in to SAP
         self.session.findById("wnd[0]/usr/txtRSYST-MANDT").text = client
         self.session.findById("wnd[0]/usr/txtRSYST-BNAME").text = username
@@ -9193,7 +9445,7 @@ class SAPGUI():
                 self.session.findById("wnd[1]/tbar[0]/btn[0]").press()
             except:
                 pass
-        
+
     @activity
     def click_sap(self, identifier):
         """Click on a sAP GUI element
@@ -9280,18 +9532,18 @@ class SAPGUI():
             las la-briefcase
         """
         from time import sleep
-        
+
         self.sapgui.FindById(identifier).Visualize(1)
 
         sleep(duration)
         self.sapgui.FindById(identifier).Visualize(0)
-            
 
 
 """
 Portal
 Icon: las la-robot
 """
+
 
 @activity
 def create_new_job(script_name, script_version_id=None, priority=0, parameters=None):
@@ -9326,40 +9578,42 @@ def create_new_job(script_name, script_version_id=None, priority=0, parameters=N
     # Read JSON
     with open(config_path) as json_file:
         local_data = json.load(json_file)
-        bot_secret = str(local_data['bot_secret'])
+        bot_secret = str(local_data["bot_secret"])
 
-    headers = {
-        'bot_secret': bot_secret,
-        'script': script_name,
-    }
+    headers = {"bot_secret": bot_secret, "script": script_name}
 
     if script_version_id:
-        headers['script_version_id'] = script_version_id
-    
+        headers["script_version_id"] = script_version_id
+
     data = {}
 
     if priority:
-        data['priority'] = priority
-    
-    if parameters:
-        data['parameters'] = parameters
+        data["priority"] = priority
 
-    r = requests.post(os.environ.get("AUTOMAGICA_PORTAL_URL", 'https://portal.automagica.com') + '/api/job/new', json=data, headers=headers)
-    
+    if parameters:
+        data["parameters"] = parameters
+
+    r = requests.post(
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        + "/api/job/new",
+        json=data,
+        headers=headers,
+    )
+
     try:
 
         result = r.json()
-        
+
     except:
 
-        raise Exception('Could not create job in Portal for unknown reason.')
+        raise Exception("Could not create job in Portal for unknown reason.")
 
-    if result.get('error'):
+    if result.get("error"):
 
-        raise Exception(result['error'])
+        raise Exception(result["error"])
 
     else:
-        print(result['message'])
+        print(result["message"])
 
 
 """
@@ -9367,7 +9621,8 @@ Vision
 Icon: las la-eye
 """
 
-class SnippingTool():
+
+class SnippingTool:
     def __init__(self, image):
         """
         Starts a full screen snipping tool for selecting coordinates
@@ -9384,7 +9639,7 @@ class SnippingTool():
         self.root.geometry("{}x{}".format(w, h))
 
         # Bring window to full screen and top most level
-        self.root.attributes('-fullscreen', True)
+        self.root.attributes("-fullscreen", True)
         self.root.attributes("-topmost", True)
 
         # Keep reference of some things
@@ -9394,19 +9649,14 @@ class SnippingTool():
         self.start_y = None
 
         # Create the canvas
-        self.canvas = tk.Canvas(
-            self.root,
-            width=w,
-            height=h,
-            cursor="crosshair")
+        self.canvas = tk.Canvas(self.root, width=w, height=h, cursor="crosshair")
 
         self.canvas.pack()
 
         # Add the screenshot
         img = ImageTk.PhotoImage(image)
 
-        self.canvas.create_image(
-            (0, 0), image=img, anchor="nw")
+        self.canvas.create_image((0, 0), image=img, anchor="nw")
 
         # Connect the event handlers
         self.canvas.bind("<ButtonPress-1>", self.on_button_press)
@@ -9423,15 +9673,17 @@ class SnippingTool():
         # If no rectangle is drawn yet, draw one
         if not self.rect:
             self.rect = self.canvas.create_rectangle(
-                self.x, self.y, 1, 1, fill="", outline="red")
+                self.x, self.y, 1, 1, fill="", outline="red"
+            )
 
     def on_move_press(self, event):
         # Update coordinates
         self.end_x, self.end_y = (event.x, event.y)
 
         # expand rectangle as you drag the mouse
-        self.canvas.coords(self.rect, self.start_x,
-                           self.start_y, self.end_x, self.end_y)
+        self.canvas.coords(
+            self.rect, self.start_x, self.start_y, self.end_x, self.end_y
+        )
 
     def on_button_release(self, event):
         # Update global variable
@@ -9456,7 +9708,7 @@ def get_screen_dimensions():
             if monitor["left"] == 0 and monitor["top"] == 0:
                 break
 
-    return monitor['width'], monitor['height']
+    return monitor["width"], monitor["height"]
 
 
 def capture_screen():
@@ -9517,236 +9769,6 @@ def select_rectangle_on_screen():
     return coordinates
 
 
-def recorder():
-    import requests
-    from io import BytesIO
-    import os
-    import base64
-    import PySimpleGUI as sg
-    import json
-
-    sg.ChangeLookAndFeel("SystemDefault")
-
-    # First prompt for selecting an action
-    text = sg.Text('Please select an action to perform with Automagica Vision',
-                   background_color="#2196F3", text_color="white")
-
-    options = ['Click', 'Double Click', 'Right Click',
-               'Read Text', 'Wait Appear', 'Wait Disappear']
-
-    buttons = [
-        sg.Button(option, button_color=("white", "#0069C0")) for option in options
-    ]
-
-    layout = [[text], buttons]
-
-    window = sg.Window(
-        "Select vision",
-        layout,
-        # icon="icon.ico",
-        no_titlebar=True,
-        background_color="#2196F3",
-        element_justification="center",
-        use_default_focus=False,
-        keep_on_top=True
-    )
-
-    action, _ = window.Read()  # Read button click from window
-    window.Close()
-    del(window)
-
-    # Second prompt to instruct the user
-    text = sg.Text('Please select the area of the element on the screen',
-                   background_color="#2196F3", text_color="white")
-
-    layout = [[text], [sg.Button('OK', button_color=("white", "#0069C0"))]]
-
-    window2 = sg.Window(
-        "",
-        layout,
-        # icon="icon.ico",
-        no_titlebar=True,
-        background_color="#2196F3",
-        element_justification="center",
-        use_default_focus=False,
-        keep_on_top=True
-    )
-
-    _, _ = window2.Read()  # Read button click from window
-    window2.Close()
-    del(window2)
-
-    screenshot = capture_screen()
-
-    # Present the user with a selection window
-    target = select_rectangle_on_screen()
-
-    anchors = []
-
-    message = 'An anchor is a reference point for the computer vision algorithm and allows the automation to be more robust. Would you like to add an anchor?'
-
-    for i in range(3):
-        text = sg.Text(message,
-                       background_color="#2196F3", text_color="white")
-
-        choices = ['Yes', 'No']
-
-        buttons = [
-            sg.Button(choice, button_color=("white", "#0069C0")) for choice in choices
-        ]
-
-        layout = [[text], buttons]
-
-        window3 = sg.Window(
-            "Select Anchor",
-            layout,
-            # icon="icon.ico",
-            no_titlebar=True,
-            background_color="#2196F3",
-            element_justification="center",
-            use_default_focus=False,
-            keep_on_top=True
-        )
-
-        choice, _ = window3.Read()
-        window3.Close()
-        del(window3)
-
-        if choice == 'Yes':
-            anchor = select_rectangle_on_screen()
-            anchors.append(anchor)
-            message = 'Would you like to add another anchor?'
-
-        if choice == 'No':
-            break
-
-    # Upload to Automagica Vision API
-    buffered = BytesIO()
-    screenshot.save(buffered, format="PNG")
-    image_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
-
-    # Get Bot API_key
-    config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
-
-    # Read JSON
-    with open(config_path) as json_file:
-        local_data = json.load(json_file)
-        api_key = str(local_data['bot_secret'])
-
-    data = {
-        "api_key": api_key,  # Automagica Vision API key
-        "target": target,  # Target
-        "anchors": anchors,  # Anchors
-        "image_base64": image_base64,  # Screenshot of the example screen
-    }
-
-    url = os.environ.get('AUTOMAGICA_VISION_URL',
-                         'https://vision.automagica.com') + "/train/element"
-
-    r = requests.post(url, json=data)
-
-    try:
-        result = r.json()
-    except Exception:
-        raise Exception(
-            "Could not reach Automagica Vision API. Please \
-                try again later or contact support@automagica.com"
-        )
-
-    if result.get("element_id"):
-
-        # Create iPython Output Image
-        from IPython.display import Image as IPythonImage
-
-        x1 = min([target[0]] + [anchor[0] for anchor in anchors])
-        y1 = min([target[1]] + [anchor[1] for anchor in anchors])
-        x2 = max([target[2]] + [anchor[2] for anchor in anchors])
-        y2 = max([target[3]] + [anchor[3] for anchor in anchors])
-
-        buffered = BytesIO()
-
-        from PIL import ImageDraw
-
-        draw = ImageDraw.Draw(screenshot)
-        draw.rectangle(target, outline="green", width=3)
-
-        for anchor in anchors:
-            draw.rectangle(anchor, outline="red", width=3)
-
-        preview_img = screenshot.crop(box=[x1-5, y1-5, x2+5, y2+5])
-        preview_img.save(buffered, format="JPEG")
-        preview_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
-
-        if action == 'Click':
-            insert_cell_below(
-                "<img src='data:image/jpeg;base64, {}'>".format(
-                    preview_base64),
-                type_="markdown")
-            insert_cell_below(
-                "click_vision('{}')".format(result["element_id"]),
-                type_="code"
-            )
-
-        if action == 'Double Click':
-            insert_cell_below(
-                "<img src='data:image/jpeg;base64, {}'>".format(
-                    preview_base64),
-                type_="markdown")
-            insert_cell_below(
-                "double_click_vision('{}')".format(result["element_id"]),
-                type_="code"
-            )
-
-        if action == 'Right Click':
-            insert_cell_below(
-                "<img src='data:image/jpeg;base64, {}'>".format(
-                    preview_base64),
-                type_="markdown")
-            insert_cell_below(
-                "right_click_vision('{}')".format(result["element_id"]),
-                type_="code"
-            )
-
-        if action == 'Read Text':
-            insert_cell_below(
-                "<img src='data:image/jpeg;base64, {}'>".format(
-                    preview_base64),
-                type_="markdown")
-            insert_cell_below(
-                "read_vision('{}')".format(result["element_id"]),
-                type_="code"
-            )
-
-        if action == 'Wait Appear':
-            insert_cell_below(
-                "<img src='data:image/jpeg;base64, {}'>".format(
-                    preview_base64),
-                type_="markdown")
-            insert_cell_below(
-                "wait_appear_vision('{}')".format(result["element_id"]),
-                type_="code"
-            )
-
-        if action == 'Wait Disappear':
-            insert_cell_below(
-                "<img src='data:image/jpeg;base64, {}'>".format(
-                    preview_base64),
-                type_="markdown")
-            insert_cell_below(
-                "wait_disappear_vision('{}')".format(result["element_id"]),
-                type_="code"
-            )
-
-    else:
-        if result.get("error"):
-            raise Exception(result["error"])
-        else:
-            raise Exception(
-                "Could not reach Automagica Vision API. Please \
-                    try again later or contact support@automagica.com"
-            )
-
-
 def detect_vision(element_id, detect_target=True):
     import requests
     from io import BytesIO
@@ -9767,17 +9789,19 @@ def detect_vision(element_id, detect_target=True):
     # Read JSON
     with open(config_path) as json_file:
         local_data = json.load(json_file)
-        api_key = str(local_data['bot_secret'])
+        api_key = str(local_data["bot_secret"])
 
     data = {
         "api_key": api_key,  # Automagica Vision API key
         "sample_id": element_id,
         "image_base64": image_base64,  # Screenshot of the example screen
-        "detect_target": detect_target
+        "detect_target": detect_target,
     }
 
-    url = os.environ.get('AUTOMAGICA_VISION_URL',
-                         'https://vision.automagica.com') + "/detect/element"
+    url = (
+        os.environ.get("AUTOMAGICA_VISION_URL", "https://vision.automagica.com")
+        + "/detect/element"
+    )
 
     r = requests.post(url, json=data)
 
@@ -9785,12 +9809,13 @@ def detect_vision(element_id, detect_target=True):
         data = r.json()
     except Exception:
         raise Exception(
-            'An unknown error occurred accessing the Automagica Vision API. Please try again later.')
+            "An unknown error occurred accessing the Automagica Vision API. Please try again later."
+        )
 
-    if data.get('error'):
-        raise Exception(data['error'])
+    if data.get("error"):
+        raise Exception(data["error"])
 
-    return data['location']
+    return data["location"]
 
 
 def get_center_of_rectangle(rectangle):
@@ -9799,7 +9824,7 @@ def get_center_of_rectangle(rectangle):
     """
     return (
         int((rectangle[0] + rectangle[2]) / 2),
-        int((rectangle[1] + rectangle[3]) / 2)
+        int((rectangle[1] + rectangle[3]) / 2),
     )
 
 
@@ -9861,11 +9886,11 @@ def wait_appear(element_id, delay=1, timeout=30):
     """
     from time import sleep
 
-    sleep(delay) # Default delay
+    sleep(delay)  # Default delay
 
     increment = 5
 
-    for i in range(int(timeout/increment)):
+    for i in range(int(timeout / increment)):
         try:
             _ = detect_vision(element_id)
             break
@@ -9875,8 +9900,8 @@ def wait_appear(element_id, delay=1, timeout=30):
         sleep(increment)
 
     else:
-        raise Exception(
-            'Element did not appear within {} seconds'.format(timeout))
+        raise Exception("Element did not appear within {} seconds".format(timeout))
+
 
 @activity
 def wait_vanish(element_id, delay=1, timeout=30):
@@ -9901,12 +9926,12 @@ def wait_vanish(element_id, delay=1, timeout=30):
         las la-eye
     """
     from time import sleep
-    
-    sleep(delay) # Default delay
+
+    sleep(delay)  # Default delay
 
     increment = 5
 
-    for i in range(int(timeout/increment)):
+    for i in range(int(timeout / increment)):
         try:
             _ = detect_vision(element_id)
         except Exception:
@@ -9915,8 +9940,8 @@ def wait_vanish(element_id, delay=1, timeout=30):
         sleep(increment)
 
     else:
-        raise Exception(
-            'Element did not disappear within {} seconds'.format(timeout))
+        raise Exception("Element did not disappear within {} seconds".format(timeout))
+
 
 @activity
 def read_text(element_id, delay=1):
@@ -9946,8 +9971,8 @@ def read_text(element_id, delay=1):
     import json
 
     from time import sleep
-    
-    sleep(delay) # Default delay
+
+    sleep(delay)  # Default delay
 
     location = detect_vision(element_id, detect_target=False)
 
@@ -9965,19 +9990,15 @@ def read_text(element_id, delay=1):
     # Read JSON
     with open(config_path) as json_file:
         local_data = json.load(json_file)
-        api_key = str(local_data['bot_secret'])  # Your API key
+        api_key = str(local_data["bot_secret"])  # Your API key
 
     # Prepare data for request
-    data = {
-        "image_base64": image_base64,
-        "api_key": api_key
-    }
+    data = {"image_base64": image_base64, "api_key": api_key}
 
     # Post request to API
-    url = os.environ.get('AUTOMAGICA_OCR_URL',
-                         'https://ocr.automagica.com') + "/"
+    url = os.environ.get("AUTOMAGICA_OCR_URL", "https://ocr.automagica.com") + "/"
 
     r = requests.post(url, json=data)
 
     # Print results
-    return r.json()['text']
+    return r.json()["text"]

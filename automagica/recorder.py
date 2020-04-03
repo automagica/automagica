@@ -4,10 +4,11 @@ import webbrowser
 from time import sleep
 
 import PIL.ImageTk as pil_tk
-
 import pyperclip
+
 from .gui import ImageButton, RecorderWindow, style_button
 from .snippingtool import get_screen, select_rect
+
 
 """
 TODO
