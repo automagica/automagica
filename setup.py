@@ -79,7 +79,7 @@ package_data = {
         # Copyrighted by Oakwood Technologies BVBA
         "lab/.jupyter/custom/logo-white.png",
         "icon.ico",  # Copyrighted by Oakwood Technologies BVBA
-        "icons/automagica.ico" # Copyrighted by Oakwood Technologies BVBA
+        "icons/automagica.ico", # Copyrighted by Oakwood Technologies BVBA
         "icons/click_button.png", # Copyrighted by Oakwood Technologies BVBA
         "icons/double_click_button.png", # Copyrighted by Oakwood Technologies BVBA
         "icons/is_visible_button.png", # Copyrighted by Oakwood Technologies BVBA
