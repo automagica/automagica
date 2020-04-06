@@ -158,6 +158,7 @@ Salesforce
 E-mail (SMTP)
 -------------
 .. autofunction:: send_mail_smtp
+.. autofunction:: send_mail_attachment
 
 
 Windows OS
