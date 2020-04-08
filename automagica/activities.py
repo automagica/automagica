@@ -1,10 +1,82 @@
-from .utilities import activity, only_supported_for
+#from .utilities import activity, only_supported_for
+def activity(func):
+    """Wrapper for Automagica activities
+    """
+    from functools import wraps
+    import logging
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        """Wrapper function
+        """
+        if func.__doc__:
+            name = func.__doc__.split("\n")[0]
+        else:
+            name = func.__name__
+        logging.info("Automagica (activity): {}".format(name))
+        telemetry(func)
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+def telemetry(func):
+    """Automagica Activity Telemetry
+
+    This allows us to collect information on the usage of 
+    certain Automagica functionalities in order for us to keep improving 
+    the software. If you would like to disable telemetry, make sure the 
+    environment variable 'AUTOMAGICA_NO_TELEMETRY' is set. That way no
+    information is being shared with us.
+    """
+    import requests
+    from uuid import getnode
+    import os
+    import platform
+
+    if not os.environ.get("AUTOMAGICA_NO_TELEMETRY") and not os.environ.get(
+        "AUTOMAGICA_URL"
+    ):
+        if func.__doc__:
+            name = func.__doc__.split("\n")[0]
+        else:
+            name = func.__name__
+
+        data = {
+            "activity": name,
+            "machine_id": getnode(),
+            "os": {
+                "name": os.name,
+                "platform": platform.system(),
+                "release": platform.release(),
+            },
+        }
+
+        try:
+            r = requests.post("https://telemetry.automagica.com/", json=data, timeout=1)
+        except:
+            pass
+
+
+def only_supported_for(*args):
+    """Utility function for checking platform support
+
+    Example usage:
+    only_supported_for("Windows", "Linux")
+    """
+    import platform
+
+    if platform.system() not in args:
+        raise NotImplementedError(
+            "This activity is currently only supported for {}.".format(", ".join(args))
+        )
+
+
 
 """
 Cryptography
 Icon: las la-shield-alt
 """
-
 
 @activity
 def generate_random_key():
@@ -12,7 +84,8 @@ def generate_random_key():
 
     Generate random Fernet key. Fernet guarantees that a message encrypted using it cannot be manipulated or read without the key. Fernet is an implementation of symmetric (also known as “secret key”) authenticated cryptography
 
-    :return: Bytes-like object
+    :return: Random key
+    :rtype: bytes
 
         :Example:
 
@@ -29,7 +102,7 @@ def generate_random_key():
     import os
     from cryptography.fernet import Fernet
 
-    key = Fernet.generate_key()
+    key = Fernet.generate_key()   
 
     return key
 
@@ -40,10 +113,13 @@ def encrypt_text_with_key(text, key):
 
     Encrypt text with (Fernet) key, 
 
-    :parameter text: Text to be encrypted.
-    :parameter key: Path where key is stored.
+    :parameter text: Text to be encrypted
+    :type text: int
+    :parameter key: Fernet Encryption key
+    :type key: bytes
 
-    :return: bytes-like object.
+    :return: Encrypted text
+    :rtype: bytes
 
         :Example:
 
@@ -72,10 +148,13 @@ def decrypt_text_with_key(encrypted_text, key):
 
     Dexrypt bytes-like object to string with (Fernet) key
 
-    :return: String
-
     :parameter encrypted_text: Text to be encrypted.
-    :parameter key: Path where key is stored.
+    :type encrypted: bytes
+    :parameter key: Fernet Encryption key
+    :type key: bytes
+
+    :return: Decrypted text
+    :rtype: string
 
         :Example:
 
@@ -101,16 +180,19 @@ def decrypt_text_with_key(encrypted_text, key):
 
 
 @activity
-def encrypt_file_with_key(input_path, key, output_path=None):
+def encrypt_file_with_key(input_path, key, output_path=None):    
     """Encrypt file 
 
     Encrypt file with (Fernet) key. Note that file will be unusable unless unlocked with the same key.
 
-    :parameter input_file: Full path to file to be encrypted.
-    :parameter key: Path where key is stored.
-    :parameter output_file: Output path. Default is the same directory with "_encrypted" added to the name
+    :parameter input_file: Path to file to be encrypted
+    :type input_path: path 
+    :parameter key: Fernet Encryption key
+    :parameter output_path: Output path, defaults to the same directory with "_encrypted" added to the name
+    :type output_path: path, optional
 
     :return: Path to encrypted file
+    :rtype: path
 
         :Example:
 
@@ -131,6 +213,16 @@ def encrypt_file_with_key(input_path, key, output_path=None):
 
     # Set path if not specified
     import os
+    import pathlib
+    addition = '_test'
+    filepath = pathlib.Path(input_path)
+    base = filepath.parents[0]
+    filename = filepath.name
+    extension = filepath.suffix
+    filename_base = filename.replace(extension, '')
+    out = filepath.joinpath(base, filename_base + addition + extension)
+    
+    pathlib.Path(filepath, filename_base + "_encrypted" + extension)
 
     if not output_path:
         filepath = os.path.dirname(input_path)
