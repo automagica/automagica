@@ -272,6 +272,7 @@ Process | Description
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/salesforce.svg" width="20"> [Salesforce API](https://automagica.readthedocs.io/activities.html#automagica.activities.salesforce_api_call) | Activity to make calls to Salesforce REST API.
 **E-mail (SMTP)** | ‌‌ 
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/mail-bulk-solid.svg" width="20"> [Mail with SMTP](https://automagica.readthedocs.io/activities.html#automagica.activities.send_mail_smtp) | This function lets you send emails with an e-mail address.
+ [Mail with attachment]() | This function lets you send emails with an e-mail address with files attached as attachments.
 **Windows OS** | ‌‌ 
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/readme.svg" width="20"> [Find window with specific title](https://automagica.readthedocs.io/activities.html#automagica.activities.find_window_title) | Find a specific window based on the name, either a perfect match or a partial match.
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/icons/passport-solid.svg" width="20"> [Login to Windows Remote Desktop](https://automagica.readthedocs.io/activities.html#automagica.activities.start_remote_desktop) | Create a RDP and login to Windows Remote Desktop

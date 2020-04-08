@@ -5980,6 +5980,75 @@ def send_mail_smtp(
     smtpObj.sendmail(user, destination, BODY)
     smtpObj.quit()
 
+"""
+E-mail (with attachments)
+"""
+@activity
+def send_mail_attachment(_host, _user, _password, _to_address, _subject="", _message="", _port=587, _attachment=None):
+    import smtplib
+    from email.mime.multipart import MIMEMultipart 
+    from email.mime.text import MIMEText 
+    from email.mime.base import MIMEBase 
+    from email import encoders 
+    """Mail using SMTP with attachments
+
+    This function lets you send emails with an e-mail address and also add attachments. 
+
+    :parameter _host: The host of your e-mail account. 
+    :parameter _user: The password of your e-mail account
+    :parameter _password: The password of your e-mail account
+    :parameter _to_address: The destination is the receiving mail address. 
+    :parameter _subject: The subject 
+    :parameter _message: The body of the mail
+    :parameter _port: The port variable is standard 587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
+    :parameter _attachment: The attachments to be sent with the email are to be mentioned in the form of a dictionary
+    sample:
+            attachments={
+                '<filename1>.<extension>':'<filepath>',
+                '<filename2>.<extension>:'<filepath>'
+            }
+
+        :Example:
+    >>>attachments = {
+        'data.xlsx':'C:/Users/robot/Documents/data.xlsx',
+        'resume.pdf':'C:/Users/admin/Documents/resume.pdf'
+            }
+
+    >>> send_mail_smpt('robot@automagica.com', 'SampleUser', 'SamplePassword', 'robotfriend@automagica.com',attachment=attachments)
+
+    Keywords
+        mail, e-mail, email smpt, email attachments
+
+    Icon
+        las la-mail-bulk
+
+    """
+    msg = MIMEMultipart()               # storing the senders email address   
+    msg['From'] = _user             # storing the receivers email address  
+    msg['To'] = _to_address              # storing the subject  
+    msg['Subject'] = _subject            # string to store the body of the mail 
+    body = _message                      # attach the body with the msg instance 
+    msg.attach(MIMEText(body, 'plain')) # open the file to be sent
+    
+    if _attachment!=None:
+        if 'dict' not in str(type(_attachment)):
+            raise TypeError("send_mail_attachment() expects a <class 'dict'> obj for attachments but %s"%str(type(l)))
+        else:
+            for i,j in _attachment.items():
+                filename = i
+                attachment = open(j, "rb")
+                p = MIMEBase('application', 'octet-stream') # instance of MIMEBase and named as p
+                p.set_payload((attachment).read())          # To change the payload into encoded form 
+                encoders.encode_base64(p)                   # encode into base64
+                p.add_header('Content-Disposition', "attachment;filename= %s" % filename)# attach the instance 'p' to instance 'msg' 
+                msg.attach(p) 
+            smtpObj = smtplib.SMTP(_host, _port)
+            smtpObj.ehlo()
+            smtpObj.starttls()
+            smtpObj.login(_user, _password)
+            text = msg.as_string()
+            smtpObj.sendmail(_user, _to_address, text)
+            smtpObj.quit()
 
 """
 Windows OS
