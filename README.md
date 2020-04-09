@@ -441,6 +441,8 @@ You can contribute in the following ways:
 #### Special contributor mentions
 - [ygxiao](https://github.com/ygxiao)
 - [jjlehtinen](https://github.com/jjlehtinen)
+- [gopal-y](https://github.com/gopal-y)
+
 
 A special thanks goes out to all the above-mentioned libraries, repositories and contributers! :heart:
 
