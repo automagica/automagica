@@ -4,7 +4,7 @@ Automagica is a Smart Robotic Process Automation (SRPA) platform for fully autom
 
 [![Github Signup Automagica](https://i.imgur.com/PKvMCSl.jpg)](https://portal.automagica.com/github/login)
 
-![Love Automagica Example](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
+![Love Automagica Example](https://github.com/automagica/automagica/blob/master/images/automagica_drawing.gif)
 
 This repository is for the open source Python library, where all the Automagica building blocks are. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries.
 
@@ -76,20 +76,20 @@ Try out the one-click examples:
 
 Browser working with Excel:
 
-![Excel Example Automagica](https://github.com/OakwoodAI/automagica/blob/master/images/browser_excel.gif)
+![Excel Example Automagica](https://github.com/automagica/automagica/blob/master/images/browser_excel.gif)
 
 SAP Automation (Production example, sensitive information is blurred):
 
-![Sap Example Automagica](https://github.com/OakwoodAI/automagica/blob/master/images/sap.gif)
+![Sap Example Automagica](https://github.com/automagica/automagica/blob/master/images/sap.gif)
 
 Folder and File manipulation
 
-<img src="https://github.com/OakwoodAI/automagica/blob/master/images/USPresidents.gif" width="800">
+<img src="https://github.com/automagica/automagica/blob/master/images/USPresidents.gif" width="800">
 
 ## Docker Support (Experimental)
 This is still under heavy development, but we're exploring possibilities of running Automagica robots in a containerized desktop. You can try this with docker with the following commands:
 ```
-git clone https://github.com/oakwoodai/automagica
+git clone https://github.com/automagica/automagica
 cd automagica
 docker build . -t automagica
 docker run -it -p 8080:8080 automagica
