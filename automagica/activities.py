@@ -1,4 +1,4 @@
-#from .utilities import activity, only_supported_for
+from .utilities import activity, only_supported_for
 
 def interpret_path(path=None, required=False, addition=None, default_filename=None, random_addition=False):
 
