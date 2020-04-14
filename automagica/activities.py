@@ -1,4 +1,35 @@
-#from .utilities import activity, only_supported_for
+from .utilities import activity, only_supported_for
+
+def interpret_path(path=None, required=False, addition=None, default_filename=None, random_addition=False):
+
+    import pathlib
+
+    if path:
+        filepath = pathlib.Path(path)
+    else:    
+        if not required:
+            filepath = pathlib.Path.home() 
+        else:
+            raise Exception("No path specified, please specify a path.")
+
+    if default_filename:
+        filepath = filepath.joinpath(filepath, default_filename)
+
+    if random_addition:
+        if filepath.exists():
+            from uuid import uuid4
+            addition = "_" + str(uuid4())[:4]
+
+    if addition:
+        base = filepath.parents[0]
+        filename = filepath.name
+        extension = filepath.suffix
+        filename_base = filename.replace(extension, '')
+        out = filepath.joinpath(base, filename_base + addition + extension)
+        return str(out)
+
+    return str(filepath)
+
 def activity(func):
     """Wrapper for Automagica activities
     """
@@ -114,7 +145,7 @@ def encrypt_text_with_key(text, key):
     Encrypt text with (Fernet) key, 
 
     :parameter text: Text to be encrypted
-    :type text: int
+    :type text: string
     :parameter key: Fernet Encryption key
     :type key: bytes
 
@@ -185,7 +216,7 @@ def encrypt_file_with_key(input_path, key, output_path=None):
 
     Encrypt file with (Fernet) key. Note that file will be unusable unless unlocked with the same key.
 
-    :parameter input_file: Path to file to be encrypted
+    :parameter inputh_path: Path to file to be encrypted
     :type input_path: path 
     :parameter key: Fernet Encryption key
     :parameter output_path: Output path, defaults to the same directory with "_encrypted" added to the name
@@ -212,24 +243,11 @@ def encrypt_file_with_key(input_path, key, output_path=None):
     """
 
     # Set path if not specified
-    import os
-    import pathlib
-    addition = '_test'
-    filepath = pathlib.Path(input_path)
-    base = filepath.parents[0]
-    filename = filepath.name
-    extension = filepath.suffix
-    filename_base = filename.replace(extension, '')
-    out = filepath.joinpath(base, filename_base + addition + extension)
-    
-    pathlib.Path(filepath, filename_base + "_encrypted" + extension)
-
+    input_path = interpret_path(input_path, required=True)
     if not output_path:
-        filepath = os.path.dirname(input_path)
-        base = os.path.basename(input_path)
-        filename = os.path.splitext(base)[0]
-        extension = os.path.splitext(base)[1]
-        output_path = os.path.join(filepath, filename + "_encrypted" + extension)
+        output_path = interpret_path(input_path, addition = '_encrypted')
+    else:
+        output_path = interpret_path(output_path)
 
     from cryptography.fernet import Fernet
 
@@ -278,12 +296,11 @@ def decrypt_file_with_key(input_path, key, output_path=None):
     # Set path if not specified
     import os
 
+    input_path = interpret_path(input_path, required=True)
     if not output_path:
-        filepath = os.path.dirname(input_path)
-        base = os.path.basename(input_path)
-        filename = os.path.splitext(base)[0]
-        extension = os.path.splitext(base)[1]
-        output_path = os.path.join(filepath, filename + "_decrypted" + extension)
+        output_path = interpret_path(input_path, addition = '_decrypted')
+    else:
+        output_path = interpret_path(output_path)
 
     from cryptography.fernet import Fernet
 
@@ -813,6 +830,59 @@ def generate_random_date(formatting="%m/%d/%Y %I:%M", days_in_past=1000):
     else:
         return random_date
 
+@activity
+def generate_date_today(formatting="%m/%d/%Y"):
+    """Random date
+
+    Generates today's date.
+
+    -   %a	Abbreviated weekday name.	 
+    -   %A	Full weekday name.	 
+    -   %b	Abbreviated month name.	 
+    -   %B	Full month name.	 
+    -   %c	Predefined date and time representation.	 
+    -   %d	Day of the month as a decimal number [01,31].	 
+    -   %H	Hour (24-hour clock) as a decimal number [00,23].	 
+    -   %I	Hour (12-hour clock) as a decimal number [01,12].	 
+    -   %j	Day of the year as a decimal number [001,366].	 
+    -   %m	Month as a decimal number [01,12].	 
+    -   %M	Minute as a decimal number [00,59].	 
+    -   %p	AM or PM.
+    -   %S	Second as a decimal number [00,61].	
+    -   %U	Week number of the year (Sunday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Sunday are considered to be in week 0.	
+    -   %w	Weekday as a decimal number [0(Sunday),6].	 
+    -   %W	Week number of the year (Monday as the first day of the week) as a decimal number [00,53]. All days in a new year preceding the first Monday are considered to be in week 0.	
+    -   %x	Predefined date representation.	 
+    -   %X	Predefined time representation.	 
+    -   %y	Year without century as a decimal number [00,99].	 
+    -   %Y	Year with century as a decimal number.
+    -   %Z	Time zone name (no characters if no time zone exists).
+
+    :parameter formatting: Formatting of the dates, replace with 'None' to get raw datetime format. e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
+
+    :return: Random date as string
+
+        :Example: 
+
+    >>> # Generate a random date
+    >>> generate_date_today()
+    01/01/2022'
+
+    Keywords
+        random, date, today, now, today date, time, datetime, random date, fake date , calendar
+
+    Icon
+        las la-calendar
+    """
+
+    import datetime
+
+    today = datetime.datetime.now()
+
+    if formatting:
+        return today.strftime(formatting)
+    else:
+        return today
 
 @activity
 def generate_unique_identifier():
@@ -1132,6 +1202,7 @@ def display_osd_message(message="Example message", seconds=5):
 Browser
 Icon: lab la-chrome
 """
+
 
 import selenium.webdriver
 
@@ -1814,14 +1885,11 @@ class FTP:
 
         """
         # Set path if not specified
+        input_path = interpret_path(input_path)
         if not output_path:
-            import os
-
-            filepath = os.path.expanduser("~")
-            base = os.path.basename(input_path)
-            filename = os.path.splitext(base)[0]
-            extension = os.path.splitext(base)[1]
-            output_path = os.path.join(filepath, filename + "_downloaded" + extension)
+            output_path = interpret_path(input_path, addition='_downloaded')
+        else:
+            output_path = interpret_path(output_path)
 
         self.connection.retrbinary("RETR " + input_path, open(output_path, "wb").write)
 
@@ -2279,11 +2347,9 @@ def display_mouse_position(duration=10):
 def click(element_id=None, x=None, y=None, delay=0.1):
     """Mouse click
 
-    Clicks on an element based on the element ID (vision) or pixel position determined by x and y coordinates.
+    Clicks on an element based on the element ID (vision)
 
     :parameter element_id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :parameter x: X-coördinate
-    :parameter y: Y-coördinate
     :parameter delay: Delay between clicks in seconds, standard value is 100 ms. 
 
     :return: Mouse click
@@ -2293,8 +2359,6 @@ def click(element_id=None, x=None, y=None, delay=0.1):
     >>> # Click on a vision element, use the recorder() function to define elements
     >>> recorder()
     >>> # Use the element ID found by the recorder, e.g.: click(element_id='ABCD')
-    >>> # Alternatively, click on coordinates
-    >>> click(x=100, y=100)
 
     Keywords
         mouse, vision, mouse, osd, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
@@ -2315,6 +2379,37 @@ def click(element_id=None, x=None, y=None, delay=0.1):
 
         return click(x, y)
 
+    else:
+        raise Exception("Could not click, did you enter a valid ID or coordinates")
+
+@activity
+def click_coordinates():
+    """Mouse click coordinates
+
+    Clicks on an element based on pixel position determined by x and y coordinates. To find coordinates one could use display_mouse_position().
+
+    :parameter x: X-coördinate
+    :parameter y: Y-coördinate
+    :parameter delay: Delay between clicks in seconds, standard value is 100 ms. 
+
+    :return: Mouse click
+
+        :Example:
+
+    >>> # Click on pixel position
+    >>> click(x=100, y=100)
+
+    Keywords
+        mouse, vision, mouse, osd, overlay, show, display, mouse automation, click, right click, mouse button, move mouse, position, pixel
+
+    Icon
+        las la-mouse-pointer
+    """
+    if delay:
+        from time import sleep
+
+        sleep(delay)  # Default delay
+
     if x and y:
         from pyautogui import click
 
@@ -2322,7 +2417,6 @@ def click(element_id=None, x=None, y=None, delay=0.1):
 
     else:
         raise Exception("Could not click, did you enter a valid ID or coordinates")
-
 
 @activity
 def double_click(element_id=None, x=None, y=None, delay=0.1):
@@ -2608,18 +2702,19 @@ def random_screen_snippet(size=100, path=None):
 
 
 @activity
-def take_screenshot(path=None):
+def take_screenshot(output_path=None):
     """Screenshot
 
     Take a screenshot of current screen.
 
     :parameter path: Path to save screenshot. Default value is home directory with name 'screenshot.jpg'.
 
-    :return: Path to screenshot
+    :return: Path to save screenshot
 
         :Example:
 
-    >>> take_screenshot
+    >>> new_screenshot = take_screenshot()
+    >>> open_file(new_screenshot)
     'C:\\Users\\<username>\\screenshot.jpg'
 
     Keywords
@@ -2635,23 +2730,21 @@ def take_screenshot(path=None):
 
     img = PIL.ImageGrab.grab()
 
-    if not path:
-        import os
+    output_path = interpret_path(path = output_path, default_filename = 'screenshot.jpg')
 
-        path = os.path.join(os.path.expanduser("~"), "screenshot.jpg")
-    img.save(path, "JPEG")
+    img.save(output_path, "JPEG")
 
     return path
 
 
 @activity
-def click_image(filename=None):
+def click_image(input_path=None):
     """Click on image
 
     This function searches the screen for a match with template image and clicks directly in the middle. Note that this only finds exact matches.
     For a more advanced and robust vision detection method see Automagica AI functionality.
 
-    :parameter filename: Path to the template image.
+    :parameter input_path: Path to the template image.
 
     :return: True if image was found and clicked on. False if template image was not found.
 
@@ -2670,13 +2763,12 @@ def click_image(filename=None):
         las la-image
 
     """
-    if not filename:
-        return
+    input_path = interpret_path(input_path, required=True)
 
     from pyautogui import locateCenterOnScreen, click
 
     try:
-        x, y = locateCenterOnScreen(filename)
+        x, y = locateCenterOnScreen(input_path)
         click(x, y)
         return True
     except:
@@ -2684,13 +2776,13 @@ def click_image(filename=None):
 
 
 @activity
-def double_click_image(filename=None):
+def double_click_image(input_path=None):
     """Double click image
 
     Double click on similar image on the screen. This function searches the screen for a match with template image and doubleclicks directly in the middle.
     Note that this only finds exact matches. For a more advanced and robust vision detection method see Automagica AI functionality.
 
-    :parameter filename: Path to the template image.
+    :parameter input_path: Path to the template image.
 
     :return: True if image was found and double clicked on. False if template image was not found.
 
@@ -2708,13 +2800,12 @@ def double_click_image(filename=None):
     Icon
         las la-image
     """
-    if not filename:
-        return
+    input_path = interpret_path(input_path, required=True)
 
     from pyautogui import locateCenterOnScreen, click
 
     try:
-        x, y = locateCenterOnScreen(filename)
+        x, y = locateCenterOnScreen(input_path)
         click(x, y, 2)
         return True
     except:
@@ -2722,11 +2813,13 @@ def double_click_image(filename=None):
 
 
 @activity
-def right_click_image(filename=None):
+def right_click_image(input_path=None):
     """Right click image
 
     Right click on similar image on the screen. This function searches the screen for a match with template image and right clicks directly in the middle.
     Note that this only finds exact matches. For a more advanced and robust vision detection method see Automagica AI functionality.
+
+    :parameter input_path: Path to the template image.
 
     :return: True if image was found and right clicked on. False if template image was not found.
 
@@ -2745,13 +2838,12 @@ def right_click_image(filename=None):
         las la-image
     """
 
-    if not filename:
-        return
+    input_path = interpret_path(input_path, required=True)
 
     from pyautogui import locateCenterOnScreen, rightClick
 
     try:
-        x, y = locateCenterOnScreen(filename)
+        x, y = locateCenterOnScreen(input_path)
         rightClick(x, y, 2)
         return True
     except:
@@ -2759,13 +2851,13 @@ def right_click_image(filename=None):
 
 
 @activity
-def locate_image_on_screen(filename=None):
+def locate_image_on_screen(input_path=None):
     """Locate image on screen
 
     Find exact image on the screen. This function searches the screen for a match with template image and clicks directly in the middle.
     Note that this only finds exact matches. For a more advanced and robust vision detection method see Automagica AI functionality.
 
-    :parameter filename: Path to the template image.
+    :parameter input_path: Path to the template image.
 
     :return: Tuple with (x, y) coordinates if image is found. None if image was not found
 
@@ -2784,12 +2876,12 @@ def locate_image_on_screen(filename=None):
         las la-image
     """
 
-    if not filename:
-        return
+    input_path = interpret_path(input_path, required=True)
+
     from pyautogui import locateCenterOnScreen
 
     try:
-        x, y = locateCenterOnScreen(filename)
+        x, y = locateCenterOnScreen(input_path)
         return x, y
     except:
         return None
@@ -2879,41 +2971,35 @@ def create_folder(path=None):
     'C:\\Users\\<username>\\new_folder'
 
     Keywords
-        create folder, folder, folders, make folder, new folder, folder manipulation, explorer, nautilus
+        create folder, folder, new folder,  folders, make folder, new folder, folder manipulation, explorer, nautilus
 
     Icon
         las la-folder-plus
     """
     import os
 
+    
     if not path:
-        path = os.path.join(os.path.expanduser("~"), "new_folder")
+        path = interpret_path(path, default_filename='new_folder', random_addition=True)
+
+    else:
+        path = interpret_path(path)
 
     if not os.path.exists(path):
         os.makedirs(path)
         return path
 
-    from uuid import uuid4
-
-    folder_name = os.path.basename(path)
-    extended_folder_name = folder_name + "_" + str(uuid4())[:4]
-    parent_dir = os.path.abspath(os.path.join(path, os.pardir))
-    path = os.path.abspath(os.path.join(parent_dir, extended_folder_name))
-    os.makedirs(path)
-
-    return path
-
 
 @activity
-def rename_folder(input_path, new_name=None):
+def rename_folder(input_path, output_path=None):
     """Rename folder
 
     Rename a folder
 
-    :parameter path: Full path of folder that will be renamed
-    :parameter new_name: New name of the folder e.g. 'new_folder'. By default folder will be renamed to original folder name with '_renamed' added to the folder name.
+    :parameter input_path: Full path of folder that will be renamed
+    :parameter output_path: New path. By default folder will be renamed to original folder name with '_renamed' added to the folder name.
 
-    :return: Path to renamed folder as a string. None if folder could not be renamed.
+    :return: Path to renamed folder as a string.
 
         :Example:
 
@@ -2932,18 +3018,11 @@ def rename_folder(input_path, new_name=None):
     """
     import os
 
-    if not os.path.exists(input_path):
-        return None
-
-    if not new_name:
-        folder_name = os.path.basename(input_path)
-        new_name = folder_name + "_renamed"
-
-    parent_dir = os.path.abspath(os.path.join(input_path, os.pardir))
-    renamed_dir = os.path.join(parent_dir, new_name)
-
-    if os.path.exists(renamed_dir):
-        return None
+    input_path = interpret_path(input_path, required=True)
+    if not ouput_path:
+        output_path = interpret(input_path, addtion='_renamed')
+    else:
+        output_path = interpret_path(output_path)
 
     os.rename(input_path, renamed_dir)
 
@@ -2976,11 +3055,10 @@ def show_folder(path=None):
         las la-folder-open
 
     """
+
+    path = interpret_path(path)
+
     import os
-
-    if not path:
-        path = os.path.expanduser("~")
-
     if os.path.isdir(path):
         os.startfile(path)
 
@@ -2988,14 +3066,13 @@ def show_folder(path=None):
 
 
 @activity
-def move_folder(from_path, to_path):
+def move_folder(input_path, output_path=None):
     """Move a folder
 
     Moves a folder from one place to another.
-    If the new location already contains a folder with the same name, a random 4 character uid is added to the name.
-
-    :parameter fom_path: Full path to the source location of the folder
-    :parameter new_path: Full path to the destination location of the folder.
+    
+    :parameter input_path: Full path to the source location of the folder
+    :parameter output_path: Full path to the destination location of the folder, defaults to input_path with '_moved' added
 
      :return: Path to new location of folder as a string. None if folder could not be moved.
 
@@ -3017,23 +3094,18 @@ def move_folder(from_path, to_path):
     Icon
         las la-folder
     """
-    from uuid import uuid4
-    import os
     import shutil
 
-    from_path_folder = os.path.basename(from_path)
-    if os.path.isdir(from_path):
-        if not os.path.isdir(to_path):
-            shutil.move(from_path, to_path)
-            return os.path.join(to_path, from_path_folder)
-        elif os.path.isdir(to_path):
-            to_path_folder_name = os.path.basename(to_path)
-            to_path_folder_name = to_path_folder_name + str(uuid4())[:4]
-            to_path_base_name = os.path.abspath(os.path.join(to_path, os.pardir))
-            to_path = os.path.join(to_path_base_name, to_path_folder_name)
-            shutil.move(from_path, to_path)
-            return os.path.join(to_path, from_path_folder)
-    return None
+
+    input_path = interpret_path(input_path, required=True)
+    if not output_path:
+        output_path = interpret_path(input_path, addition='_moved')
+    else:
+        output_path = interpret_path(output_path)
+
+    shutil.move(input_path, output_path)
+
+    return output_path
 
 
 @activity
@@ -3069,6 +3141,8 @@ def remove_folder(path, allow_root=False, delete_read_only=True):
     import os
     import shutil
 
+    path = interpret_path(path, required=True)
+
     if len(path) > 10 or allow_root:
         if os.path.isdir(path):
             shutil.rmtree(path, ignore_errors=delete_read_only)
@@ -3090,11 +3164,9 @@ def empty_folder(path, allow_root=False):
     >>> # Make new folder in home directory for illustration
     >>> testfolder = create_folder()
     >>> # Make new text file in this folder
-    >>> import os
-    >>> text_file_location = os.path.join(testfolder, 'testfile.txt')
-    >>> make_text_file(output_path=text_file_location )
+    >>> text_file_location = make_text_file(output_path = testfolder)
     >>> # Print all files in the testfolder
-    >>> print( get_files_in_folder(testfolder) ) # Should show 
+    >>> get_files_in_folder(testfolder) 
     >>> # Empty the folder
     >>> empty_folder(testfolder)
     >>> # Check what is in the folder
@@ -3109,6 +3181,7 @@ def empty_folder(path, allow_root=False):
     """
     import os
 
+    path = interpret_path(path, required=True)
     if len(path) > 10 or allow_root:
         if os.path.isdir(path):
             for root, dirs, files in os.walk(path, topdown=False):
@@ -3142,20 +3215,20 @@ def folder_exists(path):
     Icon
         las la-folder
     """
-    import os
+    import pathlib
 
-    return os.path.isdir(path)
+    return pathlib.Path(path).is_dir()
 
 
 @activity
-def copy_folder(from_path, to_path=None):
+def copy_folder(input_path, output_path=None):
     """Copy a folder
 
     Copies a folder from one place to another.
-    If the new location already contains a folder with the same name, a random 4 character id is added to the name.
+    
 
-    :parameter old_path: Full path to the source location of the folder
-    :parameter new_path: Full path to the destination location of the folder. If no path is specified folder will get copied in the from_path directory
+    :parameter input_path: Full path to the source location of the folder
+    :parameter output_path: Full path to the destination location of the folder. If no path is specified folder will get copied in the input directory with '_copied' added
 
     :return: Path to new folder as string
 
@@ -3173,37 +3246,27 @@ def copy_folder(from_path, to_path=None):
     Icon
         lar la-folder
     """
-    from uuid import uuid4
-    import os
     import shutil
 
-    if not to_path:
-        to_path = from_path
+    input_path = interpret_path(input_path, required=True)
+    if not output_path:
+        output_path = interpret_path(input_path, addition='_copied')
+    else:
+        output_path = interpret_path(output_path)
 
-    from_path_folder = os.path.basename(from_path)
-    if os.path.isdir(from_path):
-        if not os.path.isdir(to_path):
-            shutil.copytree(from_path, to_path)
-            return os.path.join(to_path, from_path_folder)
-        elif os.path.isdir(to_path):
-            to_path_folder_name = (
-                os.path.basename(to_path) + "_copy_" + str(uuid4())[:4]
-            )
-            to_path_base_name = os.path.abspath(os.path.join(to_path, os.pardir))
-            to_path = os.path.join(to_path_base_name, to_path_folder_name)
-            shutil.copytree(from_path, to_path)
-            return os.path.join(to_path, from_path_folder)
-    return None
+    shutil.copytree(input_path, output_path)
+
+    return output_path
 
 
 @activity
-def zip_folder(path, new_path=None):
+def zip_folder(path, output_path=None):
     """Zip
 
      Zia folder and it's contents. Creates a .zip file. 
 
     :parameter path: Full path to the source location of the folder that will be zipped
-    :parameter new_path: Full path to save the zipped folder. If no path is specified a folder with the original folder name plus 4 random characters
+    :parameter output_path: Full path to save the zipped folder. If no path is specified a folder with the original folder with '_zipped' added
 
     :return: Path to zipped folder
 
@@ -3223,19 +3286,20 @@ def zip_folder(path, new_path=None):
     import zipfile
     import os
     import shutil
-    from uuid import uuid4
 
-    if not new_path:
-        from uuid import uuid4
+    path = interpret_path(path, required=True)
 
-        new_path = path + "_" + str(uuid4())[:4]
+    if not output_path:
+        output_path = interpret_path(path, addition = '_zipped')
+        
     if os.path.isdir(path):
-        shutil.make_archive(new_path, "zip", path)
-    return new_path
+        shutil.make_archive(output_path, "zip", path)
+
+    return output_path
 
 
 @activity
-def unzip(path, to_path=None):
+def unzip(path, output_path=None):
     """Unzip
 
     Unzips a file or folder from a .zip file.
@@ -3264,15 +3328,18 @@ def unzip(path, to_path=None):
     import os
     import shutil
 
-    if os.path.exists(path):
-        zipp = zipfile.ZipFile(path)
-        if not to_path:
-            to_path = from_path_folder = os.path.basename(path)
-            zipp.extractall(to_path)
-        elif os.path.isdir(to_path):
-            zipp.extractall(to_path)
-        zipp.close()
-    return to_path
+    path = interpret_path(path)
+
+    if not output_path:
+        output_path = interpret_path(path, addition='_unzipped')
+    else:
+        output_path = interpret_path(output_path)
+
+    import zipfile
+    with zipfile.ZipFile(path, 'r') as zip_ref:
+        zip_ref.extractall(output_path)
+
+    return output_path
 
 
 @activity
@@ -3281,7 +3348,7 @@ def most_recent_file(path=None):
 
     Return most recent file in directory
 
-    :parameter path: Path which will be scanned for most recent file
+    :parameter path: Path which will be scanned for most recent file, defaults to homedir
 
     :return: Path to most recent file
 
@@ -3298,6 +3365,8 @@ def most_recent_file(path=None):
     """
 
     import os
+
+    path = interpret_path(path)
 
     files = os.listdir(path)
     paths = [os.path.join(path, basename) for basename in files]
@@ -3336,7 +3405,7 @@ def wait(seconds=1):
 
 
 @activity
-def wait_for_image(path=None, timeout=60):
+def wait_for_image(path, timeout=60):
     """Wait for image
 
     Waits for an image to appear on the screen
@@ -3364,6 +3433,7 @@ def wait_for_image(path=None, timeout=60):
     from pyautogui import locateCenterOnScreen
     from time import sleep
 
+    path = interpret_path(path)
     for _ in range(timeout):
         try:
             locateCenterOnScreen(path)
@@ -3397,6 +3467,8 @@ def wait_folder_exists(path, timeout=60):
     """
     from time import sleep
     import os
+
+    path = interpret_path(path)
 
     while not os.path.exists(path):
         sleep(1)
@@ -3437,7 +3509,10 @@ class Word:
         """
         only_supported_for("Windows")
 
-        self.file_path = file_path
+        if not file_path:
+            self.file_path = file_path
+        else:
+            self.file_path = interpret_path(file_path)
 
         self.app = self._launch()
         self.app.Visible = visible
@@ -3505,6 +3580,7 @@ class Word:
         Icon
             lar la-file-word
         """
+        file_path = interpret_path(file_path)
         self.app.ActiveDocument.SaveAs(file_path)
 
     @activity
@@ -3616,11 +3692,10 @@ class Word:
             lar la-file-pdf
 
         """
-
         if not file_path:
-            import os
-
-            file_path = os.path.expanduser("~") + "/pdf_export.pdf"
+            file_path = interpret_path(file_path, addition ='pdf_export.pdf')
+        else:
+            file_path = interpret_path(file_path)
 
         self.app.ActiveDocument.ExportAsFixedFormat(
             OutputFileName=file_path,
@@ -3655,9 +3730,9 @@ class Word:
 
         """
         if not file_path:
-            import os
-
-            file_path = os.path.expanduser("~") + "/html_export.html"
+            file_path = interpret_path(file_path, addition ='html_export.html')
+        else:
+            file_path = interpret_path(file_path)
 
         import win32com.client
 
@@ -3772,6 +3847,8 @@ class WordFile:
             las la-file-word
 
         """
+
+        file_path = interpret_path(file_path)
 
         self.file_path = file_path
 
@@ -3893,6 +3970,7 @@ class WordFile:
         Icon
             las la-file-word
         """
+        path = interpret_path(path)
         document.save(path)
 
     @activity
@@ -4287,7 +4365,7 @@ class Outlook:
                         item.Move(target_folder)
 
     @activity
-    def save_attachments(self, folder_name="Inbox", target_folder_path=None):
+    def save_attachments(self, folder_name="Inbox", ouput_path=None):
         """Save attachments
 
         Save all attachments from certain folder
@@ -4314,8 +4392,7 @@ class Outlook:
         paths = []
 
         # Set to user home if no path specified
-        if not target_folder_path:
-            target_folder_path = os.path.expanduser("~")
+        output_path = interpret_path(output_path)
 
         # Find the appropriate folder
         if self.account_name:
@@ -4476,7 +4553,10 @@ class Excel:
         """
         only_supported_for("Windows")
 
-        self.file_path = file_path
+        if not file_path:
+            self.file_path = file_path
+        else:
+            self.file_path = interpret_path(file_path)
 
         self.app = self._launch()
         self.app.Visible = visible
@@ -4587,12 +4667,12 @@ class Excel:
         self.workbook.Save()
 
     @activity
-    def save_as(self, path):
+    def save_as(self, file_path):
         """Save as
 
         Save the current workbook to a specific path
 
-        :parameter path: Path where workbook will be saved. Default is home directory and filename 'workbook.xlsx'
+        :parameter file_path: Path where workbook will be saved. Default is home directory and filename 'workbook.xlsx'
 
             :Example:
 
@@ -4610,10 +4690,10 @@ class Excel:
             las la-file-excel
         
         """
-        if not path:
-            import os
-
-            path = os.path.expanduser("~") + "\workbook.xlsx"
+        if not file_path:
+            file_path = interpret_path(file_path, addition ='workbook.xlsx')
+        else:
+            file_path = interpret_path(file_path)
 
         self.app.DisplayAlerts = False
         self.workbook.SaveAs(path)
@@ -7839,9 +7919,15 @@ def make_text_file(text="Sample text", output_path=None):
 
     # Set to user home if no path specified
     import os
-
+    
     if not output_path:
-        output_path = os.path.join(os.path.expanduser("~"), "generated_text_file.txt")
+        output_path = interpret_path(output_path, default_filename='generated_text_file.txt')
+    else:    
+        import pathlib
+        if pathlib.Path(output_path).is_dir():
+            output_path = interpret_path(output_path, default_filename='generated_text_file.txt')
+        else:
+            output_path = interpret_path(output_path)
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(text)
 
