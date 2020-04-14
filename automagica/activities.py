@@ -1,4 +1,4 @@
-from .utilities import activity, only_supported_for
+#from .utilities import activity, only_supported_for
 
 def interpret_path(path=None, required=False, addition=None, default_filename=None, random_addition=False):
 
@@ -2344,7 +2344,7 @@ def display_mouse_position(duration=10):
 
 
 @activity
-def click(element_id=None, x=None, y=None, delay=0.1):
+def click(element_id=None, delay=0.1):
     """Mouse click
 
     Clicks on an element based on the element ID (vision)
@@ -2383,7 +2383,7 @@ def click(element_id=None, x=None, y=None, delay=0.1):
         raise Exception("Could not click, did you enter a valid ID or coordinates")
 
 @activity
-def click_coordinates():
+def click_coordinates(x=None, y=None, delay=0.1):
     """Mouse click coordinates
 
     Clicks on an element based on pixel position determined by x and y coordinates. To find coordinates one could use display_mouse_position().
