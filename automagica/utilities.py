@@ -18,6 +18,46 @@ def activity(func):
 
     return wrapper
 
+def interpret_path(path=None, required=False, addition=None, default_filename=None, random_addition=False, replace_filename=None):
+    """Helper function to interpret path. This function allows for easy interpration of pathnames in the Automagica activities.
+    Allows the user to give input paths both in as a raw string with backslashes, as well as a path with forward slashes.
+    """
+    import pathlib
+
+    if path:
+        filepath = pathlib.Path(path)
+    else:    
+        if not required:
+            filepath = pathlib.Path.home() 
+        else:
+            raise Exception("No path specified, please specify a path.")
+        
+    if default_filename:
+        filepath = filepath.joinpath(filepath, default_filename)
+
+    if random_addition:
+        if filepath.exists():
+            from uuid import uuid4
+            addition = "_" + str(uuid4())[:4]
+
+    if replace_filename:
+        if filepath.is_file() or filepath.is_dir():
+            base = filepath.parents[0]
+            out = filepath.joinpath(base, replace_filename)
+            return str(out)
+
+    if addition:
+        base = filepath.parents[0]
+        filename = filepath.name
+        extension = filepath.suffix
+        filename_base = filename.replace(extension, '')
+        if base == base.parent:
+            out = filename_base + addition + extension
+        else:
+            out = filepath.joinpath(base, filename_base + addition + extension)
+        return str(out)
+
+    return str(filepath)
 
 def telemetry(func):
     """Automagica Activity Telemetry
