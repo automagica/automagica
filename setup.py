@@ -49,8 +49,7 @@ install_requires = [
     "PyPDF2==1.26.0",  # BSD 3-Clause "New" or "Revised" License
     "faker==2.0.3",  # MIT License
     # BSD 3-Clause "New" or "Revised" License (requires python3-devel on Ubuntu/Fedora)
-    "psutil==5.6.6",
-    "PySimpleGUI==4.15.1",  # GNU Lesser General Public License v3.0
+    "psutil==5.6.6", #BSD 3-Clause
     "keyring==21.0.0",  # MIT License
     "cryptography==2.3.1",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
     "pyad==0.6.0",  # Apache 2.0 License
