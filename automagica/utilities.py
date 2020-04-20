@@ -22,7 +22,12 @@ def activity(func):
             name = func.__name__
         logging.info("Automagica (activity): {}".format(name))
         telemetry(func)
-        return func(*args, **kwargs)
+
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            telemetry_exception(func, e)
+            raise
 
     return wrapper
 
@@ -90,17 +95,60 @@ def telemetry(func):
             name = func.__name__
 
         data = {
-            "activity": name,
-            "machine_id": getnode(),
+            "activity": name,  # Name of the activity
+            "machine_id": getnode(),  # Unique (anonymous) identifier
             "os": {
-                "name": os.name,
-                "platform": platform.system(),
-                "release": platform.release(),
+                "name": os.name,  # Operating system name
+                "platform": platform.system(),  # Platform OS
+                "release": platform.release(),  # Version OS
             },
         }
 
         try:
             r = requests.post("https://telemetry.automagica.com/", json=data, timeout=1)
+        except:
+            pass
+
+
+def telemetry_exception(func, exception):
+    """Automagica Activity Telemetry for Exceptions
+
+    This allows us to collect information on the errors in usage of 
+    certain Automagica functionalities in order for us to keep improving 
+    the software. If you would like to disable telemetry, make sure the 
+    environment variable 'AUTOMAGICA_NO_TELEMETRY' is set. That way no
+    information is being shared with us.
+    """
+    import requests
+    from uuid import getnode
+    import os
+    import platform
+
+    error = exception.__class__.__name__
+
+    if not os.environ.get("AUTOMAGICA_NO_TELEMETRY") and not os.environ.get(
+        "AUTOMAGICA_URL"
+    ):
+        if func.__doc__:
+            name = func.__doc__.split("\n")[0]
+        else:
+            name = func.__name__
+
+        data = {
+            "activity": name,  # Name of the activity
+            "machine_id": getnode(),  # Unique (anonymous) identifier
+            "os": {
+                "name": os.name,  # Operating system name
+                "platform": platform.system(),  # Platform OS
+                "release": platform.release(),  # Version OS
+            },
+            "error": error,  # Class name of the error ("ValueError" or "ZeroDvisionError")
+        }
+
+        try:
+            r = requests.post(
+                "https://telemetry.automagica.com/errors", json=data, timeout=1
+            )
         except:
             pass
 
@@ -150,14 +198,12 @@ def all_activities():
 
         signature = inspect.signature(f)
         params = signature.parameters
-        args = []
+        args = {}
 
         for _, val in params.items():
-            arg = {
-                "name": val.name,
-                "default": (val.default if val.default != inspect._empty else None),
-            }
-            args.append(arg)
+            arg = {"default": (val.default if val.default != inspect._empty else None)}
+
+            args[val.name] = arg
 
             lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
 
@@ -176,11 +222,9 @@ def all_activities():
                     if name == val.name:
                         arg["type"] = type_
 
-            # TODO: not all activities have types defined for all arguments
-            for arg in args:
-                if not arg.get("type"):
-                    if arg.get("name").endswith("path"):
-                        arg["type"] = "path"
+            if not arg.get("type"):
+                if val.name.endswith("path"):
+                    arg["type"] = "path"
 
         return args
 
