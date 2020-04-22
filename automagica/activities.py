@@ -1736,7 +1736,7 @@ def easy_key_translation(key):
         "backspace": "{BACKSPACE}",
         "break": "{BREAK}",
         "capslock": "{CAPSLOCK}",
-        "delete": "{DELETE}",
+        "del": "{DELETE}",
         "alt": "%",
         "ctrl": "^",
         "shift": "+",
@@ -1748,12 +1748,12 @@ def easy_key_translation(key):
         "home": "{HOME}",
         "insert": "{INSERT}",
         "win": "^{Esc}",
-        "leftarrow": "{LEFT}",
+        "left": "{LEFT}",
         "numlock": "{NUMLOCK}",
         "pagedown": "{PGDN}",
         "pageup": "{PGUP}",
         "printscreen": "{PRTSC}",
-        "rightarrow": "{RIGHT}",
+        "right": "{RIGHT}",
         "scrolllock": "{SCROLLLOCK}",
         "tab": "{TAB}",
         "uparrow": "{UP}",
@@ -1799,9 +1799,9 @@ def press_key(key=None):
     If you are using this on Mac Os you might need to grant acces to your terminal application. (Security Preferences > Security & Privacy > Privacy > Accessibility)
 
     Supported keys:
-        ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win'
+        [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
 
-    :parameter key: Key to press
+    :parameter key: Key to press. This can also be a scan code (e.g: 33 for '!')
 
     :return: Keypress
 
@@ -1827,10 +1827,10 @@ def press_key(key=None):
 
     # Check if system is not running Windows
     if platform.system() != "Windows":
-        from pyautogui import press
+        from keyboard import send
 
         if key:
-            return press(key)
+            return send(key)
 
     import win32com.client
 
@@ -1839,18 +1839,18 @@ def press_key(key=None):
 
 
 @activity
-def press_key_combination(first_key, second_key, third_key=None, force_pyautogui=False):
+def press_key_combination(first_key, second_key, third_key=None, compatibility=False):
     """Press key combination
 
     Press a combination of two or three keys simultaneously. Make sure your keyboard is on US layout (standard QWERTY).
 
     Supported keys:
-        ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win']
+        [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
 
     :parameter first_key: First key to press
     :parameter second_key: Second key to press
     :parameter third_key: Third key to press, this is optional.
-    :parameter force_pyautogui: Set parameter to true to force the use of pyautogui. This could help when certain keypresses do not work correctly.
+    :parameter compatibility: Set parameter to true to not use win32com. This could help with compatibility on certain systems or when certain keypresses do not work correctly.
 
     :return: Key combination
 
@@ -1873,14 +1873,16 @@ def press_key_combination(first_key, second_key, third_key=None, force_pyautogui
 
     # Check if system is not running Windows
     if first_key == "win" or second_key == "win" or third_key == "win":
-        force_pyautogui = True
-    if platform.system() != "Windows" or force_pyautogui:
-        from pyautogui import hotkey
+        compatibility = True
+    if platform.system() != "Windows" or compatibility:
+        from keyboard import send
 
         if not third_key:
-            return hotkey(first_key, second_key)
+            send(first_key + '+' + second_key)
+            return
         if third_key:
-            return hotkey(first_key, second_key, third_key)
+            send(first_key + '+' + second_key + '+' + third_key)
+            return 
 
     import win32com.client
 
@@ -1927,7 +1929,7 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01):
         location = detect_vision(automagica_id)
         x, y = get_center_of_rectangle(location)
 
-        from pyautogui import click
+        from mouse import click
 
         click(x, y)
 
@@ -1939,9 +1941,9 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01):
 
     # Set keyboard layout for Windows platform
     if platform.system() != "Windows":
-        from pyautogui import typewrite
+        from keyboard import write
 
-        return typewrite(text, interval=interval_seconds)
+        return write(text, delay=interval_seconds)
 
     import win32com.client
 
@@ -1982,13 +1984,13 @@ def get_mouse_position(delay=None, to_clipboard=False):
     Icon
         las la-mouse
     """
-    from pyautogui import position
+    from mouse import get_position
     from time import sleep
 
     if delay:
         sleep(delay)
 
-    coord = position()
+    coord = get_position()
 
     if to_clipboard:
         set_to_clipboard("x=" + str(coord[0]) + ", y=" + str(coord[1]))
@@ -2021,12 +2023,12 @@ def display_mouse_position(duration=10):
     if duration < 1 or type(duration) != int:
         return
 
-    from pyautogui import position
+    from mouse import get_position
     from time import sleep
 
     duration_half = int(duration / 2)
     for i in range(0, duration_half, 2):
-        coord = position()
+        coord = get_position()
         message = "x=" + str(coord[0]) + ", y=" + str(coord[1])
         display_osd_message(message, seconds=2)
         sleep(2)
@@ -2067,9 +2069,11 @@ def click(automagica_id, delay=0.1):
     location = detect_vision(automagica_id)
     x, y = get_center_of_rectangle(location)
 
-    from pyautogui import click
+    from mouse import click
 
     click(x, y)
+
+    return
 
 @activity
 def click_coordinates(x=None, y=None, delay=0.1):
@@ -2100,9 +2104,11 @@ def click_coordinates(x=None, y=None, delay=0.1):
         sleep(delay)  # Default delay
 
     if x and y:
-        from pyautogui import click
+        from mouse import click
 
-        return click(x, y)
+        click(x, y)
+
+        return 
 
     else:
         raise Exception("Could not click, did you enter a valid ID or coordinates")
@@ -2136,9 +2142,9 @@ def double_click_coordinates(x=None, y=None, delay=0.1):
         sleep(delay)  # Default delay
 
     if x and y:
-        from pyautogui import doubleClick
+        from mouse import double_click
 
-        return doubleClick(x, y)
+        double_click(x,y)
 
     else:
         raise Exception("Could not click, did you enter valid coordinates")
@@ -2179,9 +2185,11 @@ def double_click(automagica_id=None, delay=0.1):
         location = detect_vision(automagica_id)
         x, y = get_center_of_rectangle(location)
 
-        from pyautogui import doubleClick
+        from mouse import double_click
 
-        return doubleClick(x, y)
+        double_click(x,y)
+
+        return
 
     else:
         raise Exception("Could not click, did you enter a valid ID")
@@ -2222,9 +2230,9 @@ def right_click(automagica_id=None, delay=0.1):
         location = detect_vision(automagica_id)
         x, y = get_center_of_rectangle(location)
 
-        from pyautogui import rightClick
+        from mouse import right_click
 
-        return rightClick(x, y)
+        return right_click(x, y)
 
     else:
         raise Exception("Could not click, did you enter a valid ID or coordinates")
@@ -2256,16 +2264,12 @@ def right_click_coordinates(x=None, y=None, delay=0.1):
     if delay:
         from time import sleep
 
-        sleep(delay)  # Default delay
-
-        from pyautogui import rightClick
-
-        return rightClick(x, y)
+        sleep(delay)  # Default delay 
 
     if x and y:
-        from pyautogui import rightClick
+        from mouse import right_click
 
-        return rightClick(x, y)
+        return right_click(x, y)
 
     else:
         raise Exception("Could not click, did you enter a valid ID or coordinates")
@@ -2306,14 +2310,17 @@ def move_mouse_to(automagica_id=None, delay=0.1):
         location = detect_vision(automagica_id)
         x, y = get_center_of_rectangle(location)
 
-        from pyautogui import moveTo
+        from mouse import move
 
-        return moveTo(x, y)
+        move(x, y)
 
+        return 
     if x and y:
-        from pyautogui import moveTo
+        from mouse import move
 
-        return moveTo(x, y)
+        move(x, y)
+
+        return 
 
 @activity
 def move_mouse_to_coordinates(x=None, y=None, delay=0.1):
@@ -2346,9 +2353,11 @@ def move_mouse_to_coordinates(x=None, y=None, delay=0.1):
         sleep(delay)  # Default delay
 
     if x and y:
-        from pyautogui import moveTo
+        from mouse import move
 
-        return moveTo(x, y)
+        move(x, y)
+
+        return 
 
 @activity
 def move_mouse_relative(x=None, y=None):
@@ -2374,13 +2383,15 @@ def move_mouse_relative(x=None, y=None):
         las la-arrows-alt
     """
 
-    from pyautogui import moveRel
+    from mouse import move
 
-    return moveRel(x, y)
+    move(x, y, absolute=False)
+
+    return
 
 
 @activity
-def drag_mouse_to_coordinates(x=None, y=None, delay=0.1, button="left"):
+def drag_mouse_to_coordinates(x=None, y=None, delay=0.1):
     """Drag mouse
 
     Drags mouse to an element based on pixel position determined by x and y coordinates
@@ -2388,7 +2399,6 @@ def drag_mouse_to_coordinates(x=None, y=None, delay=0.1, button="left"):
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
     :parameter delay: Delay between movements in seconds, standard value is 100 ms. 
-    :parameter button: Button to hold while dragging. Options are 'left', 'middle' and 'right'. Standard value is 'left'.
 
     :return: Drag mouse 
 
@@ -2410,19 +2420,20 @@ def drag_mouse_to_coordinates(x=None, y=None, delay=0.1, button="left"):
         sleep(delay)  # Default delay
 
     if x and y:
-        from pyautogui import dragTo
+        from mouse import drag
 
-        return dragTo(x, y, 0.2, button=button)
+        drag(x, y, absolute=False)
+
+        return 
 
 @activity
-def drag_mouse_to(automagica_id=None, delay=0.1, button="left"):
+def drag_mouse_to(automagica_id=None, delay=0.1):
     """Drag mouse
 
     Drags mouse to an element based on the element ID (vision) 
 
     :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter delay: Delay between movements in seconds, standard value is 100 ms. 
-    :parameter button: Button to hold while dragging. Options are 'left', 'middle' and 'right'. Standard value is 'left'.
 
     :return: Drag mouse 
 
@@ -2450,9 +2461,11 @@ def drag_mouse_to(automagica_id=None, delay=0.1, button="left"):
         location = detect_vision(automagica_id)
         x, y = get_center_of_rectangle(location)
 
-        from pyautogui import dragTo
+        from mouse import drag
 
-        return dragTo(x, y, 0.2, button=button)
+        drag(x, y, absolute=False)
+
+        return 
 
 """
 Image
@@ -2548,156 +2561,6 @@ def take_screenshot(output_path=None):
     img.save(output_path, "JPEG")
 
     return output_path
-
-
-@activity
-def click_image(input_path=None):
-    """Click on image
-
-    This function searches the screen for a match with template image and clicks directly in the middle. Note that this only finds exact matches.
-    For a more advanced and robust vision detection method see Automagica AI functionality.
-
-    :parameter input_path: Path to the template image.
-
-    :return: True if image was found and clicked on. False if template image was not found.
-
-        :Example:
-
-    >>> # Create a random snippet from current screen
-    >>> # This is for illustration and can be replaced by template
-    >>> snippet = random_screen_snippet(size=10)
-    >>> # Click on the snippet
-    >>> click_image(snippet)
-
-    Keywords
-        image matching, matching, vision, button, click, template, template matching.
-
-    Icon
-        las la-image
-
-    """
-    input_path = interpret_path(input_path, required=True)
-
-    from pyautogui import locateCenterOnScreen, click
-
-    try:
-        x, y = locateCenterOnScreen(input_path)
-        click(x, y)
-        return True
-    except:
-        return False
-
-
-@activity
-def double_click_image(input_path=None):
-    """Double click image
-
-    Double click on similar image on the screen. This function searches the screen for a match with template image and doubleclicks directly in the middle.
-    Note that this only finds exact matches. For a more advanced and robust vision detection method see Automagica AI functionality.
-
-    :parameter input_path: Path to the template image.
-
-    :return: True if image was found and double clicked on. False if template image was not found.
-
-        :Example: 
-
-    >>> # Create a random snippet from current screen
-    >>> # This is for illustration and can be replaced by template
-    >>> snippet = random_screen_snippet(size=10)
-    >>> # Click on the snippet
-    >>> double_click_image(snippet)
-
-    Keywords
-        image matching, matching, vision, button, double click, template, template matching,click 
-
-    Icon
-        las la-image
-    """
-    input_path = interpret_path(input_path, required=True)
-
-    from pyautogui import locateCenterOnScreen, click
-
-    try:
-        x, y = locateCenterOnScreen(input_path)
-        click(x, y, 2)
-        return True
-    except:
-        return False
-
-
-@activity
-def right_click_image(input_path=None):
-    """Right click image
-
-    Right click on similar image on the screen. This function searches the screen for a match with template image and right clicks directly in the middle.
-    Note that this only finds exact matches. For a more advanced and robust vision detection method see Automagica AI functionality.
-
-    :parameter input_path: Path to the template image.
-
-    :return: True if image was found and right clicked on. False if template image was not found.
-
-        :Example:
-
-    >>> # Create a random snippet from current screen
-    >>> # This is for illustration and can be replaced by template
-    >>> snippet = random_screen_snippet(size=10)
-    >>> # Click on the snippet
-    >>> right_click_image(snippet)
-
-    Keywords
-        image matching, matching, vision, button, right click, template, template matching, click
-
-    Icon
-        las la-image
-    """
-
-    input_path = interpret_path(input_path, required=True)
-
-    from pyautogui import locateCenterOnScreen, rightClick
-
-    try:
-        x, y = locateCenterOnScreen(input_path)
-        rightClick(x, y, 2)
-        return True
-    except:
-        return False
-
-
-@activity
-def locate_image_on_screen(input_path=None):
-    """Locate image on screen
-
-    Find exact image on the screen. This function searches the screen for a match with template image and clicks directly in the middle.
-    Note that this only finds exact matches. For a more advanced and robust vision detection method see Automagica AI functionality.
-
-    :parameter input_path: Path to the template image.
-
-    :return: Tuple with (x, y) coordinates if image is found. None if image was not found
-
-        :Example:
-
-    >>> # Create a random snippet from current screen
-    >>> # This is for illustration and can be replaced by template
-    >>> snippet = random_screen_snippet(size=10)
-    >>> # Click on the snippet
-    >>> locate_image_on_screen(snippet)
-
-    Keywords
-        image matching, matching, vision, button, right click, template, template matching, click
-
-    Icon
-        las la-image
-    """
-
-    input_path = interpret_path(input_path, required=True)
-
-    from pyautogui import locateCenterOnScreen
-
-    try:
-        x, y = locateCenterOnScreen(input_path)
-        return x, y
-    except:
-        return None
 
 
 """
@@ -3215,44 +3078,6 @@ def wait(seconds=1):
     from time import sleep
 
     sleep(seconds)
-
-
-@activity
-def wait_for_image(path, timeout=60):
-    """Wait for image
-
-    Waits for an image to appear on the screen
-    Note that this activity waits for an exact match of the template image to appear on the screen. 
-    Small variations, such as color or resolution could result in a mismatch.
-
-    :parameter path: Full or relative path to the template image.
-    :parameter timeout: Maximum time in seconds to wait before continuing. Default value is 60 seconds.
-
-        :Example:
-
-    >>> # Create a random snippet from current screen
-    >>> # This is for illustration and can be replaced by template
-    >>> snippet = random_screen_snippet(size=10)
-    >>> # Wait for the snippet to be visible
-    >>> wait_for_image(snippet)
-
-    Keywords
-        image matching, wait, pause, vision, template, template matching
-
-    Icon
-        las la-hourglass
-    """
-
-    from pyautogui import locateCenterOnScreen
-    from time import sleep
-
-    path = interpret_path(path)
-    for _ in range(timeout):
-        try:
-            locateCenterOnScreen(path)
-            break
-        except TypeError:
-            sleep(1)
 
 
 @activity
@@ -9060,11 +8885,15 @@ def click_on_text_ocr(text):
     """
     position = find_text_on_screen_ocr(text, criteria="first")
     if position:
-        from pyautogui import click
 
         x = int(position["x"] + position["w"] / 2)
         y = int(position["y"] + position["h"] / 2)
-        return click(x=x, y=y)
+
+        from mouse import move, click
+        move(x, y)
+        click()
+
+        return 
 
 
 @activity
@@ -9094,11 +8923,14 @@ def double_click_on_text_ocr(text):
 
     position = find_text_on_screen_ocr(text, criteria="first")
     if position:
-        from pyautogui import doubleClick
 
         x = int(position["x"] + position["w"] / 2)
         y = int(position["y"] + position["h"] / 2)
-        return doubleClick(x=x, y=y)
+        
+        from mouse import move, double_click
+        move(x, y)
+        double_click()
+        return 
 
 
 @activity
@@ -9126,11 +8958,15 @@ def right_click_on_text_ocr(text):
     """
     position = find_text_on_screen_ocr(text, criteria="first")
     if position:
-        from pyautogui import rightClick
 
         x = int(position["x"] + position["w"] / 2)
         y = int(position["y"] + position["h"] / 2)
-        return rightClick(x=x, y=y)
+        
+        from mouse import move, right_click
+        move(x, y)
+        right_click()
+        
+        return
 
 
 """
