@@ -1045,6 +1045,28 @@ class Chrome(selenium.webdriver.Chrome):
         return paths
 
     @activity
+    def browse_to(self, url):
+        """Browse to URL
+
+        Browse to URL.
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.browse_to('https://nytimes.com')
+
+        Keywords
+            element, browse to, browse, surf, surf to, go to, get, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            lab la-chrome
+
+        """
+        return self.get(url)
+
+    @activity
     def find_elements_by_text(self, text):
         """Find elements by text
 
@@ -1075,36 +1097,6 @@ class Chrome(selenium.webdriver.Chrome):
             + "']"
         )
 
-    @activity
-    def by_text(self, text):
-        """Find element by text
-
-        Find one element by text. Text does not need to match exactly, part of text is enough.
-
-            :Example:
-
-        >>> # Open the browser
-        >>> browser = Chrome()
-        >>> # Go to a website
-        >>> browser.get('https://nytimes.com')
-        >>> # Find elements by text
-        >>> browser.by_text('world')
-        webelement
-
-        Keywords
-            element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
-
-        Icon
-            las la-align-center
-
-        """
-        return self.find_element_by_xpath(
-            "//*[contains(text(), '"
-            + text.lower()
-            + "')] | //*[@value='"
-            + text.lower()
-            + "']"
-        )
 
     @activity
     def find_all_links(self, contains=''):
