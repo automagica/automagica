@@ -56,6 +56,17 @@ If you wish to only install the Automagica Python library (without registering f
 ```
 pip install automagica --upgrade
 ```
+Important: for some activities an Automagica API-key is required. In order to acquire an API-key, you need to register at the [Automagica Portal](https://portal.automagica.com).
+
+## Components
+Automagica consists of the following components:
+- Bot: runtime/agent responsible for performing the automated tasks
+- Flow: a visual Flow designer to build automations
+- Lab: Notebook-style automation development environment based on Jupyter Notebooks.
+- Portal: management of bots, credentials, automations, logs, ...
+
+The Automagica Portal is currently not available under an open source license. We offer a free environment for evaluation purposes at https://portal.automagica.com. If you would like to use the Automagica Portal within your company or organization, please contact sales@automagica.com.
+
 #### Importing the activities
 
 Before getting started in development mode, don't forget to import the activities from automagica in your python script. If unsure, it is possible to import all the activities for development purposes by starting your script with:
@@ -420,6 +431,9 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - [Icons8 Line Awesome](https://github.com/icons8/line-awesome)
 - [pysnmp](https://github.com/etingof/pysnmp) and special thanks to [quicksnmp](https://github.com/alessandromaggio/quicksnmp)
 - [pandas](https://github.com/pandas-dev/pandas)
+- Keyboard
+- Babel
+- Click
 
 ## Contribute
 

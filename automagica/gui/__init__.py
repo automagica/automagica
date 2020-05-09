@@ -1,6 +1,60 @@
+import logging
 import os
 import tkinter as tk
 from tkinter import font
+
+from .windows import FlowDesignerWindow, FlowPlayerWindow
+from ..models.bots import ThreadedBot
+from ..models.flow import Flow
+
+import tkinter
+
+
+class FlowApp(tkinter.Tk):
+    def __init__(self, *args, bot=None, file_path=None, run=False, **kwargs):
+
+        super().__init__(*args, **kwargs)
+
+        self.withdraw()
+
+        # Set up logging
+        logging.basicConfig(level=logging.INFO)
+        self.logger = logging.getLogger("automagica.flow")
+
+        if not bot:
+            bot = ThreadedBot()
+        self.bot = bot
+
+        if file_path:
+            if run:
+                self.run_flow(file_path)
+            else:
+                self.open_flow(file_path)
+        else:
+            self.new_flow()
+
+        # Run sounds better, right?
+        self.run = self.mainloop
+
+    def new_flow(self):
+        _ = FlowDesignerWindow(self, bot=self.bot)
+
+    def open_flow(self, file_path):
+        _ = FlowDesignerWindow(self, bot=self.bot, flow=Flow(file_path))
+
+    def run_flow(self, file_path):
+        _ = FlowPlayerWindow(
+            self,
+            flow=Flow(file_path),
+            bot=self.bot,
+            autoplay=True,
+            step_by_step=False,
+            autoclose=True,
+            on_close=self.quit,
+        )
+
+    def report_callback_exception(self, exception, value, traceback):
+        self.logger.exception(exception)
 
 
 def style_button(button, font_size=10):

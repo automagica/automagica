@@ -1,0 +1,533 @@
+# Translations template for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-04-30 07:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: app.py:63
+msgid "Hello world!"
+msgstr ""
+
+#: cli.py:5
+msgid "Automagica CLI"
+msgstr ""
+
+#: cli.py:10
+msgid "Automagica Flow"
+msgstr ""
+
+#: cli.py:15
+msgid "New Automagica Flow"
+msgstr ""
+
+#: cli.py:23
+msgid "Edit Automagica Flow"
+msgstr ""
+
+#: cli.py:32
+msgid "Run Automagica Flow"
+msgstr ""
+
+#: gui/buttons.py:65
+msgid "Information"
+msgstr ""
+
+#: gui/frames.py:87
+msgid "Type command here and press <ENTER> to run..."
+msgstr ""
+
+#: gui/frames.py:110
+msgid ""
+"Welcome to Automagica Flow!  \n"
+"Use this Interactive Console to your liking!\n"
+"\n"
+msgstr ""
+
+#: gui/frames.py:120
+msgid "Reset Bot"
+msgstr ""
+
+#: gui/frames.py:125
+msgid "Clear"
+msgstr ""
+
+#: gui/frames.py:131 gui/windows.py:1642
+msgid "Variable Explorer"
+msgstr ""
+
+#: gui/frames.py:352
+msgid "Save As"
+msgstr ""
+
+#: gui/frames.py:358
+msgid "Run (F5)"
+msgstr ""
+
+#: gui/frames.py:365
+msgid "Run step-by-step (Shift+F5)"
+msgstr ""
+
+#: gui/frames.py:374
+msgid "Validate (F6)"
+msgstr ""
+
+#: gui/frames.py:382
+msgid "AI Activities"
+msgstr ""
+
+#: gui/frames.py:387
+msgid "Click"
+msgstr ""
+
+#: gui/frames.py:397
+msgid "Double-Click"
+msgstr ""
+
+#: gui/frames.py:407
+msgid "Right-Click"
+msgstr ""
+
+#: gui/frames.py:417
+msgid "Move To"
+msgstr ""
+
+#: gui/frames.py:427
+msgid "Typing"
+msgstr ""
+
+#: gui/frames.py:437
+msgid "Read Text"
+msgstr ""
+
+#: gui/frames.py:447
+msgid "Is Visible"
+msgstr ""
+
+#: gui/frames.py:457
+msgid "Wait Appear"
+msgstr ""
+
+#: gui/frames.py:467
+msgid "Wait Vanish"
+msgstr ""
+
+#: gui/frames.py:518
+msgid "Select Automagica Flow"
+msgstr ""
+
+#: gui/frames.py:541
+msgid "Flow opened."
+msgstr ""
+
+#: gui/frames.py:556
+msgid "Saved flow."
+msgstr ""
+
+#: gui/frames.py:611
+msgid ""
+"Activities are the basic building blocks of Automagica. By tieing "
+"activities together, you get a Flow."
+msgstr ""
+
+#: gui/frames.py:623
+msgid ""
+"Special nodes allow you to control the way the Flow runs. It also allows "
+"you to extend the capabilities of your Flow beyond the activities that "
+"Automagica has to offer."
+msgstr ""
+
+#: gui/frames.py:638
+msgid "Instructions"
+msgstr ""
+
+#: gui/frames.py:649
+msgid ""
+"Left-click drag: move node\n"
+"Double-click: properties\n"
+"Middle-click: remove"
+msgstr ""
+
+#: gui/frames.py:666
+msgid "Activities"
+msgstr ""
+
+#: gui/frames.py:675 gui/frames.py:772
+msgid "Search activities..."
+msgstr ""
+
+#: gui/frames.py:721
+msgid "Special Nodes"
+msgstr ""
+
+#: gui/frames.py:739
+msgid "Start"
+msgstr ""
+
+#: gui/frames.py:740
+msgid "If Else"
+msgstr ""
+
+#: gui/frames.py:741
+msgid "Loop"
+msgstr ""
+
+#: gui/frames.py:742
+msgid "Run .py"
+msgstr ""
+
+#: gui/frames.py:743 gui/windows.py:856
+msgid "Comment"
+msgstr ""
+
+#: gui/frames.py:744
+msgid "Sub-flow"
+msgstr ""
+
+#: gui/frames.py:745
+msgid "Python Code"
+msgstr ""
+
+#: gui/graphs.py:1037
+msgid "Yes"
+msgstr ""
+
+#: gui/graphs.py:1074
+msgid "Done"
+msgstr ""
+
+#: gui/graphs.py:1108
+msgid "No"
+msgstr ""
+
+#: gui/graphs.py:1142 gui/windows.py:1206
+msgid "Error"
+msgstr ""
+
+#: gui/graphs.py:1178
+msgid "Repeat"
+msgstr ""
+
+#: gui/inputs.py:20
+msgid "Control"
+msgstr ""
+
+#: gui/inputs.py:29
+msgid "Shift"
+msgstr ""
+
+#: gui/inputs.py:37
+msgid "Alt"
+msgstr ""
+
+#: gui/inputs.py:129
+msgid "Browse"
+msgstr ""
+
+#: gui/inputs.py:147
+msgid "Select File"
+msgstr ""
+
+#: gui/inputs.py:215
+msgid "View"
+msgstr ""
+
+#: gui/windows.py:117
+msgid "Unsaved Flow"
+msgstr ""
+
+#: gui/windows.py:203
+msgid "Properties"
+msgstr ""
+
+#: gui/windows.py:223
+msgid "Save"
+msgstr ""
+
+#: gui/windows.py:229 gui/windows.py:1252
+msgid "Cancel"
+msgstr ""
+
+#: gui/windows.py:236 gui/windows.py:1329
+msgid "Remove"
+msgstr ""
+
+#: gui/windows.py:272 gui/windows.py:484 gui/windows.py:847 gui/windows.py:892
+msgid "Node"
+msgstr ""
+
+#: gui/windows.py:275 gui/windows.py:487 gui/windows.py:617 gui/windows.py:692
+#: gui/windows.py:850 gui/windows.py:895
+msgid "Unique ID"
+msgstr ""
+
+#: gui/windows.py:282 gui/windows.py:494
+msgid ""
+"This is the unique identifier for this specific node. It can be used to "
+"connect this node from other nodes."
+msgstr ""
+
+#: gui/windows.py:289 gui/windows.py:501
+msgid "Label"
+msgstr ""
+
+#: gui/windows.py:294 gui/windows.py:506
+msgid "This label is shown in the Flow."
+msgstr ""
+
+#: gui/windows.py:302 gui/windows.py:536 gui/windows.py:633 gui/windows.py:710
+#: gui/windows.py:789 gui/windows.py:911
+msgid "Next Node"
+msgstr ""
+
+#: gui/windows.py:321 gui/windows.py:555
+msgid "This node will be the next node in the flow."
+msgstr ""
+
+#: gui/windows.py:346
+msgid "Activity"
+msgstr ""
+
+#: gui/windows.py:371
+msgid "Options"
+msgstr ""
+
+#: gui/windows.py:385
+msgid "Object variable"
+msgstr ""
+
+#: gui/windows.py:420
+msgid "Return variable"
+msgstr ""
+
+#: gui/windows.py:429
+msgid "Where to store the output of this activity."
+msgstr ""
+
+#: gui/windows.py:514
+msgid "Condition"
+msgstr ""
+
+#: gui/windows.py:521
+msgid ""
+"The condition to be evaluated. If the condition is true, the flow will "
+"continue to the next node. If the condition is false, the flow will go to"
+" the else node."
+msgstr ""
+
+#: gui/windows.py:560
+msgid "Else Node"
+msgstr ""
+
+#: gui/windows.py:580
+msgid "This node will be the next node if the condition is not met."
+msgstr ""
+
+#: gui/windows.py:623
+msgid "Iterable"
+msgstr ""
+
+#: gui/windows.py:647
+msgid "Loop Node"
+msgstr ""
+
+#: gui/windows.py:699
+msgid ".py-file path"
+msgstr ""
+
+#: gui/windows.py:725 gui/windows.py:804 gui/windows.py:926
+msgid "On Exception Node"
+msgstr ""
+
+#: gui/windows.py:777
+msgid "Code"
+msgstr ""
+
+#: gui/windows.py:901
+msgid "Flow path"
+msgstr ""
+
+#: gui/windows.py:968
+msgid "Drag a box around the element on the screen"
+msgstr ""
+
+#: gui/windows.py:974
+msgid "AI Activity Select"
+msgstr ""
+
+#: gui/windows.py:1011
+msgid "Add activity to Flow"
+msgstr ""
+
+#: gui/windows.py:1017
+msgid "Screenshot"
+msgstr ""
+
+#: gui/windows.py:1042
+msgid "Anchors"
+msgstr ""
+
+#: gui/windows.py:1046
+msgid "Add anchors to make the element detection more reliable."
+msgstr ""
+
+#: gui/windows.py:1052
+msgid "Add anchor"
+msgstr ""
+
+#: gui/windows.py:1059
+msgid "Target"
+msgstr ""
+
+#: gui/windows.py:1095
+msgid "Select an anchor on the screen"
+msgstr ""
+
+#: gui/windows.py:1157
+msgid "Important"
+msgstr ""
+
+#: gui/windows.py:1158
+msgid ""
+"By continuing, the information you provided in the previous steps will be"
+" uploaded to Automagica's Vision service. You can find the full terms on "
+"https://portal.automagica.com/tos. Do you accept the terms? You will only"
+" be prompted once on this machine."
+msgstr ""
+
+#: gui/windows.py:1208
+msgid "Unknown error"
+msgstr ""
+
+#: gui/windows.py:1232
+msgid "Name"
+msgstr ""
+
+#: gui/windows.py:1276
+msgid "Keybind"
+msgstr ""
+
+#: gui/windows.py:1284
+msgid "Hello World"
+msgstr ""
+
+#: gui/windows.py:1325
+msgid "Add"
+msgstr ""
+
+#: gui/windows.py:1333
+msgid "Edit"
+msgstr ""
+
+#: gui/windows.py:1352
+msgid "Keybinds"
+msgstr ""
+
+#: gui/windows.py:1442
+msgid "Username/E-mail"
+msgstr ""
+
+#: gui/windows.py:1450
+msgid "Password"
+msgstr ""
+
+#: gui/windows.py:1462
+msgid "Log in"
+msgstr ""
+
+#: gui/windows.py:1468
+msgid "No account yet? Sign up now"
+msgstr ""
+
+#: gui/windows.py:1676
+msgid "Type"
+msgstr ""
+
+#: gui/windows.py:1682
+msgid "Value"
+msgstr ""
+
+#: gui/windows.py:1765
+msgid "Current step: {}"
+msgstr ""
+
+#: gui/windows.py:1770 gui/windows.py:1793
+msgid "Next step: {}"
+msgstr ""
+
+#: gui/windows.py:1788
+msgid "No current activity"
+msgstr ""
+
+#: gui/windows.py:1805 gui/windows.py:1818 gui/windows.py:1835
+msgid "Play"
+msgstr ""
+
+#: gui/windows.py:1810
+msgid "Stop"
+msgstr ""
+
+#: gui/windows.py:1824
+msgid "Pause"
+msgstr ""
+
+#: gui/windows.py:1867
+msgid "Restart"
+msgstr ""
+
+#: gui/windows.py:1877
+msgid "Flow"
+msgstr ""
+
+#: gui/windows.py:1908
+msgid "Flow Validation"
+msgstr ""
+
+#: gui/windows.py:1927
+msgid "There are no validation errors for this Flow."
+msgstr ""
+
+#: models/flow.py:16
+msgid "Unnamed Flow"
+msgstr ""
+
+#: models/flow.py:30
+msgid "Loading Flow from {}"
+msgstr ""
+
+#: models/flow.py:119
+msgid "Loaded Flow from {}"
+msgstr ""
+
+#: models/flow.py:141
+msgid "Saving to {}"
+msgstr ""
+
+#: models/flow.py:144
+msgid "Saved to {}"
+msgstr ""
+
+#: models/flow.py:181
+msgid "Starting Flow"
+msgstr ""
+
+#: models/flow.py:184
+msgid "Starting from node {}"
+msgstr ""
+
+#: models/flow.py:192
+msgid "Running node {} with Bot {}"
+msgstr ""
+
