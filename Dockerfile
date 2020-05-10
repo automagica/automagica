@@ -48,14 +48,20 @@ command=Xvfb :0 -screen 0 "%(ENV_DISPLAY_WIDTH)s"x"%(ENV_DISPLAY_HEIGHT)s"x24 -l
 autorestart=true' > supervisord.conf
 
 RUN apt-get install python3 \
-                    python3-pip \
-                    python3-dev \
-                    chromium -y
+    python3-tk \
+    python3-pip \
+    python3-dev \
+    chromium -y
 
 RUN mkdir code
 COPY . /code
 WORKDIR /code
 RUN pip3 install -e .
+
+# Set wallpaper
+# RUN echo "background: none" >> ~/.fluxbox/overlay
+RUN fbsetbg wallpaper.png
+
 CMD ["supervisord", "-c", "/supervisord.conf"]
 
 EXPOSE 8080

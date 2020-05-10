@@ -191,8 +191,11 @@ class FlowFrame(tk.Frame):
 
         # Create canvas
         self.canvas = tk.Canvas(
-            self, bg=config.COLOR_4, cursor="@automagica/gui/icons/grab.cur"
+            self, bg=config.COLOR_4
         )
+
+        if 'nt' in os.name:
+            self.canvas.configure(cursor="@automagica/gui/icons/grab.cur")
 
         # # Windows/MacOSX
         # self.canvas.bind("<MouseWheel>", self.wheel)

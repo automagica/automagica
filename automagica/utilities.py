@@ -270,3 +270,22 @@ def all_activities():
         activities[key] = activity
 
     return activities
+
+
+def find_automagica_processes():
+    import psutil
+
+    pids = []
+
+    for proc in psutil.process_iter():
+        try:
+            line = " ".join([cmd for cmd in proc.cmdline()])
+            if "python" in line.lower():
+                print(line)
+                if "automagica" in line.lower():
+                    print(line)
+                    pids.append(proc.info)
+        except:
+            pass
+
+    return pids

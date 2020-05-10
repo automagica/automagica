@@ -84,7 +84,7 @@ class ActivityNode(Node):
         self.class_ = class_
 
     def __str__(self):
-        from config import ACTIVITIES
+        from automagica.config import ACTIVITIES
 
         if self.label:
             return self.label

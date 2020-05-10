@@ -1,24 +1,30 @@
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/logo.png)
-# Automagica - Smart Robotic Process Automation [![Downloads](https://pepy.tech/badge/automagica/month)](https://pepy.tech/project/automagica/month)
-Automagica is a Smart Robotic Process Automation (SRPA) platform for fully automating tedious, manual tasks with software. 
+# Automagica - Open Source RPA [![Downloads](https://pepy.tech/badge/automagica/month)](https://pepy.tech/project/automagica/month)
+Automagica is an open source automation suite for fully automating tedious, manual tasks on any screen. Our vision is that humans should have to do a robot's job. Our mission is to make these automation tools as accessible as possible to empower people to automate (almost) anything.
 
 [![Github Signup Automagica](https://i.imgur.com/PKvMCSl.jpg)](https://portal.automagica.com/github/login)
 
 ![Love Automagica Example](https://github.com/OakwoodAI/automagica/blob/master/images/automagica_drawing.gif)
 
-This repository is for the open source Python library, where all the Automagica building blocks are. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries.
+## Our mission
 
-Refer to the [Automagica official website](https://www.automagica.com) for more information. Registered users can access the [Automagica Portal](https://portal.automagica.com). For more info see the [documentation](https://automagica.readthedocs.io).
+With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide you with:
+- the tools to build amazing software robots
+- a comprehensive and consistent wrapper around known and lesser known (Python) automation libraries and
 
-## Important information
-- We just launched the latest version of our __[Automagica Portal](https://portal.automagica.com)__
-- Check out our __[public roadmap](https://trello.com/b/qXHf5YqD/automagica-roadmap)__ and feel free to add suggestions to the Ideas column!
-- We're on __[Discord](https://discord.gg/PbY85WA)__ and __[Telegram](https://t.me/automagica)__
-- You can now also run automations developed with UiPath, Blue Prism, Automation Anywhere, AutoIt and Robot Framework with the [Automagica Portal](https://portal.automagica.com)!
+## Important links
+- [Website](https://www.automagica.com)
+- [Portal](https://portal.automagica.com)
+- [Documentation](https://automagica.readthedocs.io)
+
+## Community
+- Our __[roadmap](https://trello.com/b/qXHf5YqD/automagica-roadmap)__ is public (feel free to add suggestions to the Ideas column!)
+- Join our __[Discord](https://discord.gg/PbY85WA)__ channel (this is a great place to ask questions)
+- __[Telegram](https://t.me/automagica)__ group (good for getting the latest updates)
 
 
-## Need expert support?
-We can support you end-to-end in all your automation needs, from estimating automation potential for processes to technical implementation and integration. Please send an e-mail to [sales@automagica.com](mailto:sales@automagica.com) for enquiries and rates.
+## Need professional support?
+Please send an e-mail to [sales@automagica.com](mailto:sales@automagica.com).
 
 ## Getting started
 
@@ -60,10 +66,10 @@ Important: for some activities an Automagica API-key is required. In order to ac
 
 ## Components
 Automagica consists of the following components:
-- Bot: runtime/agent responsible for performing the automated tasks
-- Flow: a visual Flow designer to build automations
-- Lab: Notebook-style automation development environment based on Jupyter Notebooks.
-- Portal: management of bots, credentials, automations, logs, ...
+- __Bot__: runtime/agent responsible for performing the automated tasks
+- __Flow__: a visual Flow designer to build automations
+- __Lab__: Notebook-style automation development environment based on Jupyter Notebooks.
+- __Portal__: management of bots, credentials, automations, logs, ...
 
 The Automagica Portal is currently not available under an open source license. We offer a free environment for evaluation purposes at https://portal.automagica.com. If you would like to use the Automagica Portal within your company or organization, please contact sales@automagica.com.
 
@@ -98,14 +104,14 @@ Folder and File manipulation
 <img src="https://github.com/OakwoodAI/automagica/blob/master/images/USPresidents.gif" width="800">
 
 ## Docker Support (Experimental)
-This is still under heavy development, but we're exploring possibilities of running Automagica robots in a containerized desktop. You can try this with docker with the following commands:
+As Automagica is fully cross-platform and based on Python, it's quite easy to run or build Automagica bots inside containers. We've added an example `Dockerfile` with the minimum reuirements for running an Automagica bot:
 ```
 git clone https://github.com/oakwoodai/automagica
 cd automagica
 docker build . -t automagica
 docker run -it -p 8080:8080 automagica
 ```
-Then browse to http://localhost:8080/vnc.html
+Then browse to http://localhost:8080/vnc.html to access the Automagica desktop.
 
 ## Activities
 
@@ -435,14 +441,8 @@ Under the hood, Automagica is built on some of the greatest open source librarie
 - Babel
 - Click
 
-## Contribute
+## Contributing
 
-### Not a developer?
-No problem! You can contribute in the following ways:
-- Star our repository, the more people we can get involved the better! 😎
-- [Create an 'issue'](https://github.com/automagica/automagica/issues) on our GitHub with any features you feel are missing.
-- Notice something not working like expected? [Create an issue](https://github.com/automagica/automagica/issues), we won't bite!
-- Don't have a GitHub account? Feel free to send us an e-mail at [koen@automagica.com](mailto:koen@automagica.com) or [thomas@automagica.com](mailto:thomas@automagica.com).
 
 ### Developers
 You can contribute in the following ways:
@@ -450,6 +450,14 @@ You can contribute in the following ways:
 - Feature requests, bug squatting, feel free to [create an issue](https://github.com/automagica/automagica/issues)!
 - If you're interested in joining our team, [send us an e-mail](mailto:koen@automagica.com).
  
+
+### Not a developer?
+No problem! You can contribute in the following ways:
+- __Star our repository__ by clicking the star icon at the top right of this page. This allows us to get more exposure within the GitHub community. The more people we can get involved the better!
+- Miss a particular feature? [Create an 'issue'](https://github.com/automagica/automagica/issues)
+- Something not working? [Create an issue](https://github.com/automagica/automagica/issues)
+- Don't have a GitHub account? Feel free to send us an e-mail at [koen@automagica.com](mailto:koen@automagica.com) or [thomas@automagica.com](mailto:thomas@automagica.com).
+
 
 #### Special contributor mentions
 - [ygxiao](https://github.com/ygxiao)
@@ -462,4 +470,4 @@ A special thanks goes out to all the above-mentioned libraries, repositories and
 
 
 ## Commercial license
-Need a commercial license for Automagica? Contact us at [sales@automagica.com](mailto:sales@automagica.com).
+Need a commercial license for Automagica or would you like to embed Automagica in your software offerings or services? Contact us at [sales@automagica.com](mailto:sales@automagica.com).

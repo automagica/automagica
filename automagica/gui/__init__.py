@@ -3,7 +3,7 @@ import os
 import tkinter as tk
 from tkinter import font
 
-from .windows import FlowDesignerWindow, FlowPlayerWindow
+from .windows import FlowDesignerWindow, FlowPlayerWindow, TrayIcon
 from ..models.bots import ThreadedBot
 from ..models.flow import Flow
 
@@ -57,6 +57,16 @@ class FlowApp(tkinter.Tk):
         self.logger.exception(exception)
 
 
+class TrayApp(tkinter.Tk):
+    def __init__(self, *args, bot=None, file_path=None, run=False, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.withdraw()
+        _ = TrayIcon(self)
+
+        # Run sounds better :-)
+        self.run = self.mainloop
+
+
 def style_button(button, font_size=10):
     from tkinter import font
 
@@ -86,12 +96,18 @@ class RecorderWindow(tk.Tk):
 
         # Configuratiions
         self.configure(bg="white")
-        self.title("Automagica Recorder (beta)")
+        self.title("Automagica Wand")
 
         icon_path = os.path.join(
-            os.path.abspath(__file__).replace("gui.py", ""), "icons", "automagica.ico"
+            os.path.abspath(__file__).replace("__init__.py", ""),
+            "icons",
+            "automagica.ico",
         )
-        self.iconbitmap(icon_path)
+
+        # Windows
+        if "nt" in os.name:
+            self.iconbitmap(icon_path)
+
         self.option_add("*Font", "Helvetica")
 
         # Center on screen

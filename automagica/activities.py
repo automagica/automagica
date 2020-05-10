@@ -1897,7 +1897,7 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01):
         ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win'
 
     :parameter text: Text in string format to type. Note that you can only press single character keys. Special keys like ":", "F1",... can not be part of the text argument.
-    :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter clear: Attempts to clear the element before typing using hotkeys. Be cautious when using this method as a vision mismatch could result in deleting unwanted data. Default value is False
     :parameter interval_seconds: Time in seconds between two keystrokes. Defautl value is 0.01 seconds.
 
@@ -2032,7 +2032,7 @@ def click(automagica_id, delay=0.1):
 
     Clicks on an element based on the element ID (vision)
 
-    :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter delay: Delay between clicks in seconds, standard value is 100 ms. 
 
     :return: Mouse click
@@ -2147,7 +2147,7 @@ def double_click(automagica_id=None, delay=0.1):
 
     Double clicks on an element based on the element ID (vision) 
 
-    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
 
     :parameter delay: Delay between double clicks in seconds, standard value is 100 ms. 
 
@@ -2192,7 +2192,7 @@ def right_click(automagica_id=None, delay=0.1):
 
     Right clicks on an element based on the element ID (vision)
 
-    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter delay: Delay between right clicks in seconds, standard value is 100 ms. 
 
     :return: Right mouse click
@@ -2272,7 +2272,7 @@ def move_mouse_to(automagica_id=None, delay=0.1):
 
     Moves te pointer to an element based on the element ID (vision)
 
-    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter delay: Delay between movements in seconds, standard value is 100 ms. 
 
     :return: Move mouse to (x, y) coordinates
@@ -2424,7 +2424,7 @@ def drag_mouse_to(automagica_id=None, delay=0.1):
 
     Drags mouse to an element based on the element ID (vision) 
 
-    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica recorder. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter delay: Delay between movements in seconds, standard value is 100 ms. 
 
     :return: Drag mouse 

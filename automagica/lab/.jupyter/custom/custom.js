@@ -104,7 +104,7 @@ define([
 
                 var buttonHTMLInsert = `
                 <div id="recorder" class="btn-group">
-                    <a href="#" title="Launch the Automagica Recorder" onclick="Jupyter.notebook.kernel.execute('from automagica import *; recorder()');" class="btn btn-default">🔴 Recorder (beta)</a>
+                    <a href="#" title="Launch the Automagica Wand" onclick="Jupyter.notebook.kernel.execute('from automagica import *; recorder()');" class="btn btn-default">🔴 Recorder (beta)</a>
                 </div>
                 `;
 

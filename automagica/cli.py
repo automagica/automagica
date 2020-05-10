@@ -6,6 +6,10 @@ import subprocess
 import sys
 from time import sleep
 
+import click
+
+from .config import _
+
 __version__ = "3.0.0"
 
 
@@ -14,29 +18,28 @@ class Automagica:
         # Set up logging
         self._setup_logging(debug=debug)
 
-        # Environment variable override Automagica Portal URL
-        self.url = os.environ.get(
-            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
-        )
-
         # Custom config specified?
         if config_path:
             self.config_path = config_path
         else:
             self.config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
 
-        self.config = self._load_config()
+        self.config = self.load_config()
+
+        # Environment variable override Automagica Portal URL
+        self.url = os.environ.get(
+            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+        )
+
+        self.config["portal_url"] = self.url
+
+        self.save_config()
 
         # Ignore warnings
         if ignore_warnings:
             import warnings
 
             warnings.simplefilter("ignore")
-
-    def start_recorder(self):
-        from .recorder import recorder
-
-        recorder()
 
     def _setup_logging(self, debug=False):
         if debug:
@@ -173,11 +176,11 @@ class Automagica:
             logging.exception("Something went wrong...")
             input()
 
-    def _save_config(self):
+    def save_config(self):
         with open(self.config_path, "w") as f:
             json.dump(self.config, f)
 
-    def _load_config(self):
+    def load_config(self):
         try:
             with open(self.config_path, "r") as f:
                 config = json.load(f)
@@ -185,21 +188,9 @@ class Automagica:
         except FileNotFoundError:
             config = {}
             self.config = config
-            self._save_config()
+            self.save_config()
 
         return config
-
-    def notification(self, message):
-        from plyer import notification
-
-        app_icon = os.path.abspath(__file__).replace("cli.py", "icon.ico")
-        notification.notify(
-            title="Automagica Robot",
-            message=message,
-            app_name="Automagica Robot",
-            app_icon=app_icon,
-            ticker="Automagica",
-        )
 
     def _alive(self):
         import requests
@@ -401,7 +392,7 @@ class Automagica:
 
         self.config["user_secret"] = user_secret
         self.config["bot_secret"] = data["bot_secret"]
-        self._save_config()
+        self.save_config()
 
         self.add_startup()
         self._kill_processes_by_name("python")
@@ -519,6 +510,28 @@ class Automagica:
                             </plist>"""
                 )
 
+    def configuration_wizard(self):
+        print("Automagica Configuration\n")
+        print("You can find your User Secret and Bot Secret at {}".format(self.url))
+
+        portal_url = input("\nAutomagica Portal URL [{}]:")
+
+        user_secret = input(
+            "\nAutomagica User Secret [{}]: ".format(self.config.get("user_secret"))
+        )
+
+        if user_secret:
+            self.config["user_secret"] = user_secret
+
+        bot_secret = input(
+            "\nAutomagica Bot Secret [{}]: ".format(self.config.get("bot_secret"))
+        )
+
+        if bot_secret:
+            self.config["bot_secret"] = bot_secret
+
+        self.save_config()
+
     def remove_startup(self):
         import platform
 
@@ -548,38 +561,36 @@ class Automagica:
             os.remove(path)
 
 
-import click
-from .config import _
-
-
-@click.group(help=_("Automagica CLI - version ") + __version__)
+@click.group(help=_("Automagica v") + __version__)
 @click.pass_context
 def cli(context):
-    context = Automagica()
+    context.obj = Automagica()
 
 
-@cli.group(help=_("Automagica Bot"))
+@cli.command(help=_("Configure Automagica"))
 @click.pass_obj
-def bot(obj):
-    pass
+def configure(obj):
+    obj.configuration_wizard()
 
 
-@bot.command("start")
+@cli.command(help=_("Automagica Bot"))
+@click.option("--headless", help=_("Run bot headless (without GUI)"))
+def bot(headless=False):
+    if headless:
+        pass
+    else:
+        from .gui import TrayApp
+
+        app = TrayApp()
+        app.run()
+
+
+@cli.command("wand", help=_("Automagica Wand"))
 @click.pass_obj
-def bot_run(obj):
-    pass
+def wand(obj):
+    from .recorder import recorder
 
-
-@bot.command("connect")
-@click.pass_obj
-def bot_start(obj):
-    pass
-
-
-@cli.group("recorder", help=_("Automagica Recorder"))
-@click.pass_obj
-def recorder(obj):
-    pass
+    recorder()
 
 
 @cli.group(help=_("Automagica Lab"))
@@ -587,12 +598,36 @@ def lab():
     pass
 
 
+@lab.command("new", help=_("New Notebook"))
+def lab_new():
+    pass
+
+
+@lab.command("edit", help=_("Edit Notebook"))
+def lab_edit():
+    pass
+
+
+@lab.command("run", help=_("Run Notebook"))
+def lab_run():
+    pass
+
+
+@cli.command(help=_("Automagica Portal"))
+def portal():
+    import webbrowser
+
+    webbrowser.open(
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+    )
+
+
 @cli.group(help=_("Automagica Flow"))
 def flow():
     pass
 
 
-@flow.command("new", help=_("New Automagica Flow"))
+@flow.command("new", help=_("New Flow"))
 def flow_new():
     from .gui import FlowApp
 
@@ -600,7 +635,7 @@ def flow_new():
     app.run()
 
 
-@flow.command("edit", help=_("Edit Automagica Flow"))
+@flow.command("edit", help=_("Edit Flow"))
 @click.argument("filename")
 def flow_edit(filename):
     from .gui import FlowApp
@@ -609,7 +644,7 @@ def flow_edit(filename):
     app.run()
 
 
-@flow.command("run", help=_("Run Automagica Flow"))
+@flow.command("run", help=_("Run Flow"))
 @click.argument("filename")
 def flow_run(filename):
     from .gui import FlowApp

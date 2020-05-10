@@ -78,7 +78,7 @@ class FlowDesignerWindow(tk.Toplevel):
         center_window(self, w=1300, h=720)
 
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
-        self.state("zoomed")
+        self.state("normal")
 
     def on_closing(self):
         self.destroy()
@@ -121,7 +121,8 @@ class FlowDesignerWindow(tk.Toplevel):
             "icons",
             "automagica.ico",
         )
-        self.iconbitmap(self.icon_path)
+        if "nt" in os.name:
+            self.iconbitmap(self.icon_path)
         self.option_add("*Font", "helvetica 10")
         self.option_add("*Background", config.COLOR_1)
         self.configure(bg=config.COLOR_1)
@@ -152,7 +153,8 @@ class Window(tk.Toplevel):
             "icons",
             "automagica.ico",
         )
-        self.iconbitmap(self.icon_path)
+        if "nt" in os.name:
+            self.iconbitmap(self.icon_path)
 
 
 class SplashWindow(Window):
@@ -193,12 +195,15 @@ class NodePropsWindow(Window):
             "icons",
             "automagica.ico",
         )
-        self.iconbitmap(self.icon_path)
+
+        if "nt" in os.name:
+            self.iconbitmap(self.icon_path)
 
         # Make sure this window is the only window grabbing events from the user
         self.grab_set()
 
-        # self.iconbitmap(self.parent.master.icon_path)
+        # if "nt" in os.name:
+        #     self.iconbitmap(self.parent.master.icon_path)
 
         self.title(_("Properties"))
 
@@ -1359,7 +1364,7 @@ class TrayIcon(tk.Toplevel):
         self._configure()
         self._binds()
 
-        self.image_frame = self.create_image_frame("gui/icons/trayicon.png")
+        self.image_frame = self.create_image_frame("automagica/gui/icons/trayicon.png")
         self.image_frame.pack(expand=True, fill="both", padx=0, pady=0)
 
     def _configure(self):

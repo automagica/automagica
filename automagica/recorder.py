@@ -351,7 +351,7 @@ def snippet_window(activity, element_id):
 def recorder():
     from threading import Thread
 
-    print("Launching Automagica Recorder")
+    print("Launching Automagica Wand")
 
     t = Thread(target=activity_selection_window)
 
