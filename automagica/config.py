@@ -1,3 +1,4 @@
+import os
 from gettext import translation
 
 from .utilities import all_activities
@@ -8,8 +9,16 @@ ACTIVITIES = all_activities()
 Localization
 """
 
+
 LOCALE = "en"
-lang = translation("messages", localedir="locale", languages=["fr"])
+localedir = os.path.join(
+    os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__).replace("config.py", ""))
+    ),
+    "locale",
+)
+
+lang = translation("messages", localedir=localedir, languages=["fr"])
 lang.install()
 _ = lang.gettext
 
@@ -28,3 +37,24 @@ COLOR_5 = "#092740"  # Dark Blue
 COLOR_6 = "#ff0000"  # Full Red
 COLOR_7 = "#28a745"  # Green
 COLOR_8 = "#000000"  # Black
+COLOR_9 = "#cccccc"  # Pretty light grey
+COLOR_10 = "#ffffff"  # Background menus white
+COLOR_11 = "#000000"  # Label text
+COLOR_12 = "#000000"
+COLOR_13 = "#ffffff"
+
+# Dark mode
+# COLOR_0 = "#0069c0"  # Automagica Blue
+# COLOR_1 = "#ffffff"  # Black
+# COLOR_2 = "#121212"  # Light grey
+# COLOR_3 = "#212121"  # Less light grey
+# COLOR_4 = "#121212"  # Lightest grey
+# COLOR_5 = "#092740"  # Dark Blue
+# COLOR_6 = "#ff0000"  # Full Red
+# COLOR_7 = "#28a745"  # Green
+# COLOR_8 = "#000000"  # White
+# COLOR_9 = "#212121"  # Pretty light grey
+# COLOR_10 = "#212121"
+# COLOR_11 = "#ffffff"
+# COLOR_12 = "#121212"
+# COLOR_13 = "#121212"

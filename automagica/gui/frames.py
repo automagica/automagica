@@ -56,7 +56,7 @@ class ConsoleFrame(tk.Frame):
         self.command_buffer = []
 
         self.console_frame = self.create_console_frame()
-        self.console_frame.pack(fill="both", expand=True, padx=5, pady=5)
+        self.console_frame.pack(fill="both", expand=True)
 
         logger = logging.getLogger("automagica.bot")
         logger.setLevel(logging.INFO)
@@ -81,7 +81,7 @@ class ConsoleFrame(tk.Frame):
             self.command_entry.insert(0, new_command)
 
     def create_console_frame(self):
-        frame = tk.Frame(self)
+        frame = tk.Frame(self, bg=config.COLOR_4)
 
         self.command_entry = InputField(
             frame, placeholder=_("Type command here and press <ENTER> to run...")
@@ -102,6 +102,8 @@ class ConsoleFrame(tk.Frame):
             insertbackground=config.COLOR_1,
         )
 
+        self.console_text.frame.configure(bd=0, highlightthickness=0, relief="ridge")
+
         self.command_entry.pack(fill="x", anchor="nw")
         self.console_text.pack(fill="both", padx=0, pady=0, expand=True)
 
@@ -114,24 +116,24 @@ class ConsoleFrame(tk.Frame):
         self.console_text.configure(font="TkFixedFont", state="disabled")
         self.console_text.tag_config("error", foreground="red")
 
-        button_frame = tk.Frame(frame)
+        button_frame = tk.Frame(frame, bg=config.COLOR_4)
 
         self.reset_bot_button = Button(
             button_frame, text=_("Reset Bot"), command=self.on_reset_bot_click
         )
-        self.reset_bot_button.pack(side="left", padx=5, pady=5)
+        self.reset_bot_button.pack(side="left")
 
         self.clear_button = Button(
             button_frame, text=_("Clear"), command=self.on_clear_click
         )
-        self.clear_button.pack(side="left", padx=5, pady=5)
+        self.clear_button.pack(side="left")
 
         self.open_variable_explorer_button = Button(
             button_frame,
             text=_("Variable Explorer"),
             command=self.on_open_variable_explorer_click,
         )
-        self.open_variable_explorer_button.pack(side="left", padx=5, pady=5)
+        self.open_variable_explorer_button.pack(side="left")
 
         button_frame.place(anchor="ne", relx=1, rely=0)
 
@@ -191,11 +193,8 @@ class FlowFrame(tk.Frame):
 
         # Create canvas
         self.canvas = tk.Canvas(
-            self, bg=config.COLOR_4
+            self, bg=config.COLOR_4, bd=0, highlightthickness=0, relief="ridge"
         )
-
-        if 'nt' in os.name:
-            self.canvas.configure(cursor="@automagica/gui/icons/grab.cur")
 
         # # Windows/MacOSX
         # self.canvas.bind("<MouseWheel>", self.wheel)
@@ -223,13 +222,13 @@ class FlowFrame(tk.Frame):
         # Creates all vertical lines at intevals of 100
         for i in range(-10000, w, 25):
             self.canvas.create_line(
-                i, -10000, i, h, dash=(4, 2), tag="grid_line", fill="#cccccc"
+                i, -10000, i, h, dash=(4, 2), tag="grid_line", fill=config.COLOR_9
             )
 
         # Creates all horizontal lines at intevals of 100
         for i in range(-10000, h, 25):
             self.canvas.create_line(
-                -10000, i, w, i, dash=(4, 2), tag="grid_line", fill="#cccccc"
+                -10000, i, w, i, dash=(4, 2), tag="grid_line", fill=config.COLOR_9
             )
 
     def wheel(self, event):
@@ -388,7 +387,7 @@ class ToolbarFrame(tk.Frame):
 
         record_click_button = ToolbarImageButton(
             actions_frame,
-            image_path="gui/icons/mouse-pointer-solid.png",
+            image_path="mouse-pointer-solid.png",
             text=_("Click"),
             command=lambda: self.clicked_record_action_button(
                 "automagica.activities.click"
@@ -398,7 +397,7 @@ class ToolbarFrame(tk.Frame):
 
         record_double_click_button = ToolbarImageButton(
             actions_frame,
-            image_path="gui/icons/mouse-pointer-solid.png",
+            image_path="mouse-pointer-solid.png",
             text=_("Double-Click"),
             command=lambda: self.clicked_record_action_button(
                 "automagica.activities.double_click"
@@ -408,7 +407,7 @@ class ToolbarFrame(tk.Frame):
 
         record_right_click_button = ToolbarImageButton(
             actions_frame,
-            image_path="gui/icons/mouse-pointer-solid.png",
+            image_path="mouse-pointer-solid.png",
             text=_("Right-Click"),
             command=lambda: self.clicked_record_action_button(
                 "automagica.activities.right_click"
@@ -418,7 +417,7 @@ class ToolbarFrame(tk.Frame):
 
         record_move_to_button = ToolbarImageButton(
             actions_frame,
-            image_path="gui/icons/mouse-solid.png",
+            image_path="mouse-solid.png",
             text=_("Move To"),
             command=lambda: self.clicked_record_action_button(
                 "automagica.activities.move_mouse_to"
@@ -428,7 +427,7 @@ class ToolbarFrame(tk.Frame):
 
         record_type_into_button = ToolbarImageButton(
             actions_frame,
-            image_path="gui/icons/mouse-solid.png",
+            image_path="mouse-solid.png",
             text=_("Typing"),
             command=lambda: self.clicked_record_action_button(
                 "automagica.activities.typing"
@@ -438,7 +437,7 @@ class ToolbarFrame(tk.Frame):
 
         record_read_text_button = ToolbarImageButton(
             actions_frame,
-            image_path="gui/icons/glasses-solid.png",
+            image_path="glasses-solid.png",
             text=_("Read Text"),
             command=lambda: self.clicked_record_action_button(
                 "automagica.activities.read_text"
@@ -448,7 +447,7 @@ class ToolbarFrame(tk.Frame):
 
         record_is_visible_button = ToolbarImageButton(
             actions_frame,
-            image_path="gui/icons/eye.png",
+            image_path="eye.png",
             text=_("Is Visible"),
             command=lambda: self.clicked_record_action_button(
                 "automagica.activities.is_visible"
@@ -458,7 +457,7 @@ class ToolbarFrame(tk.Frame):
 
         record_wait_appear_button = ToolbarImageButton(
             actions_frame,
-            image_path="gui/icons/eye.png",
+            image_path="eye.png",
             text=_("Wait Appear"),
             command=lambda: self.clicked_record_action_button(
                 "automagica.activities.wait_appear"
@@ -468,7 +467,7 @@ class ToolbarFrame(tk.Frame):
 
         record_wait_vanish_button = ToolbarImageButton(
             actions_frame,
-            image_path="gui/icons/eye.png",
+            image_path="eye.png",
             text=_("Wait Vanish"),
             command=lambda: self.clicked_record_action_button(
                 "automagica.activities.wait_vanish"
@@ -607,6 +606,8 @@ class SidebarFrame(tk.Frame):
         super().__init__(parent, height=height, width=width)
         self.parent = parent
 
+        self.configure(bg=config.COLOR_4,)
+
         # Activities
         self.activities_frame = self.create_activities_frame()
         self.activities_frame.place(relx=0, rely=0, relheight=0.65, relwidth=1)
@@ -614,7 +615,7 @@ class SidebarFrame(tk.Frame):
         help_button = HelpButton(
             self,
             message=_(
-                "Activities are the basic building blocks of Automagica. By tieing activities together, you get a Flow."
+                "Activities are t he basic building blocks of Automagica. By tieing activities together, you get a Flow."
             ),
         )
         help_button.place(relx=1, rely=0, anchor="ne")
@@ -636,7 +637,7 @@ class SidebarFrame(tk.Frame):
         self.instructions_frame.place(relx=0, rely=0.9, relheight=0.1, relwidth=1)
 
     def create_instructions_frame(self):
-        frame = tk.Frame(self)
+        frame = tk.Frame(self, bg=config.COLOR_4)
 
         self.instructions_label = tk.Label(
             frame,
@@ -645,6 +646,7 @@ class SidebarFrame(tk.Frame):
             font=(config.FONT, 10),
             justify="left",
             fg=config.COLOR_0,
+            bg=config.COLOR_4,
         )
         self.instructions_label.pack()
 
@@ -655,13 +657,15 @@ class SidebarFrame(tk.Frame):
                 "Left-click drag: move node\nDouble-click: properties\nMiddle-click: remove"
             ),
             anchor="w",
+            fg=config.COLOR_11,
+            bg=config.COLOR_4,
         )
         self.instructions.pack()
 
         return frame
 
     def create_activities_frame(self):
-        frame = tk.Frame(self)
+        frame = tk.Frame(self, bg=config.COLOR_4)
 
         self.results = []
         self.query = tk.StringVar()
@@ -673,11 +677,12 @@ class SidebarFrame(tk.Frame):
             font=(config.FONT, 10),
             justify="left",
             fg=config.COLOR_0,
+            bg=config.COLOR_4,
         )
         self.instructions_label.pack()
 
         self.search_entry = InputField(
-            frame, textvariable=self.query, placeholder=_("Search activities...")
+            frame, textvariable=self.query, placeholder=_("Search activities..."),
         )
         self.query.trace("w", self.search_activities)
 
@@ -693,6 +698,9 @@ class SidebarFrame(tk.Frame):
             selectbackground=config.COLOR_0,
             selectforeground=config.COLOR_1,
             highlightthickness=0,
+            fg=config.COLOR_11,
+            bg=config.COLOR_10,
+            activestyle="none",
         )
 
         for key, activity in config.ACTIVITIES.items():
@@ -718,7 +726,7 @@ class SidebarFrame(tk.Frame):
         return frame
 
     def create_nodes_frame(self):
-        frame = tk.Frame(self)
+        frame = tk.Frame(self, bg=config.COLOR_4)
         from automagica.config import _
 
         self.nodes_label = tk.Label(
@@ -728,6 +736,7 @@ class SidebarFrame(tk.Frame):
             justify="left",
             font=(config.FONT, 10),
             fg=config.COLOR_0,
+            bg=config.COLOR_4,
         )
         self.nodes_label.pack()
 
@@ -738,6 +747,8 @@ class SidebarFrame(tk.Frame):
             selectbackground=config.COLOR_0,
             selectforeground=config.COLOR_1,
             highlightthickness=0,
+            fg=config.COLOR_11,
+            bg=config.COLOR_10,
         )
 
         self.node_types = [

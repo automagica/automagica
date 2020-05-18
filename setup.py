@@ -53,8 +53,6 @@ install_requires = [
     "keyring==21.0.0",  # MIT License
     "cryptography==2.3.1",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
     "pyad==0.6.0",  # Apache 2.0 License
-    "jupyterlab==1.2.4",  # BSD 3-Clause
-    "py-trello==0.13.0",  # BSD 3-Clause "New" or "Revised" License
     "plyer==1.4.0",  # MIT License
     "Pillow==7.0.0",  # PIL License (permissive),
     "pyperclip==1.7.0",  # BSD License (BSD)
@@ -65,6 +63,7 @@ install_requires = [
     "keyboard==0.13.5",  # MIT License
     "babel==2.7.0",  # BSD 3-Clause
     "click==7.0",  # BSD 3-Clause
+    "idna==2.5" # BSD 3-Clause
 ]
 
 

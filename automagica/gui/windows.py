@@ -116,13 +116,14 @@ class FlowDesignerWindow(tk.Toplevel):
         else:
             self.title(_("Unsaved Flow") + " - Automagica Flow")
 
-        self.icon_path = os.path.join(
-            os.path.abspath(__file__).replace("windows.py", ""),
-            "icons",
-            "automagica.ico",
-        )
         if "nt" in os.name:
+            self.icon_path = os.path.join(
+                os.path.abspath(__file__).replace("windows.py", ""),
+                "icons",
+                "automagica.ico",
+            )
             self.iconbitmap(self.icon_path)
+
         self.option_add("*Font", "helvetica 10")
         self.option_add("*Background", config.COLOR_1)
         self.configure(bg=config.COLOR_1)
@@ -277,9 +278,13 @@ class NodePropsWindow(Window):
         frame = LabelFrame(self, text=_("Node"))
 
         # UID Information
-        uid_label_label = tk.Label(frame, text=_("Unique ID"), bg=config.COLOR_4)
+        uid_label_label = tk.Label(
+            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label_label.grid(row=0, column=0, sticky="w")
-        uid_label = tk.Label(frame, text=self.node.uid, bg=config.COLOR_4)
+        uid_label = tk.Label(
+            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label.grid(row=0, column=1, sticky="w", padx=3, pady=3)
 
         help_button = HelpButton(
@@ -291,7 +296,9 @@ class NodePropsWindow(Window):
         help_button.grid(row=0, column=2)
 
         # Node Label
-        label_label = tk.Label(frame, text=_("Label"), bg=config.COLOR_4)
+        label_label = tk.Label(
+            frame, text=_("Label"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         label_label.grid(row=1, column=0, sticky="w")
         self.label_entry = InputField(frame)
         self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
@@ -304,7 +311,9 @@ class NodePropsWindow(Window):
             self.label_entry.insert(tk.END, self.node.label)
 
         # Next node selection
-        next_node_option_label = tk.Label(frame, text=_("Next Node"), bg=config.COLOR_4)
+        next_node_option_label = tk.Label(
+            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = AutocompleteDropdown(
             frame,
@@ -357,6 +366,7 @@ class ActivityNodePropsWindow(NodePropsWindow):
             wraplength=250,
             justify="left",
             bg=config.COLOR_4,
+            fg=config.COLOR_11,
         )
         name.pack(expand=True)
 
@@ -367,6 +377,7 @@ class ActivityNodePropsWindow(NodePropsWindow):
             wraplength=250,
             justify="left",
             bg=config.COLOR_4,
+            fg=config.COLOR_11,
         )
         description.pack(expand=True)
 
@@ -390,7 +401,10 @@ class ActivityNodePropsWindow(NodePropsWindow):
                 label = _("Object variable")
 
             args_labels[name] = tk.Label(
-                frame, text=label.capitalize().replace("_", " "), bg=config.COLOR_4
+                frame,
+                text=label.capitalize().replace("_", " "),
+                bg=config.COLOR_4,
+                fg=config.COLOR_11,
             )
             args_labels[name].grid(row=i, column=0, sticky="w")
 
@@ -422,7 +436,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
 
         self.return_entry = None
         if config.ACTIVITIES[self.node.activity]["return"]:
-            return_label = tk.Label(frame, text=_("Return variable"), bg=config.COLOR_4)
+            return_label = tk.Label(
+                frame, text=_("Return variable"), bg=config.COLOR_4, fg=config.COLOR_11
+            )
             self.return_entry = InputField(frame)
             return_label.grid(row=i + 1, column=0, sticky="w")
             self.return_entry.grid(row=i + 1, column=1, sticky="w", padx=3, pady=3)
@@ -489,9 +505,13 @@ class IfElseNodePropsWindow(NodePropsWindow):
         frame = LabelFrame(self, text=_("Node"))
 
         # UID Information
-        uid_label_label = tk.Label(frame, text=_("Unique ID"), bg=config.COLOR_4)
+        uid_label_label = tk.Label(
+            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label_label.grid(row=0, column=0, sticky="w")
-        uid_label = tk.Label(frame, text=self.node.uid, bg=config.COLOR_4)
+        uid_label = tk.Label(
+            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label.grid(row=0, column=1, sticky="w", padx=3, pady=3)
 
         help_button = HelpButton(
@@ -503,7 +523,9 @@ class IfElseNodePropsWindow(NodePropsWindow):
         help_button.grid(row=0, column=2)
 
         # Node Label
-        label_label = tk.Label(frame, text=_("Label"), bg=config.COLOR_4)
+        label_label = tk.Label(
+            frame, text=_("Label"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         label_label.grid(row=1, column=0, sticky="w")
         self.label_entry = InputField(frame)
         self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
@@ -516,7 +538,9 @@ class IfElseNodePropsWindow(NodePropsWindow):
             self.label_entry.insert(tk.END, self.node.label)
 
         # Condition Label
-        condition_label = tk.Label(frame, text=_("Condition"), bg=config.COLOR_4)
+        condition_label = tk.Label(
+            frame, text=_("Condition"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         condition_label.grid(row=2, column=0, sticky="w")
         self.condition_entry = InputField(frame)
         self.condition_entry.grid(row=2, column=1, sticky="ew", padx=3, pady=3)
@@ -538,7 +562,9 @@ class IfElseNodePropsWindow(NodePropsWindow):
             self.label_entry.insert(tk.END, self.node.label)
 
         # Next node selection
-        next_node_option_label = tk.Label(frame, text=_("Next Node"), bg=config.COLOR_4)
+        next_node_option_label = tk.Label(
+            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         next_node_option_label.grid(row=3, column=0, sticky="w")
         self.next_node_menu = AutocompleteDropdown(
             frame,
@@ -562,7 +588,9 @@ class IfElseNodePropsWindow(NodePropsWindow):
         help_button.grid(row=3, column=2)
 
         # Else node selection
-        else_node_option_label = tk.Label(frame, text=_("Else Node"), bg=config.COLOR_4)
+        else_node_option_label = tk.Label(
+            frame, text=_("Else Node"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         else_node_option_label.grid(row=4, column=0, sticky="w")
         self.else_node_menu = AutocompleteDropdown(
             frame,
@@ -619,13 +647,19 @@ class LoopNodePropsWindow(NodePropsWindow):
         frame = LabelFrame(self, text="Node")
 
         # UID Information
-        uid_label_label = tk.Label(frame, text=_("Unique ID"), bg=config.COLOR_4)
+        uid_label_label = tk.Label(
+            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label_label.grid(row=0, column=0, sticky="w")
-        uid_label = tk.Label(frame, text=self.node.uid, bg=config.COLOR_4)
+        uid_label = tk.Label(
+            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Node Label
-        iterable_label = tk.Label(frame, text=_("Iterable"), bg=config.COLOR_4)
+        iterable_label = tk.Label(
+            frame, text=_("Iterable"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         iterable_label.grid(row=1, column=0, sticky="w")
         self.iterable_entry = InputField(frame)
         self.iterable_entry.grid(row=1, column=1, sticky="w")
@@ -635,7 +669,9 @@ class LoopNodePropsWindow(NodePropsWindow):
             self.iterable_entry.insert(tk.END, self.node.iterable)
 
         # Next node selection
-        next_node_option_label = tk.Label(frame, text=_("Next Node"), bg=config.COLOR_4)
+        next_node_option_label = tk.Label(
+            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = ttk.Combobox(
             frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
@@ -649,7 +685,9 @@ class LoopNodePropsWindow(NodePropsWindow):
         self.next_node_menu.grid(row=2, column=1, sticky="w")
 
         # Else node selection
-        loop_node_option_label = tk.Label(frame, text=_("Loop Node"), bg=config.COLOR_4)
+        loop_node_option_label = tk.Label(
+            frame, text=_("Loop Node"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         loop_node_option_label.grid(row=3, column=0, sticky="w")
         self.loop_node_menu = ttk.Combobox(
             frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
@@ -694,14 +732,16 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
         frame = LabelFrame(self, text="Node")
 
         # UID Information
-        uid_label_label = tk.Label(frame, text=_("Unique ID"), bg=config.COLOR_4)
+        uid_label_label = tk.Label(
+            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label_label.grid(row=0, column=0, sticky="w")
         uid_label = tk.Label(frame, text=self.node.uid, bg=config.COLOR_4)
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Node Label
         dotpyfile_path_label = tk.Label(
-            frame, text=_(".py-file path"), bg=config.COLOR_4
+            frame, text=_(".py-file path"), bg=config.COLOR_4, fg=config.COLOR_11,
         )
         dotpyfile_path_label.grid(row=1, column=0, sticky="w")
         self.dotpyfile_path_entry = InputField(frame)
@@ -712,7 +752,9 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
             self.dotpyfile_path_entry.insert(tk.END, self.node.dotpyfile_path)
 
         # Next node selection
-        next_node_option_label = tk.Label(frame, text=_("Next Node"), bg=config.COLOR_4)
+        next_node_option_label = tk.Label(
+            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = ttk.Combobox(
             frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
@@ -727,7 +769,7 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
 
         # Else node selection
         on_exception_node_option_label = tk.Label(
-            frame, text=_("On Exception Node"), bg=config.COLOR_4
+            frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         on_exception_node_option_label.grid(row=3, column=0, sticky="w")
         self.on_exception_node_menu = ttk.Combobox(
@@ -773,13 +815,19 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
         frame = LabelFrame(self, text="Node")
 
         # UID Information
-        uid_label_label = tk.Label(frame, text="Unique ID", bg=config.COLOR_4)
+        uid_label_label = tk.Label(
+            frame, text="Unique ID", bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label_label.grid(row=0, column=0, sticky="w")
-        uid_label = tk.Label(frame, text=self.node.uid, bg=config.COLOR_4)
+        uid_label = tk.Label(
+            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Node Label
-        code_label = tk.Label(frame, text=_("Code"), bg=config.COLOR_4)
+        code_label = tk.Label(
+            frame, text=_("Code"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         code_label.grid(row=1, column=0, sticky="w")
 
         self.code_entry = tk.Text(frame)
@@ -791,7 +839,9 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
             self.code_entry.insert(tk.END, self.node.code)
 
         # Next node selection
-        next_node_option_label = tk.Label(frame, text=_("Next Node"), bg=config.COLOR_4)
+        next_node_option_label = tk.Label(
+            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = ttk.Combobox(
             frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
@@ -806,7 +856,7 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
 
         # Else node selection
         on_exception_node_option_label = tk.Label(
-            frame, text=_("On Exception Node"), bg=config.COLOR_4
+            frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         on_exception_node_option_label.grid(row=3, column=0, sticky="w")
         self.on_exception_node_menu = ttk.Combobox(
@@ -852,13 +902,19 @@ class CommentNodePropsWindow(NodePropsWindow):
         frame = LabelFrame(self, text=_("Node"))
 
         # UID Information
-        uid_label_label = tk.Label(frame, text=_("Unique ID"), bg=config.COLOR_4)
+        uid_label_label = tk.Label(
+            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label_label.grid(row=0, column=0, sticky="w")
-        uid_label = tk.Label(frame, text=self.node.uid, bg=config.COLOR_4)
+        uid_label = tk.Label(
+            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Comment
-        comment_label = tk.Label(frame, text=_("Comment"), bg=config.COLOR_4)
+        comment_label = tk.Label(
+            frame, text=_("Comment"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         comment_label.grid(row=1, column=0, sticky="w")
         self.comment_entry = InputField(frame)
         self.comment_entry.grid(row=1, column=1, sticky="w")
@@ -897,13 +953,19 @@ class SubFlowNodePropsWindow(NodePropsWindow):
         frame = LabelFrame(self, text=_("Node"))
 
         # UID Information
-        uid_label_label = tk.Label(frame, text=_("Unique ID"), bg=config.COLOR_4)
+        uid_label_label = tk.Label(
+            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label_label.grid(row=0, column=0, sticky="w")
-        uid_label = tk.Label(frame, text=self.node.uid, bg=config.COLOR_4)
+        uid_label = tk.Label(
+            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+        )
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Node Label
-        subflow_path_label = tk.Label(frame, text=_("Flow path"), bg=config.COLOR_4)
+        subflow_path_label = tk.Label(
+            frame, text=_("Flow path"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         subflow_path_label.grid(row=1, column=0, sticky="w")
         self.subflow_path_entry = InputField(frame)
         self.subflow_path_entry.grid(row=1, column=1, sticky="w")
@@ -913,7 +975,9 @@ class SubFlowNodePropsWindow(NodePropsWindow):
             self.subflow_path_entry.insert(tk.END, self.node.subflow_path)
 
         # Next node selection
-        next_node_option_label = tk.Label(frame, text=_("Next Node"), bg=config.COLOR_4)
+        next_node_option_label = tk.Label(
+            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = ttk.Combobox(
             frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
@@ -928,7 +992,7 @@ class SubFlowNodePropsWindow(NodePropsWindow):
 
         # Else node selection
         on_exception_node_option_label = tk.Label(
-            frame, text=_("On Exception Node"), bg=config.COLOR_4
+            frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         on_exception_node_option_label.grid(row=3, column=0, sticky="w")
         self.on_exception_node_menu = ttk.Combobox(
@@ -1050,6 +1114,7 @@ class ActionRecorderWindow(Window):
             frame,
             text=_("Add anchors to make the element detection more reliable."),
             bg=config.COLOR_4,
+            fg=config.COLOR_11,
         )
         anchors_label.pack()
 
@@ -1672,19 +1737,19 @@ class VariableExplorerWindow(Window):
         y_scrollbar = tk.Scrollbar(frame, command=scroll)
         y_scrollbar.grid(column=3, row=1, sticky="ns")
 
-        variables_label = tk.Label(frame, text="Name")
+        variables_label = tk.Label(frame, text="Name", fg=config.COLOR_11)
         self.variables = tk.Listbox(
             frame, bd=0, highlightthickness=0, yscrollcommand=y_scrollbar.set
         )
         self.variables.bind("<MouseWheel>", self.on_mouse_wheel)
 
-        types_label = tk.Label(frame, text=_("Type"))
+        types_label = tk.Label(frame, text=_("Type"), fg=config.COLOR_11)
         self.types = tk.Listbox(
             frame, bd=0, highlightthickness=0, yscrollcommand=y_scrollbar.set
         )
         self.types.bind("<MouseWheel>", self.on_mouse_wheel)
 
-        values_label = tk.Label(frame, text=_("Value"))
+        values_label = tk.Label(frame, text=_("Value"), fg=config.COLOR_11)
         self.values = tk.Listbox(
             frame, bd=0, highlightthickness=0, yscrollcommand=y_scrollbar.set
         )
@@ -1790,7 +1855,9 @@ class FlowPlayerWindow(Window):
         )
         self.progress_bar.pack(fill="both", expand=True)
 
-        self.current_node_label = tk.Label(frame, text=_("No current activity"))
+        self.current_node_label = tk.Label(
+            frame, text=_("No current activity"), fg=config.COLOR_11
+        )
         self.current_node_label.pack()
 
         self.next_node_label = tk.Label(
@@ -1798,6 +1865,7 @@ class FlowPlayerWindow(Window):
             text=_("Next step: {}").format(
                 self.flow.get_node_by_uid(self.current_node.next_node)
             ),
+            fg=config.COLOR_11,
         )
         self.next_node_label.pack()
 

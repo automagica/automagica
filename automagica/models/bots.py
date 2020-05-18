@@ -41,7 +41,34 @@ class ThreadedBot(Bot):
         super().__init__(*args, **kwargs)
         self.interpreter = ModifiedInterpreter(locals=self.locals_)
 
-    def run_thread_target(self, command, on_done=None):
+        import queue
+
+        self.command_queue = queue.Queue()
+
+        t = Thread(target=self.bot_thread, args=(self.command_queue,))
+        t.start()
+
+    def bot_thread(self, queue):
+        from time import sleep
+        from queue import Empty
+        import pythoncom
+
+        # Required for win32com
+        pythoncom.CoInitialize()
+
+        while True:
+            try:
+                command, on_done = queue.get(timeout=1)
+            except Empty:
+                command = None
+                on_done = None
+
+            if command:
+                self._run_command(command, on_done=on_done)
+            else:
+                sleep(0.1)
+
+    def _run_command(self, command, on_done=None):
         from io import StringIO
 
         with StringIO() as temp:
@@ -70,9 +97,7 @@ class ThreadedBot(Bot):
         self.logger.info(
             "\n".join([">>> " + line for line in command.split("\n") if line.strip()])
         )
-
-        t = Thread(target=self.run_thread_target, args=(command, on_done))
-        t.start()
+        self.command_queue.put((command, on_done))
 
     def stop(self):
         pass

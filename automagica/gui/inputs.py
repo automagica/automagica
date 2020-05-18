@@ -69,8 +69,8 @@ class InputField(tk.Entry):
         super().__init__(*args, **kwargs)
         self.placeholder = placeholder
         self.configure(
-            fg=config.COLOR_3,
-            bg=config.COLOR_1,
+            fg=config.COLOR_12,
+            bg=config.COLOR_13,
             relief=tk.FLAT,
             font=font.Font(family=config.FONT, size=10),
             bd=2,

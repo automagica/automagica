@@ -179,9 +179,10 @@ class StartNodeGraph(NodeGraph):
         )
 
         # Icon
-        self.icon_img = ImageTk.PhotoImage(
-            generate_icon("gui/icons/play-circle.png", color="#ffffff")
-        )
+        base_path = os.path.abspath(__file__).replace("graphs.py", "")
+        icon_path = os.path.join(base_path, "icons", "play-circle.png")
+
+        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#ffffff"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
@@ -267,8 +268,11 @@ class ActivityNodeGraph(NodeGraph):
         )
 
         # Icon
+        base_path = os.path.abspath(__file__).replace("graphs.py", "")
+        icon_path = os.path.join(base_path, "icons", "magic-solid.png")
+
         self.icon_img = ImageTk.PhotoImage(
-            generate_icon("gui/icons/magic-solid.png", color="#2196f3")
+            generate_icon(icon_path, color=config.COLOR_0)
         )
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 3,
@@ -279,10 +283,11 @@ class ActivityNodeGraph(NodeGraph):
         )
 
         # Play button
+        base_path = os.path.abspath(__file__).replace("graphs.py", "")
+        icon_path = os.path.join(base_path, "icons", "play-solid.png")
+
         self.play_button_img = ImageTk.PhotoImage(
-            generate_icon(
-                "gui/icons/play-solid.png", color="#28a745", width=20, height=20
-            )
+            generate_icon(icon_path, color=config.COLOR_7, width=20, height=20)
         )
         self.play_button = self.parent.canvas.create_image(
             self.node.x + 3,

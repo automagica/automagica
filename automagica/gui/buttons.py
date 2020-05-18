@@ -3,7 +3,7 @@ from tkinter import font
 from PIL import ImageTk
 from automagica import config
 from automagica.config import _
-
+import os
 
 class Button(tk.Button):
     def __init__(self, *args, **kwargs):
@@ -40,8 +40,11 @@ class ToolbarImageButton(LargeButton):
 
         self.image_path = image_path
 
+        base_path = os.path.abspath(__file__).replace("buttons.py", "")
+        icon_path = os.path.join(base_path, "icons", self.image_path)
+
         self.icon_img = ImageTk.PhotoImage(
-            generate_icon(self.image_path, color=config.COLOR_1, width=15, height=15)
+            generate_icon(icon_path, color=config.COLOR_1, width=15, height=15)
         )
         self.configure(font=(config.FONT, 8), image=self.icon_img, compound="top")
 
@@ -53,8 +56,12 @@ class HelpButton(tk.Button):
         from .graphs import generate_icon
 
         self.message = message
+
+        base_path = os.path.abspath(__file__).replace("buttons.py", "")
+        icon_path = os.path.join(base_path, "icons", 'question-circle.png')
+
         self.icon_img = ImageTk.PhotoImage(
-            generate_icon("gui/icons/question-circle.png", color=config.COLOR_0)
+            generate_icon(icon_path, color=config.COLOR_0)
         )
 
         self.configure(image=self.icon_img, command=self.clicked, relief=tk.FLAT)
