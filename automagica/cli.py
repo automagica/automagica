@@ -120,7 +120,9 @@ class Automagica:
 
             my_env = os.environ.copy()
 
-            path = os.path.abspath(__file__).replace("cli.py", "")
+            path = os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            )
 
             my_env["JUPYTER_CONFIG_DIR"] = os.path.join(path, "lab/.jupyter")
 
@@ -646,8 +648,14 @@ def flow_edit(filename):
 
 @flow.command("run", help=_("Run Flow"))
 @click.argument("filename")
-@click.option("--headless/--gui", default=False, help=_("Run Flow headless (without GUI)"))
-@click.option("--step-by-step/--autoplay", default=False, help=_("Run Flow headless (without GUI)"))
+@click.option(
+    "--headless/--gui", default=False, help=_("Run Flow headless (without GUI)")
+)
+@click.option(
+    "--step-by-step/--autoplay",
+    default=False,
+    help=_("Run Flow headless (without GUI)"),
+)
 def flow_run(filename, headless, step_by_step):
     from .gui import FlowApp
 

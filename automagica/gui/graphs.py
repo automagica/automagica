@@ -179,7 +179,9 @@ class StartNodeGraph(NodeGraph):
         )
 
         # Icon
-        base_path = os.path.abspath(__file__).replace("graphs.py", "")
+        base_path = os.path.abspath(__file__).replace(
+            os.path.basename(os.path.realpath(__file__)), ""
+        )
         icon_path = os.path.join(base_path, "icons", "play-circle.png")
 
         self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#ffffff"))
@@ -268,7 +270,9 @@ class ActivityNodeGraph(NodeGraph):
         )
 
         # Icon
-        base_path = os.path.abspath(__file__).replace("graphs.py", "")
+        base_path = os.path.abspath(__file__).replace(
+            os.path.basename(os.path.realpath(__file__)), ""
+        )
         icon_path = os.path.join(base_path, "icons", "magic-solid.png")
 
         self.icon_img = ImageTk.PhotoImage(
@@ -283,7 +287,9 @@ class ActivityNodeGraph(NodeGraph):
         )
 
         # Play button
-        base_path = os.path.abspath(__file__).replace("graphs.py", "")
+        base_path = os.path.abspath(__file__).replace(
+            os.path.basename(os.path.realpath(__file__)), ""
+        )
         icon_path = os.path.join(base_path, "icons", "play-solid.png")
 
         self.play_button_img = ImageTk.PhotoImage(

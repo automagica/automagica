@@ -28,7 +28,7 @@ class InstallationWrapper(install):
             import os
             import automagica
 
-            automagica_path = automagica.__file__.replace("__init__.py", "")
+            automagica_path = automagica.__file__.replace(os.path.basename(os.path.realpath(__file__)), "")
 
             # Make binaries executable
             binaries_path = os.path.join(automagica_path, "bin")

@@ -984,7 +984,7 @@ class Chrome(selenium.webdriver.Chrome):
 
         selenium.webdriver.Chrome.__init__(
             self,
-            os.path.abspath(__file__).replace("activities.py", "") + chromedriver_path,
+            os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), "") + chromedriver_path,
             chrome_options=chrome_options,
         )
 

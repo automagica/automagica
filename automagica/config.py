@@ -13,7 +13,11 @@ Localization
 LOCALE = "en"
 localedir = os.path.join(
     os.path.dirname(
-        os.path.dirname(os.path.abspath(__file__).replace("config.py", ""))
+        os.path.dirname(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            )
+        )
     ),
     "locale",
 )

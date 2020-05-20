@@ -32,7 +32,10 @@ def activity_selection_window():
     actions_grp = tk.LabelFrame(window, text="Actions", bg="white")
 
     icons_path = os.path.join(
-        os.path.abspath(__file__).replace("recorder.py", ""), "icons"
+        os.path.abspath(__file__).replace(
+            os.path.basename(os.path.realpath(__file__)), ""
+        ),
+        "icons",
     )
 
     click_btn = ImageButton(actions_grp, os.path.join(icons_path, "click_button.png"))

@@ -41,7 +41,9 @@ class ToolbarImageButton(LargeButton):
 
         self.image_path = image_path
 
-        base_path = os.path.abspath(__file__).replace("buttons.py", "")
+        base_path = os.path.abspath(__file__).replace(
+            os.path.basename(os.path.realpath(__file__)), ""
+        )
         icon_path = os.path.join(base_path, "icons", self.image_path)
 
         self.icon_img = ImageTk.PhotoImage(
@@ -58,7 +60,9 @@ class HelpButton(tk.Button):
 
         self.message = message
 
-        base_path = os.path.abspath(__file__).replace("buttons.py", "")
+        base_path = os.path.abspath(__file__).replace(
+            os.path.basename(os.path.realpath(__file__)), ""
+        )
         icon_path = os.path.join(base_path, "icons", "question-circle.png")
 
         self.icon_img = ImageTk.PhotoImage(

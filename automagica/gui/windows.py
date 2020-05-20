@@ -118,7 +118,7 @@ class FlowDesignerWindow(tk.Toplevel):
 
         if "nt" in os.name:
             self.icon_path = os.path.join(
-                os.path.abspath(__file__).replace("windows.py", ""),
+                os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), ""),
                 "icons",
                 "automagica.ico",
             )
@@ -150,7 +150,7 @@ class Window(tk.Toplevel):
 
         self.configure(bg=config.COLOR_4)
         self.icon_path = os.path.join(
-            os.path.abspath(__file__).replace("windows.py", ""),
+            os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), ""),
             "icons",
             "automagica.ico",
         )
@@ -172,7 +172,7 @@ class SplashWindow(Window):
         logo_canvas.pack(side="left", padx=10, pady=10)
 
         logo_path = os.path.join(
-            os.path.abspath(__file__).replace("windows.py", ""), "icons", "logo.png"
+            os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), ""), "icons", "logo.png"
         )
 
         self.logo_image = ImageTk.PhotoImage(file=logo_path)
@@ -192,7 +192,7 @@ class NodePropsWindow(Window):
         self.configure(bg=config.COLOR_4)
 
         self.icon_path = os.path.join(
-            os.path.abspath(__file__).replace("windows.py", ""),
+            os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), ""),
             "icons",
             "automagica.ico",
         )
@@ -1607,7 +1607,7 @@ class Notification(tk.Toplevel):
         self.message = message
 
         icon_path = os.path.join(
-            os.path.abspath(__file__).replace("windows.py", ""),
+            os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), ""),
             "icons",
             "trayicon.png",
         )

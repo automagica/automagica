@@ -334,7 +334,11 @@ class ToolbarFrame(tk.Frame):
         logo_canvas.pack(side="left", padx=10, pady=10)
 
         logo_path = os.path.join(
-            os.path.abspath(__file__).replace("frames.py", ""), "icons", "logo.png"
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "logo.png",
         )
 
         self.logo_image = ImageTk.PhotoImage(file=logo_path)

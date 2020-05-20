@@ -27,7 +27,9 @@ class FlowApp(tkinter.Tk):
         self.withdraw()
 
         icon_path = os.path.join(
-            os.path.abspath(__file__).replace("__init__.py", ""),
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
             "icons",
             "automagica.ico",
         )
@@ -120,7 +122,9 @@ class RecorderWindow(tk.Tk):
         self.title("Automagica Wand")
 
         icon_path = os.path.join(
-            os.path.abspath(__file__).replace("__init__.py", ""),
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
             "icons",
             "automagica.ico",
         )
