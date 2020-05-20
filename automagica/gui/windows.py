@@ -250,7 +250,12 @@ class NodePropsWindow(Window):
     def save(self):
         # Save Node things
         self.node.label = self.label_entry.get()
-        self.node.next_node = self.next_node_menu.get().split("(")[1].split(")")[0]
+
+        if self.next_node_menu.get():
+            self.node.next_node = self.next_node_menu.get().split("(")[1].split(")")[0]
+
+        else:
+            self.node.next_node = None
 
         self.parent.draw()
 
@@ -1025,7 +1030,6 @@ class SubFlowNodePropsWindow(NodePropsWindow):
 
 class ActionRecorderWindow(Window):
     def __init__(self, parent, action, *args, **kwargs):
-        from automagica.snippingtool import SnippingTool, select_rect, get_screen
         from time import sleep
 
         self.action = action
@@ -1126,6 +1130,8 @@ class ActionRecorderWindow(Window):
         return frame
 
     def create_target_frame(self):
+        from automagica.config import _
+
         frame = LabelFrame(self, text=_("Target"), bg="white")
 
         target_image, _ = self._resize_to_fit(
@@ -1160,7 +1166,6 @@ class ActionRecorderWindow(Window):
         return image, factor
 
     def add_anchor(self):
-        from automagica.snippingtool import select_rect
 
         anchor = select_rect(self.screenshot, info=_("Select an anchor on the screen"))
 
@@ -1601,7 +1606,13 @@ class Notification(tk.Toplevel):
 
         self.message = message
 
-        self.image_frame = self.create_image_frame("gui/icons/trayicon.png")
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace("windows.py", ""),
+            "icons",
+            "trayicon.png",
+        )
+
+        self.image_frame = self.create_image_frame(icon_path)
         self.image_frame.pack(side="left", fill="y", padx=0, pady=0)
 
         self.text_frame = self.create_text_frame()
@@ -1908,7 +1919,7 @@ class FlowPlayerWindow(Window):
             text=_("Play"), command=self.on_play_click, bg=config.COLOR_7
         )
 
-    def play(self):
+    def play(self, return_value="no_value"):
         mouse_x = self.winfo_pointerx()
         mouse_y = self.winfo_pointery()
 
@@ -1916,7 +1927,10 @@ class FlowPlayerWindow(Window):
             self.on_pause_click()
 
         if not self.paused:
-            next_node_uid = self.current_node.next_node
+            if return_value == "no_value":
+                next_node_uid = self.current_node.next_node
+            else:
+                next_node_uid = self.current_node.get_next_node_uid(return_value)
 
             if next_node_uid:
                 self.current_node = self.flow.get_node_by_uid(next_node_uid)

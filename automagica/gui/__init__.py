@@ -11,11 +11,32 @@ import tkinter
 
 
 class FlowApp(tkinter.Tk):
-    def __init__(self, *args, bot=None, file_path=None, run=False, **kwargs):
+    def __init__(
+        self,
+        *args,
+        bot=None,
+        file_path=None,
+        run=False,
+        headless=False,
+        step_by_step=False,
+        **kwargs
+    ):
 
         super().__init__(*args, **kwargs)
 
         self.withdraw()
+
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace("__init__.py", ""),
+            "icons",
+            "automagica.ico",
+        )
+
+        from PIL import ImageTk, Image
+
+        self.tk.call(
+            "wm", "iconphoto", self._w, ImageTk.PhotoImage(Image.open(icon_path))
+        )
 
         # Set up logging
         logging.basicConfig(level=logging.INFO)
@@ -27,7 +48,7 @@ class FlowApp(tkinter.Tk):
 
         if file_path:
             if run:
-                self.run_flow(file_path)
+                self.run_flow(file_path, headless, step_by_step)
             else:
                 self.open_flow(file_path)
         else:
@@ -42,13 +63,13 @@ class FlowApp(tkinter.Tk):
     def open_flow(self, file_path):
         _ = FlowDesignerWindow(self, bot=self.bot, flow=Flow(file_path))
 
-    def run_flow(self, file_path):
+    def run_flow(self, file_path, headless, step_by_step):
         _ = FlowPlayerWindow(
             self,
             flow=Flow(file_path),
             bot=self.bot,
             autoplay=True,
-            step_by_step=False,
+            step_by_step=step_by_step,
             autoclose=True,
             on_close=self.quit,
         )

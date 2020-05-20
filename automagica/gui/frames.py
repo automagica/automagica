@@ -126,7 +126,7 @@ class ConsoleFrame(tk.Frame):
         self.clear_button = Button(
             button_frame, text=_("Clear"), command=self.on_clear_click
         )
-        self.clear_button.pack(side="left")
+        self.clear_button.pack(side="left", padx=5)
 
         self.open_variable_explorer_button = Button(
             button_frame,
@@ -780,13 +780,16 @@ class SidebarFrame(tk.Frame):
 
     def search_activities(self, *args):
         query = self.search_entry.get()
+        query = query.strip()
+        query = query.lower()
 
         self.activities_list.delete(0, tk.END)
         self.results = []
 
         for key, val in config.ACTIVITIES.items():
-            if any([query in keyword for keyword in val["keywords"]]) or query == _(
-                "Search activities..."
+            if (
+                any([query in keyword.lower() for keyword in val["keywords"]])
+                or query == _("Search activities...").lower()
             ):
 
                 if val.get("class"):

@@ -67,19 +67,20 @@ class StartNode(Node):
 
 class ActivityNode(Node):
     def __init__(
-        self, activity, *args, next_node=None, args_={}, class_=None, **kwargs
+        self, activity, *args, next_node=None, class_=None, args_=None, **kwargs
     ):
         super().__init__(*args, **kwargs)
         self.activity = activity
+        if not args_:
+            args_ = {}
         self.args_ = args_
         self.next_node = next_node
         self.return_ = None
 
-        if not class_:
-            if self.activity.split(".")[-2][0].isupper():
-                class_ = self.activity.split(".")[-2].lower()
-                if not self.args_.get("self"):
-                    self.args_["self"] = class_.lower()
+        if self.activity.split(".")[-2][0].isupper():
+            class_ = self.activity.split(".")[-2].lower()
+            if not self.args_.get("self"):
+                self.args_["self"] = class_.lower()
 
         self.class_ = class_
 
@@ -98,7 +99,7 @@ class ActivityNode(Node):
         return {
             "uid": self.uid,
             "x": self.x,
-            "y": self.y,
+            "y": self.y, 
             "type": self.__class__.__name__,
             "next_node": self.next_node,
             "label": self.label,
@@ -152,13 +153,11 @@ class IfElseNode(Node):
     def __init__(self, *args, condition=None, next_node=None, else_node=None, **kwargs):
         super().__init__(**kwargs)
         self.condition = condition
-        self.next_node = next_node
+        self.next_node = next_node  # True node
         self.else_node = else_node
 
-    def get_next_node(self):
-        outcome = self.bot.run(self.condition)
-
-        if eval(self.condition):
+    def get_next_node_uid(self, return_value):
+        if return_value:
             return self.next_node
         else:
             return self.else_node
@@ -175,8 +174,8 @@ class IfElseNode(Node):
             "condition": self.condition,
         }
 
-    def run(self, bot):
-        self.bot = bot
+    def run(self, bot, on_done=None):
+        bot.run(self.condition, on_done=on_done, return_value_when_done=True)
 
 
 class LoopNode(Node):

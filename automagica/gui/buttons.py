@@ -5,6 +5,7 @@ from automagica import config
 from automagica.config import _
 import os
 
+
 class Button(tk.Button):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -58,13 +59,15 @@ class HelpButton(tk.Button):
         self.message = message
 
         base_path = os.path.abspath(__file__).replace("buttons.py", "")
-        icon_path = os.path.join(base_path, "icons", 'question-circle.png')
+        icon_path = os.path.join(base_path, "icons", "question-circle.png")
 
         self.icon_img = ImageTk.PhotoImage(
             generate_icon(icon_path, color=config.COLOR_0)
         )
 
         self.configure(image=self.icon_img, command=self.clicked, relief=tk.FLAT)
+
+        self.configure(bg=self.master.cget("bg"))
 
     def clicked(self):
         from tkinter import messagebox

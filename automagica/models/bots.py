@@ -58,23 +58,31 @@ class ThreadedBot(Bot):
 
         while True:
             try:
-                command, on_done = queue.get(timeout=1)
+                command, on_done, return_value_when_done = queue.get(timeout=1)
             except Empty:
                 command = None
                 on_done = None
+                return_value_when_done = False
 
             if command:
-                self._run_command(command, on_done=on_done)
+                self._run_command(
+                    command,
+                    on_done=on_done,
+                    return_value_when_done=return_value_when_done,
+                )
             else:
                 sleep(0.1)
 
-    def _run_command(self, command, on_done=None):
+    def _run_command(self, command, on_done=None, return_value_when_done=False):
         from io import StringIO
 
         with StringIO() as temp:
             old_stdout = sys.stdout  # Keep reference to old stdout
 
             sys.stdout = temp  # Redirect stdout to temp
+
+            if return_value_when_done:
+                command = "AUTOMAGICA_RETURN_VALUE = (" + command + ")"
 
             self.interpreter.runcode(command)
 
@@ -88,16 +96,21 @@ class ThreadedBot(Bot):
                 self.logger.info(stdout)
 
         if on_done:
-            on_done()
+            if return_value_when_done:
+                return_value = self.interpreter.locals.get("AUTOMAGICA_RETURN_VALUE")
+                on_done(return_value=return_value)
+            else:
+                on_done()
 
     def reset(self):
         self.interpreter.locals = {"__name__": "__console__", "__doc__": None}
 
-    def run(self, command, on_done=None):
+    def run(self, command, on_done=None, return_value_when_done=False):
         self.logger.info(
             "\n".join([">>> " + line for line in command.split("\n") if line.strip()])
         )
-        self.command_queue.put((command, on_done))
+
+        self.command_queue.put((command, on_done, return_value_when_done))
 
     def stop(self):
         pass

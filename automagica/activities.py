@@ -6,6 +6,7 @@ Cryptography
 Icon: las la-shield-alt
 """
 
+
 @activity
 def generate_random_key():
     """Random key
@@ -30,7 +31,7 @@ def generate_random_key():
     import os
     from cryptography.fernet import Fernet
 
-    key = Fernet.generate_key()   
+    key = Fernet.generate_key()
 
     return key
 
@@ -108,7 +109,7 @@ def decrypt_text_with_key(encrypted_text, key):
 
 
 @activity
-def encrypt_file_with_key(input_path, key, output_path=None):    
+def encrypt_file_with_key(input_path, key, output_path=None):
     """Encrypt file 
 
     Encrypt file with (Fernet) key. Note that file will be unusable unless unlocked with the same key.
@@ -142,7 +143,7 @@ def encrypt_file_with_key(input_path, key, output_path=None):
     # Set path if not specified
     input_path = interpret_path(input_path, required=True)
     if not output_path:
-        output_path = interpret_path(input_path, addition = '_encrypted')
+        output_path = interpret_path(input_path, addition="_encrypted")
     else:
         output_path = interpret_path(output_path)
 
@@ -195,7 +196,7 @@ def decrypt_file_with_key(input_path, key, output_path=None):
 
     input_path = interpret_path(input_path, required=True)
     if not output_path:
-        output_path = interpret_path(input_path, addition = '_decrypted')
+        output_path = interpret_path(input_path, addition="_decrypted")
     else:
         output_path = interpret_path(output_path)
 
@@ -727,6 +728,7 @@ def generate_random_date(formatting="%m/%d/%Y %I:%M", days_in_past=1000):
     else:
         return random_date
 
+
 @activity
 def generate_date_today(formatting="%m/%d/%Y"):
     """Random date
@@ -781,6 +783,7 @@ def generate_date_today(formatting="%m/%d/%Y"):
     else:
         return today
 
+
 @activity
 def generate_unique_identifier():
     """Generate unique identifier
@@ -810,6 +813,7 @@ def generate_unique_identifier():
 User Input
 Icon: lab la-wpforms
 """
+
 
 @activity
 def display_osd_message(message="Example message", seconds=5):
@@ -1097,9 +1101,8 @@ class Chrome(selenium.webdriver.Chrome):
             + "']"
         )
 
-
     @activity
-    def find_all_links(self, contains=''):
+    def find_all_links(self, contains=""):
         """Find all links
 
         Find all links on a webpage in the browser
@@ -1565,7 +1568,7 @@ class FTP:
         # Set path if not specified
         input_path = interpret_path(input_path)
         if not output_path:
-            output_path = interpret_path(default_filename='downloaded_readme.txt')
+            output_path = interpret_path(default_filename="downloaded_readme.txt")
         else:
             output_path = interpret_path(output_path)
 
@@ -1604,7 +1607,7 @@ class FTP:
         # Set to user home if no path specified
 
         input_path = interpret_path(input_path)
-    
+
         if not output_path:
             output_path = "/"
 
@@ -1870,11 +1873,11 @@ def press_key_combination(first_key, second_key, third_key=None, compatibility=F
         from keyboard import send
 
         if not third_key:
-            send(first_key + '+' + second_key)
+            send(first_key + "+" + second_key)
             return
         if third_key:
-            send(first_key + '+' + second_key + '+' + third_key)
-            return 
+            send(first_key + "+" + second_key + "+" + third_key)
+            return
 
     import win32com.client
 
@@ -2052,20 +2055,20 @@ def click(automagica_id, delay=0.1):
     Icon
         las la-mouse-pointer
     """
+    from mouse import click as click_
+    from mouse import move as move_
+
     if delay:
         from time import sleep
 
         sleep(delay)  # Default delay
 
-
     location = detect_vision(automagica_id)
     x, y = get_center_of_rectangle(location)
 
-    from mouse import click
+    move_(x, y)
+    click_()
 
-    click(x, y)
-
-    return
 
 @activity
 def click_coordinates(x=None, y=None, delay=0.1):
@@ -2090,20 +2093,22 @@ def click_coordinates(x=None, y=None, delay=0.1):
     Icon
         las la-mouse-pointer
     """
+
+    from mouse import click as click_
+    from mouse import move as move_
+
     if delay:
         from time import sleep
 
         sleep(delay)  # Default delay
 
     if x and y:
-        from mouse import click
-
-        click(x, y)
-
-        return 
+        move_(x, y)
+        click_()
 
     else:
         raise Exception("Could not click, did you enter a valid ID or coordinates")
+
 
 @activity
 def double_click_coordinates(x=None, y=None, delay=0.1):
@@ -2128,18 +2133,21 @@ def double_click_coordinates(x=None, y=None, delay=0.1):
     Icon
         las la-mouse-pointer
     """
+    from mouse import double_click as double_click_
+    from mouse import move as move_
+
     if delay:
         from time import sleep
 
         sleep(delay)  # Default delay
 
     if x and y:
-        from mouse import double_click
-
-        double_click(x,y)
+        move_(x, y)
+        double_click_()
 
     else:
         raise Exception("Could not click, did you enter valid coordinates")
+
 
 @activity
 def double_click(automagica_id=None, delay=0.1):
@@ -2168,6 +2176,9 @@ def double_click(automagica_id=None, delay=0.1):
     Icon
         las la-mouse-pointer
     """
+    from mouse import double_click as double_click_
+    from mouse import move as move_
+
     if delay:
         from time import sleep
 
@@ -2177,14 +2188,12 @@ def double_click(automagica_id=None, delay=0.1):
         location = detect_vision(automagica_id)
         x, y = get_center_of_rectangle(location)
 
-        from mouse import double_click
-
-        double_click(x,y)
-
-        return
+        move_(x, y)
+        double_click_()
 
     else:
         raise Exception("Could not click, did you enter a valid ID")
+
 
 @activity
 def right_click(automagica_id=None, delay=0.1):
@@ -2212,6 +2221,8 @@ def right_click(automagica_id=None, delay=0.1):
     Icon
         las la-mouse-pointer
     """
+    from mouse import right_click as right_click_
+    from mouse import move as move_
 
     if delay:
         from time import sleep
@@ -2222,12 +2233,12 @@ def right_click(automagica_id=None, delay=0.1):
         location = detect_vision(automagica_id)
         x, y = get_center_of_rectangle(location)
 
-        from mouse import right_click
-
-        return right_click(x, y)
+        move_(x, y)
+        right_click_()
 
     else:
         raise Exception("Could not click, did you enter a valid ID or coordinates")
+
 
 @activity
 def right_click_coordinates(x=None, y=None, delay=0.1):
@@ -2252,19 +2263,21 @@ def right_click_coordinates(x=None, y=None, delay=0.1):
     Icon
         las la-mouse-pointer
     """
+    from mouse import right_click as right_click_
+    from mouse import move as move_
 
     if delay:
         from time import sleep
 
-        sleep(delay)  # Default delay 
+        sleep(delay)  # Default delay
 
     if x and y:
-        from mouse import right_click
-
-        return right_click(x, y)
+        move_(x, y)
+        right_click_()
 
     else:
         raise Exception("Could not click, did you enter a valid ID or coordinates")
+
 
 @activity
 def move_mouse_to(automagica_id=None, delay=0.1):
@@ -2292,6 +2305,7 @@ def move_mouse_to(automagica_id=None, delay=0.1):
     Icon
         las la-arrows-alt
     """
+    from mouse import move as move_
 
     if delay:
         from time import sleep
@@ -2301,18 +2315,12 @@ def move_mouse_to(automagica_id=None, delay=0.1):
     if automagica_id:
         location = detect_vision(automagica_id)
         x, y = get_center_of_rectangle(location)
+        move_(x, y)
 
-        from mouse import move
-
-        move(x, y)
-
-        return 
+        return
     if x and y:
-        from mouse import move
+        move_(x, y)
 
-        move(x, y)
-
-        return 
 
 @activity
 def move_mouse_to_coordinates(x=None, y=None, delay=0.1):
@@ -2338,6 +2346,7 @@ def move_mouse_to_coordinates(x=None, y=None, delay=0.1):
     Icon
         las la-arrows-alt
     """
+    from mouse import move as move_
 
     if delay:
         from time import sleep
@@ -2345,11 +2354,8 @@ def move_mouse_to_coordinates(x=None, y=None, delay=0.1):
         sleep(delay)  # Default delay
 
     if x and y:
-        from mouse import move
+        move_(x, y)
 
-        move(x, y)
-
-        return 
 
 @activity
 def move_mouse_relative(x=None, y=None):
@@ -2375,11 +2381,9 @@ def move_mouse_relative(x=None, y=None):
         las la-arrows-alt
     """
 
-    from mouse import move
+    from mouse import move as move_
 
-    move(x, y, absolute=False)
-
-    return
+    move_(x, y, absolute=False)
 
 
 @activity
@@ -2416,7 +2420,6 @@ def drag_mouse_to_coordinates(x=None, y=None, delay=0.1):
 
         drag(x, y, absolute=False)
 
-        return 
 
 @activity
 def drag_mouse_to(automagica_id=None, delay=0.1):
@@ -2457,7 +2460,8 @@ def drag_mouse_to(automagica_id=None, delay=0.1):
 
         drag(x, y, absolute=False)
 
-        return 
+        return
+
 
 """
 Image
@@ -2510,7 +2514,9 @@ def random_screen_snippet(size=100, output_path=None):
     cropped = img.crop((left, top, right, bottom))
 
     if not output_path:
-        output_path = interpret_path(output_path, default_filename='random_screensnippet.jpg')
+        output_path = interpret_path(
+            output_path, default_filename="random_screensnippet.jpg"
+        )
     else:
         output_path = interpret_path(output_path)
 
@@ -2548,7 +2554,7 @@ def take_screenshot(output_path=None):
 
     img = PIL.ImageGrab.grab()
 
-    output_path = interpret_path(path = output_path, default_filename = 'screenshot.jpg')
+    output_path = interpret_path(path=output_path, default_filename="screenshot.jpg")
 
     img.save(output_path, "JPEG")
 
@@ -2645,9 +2651,8 @@ def create_folder(path=None):
     """
     import os
 
-    
     if not path:
-        path = interpret_path(path, default_filename='new_folder', random_addition=True)
+        path = interpret_path(path, default_filename="new_folder", random_addition=True)
 
     else:
         path = interpret_path(path)
@@ -2687,7 +2692,7 @@ def rename_folder(input_path, output_name=None):
 
     input_path = interpret_path(input_path, required=True)
     if not output_name:
-        output_path = interpret_path(input_path, addition='_renamed')
+        output_path = interpret_path(input_path, addition="_renamed")
     else:
         output_path = interpret_path(input_path, replace_filename=output_name)
 
@@ -2726,6 +2731,7 @@ def show_folder(path=None):
     path = interpret_path(path)
 
     import os
+
     if os.path.isdir(path):
         os.startfile(path)
 
@@ -2765,7 +2771,7 @@ def move_folder(input_path, output_path=None):
 
     input_path = interpret_path(input_path, required=True)
     if not output_path:
-        output_path = interpret_path(input_path, addition='_moved')
+        output_path = interpret_path(input_path, addition="_moved")
     else:
         output_path = interpret_path(output_path)
 
@@ -2916,7 +2922,7 @@ def copy_folder(input_path, output_path=None):
 
     input_path = interpret_path(input_path, required=True)
     if not output_path:
-        output_path = interpret_path(input_path, addition='_copied')
+        output_path = interpret_path(input_path, addition="_copied")
     else:
         output_path = interpret_path(output_path)
 
@@ -2956,8 +2962,8 @@ def zip_folder(path, output_path=None):
     path = interpret_path(path, required=True)
 
     if not output_path:
-        output_path = interpret_path(path, addition = '_zipped')
-        
+        output_path = interpret_path(path, addition="_zipped")
+
     if os.path.isdir(path):
         shutil.make_archive(output_path, "zip", path)
 
@@ -2999,11 +3005,12 @@ def unzip(path, output_path=None):
     path = interpret_path(path)
 
     if not output_path:
-        output_path = interpret_path(path, addition='_unzipped')
+        output_path = interpret_path(path, addition="_unzipped")
     else:
         output_path = interpret_path(output_path)
 
     import zipfile
+
     with zipfile.ZipFile(path) as zip_ref:
         zip_ref.extractall(output_path)
 
@@ -3118,7 +3125,9 @@ Icon: las la-file-word
 
 class Word:
     @activity
-    def __init__(self, file_path=None, visible=True,):
+    def __init__(
+        self, file_path=None, visible=True,
+    ):
         """Start Word Application
 
         For this activity to work, Microsoft Office Word needs to be installed on the system.
@@ -3328,7 +3337,7 @@ class Word:
 
         """
         if not file_path:
-            file_path = interpret_path(file_path, addition ='pdf_export.pdf')
+            file_path = interpret_path(file_path, addition="pdf_export.pdf")
         else:
             file_path = interpret_path(file_path)
 
@@ -3365,7 +3374,7 @@ class Word:
 
         """
         if not file_path:
-            file_path = interpret_path(file_path, addition ='html_export.html')
+            file_path = interpret_path(file_path, addition="html_export.html")
         else:
             file_path = interpret_path(file_path)
 
@@ -3489,12 +3498,15 @@ class WordFile:
     def _launch(self):
 
         if not self.file_path:
-            self.file_path = interpret_path(self.file_path, default_filename='document.docx')
+            self.file_path = interpret_path(
+                self.file_path, default_filename="document.docx"
+            )
 
         else:
             self.file_path = interpret_path(file_path)
 
         from docx import Document
+
         document = Document()
         document.save(self.file_path)
 
@@ -4880,7 +4892,7 @@ class Excel:
             las la-file-excel
         """
         if not file_path:
-            file_path = interpret_path(file_path, addition ='pdf_export.pdf')
+            file_path = interpret_path(file_path, addition="pdf_export.pdf")
         else:
             file_path = interpret_path(file_path)
 
@@ -5041,7 +5053,7 @@ class ExcelFile:
 
         if file_path:
             file_path = interpret_path(file_path)
-            
+
         self.file_path = file_path
         self.sheet_name = None
 
@@ -5051,7 +5063,7 @@ class ExcelFile:
         else:
             path = os.path.join(os.path.expanduser("~"), "workbookske.xlsx")
             self.book = openpyxl.Workbook()
-            self.book.create_sheet('My Example Worksheet')
+            self.book.create_sheet("My Example Worksheet")
             self.book.save(path)
             self.file_path = path
 
@@ -7222,7 +7234,7 @@ def download_file_from_url(url, output_path=None):
     filename = os.path.basename(a.path)
 
     output_path = interpret_path(output_path, default_filename=filename)
-    
+
     r = requests.get(url, stream=True)
 
     if r.status_code == 200:
@@ -7332,7 +7344,7 @@ def rename_file(input_path, output_name=None):
 
     input_path = interpret_path(input_path, required=True)
     if not output_name:
-        output_path = interpret_path(input_path, addition='_renamed')
+        output_path = interpret_path(input_path, addition="_renamed")
     else:
         output_path = interpret_path(input_path, replace_filename=output_name)
 
@@ -7373,7 +7385,7 @@ def move_file(input_path, output_path=None):
 
     input_path = interpret_path(input_path, required=True)
     if not output_path:
-        output_path = interpret_path(input_path, addition='_moved')
+        output_path = interpret_path(input_path, addition="_moved")
     else:
         output_path = interpret_path(output_path)
 
@@ -7407,6 +7419,7 @@ def remove_file(path):
     """
 
     import os
+
     path = interpret_path(path)
     if os.path.isfile(path):
         os.remove(path)
@@ -7438,6 +7451,7 @@ def file_exists(path):
         las la-tasks
     """
     import os
+
     path = interpret_path(path)
     return os.path.isfile(path)
 
@@ -7576,6 +7590,7 @@ def append_line(text, file_path):
     """
 
     import os
+
     file_path = interpret_path(file_path)
     if not os.path.isfile(file_path):
         with open(file_path, "a"):
@@ -7612,13 +7627,18 @@ def make_text_file(text="Sample text", output_path=None):
 
     # Set to user home if no path specified
     import os
-    
+
     if not output_path:
-        output_path = interpret_path(output_path, default_filename='generated_text_file.txt')
-    else:    
+        output_path = interpret_path(
+            output_path, default_filename="generated_text_file.txt"
+        )
+    else:
         import pathlib
+
         if pathlib.Path(output_path).is_dir():
-            output_path = interpret_path(output_path, default_filename='generated_text_file.txt')
+            output_path = interpret_path(
+                output_path, default_filename="generated_text_file.txt"
+            )
         else:
             output_path = interpret_path(output_path)
     with open(output_path, "w", encoding="utf-8") as file:
@@ -7692,7 +7712,7 @@ def copy_file(input_path, output_path=None):
 
     input_path = interpret_path(input_path, required=True)
     if not output_path:
-        output_path = interpret_path(input_path, addition='_copied')
+        output_path = interpret_path(input_path, addition="_copied")
     else:
         output_path = interpret_path(output_path)
 
@@ -7728,6 +7748,7 @@ def get_file_extension(file_path):
     """
 
     import os
+
     file_path = interpret_path(file_path)
 
     filename, file_extension = os.path.splitext(file_path)
@@ -7758,9 +7779,9 @@ def send_to_printer(file_path):
         las la-print
     """
     import os
+
     file_path = interpret_path(file_path)
     os.startfile(file_path, "print")
-
 
 
 """
@@ -7808,7 +7829,9 @@ def read_text_from_pdf(file_path):
 
 
 @activity
-def join_pdf_files(first_file_path, second_file_path, third_file_path=None, output_path=None):
+def join_pdf_files(
+    first_file_path, second_file_path, third_file_path=None, output_path=None
+):
     """Merge PDF
     
     Merges multiple PDFs into a single file
@@ -7838,12 +7861,11 @@ def join_pdf_files(first_file_path, second_file_path, third_file_path=None, outp
     """
     from PyPDF2 import PdfFileMerger, PdfFileReader
 
-    
     if not output_path:
-        output_path = interpret_path(first_file_path, addition='_merged_pdf.pdf')
+        output_path = interpret_path(first_file_path, addition="_merged_pdf.pdf")
     else:
         output_path = interpret_path(output_path)
-    
+
     first_file_path = interpret_path(first_file_path)
     second_file_path = interpret_path(second_file_path)
 
@@ -7895,10 +7917,10 @@ def extract_page_range_from_pdf(file_path, start_page, end_page, output_path=Non
     from PyPDF2 import PdfFileWriter, PdfFileReader
 
     if not output_path:
-        output_path = interpret_path(file_path, replace_filename='extracted_paged.pdf')
+        output_path = interpret_path(file_path, replace_filename="extracted_paged.pdf")
     else:
         output_path = interpret_path(output_path)
-    
+
     file_path = interpret_path(file_path)
     with open(file_path, "rb") as f:
 
@@ -8301,6 +8323,7 @@ def show_image(file_path):
 
     """
     from PIL import Image
+
     file_path = interpret_path(file_path)
     im = Image.open(file_path)
 
@@ -8333,6 +8356,7 @@ def rotate_image(file_path, angle=90):
 
     """
     from PIL import Image
+
     file_path = interpret_path(file_path)
     im = Image.open(file_path)
 
@@ -8733,8 +8757,9 @@ def extract_text_ocr(file_path=None):
     import json
 
     if not file_path:
-        file_path = interpret_path(file_path, default_filename='ocr_temp.jpg')
+        file_path = interpret_path(file_path, default_filename="ocr_temp.jpg")
         import PIL.ImageGrab
+
         img = PIL.ImageGrab.grab()
         img.save(file_path, "JPEG")
     else:
@@ -8882,10 +8907,11 @@ def click_on_text_ocr(text):
         y = int(position["y"] + position["h"] / 2)
 
         from mouse import move, click
+
         move(x, y)
         click()
 
-        return 
+        return
 
 
 @activity
@@ -8918,11 +8944,12 @@ def double_click_on_text_ocr(text):
 
         x = int(position["x"] + position["w"] / 2)
         y = int(position["y"] + position["h"] / 2)
-        
+
         from mouse import move, double_click
+
         move(x, y)
         double_click()
-        return 
+        return
 
 
 @activity
@@ -8953,11 +8980,12 @@ def right_click_on_text_ocr(text):
 
         x = int(position["x"] + position["w"] / 2)
         y = int(position["y"] + position["h"] / 2)
-        
+
         from mouse import move, right_click
+
         move(x, y)
         right_click()
-        
+
         return
 
 
@@ -9209,7 +9237,7 @@ def run_blueprism_process(
 
     if automatec_exe_path:
         automatec_exe_path = interpret_path(automatec_exe_path)
-    
+
     automatec_exe_path = '"' + automatec_exe_path + '"'
 
     process = subprocess.Popen(automatec_exe_path + cmd)
