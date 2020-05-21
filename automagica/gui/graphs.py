@@ -5,6 +5,7 @@ from tkinter import font, ttk
 from PIL import ImageTk
 
 from automagica import config
+from automagica.config import _
 
 from .buttons import Button
 
@@ -184,7 +185,9 @@ class StartNodeGraph(NodeGraph):
         )
         icon_path = os.path.join(base_path, "icons", "play-circle.png")
 
-        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#ffffff"))
+        self.icon_img = ImageTk.PhotoImage(
+            generate_icon(icon_path, color=config.COLOR_1)
+        )
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
@@ -551,7 +554,7 @@ class DotPyFileNodeGraph(NodeGraph):
         self.label_text = self.parent.canvas.create_text(
             self.center_x,
             self.center_y,
-            text="Run .py",
+            text=_("Python Script (.py)"),
             tags=self.node.uid,
             fill=config.COLOR_0,
             font=(config.FONT, 10),
@@ -911,8 +914,19 @@ class SubFlowNodeGraph(NodeGraph):
 
     def run_click(self, event):
         self.add_highlight()
+        from .windows import FlowPlayerWindow
+        from ..models import Flow
 
-        self.node.run(self.parent.master.master.bot, on_done=self.remove_highlight)
+        _ = FlowPlayerWindow(
+            self.parent.master,
+            flow=Flow(self.node.subflow_path.replace('"', "")),
+            bot=self.parent.master.master.bot,
+            autoplay=True,
+            step_by_step=False,
+            autoclose=True,
+        )
+
+        self.remove_highlight()
 
     def delete(self):
         self.parent.canvas.delete(self.rect)

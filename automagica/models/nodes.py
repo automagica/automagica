@@ -285,7 +285,7 @@ class SubFlowNode(Node):
             "label": self.label,
         }
 
-    def run(self, bot):
+    def run(self, bot, on_done=None):
         from .flow import Flow
 
         subflow = Flow(self.subflow_path)

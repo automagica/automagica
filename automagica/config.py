@@ -1,5 +1,5 @@
 import os
-from gettext import translation
+from gettext import translation, gettext
 
 from .utilities import all_activities
 
@@ -22,9 +22,12 @@ localedir = os.path.join(
     "locale",
 )
 
-lang = translation("messages", localedir=localedir, languages=["fr"])
-lang.install()
-_ = lang.gettext
+if LOCALE != "en":
+    lang = translation("messages", localedir=localedir, languages=[LOCALE])
+    lang.install()
+    _ = lang.gettext
+else:
+    _ = gettext
 
 
 """
@@ -48,17 +51,17 @@ COLOR_12 = "#000000"
 COLOR_13 = "#ffffff"
 
 # Dark mode
-# COLOR_0 = "#0069c0"  # Automagica Blue
-# COLOR_1 = "#ffffff"  # Black
+# COLOR_0 = "#092740"  # Automagica Blue
+# COLOR_1 = "#ffffff"  # White
 # COLOR_2 = "#121212"  # Light grey
 # COLOR_3 = "#212121"  # Less light grey
 # COLOR_4 = "#121212"  # Lightest grey
-# COLOR_5 = "#092740"  # Dark Blue
+# COLOR_5 = "#071F33"  # Dark Blue
 # COLOR_6 = "#ff0000"  # Full Red
 # COLOR_7 = "#28a745"  # Green
 # COLOR_8 = "#000000"  # White
 # COLOR_9 = "#212121"  # Pretty light grey
 # COLOR_10 = "#212121"
-# COLOR_11 = "#ffffff"
+# COLOR_11 = "#ffffff"  # White
 # COLOR_12 = "#121212"
 # COLOR_13 = "#121212"

@@ -121,11 +121,13 @@ class ConsoleFrame(tk.Frame):
         self.reset_bot_button = Button(
             button_frame, text=_("Reset Bot"), command=self.on_reset_bot_click
         )
+        self.reset_bot_button.configure(font=("Helvetica", 8))
         self.reset_bot_button.pack(side="left")
 
         self.clear_button = Button(
-            button_frame, text=_("Clear"), command=self.on_clear_click
+            button_frame, text=_("Clear Output"), command=self.on_clear_click
         )
+        self.clear_button.configure(font=("Helvetica", 8))
         self.clear_button.pack(side="left", padx=5)
 
         self.open_variable_explorer_button = Button(
@@ -133,6 +135,7 @@ class ConsoleFrame(tk.Frame):
             text=_("Variable Explorer"),
             command=self.on_open_variable_explorer_click,
         )
+        self.open_variable_explorer_button.configure(font=("Helvetica", 8))
         self.open_variable_explorer_button.pack(side="left")
 
         button_frame.place(anchor="ne", relx=1, rely=0)
@@ -378,16 +381,18 @@ class ToolbarFrame(tk.Frame):
         )
         run_step_by_step_button.pack(side="left", padx=5, pady=5)
 
-        validate_button = LargeButton(
-            self, text=_("Validate (F6)"), command=self.clicked_validate_button
-        )
-        self.parent.master.bind("<F6>", lambda e: self.clicked_validate_button())
-        validate_button.pack(side="left", padx=5, pady=5)
+        # validate_button = LargeButton(
+        #     self, text=_("Validate (F6)"), command=self.clicked_validate_button
+        # )
+        # self.parent.master.bind("<F6>", lambda e: self.clicked_validate_button())
+        # validate_button.pack(side="left", padx=5, pady=5)
 
-        empty_label = tk.Label(self, width=20, bg=config.COLOR_0)
+        empty_label = tk.Label(self, width=5, bg=config.COLOR_0)
         empty_label.pack(side="left")
 
-        actions_frame = ToolbarLabelFrame(self, text=_("AI Activities"))
+        actions_frame = ToolbarLabelFrame(
+            self, text=_("Automagica Wand (Powered by AI)")
+        )
 
         record_click_button = ToolbarImageButton(
             actions_frame,
@@ -524,25 +529,27 @@ class ToolbarFrame(tk.Frame):
         file_path = filedialog.askopenfilename(
             initialdir="./",
             title=_("Select Automagica Flow"),
-            filetypes=[("Flow (.a8a)", "*.a8a")],
+            filetypes=[("Flow (.json)", "*.json")],
         )
 
         if not file_path:
             return
 
-        self.parent.file_path = file_path
+        self.parent.master.file_path = file_path
 
         # Clear flow
-        self.parent.flow_frame.clear()
+        self.parent.master.flow_frame.clear()
 
         # Load flow
-        self.parent.flow.load(self.parent.file_path)
+        self.parent.master.flow.load(self.parent.master.file_path)
 
         # Update title
-        self.parent.title("{} - Automagica Flow".format(self.parent.file_path))
+        self.parent.master.title(
+            "{} - Automagica Flow".format(self.parent.master.file_path)
+        )
 
         # Render flow
-        self.parent.flow_frame.draw()
+        self.parent.master.flow_frame.draw()
 
         from .windows import Notification
 
@@ -753,14 +760,14 @@ class SidebarFrame(tk.Frame):
             highlightthickness=0,
             fg=config.COLOR_11,
             bg=config.COLOR_10,
+            activestyle="none",
         )
 
         self.node_types = [
             ("Start", _("Start")),
             ("IfElse", _("If Else")),
             ("Loop", _("Loop")),
-            ("DotPyFile", _("Run .py")),
-            ("Comment", _("Comment")),
+            ("DotPyFile", _("Python Script (.py)")),
             ("SubFlow", _("Sub-flow")),
             ("PythonCode", _("Python Code")),
         ]

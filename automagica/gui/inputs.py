@@ -103,7 +103,7 @@ class InputWidget(tk.Frame):
         self.input_field.pack(side="left")
 
         if self.value:
-            self._set(self.value)
+            self._set(str(self.value))
 
     def get(self):
         return self.input_field.get()
@@ -144,7 +144,9 @@ class FilePathInputWidget(tk.Frame):
     def browse_button_click(self):
         from tkinter import filedialog
 
-        file_path = filedialog.askopenfilename(initialdir="./", title=_("Select File"))
+        file_path = filedialog.asksaveasfilename(
+            initialdir="./", title=_("Select File")
+        )
 
         self._set('"{}"'.format(file_path))
 
@@ -286,3 +288,43 @@ class AutocompleteDropdown(ttk.Combobox):
 
         if len(event.keysym) == 1:
             self.filter_values()
+
+
+class NodeInputWidget(tk.Frame):
+    def __init__(self, parent, nodes, *args, value=None, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+
+        self.nodes = nodes
+        self.value = value
+        self.layout()
+
+    def layout(self):
+        self.node_menu = AutocompleteDropdown(
+            self, values=["{} ({})".format(node, node.uid) for node in self.nodes],
+        )
+
+        self.node_menu.pack(side="left")
+
+        if self.value:
+            self._set(self.value)
+
+    def get(self):
+        if self.node_menu.get():
+            return self.node_menu.get().split("(")[1].split(")")[0]
+        else:
+            return None
+
+    def _set(self, value):
+        for i, val in enumerate(self.node_menu["values"]):
+            if self.value in val:
+                self.node_menu.current(i)
+                break
+
+    def browse_button_click(self):
+        from tkinter import filedialog
+
+        file_path = filedialog.asksaveasfilename(
+            initialdir="./", title=_("Select File")
+        )
+
+        self._set('"{}"'.format(file_path))

@@ -1,0 +1,4 @@
+[begin] (fluxbox)
+[include] (/etc/X11/fluxbox/fluxbox-menu)
+[exec] (Automagica Flow) {automagica flow new}
+[end]

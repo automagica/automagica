@@ -28,9 +28,11 @@ from .inputs import (
     InputField,
     InputWidget,
     KeycombinationEntry,
+    NodeInputWidget,
 )
 
 AUTOMAGICA_NUMBER_OF_NOTIFICATIONS = 0
+AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS = 0
 
 
 def center_window(window, w=None, h=None):
@@ -118,7 +120,9 @@ class FlowDesignerWindow(tk.Toplevel):
 
         if "nt" in os.name:
             self.icon_path = os.path.join(
-                os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), ""),
+                os.path.abspath(__file__).replace(
+                    os.path.basename(os.path.realpath(__file__)), ""
+                ),
                 "icons",
                 "automagica.ico",
             )
@@ -150,7 +154,9 @@ class Window(tk.Toplevel):
 
         self.configure(bg=config.COLOR_4)
         self.icon_path = os.path.join(
-            os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), ""),
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
             "icons",
             "automagica.ico",
         )
@@ -172,7 +178,11 @@ class SplashWindow(Window):
         logo_canvas.pack(side="left", padx=10, pady=10)
 
         logo_path = os.path.join(
-            os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), ""), "icons", "logo.png"
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "logo.png",
         )
 
         self.logo_image = ImageTk.PhotoImage(file=logo_path)
@@ -192,7 +202,9 @@ class NodePropsWindow(Window):
         self.configure(bg=config.COLOR_4)
 
         self.icon_path = os.path.join(
-            os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), ""),
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
             "icons",
             "automagica.ico",
         )
@@ -201,7 +213,10 @@ class NodePropsWindow(Window):
             self.iconbitmap(self.icon_path)
 
         # Make sure this window is the only window grabbing events from the user
-        self.grab_set()
+        try:
+            self.grab_set()
+        except:  # TODO: this does not work on Linux?
+            pass
 
         # if "nt" in os.name:
         #     self.iconbitmap(self.parent.master.icon_path)
@@ -251,11 +266,7 @@ class NodePropsWindow(Window):
         # Save Node things
         self.node.label = self.label_entry.get()
 
-        if self.next_node_menu.get():
-            self.node.next_node = self.next_node_menu.get().split("(")[1].split(")")[0]
-
-        else:
-            self.node.next_node = None
+        self.node.next_node = self.next_node_menu.get()
 
         self.parent.draw()
 
@@ -320,20 +331,9 @@ class NodePropsWindow(Window):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
-        self.next_node_menu = AutocompleteDropdown(
-            frame,
-            values=[
-                "{} ({})".format(node, node.uid)
-                for node in self.parent.master.master.flow.nodes
-            ],
+        self.next_node_menu = NodeInputWidget(
+            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
-
-        if self.node.next_node:
-            for i, val in enumerate(self.next_node_menu["values"]):
-                if self.node.next_node in val:
-                    self.next_node_menu.current(i)
-                    break
-
         self.next_node_menu.grid(row=2, column=1, sticky="ew", padx=3, pady=3)
 
         help_button = HelpButton(
@@ -437,7 +437,7 @@ class ActivityNodePropsWindow(NodePropsWindow):
                 if isinstance(default, str):
                     default = '"{}"'.format(default)
 
-                self.args_inputs[name]._set(default)
+                self.args_inputs[name]._set(str(default))
 
         self.return_entry = None
         if config.ACTIVITIES[self.node.activity]["return"]:
@@ -468,10 +468,7 @@ class ActivityNodePropsWindow(NodePropsWindow):
         # Save Node things
         self.node.label = self.label_entry.get()
 
-        if self.next_node_menu.get():
-            self.node.next_node = self.next_node_menu.get().split("(")[1].split(")")[0]
-        else:
-            self.node.next_node = None
+        self.node.next_node = self.next_node_menu.get()
 
         self.parent.draw()
 
@@ -571,19 +568,9 @@ class IfElseNodePropsWindow(NodePropsWindow):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=3, column=0, sticky="w")
-        self.next_node_menu = AutocompleteDropdown(
-            frame,
-            values=[
-                "{} ({})".format(node, node.uid)
-                for node in self.parent.master.master.flow.nodes
-            ],
+        self.next_node_menu = NodeInputWidget(
+            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
-
-        if self.node.next_node:
-            for i, val in enumerate(self.next_node_menu["values"]):
-                if self.node.next_node in val:
-                    self.next_node_menu.current(i)
-                    break
 
         self.next_node_menu.grid(row=3, column=1, sticky="ew", padx=3, pady=3)
 
@@ -597,20 +584,9 @@ class IfElseNodePropsWindow(NodePropsWindow):
             frame, text=_("Else Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         else_node_option_label.grid(row=4, column=0, sticky="w")
-        self.else_node_menu = AutocompleteDropdown(
-            frame,
-            values=[
-                "{} ({})".format(node, node.uid)
-                for node in self.parent.master.master.flow.nodes
-            ],
+        self.else_node_menu = NodeInputWidget(
+            frame, self.parent.master.master.flow.nodes, value=self.node.else_node
         )
-
-        if self.node.else_node:
-            for i, val in enumerate(self.else_node_menu["values"]):
-                if self.node.else_node in val:
-                    self.else_node_menu.current(i)
-                    break
-
         self.else_node_menu.grid(row=4, column=1, sticky="ew", padx=3, pady=3)
 
         help_button = HelpButton(
@@ -622,8 +598,8 @@ class IfElseNodePropsWindow(NodePropsWindow):
         return frame
 
     def save(self):
-        self.node.next_node = self.next_node_menu.get().split("(")[1].split(")")[0]
-        self.node.else_node = self.else_node_menu.get().split("(")[1].split(")")[0]
+        self.node.next_node = self.next_node_menu.get()
+        self.node.else_node = self.else_node_menu.get()
         self.node.condition = self.condition_entry.get()
         self.node.label = self.label_entry.get()
 
@@ -678,14 +654,9 @@ class LoopNodePropsWindow(NodePropsWindow):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
-        self.next_node_menu = ttk.Combobox(
-            frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
+        self.next_node_menu = NodeInputWidget(
+            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
-
-        if self.node.next_node:
-            for i, node in enumerate(self.parent.master.master.flow.nodes):
-                if node.uid == self.node.next_node:
-                    self.next_node_menu.current(i)
 
         self.next_node_menu.grid(row=2, column=1, sticky="w")
 
@@ -749,7 +720,7 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
             frame, text=_(".py-file path"), bg=config.COLOR_4, fg=config.COLOR_11,
         )
         dotpyfile_path_label.grid(row=1, column=0, sticky="w")
-        self.dotpyfile_path_entry = InputField(frame)
+        self.dotpyfile_path_entry = FilePathInputWidget(frame)
         self.dotpyfile_path_entry.grid(row=1, column=1, sticky="w")
 
         # Pre-fill label
@@ -761,15 +732,9 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
-        self.next_node_menu = ttk.Combobox(
-            frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
+        self.next_node_menu = NodeInputWidget(
+            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
-
-        if self.node.next_node:
-            for i, node in enumerate(self.parent.master.master.flow.nodes):
-                if node.uid == self.node.next_node:
-                    self.next_node_menu.current(i)
-
         self.next_node_menu.grid(row=2, column=1, sticky="w")
 
         # Else node selection
@@ -777,14 +742,11 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
             frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         on_exception_node_option_label.grid(row=3, column=0, sticky="w")
-        self.on_exception_node_menu = ttk.Combobox(
-            frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
+        self.on_exception_node_menu = NodeInputWidget(
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.on_exception_node,
         )
-
-        if self.node.on_exception_node:
-            for i, node in enumerate(self.parent.master.master.flow.nodes):
-                if node.uid == self.node.on_exception_node:
-                    self.on_exception_node_menu.current(i)
 
         self.on_exception_node_menu.grid(row=3, column=1, sticky="w")
 
@@ -848,14 +810,9 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
-        self.next_node_menu = ttk.Combobox(
-            frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
+        self.next_node_menu = NodeInputWidget(
+            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
-
-        if self.node.next_node:
-            for i, node in enumerate(self.parent.master.master.flow.nodes):
-                if node.uid == self.node.next_node:
-                    self.next_node_menu.current(i)
 
         self.next_node_menu.grid(row=2, column=1, sticky="w")
 
@@ -864,14 +821,11 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
             frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         on_exception_node_option_label.grid(row=3, column=0, sticky="w")
-        self.on_exception_node_menu = ttk.Combobox(
-            frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
+        self.on_exception_node_menu = NodeInputWidget(
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.on_exception_node,
         )
-
-        if self.node.on_exception_node:
-            for i, node in enumerate(self.parent.master.master.flow.nodes):
-                if node.uid == self.node.on_exception_node:
-                    self.on_exception_node_menu.current(i)
 
         self.on_exception_node_menu.grid(row=3, column=1, sticky="w")
 
@@ -972,42 +926,40 @@ class SubFlowNodePropsWindow(NodePropsWindow):
             frame, text=_("Flow path"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         subflow_path_label.grid(row=1, column=0, sticky="w")
-        self.subflow_path_entry = InputField(frame)
+        self.subflow_path_entry = FilePathInputWidget(
+            frame, value=self.node.subflow_path
+        )
         self.subflow_path_entry.grid(row=1, column=1, sticky="w")
 
-        # Pre-fill label
-        if self.node.subflow_path:
-            self.subflow_path_entry.insert(tk.END, self.node.subflow_path)
+        def edit():
+            self.parent.master.master.master.open_flow(
+                self.node.subflow_path.replace('"', "")
+            )
+
+        self.edit_subflow_button = Button(frame, text="Edit", command=edit)
+        self.edit_subflow_button.grid(row=1, column=2, sticky="w")
 
         # Next node selection
         next_node_option_label = tk.Label(
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
-        self.next_node_menu = ttk.Combobox(
-            frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
+        self.next_node_menu = NodeInputWidget(
+            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
-
-        if self.node.next_node:
-            for i, node in enumerate(self.parent.master.master.flow.nodes):
-                if node.uid == self.node.next_node:
-                    self.next_node_menu.current(i)
 
         self.next_node_menu.grid(row=2, column=1, sticky="w")
 
-        # Else node selection
+        # Exception node selection
         on_exception_node_option_label = tk.Label(
             frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         on_exception_node_option_label.grid(row=3, column=0, sticky="w")
-        self.on_exception_node_menu = ttk.Combobox(
-            frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
+        self.on_exception_node_menu = NodeInputWidget(
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.on_exception_node,
         )
-
-        if self.node.on_exception_node:
-            for i, node in enumerate(self.parent.master.master.flow.nodes):
-                if node.uid == self.node.else_node:
-                    self.on_exception_node_menu.current(i)
 
         self.on_exception_node_menu.grid(row=3, column=1, sticky="w")
 
@@ -1044,7 +996,7 @@ class ActionRecorderWindow(Window):
         super().__init__(parent, *args, **kwargs)
         self.withdraw()
 
-        self.title(_("AI Activity Select"))
+        self.title(_("Automagica Wand"))
 
         self.anchors = []
         self.anchor_images = []
@@ -1056,7 +1008,12 @@ class ActionRecorderWindow(Window):
         self.deiconify()
 
         self.attributes("-topmost", True)
-        self.grab_set()
+
+        try:
+            self.grab_set()
+        except:  # TODO: This does not work on Linux?
+            pass
+
         self.resizable(False, False)
 
     def create_layout(self):
@@ -1607,7 +1564,9 @@ class Notification(tk.Toplevel):
         self.message = message
 
         icon_path = os.path.join(
-            os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), ""),
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
             "icons",
             "trayicon.png",
         )
@@ -1811,6 +1770,8 @@ class FlowPlayerWindow(Window):
         autoclose=None,
         **kwargs
     ):
+        global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
+
         super().__init__(*args, **kwargs)
 
         self._configure_window()
@@ -1833,11 +1794,22 @@ class FlowPlayerWindow(Window):
         self.buttons_frame = self.create_buttons_frame()
         self.buttons_frame.pack(padx=5, pady=5)
 
+        self.autoplay = autoplay
+
         if autoplay:
             self.paused = False
             self.on_play_click()
 
         self.overrideredirect(True)
+
+        AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS += 1
+
+        self.protocol("WM_DELETE_WINDOW", self.on_close_window)
+
+    def on_close_window(self):
+        global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
+
+        AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS -= 1
 
     def update(self):
         self.n_nodes_ran += 1
@@ -1920,8 +1892,11 @@ class FlowPlayerWindow(Window):
         )
 
     def play(self, return_value="no_value"):
-        mouse_x = self.winfo_pointerx()
-        mouse_y = self.winfo_pointery()
+        try:
+            mouse_x = self.winfo_pointerx()
+            mouse_y = self.winfo_pointery()
+        except:  # TODO: If flow is stopped by user before this is called back, exception occurs
+            return
 
         if mouse_x == 0 and mouse_y == 0:
             self.on_pause_click()
@@ -1940,7 +1915,18 @@ class FlowPlayerWindow(Window):
                 if self.step_by_step:
                     self.on_pause_click()
 
-                self.current_node.run(self.bot, on_done=self.play)
+                if isinstance(self.current_node, SubFlowNode):
+                    FlowPlayerWindow(
+                        self,
+                        flow=Flow(self.current_node.subflow_path.replace('"', "")),
+                        bot=self.bot,
+                        autoplay=self.autoplay,
+                        step_by_step=self.step_by_step,
+                        on_close=self.play,
+                        autoclose=True,
+                    )
+                else:
+                    self.current_node.run(self.bot, on_done=self.play)
 
             else:
 
@@ -1958,6 +1944,10 @@ class FlowPlayerWindow(Window):
         if self.on_close:
             self.on_close()
 
+        global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
+
+        AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS -= 1
+
         self.destroy()
 
     def _configure_window(self):
@@ -1968,17 +1958,10 @@ class FlowPlayerWindow(Window):
         self.screen_width = self.winfo_screenwidth()
         self.screen_height = self.winfo_screenheight()
 
-        self._place_window(
-            self.screen_width - (self.winfo_reqwidth() + 60),
-            self.screen_height - (self.winfo_reqheight() + 20),
-        )
+        self.geometry("300x140")
+        self.geometry("-50-{}".format(50 + 140 * AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS))
 
         self.resizable(False, False)
-
-    def _place_window(self, x, y):
-        self.geometry("+{}+{}".format(x, y))
-        self.x = x
-        self.y = y
 
 
 class FlowValidationWindow(Window):

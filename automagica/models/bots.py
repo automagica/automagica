@@ -51,10 +51,15 @@ class ThreadedBot(Bot):
     def bot_thread(self, queue):
         from time import sleep
         from queue import Empty
-        import pythoncom
 
-        # Required for win32com
-        pythoncom.CoInitialize()
+        try:
+            import pythoncom
+
+            # Required for win32com
+            pythoncom.CoInitialize()
+
+        except:  # TODO: not very elegant way, but this is required for Linux/MacOSX as pythoncom obviously is not supported on those platforms
+            pass
 
         while True:
             try:
