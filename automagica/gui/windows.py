@@ -1789,7 +1789,7 @@ class FlowPlayerWindow(Window):
         self.n_nodes_ran = 0
 
         self.progress_frame = self.create_progress_frame()
-        self.progress_frame.pack(padx=5, pady=5)
+        self.progress_frame.pack(padx=5, pady=5, expand=True, fill="x")
 
         self.buttons_frame = self.create_buttons_frame()
         self.buttons_frame.pack(padx=5, pady=5)
@@ -1830,7 +1830,9 @@ class FlowPlayerWindow(Window):
     def create_progress_frame(self):
         frame = tk.Frame(self)
 
-        self.flow_label = tk.Label(frame, text=self.flow.name)
+        frame.configure(bg=self.cget("bg"))
+
+        self.flow_label = tk.Label(frame, text=self.flow.name, bg=self.cget("bg"))
         self.flow_label.pack()
 
         self.progress_bar = ttk.Progressbar(
@@ -1839,7 +1841,7 @@ class FlowPlayerWindow(Window):
         self.progress_bar.pack(fill="both", expand=True)
 
         self.current_node_label = tk.Label(
-            frame, text=_("No current activity"), fg=config.COLOR_11
+            frame, text=_("No current activity"), fg=config.COLOR_11, bg=self.cget("bg")
         )
         self.current_node_label.pack()
 
@@ -1849,6 +1851,7 @@ class FlowPlayerWindow(Window):
                 self.flow.get_node_by_uid(self.current_node.next_node)
             ),
             fg=config.COLOR_11,
+            bg=self.cget("bg"),
         )
         self.next_node_label.pack()
 
@@ -1856,6 +1859,8 @@ class FlowPlayerWindow(Window):
 
     def create_buttons_frame(self):
         frame = tk.Frame(self)
+
+        frame.configure(bg=self.cget("bg"))
 
         self.play_pause_button = Button(
             frame, text=_("Play"), command=self.on_play_click, bg=config.COLOR_7

@@ -783,7 +783,9 @@ class SidebarFrame(tk.Frame):
 
     def select_activity(self):
         selection_index = self.activities_list.curselection()
-        self.parent.master.add_activity(self.results[selection_index[0]])
+        
+        if selection_index:
+            self.parent.master.add_activity(self.results[selection_index[0]])
 
     def select_node(self):
         selection_index = self.nodes_list.curselection()
