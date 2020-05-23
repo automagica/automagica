@@ -9,7 +9,25 @@ from PIL import Image, ImageTk
 
 from automagica import config
 from automagica.config import _
-from ..models import (
+from automagica.gui.buttons import Button, HelpButton, LargeButton
+from automagica.gui.frames import (
+    ConsoleFrame,
+    FlowFrame,
+    LabelFrame,
+    SidebarFrame,
+    ToolbarFrame,
+)
+from automagica.gui.inputs import (
+    AutocompleteDropdown,
+    AutomagicaIdInputWidget,
+    BooleanInputWidget,
+    FilePathInputWidget,
+    InputField,
+    InputWidget,
+    KeycombinationEntry,
+    NodeInputWidget,
+)
+from automagica.models import (
     ActivityNode,
     DotPyFileNode,
     Flow,
@@ -17,19 +35,7 @@ from ..models import (
     SubFlowNode,
     ThreadedBot,
 )
-from ..models.keybinds import Keybind, KeybindsManager
-
-from .buttons import Button, HelpButton, LargeButton
-from .frames import ConsoleFrame, FlowFrame, LabelFrame, SidebarFrame, ToolbarFrame
-from .inputs import (
-    AutocompleteDropdown,
-    AutomagicaIdInputWidget,
-    FilePathInputWidget,
-    InputField,
-    InputWidget,
-    KeycombinationEntry,
-    NodeInputWidget,
-)
+from automagica.models.keybinds import Keybind, KeybindsManager
 
 AUTOMAGICA_NUMBER_OF_NOTIFICATIONS = 0
 AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS = 0
@@ -418,17 +424,41 @@ class ActivityNodePropsWindow(NodePropsWindow):
 
             elif name == "automagica_id":
                 self.args_inputs[name] = AutomagicaIdInputWidget(frame)
+
+            elif (
+                config.ACTIVITIES[self.node.activity]["args"][name].get("default")
+                == True
+                or config.ACTIVITIES[self.node.activity]["args"][name].get("default")
+                == False
+            ):
+                self.args_inputs[name] = BooleanInputWidget(
+                    frame,
+                    value=self.node.args_.get(
+                        name,
+                        config.ACTIVITIES[self.node.activity]["args"][name].get(
+                            "default"
+                        ),
+                    ),
+                )
             else:
-                self.args_inputs[name] = InputWidget(frame)
+                self.args_inputs[name] = InputWidget(
+                    frame,
+                    value=config.ACTIVITIES[self.node.activity]["args"][name].get(
+                        "default"
+                    ),
+                )
 
             self.args_inputs[name].grid(row=i, column=1, sticky="w", padx=3, pady=3)
 
             HelpButton(frame, message=arg.get("description", "")).grid(row=i, column=2)
 
-            if self.node.args_.get(name):
+            if self.node.args_.get(name) != None:
                 self.args_inputs[name]._set(self.node.args_[name])
 
-            elif config.ACTIVITIES[self.node.activity]["args"][name].get("default"):
+            elif (
+                config.ACTIVITIES[self.node.activity]["args"][name].get("default")
+                != None
+            ):
 
                 default = config.ACTIVITIES[self.node.activity]["args"][name].get(
                     "default"
@@ -720,12 +750,10 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
             frame, text=_(".py-file path"), bg=config.COLOR_4, fg=config.COLOR_11,
         )
         dotpyfile_path_label.grid(row=1, column=0, sticky="w")
-        self.dotpyfile_path_entry = FilePathInputWidget(frame)
+        self.dotpyfile_path_entry = FilePathInputWidget(
+            frame, value=self.node.dotpyfile_path
+        )
         self.dotpyfile_path_entry.grid(row=1, column=1, sticky="w")
-
-        # Pre-fill label
-        if self.node.dotpyfile_path:
-            self.dotpyfile_path_entry.insert(tk.END, self.node.dotpyfile_path)
 
         # Next node selection
         next_node_option_label = tk.Label(
@@ -922,14 +950,67 @@ class SubFlowNodePropsWindow(NodePropsWindow):
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Node Label
+        label_label = tk.Label(
+            frame, text=_("Label"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
+        label_label.grid(row=1, column=0, sticky="w")
+        self.label_entry = InputField(frame)
+        self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
+
+        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button.grid(row=1, column=2)
+
+        # Pre-fill label
+        if self.node.label:
+            self.label_entry.insert(tk.END, self.node.label)
+
+        # Iterator
+        iterator_label = tk.Label(
+            frame, text=_("Iterator"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
+        iterator_label.grid(row=2, column=0, sticky="w")
+        self.iterator_entry = InputField(frame)
+        self.iterator_entry.grid(row=2, column=1, sticky="ew", padx=3, pady=3)
+
+        help_button = HelpButton(
+            frame,
+            message=_("The subflow will be repeated for each element in the iterator."),
+        )
+        help_button.grid(row=2, column=2)
+
+        # Pre-fill iterator
+        if self.node.iterator:
+            self.iterator_entry.insert(tk.END, self.node.iterator)
+
+        # Iterator variable
+        iterator_variable_label = tk.Label(
+            frame, text=_("Iterator Variable"), bg=config.COLOR_4, fg=config.COLOR_11
+        )
+        iterator_variable_label.grid(row=3, column=0, sticky="w")
+        self.iterator_variable_entry = InputField(frame)
+        self.iterator_variable_entry.grid(row=3, column=1, sticky="ew", padx=3, pady=3)
+
+        help_button = HelpButton(
+            frame,
+            message=_(
+                "The name of the variable to use for each element in the iterator."
+            ),
+        )
+        help_button.grid(row=3, column=2)
+
+        # Pre-fill iterator
+        if self.node.iterator_variable:
+            self.iterator_variable_entry.insert(tk.END, self.node.iterator_variable)
+
+        # Node Label
         subflow_path_label = tk.Label(
             frame, text=_("Flow path"), bg=config.COLOR_4, fg=config.COLOR_11
         )
-        subflow_path_label.grid(row=1, column=0, sticky="w")
+        subflow_path_label.grid(row=4, column=0, sticky="w")
         self.subflow_path_entry = FilePathInputWidget(
             frame, value=self.node.subflow_path
         )
-        self.subflow_path_entry.grid(row=1, column=1, sticky="w")
+        self.subflow_path_entry.grid(row=4, column=1, sticky="w")
 
         def edit():
             self.parent.master.master.master.open_flow(
@@ -937,31 +1018,31 @@ class SubFlowNodePropsWindow(NodePropsWindow):
             )
 
         self.edit_subflow_button = Button(frame, text="Edit", command=edit)
-        self.edit_subflow_button.grid(row=1, column=2, sticky="w")
+        self.edit_subflow_button.grid(row=4, column=2, sticky="w")
 
         # Next node selection
         next_node_option_label = tk.Label(
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
-        next_node_option_label.grid(row=2, column=0, sticky="w")
+        next_node_option_label.grid(row=5, column=0, sticky="w")
         self.next_node_menu = NodeInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
 
-        self.next_node_menu.grid(row=2, column=1, sticky="w")
+        self.next_node_menu.grid(row=5, column=1, sticky="w")
 
         # Exception node selection
         on_exception_node_option_label = tk.Label(
             frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
-        on_exception_node_option_label.grid(row=3, column=0, sticky="w")
+        on_exception_node_option_label.grid(row=6, column=0, sticky="w")
         self.on_exception_node_menu = NodeInputWidget(
             frame,
             self.parent.master.master.flow.nodes,
             value=self.node.on_exception_node,
         )
 
-        self.on_exception_node_menu.grid(row=3, column=1, sticky="w")
+        self.on_exception_node_menu.grid(row=6, column=1, sticky="w")
 
         return frame
 
@@ -969,6 +1050,9 @@ class SubFlowNodePropsWindow(NodePropsWindow):
         self.node.next_node = self.next_node_menu.get()
         self.node.on_exception_node = self.on_exception_node_menu.get()
         self.node.subflow_path = self.subflow_path_entry.get()
+        self.node.label = self.label_entry.get()
+        self.node.iterator = self.iterator_entry.get()
+        self.node.iterator_variable = self.iterator_variable_entry.get()
 
         self.parent.draw()
 
@@ -1123,6 +1207,7 @@ class ActionRecorderWindow(Window):
         return image, factor
 
     def add_anchor(self):
+        from automagica.config import _
 
         anchor = select_rect(self.screenshot, info=_("Select an anchor on the screen"))
 
@@ -1391,7 +1476,15 @@ class TrayIcon(tk.Toplevel):
         self._configure()
         self._binds()
 
-        self.image_frame = self.create_image_frame("automagica/gui/icons/trayicon.png")
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "trayicon.png",
+        )
+
+        self.image_frame = self.create_image_frame(icon_path)
         self.image_frame.pack(expand=True, fill="both", padx=0, pady=0)
 
     def _configure(self):
@@ -1535,7 +1628,15 @@ class LoginWindow(Window):
 
         frame.configure(bg=config.COLOR_0)
 
-        self.logo_img_pil = Image.open("gui/icons/logo.png")
+        logo_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "logo.png",
+        )
+
+        self.logo_img_pil = Image.open(logo_path)
         self.logo_img = ImageTk.PhotoImage(image=self.logo_img_pil)
 
         logo_lbl = tk.Label(self, image=self.logo_img, bg=config.COLOR_0)
@@ -1811,6 +1912,12 @@ class FlowPlayerWindow(Window):
 
         AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS -= 1
 
+        self.destroy()
+
+        if not self.master.winfo_children():
+            # Close root application if no open windows
+            self.master.destroy()
+
     def update(self):
         self.n_nodes_ran += 1
         self.progress_bar["value"] = int(self.n_nodes_ran / self.total_nodes * 100)
@@ -1964,7 +2071,9 @@ class FlowPlayerWindow(Window):
         self.screen_height = self.winfo_screenheight()
 
         self.geometry("300x140")
-        self.geometry("-50-{}".format(50 + 140 * AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS))
+        self.geometry(
+            "-50-{}".format((10 + 140) * AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS + 50)
+        )
 
         self.resizable(False, False)
 

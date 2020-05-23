@@ -7,12 +7,8 @@ from PIL import ImageTk
 
 from automagica import config
 from automagica.config import _
-from automagica.models import Flow, ThreadedBot
-from automagica.models.bots import ConsoleHandler
-from automagica.config import _
-
-from .buttons import Button, HelpButton, LargeButton, ToolbarImageButton
-from .graphs import (
+from automagica.gui.buttons import Button, HelpButton, LargeButton, ToolbarImageButton
+from automagica.gui.graphs import (
     ActivityNodeGraph,
     CommentNodeGraph,
     ConnectorGraph,
@@ -23,7 +19,9 @@ from .graphs import (
     StartNodeGraph,
     SubFlowNodeGraph,
 )
-from .inputs import InputField
+from automagica.gui.inputs import InputField
+from automagica.models import Flow, ThreadedBot
+from automagica.models.bots import ConsoleHandler
 
 
 class LabelFrame(tk.LabelFrame):
@@ -609,6 +607,7 @@ class ToolbarFrame(tk.Frame):
             autoplay=True,
             step_by_step=False,
             on_close=on_close,
+            autoclose=True,
         )
 
 
@@ -783,7 +782,7 @@ class SidebarFrame(tk.Frame):
 
     def select_activity(self):
         selection_index = self.activities_list.curselection()
-        
+
         if selection_index:
             self.parent.master.add_activity(self.results[selection_index[0]])
 

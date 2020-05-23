@@ -5,11 +5,10 @@ from .utilities import all_activities
 
 ACTIVITIES = all_activities()
 
+
 """
 Localization
 """
-
-
 LOCALE = "en"
 localedir = os.path.join(
     os.path.dirname(

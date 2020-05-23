@@ -343,7 +343,7 @@ def generate_hash_from_text(text, method="md5"):
     if method == "sha256":
         return hashlib.sha256(encoded_text).hexdigest()
     if method == "blake2b":
-        return hashlib.balke2b(encoded_text).hexdigest()
+        return hashlib.blake2b(encoded_text).hexdigest()
 
 
 """
@@ -984,7 +984,10 @@ class Chrome(selenium.webdriver.Chrome):
 
         selenium.webdriver.Chrome.__init__(
             self,
-            os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), "") + chromedriver_path,
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            )
+            + chromedriver_path,
             chrome_options=chrome_options,
         )
 
@@ -1062,7 +1065,7 @@ class Chrome(selenium.webdriver.Chrome):
         >>> browser.browse_to('https://nytimes.com')
 
         Keywords
-            element, browse to, browse, surf, surf to, go to, get, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+            chrome, element, browse to, browse, surf, surf to, go to, get, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
 
         Icon
             lab la-chrome
@@ -1924,9 +1927,10 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01):
         location = detect_vision(automagica_id)
         x, y = get_center_of_rectangle(location)
 
-        from mouse import click
+        from mouse import click, move
 
-        click(x, y)
+        move(x, y)
+        click()
 
     if clear:
         press_key_combination("ctrl", "a")
@@ -5777,11 +5781,14 @@ def salesforce_api_call(action, key, parameters={}, method="get", data={}):
         lab la-salesforce
 
     """
+    import requests
+
     headers = {
         "Content-type": "application/json",
         "Accept-Encoding": "gzip",
         "Authorization": "Bearer " + key,
     }
+
     if method == "get":
         r = requests.request(
             method,

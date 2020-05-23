@@ -37,7 +37,7 @@ COPY . /code
 WORKDIR /code
 RUN pip3 install -e .
 
-# Set wallpaper
+# Set Automagica Wallpaper
 RUN mkdir ~/.fluxbox
 RUN touch ~/.fluxbox/overlay
 RUN echo "background: none" >> ~/.fluxbox/overlay

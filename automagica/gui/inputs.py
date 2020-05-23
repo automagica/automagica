@@ -1,10 +1,9 @@
 import tkinter as tk
-from tkinter import ttk
-from tkinter import font
+from tkinter import font, ttk
 
 from automagica import config
 from automagica.config import _
-from .buttons import Button
+from automagica.gui.buttons import Button
 
 
 class KeycombinationEntry(tk.Frame):
@@ -178,28 +177,28 @@ class BooleanInputWidget(tk.Frame):
     def __init__(self, parent, *args, value=None, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
+        self.variable = tk.IntVar(self)
         self.value = value
         self.layout()
 
     def layout(self):
-        self.checkbox = ttk.Checkbutton(self)
+        self.checkbox = ttk.Checkbutton(self, variable=self.variable)
         self.checkbox.pack(side="left")
 
-        if self.value:
+        if self.value != None:
             self._set(self.value)
 
     def get(self):
-        if self.checkbox.state():
+        if self.variable.get() == 1:
             return True
         else:
             return False
 
     def _set(self, value):
-        self.value = value
-        if self.value:
-            self.checkbox.state(["selected"])
+        if self.value == True:
+            self.variable.set(1)
         else:
-            self.checkbox.state(["!selected"])
+            self.variable.set(0)
 
 
 class AutomagicaIdInputWidget(tk.Frame):

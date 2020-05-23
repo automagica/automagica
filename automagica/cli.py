@@ -516,7 +516,10 @@ class Automagica:
         print("Automagica Configuration\n")
         print("You can find your User Secret and Bot Secret at {}".format(self.url))
 
-        portal_url = input("\nAutomagica Portal URL [{}]:")
+        portal_url = input("\nAutomagica Portal URL [{}]: ".format(self.url))
+
+        if portal_url:
+            self.config["portal_url"] = portal_url
 
         user_secret = input(
             "\nAutomagica User Secret [{}]: ".format(self.config.get("user_secret"))
@@ -590,9 +593,9 @@ def bot(headless=False):
 @cli.command("wand", help=_("Automagica Wand"))
 @click.pass_obj
 def wand(obj):
-    from .recorder import recorder
+    from .gui import RecorderWindow
 
-    recorder()
+    RecorderWindow()
 
 
 @cli.group(help=_("Automagica Lab"))
@@ -662,6 +665,7 @@ def flow_run(filename, headless, step_by_step):
     app = FlowApp(
         file_path=filename, run=True, headless=headless, step_by_step=step_by_step
     )
+    
     app.run()
 
 

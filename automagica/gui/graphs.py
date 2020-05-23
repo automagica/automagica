@@ -7,8 +7,6 @@ from PIL import ImageTk
 from automagica import config
 from automagica.config import _
 
-from .buttons import Button
-
 
 def generate_icon(icon_path, width=20, height=20, color="#ffffff"):
     from PIL import Image
@@ -395,9 +393,15 @@ class IfElseNodeGraph(NodeGraph):
         )
 
         # Icon
-        self.icon_img = ImageTk.PhotoImage(
-            generate_icon("gui/icons/question-circle-solid.png", color="#2196f3")
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "question-circle-solid.png",
         )
+
+        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#2196f3"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
@@ -483,9 +487,15 @@ class LoopNodeGraph(NodeGraph):
         )
 
         # Icon
-        self.icon_img = ImageTk.PhotoImage(
-            generate_icon("gui/icons/redo-alt-solid.png", color="#2196f3")
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "redo-alt-solid.png",
         )
+
+        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#2196f3"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
@@ -571,9 +581,15 @@ class DotPyFileNodeGraph(NodeGraph):
         )
 
         # Icon
-        self.icon_img = ImageTk.PhotoImage(
-            generate_icon("gui/icons/python.png", color="#2196f3")
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "python.png",
         )
+
+        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#2196f3"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
@@ -582,10 +598,15 @@ class DotPyFileNodeGraph(NodeGraph):
         )
 
         # Play button
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "play-solid.png",
+        )
         self.play_button_img = ImageTk.PhotoImage(
-            generate_icon(
-                "gui/icons/play-solid.png", color="#28a745", width=20, height=20
-            )
+            generate_icon(icon_path, color="#28a745", width=20, height=20)
         )
         self.play_button = self.parent.canvas.create_image(
             self.node.x + 3,
@@ -683,9 +704,14 @@ class PythonCodeNodeGraph(NodeGraph):
         )
 
         # Icon
-        self.icon_img = ImageTk.PhotoImage(
-            generate_icon("gui/icons/python.png", color="#2196f3")
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "python.png",
         )
+        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#2196f3"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
@@ -694,10 +720,15 @@ class PythonCodeNodeGraph(NodeGraph):
         )
 
         # Play button
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "play-solid.png",
+        )
         self.play_button_img = ImageTk.PhotoImage(
-            generate_icon(
-                "gui/icons/play-solid.png", color="#28a745", width=20, height=20
-            )
+            generate_icon(icon_path, color="#28a745", width=20, height=20)
         )
         self.play_button = self.parent.canvas.create_image(
             self.node.x + 3,
@@ -797,8 +828,15 @@ class CommentNodeGraph(NodeGraph):
         )
 
         # Icon
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "comment-alt.png",
+        )
         self.icon_img = ImageTk.PhotoImage(
-            generate_icon("gui/icons/comment-alt.png", color=config.COLOR_1)
+            generate_icon(icon_path, color=config.COLOR_1)
         )
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
@@ -851,6 +889,13 @@ class SubFlowNodeGraph(NodeGraph):
 
         self.draw()
 
+    @property
+    def text_label(self):
+        if self.node.label:
+            return self.node.label
+        else:
+            return "Sub-flow"
+
     def draw(self):
         # Create bounding rectangle
         self.rect = self.parent.canvas.create_rectangle(
@@ -868,7 +913,7 @@ class SubFlowNodeGraph(NodeGraph):
         self.label_text = self.parent.canvas.create_text(
             self.center_x,
             self.center_y,
-            text="Sub-flow",
+            text=self.text_label,
             tags=self.node.uid,
             fill=config.COLOR_0,
             font=(config.FONT, 10),
@@ -885,9 +930,14 @@ class SubFlowNodeGraph(NodeGraph):
         )
 
         # Icon
-        self.icon_img = ImageTk.PhotoImage(
-            generate_icon("gui/icons/project-diagram-solid.png", color="#2196f3")
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "project-diagram-solid.png",
         )
+        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#2196f3"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
@@ -896,10 +946,15 @@ class SubFlowNodeGraph(NodeGraph):
         )
 
         # Play button
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "play-solid.png",
+        )
         self.play_button_img = ImageTk.PhotoImage(
-            generate_icon(
-                "gui/icons/play-solid.png", color="#28a745", width=20, height=20
-            )
+            generate_icon(icon_path, color="#28a745", width=20, height=20)
         )
         self.play_button = self.parent.canvas.create_image(
             self.node.x + 3,

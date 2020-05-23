@@ -99,7 +99,7 @@ class ActivityNode(Node):
         return {
             "uid": self.uid,
             "x": self.x,
-            "y": self.y, 
+            "y": self.y,
             "type": self.__class__.__name__,
             "next_node": self.next_node,
             "label": self.label,
@@ -109,7 +109,11 @@ class ActivityNode(Node):
         }
 
     def run(self, bot, on_done=None):
-        args = [str(val) for key, val in self.args_.items() if key != "self"]
+        args = [
+            "{}={}".format(key, val)
+            for key, val in self.args_.items()
+            if key != "self" and val
+        ]
 
         command = "# {} ({})\n".format(self, self.uid)
 
@@ -122,13 +126,13 @@ class ActivityNode(Node):
             )  # from automagica.activities import Chrome
 
             if function_ == "__init__":
-                command += "{} = {}()\n".format(
-                    self.args_["self"], self.class_.capitalize()
+                command += "{} = {}({})\n".format(
+                    self.args_["self"], self.activity.split(".")[-2], ", ".join(args),
                 )  # chrome = Chrome()
 
             else:
                 command += "{}.{}({}, {})\n".format(
-                    self.class_.capitalize(),
+                    self.activity.split(".")[-2],
                     function_,
                     self.args_["self"],
                     ", ".join(args),
@@ -266,12 +270,21 @@ class CommentNode(Node):
 
 class SubFlowNode(Node):
     def __init__(
-        self, *args, subflow_path=None, next_node=None, on_exception_node=None, **kwargs
+        self,
+        *args,
+        subflow_path=None,
+        next_node=None,
+        on_exception_node=None,
+        iterator=None,
+        iterator_variable=None,
+        **kwargs,
     ):
         super().__init__(**kwargs)
         self.subflow_path = subflow_path
         self.next_node = next_node
         self.on_exception_node = on_exception_node
+        self.iterator = iterator
+        self.iterator_variable = iterator_variable
 
     def to_dict(self):
         return {
@@ -282,6 +295,8 @@ class SubFlowNode(Node):
             "next_node": self.next_node,
             "on_exception_node": self.on_exception_node,
             "subflow_path": self.subflow_path,
+            "iterator": self.iterator,
+            "iterator_variable": self.iterator_variable,
             "label": self.label,
         }
 

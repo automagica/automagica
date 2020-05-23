@@ -90,25 +90,6 @@ class TrayApp(tkinter.Tk):
         self.run = self.mainloop
 
 
-def style_button(button, font_size=10):
-    from tkinter import font
-
-    button.config(
-        fg="white",
-        bg="#1B97F3",
-        activebackground="#0069c0",
-        activeforeground="white",
-        borderwidth=0,
-        padx=5,
-        pady=5,
-    )
-
-    custom_font = font.Font(family="Helvetica", size=font_size)
-
-    button["font"] = custom_font
-
-    return button
-
 
 class RecorderWindow(tk.Tk):
     def __init__(self, width, height, resizable=False):
