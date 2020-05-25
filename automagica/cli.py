@@ -593,9 +593,8 @@ def bot(headless=False):
 @cli.command("wand", help=_("Automagica Wand"))
 @click.pass_obj
 def wand(obj):
-    from .gui import RecorderWindow
-
-    RecorderWindow()
+    # TODO: Standalone version of RecorderWindow
+    pass
 
 
 @cli.group(help=_("Automagica Lab"))

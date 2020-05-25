@@ -425,11 +425,8 @@ class ActivityNodePropsWindow(NodePropsWindow):
             elif name == "automagica_id":
                 self.args_inputs[name] = AutomagicaIdInputWidget(frame)
 
-            elif (
-                config.ACTIVITIES[self.node.activity]["args"][name].get("default")
-                == True
-                or config.ACTIVITIES[self.node.activity]["args"][name].get("default")
-                == False
+            elif isinstance(
+                config.ACTIVITIES[self.node.activity]["args"][name].get("default"), bool
             ):
                 self.args_inputs[name] = BooleanInputWidget(
                     frame,
@@ -1016,6 +1013,7 @@ class SubFlowNodePropsWindow(NodePropsWindow):
             self.parent.master.master.master.open_flow(
                 self.node.subflow_path.replace('"', "")
             )
+            self.close_window()
 
         self.edit_subflow_button = Button(frame, text="Edit", command=edit)
         self.edit_subflow_button.grid(row=4, column=2, sticky="w")
@@ -1046,14 +1044,7 @@ class SubFlowNodePropsWindow(NodePropsWindow):
 
         return frame
 
-    def save(self):
-        self.node.next_node = self.next_node_menu.get()
-        self.node.on_exception_node = self.on_exception_node_menu.get()
-        self.node.subflow_path = self.subflow_path_entry.get()
-        self.node.label = self.label_entry.get()
-        self.node.iterator = self.iterator_entry.get()
-        self.node.iterator_variable = self.iterator_variable_entry.get()
-
+    def close_window(self):
         self.parent.draw()
 
         # Release event
@@ -1062,6 +1053,16 @@ class SubFlowNodePropsWindow(NodePropsWindow):
         self.destroy()
 
         self.parent.update()
+
+    def save(self):
+        self.node.next_node = self.next_node_menu.get()
+        self.node.on_exception_node = self.on_exception_node_menu.get()
+        self.node.subflow_path = self.subflow_path_entry.get()
+        self.node.label = self.label_entry.get()
+        self.node.iterator = self.iterator_entry.get()
+        self.node.iterator_variable = self.iterator_variable_entry.get()
+
+        self.close_window()
 
 
 class ActionRecorderWindow(Window):
