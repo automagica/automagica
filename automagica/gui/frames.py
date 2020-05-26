@@ -7,18 +7,13 @@ from PIL import ImageTk
 
 from automagica import config
 from automagica.config import _
-from automagica.gui.buttons import Button, HelpButton, LargeButton, ToolbarImageButton
-from automagica.gui.graphs import (
-    ActivityNodeGraph,
-    CommentNodeGraph,
-    ConnectorGraph,
-    DotPyFileNodeGraph,
-    IfElseNodeGraph,
-    LoopNodeGraph,
-    PythonCodeNodeGraph,
-    StartNodeGraph,
-    SubFlowNodeGraph,
-)
+from automagica.gui.buttons import (Button, HelpButton, LargeButton,
+                                    ToolbarImageButton)
+from automagica.gui.graphs import (ActivityNodeGraph, CommentNodeGraph,
+                                   ConnectorGraph, DotPyFileNodeGraph,
+                                   IfElseNodeGraph, LoopNodeGraph,
+                                   PythonCodeNodeGraph, StartNodeGraph,
+                                   SubFlowNodeGraph)
 from automagica.gui.inputs import InputField
 from automagica.models import Flow, ThreadedBot
 from automagica.models.bots import ConsoleHandler
@@ -408,9 +403,6 @@ class ToolbarFrame(tk.Frame):
         # )
         # self.parent.master.bind("<F6>", lambda e: self.clicked_validate_button())
         # validate_button.pack(side="left", padx=5, pady=5)
-
-        empty_label = tk.Label(self, width=5, bg=config.COLOR_0)
-        empty_label.pack(side="left")
 
         actions_frame = ToolbarLabelFrame(
             self, text=_("Automagica Wand (Powered by AI)")

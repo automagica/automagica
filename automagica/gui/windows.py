@@ -1,45 +1,30 @@
 import json
 import os
 import tkinter as tk
-from logging import Logger
 from tkinter import ttk
 
-import keyboard
 from PIL import Image, ImageTk
 
 from automagica import config
 from automagica.config import _
 from automagica.gui.buttons import Button, HelpButton, LargeButton
-from automagica.gui.frames import (
-    ConsoleFrame,
-    FlowFrame,
-    LabelFrame,
-    SidebarFrame,
-    ToolbarFrame,
-)
+from automagica.gui.frames import (ConsoleFrame, FlowFrame, LabelFrame,
+                                   SidebarFrame, ToolbarFrame)
 from automagica.gui.inputs import (
-    AutocompleteDropdown,
-    AutomagicaIdInputWidget,
-    BooleanInputWidget,
-    FilePathInputWidget,
-    InputField,
-    InputWidget,
-    KeycombinationEntry,
-    NodeInputWidget,
-)
-from automagica.models import (
-    ActivityNode,
-    DotPyFileNode,
-    Flow,
-    StartNode,
-    SubFlowNode,
-    ThreadedBot,
-)
+    AutocompleteDropdown, AutomagicaIdInputWidget, BooleanInputWidget,
+    FilePathInputWidget, InputField, InputWidget, KeycombinationEntry,
+    NodeInputWidget)
+from automagica.models.bots import ThreadedBot
+from automagica.models.flow import Flow
 from automagica.models.keybinds import Keybind, KeybindsManager
+from automagica.models.nodes import (ActivityNode, DotPyFileNode, StartNode,
+                                     SubFlowNode)
 
+# Keep track of currently visible notifications (so they can stack)
 AUTOMAGICA_NUMBER_OF_NOTIFICATIONS = 0
-AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS = 0
 
+# Keep track of currently visible player windows (so they can stack)
+AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS = 0
 
 def center_window(window, w=None, h=None):
     window.update()
