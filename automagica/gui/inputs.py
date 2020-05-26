@@ -245,6 +245,7 @@ class AutocompleteDropdown(ttk.Combobox):
         self.pos = 0
 
         self.bind("<KeyRelease>", self.on_key_release)
+        self.bind("<FocusIn>", self.on_focus_in)
 
     def filter_values(self, delta=0):
         if delta:
@@ -287,6 +288,10 @@ class AutocompleteDropdown(ttk.Combobox):
 
         if len(event.keysym) == 1:
             self.filter_values()
+
+    def on_focus_in(self, event=None):
+        self.delete(0, tk.END)
+        self.pos = self.index(tk.END)
 
 
 class NodeInputWidget(tk.Frame):

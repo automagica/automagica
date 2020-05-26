@@ -84,6 +84,7 @@ class HelpButton(tk.Button):
             command=self.clicked,
             relief=tk.FLAT,
             bg=self.master.cget("bg"),
+            takefocus=False,
         )
 
     def clicked(self):

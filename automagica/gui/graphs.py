@@ -1213,6 +1213,20 @@ class ConnectorGraph:
 
         self.draw()
 
+        self.parent.canvas.tag_bind(self.line, "<Button-3>", self.right_click)
+
+    def right_click(self, event):
+        self.menu = tk.Menu(self.parent, tearoff=0)
+        self.menu.add_command(label=_("Delete"), command=self.delete_clicked)
+
+        try:
+            self.menu.tk_popup(event.x_root, event.y_root)
+        finally:
+            self.menu.grab_release()
+
+    def delete_clicked(self):
+        pass
+
     def draw(self):
         from_, to_ = shortest_distance(
             self.from_nodegraph.connector_points, self.to_nodegraph.connector_points

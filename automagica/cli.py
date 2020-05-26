@@ -8,7 +8,8 @@ from time import sleep
 
 import click
 
-from .config import _
+from automagica.config import _
+from automagica.gui import FlowApp
 
 __version__ = "3.0.0"
 
@@ -633,8 +634,6 @@ def flow():
 
 @flow.command("new", help=_("New Flow"))
 def flow_new():
-    from .gui import FlowApp
-
     app = FlowApp()
     app.run()
 
@@ -664,11 +663,11 @@ def flow_run(filename, headless, step_by_step):
     app = FlowApp(
         file_path=filename, run=True, headless=headless, step_by_step=step_by_step
     )
-    
+
     app.run()
 
 
 if __name__ == "__main__":
     cli(None)
 else:
-    from .activities import *
+    from automagica.activities import *
