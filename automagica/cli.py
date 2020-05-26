@@ -9,7 +9,7 @@ from time import sleep
 import click
 
 from automagica.config import _
-from automagica.gui import FlowApp
+from automagica.gui import FlowApp, TrayApp
 
 __version__ = "3.0.0"
 
@@ -585,8 +585,6 @@ def bot(headless=False):
     if headless:
         pass
     else:
-        from .gui import TrayApp
-
         app = TrayApp()
         app.run()
 
@@ -641,8 +639,6 @@ def flow_new():
 @flow.command("edit", help=_("Edit Flow"))
 @click.argument("filename")
 def flow_edit(filename):
-    from .gui import FlowApp
-
     app = FlowApp(file_path=filename)
     app.run()
 
@@ -658,8 +654,6 @@ def flow_edit(filename):
     help=_("Run Flow headless (without GUI)"),
 )
 def flow_run(filename, headless, step_by_step):
-    from .gui import FlowApp
-
     app = FlowApp(
         file_path=filename, run=True, headless=headless, step_by_step=step_by_step
     )

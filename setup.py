@@ -43,7 +43,6 @@ class InstallationWrapper(install):
 install_requires = [
     "requests==2.22.0",  # Apache 2.0 License
     "selenium==3.7.0",  # Apache 2.0 License
-    "pywinauto==0.6.5",  # BSD 3-Clause "New" or "Revised" License
     "openpyxl==2.4.8",  # MIT License
     "python-docx==0.8.6",  # MIT License
     "PyPDF2==1.26.0",  # BSD 3-Clause "New" or "Revised" License
@@ -53,9 +52,7 @@ install_requires = [
     "keyring==21.0.0",  # MIT License
     "cryptography==2.3.1",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
     "pyad==0.6.0",  # Apache 2.0 License
-    "plyer==1.4.0",  # MIT License
     "Pillow==7.0.0",  # PIL License (permissive),
-    "pyperclip==1.7.0",  # BSD License (BSD)
     "pysnmp==4.4.12",  # BSD 2-Clause "Simplified" License
     "pandas==1.0.0",  # BSD 3-Clause
     "mss==5.0.0",  # MIT License

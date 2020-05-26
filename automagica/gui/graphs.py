@@ -88,8 +88,12 @@ class NodeGraph:
 
     def right_click(self, event):
         self.menu = tk.Menu(self.parent, tearoff=0)
+
         self.menu.add_command(label=_("Delete"), command=self.delete_clicked)
         self.menu.add_command(label=_("Duplicate"), command=self.duplicate_clicked)
+        self.menu.add_command(
+            label=_("Group into Sub-flow"), command=self.duplicate_clicked
+        )
 
         try:
             self.menu.tk_popup(event.x_root, event.y_root)
@@ -97,7 +101,8 @@ class NodeGraph:
             self.menu.grab_release()
 
     def delete_clicked(self):
-        self.delete()
+        for i in self.parent.selection:
+            i.delete()
 
     def duplicate_clicked(self):
         pass
@@ -180,7 +185,6 @@ class NodeGraph:
                 outline=config.COLOR_0,
                 width=4,
             )
-            print(self.selection)
             self.selected = True
 
     def remove_selection(self):

@@ -3,14 +3,12 @@ import os
 import tkinter as tk
 from tkinter import font
 
-from .windows import FlowDesignerWindow, FlowPlayerWindow, TrayIcon
-from ..models.bots import ThreadedBot
-from ..models.flow import Flow
-
-import tkinter
+from automagica.gui.windows import FlowDesignerWindow, FlowPlayerWindow, TrayIcon
+from automagica.models.bots import ThreadedBot
+from automagica.models.flow import Flow
 
 
-class FlowApp(tkinter.Tk):
+class FlowApp(tk.Tk):
     def __init__(
         self,
         *args,
@@ -59,14 +57,19 @@ class FlowApp(tkinter.Tk):
         # Run sounds better, right?
         self.run = self.mainloop
 
+    def close_app(self):
+        self.bot.stop()
+        self.quit()
+        self.destroy()
+
     def new_flow(self):
-        _ = FlowDesignerWindow(self, bot=self.bot)
+        FlowDesignerWindow(self, bot=self.bot)
 
     def open_flow(self, file_path):
-        _ = FlowDesignerWindow(self, bot=self.bot, flow=Flow(file_path))
+        FlowDesignerWindow(self, bot=self.bot, flow=Flow(file_path))
 
     def run_flow(self, file_path, headless, step_by_step):
-        _ = FlowPlayerWindow(
+        FlowPlayerWindow(
             self,
             flow=Flow(file_path),
             bot=self.bot,
@@ -80,7 +83,7 @@ class FlowApp(tkinter.Tk):
         self.logger.exception(exception)
 
 
-class TrayApp(tkinter.Tk):
+class TrayApp(tk.Tk):
     def __init__(self, *args, bot=None, file_path=None, run=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.withdraw()
@@ -88,7 +91,6 @@ class TrayApp(tkinter.Tk):
 
         # Run sounds better :-)
         self.run = self.mainloop
-
 
 
 class RecorderWindow(tk.Tk):

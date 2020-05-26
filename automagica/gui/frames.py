@@ -210,6 +210,9 @@ class FlowFrame(tk.Frame):
 
         self.draw()
 
+    def delete_pressed(self, event):
+        print("pressed delete")
+
     def move_start(self, event):
         self.canvas.scan_mark(event.x, event.y)
 

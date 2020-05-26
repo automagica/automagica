@@ -41,6 +41,8 @@ class ThreadedBot(Bot):
         super().__init__(*args, **kwargs)
         self.interpreter = ModifiedInterpreter(locals=self.locals_)
 
+        self._running = True
+
         import queue
 
         self.command_queue = queue.Queue()
@@ -61,7 +63,7 @@ class ThreadedBot(Bot):
         except:  # TODO: not very elegant way, but this is required for Linux/MacOSX as pythoncom obviously is not supported on those platforms
             pass
 
-        while True:
+        while self._running:
             try:
                 command, on_done, return_value_when_done = queue.get(timeout=1)
             except Empty:
@@ -87,9 +89,12 @@ class ThreadedBot(Bot):
             sys.stdout = temp  # Redirect stdout to temp
 
             if return_value_when_done:
-                command = "AUTOMAGICA_RETURN_VALUE = (" + command + ")"
+                command = "AUTOMAGICA_RETURN_VALUE = ({})".format(command)
 
-            self.interpreter.runcode(command)
+            try:
+                self.interpreter.runcode(command)
+            except:
+                self.logger.error("Unknown error occured.")
 
             sys.stdout = old_stdout  # Redirect to old stdout
 
@@ -118,4 +123,4 @@ class ThreadedBot(Bot):
         self.command_queue.put((command, on_done, return_value_when_done))
 
     def stop(self):
-        pass
+        self._running = False

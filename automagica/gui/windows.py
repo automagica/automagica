@@ -93,7 +93,7 @@ class FlowDesignerWindow(tk.Toplevel):
 
         if not self.master.winfo_children():
             # Close root application if no open windows
-            self.master.destroy()
+            self.master.close_app()
 
     def _layout(self):
         fixed_frame = tk.Frame(self, height=150, bg=config.COLOR_0)
@@ -1936,7 +1936,7 @@ class FlowPlayerWindow(Window):
 
         if not self.master.winfo_children():
             # Close root application if no open windows
-            self.master.destroy()
+            self.master.close_window()
 
     def update(self):
         self.n_nodes_ran += 1
