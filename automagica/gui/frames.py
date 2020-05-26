@@ -192,6 +192,8 @@ class FlowFrame(tk.Frame):
 
         self.gridsize = 25
 
+        self.selection = []
+
         # Create canvas
         self.canvas = tk.Canvas(
             self, bg=config.COLOR_4, bd=0, highlightthickness=0, relief="ridge"
@@ -211,6 +213,11 @@ class FlowFrame(tk.Frame):
     def move_start(self, event):
         self.canvas.scan_mark(event.x, event.y)
 
+        for i in self.selection:
+            i.remove_selection()
+
+        self.selection = []
+
     def move_move(self, event):
         self.canvas.scan_dragto(event.x, event.y, gain=1)
 
@@ -223,13 +230,27 @@ class FlowFrame(tk.Frame):
         # Creates all vertical lines at intevals of 100
         for i in range(-10000, w, 25):
             self.canvas.create_line(
-                i, -10000, i, h, dash=(4, 2), tag="grid_line", fill=config.COLOR_9
+                i,
+                -10000,
+                i,
+                h,
+                dash=(4, 2),
+                tag="grid_line",
+                fill=config.COLOR_9,
+                tags="background",
             )
 
         # Creates all horizontal lines at intevals of 100
         for i in range(-10000, h, 25):
             self.canvas.create_line(
-                -10000, i, w, i, dash=(4, 2), tag="grid_line", fill=config.COLOR_9
+                -10000,
+                i,
+                w,
+                i,
+                dash=(4, 2),
+                tag="grid_line",
+                fill=config.COLOR_9,
+                tags="background",
             )
 
     def wheel(self, event):
@@ -556,7 +577,7 @@ class ToolbarFrame(tk.Frame):
     def clicked_save_button(self):
         if not self.master.master.flow.file_path:
             self.master.master.flow.file_path = tk.filedialog.asksaveasfilename(
-                defaultextension=".a8a"
+                defaultextension=".json"
             )
 
             if not self.master.master.flow.file_path:
@@ -572,7 +593,7 @@ class ToolbarFrame(tk.Frame):
         from tkinter import filedialog
 
         self.master.master.file_path = filedialog.asksaveasfilename(
-            defaultextension=".a8a"
+            defaultextension=".json"
         )
 
         if not self.master.master.file_path:
@@ -702,6 +723,9 @@ class SidebarFrame(tk.Frame):
         self.search_entry.pack(fill="x")
 
         self.activities_list = tk.Listbox(frame)
+        self.activities_list.bind(
+            "<B1-Leave>", lambda event: "break"
+        )  # Disable horizontal scroll
         self.activities_list.configure(
             bd=0,
             relief="flat",
@@ -751,6 +775,9 @@ class SidebarFrame(tk.Frame):
         self.nodes_label.pack()
 
         self.nodes_list = tk.Listbox(frame)
+        self.nodes_list.bind(
+            "<B1-Leave>", lambda event: "break"
+        )  # Disable horizontal scroll
         self.nodes_list.configure(
             bd=0,
             relief="flat",

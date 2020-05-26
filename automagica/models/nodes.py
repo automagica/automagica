@@ -112,7 +112,7 @@ class ActivityNode(Node):
         args = [
             "{}={}".format(key, val)
             for key, val in self.args_.items()
-            if key != "self" and val
+            if key != "self" and val != None
         ]
 
         command = "# {} ({})\n".format(self, self.uid)

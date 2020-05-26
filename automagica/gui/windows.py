@@ -247,16 +247,13 @@ class NodePropsWindow(Window):
 
         frame.configure(bg=config.COLOR_4)
 
-        save_button = Button(frame, text=_("Save"), command=self.save, underline=0)
+        save_button = Button(frame, text=_("Save"), command=self.save)
         save_button.configure(bg=config.COLOR_7)
         save_button.pack(side="right", padx=5, pady=5)
-        self.bind("<Alt-s>", lambda e: self.save())
+        self.bind("<Return>", lambda e: self.save())
 
-        cancel_button = Button(
-            frame, text=_("Cancel"), command=self.cancel, underline=0
-        )
+        cancel_button = Button(frame, text=_("Cancel"), command=self.cancel)
         cancel_button.pack(side="right", padx=5, pady=5)
-        self.bind("<Alt-c>", lambda e: self.cancel())
         self.bind("<Escape>", lambda e: self.cancel())
 
         remove_button = Button(
@@ -802,6 +799,28 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
 
         self.buttons_frame = self.create_buttons_frame()
         self.buttons_frame.pack(fill="x", padx=5, pady=5)
+
+    def create_buttons_frame(self):
+        frame = tk.Frame(self)
+
+        frame.configure(bg=config.COLOR_4)
+
+        save_button = Button(frame, text=_("Save"), command=self.save)
+        save_button.configure(bg=config.COLOR_7)
+        save_button.pack(side="right", padx=5, pady=5)
+
+        cancel_button = Button(frame, text=_("Cancel"), command=self.cancel)
+        cancel_button.pack(side="right", padx=5, pady=5)
+        self.bind("<Escape>", lambda e: self.cancel())
+
+        remove_button = Button(
+            frame, text=_("Remove"), command=self.remove, underline=0
+        )
+        remove_button.configure(bg=config.COLOR_6)
+        remove_button.pack(side="left", padx=5, pady=5)
+        self.bind("<Alt-r>", lambda e: self.remove())
+
+        return frame
 
     def create_node_frame(self):
         frame = LabelFrame(self, text="Node")

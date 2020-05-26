@@ -69,6 +69,12 @@ class NodeGraph:
         self.parent.canvas.tag_bind(self.node.uid, "<B1-Motion>", self.drag)
         self.parent.canvas.tag_bind(self.node.uid, "<ButtonPress-1>", self.mouse_down)
         self.parent.canvas.tag_bind(self.node.uid, "<ButtonRelease-1>", self.mouse_up)
+        self.parent.canvas.tag_bind(self.node.uid, "<Button-3>", self.right_click)
+
+        self.parent.canvas.tag_bind(
+            self.node.uid, "<Shift-1>", lambda x: self.select(shift=True)
+        )
+
         self.parent.canvas.tag_bind(
             self.node.uid, "<ButtonPress-2>", lambda e: self.delete()
         )
@@ -76,6 +82,25 @@ class NodeGraph:
         self.parent.canvas.tag_bind(
             self.node.uid, "<Double-Button-1>", self.double_clicked
         )
+
+        self.selected = False
+        self.selection = None
+
+    def right_click(self, event):
+        self.menu = tk.Menu(self.parent, tearoff=0)
+        self.menu.add_command(label=_("Delete"), command=self.delete_clicked)
+        self.menu.add_command(label=_("Duplicate"), command=self.duplicate_clicked)
+
+        try:
+            self.menu.tk_popup(event.x_root, event.y_root)
+        finally:
+            self.menu.grab_release()
+
+    def delete_clicked(self):
+        self.delete()
+
+    def duplicate_clicked(self):
+        pass
 
     @property
     def center_x(self):
@@ -96,6 +121,9 @@ class NodeGraph:
     def mouse_down(self, event):
         self.mouse_x = event.x
         self.mouse_y = event.y
+
+        self.select()
+        self.update()
 
     def mouse_up(self, event):
         self.node.x = round(self.node.x / self.parent.gridsize) * self.parent.gridsize
@@ -140,6 +168,39 @@ class NodeGraph:
     def remove_highlight(self):
         self.parent.canvas.delete(self.highlight)
         self.highlight = None
+
+    def add_selection(self):
+        if not self.selection:
+            self.selection = self.parent.canvas.create_rectangle(
+                self.node.x,
+                self.node.y,
+                self.node.x + self.w,
+                self.node.y + self.h,
+                tags=self.node.uid,
+                outline=config.COLOR_0,
+                width=4,
+            )
+            print(self.selection)
+            self.selected = True
+
+    def remove_selection(self):
+        self.parent.canvas.delete(self.selection)
+        self.selection = None
+        self.selected = False
+
+    def select(self, shift=False):
+        if not self.selected:
+
+            if shift:
+                if self not in self.parent.selection:
+                    self.parent.selection.append(self)
+
+            else:
+                for i in self.parent.selection:
+                    i.remove_selection()
+                self.parent.selection = [self]
+
+            self.add_selection()
 
 
 class StartNodeGraph(NodeGraph):
@@ -210,6 +271,16 @@ class StartNodeGraph(NodeGraph):
         self.parent.canvas.coords(
             self.icon, self.node.x + self.w - 10, self.node.y + 10
         )
+
+        # Selection
+        if self.selected:
+            self.parent.canvas.coords(
+                self.selection,
+                self.node.x,
+                self.node.y,
+                self.node.x + self.w,
+                self.node.y + self.h,
+            )
 
     def delete(self):
         self.parent.canvas.delete(self.rectangle)
@@ -319,7 +390,15 @@ class ActivityNodeGraph(NodeGraph):
     def run_click(self, event):
         self.add_highlight()
 
-        self.node.run(self.parent.master.master.bot, on_done=self.remove_highlight)
+        # Minimize window
+        self.parent.master.master.iconify()
+
+        def on_close():
+            # Resize original window
+            self.remove_highlight()
+            self.parent.master.master.deiconify()
+
+        self.node.run(self.parent.master.master.bot, on_done=on_close)
 
     def double_clicked(self, event):
         from .windows import ActivityNodePropsWindow
@@ -351,6 +430,16 @@ class ActivityNodeGraph(NodeGraph):
 
         # Play button
         self.parent.canvas.coords(self.play_button, self.node.x + 3, self.node.y + 3)
+
+        # Selection
+        if self.selected:
+            self.parent.canvas.coords(
+                self.selection,
+                self.node.x,
+                self.node.y,
+                self.node.x + self.w,
+                self.node.y + self.h,
+            )
 
 
 class IfElseNodeGraph(NodeGraph):
@@ -446,6 +535,16 @@ class IfElseNodeGraph(NodeGraph):
             self.icon, self.node.x + self.w - 10, self.node.y + 10
         )
 
+        # Selection
+        if self.selected:
+            self.parent.canvas.coords(
+                self.selection,
+                self.node.x,
+                self.node.y,
+                self.node.x + self.w,
+                self.node.y + self.h,
+            )
+
 
 class LoopNodeGraph(NodeGraph):
     def __init__(self, parent, node):
@@ -539,6 +638,16 @@ class LoopNodeGraph(NodeGraph):
         self.parent.canvas.coords(
             self.icon, self.node.x + self.w - 10, self.node.y + 10
         )
+
+        # Selection
+        if self.selected:
+            self.parent.canvas.coords(
+                self.selection,
+                self.node.x,
+                self.node.y,
+                self.node.x + self.w,
+                self.node.y + self.h,
+            )
 
 
 class DotPyFileNodeGraph(NodeGraph):
@@ -655,6 +764,16 @@ class DotPyFileNodeGraph(NodeGraph):
         self.parent.canvas.coords(
             self.icon, self.node.x + self.w - 10, self.node.y + 10
         )
+
+        # Selection
+        if self.selected:
+            self.parent.canvas.coords(
+                self.selection,
+                self.node.x,
+                self.node.y,
+                self.node.x + self.w,
+                self.node.y + self.h,
+            )
 
         # Play button
         self.parent.canvas.coords(self.play_button, self.node.x + 3, self.node.y + 3)
@@ -786,6 +905,16 @@ class PythonCodeNodeGraph(NodeGraph):
         # Play button
         self.parent.canvas.coords(self.play_button, self.node.x + 3, self.node.y + 3)
 
+        # Selection
+        if self.selected:
+            self.parent.canvas.coords(
+                self.selection,
+                self.node.x,
+                self.node.y,
+                self.node.x + self.w,
+                self.node.y + self.h,
+            )
+
 
 class CommentNodeGraph(NodeGraph):
     def __init__(self, parent, node):
@@ -881,6 +1010,16 @@ class CommentNodeGraph(NodeGraph):
         self.parent.canvas.coords(
             self.icon, self.node.x + self.w - 10, self.node.y + 10
         )
+
+        # Selection
+        if self.selected:
+            self.parent.canvas.coords(
+                self.selection,
+                self.node.x,
+                self.node.y,
+                self.node.x + self.w,
+                self.node.y + self.h,
+            )
 
 
 class SubFlowNodeGraph(NodeGraph):
@@ -1022,6 +1161,16 @@ class SubFlowNodeGraph(NodeGraph):
 
         # Play button
         self.parent.canvas.coords(self.play_button, self.node.x + 3, self.node.y + 3)
+
+        # Selection
+        if self.selected:
+            self.parent.canvas.coords(
+                self.selection,
+                self.node.x,
+                self.node.y,
+                self.node.x + self.w,
+                self.node.y + self.h,
+            )
 
 
 def distance(a, b):
