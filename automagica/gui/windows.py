@@ -13,7 +13,7 @@ from automagica.gui.frames import (ConsoleFrame, FlowFrame, LabelFrame,
 from automagica.gui.inputs import (
     AutocompleteDropdown, AutomagicaIdInputWidget, BooleanInputWidget,
     FilePathInputWidget, InputField, InputWidget, KeycombinationEntry,
-    NodeInputWidget)
+    NodeSelectionInputWidget)
 from automagica.models.bots import ThreadedBot
 from automagica.models.flow import Flow
 from automagica.models.keybinds import Keybind, KeybindsManager
@@ -319,7 +319,7 @@ class NodePropsWindow(Window):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
-        self.next_node_menu = NodeInputWidget(
+        self.next_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
         self.next_node_menu.grid(row=2, column=1, sticky="ew", padx=3, pady=3)
@@ -577,7 +577,7 @@ class IfElseNodePropsWindow(NodePropsWindow):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=3, column=0, sticky="w")
-        self.next_node_menu = NodeInputWidget(
+        self.next_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
 
@@ -593,7 +593,7 @@ class IfElseNodePropsWindow(NodePropsWindow):
             frame, text=_("Else Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         else_node_option_label.grid(row=4, column=0, sticky="w")
-        self.else_node_menu = NodeInputWidget(
+        self.else_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.else_node
         )
         self.else_node_menu.grid(row=4, column=1, sticky="ew", padx=3, pady=3)
@@ -663,7 +663,7 @@ class LoopNodePropsWindow(NodePropsWindow):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
-        self.next_node_menu = NodeInputWidget(
+        self.next_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
 
@@ -739,7 +739,7 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
-        self.next_node_menu = NodeInputWidget(
+        self.next_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
         self.next_node_menu.grid(row=2, column=1, sticky="w")
@@ -749,7 +749,7 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
             frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         on_exception_node_option_label.grid(row=3, column=0, sticky="w")
-        self.on_exception_node_menu = NodeInputWidget(
+        self.on_exception_node_menu = NodeSelectionInputWidget(
             frame,
             self.parent.master.master.flow.nodes,
             value=self.node.on_exception_node,
@@ -839,7 +839,7 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
-        self.next_node_menu = NodeInputWidget(
+        self.next_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
 
@@ -850,7 +850,7 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
             frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         on_exception_node_option_label.grid(row=3, column=0, sticky="w")
-        self.on_exception_node_menu = NodeInputWidget(
+        self.on_exception_node_menu = NodeSelectionInputWidget(
             frame,
             self.parent.master.master.flow.nodes,
             value=self.node.on_exception_node,
@@ -1027,7 +1027,7 @@ class SubFlowNodePropsWindow(NodePropsWindow):
             frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         next_node_option_label.grid(row=5, column=0, sticky="w")
-        self.next_node_menu = NodeInputWidget(
+        self.next_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
 
@@ -1038,7 +1038,7 @@ class SubFlowNodePropsWindow(NodePropsWindow):
             frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
         )
         on_exception_node_option_label.grid(row=6, column=0, sticky="w")
-        self.on_exception_node_menu = NodeInputWidget(
+        self.on_exception_node_menu = NodeSelectionInputWidget(
             frame,
             self.parent.master.master.flow.nodes,
             value=self.node.on_exception_node,

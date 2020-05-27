@@ -10,6 +10,10 @@ from automagica.gui.graphs import generate_icon
 
 
 class Button(tk.Button):
+    """
+    Default styled button
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -37,6 +41,10 @@ class Button(tk.Button):
 
 
 class LargeButton(Button):
+    """
+    Larger default button
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -48,6 +56,10 @@ class LargeButton(Button):
 
 
 class ToolbarImageButton(LargeButton):
+    """
+    Button with image, as used within the toolbar
+    """
+
     def __init__(self, *args, image_path="", **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -61,14 +73,24 @@ class ToolbarImageButton(LargeButton):
             generate_icon(icon_path, color=config.COLOR_1, width=15, height=15)
         )
 
+        # Override image and font size
         self.configure(font=(config.FONT, 8), image=self.icon_img, compound="top")
 
 
 class HelpButton(tk.Button):
-    def __init__(self, *args, message="", **kwargs):
+    """
+    Help button which shows a pop-up information message on clicking it. 
+    """
+
+    def __init__(self, *args, message="", title="", **kwargs):
         super().__init__(*args, **kwargs)
 
         self.message = message
+
+        if not title:
+            title = _("Information")
+
+        self.title = title
 
         base_path = os.path.abspath(__file__).replace(
             os.path.basename(os.path.realpath(__file__)), ""
@@ -81,11 +103,11 @@ class HelpButton(tk.Button):
 
         self.configure(
             image=self.icon_img,
-            command=self.clicked,
+            command=self.on_clicked,
             relief=tk.FLAT,
-            bg=self.master.cget("bg"),
-            takefocus=False,
+            bg=self.master.cget("bg"),  # Take parent's background
+            takefocus=False,  # Do not include in 'TAB'-ing
         )
 
-    def clicked(self):
-        messagebox.showinfo(_("Information"), self.message)
+    def on_clicked(self):
+        messagebox.showinfo(self.title, self.message)

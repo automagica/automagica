@@ -1,27 +1,38 @@
 import logging
 import os
 import tkinter as tk
-from tkinter import font
+from tkinter import font, scrolledtext, filedialog
 
 from PIL import ImageTk
 
 from automagica import config
 from automagica.config import _
-from automagica.gui.buttons import (Button, HelpButton, LargeButton,
-                                    ToolbarImageButton)
-from automagica.gui.graphs import (ActivityNodeGraph, CommentNodeGraph,
-                                   ConnectorGraph, DotPyFileNodeGraph,
-                                   IfElseNodeGraph, LoopNodeGraph,
-                                   PythonCodeNodeGraph, StartNodeGraph,
-                                   SubFlowNodeGraph)
+from automagica.gui.buttons import Button, HelpButton, LargeButton, ToolbarImageButton
+from automagica.gui.graphs import (
+    ActivityNodeGraph,
+    CommentNodeGraph,
+    ConnectorGraph,
+    DotPyFileNodeGraph,
+    IfElseNodeGraph,
+    LoopNodeGraph,
+    PythonCodeNodeGraph,
+    StartNodeGraph,
+    SubFlowNodeGraph,
+)
 from automagica.gui.inputs import InputField
 from automagica.models import Flow, ThreadedBot
 from automagica.models.bots import ConsoleHandler
 
 
 class LabelFrame(tk.LabelFrame):
+    """
+    Default styled LabelFrame
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        # Set default configuration
         self.configure(
             bd=0,
             font=(config.FONT, 10),
@@ -31,49 +42,84 @@ class LabelFrame(tk.LabelFrame):
             pady=5,
         )
 
+        # If overriding options are given, apply them
+        self.configure(**kwargs)
+
 
 class ToolbarLabelFrame(LabelFrame):
+    """
+    LabelFrame styled for the toolbar
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        # Adjusted font size, foreground and background colors and padding
         self.configure(
             font=(config.FONT, 8), fg=config.COLOR_1, bg=config.COLOR_0, padx=0, pady=0
         )
 
+        # If overriding options are given, apply them
+        self.configure(**kwargs)
+
 
 class ConsoleFrame(tk.Frame):
+    """
+    Interactive console frame
+    """
+
     def __init__(self, parent=None, bot=None, width=None, height=None):
-        tk.Frame.__init__(self, parent, width=width, height=height)
+        super().__init__(parent, width=width, height=height)
+
         self.parent = parent
+
+        # Have the bot closely availble
         self.bot = bot
 
-        self.command_buffer = []
+        # In this buffer we keep the previous commands
+        self.buffer = []
 
+        # Console frame
         self.console_frame = self.create_console_frame()
         self.console_frame.pack(fill="both", expand=True)
 
-        logger = logging.getLogger("automagica.bot")
-        logger.setLevel(logging.INFO)
+        # Buttons in upper-right corner
+        self.buttons_frame = self.create_buttons_frame()
+        self.buttons_frame.place(anchor="ne", relx=1, rely=0)
 
-        logger.addHandler(ConsoleHandler(self.write))
+        # Connect to the bot's logger
+        self.logger = logging.getLogger("automagica.bot")
+        self.logger.setLevel(logging.INFO)
+        self.logger.addHandler(ConsoleHandler(self.write))
 
-    def up(self, event):
+    def on_up_press(self, event):
+        """
+        When the user presses up in the command line box, the previous command should be prefilled in the command line box.
+        """
         command = self.command_entry.get()
 
-        if self.command_buffer:
+        # Only do something if we have a buffer
+        if self.buffer:
             try:
-                index = self.command_buffer.index(command)
+                index = self.buffer.index(command)
+
             except ValueError:
                 index = False
 
+            # Found an index?
             if index:
-                new_command = self.command_buffer[index - 1]
+                buffered = self.buffer[index - 1]
+
             else:
-                new_command = self.command_buffer[-1]
+                buffered = self.buffer[-1]
 
             self.command_entry.delete(0, tk.END)
-            self.command_entry.insert(0, new_command)
+            self.command_entry.insert(0, buffered)
 
     def create_console_frame(self):
+        """
+        Console frame
+        """
         frame = tk.Frame(self, bg=config.COLOR_4)
 
         self.command_entry = InputField(
@@ -81,10 +127,8 @@ class ConsoleFrame(tk.Frame):
         )
         self.command_entry.configure(font=("TkFixedFont"))
 
-        self.command_entry.bind("<Return>", self.enter)
-        self.command_entry.bind("<Up>", self.up)
-
-        from tkinter import scrolledtext
+        self.command_entry.bind("<Return>", self.on_enter_pressed)
+        self.command_entry.bind("<Up>", self.on_up_press)
 
         self.console_text = scrolledtext.ScrolledText(
             frame,
@@ -109,61 +153,69 @@ class ConsoleFrame(tk.Frame):
         self.console_text.configure(font="TkFixedFont", state="disabled")
         self.console_text.tag_config("error", foreground="red")
 
-        button_frame = tk.Frame(frame, bg=config.COLOR_4)
+        self.line_start = 0
+
+        return frame
+
+    def create_buttons_frame(self):
+        """
+        Buttons frame
+        """
+        frame = tk.Frame(self, bg=config.COLOR_4)
 
         self.reset_bot_button = Button(
-            button_frame, text=_("Reset Bot"), command=self.on_reset_bot_click
+            frame, text=_("Reset Bot"), command=self.on_reset_bot_clicked
         )
         self.reset_bot_button.configure(font=("Helvetica", 8))
         self.reset_bot_button.pack(side="left")
 
         self.clear_button = Button(
-            button_frame, text=_("Clear Output"), command=self.on_clear_click
+            frame, text=_("Clear Output"), command=self.on_clear_clicked
         )
         self.clear_button.configure(font=("Helvetica", 8))
         self.clear_button.pack(side="left", padx=5)
 
         self.open_variable_explorer_button = Button(
-            button_frame,
+            frame,
             text=_("Variable Explorer"),
-            command=self.on_open_variable_explorer_click,
+            command=self.on_open_variable_explorer_clicked,
         )
         self.open_variable_explorer_button.configure(font=("Helvetica", 8))
         self.open_variable_explorer_button.pack(side="left")
 
-        button_frame.place(anchor="ne", relx=1, rely=0)
-
-        self.line_start = 0
-
         return frame
 
-    def on_open_variable_explorer_click(self):
-        from .windows import VariableExplorerWindow
+    def on_open_variable_explorer_clicked(self):
+        from .windows import VariableExplorerWindow  # To avoid circular imports
 
         VariableExplorerWindow(self, bot=self.bot)
 
-    def on_reset_bot_click(self):
+    def on_reset_bot_clicked(self):
         self.bot.reset()
 
-    def on_clear_click(self):
+    def on_clear_clicked(self):
         self.console_text.configure(state="normal")
         self.console_text.delete("1.0", tk.END)
         self.console_text.configure(state="disabled")
 
     def destroy(self):
+        # TODO: check why this code is needed
         self.bot.stop()
         self.console_text.destroy()
         tk.Frame.destroy(self)
 
-    def enter(self, e):
+    def on_enter_pressed(self, e):
         command = self.command_entry.get()
-        self.command_buffer.append(command)
+        self.buffer.append(command)
 
         self.line_start += len(command)
         self.bot.run(command)
         self.command_entry.delete(0, tk.END)
 
     def write(self, record):
+        """
+        Write to the console itself
+        """
         self.console_text.configure(state="normal")
 
         if record.levelname == "ERROR":
@@ -176,6 +228,10 @@ class ConsoleFrame(tk.Frame):
 
 
 class FlowFrame(tk.Frame):
+    """
+    Flow design frame
+    """
+
     def __init__(self, parent, flow, height=None, width=None):
         super().__init__(parent, height=height, width=width)
 
@@ -183,8 +239,11 @@ class FlowFrame(tk.Frame):
         self.width = width
         self.height = height
         self.flow = flow
+
+        # Scrolling scale
         self.delta = 0.75
 
+        # Size of the grid
         self.gridsize = 25
 
         self.selection = []
@@ -194,6 +253,7 @@ class FlowFrame(tk.Frame):
             self, bg=config.COLOR_4, bd=0, highlightthickness=0, relief="ridge"
         )
 
+        # TODO: add scrolling feature (currently disabled)
         # # Windows/MacOSX
         # self.canvas.bind("<MouseWheel>", self.wheel)
 
@@ -206,6 +266,7 @@ class FlowFrame(tk.Frame):
         self.draw()
 
     def delete_pressed(self, event):
+        # TODO: find out how to detect keypress of delete in canvas, should probably be binded at app/parent level?
         print("pressed delete")
 
     def move_start(self, event):
@@ -251,7 +312,10 @@ class FlowFrame(tk.Frame):
                 tags="background",
             )
 
-    def wheel(self, event):
+    def on_mouse_wheel(self, event):
+        """
+        Scroll to zoom
+        """
         scale = 1.0
 
         # Linux
@@ -269,19 +333,33 @@ class FlowFrame(tk.Frame):
         self.canvas.scale("all", x, y, scale, scale)
 
     def clear(self):
+        """
+        Clear the design area
+        """
         self.canvas.delete("all")
 
     def _get_node_graph_by_node(self, node):
+        """
+        Utility function
+        TODO: clean-up/move, this should not be the responsibility of the GUI to manage perhaps?
+        """
         for graph in self.graphs:
             if graph.node == node:
                 return graph
 
     def draw(self):
+        """
+        Main draw function that gets called every time
+        TODO: if performance is sub-par, this is the place to look.
+        """
         self.clear()
 
         self.graphs = []
         self.connectors = []
 
+        # Make a very very large background object, which can be bound to later
+        # This is necessary as the canvas background by default can not be bound to
+        # TODO: check for better way to do this?
         self.background = self.canvas.create_rectangle(
             -10000,
             -10000,
@@ -294,6 +372,7 @@ class FlowFrame(tk.Frame):
 
         self.create_grid()
 
+        # Keybinds to the background
         self.canvas.tag_bind("background", "<ButtonPress-1>", self.move_start)
         self.canvas.tag_bind("background", "<B1-Motion>", self.move_move)
 
@@ -301,7 +380,7 @@ class FlowFrame(tk.Frame):
             graph = eval(
                 "{class_name}Graph(self, node)".format(
                     class_name=node.__class__.__name__
-                )
+                )  # TODO: perhaps eval() can be eliminated
             )
             node.graph = graph
 
@@ -322,15 +401,27 @@ class FlowFrame(tk.Frame):
         self.set_canvas_layers()
 
     def set_canvas_layers(self):
+        """
+        Set background to lowest layer
+        """
         self.canvas.tag_lower("background")
         # self.canvas.tag_lower("arrows")
 
     def update_connectors(self):
+        """
+        Redraw connectors only
+        """
+
         for connector in self.connectors:
             connector.update()
+
         self.set_canvas_layers()
 
     def add_node_graph(self, node):
+        """
+        Add a node graph
+        """
+        # TODO: perhaps eval() can be eliminated here
         graph = eval("{}Graph(self, node)".format(node.__class__.__name__))
         graph.update()
 
@@ -342,6 +433,10 @@ class FlowFrame(tk.Frame):
 
 
 class ToolbarFrame(tk.Frame):
+    """
+    Toolbar frame
+    """
+
     def __init__(self, parent, height=None, width=None):
         super().__init__(parent, height=height, width=width)
 
@@ -538,7 +633,10 @@ class ToolbarFrame(tk.Frame):
         FlowValidationWindow(self, self.parent.master.flow)
 
     def clicked_open_button(self):
-        from tkinter import filedialog
+        """
+        Open file
+        """
+        from .windows import Notification
 
         file_path = filedialog.askopenfilename(
             initialdir="./",
@@ -565,11 +663,14 @@ class ToolbarFrame(tk.Frame):
         # Render flow
         self.parent.master.flow_frame.draw()
 
-        from .windows import Notification
-
         Notification(self, _("Flow opened."))
 
     def clicked_save_button(self):
+        """
+        Save file
+        """
+        from .windows import Notification
+
         if not self.master.master.flow.file_path:
             self.master.master.flow.file_path = tk.filedialog.asksaveasfilename(
                 defaultextension=".json"
@@ -580,12 +681,13 @@ class ToolbarFrame(tk.Frame):
 
         self.master.master.flow.save(self.master.master.flow.file_path)
 
-        from .windows import Notification
-
         Notification(self, _("Saved flow."))
 
     def clicked_save_as_button(self):
-        from tkinter import filedialog
+        """
+        Save as file
+        """
+        from .windows import Notification
 
         self.master.master.file_path = filedialog.asksaveasfilename(
             defaultextension=".json"
@@ -601,11 +703,12 @@ class ToolbarFrame(tk.Frame):
             "{} - Automagica Flow".format(self.master.master.file_path)
         )
 
-        from .windows import Notification
-
         Notification(self, "Saved flow.")
 
     def clicked_run_button(self):
+        """
+        Run all
+        """
         from .windows import Notification, FlowPlayerWindow
 
         # Minimize window
@@ -628,8 +731,13 @@ class ToolbarFrame(tk.Frame):
 
 
 class SidebarFrame(tk.Frame):
+    """
+    Sidebar frame
+    """
+
     def __init__(self, parent, height=None, width=None):
         super().__init__(parent, height=height, width=width)
+
         self.parent = parent
 
         self.configure(bg=config.COLOR_4,)
@@ -638,31 +746,32 @@ class SidebarFrame(tk.Frame):
         self.activities_frame = self.create_activities_frame()
         self.activities_frame.place(relx=0, rely=0, relheight=0.65, relwidth=1)
 
-        help_button = HelpButton(
+        HelpButton(
             self,
             message=_(
                 "Activities are t he basic building blocks of Automagica. By tieing activities together, you get a Flow."
             ),
-        )
-        help_button.place(relx=1, rely=0, anchor="ne")
+        ).place(relx=1, rely=0, anchor="ne")
 
         # Nodes
         self.nodes_frame = self.create_nodes_frame()
         self.nodes_frame.place(relx=0, rely=0.65, relheight=0.25, relwidth=1)
 
-        help_button = HelpButton(
+        HelpButton(
             self,
             message=_(
                 "Special nodes allow you to control the way the Flow runs. It also allows you to extend the capabilities of your Flow beyond the activities that Automagica has to offer."
             ),
-        )
-        help_button.place(relx=1, rely=0.65, anchor="ne")
+        ).place(relx=1, rely=0.65, anchor="ne")
 
         # Instructions
         self.instructions_frame = self.create_instructions_frame()
         self.instructions_frame.place(relx=0, rely=0.9, relheight=0.1, relwidth=1)
 
     def create_instructions_frame(self):
+        """
+        Instructions frame
+        """
         frame = tk.Frame(self, bg=config.COLOR_4)
 
         self.instructions_label = tk.Label(
@@ -691,6 +800,9 @@ class SidebarFrame(tk.Frame):
         return frame
 
     def create_activities_frame(self):
+        """
+        Activities frame
+        """
         frame = tk.Frame(self, bg=config.COLOR_4)
 
         self.results = []
@@ -720,7 +832,8 @@ class SidebarFrame(tk.Frame):
         self.activities_list = tk.Listbox(frame)
         self.activities_list.bind(
             "<B1-Leave>", lambda event: "break"
-        )  # Disable horizontal scroll
+        )  # Disable horizontal scrollling
+
         self.activities_list.configure(
             bd=0,
             relief="flat",
@@ -755,7 +868,11 @@ class SidebarFrame(tk.Frame):
         return frame
 
     def create_nodes_frame(self):
+        """
+        Nodes frame
+        """
         frame = tk.Frame(self, bg=config.COLOR_4)
+
         from automagica.config import _
 
         self.nodes_label = tk.Label(
@@ -772,7 +889,7 @@ class SidebarFrame(tk.Frame):
         self.nodes_list = tk.Listbox(frame)
         self.nodes_list.bind(
             "<B1-Leave>", lambda event: "break"
-        )  # Disable horizontal scroll
+        )  # Disable horizontal scrollling
         self.nodes_list.configure(
             bd=0,
             relief="flat",
@@ -784,6 +901,7 @@ class SidebarFrame(tk.Frame):
             activestyle="none",
         )
 
+        # TODO: This should be put elsewhere
         self.node_types = [
             ("Start", _("Start")),
             ("IfElse", _("If Else")),
@@ -805,15 +923,22 @@ class SidebarFrame(tk.Frame):
     def select_activity(self):
         selection_index = self.activities_list.curselection()
 
-        if selection_index:
+        if selection_index:  # Fix sometimes empty value for selection index
             self.parent.master.add_activity(self.results[selection_index[0]])
 
     def select_node(self):
         selection_index = self.nodes_list.curselection()
-        self.parent.master.add_node(self.node_types[selection_index[0]][0])
+
+        if selection_index:  # Fix sometimes empty value for selection index
+            self.parent.master.add_node(self.node_types[selection_index[0]][0])
 
     def search_activities(self, *args):
+        """
+        Search for activities by their keywords, name or description
+        """
         query = self.search_entry.get()
+
+        # Clean query
         query = query.strip()
         query = query.lower()
 
@@ -822,7 +947,11 @@ class SidebarFrame(tk.Frame):
 
         for key, val in config.ACTIVITIES.items():
             if (
-                any([query in keyword.lower() for keyword in val["keywords"]])
+                any(
+                    [query in keyword.lower() for keyword in val["keywords"]]
+                )  # Matches keywords
+                or query in val["name"].lower()  # Matches name
+                or query in val["description"].lower()  # Matches description
                 or query == _("Search activities...").lower()
             ):
 

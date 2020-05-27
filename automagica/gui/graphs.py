@@ -2,18 +2,22 @@ import os
 import tkinter as tk
 from tkinter import font, ttk
 
-from PIL import ImageTk
+from PIL import Image, ImageTk
 
 from automagica import config
 from automagica.config import _
 
 
 def generate_icon(icon_path, width=20, height=20, color="#ffffff"):
-    from PIL import Image
+    """
+    Generates icon from a PNG in any specific color
+    """
 
     color = tuple(int(color.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
 
+    # TODO: remove hard-coded automagica path
     img = Image.open(os.path.join("automagica", icon_path)).resize((width, height))
+
     data = img.load()
 
     for x in range(img.size[0]):
@@ -25,7 +29,13 @@ def generate_icon(icon_path, width=20, height=20, color="#ffffff"):
 
 
 def center_window(window, w=None, h=None):
+    """
+    Center a tkinter.Window on the screen or relative to its parent window
+    """
+    # Required, update to get the height/width properties correctly
     window.update()
+
+    # Hide window
     window.withdraw()
 
     if not w:
@@ -34,6 +44,11 @@ def center_window(window, w=None, h=None):
     if not h:
         h = window.winfo_height()
 
+    # If the window has a parent window, use the parent's window coordinates
+    # to position the window relatively to it's parent.
+    # This is required as for example on a large screen, the parent window might
+    # not be positioned in the center of the screen, and this part will
+    # use the parent's geometry.
     if window.master:
         master_w = window.master.winfo_width()
         master_h = window.master.winfo_height()
@@ -44,6 +59,7 @@ def center_window(window, w=None, h=None):
         x = int((master_w / 2) - (w / 2)) + master_x
         y = int((master_h / 2) - (h / 2)) + master_y
 
+    # The window does not have a parent window
     else:
         sw = window.winfo_screenwidth()
         sh = window.winfo_screenheight()
@@ -51,86 +67,153 @@ def center_window(window, w=None, h=None):
         x = int((sw / 2) - (w / 2))
         y = int((sh / 2) - (h / 2))
 
+    # Adjust window geometry (positioning)
     window.geometry("{}x{}+{}+{}".format(w, h, x, y))
 
+    # Update the window
     window.update()
+
+    # Show the window
     window.deiconify()
 
 
+def distance(a, b):
+    """
+    Calculate the distance between 2d coordinates
+    """
+    import math
+
+    return math.sqrt(((a[0] - b[0]) ** 2) + ((a[1] - b[1]) ** 2))
+
+
+def shortest_distance(from_coords, to_coords):
+    """
+    Find coordinates between two lists that have the shortest distance
+    """
+    distances = []
+
+    for to_coord in to_coords:
+        for from_coord in from_coords:
+            distances.append((distance(to_coord, from_coord), from_coord, to_coord))
+
+    distances.sort(key=lambda x: x[0])
+
+    return distances[0][1], distances[0][2]
+
+
 class NodeGraph:
+    """
+    Basic graphical representation of a node. Should not be used directly but through one of its child classes.
+    """
+
     def __init__(self, parent, node):
         self.parent = parent
         self.node = node
         self.mouse_x = self.mouse_y = None
 
+        # TODO: remove hard-coded sizes and make relative to parent?
         self.w = 125
         self.h = 75
 
+        # Keybinds
         self.parent.canvas.tag_bind(self.node.uid, "<B1-Motion>", self.drag)
-        self.parent.canvas.tag_bind(self.node.uid, "<ButtonPress-1>", self.mouse_down)
-        self.parent.canvas.tag_bind(self.node.uid, "<ButtonRelease-1>", self.mouse_up)
-        self.parent.canvas.tag_bind(self.node.uid, "<Button-3>", self.right_click)
-
+        self.parent.canvas.tag_bind(
+            self.node.uid, "<ButtonPress-1>", self.on_mouse_down
+        )
+        self.parent.canvas.tag_bind(
+            self.node.uid, "<ButtonRelease-1>", self.on_mouse_up
+        )
+        self.parent.canvas.tag_bind(
+            self.node.uid, "<Button-3>", self.on_right_click
+        )  # TODO: Button3 is not always right click on every operating system
         self.parent.canvas.tag_bind(
             self.node.uid, "<Shift-1>", lambda x: self.select(shift=True)
         )
-
         self.parent.canvas.tag_bind(
             self.node.uid, "<ButtonPress-2>", lambda e: self.delete()
         )
-
         self.parent.canvas.tag_bind(
             self.node.uid, "<Double-Button-1>", self.double_clicked
         )
 
+        # Keep track whether the node is selected or not
         self.selected = False
         self.selection = None
 
-    def right_click(self, event):
+    def on_right_click(self, event):
+        """
+        Show menu on right-click
+        """
+
+        # Create a menu
         self.menu = tk.Menu(self.parent, tearoff=0)
 
-        self.menu.add_command(label=_("Delete"), command=self.delete_clicked)
-        self.menu.add_command(label=_("Duplicate"), command=self.duplicate_clicked)
+        # Add menu items
+        self.menu.add_command(label=_("Delete"), command=self.on_delete_clicked)
+        self.menu.add_command(label=_("Duplicate"), command=self.on_duplicate_clicked)
         self.menu.add_command(
-            label=_("Group into Sub-flow"), command=self.duplicate_clicked
+            label=_("Group into Sub-flow"), command=self.on_duplicate_clicked
         )
 
+        # If pop-up cannot be shown for some reason, release control to the parent
         try:
             self.menu.tk_popup(event.x_root, event.y_root)
         finally:
             self.menu.grab_release()
 
-    def delete_clicked(self):
+    def on_delete_clicked(self):
+        """
+        Delete all selected items
+        """
         for i in self.parent.selection:
             i.delete()
 
-    def duplicate_clicked(self):
+    def on_duplicate_clicked(self):
+        """
+        Duplicate all selected items
+        """
         pass
 
     @property
     def center_x(self):
+        """
+        Center of the node (x-coordinate)
+        """
         return self.node.x + self.w / 2
 
     @property
     def center_y(self):
+        """
+        Center of the node (y-coordinate)
+        """
         return self.node.y + self.h / 2
 
     @property
     def connector_points(self):
+        """
+        Points where connectors can be located
+        """
         top_center = (self.center_x, self.node.y)
         left_center = (self.node.x, self.center_y)
         right_center = (self.node.x + self.w, self.center_y)
         bottom_center = (self.center_x, self.node.y + self.h)
+
         return [top_center, left_center, right_center, bottom_center]
 
-    def mouse_down(self, event):
+    def on_mouse_down(self, event):
+        """
+        Start dragging
+        """
         self.mouse_x = event.x
         self.mouse_y = event.y
 
         self.select()
         self.update()
 
-    def mouse_up(self, event):
+    def on_mouse_up(self, event):
+        """
+        Stop dragging
+        """
         self.node.x = round(self.node.x / self.parent.gridsize) * self.parent.gridsize
         self.node.y = round(self.node.y / self.parent.gridsize) * self.parent.gridsize
 
@@ -138,6 +221,9 @@ class NodeGraph:
         self.parent.update_connectors()
 
     def drag(self, event):
+        """
+        Dragging itself
+        """
         self.node.x = self.node.x + (event.x - self.mouse_x)
         self.node.y = self.node.y + (event.y - self.mouse_y)
 
@@ -160,6 +246,9 @@ class NodeGraph:
         raise NotImplementedError
 
     def add_highlight(self):
+        """
+        Show highlight border
+        """
         self.highlight = self.parent.canvas.create_rectangle(
             self.node.x,
             self.node.y,
@@ -171,10 +260,13 @@ class NodeGraph:
         )
 
     def remove_highlight(self):
+        """
+        Remove highlight border
+        """
         self.parent.canvas.delete(self.highlight)
         self.highlight = None
 
-    def add_selection(self):
+    def add_to_selection(self):
         if not self.selection:
             self.selection = self.parent.canvas.create_rectangle(
                 self.node.x,
@@ -204,10 +296,14 @@ class NodeGraph:
                     i.remove_selection()
                 self.parent.selection = [self]
 
-            self.add_selection()
+            self.add_to_selection()
 
 
 class StartNodeGraph(NodeGraph):
+    """
+    Graphical representation for a Start node
+    """
+
     def __init__(self, parent, node):
         super().__init__(parent, node)
 
@@ -296,6 +392,10 @@ class StartNodeGraph(NodeGraph):
 
 
 class ActivityNodeGraph(NodeGraph):
+    """
+    Graphical representation for an Activity node
+    """
+
     def __init__(self, parent, node):
         super().__init__(parent, node)
 
@@ -447,6 +547,10 @@ class ActivityNodeGraph(NodeGraph):
 
 
 class IfElseNodeGraph(NodeGraph):
+    """
+    Graphical representation for an If Else node 
+    """
+
     def __init__(self, parent, node):
         super().__init__(parent, node)
 
@@ -551,6 +655,10 @@ class IfElseNodeGraph(NodeGraph):
 
 
 class LoopNodeGraph(NodeGraph):
+    """
+    Graphical representation for a Loop node
+    """
+
     def __init__(self, parent, node):
         super().__init__(parent, node)
 
@@ -655,6 +763,10 @@ class LoopNodeGraph(NodeGraph):
 
 
 class DotPyFileNodeGraph(NodeGraph):
+    """
+    Graphical representation for a .py file node
+    """
+
     def __init__(self, parent, node):
         super().__init__(parent, node)
 
@@ -788,6 +900,10 @@ class DotPyFileNodeGraph(NodeGraph):
 
 
 class PythonCodeNodeGraph(NodeGraph):
+    """
+    Graphical representation for a Python Code node
+    """
+
     def __init__(self, parent, node):
         super().__init__(parent, node)
 
@@ -921,6 +1037,10 @@ class PythonCodeNodeGraph(NodeGraph):
 
 
 class CommentNodeGraph(NodeGraph):
+    """
+    Graphical representation for a Comment node
+    """
+
     def __init__(self, parent, node):
         super().__init__(parent, node)
 
@@ -1027,6 +1147,10 @@ class CommentNodeGraph(NodeGraph):
 
 
 class SubFlowNodeGraph(NodeGraph):
+    """
+    Graphical representation for a Sub-Flow node
+    """
+
     def __init__(self, parent, node):
         super().__init__(parent, node)
 
@@ -1177,25 +1301,11 @@ class SubFlowNodeGraph(NodeGraph):
             )
 
 
-def distance(a, b):
-    import math
-
-    return math.sqrt(((a[0] - b[0]) ** 2) + ((a[1] - b[1]) ** 2))
-
-
-def shortest_distance(from_coords, to_coords):
-    distances = []
-
-    for to_coord in to_coords:
-        for from_coord in from_coords:
-            distances.append((distance(to_coord, from_coord), from_coord, to_coord))
-
-    distances.sort(key=lambda x: x[0])
-
-    return distances[0][1], distances[0][2]
-
-
 class ConnectorGraph:
+    """
+    Graphical representation for a connector
+    """
+
     def __init__(
         self, parent, from_nodegraph, to_nodegraph, connector_type="next_node"
     ):
