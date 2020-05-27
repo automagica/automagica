@@ -810,7 +810,7 @@ def generate_unique_identifier():
 
 
 """
-User Input
+Output
 Icon: lab la-wpforms
 """
 
@@ -894,6 +894,26 @@ def display_osd_message(message="Example message", seconds=5):
         except:
             pass
 
+@activity
+def print_console(data="Example print"):
+    """Print message in console
+
+    Print message in console. Can be used to display data in the Automagica Flow console
+
+    :parameter data: Data to be printed
+
+        :Example:
+
+    >>> # Print in console
+    >>> print_console()
+
+    Keywords
+        print, box, osd, data, debugging info, popup, window, feedback, screen, login, attended
+
+    Icon
+        las la-tv
+    """
+    print(data)
 
 """
 Browser
@@ -1790,7 +1810,7 @@ def easy_key_translation(key):
 
 
 @activity
-def press_key(key=None):
+def press_key(key=None, delay=1):
     """Press key
 
     Press and release an entered key. Make sure your keyboard is on US layout (standard QWERTY). 
@@ -1800,6 +1820,7 @@ def press_key(key=None):
         [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
 
     :parameter key: Key to press. This can also be a scan code (e.g: 33 for '!')
+    :parameter key: Delay before key is pressed in seconds, default is 1 second
 
     :return: Keypress
 
@@ -1821,6 +1842,10 @@ def press_key(key=None):
         las la-keyboard
 
     """
+    if delay:
+        from time import sleep
+        sleep(delay)
+
     import platform
 
     # Check if system is not running Windows
@@ -1837,7 +1862,7 @@ def press_key(key=None):
 
 
 @activity
-def press_key_combination(first_key, second_key, third_key=None, compatibility=False):
+def press_key_combination(first_key, second_key, third_key=None, compatibility=False, delay=1):
     """Press key combination
 
     Press a combination of two or three keys simultaneously. Make sure your keyboard is on US layout (standard QWERTY).
@@ -1849,6 +1874,7 @@ def press_key_combination(first_key, second_key, third_key=None, compatibility=F
     :parameter second_key: Second key to press
     :parameter third_key: Third key to press, this is optional.
     :parameter compatibility: Set parameter to true to not use win32com. This could help with compatibility on certain systems or when certain keypresses do not work correctly.
+    :parameter key: Delay before keys are pressed in seconds, default is 1 second
 
     :return: Key combination
 
@@ -1866,6 +1892,10 @@ def press_key_combination(first_key, second_key, third_key=None, compatibility=F
         las la-keyboard
 
     """
+
+    if delay:
+        from time import sleep
+        sleep(delay)
 
     import platform
 
@@ -1894,7 +1924,7 @@ def press_key_combination(first_key, second_key, third_key=None, compatibility=F
 
 
 @activity
-def typing(text, automagica_id=None, clear=False, interval_seconds=0.01):
+def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1):
     """Type text and characters
 
     Simulate keystrokes. If an element ID is specified, text will be typed in a specific field or element based on the element ID (vision) by the recorder.
@@ -1906,6 +1936,7 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01):
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :parameter clear: Attempts to clear the element before typing using hotkeys. Be cautious when using this method as a vision mismatch could result in deleting unwanted data. Default value is False
     :parameter interval_seconds: Time in seconds between two keystrokes. Defautl value is 0.01 seconds.
+    :parameter key: Delay before beginning to type, default is 1 second
 
     :return: Keystrokes
 
@@ -1922,6 +1953,10 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01):
     Icon
         las la-keyboard
     """
+
+    if delay:
+        from time import sleep
+        sleep(delay)
 
     if automagica_id:
         location = detect_vision(automagica_id)
@@ -2034,13 +2069,13 @@ def display_mouse_position(duration=10):
 
 
 @activity
-def click(automagica_id, delay=0.1):
+def click(automagica_id, delay=1):
     """Mouse click
 
     Clicks on an element based on the element ID (vision)
 
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :parameter delay: Delay between clicks in seconds, standard value is 100 ms. 
+    :parameter delay: Delay before clicking in seconds. 
 
     :return: Mouse click
 
@@ -2064,7 +2099,6 @@ def click(automagica_id, delay=0.1):
 
     if delay:
         from time import sleep
-
         sleep(delay)  # Default delay
 
     location = detect_vision(automagica_id)
@@ -2075,14 +2109,14 @@ def click(automagica_id, delay=0.1):
 
 
 @activity
-def click_coordinates(x=None, y=None, delay=0.1):
+def click_coordinates(x=None, y=None, delay=1):
     """Mouse click coordinates
 
     Clicks on an element based on pixel position determined by x and y coordinates. To find coordinates one could use display_mouse_position().
 
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
-    :parameter delay: Delay between clicks in seconds, standard value is 100 ms. 
+    :parameter delay: Delay before clicking in seconds. 
 
     :return: Mouse click
 
@@ -2115,14 +2149,14 @@ def click_coordinates(x=None, y=None, delay=0.1):
 
 
 @activity
-def double_click_coordinates(x=None, y=None, delay=0.1):
+def double_click_coordinates(x=None, y=None, delay=1):
     """Double mouse click coordinates
 
     Double clicks on a pixel position determined by x and y coordinates.
 
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
-    :parameter delay: Delay between double clicks in seconds, standard value is 100 ms. 
+    :parameter delay: Delay before cliking in seconds. 
 
     :return: Double mouse click
 
@@ -2154,14 +2188,14 @@ def double_click_coordinates(x=None, y=None, delay=0.1):
 
 
 @activity
-def double_click(automagica_id=None, delay=0.1):
+def double_click(automagica_id=None, delay=1):
     """Double mouse click
 
     Double clicks on an element based on the element ID (vision) 
 
     :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
 
-    :parameter delay: Delay between double clicks in seconds, standard value is 100 ms. 
+    :parameter delay: Delay before clicking in seconds. 
 
     :return: Double mouse click
 
@@ -2200,13 +2234,13 @@ def double_click(automagica_id=None, delay=0.1):
 
 
 @activity
-def right_click(automagica_id=None, delay=0.1):
+def right_click(automagica_id=None, delay=1):
     """Right click
 
     Right clicks on an element based on the element ID (vision)
 
     :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :parameter delay: Delay between right clicks in seconds, standard value is 100 ms. 
+    :parameter delay: Delay before cliking in seconds. 
 
     :return: Right mouse click
 
@@ -2245,14 +2279,14 @@ def right_click(automagica_id=None, delay=0.1):
 
 
 @activity
-def right_click_coordinates(x=None, y=None, delay=0.1):
+def right_click_coordinates(x=None, y=None, delay=1):
     """Right click coordinates
 
     Right clicks on an element based pixel position determined by x and y coordinates.
 
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
-    :parameter delay: Delay between right clicks in seconds, standard value is 100 ms. 
+    :parameter delay: Delay before clicking in seconds 
 
     :return: Right mouse click
 
@@ -2284,13 +2318,13 @@ def right_click_coordinates(x=None, y=None, delay=0.1):
 
 
 @activity
-def move_mouse_to(automagica_id=None, delay=0.1):
+def move_mouse_to(automagica_id=None, delay=1):
     """Move mouse
 
     Moves te pointer to an element based on the element ID (vision)
 
     :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :parameter delay: Delay between movements in seconds, standard value is 100 ms. 
+    :parameter delay: Delay before movement in seconds 
 
     :return: Move mouse to (x, y) coordinates
 
@@ -2327,14 +2361,14 @@ def move_mouse_to(automagica_id=None, delay=0.1):
 
 
 @activity
-def move_mouse_to_coordinates(x=None, y=None, delay=0.1):
+def move_mouse_to_coordinates(x=None, y=None, delay=1):
     """Move mouse coordinates
 
     Moves te pointer to an element based on the pixel position determined by x and y coordinates
 
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
-    :parameter delay: Delay between movements in seconds, standard value is 100 ms. 
+    :parameter delay: Delay between movements in seconds, standard value is 1s. 
 
     :return: Move mouse to (x, y) coordinates
 
@@ -2391,14 +2425,14 @@ def move_mouse_relative(x=None, y=None):
 
 
 @activity
-def drag_mouse_to_coordinates(x=None, y=None, delay=0.1):
+def drag_mouse_to_coordinates(x=None, y=None, delay=1):
     """Drag mouse
 
     Drags mouse to an element based on pixel position determined by x and y coordinates
 
     :parameter x: X-coördinate
     :parameter y: Y-coördinate
-    :parameter delay: Delay between movements in seconds, standard value is 100 ms. 
+    :parameter delay: Delay between movements in seconds, standard value is 1s. 
 
     :return: Drag mouse 
 
@@ -2426,13 +2460,13 @@ def drag_mouse_to_coordinates(x=None, y=None, delay=0.1):
 
 
 @activity
-def drag_mouse_to(automagica_id=None, delay=0.1):
+def drag_mouse_to(automagica_id=None, delay=1):
     """Drag mouse
 
     Drags mouse to an element based on the element ID (vision) 
 
     :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :parameter delay: Delay between movements in seconds, standard value is 100 ms. 
+    :parameter delay: Delay before movement in seconds.
 
     :return: Drag mouse 
 
@@ -7255,68 +7289,6 @@ def download_file_from_url(url, output_path=None):
 
 
 """
-Trello
-Icon: lab la-trello
-"""
-
-
-@activity
-def add_trello_card(
-    title="My card",
-    description="My description",
-    board_name="My board",
-    list_name="My list",
-    api_key="",
-    api_secret="",
-    token="",
-    token_secret="any",
-):
-    """Add Trello Card
-
-    Add a card to the Trello board. For this you need a Trello API key, secret and token. 
-
-
-    :parameter title: Title of Trello card
-    :parameter description: Description of Trello card
-    :parameter board_name: Name of the Trello board
-    :parameter api_key: Trello API key
-    :parameter api_secret: Trello API secret
-    :parameter token: Trello token
-    :parameter token_secret: Token secret can be any string, but should be altered for security purposes.
-
-        :Example:
-
-    >>> add_trello_card(title='ExampleTitle', description='ExampleDescription', api_key='SampleKey', api_secret='ApiSecret', token='SampleToken')
-
-    Keywords
-        trello
-
-    Icon
-        lab la-trello
-
-    """
-    from trello import TrelloClient
-
-    client = TrelloClient(
-        api_key=api_key, api_secret=api_secret, token=token, token_secret=token_secret
-    )
-
-    trello_boards = client.list_boards()
-    for trello_board in trello_boards:
-        if trello_board.name == board_name:
-            target_board = trello_board
-            break
-
-    trello_lists = target_board.all_lists()
-    for trello_list in trello_lists:
-        if trello_list.name == list_name:
-            target_list = trello_list
-            break
-
-    target_list.add_card(title, desc=description)
-
-
-"""
 System
 Icon: las la-laptop
 """
@@ -8885,12 +8857,13 @@ def find_text_on_screen_ocr(text, criteria=None):
 
 
 @activity
-def click_on_text_ocr(text):
+def click_on_text_ocr(text, delay=1):
     """Click on text with OCR
 
     This activity clicks on position (coordinates) of specified text on the current screen using OCR.
 
     :parameter text: Text to find. Only exact matches are returned.
+    :parameter delay: Delay before clicking in seconds
 
         :Example:
 
@@ -8907,6 +8880,10 @@ def click_on_text_ocr(text):
     Icon
         las la-mouse-pointer
     """
+    if delay:
+        from time import sleep
+        sleep(delay)
+
     position = find_text_on_screen_ocr(text, criteria="first")
     if position:
 
@@ -8922,12 +8899,13 @@ def click_on_text_ocr(text):
 
 
 @activity
-def double_click_on_text_ocr(text):
+def double_click_on_text_ocr(text, delay=1):
     """Double click on text with OCR
 
     This activity double clicks on position (coordinates) of specified text on the current screen using OCR.
 
     :parameter text: Text to find. Only exact matches are returned.
+    :parameter delay: Delay before clicking in seconds
 
         :Example:
 
@@ -8945,6 +8923,9 @@ def double_click_on_text_ocr(text):
         las la-mouse-pointer
 
     """
+    if delay:
+        from time import sleep
+        sleep(delay)
 
     position = find_text_on_screen_ocr(text, criteria="first")
     if position:
@@ -8960,12 +8941,13 @@ def double_click_on_text_ocr(text):
 
 
 @activity
-def right_click_on_text_ocr(text):
+def right_click_on_text_ocr(text, delay=1):
     """Right click on text with OCR
 
     This activity Right clicks on position (coordinates) of specified text on the current screen using OCR.
 
     :parameter text: Text to find. Only exact matches are returned.
+    :parameter delay: Delay before clicking in seconds
 
         :Example:
 
@@ -8982,6 +8964,11 @@ def right_click_on_text_ocr(text):
     Icon
         las la-mouse-pointer
     """
+
+    if delay:
+        from time import sleep
+        sleep(delay)
+    
     position = find_text_on_screen_ocr(text, criteria="first")
     if position:
 
