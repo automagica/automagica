@@ -28,53 +28,6 @@ def generate_icon(icon_path, width=20, height=20, color="#ffffff"):
     return img
 
 
-def center_window(window, w=None, h=None):
-    """
-    Center a tkinter.Window on the screen or relative to its parent window
-    """
-    # Required, update to get the height/width properties correctly
-    window.update()
-
-    # Hide window
-    window.withdraw()
-
-    if not w:
-        w = window.winfo_width()
-
-    if not h:
-        h = window.winfo_height()
-
-    # If the window has a parent window, use the parent's window coordinates
-    # to position the window relatively to it's parent.
-    # This is required as for example on a large screen, the parent window might
-    # not be positioned in the center of the screen, and this part will
-    # use the parent's geometry.
-    if window.master:
-        master_w = window.master.winfo_width()
-        master_h = window.master.winfo_height()
-
-        master_x = window.master.winfo_x()
-        master_y = window.master.winfo_y()
-
-        x = int((master_w / 2) - (w / 2)) + master_x
-        y = int((master_h / 2) - (h / 2)) + master_y
-
-    # The window does not have a parent window
-    else:
-        sw = window.winfo_screenwidth()
-        sh = window.winfo_screenheight()
-
-        x = int((sw / 2) - (w / 2))
-        y = int((sh / 2) - (h / 2))
-
-    # Adjust window geometry (positioning)
-    window.geometry("{}x{}+{}+{}".format(w, h, x, y))
-
-    # Update the window
-    window.update()
-
-    # Show the window
-    window.deiconify()
 
 
 def distance(a, b):
