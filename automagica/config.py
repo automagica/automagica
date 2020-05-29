@@ -1,5 +1,6 @@
 import os
 from gettext import translation, gettext
+import pyglet
 
 from .utilities import all_activities
 
@@ -9,6 +10,7 @@ ACTIVITIES = all_activities()
 """
 Localization
 """
+
 LOCALE = "en"
 localedir = os.path.join(
     os.path.dirname(
@@ -32,7 +34,24 @@ else:
 """
 Styling
 """
-FONT = "Helvetica"
+
+fontdir = os.path.join(
+    os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            )
+        )
+    ),
+    "automagica",
+    "gui",
+    "fonts",
+)
+
+pyglet.font.add_file(os.path.join(fontdir, "roboto.ttf"))
+
+
+FONT = "Roboto"
 
 COLOR_0 = "#2196f3"  # Automagica Blue
 COLOR_1 = "#ffffff"  # White

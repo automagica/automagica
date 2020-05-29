@@ -23,12 +23,14 @@ class InstallationWrapper(install):
 
         import platform
 
-        if platform.system() == "Linux":
+        if platform.system() == "Linux":  # TODO the same should happen for OSX
             import subprocess
             import os
             import automagica
 
-            automagica_path = automagica.__file__.replace(os.path.basename(os.path.realpath(__file__)), "")
+            automagica_path = automagica.__file__.replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            )
 
             # Make binaries executable
             binaries_path = os.path.join(automagica_path, "bin")
@@ -59,8 +61,9 @@ install_requires = [
     "mouse==0.7.1",  # MIT License
     "keyboard==0.13.5",  # MIT License
     "babel==2.7.0",  # BSD 3-Clause
-    "click==7.0",  # BSD 3-Clause
-    "idna==2.5" # BSD 3-Clause
+    "click==7.0",  # BSD 3-Clause6
+    "idna==2.5",  # BSD 3-Clause
+    "pyglet",  # MIT License
 ]
 
 

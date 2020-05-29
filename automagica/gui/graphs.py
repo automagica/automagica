@@ -28,8 +28,6 @@ def generate_icon(icon_path, width=20, height=20, color="#ffffff"):
     return img
 
 
-
-
 def distance(a, b):
     """
     Calculate the distance between 2d coordinates
@@ -99,7 +97,7 @@ class NodeGraph:
         """
 
         # Create a menu
-        self.menu = tk.Menu(self.parent, tearoff=0)
+        self.menu = tk.Menu(self.parent, tearoff=0, font=(config.FONT, 10), bd=0)
 
         # Add menu items
         self.menu.add_command(label=_("Delete"), command=self.on_delete_clicked)
@@ -1283,7 +1281,7 @@ class ConnectorGraph:
         self.parent.canvas.tag_bind(self.line, "<Button-3>", self.right_click)
 
     def right_click(self, event):
-        self.menu = tk.Menu(self.parent, tearoff=0)
+        self.menu = tk.Menu(self.parent, tearoff=0, font=(config.FONT, 10))
         self.menu.add_command(label=_("Delete"), command=self.delete_clicked)
 
         try:
@@ -1306,7 +1304,7 @@ class ConnectorGraph:
             to_[1],
             arrow="last",
             fill=self.fill,
-            width=2,
+            width=6,
             smooth=True,
             arrowshape="10 12 5",
             tags=("arrows"),

@@ -72,6 +72,7 @@ def center_window(window, w=None, h=None):
 def get_screenshot():
     """
     Captures the screen to a Pillow Image object
+    TODO: this does not work for xvfb-based systems
     """
     from PIL import Image
     import mss
@@ -527,6 +528,7 @@ class ActionRecorderWindow(Window):
         anchors_label = tk.Label(
             frame,
             text=_("Add anchors to make the element detection more reliable."),
+            font=(config.FONT, 10),
             bg=config.COLOR_4,
             fg=config.COLOR_11,
         )
@@ -717,7 +719,7 @@ class KeybindWindow(Window):
     def create_entries_frame(self):
         frame = tk.Frame(self)
 
-        self.name_label = tk.Label(frame, text=_("Name"))
+        self.name_label = tk.Label(frame, text=_("Name"), font=(config.FONT, 10),)
         self.name_label.pack(side="left")
 
         self.name_entry = InputField(frame)
@@ -866,7 +868,11 @@ class LoginWindow(Window):
         frame = tk.Frame(self)
 
         username_label = tk.Label(
-            self, text=_("Username/E-mail"), bg=config.COLOR_0, fg=config.COLOR_1
+            self,
+            text=_("Username/E-mail"),
+            bg=config.COLOR_0,
+            fg=config.COLOR_1,
+            font=(config.FONT, 10),
         )
         username_label.pack()
 
@@ -874,7 +880,11 @@ class LoginWindow(Window):
         self.username_entry.pack()
 
         password_label = tk.Label(
-            self, text=_("Password"), bg=config.COLOR_0, fg=config.COLOR_1
+            self,
+            text=_("Password"),
+            bg=config.COLOR_0,
+            fg=config.COLOR_1,
+            font=(config.FONT, 10),
         )
         password_label.pack()
 
@@ -941,7 +951,9 @@ class LoginWindow(Window):
         self.logo_img_pil = Image.open(logo_path)
         self.logo_img = ImageTk.PhotoImage(image=self.logo_img_pil)
 
-        logo_lbl = tk.Label(self, image=self.logo_img, bg=config.COLOR_0)
+        logo_lbl = tk.Label(
+            self, image=self.logo_img, bg=config.COLOR_0, font=(config.FONT, 10)
+        )
         logo_lbl.pack(padx=20, pady=20)
 
         return frame
@@ -986,19 +998,25 @@ class VariableExplorerWindow(Window):
         y_scrollbar = tk.Scrollbar(frame, command=scroll)
         y_scrollbar.grid(column=3, row=1, sticky="ns")
 
-        variables_label = tk.Label(frame, text="Name", fg=config.COLOR_11)
+        variables_label = tk.Label(
+            frame, text=_("Name"), fg=config.COLOR_11, font=(config.FONT, 10),
+        )
         self.variables = tk.Listbox(
             frame, bd=0, highlightthickness=0, yscrollcommand=y_scrollbar.set
         )
         self.variables.bind("<MouseWheel>", self.on_mouse_wheel)
 
-        types_label = tk.Label(frame, text=_("Type"), fg=config.COLOR_11)
+        types_label = tk.Label(
+            frame, text=_("Type"), fg=config.COLOR_11, font=(config.FONT, 10),
+        )
         self.types = tk.Listbox(
             frame, bd=0, highlightthickness=0, yscrollcommand=y_scrollbar.set
         )
         self.types.bind("<MouseWheel>", self.on_mouse_wheel)
 
-        values_label = tk.Label(frame, text=_("Value"), fg=config.COLOR_11)
+        values_label = tk.Label(
+            frame, text=_("Value"), fg=config.COLOR_11, font=(config.FONT, 10)
+        )
         self.values = tk.Listbox(
             frame, bd=0, highlightthickness=0, yscrollcommand=y_scrollbar.set
         )
@@ -1117,7 +1135,9 @@ class FlowPlayerWindow(Window):
 
         frame.configure(bg=self.cget("bg"))
 
-        self.flow_label = tk.Label(frame, text=self.flow.name, bg=self.cget("bg"))
+        self.flow_label = tk.Label(
+            frame, text=self.flow.name, bg=self.cget("bg"), font=(config.FONT, 10)
+        )
         self.flow_label.pack()
 
         self.progress_bar = ttk.Progressbar(
@@ -1126,7 +1146,10 @@ class FlowPlayerWindow(Window):
         self.progress_bar.pack(fill="both", expand=True)
 
         self.current_node_label = tk.Label(
-            frame, text=_("No current activity"), fg=config.COLOR_11, bg=self.cget("bg")
+            frame,
+            text=_("No current activity"),
+            fg=config.COLOR_11,
+            bg=self.cget("bg", font=(config.FONT, 10)),
         )
         self.current_node_label.pack()
 
@@ -1137,6 +1160,7 @@ class FlowPlayerWindow(Window):
             ),
             fg=config.COLOR_11,
             bg=self.cget("bg"),
+            font=(config.FONT, 10),
         )
         self.next_node_label.pack()
 
@@ -1492,11 +1516,19 @@ class NodePropsWindow(Window):
 
         # UID Information
         uid_label_label = tk.Label(
-            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Unique ID"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label_label.grid(row=0, column=0, sticky="w")
         uid_label = tk.Label(
-            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=self.node.uid,
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label.grid(row=0, column=1, sticky="w", padx=3, pady=3)
 
@@ -1510,7 +1542,11 @@ class NodePropsWindow(Window):
 
         # Node Label
         label_label = tk.Label(
-            frame, text=_("Label"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Label"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         label_label.grid(row=1, column=0, sticky="w")
         self.label_entry = InputField(frame)
@@ -1525,7 +1561,11 @@ class NodePropsWindow(Window):
 
         # Next node selection
         next_node_option_label = tk.Label(
-            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Next Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
@@ -1607,6 +1647,7 @@ class ActivityNodePropsWindow(NodePropsWindow):
                 text=label.capitalize().replace("_", " "),
                 bg=config.COLOR_4,
                 fg=config.COLOR_11,
+                font=(config.FONT, 10),
             )
             args_labels[name].grid(row=i, column=0, sticky="w")
 
@@ -1660,7 +1701,11 @@ class ActivityNodePropsWindow(NodePropsWindow):
         self.return_entry = None
         if config.ACTIVITIES[self.node.activity]["return"]:
             return_label = tk.Label(
-                frame, text=_("Return variable"), bg=config.COLOR_4, fg=config.COLOR_11
+                frame,
+                text=_("Return variable"),
+                bg=config.COLOR_4,
+                fg=config.COLOR_11,
+                font=(config.FONT, 10),
             )
             self.return_entry = InputField(frame)
             return_label.grid(row=i + 1, column=0, sticky="w")
@@ -1726,11 +1771,19 @@ class IfElseNodePropsWindow(NodePropsWindow):
 
         # UID Information
         uid_label_label = tk.Label(
-            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Unique ID"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label_label.grid(row=0, column=0, sticky="w")
         uid_label = tk.Label(
-            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=self.node.uid,
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label.grid(row=0, column=1, sticky="w", padx=3, pady=3)
 
@@ -1744,7 +1797,11 @@ class IfElseNodePropsWindow(NodePropsWindow):
 
         # Node Label
         label_label = tk.Label(
-            frame, text=_("Label"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Label"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         label_label.grid(row=1, column=0, sticky="w")
         self.label_entry = InputField(frame)
@@ -1759,7 +1816,11 @@ class IfElseNodePropsWindow(NodePropsWindow):
 
         # Condition Label
         condition_label = tk.Label(
-            frame, text=_("Condition"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Condition"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         condition_label.grid(row=2, column=0, sticky="w")
         self.condition_entry = InputField(frame)
@@ -1783,7 +1844,11 @@ class IfElseNodePropsWindow(NodePropsWindow):
 
         # Next node selection
         next_node_option_label = tk.Label(
-            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Next Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         next_node_option_label.grid(row=3, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
@@ -1799,7 +1864,11 @@ class IfElseNodePropsWindow(NodePropsWindow):
 
         # Else node selection
         else_node_option_label = tk.Label(
-            frame, text=_("Else Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Else Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         else_node_option_label.grid(row=4, column=0, sticky="w")
         self.else_node_menu = NodeSelectionInputWidget(
@@ -1847,17 +1916,29 @@ class LoopNodePropsWindow(NodePropsWindow):
 
         # UID Information
         uid_label_label = tk.Label(
-            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Unique ID"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label_label.grid(row=0, column=0, sticky="w")
         uid_label = tk.Label(
-            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=self.node.uid,
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Node Label
         iterable_label = tk.Label(
-            frame, text=_("Iterable"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Iterable"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         iterable_label.grid(row=1, column=0, sticky="w")
         self.iterable_entry = InputField(frame)
@@ -1869,7 +1950,11 @@ class LoopNodePropsWindow(NodePropsWindow):
 
         # Next node selection
         next_node_option_label = tk.Label(
-            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Next Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
@@ -1880,7 +1965,11 @@ class LoopNodePropsWindow(NodePropsWindow):
 
         # Else node selection
         loop_node_option_label = tk.Label(
-            frame, text=_("Loop Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Loop Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         loop_node_option_label.grid(row=3, column=0, sticky="w")
         self.loop_node_menu = ttk.Combobox(
@@ -1927,7 +2016,11 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
 
         # UID Information
         uid_label_label = tk.Label(
-            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Unique ID"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label_label.grid(row=0, column=0, sticky="w")
         uid_label = tk.Label(frame, text=self.node.uid, bg=config.COLOR_4)
@@ -1935,7 +2028,11 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
 
         # Node Label
         dotpyfile_path_label = tk.Label(
-            frame, text=_(".py-file path"), bg=config.COLOR_4, fg=config.COLOR_11,
+            frame,
+            text=_(".py-file path"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         dotpyfile_path_label.grid(row=1, column=0, sticky="w")
         self.dotpyfile_path_entry = FilePathInputWidget(
@@ -1945,7 +2042,11 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
 
         # Next node selection
         next_node_option_label = tk.Label(
-            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Next Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
@@ -1955,7 +2056,11 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
 
         # Else node selection
         on_exception_node_option_label = tk.Label(
-            frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("On Exception Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         on_exception_node_option_label.grid(row=3, column=0, sticky="w")
         self.on_exception_node_menu = NodeSelectionInputWidget(
@@ -2021,17 +2126,29 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
 
         # UID Information
         uid_label_label = tk.Label(
-            frame, text="Unique ID", bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text="Unique ID",
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label_label.grid(row=0, column=0, sticky="w")
         uid_label = tk.Label(
-            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=self.node.uid,
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Node Label
         code_label = tk.Label(
-            frame, text=_("Code"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Code"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         code_label.grid(row=1, column=0, sticky="w")
 
@@ -2045,7 +2162,11 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
 
         # Next node selection
         next_node_option_label = tk.Label(
-            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Next Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
@@ -2056,7 +2177,11 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
 
         # Else node selection
         on_exception_node_option_label = tk.Label(
-            frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("On Exception Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         on_exception_node_option_label.grid(row=3, column=0, sticky="w")
         self.on_exception_node_menu = NodeSelectionInputWidget(
@@ -2100,17 +2225,29 @@ class CommentNodePropsWindow(NodePropsWindow):
 
         # UID Information
         uid_label_label = tk.Label(
-            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Unique ID"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label_label.grid(row=0, column=0, sticky="w")
         uid_label = tk.Label(
-            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=self.node.uid,
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Comment
         comment_label = tk.Label(
-            frame, text=_("Comment"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Comment"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         comment_label.grid(row=1, column=0, sticky="w")
         self.comment_entry = InputField(frame)
@@ -2151,17 +2288,29 @@ class SubFlowNodePropsWindow(NodePropsWindow):
 
         # UID Information
         uid_label_label = tk.Label(
-            frame, text=_("Unique ID"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Unique ID"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label_label.grid(row=0, column=0, sticky="w")
         uid_label = tk.Label(
-            frame, text=self.node.uid, bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=self.node.uid,
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Node Label
         label_label = tk.Label(
-            frame, text=_("Label"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Label"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         label_label.grid(row=1, column=0, sticky="w")
         self.label_entry = InputField(frame)
@@ -2176,7 +2325,11 @@ class SubFlowNodePropsWindow(NodePropsWindow):
 
         # Iterator
         iterator_label = tk.Label(
-            frame, text=_("Iterator"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Iterator"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         iterator_label.grid(row=2, column=0, sticky="w")
         self.iterator_entry = InputField(frame)
@@ -2194,7 +2347,11 @@ class SubFlowNodePropsWindow(NodePropsWindow):
 
         # Iterator variable
         iterator_variable_label = tk.Label(
-            frame, text=_("Iterator Variable"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Iterator Variable"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         iterator_variable_label.grid(row=3, column=0, sticky="w")
         self.iterator_variable_entry = InputField(frame)
@@ -2214,7 +2371,11 @@ class SubFlowNodePropsWindow(NodePropsWindow):
 
         # Node Label
         subflow_path_label = tk.Label(
-            frame, text=_("Flow path"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Flow path"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         subflow_path_label.grid(row=4, column=0, sticky="w")
         self.subflow_path_entry = FilePathInputWidget(
@@ -2233,7 +2394,11 @@ class SubFlowNodePropsWindow(NodePropsWindow):
 
         # Next node selection
         next_node_option_label = tk.Label(
-            frame, text=_("Next Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("Next Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         next_node_option_label.grid(row=5, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
@@ -2244,7 +2409,11 @@ class SubFlowNodePropsWindow(NodePropsWindow):
 
         # Exception node selection
         on_exception_node_option_label = tk.Label(
-            frame, text=_("On Exception Node"), bg=config.COLOR_4, fg=config.COLOR_11
+            frame,
+            text=_("On Exception Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
         )
         on_exception_node_option_label.grid(row=6, column=0, sticky="w")
         self.on_exception_node_menu = NodeSelectionInputWidget(

@@ -245,7 +245,7 @@ class AutomagicaIdInputWidget(tk.Frame):
         self.input_field.pack(side="left")
 
         self.browse_button = Button(
-            self, text=_("View"), command=self.view_button_click
+            self, text=_("View"), command=self.view_button_click, font=(config.FONT, 10)
         )
         self.browse_button.pack(side="left")
 
@@ -344,7 +344,9 @@ class NodeSelectionInputWidget(tk.Frame):
 
     def layout(self):
         self.node_menu = AutocompleteDropdown(
-            self, values=["{} ({})".format(node, node.uid) for node in self.nodes],
+            self,
+            values=["{} ({})".format(node, node.uid) for node in self.nodes],
+            font=(config.FONT, 10),
         )
 
         self.node_menu.pack(side="left")

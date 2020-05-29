@@ -778,7 +778,7 @@ class SidebarFrame(tk.Frame):
             frame,
             text=_("Instructions"),
             anchor="w",
-            font=(config.FONT, 10),
+            font=font.Font(family=config.FONT, size=10),
             justify="left",
             fg=config.COLOR_0,
             bg=config.COLOR_4,
@@ -787,7 +787,7 @@ class SidebarFrame(tk.Frame):
 
         self.instructions = tk.Label(
             frame,
-            font=(config.FONT, 8),
+            font=font.Font(family=config.FONT, size=10),
             text=_(
                 "Left-click drag: move node\nDouble-click: properties\nMiddle-click: remove"
             ),
@@ -812,7 +812,7 @@ class SidebarFrame(tk.Frame):
             frame,
             text=_("Activities"),
             anchor="w",
-            font=(config.FONT, 10),
+            font=font.Font(family=config.FONT, size=10),
             justify="left",
             fg=config.COLOR_0,
             bg=config.COLOR_4,
@@ -820,7 +820,7 @@ class SidebarFrame(tk.Frame):
         self.instructions_label.pack()
 
         self.search_entry = InputField(
-            frame, textvariable=self.query, placeholder=_("Search activities..."),
+            frame, textvariable=self.query, placeholder=_("Search activities..."), font=font.Font(family=config.FONT, size=10)
         )
         self.query.trace("w", self.search_activities)
 
@@ -843,6 +843,7 @@ class SidebarFrame(tk.Frame):
             fg=config.COLOR_11,
             bg=config.COLOR_10,
             activestyle="none",
+            font=font.Font(family=config.FONT, size=10),
         )
 
         for key, activity in config.ACTIVITIES.items():
@@ -880,7 +881,7 @@ class SidebarFrame(tk.Frame):
             text=_("Special Nodes"),
             anchor="w",
             justify="left",
-            font=(config.FONT, 10),
+            font=font.Font(family=config.FONT, size=10),
             fg=config.COLOR_0,
             bg=config.COLOR_4,
         )
@@ -890,6 +891,7 @@ class SidebarFrame(tk.Frame):
         self.nodes_list.bind(
             "<B1-Leave>", lambda event: "break"
         )  # Disable horizontal scrollling
+
         self.nodes_list.configure(
             bd=0,
             relief="flat",
@@ -899,6 +901,7 @@ class SidebarFrame(tk.Frame):
             fg=config.COLOR_11,
             bg=config.COLOR_10,
             activestyle="none",
+            font=font.Font(family=config.FONT, size=10),
         )
 
         # TODO: This should be put elsewhere

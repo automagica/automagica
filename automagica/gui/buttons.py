@@ -9,6 +9,7 @@ from automagica.config import _
 from automagica.gui.graphs import generate_icon
 
 
+
 class Button(tk.Button):
     """
     Default styled button
