@@ -115,10 +115,11 @@ def encrypt_file_with_key(input_path, key, output_path=None):
     Encrypt file with (Fernet) key. Note that file will be unusable unless unlocked with the same key.
 
     :parameter inputh_path: Path to file to be encrypted
-    :type input_path: path 
+    :type input_path: input_file
     :parameter key: Fernet Encryption key
+    :type key: bytes
     :parameter output_path: Output path, defaults to the same directory with "_encrypted" added to the name
-    :type output_path: path, optional
+    :type output_path: output_file, optional
 
     :return: Path to encrypted file
     :rtype: path
@@ -168,8 +169,11 @@ def decrypt_file_with_key(input_path, key, output_path=None):
     Decrypts file with (Fernet) key
 
     :parameter input_file: Bytes-like file to be decrypted.
+    :type input_file: input_file
     :parameter key: Path where key is stored.
+    :type key: bytes
     :parameter output_file: Outputfile, make sure to give this the same extension as basefile before encryption. Default is the same directory with "_decrypted" added to the name 
+    :type output_path: output_file, optional
 
     :return: Path to decrypted file
 
@@ -221,7 +225,9 @@ def generate_key_from_password(password, salt=None):
     Generate key based on password and salt. If both password and salt are known the key can be regenerated.
 
     :parameter password: Passwords
+    :type password: string
     :parameter salt: Salt to generate key in combination with password. Default value is the hostname. Take in to account that hostname is necessary to generate key, e.g. when files are encrypted with salt 'A' and password 'B', both elements are necessary to decrypt files.
+    :type salt: string, optional
 
     :return: Bytes-like object
 
@@ -267,9 +273,12 @@ def generate_hash_from_file(input_path, method="md5", buffer_size=65536):
 
     Can be used to create unique identifier for file validation or comparison.
 
-    :parameter file: File to hash
+    :parameter input_path: File to hash
+    :type input_path: input_file
     :parameter method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes. Default method is 'md5'.
+    :options method: ['md5', 'sha256', 'blake2b']
     :parameter buffer_size: Buffer size for reading file in chunks, default value is 64kb
+    :type buffer_size: int, optional
 
     :return: Bytes-like object
 
@@ -316,9 +325,10 @@ def generate_hash_from_text(text, method="md5"):
 
     Generate hash from text
 
-    :parameter file: Text to hash
+    :parameter text: Text to hash
+    :type text: string
     :parameter method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes. Default method is 'md5'.
-
+    :options method: ['md5', 'sha256', 'blake2b']
 
         :Example:
 
@@ -359,8 +369,11 @@ def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
     Random numbers can be integers (not a fractional number) or a float (fractional number).
 
     :parameter lower_limit: Lower limit for random number
+    :type lower_limit: int, optional
     :parameter upper_limit: Upper limit for random number
+    type upper_limit: int, optional
     :parameter fractional: Setting this to True will generate fractional number. Default value is False and only generates whole numbers.
+    :type fractional: bool, optional
 
     :return: Random integer or float
 
@@ -416,6 +429,7 @@ def generate_random_name(locale=None):
     Generates a random name. Adding a locale adds a more common name in the specified locale. Provides first name and last name.
 
     :parameter locale: Add a locale to generate popular name for selected locale.
+    :options locale: ['ar_EG','ar_PS','ar_SA','bg_BG','bs_BA','cs_CZ','de_DE','dk_DK','el_GR','en_AU','en_CA','en_GB','en_NZ','en_US','es_ES','es_MX','et_EE','fa_IR','fi_FI','fr_FR','hi_IN','hr_HR','hu_HU','hy_AM','it_IT','ja_JP','ka_GE','ko_KR','lt_LT','lv_LV','ne_NP','nl_NL','no_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','sl_SI','sv_SE','tr_TR','uk_UA','zh_CN','zh_TW']
 
         -   ar_EG - Arabic (Egypt)
         -   ar_PS - Arabic (Palestine)
@@ -492,6 +506,7 @@ def generate_random_sentence(locale=None):
     Generates a random sentence. Specifying locale changes language and content based on locale.
 
     :parameter locale: Add a locale to generate popular name for selected locale.
+    :options locale: ['ar_EG','ar_PS','ar_SA','bg_BG','bs_BA','cs_CZ','de_DE','dk_DK','el_GR','en_AU','en_CA','en_GB','en_NZ','en_US','es_ES','es_MX','et_EE','fa_IR','fi_FI','fr_FR','hi_IN','hr_HR','hu_HU','hy_AM','it_IT','ja_JP','ka_GE','ko_KR','lt_LT','lv_LV','ne_NP','nl_NL','no_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','sl_SI','sv_SE','tr_TR','uk_UA','zh_CN','zh_TW']
 
         -   ar_EG - Arabic (Egypt)
         -   ar_PS - Arabic (Palestine)
@@ -568,6 +583,7 @@ def generate_random_address(locale=None):
     Generates a random address. Specifying locale changes random locations and streetnames based on locale.
 
     :parameter locale: Add a locale to generate popular name for selected locale.
+    :options locale: ['ar_EG','ar_PS','ar_SA','bg_BG','bs_BA','cs_CZ','de_DE','dk_DK','el_GR','en_AU','en_CA','en_GB','en_NZ','en_US','es_ES','es_MX','et_EE','fa_IR','fi_FI','fr_FR','hi_IN','hr_HR','hu_HU','hy_AM','it_IT','ja_JP','ka_GE','ko_KR','lt_LT','lv_LV','ne_NP','nl_NL','no_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','sl_SI','sv_SE','tr_TR','uk_UA','zh_CN','zh_TW']
 
         -   ar_EG - Arabic (Egypt)
         -   ar_PS - Arabic (Palestine)
@@ -645,7 +661,9 @@ def generate_random_beep(max_duration=2000, max_frequency=5000):
     Generates a random beep, only works on Windows
 
     :parameter max_duration: Maximum random duration in miliseconds. Default value is 2 miliseconds
+    :type max_duration: int, optional
     :parameter max_frequency: Maximum random frequency in Hz. Default value is 5000 Hz.
+    :type max_frequency: int, optional
 
     :return: Sound
 
@@ -697,7 +715,9 @@ def generate_random_date(formatting="%m/%d/%Y %I:%M", days_in_past=1000):
     -   %Z	Time zone name (no characters if no time zone exists).
 
     :parameter days_in_past: Days in the past for which oldest random date is generated, default is 1000 days
+    :type days_in_past: int, optional
     :parameter formatting: Formatting of the dates, replace with 'None' to get raw datetime format. e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
+    :type formatting: string, optional
 
     :return: Random date as string
 
@@ -758,6 +778,7 @@ def generate_date_today(formatting="%m/%d/%Y"):
     -   %Z	Time zone name (no characters if no time zone exists).
 
     :parameter formatting: Formatting of the dates, replace with 'None' to get raw datetime format. e.g. format='Current month is %B' generates 'Current month is Januari' and format='%m/%d/%Y %I:%M' generates format 01/01/1900 00:00. 
+    :type formatting: string, optional
 
     :return: Random date as string
 
@@ -765,7 +786,7 @@ def generate_date_today(formatting="%m/%d/%Y"):
 
     >>> # Generate a random date
     >>> generate_date_today()
-    01/01/2022'
+    '01/01/2022'
 
     Keywords
         random, date, today, now, today date, time, datetime, random date, fake date , calendar
@@ -822,6 +843,9 @@ def display_osd_message(message="Example message", seconds=5):
     Display custom OSD (on-screen display) message. Can be used to display a message for a limited amount of time. Can be used for illustration, debugging or as OSD.
 
     :parameter message: Message to be displayed
+    :type message: string, optional
+    :parameter seconds: Duration in seconds for message to be displayed
+    :type seconds: int, optional
 
         :Example:
 
@@ -901,6 +925,7 @@ def print_console(data="Example print"):
     Print message in console. Can be used to display data in the Automagica Flow console
 
     :parameter data: Data to be printed
+    :type data: string, optional
 
         :Example:
 
@@ -956,9 +981,13 @@ class Chrome(selenium.webdriver.Chrome):
         - Typing: e.g. element.send_keys()
 
         :parameter load_images: Do not load images (bool). This could speed up loading pages
+        :type load_images: bool, optional
         :parameter headless: Run headless, this means running without a visible window (bool)
+        :type headless: bool, optional
         :parameter incognito: Run in incognito mode
+        :type incognito: bool, optional
         :parameter disable_extension: Disable extensions
+        :type disable_extension: bool, optional
 
         return: wWbdriver: Selenium Webdriver
 
@@ -1024,6 +1053,7 @@ class Chrome(selenium.webdriver.Chrome):
         Save all images on current page in the Browser
 
         :parameter output_path: Path where images can be saved. Default value is home directory.
+        :type output_path: output_dir, optional
 
         :return: List with paths to images
 
@@ -1077,6 +1107,9 @@ class Chrome(selenium.webdriver.Chrome):
 
         Browse to URL.
 
+        :parameter url: Url to browser to
+        :type url: string
+
             :Example:
 
         >>> # Open the browser
@@ -1098,6 +1131,9 @@ class Chrome(selenium.webdriver.Chrome):
         """Find elements by text
 
         Find all elements by their text. Text does not need to match exactly, part of text is enough.
+
+        :parameter text: Text to find elements by
+        :type text: string
 
             :Example:
 
@@ -1131,6 +1167,7 @@ class Chrome(selenium.webdriver.Chrome):
         Find all links on a webpage in the browser
 
         :parameter contains: Criteria of substring that url must contain to be included
+        :type contains: string, optional
 
             :Example:
 
@@ -1169,6 +1206,7 @@ class Chrome(selenium.webdriver.Chrome):
         Find first link on a webpage
 
         :parameter contains: Criteria of substring that url must contain to be included
+        :type contains: string, optional
 
             :Example:
 
@@ -1202,6 +1240,9 @@ class Chrome(selenium.webdriver.Chrome):
         """Highlight element
 
         Highlight elements in yellow in the browser
+
+        :parameter element: Element to highlight
+        :type element: selenium.webdriver.remote.webelement.WebElement
 
             :Example:
 
@@ -1261,6 +1302,9 @@ class Chrome(selenium.webdriver.Chrome):
 
         Find all elements with specified xpath on a webpage in the the browser. Can also use native 'find_elements_by_xpath' 
 
+        :parameter element: Xpath of element
+        :type element: string, optional
+
             :Example:
 
         >>> # Open the browser
@@ -1285,6 +1329,9 @@ class Chrome(selenium.webdriver.Chrome):
         """Find XPath in browser
 
         Find all element with specified xpath on a webpage in the the browser. Can also use native 'find_elements_by_xpath' 
+
+        :parameter element: Xpath of element
+        :type element: string, optional
 
             :Example:
 
@@ -1312,6 +1359,9 @@ class Chrome(selenium.webdriver.Chrome):
 
         Find element with specified class on a webpage in the the browser. Can also use native 'find_element_by_class_name'
 
+        :parameter element: Class of element
+        type element: string, optional
+
             :Example:
 
         >>> # Open the browser
@@ -1338,6 +1388,9 @@ class Chrome(selenium.webdriver.Chrome):
 
         Find all elements with specified class on a webpage in the the browser. Can also use native 'find_elements_by_class_name' function
 
+        :parameter element: Class of element
+        type element: string, optional
+
             :Example:
 
         >>> # Open the browser
@@ -1361,6 +1414,9 @@ class Chrome(selenium.webdriver.Chrome):
         """Find element in browser based on class and text
 
         Find all elements with specified class and text on a webpage in the the browser. 
+
+        :parameter element: Class of element
+        type element: string, optional
 
             :Example:
 
@@ -1390,6 +1446,9 @@ class Chrome(selenium.webdriver.Chrome):
 
         Find element with specified id on a webpage in the the browser. Can also use native 'find_element_by_id' function
 
+        :parameter element: Id of element
+        :type element: string, optional
+
             :Example:
 
         >>> # Open the browser
@@ -1415,6 +1474,9 @@ class Chrome(selenium.webdriver.Chrome):
         """Switch to iframe in browser
 
         Switch to an iframe in the browser
+
+        :parameter name: Name of the Iframe
+        :type name: string, optional
 
             :Example:
 
@@ -1449,8 +1511,11 @@ def set_credential(username=None, password=None, system="Automagica"):
     Add a credential which stores credentials locally and securely. All parameters should be Unicode text. 
 
     :parameter username: Username for which credential will be added.
+    :type username: string, optional
     :parameter password: Password to add
+    :type password: string, optional
     :parameter system: Name of the system for which credentials are stored. Extra safety measure and method for keeping passwords for similar usernames on different applications a part. Highly recommended to change default value.
+    :type system: string
 
     :return: Stores credentials locally
 
@@ -1477,6 +1542,9 @@ def delete_credential(username=None, password=None, system="Automagica"):
     Delete a locally stored credential. All parameters should be Unicode text. 
 
     :parameter username: Username for which credential (username + password) will be deleted.
+    :type username: string
+    :parameter password: Password to delete
+    :type password: string, optional
     :parameter system: Name of the system for which password will be deleted. 
 
 
@@ -1504,7 +1572,9 @@ def get_credential(username=None, system="Automagica"):
     Get a locally stored redential. All parameters should be Unicode text. 
 
     :parameter username: Username to get password for.
+    :type username: string
     :parameter system: Name of the system for which credentials are retreived.
+    :type system: string, optional
 
     :return: Stored credential as string
 
@@ -1540,8 +1610,11 @@ class FTP:
         Can be used to automate activites for FTP
 
         :parameter server: Name of the server
+        :type server: string
         :parameter username: Username 
+        :type username: string
         :parameter password: Password
+        :type password: string
 
             :Example:
 
@@ -1568,7 +1641,9 @@ class FTP:
         Downloads a file from FTP server. Connection needs to be established first.
 
         :parameter input_path: Path to the file on the FPT server to download
+        :type input_path: input_file
         :parameter output_path: Destination path for downloaded files. Default is the same directory with "_downloaded" added to the name
+        :type output_path: output_dir, optional
 
         :return: Path to output file as string 
 
@@ -1605,10 +1680,12 @@ class FTP:
         
         Upload file to FTP server
 
-        :parameter from_path: Path file that will be uploaded
-        :parameter to_path: Destination path to upload. 
+        :parameter input_path: Path file that will be uploaded
+        :type input_path: input_file
+        :parameter output_path: Destination path to upload. 
+        :type output_path: output_dir, optional
 
-        :return: Patht to uploaded file as string
+        :return: Path to uploaded file as string
 
             :Example:
 
@@ -1643,6 +1720,7 @@ class FTP:
         Generate a list of all the files in the FTP directory
 
         :parameter path: Path to list files from. Default is the main directory
+        :type path: input_dir, optional
 
         :return: Prints list of all files and directories
 
@@ -1674,6 +1752,7 @@ class FTP:
         Check if FTP directory exists
 
         :parameter path: Path to check on existence. Default is main directory
+        :type path: input_dir, optional
 
         :return: Boolean
 
@@ -1706,7 +1785,9 @@ class FTP:
         Create a FTP directory. Note that sufficient permissions are present
 
         :parameter directory_name: Name of the new directory, should be a string e.g. 'my_directory'
+        :type directory_name: string
         :parameter path: Path to parent directory where to make new directory. Default is main directory
+        :type path: output_dir, optional
 
         :return: Boolean if creation was succesful (True) or failed (False)
             :Example:
@@ -1816,11 +1897,10 @@ def press_key(key=None, delay=1):
     Press and release an entered key. Make sure your keyboard is on US layout (standard QWERTY). 
     If you are using this on Mac Os you might need to grant acces to your terminal application. (Security Preferences > Security & Privacy > Privacy > Accessibility)
 
-    Supported keys:
-        [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
-
     :parameter key: Key to press. This can also be a scan code (e.g: 33 for '!')
+    :options key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
     :parameter key: Delay before key is pressed in seconds, default is 1 second
+    :type key: int, optional
 
     :return: Keypress
 
@@ -1867,14 +1947,15 @@ def press_key_combination(first_key, second_key, third_key=None, compatibility=F
 
     Press a combination of two or three keys simultaneously. Make sure your keyboard is on US layout (standard QWERTY).
 
-    Supported keys:
-        [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
-
     :parameter first_key: First key to press
+    :options first_key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
     :parameter second_key: Second key to press
+    :options second_key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
     :parameter third_key: Third key to press, this is optional.
+    :options third_key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
     :parameter compatibility: Set parameter to true to not use win32com. This could help with compatibility on certain systems or when certain keypresses do not work correctly.
     :parameter key: Delay before keys are pressed in seconds, default is 1 second
+    :type key: int, optional
 
     :return: Key combination
 
@@ -1933,10 +2014,15 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
         ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win'
 
     :parameter text: Text in string format to type. Note that you can only press single character keys. Special keys like ":", "F1",... can not be part of the text argument.
+    :type text: string, optional
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :type automagica_id: string, optional
     :parameter clear: Attempts to clear the element before typing using hotkeys. Be cautious when using this method as a vision mismatch could result in deleting unwanted data. Default value is False
+    :type clear: bool, optional
     :parameter interval_seconds: Time in seconds between two keystrokes. Defautl value is 0.01 seconds.
-    :parameter key: Delay before beginning to type, default is 1 second
+    :type interval_seconds: int, optional
+    :parameter delay: Delay before beginning to type, default is 1 second
+    :type delay: int, optional
 
     :return: Keystrokes
 
@@ -2003,7 +2089,9 @@ def get_mouse_position(delay=None, to_clipboard=False):
     These coordinates represent the absolute pixel position of the mouse on the computer screen. The x-coördinate starts on the left side and increases going right. The y-coördinate increases going down.
 
     :parameter delay: Delay in seconds before capturing mouse position.
+    :type delay: int, optional
     :parameter to_clipboard: Put the coordinates in the clipboard e.g. 'x=1, y=1'
+    :type to_clipboard: bool, optional
 
     :return: Tuple with (x, y) coordinates
 
@@ -2040,6 +2128,7 @@ def display_mouse_position(duration=10):
     These coordinates represent the absolute pixel position of the mouse on the computer screen. The x-coördinate starts on the left side and increases going right. The y-coördinate increases going down.
 
     :parameter duration: Duration to show overlay.
+    :type duration: int, optional
 
     :return: Overlay with (x, y) coordinates
 
@@ -2075,7 +2164,9 @@ def click(automagica_id, delay=1):
     Clicks on an element based on the element ID (vision)
 
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :type automagica_id: string
     :parameter delay: Delay before clicking in seconds. 
+    :type delay: int, optional
 
     :return: Mouse click
 
@@ -2115,8 +2206,11 @@ def click_coordinates(x=None, y=None, delay=1):
     Clicks on an element based on pixel position determined by x and y coordinates. To find coordinates one could use display_mouse_position().
 
     :parameter x: X-coördinate
+    :type x: int
     :parameter y: Y-coördinate
+    :type y: int
     :parameter delay: Delay before clicking in seconds. 
+    :type delay: int, optional
 
     :return: Mouse click
 
@@ -2155,8 +2249,11 @@ def double_click_coordinates(x=None, y=None, delay=1):
     Double clicks on a pixel position determined by x and y coordinates.
 
     :parameter x: X-coördinate
+    :type x: int
     :parameter y: Y-coördinate
+    :type y: int
     :parameter delay: Delay before cliking in seconds. 
+    :type delay: int, optional
 
     :return: Double mouse click
 
@@ -2193,9 +2290,10 @@ def double_click(automagica_id=None, delay=1):
 
     Double clicks on an element based on the element ID (vision) 
 
-    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-
+    :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :type automagica_id: string
     :parameter delay: Delay before clicking in seconds. 
+    :type delay: int, optional
 
     :return: Double mouse click
 
@@ -2239,8 +2337,10 @@ def right_click(automagica_id=None, delay=1):
 
     Right clicks on an element based on the element ID (vision)
 
-    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :type automagica_id: string    
     :parameter delay: Delay before cliking in seconds. 
+    :type delay: int, optional
 
     :return: Right mouse click
 
@@ -2285,8 +2385,11 @@ def right_click_coordinates(x=None, y=None, delay=1):
     Right clicks on an element based pixel position determined by x and y coordinates.
 
     :parameter x: X-coördinate
+    :type x: int
     :parameter y: Y-coördinate
+    :type y: int
     :parameter delay: Delay before clicking in seconds 
+    :type delay: int, optional
 
     :return: Right mouse click
 
@@ -2323,8 +2426,11 @@ def move_mouse_to(automagica_id=None, delay=1):
 
     Moves te pointer to an element based on the element ID (vision)
 
-    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :type automagica_id: int, optional
     :parameter delay: Delay before movement in seconds 
+    :type delay: int, optional
+
 
     :return: Move mouse to (x, y) coordinates
 
@@ -2367,8 +2473,11 @@ def move_mouse_to_coordinates(x=None, y=None, delay=1):
     Moves te pointer to an element based on the pixel position determined by x and y coordinates
 
     :parameter x: X-coördinate
+    :type x: int
     :parameter y: Y-coördinate
+    :type y: int
     :parameter delay: Delay between movements in seconds, standard value is 1s. 
+    :type delay: int, optional
 
     :return: Move mouse to (x, y) coordinates
 
@@ -2402,7 +2511,9 @@ def move_mouse_relative(x=None, y=None):
     Moves the mouse an x- and y- distance relative to its current pixel position.
 
     :parameter x: X-coördinate
+    :type x: int
     :parameter y: Y-coördinate
+    :type y: int
 
     :return: Move mouse (x, y) coordinates
 
@@ -2431,8 +2542,11 @@ def drag_mouse_to_coordinates(x=None, y=None, delay=1):
     Drags mouse to an element based on pixel position determined by x and y coordinates
 
     :parameter x: X-coördinate
+    :type x: int
     :parameter y: Y-coördinate
+    :type y: int
     :parameter delay: Delay between movements in seconds, standard value is 1s. 
+    :type delay: int, optional
 
     :return: Drag mouse 
 
@@ -2465,8 +2579,10 @@ def drag_mouse_to(automagica_id=None, delay=1):
 
     Drags mouse to an element based on the element ID (vision) 
 
-    :parameter id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
+    :type automagica_id: string
     :parameter delay: Delay before movement in seconds.
+    :type delay: int, optional
 
     :return: Drag mouse 
 
@@ -2514,7 +2630,10 @@ def random_screen_snippet(size=100, output_path=None):
     Take a random square snippet from the current screen. Mainly for testing and/or development purposes.
 
     :parameter size: Size (width and height) in pixels for square snippet. Default value is 100 pixels
+    :type size: int, optional
     :parameter output_path: Path where snippet will be saved. Default value is home directory with name 'random_screensnippet.jpg'
+    :type output_path: output_file
+    :extesion output_path: jpg
 
     :return: Path to snippet
 
@@ -2569,7 +2688,9 @@ def take_screenshot(output_path=None):
 
     Take a screenshot of current screen.
 
-    :parameter path: Path to save screenshot. Default value is home directory with name 'screenshot.jpg'.
+    :parameter output_path: Path to save screenshot. Default value is home directory with name 'screenshot.jpg'.
+    :type output_path: output_file
+    :extesion output_path: jpg
 
     :return: Path to save screenshot
 
@@ -2607,17 +2728,21 @@ Icon: las la-folder-open
 
 @activity
 def get_files_in_folder(
-    path=None, extension=None, show_full_path=True, scan_subfolders=False
+    input_path=None, extension=None, show_full_path=True, scan_subfolders=False
 ):
     """List files in folder
 
     List all files in a folder (and subfolders)
     Checks all folders and subfolders for files. This could take some time for large repositories. 
 
-    :parameter path: Path of the folder to retreive files from. Default folder is the home directory.
+    :parameter input_path: Path of the folder to retreive files from. Default folder is the home directory.
+    :type input_path: input_dir
     :parameter extension: Optional filter on certain extensions, for example 'pptx', 'exe,' xlsx', 'txt', .. Default value is no filter.
+    :type extension: string, optional
     :parameter show_full_path: Set this to True to show full path, False will only show file or dirname. Default is True
+    :type show_full_path: bool, optional
     :scan_subfolders: Boolean to scan subfolders or not. Not that depending on the folder and hardware this activity could take some time if scan_subfolders is set to True
+    :type scan_subfolders: bool, optional
 
     :return: List of files with their full path
 
@@ -2635,7 +2760,7 @@ def get_files_in_folder(
     """
     import os
 
-    path = interpret_path(path)
+    path = interpret_path(input_path)
 
     if scan_subfolders:
         paths = []
@@ -2672,6 +2797,7 @@ def create_folder(path=None):
     Creates new folder at the given path.
 
     :parameter path: Full path of folder that will be created. If no path is specified a folder called 'new_folder' will be made in home directory. If this folder already exists 8 random characters will be added to the name.
+    :type path: input_dir, optional
 
     :return: Path to new folder as string
 
@@ -2707,6 +2833,7 @@ def rename_folder(input_path, output_name=None):
     Rename a folder
 
     :parameter input_path: Full path of folder that will be renamed
+    :type input_path: 
     :parameter output_name: New name. By default folder will be renamed to original folder name with '_renamed' added to the folder name.
 
     :return: Path to renamed folder as a string.
