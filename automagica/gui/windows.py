@@ -1149,7 +1149,8 @@ class FlowPlayerWindow(Window):
             frame,
             text=_("No current activity"),
             fg=config.COLOR_11,
-            bg=self.cget("bg", font=(config.FONT, 10)),
+            bg=self.cget("bg"), 
+            font=(config.FONT, 10),
         )
         self.current_node_label.pack()
 
