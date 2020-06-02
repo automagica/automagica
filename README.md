@@ -1,6 +1,8 @@
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/logo.png)
 # Automagica - Open Source RPA [![Downloads](https://pepy.tech/badge/automagica/month)](https://pepy.tech/project/automagica/month)
-Automagica is an open source automation suite for fully automating tedious, manual tasks on any screen. Our vision is that humans should have to do a robot's job. Our mission is to make these automation tools as accessible as possible to empower people to automate (almost) anything.
+Automagica is an open source automation suite for fully automating tedious, manual tasks on any screen. Our vision is that humans should have to do a robot's job. Our mission is to make these automation tools as accessible as possible to empower people to automate (almost) anything. 
+
+_Let bots handle the clicks so people can handle the business._
 
 [![Github Signup Automagica](https://i.imgur.com/PKvMCSl.jpg)](https://portal.automagica.com/github/login)
 
@@ -22,37 +24,39 @@ With Automagica, automating cross-platform processes becomes a breeze. With this
 - Join our __[Discord](https://discord.gg/PbY85WA)__ channel (this is a great place to ask questions)
 - __[Telegram](https://t.me/automagica)__ group (good for getting the latest updates)
 
+## What's open source?
+### Automagica activities
+### Automagica Flow
+### Automagica Capture
+
 
 ## Need professional support?
 Please send an e-mail to [sales@automagica.com](mailto:sales@automagica.com).
 
 ## Getting started
 
-## Installation
+### Installation
 
 The easiest way to install Automagica is by using the installer for Windows which can be downloaded from the [Automagica Portal](https://portal.automagica.com).
 
 ![](https://github.com/OakwoodAI/automagica/blob/master/images/portal_screenshots.JPG)
 
-## Other OSes than Windows
-### Fedora-like distributions of Linux such as Red Hat Enterprise Linux or CentOS
+### Other OSes than Windows
+#### Fedora-like distributions of Linux such as Red Hat Enterprise Linux or CentOS
 You can install Automagica by running the following commands:
 
 ```
 sudo yum install python3-devel chromium -y
 sudo pip3 install automagica -U
 ```
-### Debian-like distributions of Linux such as Ubuntu
+#### Debian-like distributions of Linux such as Ubuntu
 You can install Automagica by running the following commands:
 ```
 sudo apt-get install python3-devel chromium -y
 sudo pip3 install automagica -U
 ```
 
-### Important 
-If you would like to run browser automations, you also need to install Chromium or Chrome.
-
-#### Developers and other platforms
+### Developers and other platforms
 
 If you wish to only install the Automagica Python library (without registering for the Automagica Portal), follow the below steps.
 
@@ -62,23 +66,26 @@ If you wish to only install the Automagica Python library (without registering f
 ```
 pip install automagica --upgrade
 ```
-Important: for some activities an Automagica API-key is required. In order to acquire an API-key, you need to register at the [Automagica Portal](https://portal.automagica.com).
-
-## Components
-Automagica consists of the following components:
-- __Bot__: runtime/agent responsible for performing the automated tasks
-- __Flow__: a visual Flow designer to build automations
-- __Lab__: Notebook-style automation development environment based on Jupyter Notebooks.
-- __Portal__: management of bots, credentials, automations, logs, ...
-
-The Automagica Portal is currently not available under an open source license. We offer a free environment for evaluation purposes at https://portal.automagica.com. If you would like to use the Automagica Portal within your company or organization, please contact sales@automagica.com.
-
 #### Importing the activities
 
 Before getting started in development mode, don't forget to import the activities from automagica in your python script. If unsure, it is possible to import all the activities for development purposes by starting your script with:
 ```
 from automagica import *
 ```
+
+Important: for some activities (mainly OCR-related) an Automagica API-key is required. In order to acquire an API-key, you need to register at the [Automagica Portal](https://portal.automagica.com).
+
+## Components
+The Automagica suite consists of the following components:
+- __Automagica Bot__: runtime/agent responsible for performing the automated tasks.
+- __Automagica Wand__: UI element picker powered by AI.
+- __Automagica Flow__: a visual flow designer to build automations quickly.
+- __Automagica Lab__: Notebook-style automation development environment based on Jupyter Notebooks (requires Jupyter to be installed).
+- __Automagica Portal__: management of bots, credentials, automations, logs, ...
+
+Some activities access external services hosted on our servers, such as the AI and OCR-related capabilities.
+
+The Automagica Portal is currently not available under an open source license. We offer a free environment for evaluation purposes at https://portal.automagica.com. If you would like to use the Automagica Portal within your company or organization, please contact us at sales@automagica.com.
 
 
 ## Examples

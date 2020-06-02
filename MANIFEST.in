@@ -1,0 +1,5 @@
+recursive-include automagica/gui *
+recursive-include automagica/models *
+recursive-include automagica/bin *
+recursive-include automagica/lab *
+recursive-include automagica/locale *

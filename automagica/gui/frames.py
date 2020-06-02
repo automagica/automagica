@@ -151,7 +151,8 @@ class ConsoleFrame(tk.Frame):
             ),
         )
         self.console_text.configure(font="TkFixedFont", state="disabled")
-        self.console_text.tag_config("error", foreground="red")
+
+        self.console_text.tag_config("error", foreground=config.COLOR_14)
 
         self.line_start = 0
 
@@ -820,7 +821,10 @@ class SidebarFrame(tk.Frame):
         self.instructions_label.pack()
 
         self.search_entry = InputField(
-            frame, textvariable=self.query, placeholder=_("Search activities..."), font=font.Font(family=config.FONT, size=10)
+            frame,
+            textvariable=self.query,
+            placeholder=_("Search activities..."),
+            font=font.Font(family=config.FONT, size=10),
         )
         self.query.trace("w", self.search_activities)
 

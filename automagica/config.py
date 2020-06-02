@@ -67,6 +67,7 @@ COLOR_10 = "#ffffff"  # Background menus white
 COLOR_11 = "#000000"  # Label text
 COLOR_12 = "#000000"
 COLOR_13 = "#ffffff"
+COLOR_14 = "#FFCCCB"  # Light red
 
 # Dark mode
 # COLOR_0 = "#092740"  # Automagica Blue
