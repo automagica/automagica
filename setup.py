@@ -44,9 +44,9 @@ class InstallationWrapper(install):
 setup(
     name="Automagica",
     version="3.0.1",
-    description="Smart Robotic Process Automation",
+    description="Open Source RPA",
     author="Oakwood Technologies BVBA",
-    author_email="mail@automagica.com",
+    author_email="mail@oakwood.ai",
     url="https://automagica.com/",
     entry_points={"console_scripts": ["automagica=automagica.cli:cli"]},
     packages=["automagica"],
@@ -72,6 +72,7 @@ setup(
         "click==7.0",  # BSD 3-Clause6
         "idna==2.5",  # BSD 3-Clause
         "pyglet",  # MIT License
+        "jupyterlab",
     ],
     include_package_data=True,
     cmdclass={"install": InstallationWrapper},
