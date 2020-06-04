@@ -1,0 +1,125 @@
+{
+    "nodes": [
+        {
+            "uid": "Ahpu",
+            "x": 100,
+            "y": 100,
+            "type": "StartNode",
+            "next_node": "LZlg",
+            "label": ""
+        },
+        {
+            "uid": "LZlg",
+            "x": 100,
+            "y": 200,
+            "type": "ActivityNode",
+            "next_node": "ELsI",
+            "label": "",
+            "activity": "automagica.activities.wait",
+            "args": {
+                "seconds": "1"
+            },
+            "class": null
+        },
+        {
+            "uid": "ELsI",
+            "x": 250,
+            "y": 200,
+            "type": "ActivityNode",
+            "next_node": "DQyy",
+            "label": null,
+            "activity": "automagica.activities.wait",
+            "args": {},
+            "class": null
+        },
+        {
+            "uid": "DQyy",
+            "x": 250,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": "XLW5",
+            "label": null,
+            "activity": "automagica.activities.wait",
+            "args": {},
+            "class": null
+        },
+        {
+            "uid": "XLW5",
+            "x": 400,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": "Fqts",
+            "label": null,
+            "activity": "automagica.activities.wait",
+            "args": {},
+            "class": null
+        },
+        {
+            "uid": "Fqts",
+            "x": 575,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": "zSRK",
+            "label": null,
+            "activity": "automagica.activities.Excel.__init__",
+            "args": {
+                "self": "excel"
+            },
+            "class": "excel"
+        },
+        {
+            "uid": "zSRK",
+            "x": 750,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": "OrYQ",
+            "label": null,
+            "activity": "automagica.activities.Excel.add_worksheet",
+            "args": {
+                "self": "excel"
+            },
+            "class": "excel"
+        },
+        {
+            "uid": "OrYQ",
+            "x": 925,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": "GglA",
+            "label": null,
+            "activity": "automagica.activities.Excel.add_worksheet",
+            "args": {
+                "self": "excel"
+            },
+            "class": "excel"
+        },
+        {
+            "uid": "GglA",
+            "x": 1100,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": "jVrD",
+            "label": "",
+            "activity": "automagica.activities.Excel.save_as",
+            "args": {
+                "self": "excel",
+                "file_path": "\"test1.xlsx\""
+            },
+            "class": "excel"
+        },
+        {
+            "uid": "jVrD",
+            "x": 1275,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": null,
+            "label": null,
+            "activity": "automagica.activities.Excel.quit",
+            "args": {
+                "self": "excel"
+            },
+            "class": "excel"
+        }
+    ],
+    "name": "Example Sub Flow"
+}

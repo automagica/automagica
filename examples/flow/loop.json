@@ -1,0 +1,73 @@
+{
+    "nodes": [
+        {
+            "uid": "olT5",
+            "x": -75,
+            "y": 100,
+            "type": "StartNode",
+            "next_node": "BCUt",
+            "label": ""
+        },
+        {
+            "uid": "kZgV",
+            "x": 275,
+            "y": 100,
+            "type": "LoopNode",
+            "iterable": "fruits",
+            "item": "",
+            "next_node": "mWOg",
+            "loop_node": "CYSA",
+            "label": null
+        },
+        {
+            "uid": "BCUt",
+            "x": 100,
+            "y": 100,
+            "type": "PythonCodeNode",
+            "next_node": "kZgV",
+            "code": "fruits = ['apple', 'banana', 'pizza']\n\n\n\n",
+            "on_exception_node": null,
+            "label": null
+        },
+        {
+            "uid": "mWOg",
+            "x": 475,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": null,
+            "label": "Done print",
+            "activity": "automagica.activities.print_console",
+            "args": {
+                "data": "\"Done!\""
+            },
+            "class": null
+        },
+        {
+            "uid": "CYSA",
+            "x": 275,
+            "y": 275,
+            "type": "ActivityNode",
+            "next_node": "GY4C",
+            "label": "Every fruit print",
+            "activity": "automagica.activities.print_console",
+            "args": {
+                "data": "fruit"
+            },
+            "class": null
+        },
+        {
+            "uid": "GY4C",
+            "x": 475,
+            "y": 275,
+            "type": "ActivityNode",
+            "next_node": null,
+            "label": "every fruit additional print",
+            "activity": "automagica.activities.print_console",
+            "args": {
+                "data": "\"that was a tasty fruit\""
+            },
+            "class": null
+        }
+    ],
+    "name": "Unnamed Flow"
+}

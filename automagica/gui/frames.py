@@ -20,8 +20,8 @@ from automagica.gui.graphs import (
     SubFlowNodeGraph,
 )
 from automagica.gui.inputs import InputField
-from automagica.models import Flow, ThreadedBot
-from automagica.models.bots import ConsoleHandler
+from automagica.flow import Flow
+from automagica.bots import ConsoleHandler, ThreadedBot
 
 
 class LabelFrame(tk.LabelFrame):
@@ -620,10 +620,10 @@ class ToolbarFrame(tk.Frame):
         # Minimize window
         self.parent.master.iconify()
 
-        from .windows import ActionRecorderWindow
+        from .windows import WandWindow
 
         # Record action
-        ActionRecorderWindow(self, action)
+        WandWindow(self, action)
 
         # Restore window
         self.parent.master.deiconify()

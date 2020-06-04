@@ -196,6 +196,7 @@ class LoopNode(Node):
         try:
             # While iterable, iterate
             return next(self.iterable)
+
         except StopIteration:
             # Reset iterable and go to next node
             self.iterable.seek(0)
