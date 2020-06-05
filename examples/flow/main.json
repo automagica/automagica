@@ -1,0 +1,36 @@
+{
+    "nodes": [
+        {
+            "uid": "M31H",
+            "x": 100,
+            "y": 100,
+            "type": "StartNode",
+            "next_node": "Qp3q",
+            "label": null
+        },
+        {
+            "uid": "Qp3q",
+            "x": 275,
+            "y": 100,
+            "type": "SubFlowNode",
+            "next_node": "yky3",
+            "on_exception_node": null,
+            "subflow_path": "\"C:/repositories/Automagica/examples/automation.json\"",
+            "iterator": "",
+            "iterator_variable": "",
+            "label": ""
+        },
+        {
+            "uid": "yky3",
+            "x": 450,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": null,
+            "label": null,
+            "activity": "automagica.activities.generate_random_key",
+            "args": {},
+            "class": null
+        }
+    ],
+    "name": "Unnamed Flow"
+}

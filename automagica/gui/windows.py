@@ -6,29 +6,19 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 
 from automagica import config
+from automagica.bots import ThreadedBot
 from automagica.config import _
+from automagica.flow import Flow
 from automagica.gui.buttons import Button, HelpButton, LargeButton
-from automagica.gui.frames import (
-    ConsoleFrame,
-    FlowFrame,
-    LabelFrame,
-    SidebarFrame,
-    ToolbarFrame,
-)
+from automagica.gui.frames import (ConsoleFrame, FlowFrame, LabelFrame,
+                                   SidebarFrame, ToolbarFrame)
 from automagica.gui.inputs import (
-    AutocompleteDropdown,
-    AutomagicaIdInputWidget,
-    BooleanInputWidget,
-    FilePathInputWidget,
-    InputField,
-    InputWidget,
-    KeycombinationEntry,
-    NodeSelectionInputWidget,
-)
-from automagica.models.bots import ThreadedBot
-from automagica.models.flow import Flow
-from automagica.models.keybinds import Keybind, KeybindsManager
-from automagica.models.nodes import ActivityNode, DotPyFileNode, StartNode, SubFlowNode
+    AutocompleteDropdown, AutomagicaIdInputWidget, BooleanInputWidget,
+    FilePathInputWidget, InputField, InputWidget, KeycombinationEntry,
+    NodeSelectionInputWidget)
+from automagica.keybinds import Keybind, KeybindsManager
+from automagica.nodes import (ActivityNode, DotPyFileNode, StartNode,
+                              SubFlowNode)
 
 # Keep track of currently visible notifications (so they can stack)
 AUTOMAGICA_NUMBER_OF_NOTIFICATIONS = 0
@@ -434,7 +424,7 @@ class SplashWindow(Window):
         center_window(self)
 
 
-class ActionRecorderWindow(Window):
+class WandWindow(Window):
     def __init__(self, parent, action, *args, **kwargs):
         from time import sleep
 
@@ -498,7 +488,7 @@ class ActionRecorderWindow(Window):
         return frame
 
     def create_minimap_frame(self):
-        frame = LabelFrame(self, text=_("Screenshot"), bg="red")
+        frame = LabelFrame(self, text=_("Screenshot"), bg=self.cget("bg"))
 
         screenshot_small, self.minimap_scale = self._resize_to_fit(
             self.screenshot, 192 * 4, 108 * 4
@@ -1149,7 +1139,7 @@ class FlowPlayerWindow(Window):
             frame,
             text=_("No current activity"),
             fg=config.COLOR_11,
-            bg=self.cget("bg"), 
+            bg=self.cget("bg"),
             font=(config.FONT, 10),
         )
         self.current_node_label.pack()

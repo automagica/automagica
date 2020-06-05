@@ -1,6 +1,6 @@
 .. module:: automagica.activities
 
-Activities
+Automagica Activities
 ==========
 
 

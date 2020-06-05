@@ -227,10 +227,19 @@ def all_activities():
 
                 if line.startswith(":type "):
                     name = line.split(":")[1].replace("type ", "")
+
                     type_ = line.split(":")[-1].strip()
 
                     if name == val.name:
                         arg["type"] = type_
+
+                if line.startswith(":options "):
+                    name = line.split(":")[1].replace("options ", "")
+                    options_unparsed = line[line.index(":", 2) + 2 :]
+                    options = eval(options_unparsed)
+                    
+                    if name == val.name:
+                        arg["options"] = options
 
             if not arg.get("type"):
                 if val.name.endswith("path"):

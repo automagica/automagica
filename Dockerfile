@@ -12,7 +12,8 @@ RUN set -ex; \
     supervisor \
     x11vnc \
     xterm \
-    xvfb
+    xvfb \
+    freeglut3-dev
 
 # Setup demo environment variables
 ENV HOME=/root \

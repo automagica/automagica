@@ -9,7 +9,6 @@ from automagica.config import _
 from automagica.gui.graphs import generate_icon
 
 
-
 class Button(tk.Button):
     """
     Default styled button
@@ -112,3 +111,9 @@ class HelpButton(tk.Button):
 
     def on_clicked(self):
         messagebox.showinfo(self.title, self.message)
+
+
+class ImageButton(tk.Button):
+    def __init__(self, parent, fn):
+        self.img = tk.PhotoImage(file=fn)
+        super().__init__(parent, image=self.img, bd=0)

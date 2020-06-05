@@ -1,0 +1,67 @@
+{
+    "nodes": [
+        {
+            "uid": "MMbC",
+            "x": 100,
+            "y": 100,
+            "type": "StartNode",
+            "next_node": "khSZ",
+            "label": null
+        },
+        {
+            "uid": "khSZ",
+            "x": 275,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": "dsWX",
+            "label": null,
+            "activity": "automagica.activities.wait",
+            "args": {},
+            "class": null
+        },
+        {
+            "uid": "dsWX",
+            "x": 450,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": "qIgd",
+            "label": null,
+            "activity": "automagica.activities.wait",
+            "args": {},
+            "class": null
+        },
+        {
+            "uid": "qIgd",
+            "x": 625,
+            "y": 100,
+            "type": "SubFlowNode",
+            "next_node": "ZXA2",
+            "on_exception_node": null,
+            "subflow_path": null,
+            "label": null
+        },
+        {
+            "uid": "ZXA2",
+            "x": 800,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": "T0FB",
+            "label": null,
+            "activity": "automagica.activities.wait",
+            "args": {},
+            "class": null
+        },
+        {
+            "uid": "T0FB",
+            "x": 975,
+            "y": 100,
+            "type": "ActivityNode",
+            "next_node": null,
+            "label": null,
+            "activity": "automagica.activities.wait",
+            "args": {},
+            "class": null
+        }
+    ],
+    "name": "Main flow"
+}

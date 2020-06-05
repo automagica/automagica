@@ -9,9 +9,9 @@ from time import sleep
 import click
 
 from automagica.config import _
-from automagica.gui import FlowApp, TrayApp
+from automagica.gui.apps import FlowApp, BotApp, WandApp, LabApp, CaptureApp
 
-__version__ = "3.0.0"
+__version__ = "3.0.1"
 
 
 class Automagica:
@@ -516,6 +516,9 @@ class Automagica:
     def configuration_wizard(self):
         print("Automagica Configuration\n")
         print("You can find your User Secret and Bot Secret at {}".format(self.url))
+        print(
+            "Leave a value empty to enter the proposed or default value between [brackets]."
+        )
 
         portal_url = input("\nAutomagica Portal URL [{}]: ".format(self.url))
 
@@ -535,6 +538,11 @@ class Automagica:
 
         if bot_secret:
             self.config["bot_secret"] = bot_secret
+
+        locale = input("\nLocale [{}]: ".format(self.config.get("locale", "en_GB")))
+
+        if locale:
+            self.config["locale"] = locale
 
         self.save_config()
 
@@ -580,20 +588,16 @@ def configure(obj):
 
 
 @cli.command(help=_("Automagica Bot"))
-@click.option("--headless", help=_("Run bot headless (without GUI)"))
-def bot(headless=False):
-    if headless:
-        pass
-    else:
-        app = TrayApp()
-        app.run()
+def bot():
+    app = BotApp()
+    app.run()
 
 
 @cli.command("wand", help=_("Automagica Wand"))
-@click.pass_obj
-def wand(obj):
-    # TODO: Standalone version of RecorderWindow
-    pass
+@click.argument("action")
+def wand(action):
+    app = WandApp(action)
+    app.run()
 
 
 @cli.group(help=_("Automagica Lab"))
@@ -603,17 +607,22 @@ def lab():
 
 @lab.command("new", help=_("New Notebook"))
 def lab_new():
-    pass
+    app = LabApp()
+    app.new()
 
 
 @lab.command("edit", help=_("Edit Notebook"))
-def lab_edit():
-    pass
+@click.argument("filename")
+def lab_edit(filename):
+    app = LabApp()
+    app.edit(filename)
 
 
 @lab.command("run", help=_("Run Notebook"))
-def lab_run():
-    pass
+@click.argument("filename")
+def lab_run(filename):
+    app = LabApp()
+    app.run(filename)
 
 
 @cli.command(help=_("Automagica Portal"))
@@ -659,6 +668,24 @@ def flow_run(filename, headless, step_by_step):
     )
 
     app.run()
+
+
+@cli.group(help=_("Automagica Trace"))
+def trace():
+    pass
+
+
+@trace.command("record", help=_("Record a new trace"))
+@click.argument("name")
+def trace_record(name):
+    pass
+
+
+@trace.command("convert", help=_("Convert an existing trace"))
+@click.argument("filename")
+@click.argument("format")
+def trace_convert(filename, format_):
+    pass
 
 
 if __name__ == "__main__":

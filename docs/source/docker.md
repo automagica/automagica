@@ -1,7 +1,11 @@
-# Automagica in Docker containers
-As Automagica is fully cross-platform and based on Python, it's quite easy to run or build Automagica bots inside containers. We've added an example `Dockerfile` with the minimum reuirements for running an Automagica bot:
+# Automagica and Docker
+## Introduction
+As Automagica is fully cross-platform and based on Python, it's quite easy to run or build Automagica bots inside containers. 
+
+## Get started
+We've added an example `Dockerfile` with the minimum reuirements for running an Automagica bot:
 ```
-git clone https://github.com/oakwoodai/automagica
+git clone https://automagi.ca/github
 cd automagica
 docker build . -t automagica
 docker run -it -p 8080:8080 automagica
