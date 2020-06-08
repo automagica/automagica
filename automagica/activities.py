@@ -2833,8 +2833,9 @@ def rename_folder(input_path, output_name=None):
     Rename a folder
 
     :parameter input_path: Full path of folder that will be renamed
-    :type input_path: 
+    :type input_path: input_dir, optional
     :parameter output_name: New name. By default folder will be renamed to original folder name with '_renamed' added to the folder name.
+    :type output_name: string, optional
 
     :return: Path to renamed folder as a string.
 
@@ -2867,12 +2868,13 @@ def rename_folder(input_path, output_name=None):
 
 
 @activity
-def show_folder(path=None):
+def show_folder(input_path=None):
     """Open a folder
 
     Open a folder with the default explorer.
 
-    :parameter path: Full path of folder that will be opened. Default value is the home directory
+    :parameter input_path: Full path of folder that will be opened. Default value is the home directory
+    :type input_path: input_dir, optional
 
     :return: Path to opend folder as a string
 
@@ -2893,7 +2895,7 @@ def show_folder(path=None):
 
     """
 
-    path = interpret_path(path)
+    path = interpret_path(input_path)
 
     import os
 
@@ -2910,7 +2912,9 @@ def move_folder(input_path, output_path=None):
     Moves a folder from one place to another.
     
     :parameter input_path: Full path to the source location of the folder
+    :type input_path: input_dir
     :parameter output_path: Full path to the destination location of the folder, defaults to input_path with '_moved' added
+    :type output_path: output_dir, optional
 
      :return: Path to new location of folder as a string. None if folder could not be moved.
 
@@ -2946,13 +2950,17 @@ def move_folder(input_path, output_path=None):
 
 
 @activity
-def remove_folder(path, allow_root=False, delete_read_only=True):
+def remove_folder(input_path, allow_root=False, delete_read_only=True):
     """Remove folder
 
     Remove a folder including all subfolders and files. For the function to work optimal, all files and subfolders in the main targetfolder should be closed.
 
-    :parameter path: Full path to the folder that will be deleted
+    :parameter input_path: Full path to the folder that will be deleted
+    :type input_path: input_dir
     :parameter allow_root: Allow paths with an arbitrary length of 10 characters or shorter to be deleted. Default value is False.
+    :type allow_root: bool, optional
+    :parameter delete_read_only: Option to delete read only
+    :type delete_read_only: bool, optional
 
     :return: Path to deleted folder as a string
 
@@ -2978,7 +2986,7 @@ def remove_folder(path, allow_root=False, delete_read_only=True):
     import os
     import shutil
 
-    path = interpret_path(path, required=True)
+    path = interpret_path(input_path, required=True)
 
     if len(path) > 10 or allow_root:
         if os.path.isdir(path):
@@ -2987,13 +2995,14 @@ def remove_folder(path, allow_root=False, delete_read_only=True):
 
 
 @activity
-def empty_folder(path, allow_root=False):
+def empty_folder(input_path, allow_root=False):
     """Empty folder
     
     Remove all contents from a folder
     For the function to work optimal, all files and subfolders in the main targetfolder should be closed.
 
-    :parameter path: Full path to the folder that will be emptied
+    :parameter input_path: Full path to the folder that will be emptied
+    :type input_path: input_dir
     :parameter allow_root: Allow paths with an arbitrary length of 10 characters or shorter to be emptied. Default value is False.
 
         :Example:
@@ -3018,7 +3027,7 @@ def empty_folder(path, allow_root=False):
     """
     import os
 
-    path = interpret_path(path, required=True)
+    path = interpret_path(input_path, required=True)
     if len(path) > 10 or allow_root:
         if os.path.isdir(path):
             for root, dirs, files in os.walk(path, topdown=False):
@@ -3034,7 +3043,8 @@ def folder_exists(path):
 
     Check whether folder exists or not, regardless if folder is empty or not.
 
-    :parameter path: Full path to folder
+    :parameter input_path: Full path to folder
+    :type input_path: input_dir
 
     :return: Boolean
 
@@ -3065,7 +3075,9 @@ def copy_folder(input_path, output_path=None):
     
 
     :parameter input_path: Full path to the source location of the folder
+    :type input_path: input_dir
     :parameter output_path: Full path to the destination location of the folder. If no path is specified folder will get copied in the input directory with '_copied' added
+    :type output_path: output_dir, optional
 
     :return: Path to new folder as string
 
@@ -3097,13 +3109,15 @@ def copy_folder(input_path, output_path=None):
 
 
 @activity
-def zip_folder(path, output_path=None):
+def zip_folder(input_path, output_path=None):
     """Zip
 
      Zia folder and it's contents. Creates a .zip file. 
 
-    :parameter path: Full path to the source location of the folder that will be zipped
+    :parameter input_path: Full path to the source location of the folder that will be zipped
+    :type input_path: input_dir
     :parameter output_path: Full path to save the zipped folder. If no path is specified a folder with the original folder with '_zipped' added
+    :type output_path: output_dir, optional
 
     :return: Path to zipped folder
 
@@ -3124,7 +3138,7 @@ def zip_folder(path, output_path=None):
     import os
     import shutil
 
-    path = interpret_path(path, required=True)
+    path = interpret_path(input_path, required=True)
 
     if not output_path:
         output_path = interpret_path(path, addition="_zipped")
@@ -3136,13 +3150,15 @@ def zip_folder(path, output_path=None):
 
 
 @activity
-def unzip(path, output_path=None):
+def unzip(input_path, output_path=None):
     """Unzip
 
     Unzips a file or folder from a .zip file.
 
-    :parameter path: Full path to the source location of the file or folder that will be unzipped
+    :parameter input_path: Full path to the source location of the file or folder that will be unzipped
+    :type input_path: input_dir
     :parameter to_path: Full path to save unzipped contents. If no path is specified the unzipped contents will be stored in the same directory as the zipped file is located. 
+    :type output_path: output_dir, optional
 
     :return: Path to unzipped folder
 
@@ -3167,7 +3183,7 @@ def unzip(path, output_path=None):
     import os
     import shutil
 
-    path = interpret_path(path)
+    path = interpret_path(input_path)
 
     if not output_path:
         output_path = interpret_path(path, addition="_unzipped")
@@ -3183,12 +3199,13 @@ def unzip(path, output_path=None):
 
 
 @activity
-def most_recent_file(path=None):
+def most_recent_file(input_path=None):
     """Return most recent file in directory
 
     Return most recent file in directory
 
-    :parameter path: Path which will be scanned for most recent file, defaults to homedir
+    :parameter input_path: Path which will be scanned for most recent file, defaults to homedir
+    :type input_path: input_dir, optional
 
     :return: Path to most recent file
 
@@ -3206,7 +3223,7 @@ def most_recent_file(path=None):
 
     import os
 
-    path = interpret_path(path)
+    path = interpret_path(input_path)
 
     files = os.listdir(path)
     paths = [os.path.join(path, basename) for basename in files]
@@ -3226,6 +3243,7 @@ def wait(seconds=1):
     Make the robot wait for a specified number of seconds. Note that this activity is blocking. This means that subsequent activities will not occur until the the specified waiting time has expired.
 
     :parameter seconds: Time in seconds to wait
+    :type seconds: int, optional
 
         :Example:
 
@@ -3245,14 +3263,16 @@ def wait(seconds=1):
 
 
 @activity
-def wait_folder_exists(path, timeout=60):
+def wait_folder_exists(input_path, timeout=60):
     """Wait for folder
 
     Waits until a folder exists.
     Not that this activity is blocking and will keep the system waiting.
 
-    :parameter path: Full path to folder.
+    :parameter input_path: Full path to folder.
+    :type input_path: input_dir, optional
     :parameter timeout: Maximum time in seconds to wait before continuing. Default value is 60 seconds.
+    :type timeout: int, optional
 
         :Example:
 
@@ -3270,7 +3290,7 @@ def wait_folder_exists(path, timeout=60):
     from time import sleep
     import os
 
-    path = interpret_path(path)
+    path = interpret_path(input_path)
 
     while not os.path.exists(path):
         sleep(1)
@@ -3298,7 +3318,10 @@ class Word:
         For this activity to work, Microsoft Office Word needs to be installed on the system.
 
         :parameter file_path: Enter a path to open Word with an existing Word file. If no path is specified a document will be initialized, this is the default value.
+        :type file_path: input_file, optional
+        :extension file_path: docx
         :parameter visible: Show Word in the foreground if True or hide if False, defaults to True.
+        :type visible: bool, optional
 
             :Example:
 
@@ -3367,12 +3390,14 @@ class Word:
         return self.file_path
 
     @activity
-    def save_as(self, file_path):
+    def save_as(self, output_path):
         """Save As
 
         Save active Word document to a specific location
 
-        :parameter file_path: Enter a path to open Word with an existing Word file.
+        :parameter output_path: Enter a path to open Word with an existing Word file.
+        :type output_path: output_file
+        :extension output_file: docx
 
             :Example:
 
@@ -3399,6 +3424,7 @@ class Word:
         Append text at end of Word document.
 
         :parameter text: Text to append to document
+        :type text: string, optional
 
             :Example:
 
@@ -3425,8 +3451,10 @@ class Word:
         Can be used for example to replace arbitrary placeholder value. For example when 
         using template document, using 'XXXX' as a placeholder. Take note that all strings are case sensitive.
 
-        :parameter placeholder_text: Placeholder text value (string) in the document, this will be replaced, e.g. 'Company Name'
-        :parameter replacement_text: Text (string) to replace the placeholder values with. It is recommended to make this unique to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
+        :parameter placeholder_text: Placeholder text value in the document, this will be replaced, e.g. 'Company Name'
+        :type placeholder_text: string
+        :parameter replacement_text: Text to replace the placeholder values with. It is recommended to make this unique to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
+        :type replacement_text: string
 
             :Example:
 
@@ -3454,6 +3482,7 @@ class Word:
         Read all the text from a document
 
         :parameter return_as_list: Set this paramater to True to return text as a list of strings. Default value is False.
+        :type return_as_list: bool, optional
 
         :return: Text from the document
 
@@ -3479,12 +3508,14 @@ class Word:
         return self.app.ActiveDocument.Content.Text.replace("\r", "\n")
 
     @activity
-    def export_to_pdf(self, file_path=None):
+    def export_to_pdf(self, output_path=None):
         """Export to PDF
 
         Export the document to PDF
 
-        :parameter file_path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
+        :parameter output_path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
+        :type output_path: output_file, optional
+        :extension output_path: pdf
 
             :Example:
 
@@ -3501,10 +3532,10 @@ class Word:
             lar la-file-pdf
 
         """
-        if not file_path:
-            file_path = interpret_path(file_path, addition="pdf_export.pdf")
+        if not output_path:
+            file_path = interpret_path(output_path, addition="pdf_export.pdf")
         else:
-            file_path = interpret_path(file_path)
+            file_path = interpret_path(output_path)
 
         self.app.ActiveDocument.ExportAsFixedFormat(
             OutputFileName=file_path,
@@ -3516,12 +3547,14 @@ class Word:
         )
 
     @activity
-    def export_to_html(self, file_path=None):
+    def export_to_html(self, output_path=None):
         """Export to HTML
 
         Export to HTML
 
         :parameter file_path: Output path where HTML file will be exported to. Default path is home directory with filename 'html_export.html'.
+        :type output_path: output_file, optional
+        :extension output_path: html
 
             :Example:
 
@@ -3538,10 +3571,10 @@ class Word:
             las la-html5
 
         """
-        if not file_path:
-            file_path = interpret_path(file_path, addition="html_export.html")
+        if not output_path:
+            file_path = interpret_path(output_path, addition="html_export.html")
         else:
-            file_path = interpret_path(file_path)
+            file_path = interpret_path(output_path)
 
         import win32com.client
 
@@ -3562,6 +3595,7 @@ class Word:
         Set the footers of the document
 
         :parameter text: Text to put in the footer
+        :type text: string
 
             :Example:
 
@@ -3587,6 +3621,7 @@ class Word:
         Set the headers of the document
 
         :parameter text: Text to put in the header
+        :type text: string
 
             :Example:
 
@@ -3641,6 +3676,8 @@ class WordFile:
         Note that, in contrary to working with the :func: 'Word' activities, a file get saved directly after manipulation.
 
         :parameter file_path: Enter a path to open Word with an existing Word file. If no path is specified a 'document.docx' will be initialized in the home directory, this is the default value. If a document with the same name already exists the file will be overwritten.
+        :type file_path: input_file, optional
+        :extension file_path: docx
 
             :Example:
 
@@ -3682,6 +3719,7 @@ class WordFile:
         Read all the text from the document
 
         :parameter return_as_list: Set this paramater to True to return text as a list of strings. Default value is False.
+        :type return_as_list: bool, optional
 
         :return: Text of the document
 
@@ -3717,7 +3755,9 @@ class WordFile:
         Append text at the end of the document
 
         :parameter text: Text to append
+        :type text: streing
         :parameter auto_save: Save document after performing activity. Default value is True
+        :type auto_save: bool, optional
 
             :Example:
 
@@ -3762,12 +3802,14 @@ class WordFile:
         document.save(self.file_path)
 
     @activity
-    def save_as(self, path):
+    def save_as(self, output_path):
         """Save as
 
         Save file on specified path
 
-        :param path: Path to save Wordfile to
+        :param output_path: Path to save Wordfile to
+        :type output_path: output_file
+        :extension output_path: docx
 
             :Example:
             
@@ -3784,7 +3826,7 @@ class WordFile:
         from docx import Document
 
         document = Document(self.file_path)
-        path = interpret_path(path)
+        path = interpret_path(output_path)
         self.file_path = path
         document.save(path)
 
@@ -3795,7 +3837,9 @@ class WordFile:
         Set headers of Word document
 
         :parameter text: Text to put in the header
+        :type text: string
         :parameter auto_save: Save document after performing activity. Default value is True
+        :type auto_save: bool, optional
 
             :Example:
             
@@ -3828,8 +3872,11 @@ class WordFile:
         Take note that all strings are case sensitive.
 
         :parameter placeholder_text: Placeholder text value (string) in the document, this will be replaced, e.g. 'Company Name'
+        :type placeholder_text: string
         :parameter replacement_text: Text (string) to replace the placeholder values with. It is recommended to make this unique to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
+        :type replacement_text: string
         :parameter auto_save: Save document after performing activity. Default value is True
+        :type auto_save: bool, optional
 
             :Example:
             
@@ -3865,6 +3912,9 @@ class Outlook:
         """Start Outlook Application
 
         For this activity to work, Outlook needs to be installed on the system.
+
+        :parameter account_name: Name of the account
+        :type account_name: string, optional
 
             :Example:
             
@@ -3908,10 +3958,15 @@ class Outlook:
         Send an e-mail using Outlook
 
         :parameter to_address: The e-mail address the e-mail should be sent to
+        :type to_addres: string, optional
         :parameter subject: The subject of the e-mail
+        :type subject: string, optional
         :parameter body: The text body contents of the e-mail
+        :type body: string, optional
         :parameter html_body: The HTML body contents of the e-mail (optional)
+        :type html_body: string, optional
         :parameter attachment_paths: List of file paths to attachments
+        :type attachment_paths: string, optional
 
             :Example:
             
@@ -3951,6 +4006,7 @@ class Outlook:
         Retrieve list of folders from Outlook
 
         :parameter limit: Maximum number of folders to retrieve
+        :type limit: int, optional
 
             :Example:
             
@@ -3986,8 +4042,11 @@ class Outlook:
         Retrieve list of messages from Outlook
 
         :parameter folder_name: Name of the Outlook folder, can be found using `get_folders`.
+        :type folder_name: string, optional
         :parameter limit: Number of messages to retrieve
+        :type limit: int, optional
         :parameter fields: Fields (properties) of e-mail messages to give, requires tupl Stadard is 'Subject', 'Body', 'SentOn' and 'SenderEmailAddress'.
+        :type fields: tuple, optional
 
         :return: List of dictionaries containing the e-mail messages with from, to, subject, body and html.
 
@@ -4058,10 +4117,15 @@ class Outlook:
         Deletes e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
 
         :parameter folder_name: Name of the Outlook folder, can be found using `get_folders`
+        :type folder_name: string, optional
         :parameter limit: Maximum number of e-mails to delete in one go
+        :type limit: int
         :parameter subject_contains: Only delete e-mail if subject contains this
+        :type subject_contains: string, optional
         :parameter body_contains: Only delete e-mail if body contains this
+        :type body_contains: string, optional
         :parameter sender_contains: Only delete e-mail if sender contains this
+        :type sender_contains: string, optional
 
             :Example:
 
@@ -4118,11 +4182,17 @@ class Outlook:
         Move e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
 
         :parameter source_folder_name: Name of the Outlook source folder from where e-mails will be moved, can be found using `get_folders`
+        :type source_folder_name: string, optional
         :parameter target_folder_name: Name of the Outlook destination folder to where e-mails will be moved, can be found using `get_folders`
+        :type target_folder_name: string, optional
         :parameter limit: Maximum number of e-mails to move in one go
+        :type limit: int
         :parameter subject_contains: Only move e-mail if subject contains this
+        :type subject_contains: string, optional
         :parameter body_contains: Only move e-mail if body contains this
+        :type body_contains: string, optional
         :parameter sender_contains: Only move e-mail if sender contains this
+        :type sender_contains: string, optional
 
             :Example:
 
@@ -4186,7 +4256,9 @@ class Outlook:
         Save all attachments from certain folder
 
         :parameter folder_name: Name of the Outlook folder, can be found using `get_folders`.
+        :type folder_name: string, optional
         :parameter ouput_path: Path where attachments will be saved. Default is the home directory.
+        :type output_path: output_dir, optional
 
         :return: List of paths to saved attachments.
 
@@ -4240,6 +4312,7 @@ class Outlook:
         Retrieve all contacts 
 
         :parameter fields: Fields can be specified as a tuple with their exact names. Standard value is None returning "LastName", "FirstName" and "Email1Address".
+        :type fields: tuple, optional
 
         :return: List of dictionaries containing the contact details.
 
@@ -4290,8 +4363,11 @@ class Outlook:
         Add a contact to Outlook contacts
 
         :parameter email: The e-mail address for the contact
+        :type email: string, optional
         :parameter first_name: First name for the contact (optional)
+        :type first_name: string, optional
         :parameter last_name: Last name for the contact (optional)
+        :type last_name: string, optional
 
             :Example:
 
@@ -4352,7 +4428,10 @@ class Excel:
         For this activity to work, Microsoft Office Excel needs to be installed on the system.
 
         :parameter file_path: Enter a path to open Excel with an existing Excel file. If no path is specified a workbook will be initialized, this is the default value.
+        :type file_path: input_file, optional
+        :extension file_path: xlsx
         :parameter visible: Show Excel in the foreground if True or hide if False, defaults to True.
+        :type visible: bool, optional
     
             :Example:
 
@@ -4380,6 +4459,7 @@ class Excel:
         """Utility function to create the Excel application scope object
 
         :return: Application object (win32com.client)
+        
         """
         try:
             import win32com.client
@@ -4406,8 +4486,8 @@ class Excel:
 
         Adds a worksheet to the current workbook
 
-        :parameter workbook: Workbook object which is retrieved with either new_workbook or open_workbook
         :parmeter name: Give the sheet a name (optional)
+        :type name: string, optional
 
             :Example:
 
@@ -4434,6 +4514,7 @@ class Excel:
         Activate a worksheet in the current Excel document by name
 
         :parameter name: Name of the worksheet to activate
+        :type name: string, optional
 
             :Example:
 
@@ -4484,12 +4565,14 @@ class Excel:
         return self.file_path
 
     @activity
-    def save_as(self, file_path):
+    def save_as(self, output_path):
         """Save as
 
         Save the current workbook to a specific path
 
-        :parameter file_path: Path where workbook will be saved.
+        :parameter output_path: Path where workbook will be saved.
+        :type output_path: output_file
+        :extension output_path: xlsx
 
             :Example:
 
@@ -4507,7 +4590,7 @@ class Excel:
             las la-file-excel
         
         """
-        file_path = interpret_path(file_path)
+        file_path = interpret_path(output_path)
         self.app.DisplayAlerts = False
         self.workbook.SaveAs(file_path)
         self.app.DisplayAlerts = True
@@ -4521,8 +4604,11 @@ class Excel:
         Write to a specific cell in the currently active workbook and active worksheet
 
         :parameter column: Column number (integer) to write
+        :type column: int
         :parameter row: Row number (integer) to write
+        :type row: int
         :parameter value: Value to write to specific cell
+        :type value: string
 
             :Example:
 
@@ -4548,7 +4634,9 @@ class Excel:
         Read a cell from the currently active workbook and active worksheet
 
         :parameter column: Column number (integer) to read
+        :type column: int
         :parameter row: Row number (integer) to read
+        :type row: int
 
         :return: Cell value
 
@@ -4578,7 +4666,9 @@ class Excel:
         Write to a specific range in the currently active worksheet in the active workbook
 
         :parameter range_: Range to write to, e.g. "A1:D10"
+        :type range_: string
         :parameter value: Value to write to range
+        :type value: string
         
             :Example:
 
@@ -4604,6 +4694,7 @@ class Excel:
         Read a range of cells from the currently active worksheet in the active workbook
 
         :parameter range_: Range to read from, e.g. "A1:D10"
+        :type range_: string
 
         :return value: Values in param range
         
@@ -4634,6 +4725,7 @@ class Excel:
         Run a macro by name from the currently active workbook
 
         :parameter name: Name of the macro to run. 
+        :type name: string
 
             :Example:
 
@@ -4687,6 +4779,7 @@ class Excel:
         Get table data from the currently active worksheet by name of the table
 
         :parameter name: List of table names
+        :type name: string
 
             :Example:
             
@@ -4881,9 +4974,12 @@ class Excel:
         
         Write a formula to a particular cell
 
-        :parameter column: Column number (integer) to write formula
-        :parameter row: Row number (integer) to write formula
+        :parameter column: Column number to write formula
+        :type column: int
+        :parameter row: Row number to write formula
+        :type row: int
         :parameter value: Formula to write to specific cell e.g. "=10*RAND()"
+        :type value: string
 
             :Example:
 
@@ -4906,8 +5002,10 @@ class Excel:
 
         Read the formula from a particular cell
 
-        :parameter column: Column number (integer) to read formula
-        :parameter row: Row number (integer) to read formula
+        :parameter column: Column number to read formula
+        :type column: int
+        :parameter row: Row number to read formula
+        :type row: int
 
         :return: Cell value
 
@@ -4935,7 +5033,8 @@ class Excel:
 
         Inserts an empty row to the currently active worksheet
 
-        :parameter row: Row number (integer) where to insert empty row e.g 1
+        :parameter row: Row number where to insert empty row e.g 1
+        :type row: int
             
             :Example:
 
@@ -4961,7 +5060,8 @@ class Excel:
 
         Inserts an empty column in the currently active worksheet. Existing columns will shift to the right.
 
-        :parameter column: Column letter (string) where to insert empty column e.g. 'A'
+        :parameter column: Column letter where to insert empty column e.g. 'A'
+        :type column: string
             
             :Example:
 
@@ -4970,7 +5070,7 @@ class Excel:
         >>> excel.write_cell(1, 1, 'Filled')
         >>> excel.write_cell(2, 2, 'Filled')
         >>> excel.write_cell(3, 3, 'Filled')
-        >>> excel.insert_empty_column(2)
+        >>> excel.insert_empty_column('A')
         
         Keywords
             excel, insert column, add column
@@ -4988,6 +5088,7 @@ class Excel:
         Deletes a row from the currently active worksheet. Existing data will shift up.
 
         :parameter row: Row number (integer) where to delete row e.g 1
+        :type row: int
 
             :Example:
 
@@ -5014,6 +5115,7 @@ class Excel:
         Delete a column from the currently active worksheet. Existing columns will shift to the left.
 
         :parameter column: Column letter (string) where to delete  column e.g. 'A'
+        :type column: string
 
             :Example:
 
@@ -5034,12 +5136,14 @@ class Excel:
         self.workbook.ActiveSheet.Range(column_range).EntireColumn.Delete()
 
     @activity
-    def export_to_pdf(self, path=None):
+    def export_to_pdf(self, output_path=None):
         """Export to PDF
 
         Export to PDF
 
         :parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
+        :type output_path: output_file, optional
+        :extension output_path: pdf
         
             :Example:
 
@@ -5057,9 +5161,9 @@ class Excel:
             las la-file-excel
         """
         if not file_path:
-            file_path = interpret_path(file_path, addition="pdf_export.pdf")
+            file_path = interpret_path(output_path, addition="pdf_export.pdf")
         else:
-            file_path = interpret_path(file_path)
+            file_path = interpret_path(output_path)
 
         self.workbook.ActiveSheet.ExportAsFixedFormat(0, path, 0, True, True)
 
@@ -5070,7 +5174,9 @@ class Excel:
         Insert list of dictionaries as a table in Excel
 
         :parameter data: List of dictionaries to write as table
+        :type data: string
         :parameter range_: Range or startingpoint for table e.g. 'A1'
+        :type range_: string, optional
         
             :Example:
             
@@ -5119,7 +5225,9 @@ class Excel:
         Read data from a worksheet as a list of lists
 
         :parameter name: Optional name of worksheet to read. If no name is specified will take active sheet
+        :type name: string, optional
         :parameter headers: Boolean to treat first row as headers. Default value is False
+        :type headers: bool, optional
 
         :return: List of dictionaries with sheet data
         
@@ -5200,6 +5308,8 @@ class ExcelFile:
         Note that, in contrary to working with the :func: 'Excel' activities, a file get saved directly after manipulation.
 
         :parameter file_path: Enter a path to open Excel with an existing Excel file. If no path is specified a 'workbook.xlsx' will be initialized in the home directory, this is the default value. If a workbook with the same name already exists the file will be overwritten.
+        :type file_path: input_file, optional
+        :extension file_path: xlsx
         
             :Example:
 
@@ -5238,8 +5348,6 @@ class ExcelFile:
 
         Export to pandas dataframe
 
-        :parameter file_path: Enter a path to open Excel with an existing Excel file. If no path is specified a 'workbook.xlsx' will be initialized in the home directory, this is the default value. If a workbook with the same name already exists the file will be overwritten.
-        
             :Example:
 
         >>> # Open a new Excel file
@@ -5266,6 +5374,7 @@ class ExcelFile:
         Activate a worksheet. By default the first worksheet is activated.
 
         :parameter name: Name of the worksheet to activate.        
+        :type name: string, optional
         
             :Example:
 
@@ -5287,12 +5396,14 @@ class ExcelFile:
         self.sheet_name = name
 
     @activity
-    def save_as(self, file_path):
+    def save_as(self, output_path):
         """Save as
 
         Save file as
 
         :parameter file_path: Path where workbook will be saved
+        :type output_path: output_file
+        :extension output_path: xlsx
         
             :Example:
 
@@ -5309,11 +5420,11 @@ class ExcelFile:
         Icon
             las la-file-excel
         """
-        file_path = interpret_path(file_path)
+        file_path = interpret_path(output_path)
         self.book.save(file_path)
 
     @activity
-    def save(self,):
+    def save(self):
         """Save as
 
         Save file
@@ -5342,9 +5453,13 @@ class ExcelFile:
         Write a cell based on column and row
 
         :parameter column: Column number (integer) to write
+        :type column: int
         :parameter row: Row number (integer) to write
+        :type row: int
         :parameter value: Value to write to specific cell
+        :type value: string
         :parameter auto_save: Save document after performing activity. Default value is True
+        :type auto_save: bool, optional
         
             :Example:
 
@@ -5377,7 +5492,9 @@ class ExcelFile:
         Read a cell based on column and row
 
         :parameter column: Column number (integer) to read
+        :type colunm: int
         :parameter row: Row number (integer) to read
+        :type row: int
 
         :return: Cell value
 
@@ -5414,7 +5531,9 @@ class ExcelFile:
         Add a worksheet
 
         :parameter name: Name of the worksheet to add
+        :type name: string
         :parameter auto_save: Save document after performing activity. Default value is True
+        :type auto_save: bool, optional
 
            :Example:
 
@@ -5481,8 +5600,12 @@ class PowerPoint:
         For this activity to work, PowerPoint needs to be installed on the system.
 
         :parameter file_path: Enter a path to open an existing PowerPoint presentation. If no path is specified a new presentation will be initialized, this is the default value.
+        :type file_path: input_file, optional
+        :extension file_path: pptx
         :parameter visible: Show PowerPoint in the foreground if True or hide if False, defaults to True.
+        :type visible: bool, optional
         :parameter add_slide: Add an initial empty slide when creating new PowerPointfile, this prevents errors since most manipulations require a non-empty presentation. Default value is True
+        :type add_slide: bool, optional
         
             :Example:
             
@@ -5527,12 +5650,14 @@ class PowerPoint:
             return app.Presentations.Add()
 
     @activity
-    def save_as(self, file_path):
+    def save_as(self, output_path):
         """Save PowerPoint
         
         Save PowerPoint Slidedeck
 
         :parameter file_path: Save the PowerPoint presentation.
+        :type output_path: output_file
+        :extension output_path: pptx
 
             :Example:
             
@@ -5550,7 +5675,7 @@ class PowerPoint:
             las la-file-powerpoint
 
         """
-        file_path = interpret_path(file_path)
+        file_path = interpret_path(output_path)
         self.app.SaveAs(file_path)
 
         return file_path
@@ -5560,8 +5685,6 @@ class PowerPoint:
         """Save PowerPoint
         
         Save PowerPoint Slidedeck
-
-
 
             :Example:
             
@@ -5616,7 +5739,10 @@ class PowerPoint:
         Adds slides to a presentation
 
         :parameter index: Index where the slide should be inserted. Default value is as final slide.
+        :type index: int, optional
         :parmeter type: Type of the slide to be added. Supports following types: blank, chart, text, title and picture.
+        :options type: ['blank', 'chart', 'text', 'title', 'picture']
+
 
             :Example:
             
@@ -5691,14 +5817,23 @@ class PowerPoint:
         Add text to a slide
 
         :parameter index: Slide index to add text. If none is specified, a new slide will be added as final slide
+        :type index: int, optional
         :parmeter text: Text to be added
+        :type text: string, optional
         :parameter font_size: Fontsize, default value is 48
+        :type font_size: int, optional
         :parameter font_name: Fontname, if not specified will take default PowerPoint font
+        :type font_name: string, optional
         :parameter bold: Toggle bold with True or False, default value is False
+        :type bold: bool, optional
         :parameter margin_bottom: Margin from the bottom in pixels, default value is 100 pixels
+        :type margin_bottom: int, optional
         :parameter margin_left: Margin from the left in pixels, default value is 100 pixels
+        :type margin_left: int, optional
         :parameter margin_right: Margin from the right in pixels, default value is 100 pixels
+        :type margin_right: int, optional
         :parameter margin_top: Margin from the top in pixels, default value is 100 pixels
+        :type margin_top: int, optional
 
             :Example:
             
@@ -5736,6 +5871,7 @@ class PowerPoint:
         Delete a slide
 
         :parameter index: Slide index to be deleted. If none is specified, last slide will be deleted
+        :type index: int, optional
 
             :Example:
 
@@ -5768,7 +5904,9 @@ class PowerPoint:
         Take note that all strings are case sensitive.
 
         :parameter placeholder_text: Placeholder value (string) in the PowerPoint, this will be replaced, e.g. 'Company Name'
+        :type placeholder_text: string
         :parameter replacement_text: Text (string) to replace the placeholder values with. It is recommended to make this unique in your PowerPoint to avoid wrongful replacement, e.g. 'XXXX_placeholder_XXX'
+        :type replacement_text: string
 
             :Example:
             
@@ -5793,12 +5931,14 @@ class PowerPoint:
                 )
 
     @activity
-    def export_to_pdf(self, path=None):
+    def export_to_pdf(self, output_path=None):
         """PowerPoint to PDF
         
         Export PowerPoint presentation to PDF file
 
         :parameter path: Output path where PDF file will be exported to. Default path is home directory with filename 'pdf_export.pdf'.
+        :type output_path: output_file
+        :extension output_path: pdf
 
             :Example:
             
@@ -5830,13 +5970,15 @@ class PowerPoint:
         return self.app.ExportAsFixedFormat2(path, 2, PrintRange=None)
 
     @activity
-    def export_slides_to_images(self, path=None, type="png"):
+    def export_slides_to_images(self, output_path=None, type="png"):
         """Slides to images
         
         Export PowerPoint slides to seperate image files
 
-        :parameter path: Output path where image files will be exported to. Default path is home directory.
+        :parameter output_path: Output path where image files will be exported to. Default path is home directory.
+        :type output_put: output_dir
         :parameter type: Output type of the images, supports 'png' and 'jpg' with 'png' as default value
+        :options type: ['jpg', 'png']
 
             :Example:
             
@@ -5861,7 +6003,7 @@ class PowerPoint:
                 "Please add a slide first bedore exporting the presentation."
             )
 
-        if not path:
+        if not output_path:
             import os
 
             path = os.path.expanduser("~")
@@ -5882,10 +6024,15 @@ def send_email_with_outlook365(client_id, client_secret, to_email, subject="", b
     Send email Office Outlook 365
 
     :parameter client_id: Client id for office 365 account
+    :type cliend_id: string
     :parameter client_secret: Client secret for office 365 account
+    :type client_secret: string
     :parameter to_email: E-mail to send to
+    :type to_email: string
     :parameter subject: Optional subject
+    :type subject: string, optional
     :parameter body: Optional body of the email
+    :type body: string, optional
 
         :Example:
 
@@ -5923,10 +6070,15 @@ def salesforce_api_call(action, key, parameters={}, method="get", data={}):
     Activity to make calls to Salesforce REST API.
 
     :parameter action: Action (the URL)
+    :type action: string
     :parameter key: Authorisation key 
+    :type key: string
     :parameter parameters: URL params
+    :type parameters: string
     :parameter method: Method (get, post or patch)
+    :options method: ['get', 'post', 'patch']
     :parameter data: Data for POST/PATCH.
+    :type data: string
 
     :return: API data
 
@@ -5994,12 +6146,19 @@ def send_mail_smtp(
     This function lets you send emails with an e-mail address. 
 
     :parameter smpt_host: The host of your e-mail account. 
+    :type smpt_host: string
     :parameter smpt_user: The password of your e-mail account
+    :type smtp_user: string
     :parameter smpt_password: The password of your e-mail account
+    :type smpt_password: string
     :parameter to_address: The destination is the receiving mail address. 
+    :type to_address: string
     :parameter subject: The subject 
+    :type subject: string, optional
     :parameter message: The body of the mail
+    :type message: string, optional
     :parameter port: The port variable is standard 587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
+    :type port: int, optional
 
         :Example:
 
