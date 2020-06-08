@@ -245,9 +245,11 @@ class DotPyFileNode(Node):
             "label": self.label,
         }
 
-    def run(self, bot):
-        command = open(self.dotpyfile_path).read()
-        bot.run(command)
+    def run(self, bot, on_done=None):
+        with open(self.dotpyfile_path.replace('"', ""), "r", encoding="utf-8") as f:
+            command = f.read()
+
+        bot.run(command, on_done=on_done)
 
 
 class CommentNode(Node):
