@@ -112,7 +112,7 @@ Folder and File manipulation
 <img src="https://github.com/automagica/automagica/blob/master/images/USPresidents.gif" width="800">
 
 ## Docker Support (Experimental)
-As Automagica is fully cross-platform and based on Python, it's quite easy to run or build Automagica bots inside containers. We've added an example `Dockerfile` with the minimum reuirements for running an Automagica bot:
+As Automagica is fully cross-platform and built with Python, it's quite easy to run or build Automagica bots inside containers. We've added an example `Dockerfile` with the minimum reuirements for running an Automagica bot:
 ```
 git clone https://github.com/automagica/automagica
 cd automagica
