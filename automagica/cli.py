@@ -9,7 +9,7 @@ from time import sleep
 import click
 
 from automagica.config import _
-from automagica.gui.apps import FlowApp, BotApp, WandApp, LabApp, CaptureApp
+from automagica.gui.apps import FlowApp, BotApp, WandApp, LabApp, TraceApp
 
 __version__ = "3.0.1"
 
@@ -676,16 +676,17 @@ def trace():
 
 
 @trace.command("record", help=_("Record a new trace"))
-@click.argument("name")
-def trace_record(name):
-    pass
+def trace_record():
+    app = TraceApp()
+    app.run()
 
 
 @trace.command("convert", help=_("Convert an existing trace"))
 @click.argument("filename")
 @click.argument("format")
 def trace_convert(filename, format_):
-    pass
+    app = TraceApp()
+    app.run()
 
 
 if __name__ == "__main__":

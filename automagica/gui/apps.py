@@ -194,7 +194,7 @@ class LabApp:
             return notebook, error
 
 
-class CaptureApp(tk.Tk):
+class TraceApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -202,5 +202,5 @@ class CaptureApp(tk.Tk):
 
         self.capture = Capture()
 
-        # Run sound sbetter :)
+        # Run sounds better :)
         self.run = self.mainloop
