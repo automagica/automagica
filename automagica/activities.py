@@ -6201,7 +6201,9 @@ def find_window_title(searchterm, partial=True):
     Find a specific window based on the name, either a perfect match or a partial match.
 
     :parameter searchterm: Ttile to look for, e.g. 'Calculator' when looking for the Windows calculator
+    :type searchterm: string
     :parameter partial: Option to look for titles partially, e.g. 'Edge' will result in finding 'Microsoft Edge' when partial is set to True. Default value is True
+    :type pertial: bool, optional
 
         :Example:
 
@@ -6265,10 +6267,15 @@ def start_remote_desktop(
     Create a RDP and login to Windows Remote Desktop
 
     :parameter ip: IP address of remote desktop
+    :type ip: string
     :parameter username: Username
+    :type username: string
     :parameter password: Password
+    :type password: string, optional
     :parameter desktop_width: Resolution (width) of desktop, standard value is 1920 (full HD)
+    :type desktop_width: int, optional
     :parameter desktop_height: Resolution (height) of desktop, standard value is 1080 (full HD)
+    :type desktop_height: int, optional
 
         :Example:
 
@@ -6374,7 +6381,9 @@ def set_user_password(username, password):
     Sets the password for a Windows user.
 
     :parameter username: Username
+    :type username: string
     :parameter password: New password
+    :type password: string
 
         :Example:
 
@@ -6402,7 +6411,9 @@ def validate_user_password(username, password):
     Validates a Windows user password if it is correct
 
     :parameter username: Username
+    :type username: string
     :parameter password: New password
+    :type password: string
 
     :return: True if the password is correct
 
@@ -6548,6 +6559,7 @@ def set_to_clipboard(text):
     Set any text to the Windows clipboard. 
 
     :parameter text: Text to put in the clipboard
+    :type text: string
 
         :Example:
 
@@ -6656,6 +6668,7 @@ def run_vbs_script(script_path, parameters=[]):
     Run a VBScript file
 
     :parameter script_path: Path to the .vbs-file
+    :type script_path: input_file
     :parameter parameters: Additional arguments to pass to the VBScript
 
         :Example:
@@ -6683,7 +6696,9 @@ def beep(frequency=1000, duration=500):
     Make a beeping sound. Make sure your volume is up and you have hardware connected.
 
     :parameter frequency: Integer to specify frequency (Hz), default value is 1000 Hz
+    :type frequency: int, optional
     :parameter duration: Integer to specify duration of beep in miliseconds (ms), default value is 500 ms.
+    :type duration: int, optional
 
     :return: Sound
 
@@ -6741,6 +6756,7 @@ def enable_network_interface(name):
     Enables a network interface by its name.
 
     :parameter name: Name of the network
+    :type name: string
 
         :Example:
 
@@ -6767,6 +6783,7 @@ def disable_network_interface(name):
     Disables a network interface by its name.
 
     :parameter name: Name of the network interface
+    :type name: string
 
         :Example:
 
@@ -6818,6 +6835,7 @@ def set_default_printer(name):
     Set the default printer.
 
     :parameter name: Printer name
+    :type name: string
 
         :Example:
 
@@ -6843,6 +6861,7 @@ def remove_printer(name):
     Removes a printer by its name
 
     :parameter name: Printer name to remove
+    :type name: string
 
         :Example:
 
@@ -6868,6 +6887,7 @@ def get_service_status(name):
     Returns the status of a service on the machine
 
     :parameter name: Name of service
+    :type name: string
 
         :Example:
 
@@ -6896,6 +6916,7 @@ def start_service(name):
     Starts a Windows service
 
     :parameter name: Name of service
+    :type name: string
 
         :Example:
 
@@ -6921,6 +6942,7 @@ def stop_service(name):
     Stops a Windows service
 
     :parameter name: Name of service
+    :type name: string
 
         :Example:
 
@@ -6946,6 +6968,7 @@ def set_window_to_foreground(title):
     Sets a window to foreground by its title.
 
     :parameter name: Name of service
+    :type name: string
 
         :Example:
 
@@ -7002,6 +7025,7 @@ def close_window(title):
     Closes a window by its title
 
     :parameter title: Title of window
+    :type title: string
 
         :Example:
 
@@ -7032,6 +7056,7 @@ def maximize_window(title):
     Maximizes a window by its title
 
     :parameter title: Title of window
+    :type title: string
 
         :Example:
 
@@ -7064,6 +7089,7 @@ def restore_window(title):
     Restore a window by its title
 
     :parameter title: Title of window
+    :type title: string
 
         :Example:
 
@@ -7096,6 +7122,7 @@ def minimize_window(title):
     Minimizes a window by its title
 
     :parameter title: Title of window
+    :type title: string
 
         :Example:
 
@@ -7126,6 +7153,16 @@ def resize_window(title, x, y, width, height):
     Resize a window by its title
 
     :parameter title: Title of window
+    :type title: string
+    :parameter x: Starting x position
+    :type x: int
+    :parameter y: Starting y position
+    :type y: int
+    :parameter width: Width
+    :type width: int
+    :parameter height: Height
+    :type height: int
+
 
         :Example:
 
@@ -7157,6 +7194,7 @@ def hide_window(title):
     Hides a window from the user desktop by using it's title
 
     :parameter title: Title of window
+    :type title: string
 
         :Example:
 
@@ -7194,8 +7232,11 @@ def run_ssh_command(user, host, command):
     Runs a command over SSH (Secure Shell)
 
     :parameter user: User
+    :type user: string
     :parameter host: Host
+    :type host: string
     :parameter command: Command
+    :type command: string
 
         :Example:
 
@@ -7231,11 +7272,17 @@ def snmp_get(target, oids, credentials, port=161, engine=None, context=None):
     Retrieves data from an SNMP agent using SNMP (Simple Network Management Protocol)
 
     :parameter target: Target
+    :type target: string
     :parameter oids: oids
+    :type oids: string
     :parameter credentials: credentials
+    :type credentials: string
     :parameter port: Port (default 161)
+    :type port: int, optional
     :parameter engine: Engine (default none)
+    :type engine: string, optional
     :parameter context: Contect (default none)
+    :type context: string, optional
 
         :Example:
 
@@ -7293,10 +7340,14 @@ class ActiveDirectory:
     def __init__(self, ldap_server=None, username=None, password=None):
         """AD interface
         
-        Interface to Windows Active Directory through ADSI
+        Interface to Windows Active Directory through ADSI. Connects to the AD domain to which the machine is joined by default.
 
-        Activity to connect the ADSI interface to Microsoft Active Directory.
-        Connects to the AD domain to which the machine is joined by default.
+        :parameter ldap_server: LDAP server
+        :type ldap_server: string, optional
+        :parameter username: Username
+        :type username: string, optional
+        :parameter password: Password
+        :type password: string, optional
 
             :Example:
 
@@ -7328,8 +7379,8 @@ class ActiveDirectory:
         
         Interface to Windows Active Directory through ADSI
 
-        Activity to connect the ADSI interface to Microsoft Active Directory.
-        Connects to the AD domain to which the machine is joined by default.
+        :parameter distinguished_name: Name
+        :type distinguished_name: string
 
             :Example:
 
@@ -7353,12 +7404,13 @@ Icon: las la-toolbox
 
 
 @activity
-def home_path(subdir=None):
+def home_path(filename=None):
     """Get user home path
 
     Returns the current user's home path
 
-    :parameter filename: Optional filename to add to the path. Can also be a subdirectory
+    :parameter subdir: Optional filename to add to the path. Can also be a subdirectory
+    :type filename: string, optional
 
     :return: Path to the current user's home folder
 
@@ -7382,18 +7434,19 @@ def home_path(subdir=None):
     """
     import os
 
-    if subdir:
-        return os.path.join(os.path.expanduser("~"), subdir)
+    if filename:
+        return os.path.join(os.path.expanduser("~"), filename)
     return os.path.expanduser("~")
 
 
 @activity
-def desktop_path(subdir=None):
+def desktop_path(filename=None):
     """Get desktop path
 
     Returns the current user's desktop path
 
     :parameter filename: Optional filename to add to the path. Can also be a subdirectory
+    :type filename: string, optional
 
     :return: Path to the current user's desktop folder
 
@@ -7416,8 +7469,8 @@ def desktop_path(subdir=None):
     """
     import os
 
-    if subdir:
-        return os.path.join(os.path.join(os.path.expanduser("~"), "Desktop"), subdir)
+    if filename:
+        return os.path.join(os.path.join(os.path.expanduser("~"), "Desktop"), filename)
     return os.path.join(os.path.expanduser("~"), "Desktop")
 
 
@@ -7455,12 +7508,13 @@ def downloads_path():
 
 
 @activity
-def open_file(path):
+def open_file(input_path):
     """Open file
 
     Opens file with default programs
 
-    :parameter path: Path to file. 
+    :parameter input_path: Path to file. 
+    :type input_path: input_file
 
     :return: Path to file
 
@@ -7480,7 +7534,7 @@ def open_file(path):
     """
     import sys
 
-    path = interpret_path(path)
+    path = interpret_path(input_path)
 
     if sys.platform == "win32":
         import os
@@ -7502,6 +7556,7 @@ def set_wallpaper(image_path):
     Set Windows desktop wallpaper with the the specified image
 
     :parameter image_path: Path to the image. This image will be set as desktop wallpaper
+    :type image_path: input_file
 
         :Example:
 
@@ -7535,7 +7590,9 @@ def download_file_from_url(url, output_path=None):
     Download file from a URL
 
     :parameter url: Source URL to download file from
+    :type url: string
     :parameter output_path: Target path, default to homedir with name '_download_' + random addition
+    :type output_path: output_dir, optional
 
     :return: Target path as string
 
@@ -7586,8 +7643,10 @@ def rename_file(input_path, output_name=None):
 
     This activity will rename a file. If the the desired name already exists in the folder file will not be renamed. Make sure to add the exstention to specify filetype.
 
-    :parameter path: Full path to file that will be renamed
+    :parameter input_path: Full path to file that will be renamed
+    :type input_path: input_file
     :parameter output_name: New name of the file e.g. 'newfile.txt'. By default file will be renamed to original folder name with '_renamed' added to the folder name.
+    :type output_name: string, optional
 
     :return: Path to renamed file as a string. None if folder could not be renamed.
 
@@ -7625,7 +7684,9 @@ def move_file(input_path, output_path=None):
     If the new location already contains a file with the same name.
 
     :parameter input_path: Full path to the file that will be moved
+    :type input_path: input_file
     :parameter output_path: Path to the folder where file will be moved to, defaults to input_path with '_moved' added
+    :type output_path: output_dir
 
     :return: Path to renamed file as a string. None if folder could not be moved.
 
@@ -7666,6 +7727,7 @@ def remove_file(path):
     Remove a file 
 
     :parameter path: Full path to the file that will be deleted.
+    :type path: input_file
 
     :return: Path to removed file as a string.
 
@@ -7698,6 +7760,7 @@ def file_exists(path):
     This function checks whether the file with the given path exists.
 
     :parameter path: Full path to the file to check.
+    :type path: input_file
 
     return: True or False (boolean)
 
@@ -7728,7 +7791,9 @@ def wait_file_exists(path, timeout=60):
     Not that this activity is blocking and will keep the system waiting.
 
     :parameter path: Full path to file.
+    :type path: input_file
     :parameter timeout: Maximum time in seconds to wait before continuing. Default value is 60 seconds.
+    :type timeout: int, optional
 
         :Example:
 
@@ -7762,6 +7827,7 @@ def write_list_to_file(list_to_write, file_path):
     Every element of the entered list is written on a new line of the text file.
 
     :parameter list_to_write: List to write to .txt file
+    :type list_to_write: 
     :parameter path: Path to the text-file. 
 
         :Example:
@@ -7788,14 +7854,16 @@ def write_list_to_file(list_to_write, file_path):
 
 
 @activity
-def read_list_from_txt(file_path):
-    """Read .txt file
+def read_list_from_txt(input_path):
+    """Read list from .txt file
 
-    This activity writes the content of a .txt file to a list and returns that list. 
+    This activity reads the content of a .txt file to a list and returns that list. 
     Every new line from the .txt file becomes a new element of the list. The activity will 
     not work if the entered path is not attached to a .txt file.
 
-    :parameter path: Path to the .txt file
+    :parameter input_path: Path to the .txt file
+    :type input_path: input_file
+    :extension input_path: txt
 
     :return: List with contents of specified .txt file
 
@@ -7817,7 +7885,7 @@ def read_list_from_txt(file_path):
         las la-th-list
 
     """
-    file_path = interpret_path(file_path)
+    file_path = interpret_path(input_path)
     written_list = []
     with open(file_path, "r") as filehandle:
         filecontents = filehandle.readlines()
@@ -7826,6 +7894,39 @@ def read_list_from_txt(file_path):
             written_list.append(current_place)
     return written_list
 
+@activity
+def read_from_txt(file_path):
+    """Read .txt file
+
+    This activity reads a .txt file and returns the content
+
+    :parameter input_path: Path to the .txt file
+    :type input_path: input_file
+    :extension input_path: txt
+
+    :return: Contents of specified .txt file
+
+        :Example:
+    
+    >>> # Create a new text file
+    >>> text_file = make_text_file()
+    >>> # Read list from file
+    >>> read_from_txt(text_file)
+    'Sample text'
+
+    Keywords
+        list, text, txt, list to file, read, read txt, read text
+
+    Icon
+        las la-th-list
+
+    """
+    file_path = interpret_path(file_path)
+    written_list = []
+    with open(file_path, "r") as filehandle:
+        filecontents = filehandle.readlines()
+
+    return filecontents
 
 @activity
 def append_line(text, file_path):
@@ -7834,7 +7935,10 @@ def append_line(text, file_path):
     Append a text line to a file and creates the file if it does not exist yet.
 
     :parameter text: The text line to write to the end of the file
+    :type text: string
     :parameter file_path: Path to the file to write to
+    :type file_path: input_file
+    :extension file_path: txt
 
         :Example:
     
@@ -7872,7 +7976,10 @@ def make_text_file(text="Sample text", output_path=None):
     Initialize text file
 
     :parameter text: The text line to write to the end of the file. Default text is 'Sample text'
-    :parameter output_path: Ouput path. Will write to home directory
+    :type text: string, optional
+    :parameter output_path: Ouput path. Will write to home directory on default
+    :type output_path: output_file, optional
+    :extension output_path: txt
 
     :return: Path as string
 
@@ -7914,11 +8021,13 @@ def make_text_file(text="Sample text", output_path=None):
 
 @activity
 def read_text_file_to_list(file_path):
-    """ Read text file to list
+    """ Read .txt file with newlines to list
 
     Read a text file to a Python list-object
 
     :parameter file_path: Path to the text file which should be read to a list
+    :type file_path: input_file
+    :extension file_path: txt
 
     :return: List with the lines in the text file
 
@@ -7952,9 +8061,11 @@ def copy_file(input_path, output_path=None):
     Copies a file from one place to another.
     If the new location already contains a file with the same name, a random 4 character uid is added to the name.
 
-    :parameter input_path: Full path to the source location of the folder
+    :parameter input_path: Full path to the source location of the file
+    :type input_path: input_file
     :parameter output_path: Optional full path to the destination location of the folder. If not specified file will be copied to the same location with a random 8 character uid is added to the name.
-    
+    :type output_path: output_dir, optional
+
     :return: New path as string
 
         :Example:
@@ -7993,6 +8104,7 @@ def get_file_extension(file_path):
     Get extension of a file
 
     :parameter file_path: Path to file to get extension from
+    :type file_path: input_file
 
     :return: String with extension, e.g. '.txt'
 
@@ -8028,6 +8140,7 @@ def send_to_printer(file_path):
     Send file to default printer to priner. This activity sends a file to the printer. Make sure to have a default printer set up.
 
     :parameter file_path: Path to the file to print, should be a printable file
+    :type file_path: input_file
 
         :Example:
 
@@ -8062,6 +8175,9 @@ def read_text_from_pdf(file_path):
     Extracts the text from a PDF. This activity reads text from a pdf file. Can only read PDF files that contain a text layer.
 
     :parameter file_path: Path to the PDF (either relative or absolute)
+    :type file_path: input_file
+    :extension file_path: pdf
+
     :return: The text from the PDF
 
         :Example:
@@ -8102,9 +8218,17 @@ def join_pdf_files(
     Merges multiple PDFs into a single file
 
     :parameter first_file_path: Path to first PDF file
+    :type first_file_path: input_file
+    :extension first_file_path: pdf
     :parameter second_file_path: Path to second PDF file
+    :type second_file_path: input_file, optional
+    :extension second_file_path: pdf
     :parameter third_file_path: Path to third PDF file, optional
+    :type third_file_path: input_file, optional
+    :extension third_file_path: pdf
     :parameter output_path: Full path where joined pdf files can be written. If no path is given will write to home dir as 'merged_pdf.pdf'
+    :type output_path: output_file, optional
+    :extension output_path: pdf
 
     :return: Output path as string
     
@@ -8157,9 +8281,15 @@ def extract_page_range_from_pdf(file_path, start_page, end_page, output_path=Non
     Extracts a particular range of a PDF to a separate file.
 
     :parameter file_path: Path to the PDF (either relative or absolute)
+    :type file_path: input_file
+    :extension file_path: pdf
     :parameter start_page: Page number to start from, with 0 being the first page
+    :type start_page: int
     :parameter end_page: Page number to end with, with 0 being the first page
+    :type end_page: int
     :param output_path: Output path, if no path is provided same path as input will be used with 'extracted' added to the name
+    :type output_path: output_file, optional
+    :extension output_path: pdf
 
 
         :Example:
@@ -8208,6 +8338,7 @@ def extract_images_from_pdf(file_path):
     Save a specific page from a PDF as an image
 
     :parameter file_path: Full path to store extracted images
+    :type file_path: output_dir
 
         :Example:
         
@@ -8272,8 +8403,14 @@ def apply_watermark_to_pdf(file_path, watermark_path, output_path=""):
     Watermark a PDF 
 
     :parameter file_path: Filepath to the document that will be watermarked. Should be pdf file.
+    :type file_path: input_file
+    :extension file_path: pdf
     :parameter watermark_path: Filepath to the watermark. Should be pdf file.
+    :type watermark_path: input_file
+    :extension watermark_path: pdf
     :parameter output_path: Path to save watermarked PDF. If no path is provided same path as input will be used with 'watermarked' added to the name
+    :type output_path: output_file, optional
+    :extension output_path: pdf
 
     :return: Output path as a string
         :Example:
@@ -8332,6 +8469,7 @@ def get_cpu_load(measure_time=1):
     Get average CPU load for all cores.
 
     :parameter measure_time: Time (seconds) to measure load. Standard measure_time is 1 second.
+    :type measure_time: int, optional
 
     :return: Displayed load is an average over measured_time.
 
@@ -8362,6 +8500,7 @@ def get_number_of_cpu(logical=True):
     Get the number of CPU's in the current system. 
 
     :parameter logical: Determines if only logical units are added to the count, default value is True.
+    :type logical: bool, optional
 
     :return: Number of CPU Integer
 
@@ -8438,6 +8577,7 @@ def get_memory_stats(mem_type="swap"):
     Get  memory statistics
 
     :parameter mem_type: Choose mem_type = 'virtual' for virtual memory, and mem_type = 'swap' for swap memory (standard).
+    :options mem_type: ['virtual', 'swap']
 
     :return: Total, used, free and percentage in use.
 
@@ -8572,6 +8712,7 @@ def show_image(file_path):
     Displays an image specified by the path variable on the default imaging program.
 
     :parameter file_path: Path to image
+    :type file_path: input_file
 
         :Example:
 
@@ -8602,7 +8743,9 @@ def rotate_image(file_path, angle=90):
     Rotate an image
 
     :parameter file_path: Path to image
+    :type file_path: input_file
     :parameter angle: Degrees to rotate image. Note that angles other than 90, 180, 270, 360 can resize the picture. 
+    :type angle: int, optional
 
         :Example:
 
@@ -8635,7 +8778,9 @@ def resize_image(file_path, size):
     Resizes the image specified by the path variable. 
 
     :parameter file_path: Path to the image
-    :parameter size:  Tuple with the width and height in pixels. E.g.  (300, 400) gives the image a width of 300 pixels and a height of 400 pixels.
+    :type file_path: input_file
+    :parameter size: Tuple with the width and height in pixels. E.g.  (300, 400) gives the image a width of 300 pixels and a height of 400 pixels.
+    :type size: tuple
 
         :Example:
 
@@ -8667,6 +8812,7 @@ def get_image_width(file_path):
     Get with of image
 
     :parameter file_path: Path to image
+    :type file_path: input_file
 
         :Example:
 
@@ -8699,6 +8845,7 @@ def get_image_height(file_path):
     Get height of image
 
     :parameter file_path: Path to image
+    :type file_path: input_file
 
     :return: Height of image
 
@@ -8734,7 +8881,9 @@ def crop_image(file_path, box=None):
         Crops the image specified by path to a region determined by the box variable.
 
     :parameter file_path: Path to image
+    :type file_path: input_file
     :parameter box:  A tuple that defines the left, upper, right and lower pixel coördinate e.g.: (left, upper, right, lower)
+    :type box: tuple
 
         :Example:
 
@@ -8766,6 +8915,7 @@ def mirror_image_horizontally(file_path):
     Mirrors an image with a given path horizontally from left to right.
 
     :parameter file_path: Path to image
+    :type file_path: input_file
 
         :Example:
 
@@ -8796,6 +8946,7 @@ def mirror_image_vertically(file_path):
     Mirrors an image with a given path vertically from top to bottom.
 
     :parameter file_path: Path to image
+    :type file_path: input_file
 
         :Example:
 
@@ -8834,6 +8985,7 @@ def run_manual(task):
     Note this uses keyboard inputs which means this process can be disrupted by interfering inputs
 
     :parameter task: Name of the task to run e.g. 'mspaint.exe'
+    :type task: string
 
         :Example:
 
@@ -8873,6 +9025,7 @@ def run(process):
     Use subprocess to open a windows process
 
     :parameter process: Process to open e.g: 'calc.exe', 'notepad.exe', 'control.exe', 'mspaint.exe'.
+    :type process: string
 
         :Example:
 
@@ -8897,6 +9050,7 @@ def is_process_running(name):
     Check if process is running. Validates if given process name (name) is currently running on the system.
 
     :parameter name: Name of process
+    :type name: string
 
     :return: Boolean
 
@@ -8961,6 +9115,7 @@ def kill_process(name=None):
     Kills a process forcefully
 
     :parameter name: Name of the process
+    :type name: string
 
         :Example:
 
@@ -8994,6 +9149,7 @@ def extract_text_ocr(file_path=None):
     This activity extracts all text from the current screen or an image if a path is specified.
 
     :parameter file_path: Path to image from where text will be extracted. If no path is specified a screenshot of current screen will be used.
+    :type file_path: input_file
 
     :return: String with all text from current screen
 
@@ -9061,7 +9217,9 @@ def find_text_on_screen_ocr(text, criteria=None):
     This activity finds position (coordinates) of specified text on the current screen using OCR.
 
     :parameter text: Text to find. Only exact matches are returned.
+    :type text: string
     :parameter criteria: Criteria to select on if multiple matches are found. If no criteria is specified all matches will be returned. Options are 'first', which returns the first match closest to the upper left corner, 'last' returns the last match closest to the lower right corner, random selects a random match.
+    :options criteria: ['first', 'last', 'random']
 
     :return: Dictionary or list of dictionaries with matches with following elements: 'h' height in pixels, 'text' the matched text,'w' the width in pixels, 'x' absolute x-coördinate , 'y' absolute y-coördinate. Returns nothing if no matches are found
 
@@ -9149,7 +9307,9 @@ def click_on_text_ocr(text, delay=1):
     This activity clicks on position (coordinates) of specified text on the current screen using OCR.
 
     :parameter text: Text to find. Only exact matches are returned.
+    :type text: string
     :parameter delay: Delay before clicking in seconds
+    :type delay: int, optional
 
         :Example:
 
@@ -9191,7 +9351,9 @@ def double_click_on_text_ocr(text, delay=1):
     This activity double clicks on position (coordinates) of specified text on the current screen using OCR.
 
     :parameter text: Text to find. Only exact matches are returned.
+    :type text: string
     :parameter delay: Delay before clicking in seconds
+    :type delay: int, optional
 
         :Example:
 
@@ -9233,7 +9395,9 @@ def right_click_on_text_ocr(text, delay=1):
     This activity Right clicks on position (coordinates) of specified text on the current screen using OCR.
 
     :parameter text: Text to find. Only exact matches are returned.
+    :type text: string
     :parameter delay: Delay before clicking in seconds
+    :type delay: int, optional
 
         :Example:
 
@@ -9282,8 +9446,12 @@ def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=N
     This activity allows you to execute a process designed with the UiPath Studio. All console output from the Write Line activity (https://docs.uipath.com/activities/docs/write-line) will be printed as output.
 
     :parameter project_file_path: path to the project file (as created within the UiPath Studio)
+    :type project_file_path: input_file
     :parameter arguments: dictionary with input arguments/parameters for the process to use in UiPath (optional)
+    :type arguments: string, optional
     :parameter uirobot_exe_path: path to UiPath's UiRobot.exe (optional)
+    :type uirobot_exe_path: input_file, optional
+    :extension uirobot_exe_path: exe
     
 
         :Example:
@@ -9346,8 +9514,13 @@ def run_autoit_script(script_path, arguments=None, autoit_exe_path=None):
     This activity allows you to run an AutoIt script. If you use the ConsoleWrite function (https://www.autoitscript.com/autoit3/docs/functions/ConsoleWrite.htm), the output will be presented to you.
 
     :parameter script_path: path to the '.au3' script file
+    :type script_path: input_file
+    :extension script_path: au3
     :parameter arguments: string with input arguments/parameters for the script (optional)
+    :type arguments: string, optional
     :parameter autoit_exe_path: path to AutoIt.exe (optional)
+    :type autoit_exe_path: input_file, optional
+    :extension autoit_exe_path: exe
     
 
         :Example:
@@ -9410,7 +9583,10 @@ def execute_robotframework_test(test_case_path, variables=None):
     This activity allows you to run a Robot Framework test case. Console output of the test case will be printed.
 
     :parameter test_case_path: path to the '.robot' test case file
+    :type test_case_path: input_file
+    :extension test_case_path: robot
     :parameter variables: dictionary with variable declarations
+    type variables: string, optional
 
         :Example:
 
@@ -9474,11 +9650,18 @@ def run_blueprism_process(
     This activity allows you to run a Blue Prism process.
 
     :parameter process_name: name of the process in Blue Prism
+    :type process_name: string
     :parameter username: Blue Prism username
+    :type username: string, optional
     :parameter password: Blue Prism password
+    :type password: string, optional
     :parameter sso: Run as single-sign on user with Blue Prism
+    :type sso: bool, optional
     :parameter inputs: dictionary with inputs declarations (optional)
+    :type inputs: string, optional
     :parameter automatec_exe_path: path to Blue Prism's AutomateC.exe (optional)
+    :type automatec_exe_path: input_file
+    :extension automatec_exe_path: exe
     
 
         :Example:
@@ -9548,7 +9731,10 @@ def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
     This activity allows you to run an Automation Anywhere task.
 
     :parameter task_file_path: path to the task file of Automation Anywhere
+    :type task_file_path: input_file
     :parameter aaplayer_exe_path: path to the AAPlayer.exe (optional)
+    :type aaplayer_exe_path: input_file
+    :extension aaplayer_exe_path: exe
 
         :Example:
 
@@ -9603,7 +9789,10 @@ class SAPGUI:
         For this activity to work, SAP GUI needs to be installed on the system.
 
         :parameter sap_logon_exe_path: Specifiy the installation location of the saplogon.exe if not at the default location.
+        :type sap_logon_exe_path: input_file, optional
+        :extension sap_logon_exe_path: exe
         :parameter delay: Number of seconds to wait between tries for attaching to the SAP process
+        :type delay: int, optional
 
             :Example:
 
@@ -9682,6 +9871,17 @@ class SAPGUI:
 
         Logs in to an SAP system on SAP GUI.
 
+        :parameter environment: Environment
+        :type environment: string
+        :parameter client: Client
+        :type client: string
+        :parameter username: Username
+        :type username: string
+        :parameter password: Password
+        :type password: string
+        :parameter force: Force optional
+        :type force: bool, optional
+
             :Example:
             
         >>> # Log in to SAP GUI
@@ -9721,6 +9921,9 @@ class SAPGUI:
 
         Clicks on an identifier in the SAP GUI.
 
+        :parameter identifier: Technical identifier of the element
+        :type identifier: string
+
             :Example:
             
         >>> # Log in to SAP GUI
@@ -9744,6 +9947,9 @@ class SAPGUI:
 
         Retrieves the text from a SAP GUI element.
 
+        :parameter identifier: Technical identifier of the element
+        :type identifier: string
+
             :Example:
             
         >>> # Log in to SAP GUI
@@ -9766,6 +9972,11 @@ class SAPGUI:
 
         Sets the text of a SAP GUI element.
 
+        :parameter text: Text to set
+        :type text: string
+        :parameter identifier: Technical identifier of the element
+        :type identifier: string
+
             :Example:
             
         >>> # Log in to SAP GUI
@@ -9786,6 +9997,11 @@ class SAPGUI:
         """Highlights a SAP GUI element
 
         Temporarily highlights a SAP GUI element
+
+        :parameter identifier: Technical identifier of the element
+        :type identifier: string
+        :parameter duration: Duration of the highlight
+        :type duration: int, optional
 
             :Example:
             
@@ -9821,9 +10037,13 @@ def create_new_job(script_name, script_version_id=None, priority=0, parameters=N
     This activity creates a new job in the Automagica Portal for a given script. The bot performing this activity will need to be assigned to the script it creates a job for.
 
     :parameter script_name: name of the script
+    :type script_name: string
     :parameter script_version_id: id of a specific version of the script, if not provided it will use the latest version (optional)
+    :type script_version_id: string, optional
     :parameter priority: priority level of the script. higher priority levels are performed first. (optional)
+    :type priority: int, optional
     :parameter parameters: parameters for the script (optional)
+    :type parameters: string, optional
 
         :Example:
 
@@ -10105,6 +10325,11 @@ def is_visible(automagica_id, delay=1, timeout=30):
     Note that this uses Automagica vision and uses some advanced an fuzzy matching algorithms for finding identical elements.
 
     :parameter automagica_id: Element ID provided by the recorder
+    :type automagica_id: string
+    :parameter delay: Delay before checking visibility in seconds
+    :type delay: int, optional
+    :parameter timeout: Time before timeout (maximum time to wait) in seconds
+    :type timeout: int, optional
 
     :return: True if visble, False if not
 
@@ -10138,7 +10363,11 @@ def wait_appear(automagica_id, delay=1, timeout=30):
     Wait for an element that is defined the recorder
 
     :parameter automagica_id: The element ID provided by the recorder
-    :parameter timeout: Maximum time to wait for an element
+    :type automagica_id: string
+    :parameter delay: Delay before waiting to appear in seconds
+    :type delay: int, optional
+    :parameter timeout: Maximum time to wait for an element in seconds
+    :type timeout: int, optional
 
     :return: Blocks while element not visible
 
@@ -10183,7 +10412,11 @@ def wait_vanish(automagica_id, delay=1, timeout=30):
     This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
 
     :parameter automagica_id: The element ID provided by the recorder
-    :parameter timeout: Maximum time to wait for an element to vanish
+    :type automagica_id: string
+    :parameter delay: Delay before waiting for vanish in seconds
+    :type delay: int, optional
+    :parameter timeout: Maximum time to wait for an element in seconds
+    :type timeout: int, optional
 
         :Example:
 
@@ -10225,6 +10458,9 @@ def read_text(automagica_id, delay=1):
     This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
 
     :parameter automagica_id: the sample ID provided by the Vision Recorder
+    :type automagica_id: string
+    :parameter delay: Delay before reading text for vanish in seconds
+    :type delay: int, optional
 
         :Example:
 
