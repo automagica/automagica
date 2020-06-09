@@ -53,7 +53,8 @@ class Flow:
                     uid=d.get("uid"),
                     next_node=d.get("next_node"),
                     args_=d.get("args"),
-                    class_=d.get('class')
+                    class_=d.get('class'),
+                    return_=d.get('return_')
                 )
 
             elif d["type"] == "IfElseNode":
@@ -76,6 +77,9 @@ class Flow:
                     uid=d.get("uid"),
                     next_node=d.get("next_node"),
                     loop_node=d.get("loop_node"),
+                    loop_variable=d.get('loop_variable'),
+                    repeat_n_times=d.get('repeat_n_times'),
+                    iterable=d.get('iterable')
                 )
 
             elif d["type"] == "DotPyFileNode":

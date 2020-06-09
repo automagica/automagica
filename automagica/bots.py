@@ -80,7 +80,13 @@ class ThreadedBot(Bot):
             else:
                 sleep(0.1)
 
-    def _run_command(self, command, on_done=None, return_value_when_done=False):
+    def _run_command(
+        self,
+        command,
+        on_done=None,
+        return_value_when_done=False,
+        ignore_exceptions=False,
+    ):
         from io import StringIO
 
         with StringIO() as temp:
