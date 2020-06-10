@@ -37,7 +37,7 @@ def generate_random_key():
 
 
 @activity
-def encrypt_text_with_key(text, key):
+def encrypt_text_with_key(text, key=b'your_key'):
     """Encrypt text 
 
     Encrypt text with (Fernet) key, 
@@ -72,7 +72,7 @@ def encrypt_text_with_key(text, key):
 
 
 @activity
-def decrypt_text_with_key(encrypted_text, key):
+def decrypt_text_with_key(encrypted_text, key=b'your_key'):
     """Decrypt text
 
     Dexrypt bytes-like object to string with (Fernet) key
@@ -109,7 +109,7 @@ def decrypt_text_with_key(encrypted_text, key):
 
 
 @activity
-def encrypt_file_with_key(input_path, key, output_path=None):
+def encrypt_file_with_key(input_path, key=b'your_key', output_path=None):
     """Encrypt file 
 
     Encrypt file with (Fernet) key. Note that file will be unusable unless unlocked with the same key.
@@ -163,7 +163,7 @@ def encrypt_file_with_key(input_path, key, output_path=None):
 
 
 @activity
-def decrypt_file_with_key(input_path, key, output_path=None):
+def decrypt_file_with_key(input_path, key=b'your_key', output_path=None):
     """Decrypt file
 
     Decrypts file with (Fernet) key
@@ -1198,7 +1198,7 @@ class Chrome(selenium.webdriver.Chrome):
                         links.append(element.get_attribute("href"))
                 else:
                     links.append(href_el)
-            except:
+        except:
                 pass
         if links:
             return links
