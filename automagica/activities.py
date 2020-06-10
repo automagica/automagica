@@ -7847,7 +7847,8 @@ def write_list_to_file(list_to_write, file_path):
     Every element of the entered list is written on a new line of the text file.
 
     :parameter list_to_write: List to write to .txt file
-    :type list_to_write: 
+    :type list_to_write: output_file
+    :extension list_to_write: txt
     :parameter path: Path to the text-file. 
 
         :Example:
