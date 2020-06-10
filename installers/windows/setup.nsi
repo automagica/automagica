@@ -112,19 +112,15 @@ Section "!${PRODUCT_NAME}" sec_app
   
   ; [% endblock install_shortcuts %]
   
-  ReadEnvStr $0 AUTOMAGICA_PORTAL_URL
-  ${If} $0 == ""
-    StrCpy $0 "https://portal.automagica.com"
-  ${EndIf}
+  ; ReadEnvStr $0 AUTOMAGICA_PORTAL_URL
+  ; ${If} $0 == ""
+  ;   StrCpy $0 "https://portal.automagica.com"
+  ; ${EndIf}
 
-  WriteINIStr "$DESKTOP\Automagica Portal.url" "InternetShortcut" "URL" $0
+  ; WriteINIStr "$DESKTOP\Automagica Portal.url" "InternetShortcut" "URL" $0
   
   CreateShortCut "$SMPROGRAMS\Automagica Flow.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli flow new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Flow"
   CreateShortCut "$DESKTOP\Automagica Flow.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli flow new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Flow"
-  
-  CreateShortCut "$SMPROGRAMS\Automagica Lab.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli lab new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Lab"
-  CreateShortCut "$DESKTOP\Automagica Lab.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli lab new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Lab"
-  
 
   [% block install_commands %]
   [% if has_commands %]
@@ -147,19 +143,19 @@ Section "!${PRODUCT_NAME}" sec_app
   nsExec::ExecToLog '[[ python ]] -m compileall -q "$INSTDIR\pkgs"'
   WriteUninstaller $INSTDIR\uninstall.exe
 
-  ; Install Automagica
-  DetailPrint "Installing Automagica dependencies..."
-  SetOutPath "$INSTDIR"
-  ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip install automagica -U"
-  ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip uninstall pywin32 -y"
-  ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip install pywin32==227"
+  ; ; Install Automagica
+  ; DetailPrint "Installing Automagica dependencies..."
+  ; SetOutPath "$INSTDIR"
+  ; ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip install automagica -U"
+  ; ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip uninstall pywin32 -y"
+  ; ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip install pywin32==227"
   
   
 
-  ; Connect to Automagica Portal
-  DetailPrint "Authenticating bot with Automagica"
-  SetOutPath "$INSTDIR"
-  ExecWait "$\"$INSTDIR\Python\python.exe$\" -m automagica --connect $\"$EXEPATH$\""
+  ; ; Connect to Automagica Portal
+  ; DetailPrint "Authenticating bot with Automagica"
+  ; SetOutPath "$INSTDIR"
+  ; ExecWait "$\"$INSTDIR\Python\python.exe$\" -m automagica --connect $\"$EXEPATH$\""
 
   ; Add ourselves to Add/remove programs
   WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}" \

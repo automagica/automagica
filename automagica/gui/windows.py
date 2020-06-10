@@ -1746,6 +1746,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
                         ),
                     )
 
+                elif "automagica_id" in argtype:
+                    self.args_inputs[name] = AutomagicaIdInputWidget(frame)
+
                 else:
                     self.args_inputs[name] = InputWidget(
                         frame,
@@ -1754,8 +1757,7 @@ class ActivityNodePropsWindow(NodePropsWindow):
                         ),
                     )
 
-            elif name == "automagica_id":
-                self.args_inputs[name] = AutomagicaIdInputWidget(frame)
+
 
             elif config.ACTIVITIES[self.node.activity]["args"][name].get("options"):
                 self.args_inputs[name] = AutocompleteDropdown(
