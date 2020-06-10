@@ -341,7 +341,6 @@ def generate_hash_from_text(text, method="md5"):
 
     Icon
         las la-fingerprint
-
     """
     import sys
     import hashlib
@@ -361,7 +360,6 @@ Random
 Icon: las la-dice-d6
 """
 
-
 @activity
 def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
     """Random number
@@ -371,7 +369,7 @@ def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
     :parameter lower_limit: Lower limit for random number
     :type lower_limit: int, optional
     :parameter upper_limit: Upper limit for random number
-    type upper_limit: int, optional
+    :type upper_limit: int, optional
     :parameter fractional: Setting this to True will generate fractional number. Default value is False and only generates whole numbers.
     :type fractional: bool, optional
 
@@ -751,7 +749,7 @@ def generate_random_date(formatting="%m/%d/%Y %I:%M", days_in_past=1000):
 
 @activity
 def generate_date_today(formatting="%m/%d/%Y"):
-    """Random date
+    """Today's date
 
     Generates today's date.
 
@@ -1110,6 +1108,8 @@ class Chrome(selenium.webdriver.Chrome):
         :parameter url: Url to browser to
         :type url: string
 
+        :return: Webpage
+
             :Example:
 
         >>> # Open the browser
@@ -1134,6 +1134,8 @@ class Chrome(selenium.webdriver.Chrome):
 
         :parameter text: Text to find elements by
         :type text: string
+
+        :return: Elements that matched with text
 
             :Example:
 
@@ -1168,6 +1170,8 @@ class Chrome(selenium.webdriver.Chrome):
 
         :parameter contains: Criteria of substring that url must contain to be included
         :type contains: string, optional
+
+        :return: Links
 
             :Example:
 
@@ -1207,6 +1211,8 @@ class Chrome(selenium.webdriver.Chrome):
 
         :parameter contains: Criteria of substring that url must contain to be included
         :type contains: string, optional
+
+        :return: First link
 
             :Example:
 
@@ -1305,6 +1311,8 @@ class Chrome(selenium.webdriver.Chrome):
         :parameter element: Xpath of element
         :type element: string, optional
 
+        :return: Element by xpaths
+
             :Example:
 
         >>> # Open the browser
@@ -1333,6 +1341,8 @@ class Chrome(selenium.webdriver.Chrome):
         :parameter element: Xpath of element
         :type element: string, optional
 
+        :return: Element by xpath
+
             :Example:
 
         >>> # Open the browser
@@ -1360,7 +1370,9 @@ class Chrome(selenium.webdriver.Chrome):
         Find element with specified class on a webpage in the the browser. Can also use native 'find_element_by_class_name'
 
         :parameter element: Class of element
-        type element: string, optional
+        :type element: string, optional
+
+        :return: Element by class
 
             :Example:
 
@@ -1389,7 +1401,9 @@ class Chrome(selenium.webdriver.Chrome):
         Find all elements with specified class on a webpage in the the browser. Can also use native 'find_elements_by_class_name' function
 
         :parameter element: Class of element
-        type element: string, optional
+        :type element: string, optional
+
+        :return: Element by classes
 
             :Example:
 
@@ -1416,7 +1430,9 @@ class Chrome(selenium.webdriver.Chrome):
         Find all elements with specified class and text on a webpage in the the browser. 
 
         :parameter element: Class of element
-        type element: string, optional
+        :type element: string, optional
+
+        :return: Element by class and text
 
             :Example:
 
@@ -1448,6 +1464,8 @@ class Chrome(selenium.webdriver.Chrome):
 
         :parameter element: Id of element
         :type element: string, optional
+
+        :return: Element by id
 
             :Example:
 
@@ -1546,7 +1564,6 @@ def delete_credential(username=None, password=None, system="Automagica"):
     :parameter password: Password to delete
     :type password: string, optional
     :parameter system: Name of the system for which password will be deleted. 
-
 
         :Example:
 
@@ -2006,11 +2023,11 @@ def press_key_combination(first_key, second_key, third_key=None, compatibility=F
 
 @activity
 def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1):
-    """Type text and characters
+    """Type text
 
     Simulate keystrokes. If an element ID is specified, text will be typed in a specific field or element based on the element ID (vision) by the recorder.
 
-    Supported keys:
+    Supported keys: 
         ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win'
 
     :parameter text: Text in string format to type. Note that you can only press single character keys. Special keys like ":", "F1",... can not be part of the text argument.
@@ -2038,6 +2055,7 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
 
     Icon
         las la-keyboard
+
     """
 
     if delay:
@@ -3374,6 +3392,7 @@ class Word:
         Save active Word document
 
             :Example:
+
         >>> # Start Word
         >>> word = Word()
         >>> word.append_text('This is sample text')
@@ -8021,7 +8040,7 @@ def make_text_file(text="Sample text", output_path=None):
 
 @activity
 def read_text_file_to_list(file_path):
-    """ Read .txt file with newlines to list
+    """Read .txt file with newlines to list
 
     Read a text file to a Python list-object
 
@@ -8413,6 +8432,7 @@ def apply_watermark_to_pdf(file_path, watermark_path, output_path=""):
     :extension output_path: pdf
 
     :return: Output path as a string
+
         :Example:
         
     >>> # Caution, for this example to work a .pdf example file will be downloaded from automagica.com FTP
@@ -9586,7 +9606,7 @@ def execute_robotframework_test(test_case_path, variables=None):
     :type test_case_path: input_file
     :extension test_case_path: robot
     :parameter variables: dictionary with variable declarations
-    type variables: string, optional
+    :type variables: string, optional
 
         :Example:
 
