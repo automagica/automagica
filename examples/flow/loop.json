@@ -49,52 +49,12 @@
             "x": 275,
             "y": 275,
             "type": "ActivityNode",
-            "next_node": "GY4C",
+            "next_node": null,
             "label": "Every fruit print",
             "activity": "automagica.activities.print_console",
             "args": {
                 "data": "fruit"
             },
-            "class": null,
-            "return_": null
-        },
-        {
-            "uid": "GY4C",
-            "x": 475,
-            "y": 275,
-            "type": "ActivityNode",
-            "next_node": "q9N1",
-            "label": "every fruit additional print",
-            "activity": "automagica.activities.print_console",
-            "args": {
-                "data": "fruit"
-            },
-            "class": null,
-            "return_": null
-        },
-        {
-            "uid": "q9N1",
-            "x": 650,
-            "y": 275,
-            "type": "ActivityNode",
-            "next_node": "HlGi",
-            "label": "",
-            "activity": "automagica.activities.print_console",
-            "args": {
-                "data": "fruit + 'very tasty'"
-            },
-            "class": null,
-            "return_": null
-        },
-        {
-            "uid": "HlGi",
-            "x": 825,
-            "y": 275,
-            "type": "ActivityNode",
-            "next_node": null,
-            "label": null,
-            "activity": "automagica.activities.print_console",
-            "args": {},
             "class": null,
             "return_": null
         }

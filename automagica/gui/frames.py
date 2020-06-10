@@ -125,7 +125,7 @@ class ConsoleFrame(tk.Frame):
         self.command_entry = InputField(
             frame, placeholder=_("Type command here and press <ENTER> to run...")
         )
-        self.command_entry.configure(font=("TkFixedFont"))
+        self.command_entry.configure(font=(config.FONT_MONO, "10"))
 
         self.command_entry.bind("<Return>", self.on_enter_pressed)
         self.command_entry.bind("<Up>", self.on_up_press)
@@ -150,7 +150,7 @@ class ConsoleFrame(tk.Frame):
                 "Welcome to Automagica Flow!  \nUse this Interactive Console to your liking!\n\n"
             ),
         )
-        self.console_text.configure(font="TkFixedFont", state="disabled")
+        self.console_text.configure(font=(config.FONT_MONO, "10"), state="disabled")
 
         self.console_text.tag_config("error", foreground=config.COLOR_14)
 

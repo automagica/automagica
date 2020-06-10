@@ -61,8 +61,9 @@ class StartNode(Node):
             "label": self.label,
         }
 
-    def run(self, bot):
-        pass
+    def run(self, bot, on_done=None):
+        if on_done:
+            on_done(node=self.next_node)
 
 
 class ActivityNode(Node):
@@ -158,7 +159,7 @@ class ActivityNode(Node):
             else:
                 command += "{}({})\n".format(function_, ", ".join(args))
 
-        bot.run(command, on_done=on_done)
+        bot.run(command, on_done=lambda: on_done(node=self.next_node))
 
 
 class IfElseNode(Node):
@@ -167,12 +168,6 @@ class IfElseNode(Node):
         self.condition = condition
         self.next_node = next_node  # True node
         self.else_node = else_node
-
-    def get_next_node_uid(self, return_value):
-        if return_value:
-            return self.next_node
-        else:
-            return self.else_node
 
     def to_dict(self):
         return {
@@ -187,7 +182,12 @@ class IfElseNode(Node):
         }
 
     def run(self, bot, on_done=None):
-        bot.run(self.condition, on_done=on_done, return_value_when_done=True)
+        bot._run_command(f"AUTOMAGICA_RESULT = ({self.condition})")
+
+        if bot.interpreter.locals.get("AUTOMAGICA_RESULT"):
+            on_done(node=self.next_node)
+        else:
+            on_done(node=self.else_node)
 
 
 class LoopNode(Node):
@@ -266,7 +266,7 @@ class DotPyFileNode(Node):
         with open(self.dotpyfile_path.replace('"', ""), "r", encoding="utf-8") as f:
             command = f.read()
 
-        bot.run(command, on_done=on_done)
+        bot.run(command, on_done=lambda: on_done(node=self.next_node))
 
 
 class CommentNode(Node):
@@ -295,16 +295,12 @@ class SubFlowNode(Node):
         subflow_path=None,
         next_node=None,
         on_exception_node=None,
-        iterator=None,
-        iterator_variable=None,
         **kwargs,
     ):
         super().__init__(**kwargs)
         self.subflow_path = subflow_path
         self.next_node = next_node
         self.on_exception_node = on_exception_node
-        self.iterator = iterator
-        self.iterator_variable = iterator_variable
 
     def to_dict(self):
         return {
@@ -315,8 +311,6 @@ class SubFlowNode(Node):
             "next_node": self.next_node,
             "on_exception_node": self.on_exception_node,
             "subflow_path": self.subflow_path,
-            "iterator": self.iterator,
-            "iterator_variable": self.iterator_variable,
             "label": self.label,
         }
 
@@ -349,4 +343,4 @@ class PythonCodeNode(Node):
         }
 
     def run(self, bot, on_done=None):
-        bot.run(self.code, on_done=on_done)
+        bot.run(self.code, on_done=lambda: on_done(node=self.next_node))

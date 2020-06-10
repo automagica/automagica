@@ -210,7 +210,7 @@ class NodeGraph:
             width=4,
         )
 
-    def remove_highlight(self):
+    def remove_highlight(self, *args, **kwargs):
         """
         Remove highlight border
         """
@@ -448,7 +448,8 @@ class ActivityNodeGraph(NodeGraph):
         # Minimize window
         self.parent.master.master.iconify()
 
-        def on_close():
+        # *args required as this will return the next node when running it as a flow
+        def on_close(*args, **kwargs):
             # Resize original window
             self.remove_highlight()
             self.parent.master.master.deiconify()
