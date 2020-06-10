@@ -118,8 +118,13 @@ Section "!${PRODUCT_NAME}" sec_app
   ${EndIf}
 
   WriteINIStr "$DESKTOP\Automagica Portal.url" "InternetShortcut" "URL" $0
-  CreateShortCut "$SMPROGRAMS\Automagica Recorder.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica recorder" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL ALT|CONTROL|R "Automagica Recorder"
-  CreateShortCut "$DESKTOP\Automagica Recorder.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica recorder" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL ALT|CONTROL|R "Automagica Recorder"
+  
+  CreateShortCut "$SMPROGRAMS\Automagica Flow.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli flow new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Flow"
+  CreateShortCut "$DESKTOP\Automagica Flow.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli flow new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Flow"
+  
+  CreateShortCut "$SMPROGRAMS\Automagica Lab.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli lab new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Lab"
+  CreateShortCut "$DESKTOP\Automagica Lab.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli lab new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Lab"
+  
 
   [% block install_commands %]
   [% if has_commands %]

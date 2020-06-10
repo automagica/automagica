@@ -136,6 +136,69 @@ class FilePathInputWidget(tk.Frame):
     Input widget for a file path
     """
 
+    def __init__(self, parent, *args, value=None, extensions=None, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+
+        self.value = value
+
+        if extensions:
+            self.filetypes = ((ext, f"*.{ext}") for ext in extensions)
+        else:
+            self.filetypes = None
+
+        self.layout()
+
+    def layout(self):
+        self.input_field = InputField(self)
+        self.input_field.pack(side="left")
+
+        self.browse_button = Button(
+            self, text=_("Browse"), command=self.browse_button_click
+        )
+        self.browse_button.pack(side="left")
+
+        if self.value:
+            self._set(self.value)
+
+    def get(self):
+        return self.input_field.get()
+
+    def _set(self, value):
+        self.value = value
+        self.input_field.delete(0, tk.END)
+        self.input_field.insert(0, self.value)
+
+    def browse_button_click(self):
+        if self.filetypes:
+            file_path = filedialog.askopenfilename(
+                initialdir="./", title=_("Select File"), filetypes=self.filetypes
+            )
+        else:
+            file_path = filedialog.askopenfilename(
+                initialdir="./", title=_("Select File")
+            )
+
+        self._set('"{}"'.format(file_path))
+
+
+class FilePathOutputWidget(FilePathInputWidget):
+    """
+    Output widget for a file path
+    """
+
+    def browse_button_click(self):
+        file_path = filedialog.asksaveasfilename(
+            initialdir="./", title=_("Select File")
+        )
+
+        self._set('"{}"'.format(file_path))
+
+
+class DirWidget(tk.Frame):
+    """
+    Input widget for a file path
+    """
+
     def __init__(self, parent, *args, value=None, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
@@ -163,8 +226,8 @@ class FilePathInputWidget(tk.Frame):
         self.input_field.insert(0, self.value)
 
     def browse_button_click(self):
-        file_path = filedialog.asksaveasfilename(
-            initialdir="./", title=_("Select File")
+        file_path = filedialog.askdirectory(
+            initialdir="./", title=_("Select Directory")
         )
 
         self._set('"{}"'.format(file_path))
@@ -281,7 +344,6 @@ class AutocompleteDropdown(ttk.Combobox):
         self.pos = 0
 
         self.bind("<KeyRelease>", self.on_key_release)
-        self.bind("<FocusIn>", self.on_focus_in)
 
     def filter_values(self, delta=0):
         if delta:
@@ -325,9 +387,11 @@ class AutocompleteDropdown(ttk.Combobox):
         if len(event.keysym) == 1:
             self.filter_values()
 
-    def on_focus_in(self, event=None):
-        self.delete(0, tk.END)
-        self.pos = self.index(tk.END)
+    def _set(self, value):
+        for i, val in enumerate(self["values"]):
+            if value in val:
+                self.current(i)
+                break
 
 
 class NodeSelectionInputWidget(tk.Frame):

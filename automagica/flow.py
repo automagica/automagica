@@ -116,8 +116,6 @@ class Flow:
                     next_node=d.get("next_node"),
                     on_exception_node=d.get("on_exception_node"),
                     subflow_path=d.get("subflow_path"),
-                    iterator=d.get('iterator'),
-                    iterator_variable=d.get('iterator_variable')
                 )
 
 

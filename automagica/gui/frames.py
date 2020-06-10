@@ -125,7 +125,7 @@ class ConsoleFrame(tk.Frame):
         self.command_entry = InputField(
             frame, placeholder=_("Type command here and press <ENTER> to run...")
         )
-        self.command_entry.configure(font=("TkFixedFont"))
+        self.command_entry.configure(font=(config.FONT_MONO, "10"))
 
         self.command_entry.bind("<Return>", self.on_enter_pressed)
         self.command_entry.bind("<Up>", self.on_up_press)
@@ -150,7 +150,7 @@ class ConsoleFrame(tk.Frame):
                 "Welcome to Automagica Flow!  \nUse this Interactive Console to your liking!\n\n"
             ),
         )
-        self.console_text.configure(font="TkFixedFont", state="disabled")
+        self.console_text.configure(font=(config.FONT_MONO, "10"), state="disabled")
 
         self.console_text.tag_config("error", foreground=config.COLOR_14)
 
@@ -167,13 +167,13 @@ class ConsoleFrame(tk.Frame):
         self.reset_bot_button = Button(
             frame, text=_("Reset Bot"), command=self.on_reset_bot_clicked
         )
-        self.reset_bot_button.configure(font=("Helvetica", 8))
+        self.reset_bot_button.configure(font=(config.FONT, 8))
         self.reset_bot_button.pack(side="left")
 
         self.clear_button = Button(
             frame, text=_("Clear Output"), command=self.on_clear_clicked
         )
-        self.clear_button.configure(font=("Helvetica", 8))
+        self.clear_button.configure(font=(config.FONT, 8))
         self.clear_button.pack(side="left", padx=5)
 
         self.open_variable_explorer_button = Button(
@@ -181,7 +181,7 @@ class ConsoleFrame(tk.Frame):
             text=_("Variable Explorer"),
             command=self.on_open_variable_explorer_clicked,
         )
-        self.open_variable_explorer_button.configure(font=("Helvetica", 8))
+        self.open_variable_explorer_button.configure(font=(config.FONT, 8))
         self.open_variable_explorer_button.pack(side="left")
 
         return frame
@@ -761,7 +761,7 @@ class SidebarFrame(tk.Frame):
         HelpButton(
             self,
             message=_(
-                "Activities are t he basic building blocks of Automagica. By tieing activities together, you get a Flow."
+                "Activities are the basic building blocks of Automagica. By tieing activities together, you get a Flow."
             ),
         ).place(relx=1, rely=0, anchor="ne")
 
@@ -790,7 +790,7 @@ class SidebarFrame(tk.Frame):
             frame,
             text=_("Instructions"),
             anchor="w",
-            font=font.Font(family=config.FONT, size=10),
+            font=font.Font(family=config.FONT, size=12),
             justify="left",
             fg=config.COLOR_0,
             bg=config.COLOR_4,
@@ -824,7 +824,7 @@ class SidebarFrame(tk.Frame):
             frame,
             text=_("Activities"),
             anchor="w",
-            font=font.Font(family=config.FONT, size=10),
+            font=font.Font(family=config.FONT, size=12),
             justify="left",
             fg=config.COLOR_0,
             bg=config.COLOR_4,
@@ -896,7 +896,7 @@ class SidebarFrame(tk.Frame):
             text=_("Special Nodes"),
             anchor="w",
             justify="left",
-            font=font.Font(family=config.FONT, size=10),
+            font=font.Font(family=config.FONT, size=12),
             fg=config.COLOR_0,
             bg=config.COLOR_4,
         )

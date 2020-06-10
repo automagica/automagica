@@ -49,9 +49,11 @@ fontdir = os.path.join(
 )
 
 pyglet.font.add_file(os.path.join(fontdir, "roboto.ttf"))
+pyglet.font.add_file(os.path.join(fontdir, "roboto-mono.ttf"))
 
 
 FONT = "Roboto"
+FONT_MONO = "Roboto Mono"
 
 COLOR_0 = "#2196f3"  # Automagica Blue
 COLOR_1 = "#ffffff"  # White

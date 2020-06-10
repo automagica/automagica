@@ -211,7 +211,7 @@ def all_activities():
         args = {}
 
         for _, val in params.items():
-            arg = {"default": (val.default if val.default != inspect._empty else None)}
+            arg = {"default": (val.default if val.default != inspect._empty else "")}
 
             args[val.name] = arg
 
@@ -230,16 +230,32 @@ def all_activities():
 
                     type_ = line.split(":")[-1].strip()
 
+                    if "optional" in type_:
+                        optional = True
+                    else:
+                        optional = False
+
+                    type_ = type_.split(",")[0]
+
                     if name == val.name:
                         arg["type"] = type_
+                        arg["optional"] = optional
 
                 if line.startswith(":options "):
                     name = line.split(":")[1].replace("options ", "")
                     options_unparsed = line[line.index(":", 2) + 2 :]
                     options = eval(options_unparsed)
-                    
+
                     if name == val.name:
                         arg["options"] = options
+
+                if line.startswith(":extension "):
+                    name = line.split(":")[1].replace("extension ", "")
+                    extensions_unparsed = line[line.index(":", 2) + 2 :]
+                    extensions = extensions_unparsed.split()
+
+                    if name == val.name:
+                        arg["extensions"] = extensions
 
             if not arg.get("type"):
                 if val.name.endswith("path"):

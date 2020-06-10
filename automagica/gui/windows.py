@@ -26,6 +26,8 @@ from automagica.gui.inputs import (
     InputWidget,
     KeycombinationEntry,
     NodeSelectionInputWidget,
+    DirWidget,
+    FilePathOutputWidget,
 )
 from automagica.keybinds import Keybind, KeybindsManager
 from automagica.nodes import (
@@ -184,7 +186,6 @@ class FlowDesignerWindow(tk.Toplevel):
             )
             self.iconbitmap(self.icon_path)
 
-        self.option_add("*Font", "helvetica 10")
         self.option_add("*Background", config.COLOR_1)
         self.configure(bg=config.COLOR_1)
         self.grid_columnconfigure(0, weight=1)
@@ -1072,6 +1073,7 @@ class FlowPlayerWindow(Window):
         on_close=None,
         autoclose=None,
         start_node=None,
+        title=None,
         **kwargs,
     ):
         global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
@@ -1084,6 +1086,10 @@ class FlowPlayerWindow(Window):
         self.bot = bot
         self.on_close = on_close
         self.autoclose = autoclose
+        self.title = title
+
+        if not self.title:
+            self.title = flow.name
 
         self.paused = True
         self.step_by_step = step_by_step
@@ -1148,7 +1154,7 @@ class FlowPlayerWindow(Window):
         frame.configure(bg=self.cget("bg"))
 
         self.flow_label = tk.Label(
-            frame, text=self.flow.name, bg=self.cget("bg"), font=(config.FONT, 10)
+            frame, text=self.title, bg=self.cget("bg"), font=(config.FONT, 10)
         )
         self.flow_label.pack()
 
@@ -1218,7 +1224,8 @@ class FlowPlayerWindow(Window):
             text=_("Play"), command=self.on_play_click, bg=config.COLOR_7
         )
 
-    def play(self, return_value="no_value", loop=False):
+    def play(self, loop=False, node=""):
+        # Pause the flow if mouse is topleft corner
         try:
             mouse_x = self.winfo_pointerx()
             mouse_y = self.winfo_pointery()
@@ -1228,19 +1235,29 @@ class FlowPlayerWindow(Window):
         if mouse_x == 0 and mouse_y == 0:
             self.on_pause_click()
 
-        if not self.paused:
-            if not loop:
-                if return_value == "no_value":
-                    next_node_uid = self.current_node.next_node
-                else:
-                    next_node_uid = self.current_node.get_next_node_uid(return_value)
-            else:
-                next_node_uid = self.current_node.uid
+        # If a specific node is specified with the play function
+        if node == "":
+            # Regular play
+            pass
 
-            # There's a next node
-            if next_node_uid:
-                self.current_node = self.flow.get_node_by_uid(next_node_uid)
+        elif node == None:
+            # Play called with None-node
+            self.current_node = None
 
+            if self.autoclose:
+                self.after(100, self.on_stop_click)
+
+            self.progress_bar["value"] = 100
+            self.play_pause_button.configure(
+                text=_("Restart"), command=self.on_restart_click, bg=config.COLOR_7
+            )
+
+        elif node != None or node != "":
+            # We actually got a next node
+            self.current_node = self.flow.get_node_by_uid(node)
+
+        if self.current_node:
+            if not self.paused:
                 self.update()
 
                 if self.step_by_step:
@@ -1253,12 +1270,11 @@ class FlowPlayerWindow(Window):
                         bot=self.bot,
                         autoplay=self.autoplay,
                         step_by_step=self.step_by_step,
-                        on_close=self.play,
+                        on_close=lambda: self.play(node=self.current_node.next_node),
                         autoclose=True,
                     )
 
                 elif isinstance(self.current_node, LoopNode):
-
                     # Are we iterating?
                     if not self.bot.interpreter.locals.get("AUTOMAGICA_ITERABLE"):
                         # Set Iterable variable
@@ -1271,7 +1287,10 @@ class FlowPlayerWindow(Window):
                         f"try:\n\t{self.current_node.loop_variable} = next(AUTOMAGICA_ITERABLE)\nexcept StopIteration:\n\t{self.current_node.loop_variable} = None\n\tAUTOMAGICA_ITERABLE = None"
                     )
 
-                    if self.bot.interpreter.locals.get(self.current_node.loop_variable) != None:
+                    if (
+                        self.bot.interpreter.locals.get(self.current_node.loop_variable)
+                        != None
+                    ):
 
                         FlowPlayerWindow(
                             self,
@@ -1280,32 +1299,16 @@ class FlowPlayerWindow(Window):
                             bot=self.bot,
                             autoplay=self.autoplay,
                             step_by_step=self.step_by_step,
-                            on_close=lambda: self.play(loop=True),
+                            on_close=self.play,
                             autoclose=True,
+                            title=str(self.current_node.label),
                         )
 
                     else:
-                        if self.autoclose:
-                            self.after(
-                                1000, self.on_stop_click
-                            )  # TODO This needs to be made cleaner
-
-                        self.play()
+                        self.play(node=self.current_node.next_node)
 
                 else:
-                    if self.current_node:
-                        self.current_node.run(self.bot, on_done=self.play)
-
-            else:
-                if self.autoclose:
-                    self.after(
-                        1000, self.on_stop_click
-                    )  # TODO This needs to be made cleaner
-
-                self.progress_bar["value"] = 100
-                self.play_pause_button.configure(
-                    text=_("Restart"), command=self.on_restart_click, bg=config.COLOR_7
-                )
+                    self.current_node.run(self.bot, on_done=self.play)
 
     def on_stop_click(self):
         if self.on_close:
@@ -1415,7 +1418,7 @@ class SnippingToolWindow:
         self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
 
         if info:
-            font = Font(family="Helvetica", size=30)
+            font = Font(family=config.FONT, size=30)
 
             self.canvas.create_text(
                 int(w / 2), int(h * 2 / 3), text=info, fill="#1B97F3", font=font
@@ -1695,33 +1698,76 @@ class ActivityNodePropsWindow(NodePropsWindow):
             if name == "self":
                 label = _("Object variable")
 
+            label = label.capitalize().replace("_", " ")
+
+            if not config.ACTIVITIES[self.node.activity]["args"][name].get("optional"):
+                label = label + " " + _("(required)")
+
             args_labels[name] = tk.Label(
                 frame,
-                text=label.capitalize().replace("_", " "),
+                text=label,
                 bg=config.COLOR_4,
                 fg=config.COLOR_11,
                 font=(config.FONT, 10),
             )
             args_labels[name].grid(row=i, column=0, sticky="w")
 
-            if name.endswith("path"):
-                self.args_inputs[name] = FilePathInputWidget(frame)
+            argtype = config.ACTIVITIES[self.node.activity]["args"][name].get("type")
+
+            argextensions = config.ACTIVITIES[self.node.activity]["args"][name].get(
+                "extensions"
+            )
+
+            if argtype:
+                if "input_file" in argtype:
+                    self.args_inputs[name] = FilePathInputWidget(
+                        frame, extensions=argextensions
+                    )
+
+                elif "output_file" in argtype:
+                    self.args_inputs[name] = FilePathOutputWidget(
+                        frame, extensions=argextensions
+                    )
+
+                elif "input_dir" in argtype:
+                    self.args_inputs[name] = DirWidget(frame)
+
+                elif "output_dir" in argtype:
+                    self.args_inputs[name] = DirWidget(frame)
+
+                elif "bool" in argtype:
+                    self.args_inputs[name] = BooleanInputWidget(
+                        frame,
+                        value=self.node.args_.get(
+                            name,
+                            config.ACTIVITIES[self.node.activity]["args"][name].get(
+                                "default"
+                            ),
+                        ),
+                    )
+
+                else:
+                    self.args_inputs[name] = InputWidget(
+                        frame,
+                        value=config.ACTIVITIES[self.node.activity]["args"][name].get(
+                            "default"
+                        ),
+                    )
 
             elif name == "automagica_id":
                 self.args_inputs[name] = AutomagicaIdInputWidget(frame)
 
-            elif isinstance(
-                config.ACTIVITIES[self.node.activity]["args"][name].get("default"), bool
-            ):
-                self.args_inputs[name] = BooleanInputWidget(
+            elif config.ACTIVITIES[self.node.activity]["args"][name].get("options"):
+                self.args_inputs[name] = AutocompleteDropdown(
                     frame,
-                    value=self.node.args_.get(
-                        name,
-                        config.ACTIVITIES[self.node.activity]["args"][name].get(
-                            "default"
-                        ),
-                    ),
+                    values=[
+                        f"'{option}'"
+                        for option in config.ACTIVITIES[self.node.activity]["args"][
+                            name
+                        ].get("options")
+                    ],
                 )
+
             else:
                 self.args_inputs[name] = InputWidget(
                     frame,
@@ -1737,11 +1783,7 @@ class ActivityNodePropsWindow(NodePropsWindow):
             if self.node.args_.get(name) != None:
                 self.args_inputs[name]._set(self.node.args_[name])
 
-            elif (
-                config.ACTIVITIES[self.node.activity]["args"][name].get("default")
-                != None
-            ):
-
+            else:
                 default = config.ACTIVITIES[self.node.activity]["args"][name].get(
                     "default"
                 )
@@ -2247,6 +2289,25 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Node Label
+        label_label = tk.Label(
+            frame,
+            text=_("Label"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
+        )
+        label_label.grid(row=1, column=0, sticky="w")
+        self.label_entry = InputField(frame)
+        self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
+
+        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button.grid(row=1, column=2)
+
+        # Pre-fill label
+        if self.node.label:
+            self.label_entry.insert(tk.END, self.node.label)
+
+        # Node Label
         code_label = tk.Label(
             frame,
             text=_("Code"),
@@ -2254,11 +2315,11 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        code_label.grid(row=1, column=0, sticky="w")
+        code_label.grid(row=2, column=0, sticky="w")
 
         self.code_entry = tk.Text(frame)
         self.code_entry.config(font=("TkFixedFont"))
-        self.code_entry.grid(row=1, column=1, sticky="w")
+        self.code_entry.grid(row=2, column=1, sticky="w")
 
         # Pre-fill label
         if self.node.code:
@@ -2272,12 +2333,12 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        next_node_option_label.grid(row=2, column=0, sticky="w")
+        next_node_option_label.grid(row=3, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
 
-        self.next_node_menu.grid(row=2, column=1, sticky="w")
+        self.next_node_menu.grid(row=3, column=1, sticky="w")
 
         # Else node selection
         on_exception_node_option_label = tk.Label(
@@ -2287,14 +2348,14 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        on_exception_node_option_label.grid(row=3, column=0, sticky="w")
+        on_exception_node_option_label.grid(row=4, column=0, sticky="w")
         self.on_exception_node_menu = NodeSelectionInputWidget(
             frame,
             self.parent.master.master.flow.nodes,
             value=self.node.on_exception_node,
         )
 
-        self.on_exception_node_menu.grid(row=3, column=1, sticky="w")
+        self.on_exception_node_menu.grid(row=4, column=1, sticky="w")
 
         return frame
 
@@ -2302,6 +2363,7 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
         self.node.next_node = self.next_node_menu.get()
         self.node.on_exception_node = self.on_exception_node_menu.get()
         self.node.code = self.code_entry.get("1.0", tk.END)
+        self.node.label = self.label_entry.get()
 
         self.parent.draw()
 
@@ -2427,52 +2489,6 @@ class SubFlowNodePropsWindow(NodePropsWindow):
         if self.node.label:
             self.label_entry.insert(tk.END, self.node.label)
 
-        # Iterator
-        iterator_label = tk.Label(
-            frame,
-            text=_("Iterator"),
-            bg=config.COLOR_4,
-            fg=config.COLOR_11,
-            font=(config.FONT, 10),
-        )
-        iterator_label.grid(row=2, column=0, sticky="w")
-        self.iterator_entry = InputField(frame)
-        self.iterator_entry.grid(row=2, column=1, sticky="ew", padx=3, pady=3)
-
-        help_button = HelpButton(
-            frame,
-            message=_("The subflow will be repeated for each element in the iterator."),
-        )
-        help_button.grid(row=2, column=2)
-
-        # Pre-fill iterator
-        if self.node.iterator:
-            self.iterator_entry.insert(tk.END, self.node.iterator)
-
-        # Iterator variable
-        iterator_variable_label = tk.Label(
-            frame,
-            text=_("Iterator Variable"),
-            bg=config.COLOR_4,
-            fg=config.COLOR_11,
-            font=(config.FONT, 10),
-        )
-        iterator_variable_label.grid(row=3, column=0, sticky="w")
-        self.iterator_variable_entry = InputField(frame)
-        self.iterator_variable_entry.grid(row=3, column=1, sticky="ew", padx=3, pady=3)
-
-        help_button = HelpButton(
-            frame,
-            message=_(
-                "The name of the variable to use for each element in the iterator."
-            ),
-        )
-        help_button.grid(row=3, column=2)
-
-        # Pre-fill iterator
-        if self.node.iterator_variable:
-            self.iterator_variable_entry.insert(tk.END, self.node.iterator_variable)
-
         # Node Label
         subflow_path_label = tk.Label(
             frame,
@@ -2545,7 +2561,5 @@ class SubFlowNodePropsWindow(NodePropsWindow):
         self.node.on_exception_node = self.on_exception_node_menu.get()
         self.node.subflow_path = self.subflow_path_entry.get()
         self.node.label = self.label_entry.get()
-        self.node.iterator = self.iterator_entry.get()
-        self.node.iterator_variable = self.iterator_variable_entry.get()
 
         self.close_window()

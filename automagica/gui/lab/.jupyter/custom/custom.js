@@ -102,14 +102,14 @@ define([
                 notebook.insertAdjacentHTML('beforeend', htmlToInsert);
 
 
-                var buttonHTMLInsert = `
-                <div id="recorder" class="btn-group">
-                    <a href="#" title="Launch the Automagica Wand" onclick="Jupyter.notebook.kernel.execute('from automagica import *; recorder()');" class="btn btn-default">🔴 Recorder (beta)</a>
-                </div>
-                `;
+                // var buttonHTMLInsert = `
+                // <div id="recorder" class="btn-group">
+                //     <a href="#" title="Launch the Automagica Wand" onclick="Jupyter.notebook.kernel.execute('from automagica import *; recorder()');" class="btn btn-default">🔴 Recorder (beta)</a>
+                // </div>
+                // `;
 
-                var toolbar = document.getElementById('maintoolbar-container');
-                toolbar.insertAdjacentHTML('beforeend', buttonHTMLInsert)
+                // var toolbar = document.getElementById('maintoolbar-container');
+                // toolbar.insertAdjacentHTML('beforeend', buttonHTMLInsert)
 
                 dragElement(document.getElementById("activities"));
 
