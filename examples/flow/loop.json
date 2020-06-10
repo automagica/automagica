@@ -14,7 +14,8 @@
             "y": 100,
             "type": "LoopNode",
             "iterable": "fruits",
-            "item": "",
+            "loop_variable": "fruit",
+            "repeat_n_times": "10",
             "next_node": "mWOg",
             "loop_node": "CYSA",
             "label": null
@@ -25,7 +26,7 @@
             "y": 100,
             "type": "PythonCodeNode",
             "next_node": "kZgV",
-            "code": "fruits = ['apple', 'banana', 'pizza']\n\n\n\n",
+            "code": "fruits = ['apple', 'banana', 'pizza']\n\n\n\n\n",
             "on_exception_node": null,
             "label": null
         },
@@ -40,7 +41,8 @@
             "args": {
                 "data": "\"Done!\""
             },
-            "class": null
+            "class": null,
+            "return_": null
         },
         {
             "uid": "CYSA",
@@ -53,20 +55,48 @@
             "args": {
                 "data": "fruit"
             },
-            "class": null
+            "class": null,
+            "return_": null
         },
         {
             "uid": "GY4C",
             "x": 475,
             "y": 275,
             "type": "ActivityNode",
-            "next_node": null,
+            "next_node": "q9N1",
             "label": "every fruit additional print",
             "activity": "automagica.activities.print_console",
             "args": {
-                "data": "\"that was a tasty fruit\""
+                "data": "fruit"
             },
-            "class": null
+            "class": null,
+            "return_": null
+        },
+        {
+            "uid": "q9N1",
+            "x": 650,
+            "y": 275,
+            "type": "ActivityNode",
+            "next_node": "HlGi",
+            "label": "",
+            "activity": "automagica.activities.print_console",
+            "args": {
+                "data": "fruit + 'very tasty'"
+            },
+            "class": null,
+            "return_": null
+        },
+        {
+            "uid": "HlGi",
+            "x": 825,
+            "y": 275,
+            "type": "ActivityNode",
+            "next_node": null,
+            "label": null,
+            "activity": "automagica.activities.print_console",
+            "args": {},
+            "class": null,
+            "return_": null
         }
     ],
     "name": "Unnamed Flow"

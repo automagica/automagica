@@ -10,15 +10,31 @@ from automagica.bots import ThreadedBot
 from automagica.config import _
 from automagica.flow import Flow
 from automagica.gui.buttons import Button, HelpButton, LargeButton
-from automagica.gui.frames import (ConsoleFrame, FlowFrame, LabelFrame,
-                                   SidebarFrame, ToolbarFrame)
+from automagica.gui.frames import (
+    ConsoleFrame,
+    FlowFrame,
+    LabelFrame,
+    SidebarFrame,
+    ToolbarFrame,
+)
 from automagica.gui.inputs import (
-    AutocompleteDropdown, AutomagicaIdInputWidget, BooleanInputWidget,
-    FilePathInputWidget, InputField, InputWidget, KeycombinationEntry,
-    NodeSelectionInputWidget)
+    AutocompleteDropdown,
+    AutomagicaIdInputWidget,
+    BooleanInputWidget,
+    FilePathInputWidget,
+    InputField,
+    InputWidget,
+    KeycombinationEntry,
+    NodeSelectionInputWidget,
+)
 from automagica.keybinds import Keybind, KeybindsManager
-from automagica.nodes import (ActivityNode, DotPyFileNode, StartNode,
-                              SubFlowNode)
+from automagica.nodes import (
+    ActivityNode,
+    DotPyFileNode,
+    StartNode,
+    LoopNode,
+    SubFlowNode,
+)
 
 # Keep track of currently visible notifications (so they can stack)
 AUTOMAGICA_NUMBER_OF_NOTIFICATIONS = 0
@@ -1055,7 +1071,8 @@ class FlowPlayerWindow(Window):
         step_by_step=False,
         on_close=None,
         autoclose=None,
-        **kwargs
+        start_node=None,
+        **kwargs,
     ):
         global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
 
@@ -1071,7 +1088,11 @@ class FlowPlayerWindow(Window):
         self.paused = True
         self.step_by_step = step_by_step
 
-        self.current_node = self.flow.get_start_nodes()[0]
+        if start_node:
+            self.current_node = self.flow.get_node_by_uid(start_node)
+        else:
+            self.current_node = self.flow.get_start_nodes()[0]
+
         self.total_nodes = len(flow.nodes)
         self.n_nodes_ran = 0
 
@@ -1111,14 +1132,15 @@ class FlowPlayerWindow(Window):
             text=_("Current step: {}").format(self.current_node)
         )
 
-        if self.current_node.next_node:
-            self.next_node_label.configure(
-                text=_("Next step: {}").format(
-                    self.flow.get_node_by_uid(self.current_node.next_node)
+        if self.current_node:
+            if self.current_node.next_node:
+                self.next_node_label.configure(
+                    text=_("Next step: {}").format(
+                        self.flow.get_node_by_uid(self.current_node.next_node)
+                    )
                 )
-            )
-        else:
-            self.next_node_label.configure(text="")
+            else:
+                self.next_node_label.configure(text="")
 
     def create_progress_frame(self):
         frame = tk.Frame(self)
@@ -1196,7 +1218,7 @@ class FlowPlayerWindow(Window):
             text=_("Play"), command=self.on_play_click, bg=config.COLOR_7
         )
 
-    def play(self, return_value="no_value"):
+    def play(self, return_value="no_value", loop=False):
         try:
             mouse_x = self.winfo_pointerx()
             mouse_y = self.winfo_pointery()
@@ -1207,11 +1229,15 @@ class FlowPlayerWindow(Window):
             self.on_pause_click()
 
         if not self.paused:
-            if return_value == "no_value":
-                next_node_uid = self.current_node.next_node
+            if not loop:
+                if return_value == "no_value":
+                    next_node_uid = self.current_node.next_node
+                else:
+                    next_node_uid = self.current_node.get_next_node_uid(return_value)
             else:
-                next_node_uid = self.current_node.get_next_node_uid(return_value)
+                next_node_uid = self.current_node.uid
 
+            # There's a next node
             if next_node_uid:
                 self.current_node = self.flow.get_node_by_uid(next_node_uid)
 
@@ -1230,11 +1256,47 @@ class FlowPlayerWindow(Window):
                         on_close=self.play,
                         autoclose=True,
                     )
+
+                elif isinstance(self.current_node, LoopNode):
+
+                    # Are we iterating?
+                    if not self.bot.interpreter.locals.get("AUTOMAGICA_ITERABLE"):
+                        # Set Iterable variable
+                        self.bot._run_command(
+                            f"AUTOMAGICA_ITERABLE = iter({self.current_node.iterable})"
+                        )
+
+                    # Set 'next' in iterable
+                    self.bot._run_command(
+                        f"try:\n\t{self.current_node.loop_variable} = next(AUTOMAGICA_ITERABLE)\nexcept StopIteration:\n\t{self.current_node.loop_variable} = None\n\tAUTOMAGICA_ITERABLE = None"
+                    )
+
+                    if self.bot.interpreter.locals.get(self.current_node.loop_variable) != None:
+
+                        FlowPlayerWindow(
+                            self,
+                            flow=self.flow,
+                            start_node=self.current_node.loop_node,
+                            bot=self.bot,
+                            autoplay=self.autoplay,
+                            step_by_step=self.step_by_step,
+                            on_close=lambda: self.play(loop=True),
+                            autoclose=True,
+                        )
+
+                    else:
+                        if self.autoclose:
+                            self.after(
+                                1000, self.on_stop_click
+                            )  # TODO This needs to be made cleaner
+
+                        self.play()
+
                 else:
-                    self.current_node.run(self.bot, on_done=self.play)
+                    if self.current_node:
+                        self.current_node.run(self.bot, on_done=self.play)
 
             else:
-
                 if self.autoclose:
                     self.after(
                         1000, self.on_stop_click
@@ -1923,7 +1985,52 @@ class LoopNodePropsWindow(NodePropsWindow):
         )
         uid_label.grid(row=0, column=1, sticky="w")
 
-        # Node Label
+        # Repeat N Times
+        repeat_n_times_label = tk.Label(
+            frame,
+            text=_("Repeat n times"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
+        )
+        repeat_n_times_label.grid(row=1, column=0, sticky="w")
+        self.repeat_n_times_entry = InputField(frame)
+        self.repeat_n_times_entry.grid(row=1, column=1, sticky="w")
+
+        # Pre-fill iterable
+        if self.node.repeat_n_times:
+            self.repeat_n_times_entry.insert(tk.END, self.node.repeat_n_times)
+
+        help_button = HelpButton(
+            frame, message=_("Number of times to repeat this part of the flow.")
+        )
+        help_button.grid(row=1, column=2)
+
+        # Loop variable
+        loop_variable_label = tk.Label(
+            frame,
+            text=_("Loop variable"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
+        )
+        loop_variable_label.grid(row=2, column=0, sticky="w")
+        self.loop_variable_entry = InputField(frame)
+        self.loop_variable_entry.grid(row=2, column=1, sticky="w")
+
+        # Pre-fill loop variable
+        if self.node.loop_variable:
+            self.loop_variable_entry.insert(tk.END, self.node.loop_variable)
+
+        help_button = HelpButton(
+            frame,
+            message=_(
+                "The name of the variable to assign the single item of the collection/list to while iterating."
+            ),
+        )
+        help_button.grid(row=2, column=2)
+
+        # Iterable
         iterable_label = tk.Label(
             frame,
             text=_("Iterable"),
@@ -1931,13 +2038,21 @@ class LoopNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        iterable_label.grid(row=1, column=0, sticky="w")
+        iterable_label.grid(row=3, column=0, sticky="w")
         self.iterable_entry = InputField(frame)
-        self.iterable_entry.grid(row=1, column=1, sticky="w")
+        self.iterable_entry.grid(row=3, column=1, sticky="w")
 
-        # Pre-fill label
+        # Pre-fill iterable
         if self.node.iterable:
             self.iterable_entry.insert(tk.END, self.node.iterable)
+
+        help_button = HelpButton(
+            frame,
+            message=_(
+                "The collection or list to iterate over and repeat this part of the flow. This will override the default 'repeat n times' setting."
+            ),
+        )
+        help_button.grid(row=3, column=2)
 
         # Next node selection
         next_node_option_label = tk.Label(
@@ -1947,12 +2062,12 @@ class LoopNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        next_node_option_label.grid(row=2, column=0, sticky="w")
+        next_node_option_label.grid(row=4, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
 
-        self.next_node_menu.grid(row=2, column=1, sticky="w")
+        self.next_node_menu.grid(row=4, column=1, sticky="w")
 
         # Else node selection
         loop_node_option_label = tk.Label(
@@ -1962,24 +2077,22 @@ class LoopNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        loop_node_option_label.grid(row=3, column=0, sticky="w")
-        self.loop_node_menu = ttk.Combobox(
-            frame, values=[node.uid for node in self.parent.master.master.flow.nodes]
+        loop_node_option_label.grid(row=5, column=0, sticky="w")
+        self.loop_node_menu = NodeSelectionInputWidget(
+            frame, self.parent.master.master.flow.nodes, value=self.node.loop_node
         )
 
-        if self.node.loop_node:
-            for i, node in enumerate(self.parent.master.master.flow.nodes):
-                if node.uid == self.node.loop_node:
-                    self.loop_node_menu.current(i)
-
-        self.loop_node_menu.grid(row=3, column=1, sticky="w")
+        self.loop_node_menu.grid(row=5, column=1, sticky="w")
 
         return frame
 
     def save(self):
         self.node.next_node = self.next_node_menu.get()
         self.node.loop_node = self.loop_node_menu.get()
+
         self.node.iterable = self.iterable_entry.get()
+        self.node.loop_variable = self.loop_variable_entry.get()
+        self.node.repeat_n_times = self.repeat_n_times_entry.get()
 
         self.parent.draw()
 

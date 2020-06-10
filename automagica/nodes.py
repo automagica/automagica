@@ -67,7 +67,14 @@ class StartNode(Node):
 
 class ActivityNode(Node):
     def __init__(
-        self, activity, *args, next_node=None, class_=None, args_=None, **kwargs
+        self,
+        activity,
+        *args,
+        next_node=None,
+        class_=None,
+        args_=None,
+        return_=None,
+        **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.activity = activity
@@ -75,7 +82,7 @@ class ActivityNode(Node):
             args_ = {}
         self.args_ = args_
         self.next_node = next_node
-        self.return_ = None
+        self.return_ = return_
 
         if self.activity.split(".")[-2][0].isupper():
             class_ = self.activity.split(".")[-2].lower()
@@ -106,6 +113,7 @@ class ActivityNode(Node):
             "activity": self.activity,
             "args": self.args_,
             "class": self.class_,
+            "return_": self.return_,
         }
 
     def run(self, bot, on_done=None):
@@ -184,12 +192,20 @@ class IfElseNode(Node):
 
 class LoopNode(Node):
     def __init__(
-        self, *args, iterable="", item="", next_node=None, loop_node=None, **kwargs
+        self,
+        *args,
+        iterable="",
+        repeat_n_times=10,
+        loop_variable="",
+        next_node=None,
+        loop_node=None,
+        **kwargs,
     ):
         super().__init__(**kwargs)
         self.iterable = iterable
-        self.item = item
+        self.loop_variable = loop_variable
         self.loop_node = loop_node
+        self.repeat_n_times = repeat_n_times
         self.next_node = next_node
 
     def get_next_node(self):
@@ -209,14 +225,15 @@ class LoopNode(Node):
             "y": self.y,
             "type": self.__class__.__name__,
             "iterable": self.iterable,
-            "item": self.item,
+            "loop_variable": self.loop_variable,
+            "repeat_n_times": self.repeat_n_times,
             "next_node": self.next_node,
             "loop_node": self.loop_node,
             "label": self.label,
         }
 
     def run(self, bot, on_done=None):
-        pass
+        bot.run(self.iterable, on_done=on_done, return_value_when_done=True)
 
 
 class DotPyFileNode(Node):
