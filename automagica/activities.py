@@ -37,7 +37,7 @@ def generate_random_key():
 
 
 @activity
-def encrypt_text_with_key(text, key=b'your_key'):
+def encrypt_text_with_key(text, key):
     """Encrypt text 
 
     Encrypt text with (Fernet) key, 
@@ -72,7 +72,7 @@ def encrypt_text_with_key(text, key=b'your_key'):
 
 
 @activity
-def decrypt_text_with_key(encrypted_text, key=b'your_key'):
+def decrypt_text_with_key(encrypted_text, key):
     """Decrypt text
 
     Dexrypt bytes-like object to string with (Fernet) key
@@ -109,7 +109,7 @@ def decrypt_text_with_key(encrypted_text, key=b'your_key'):
 
 
 @activity
-def encrypt_file_with_key(input_path, key=b'your_key', output_path=None):
+def encrypt_file_with_key(input_path, key, output_path=None):
     """Encrypt file 
 
     Encrypt file with (Fernet) key. Note that file will be unusable unless unlocked with the same key.
@@ -163,7 +163,7 @@ def encrypt_file_with_key(input_path, key=b'your_key', output_path=None):
 
 
 @activity
-def decrypt_file_with_key(input_path, key=b'your_key', output_path=None):
+def decrypt_file_with_key(input_path, key, output_path=None):
     """Decrypt file
 
     Decrypts file with (Fernet) key
@@ -2033,7 +2033,7 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
     :parameter text: Text in string format to type. Note that you can only press single character keys. Special keys like ":", "F1",... can not be part of the text argument.
     :type text: string
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :type automagica_id: string, optional
+    :type automagica_id: automagica_id, optional
     :parameter clear: Attempts to clear the element before typing using hotkeys. Be cautious when using this method as a vision mismatch could result in deleting unwanted data. Default value is False
     :type clear: bool, optional
     :parameter interval_seconds: Time in seconds between two keystrokes. Defautl value is 0.01 seconds.
@@ -2182,7 +2182,7 @@ def click(automagica_id, delay=1):
     Clicks on an element based on the element ID (vision)
 
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :type automagica_id: string
+    :type automagica_id: automagica_id
     :parameter delay: Delay before clicking in seconds. 
     :type delay: int, optional
 
@@ -2309,7 +2309,7 @@ def double_click(automagica_id=None, delay=1):
     Double clicks on an element based on the element ID (vision) 
 
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :type automagica_id: string
+    :type automagica_id: automagica_id
     :parameter delay: Delay before clicking in seconds. 
     :type delay: int, optional
 
@@ -2356,7 +2356,7 @@ def right_click(automagica_id=None, delay=1):
     Right clicks on an element based on the element ID (vision)
 
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :type automagica_id: string    
+    :type automagica_id: automagica_id    
     :parameter delay: Delay before cliking in seconds. 
     :type delay: int, optional
 
@@ -2445,7 +2445,7 @@ def move_mouse_to(automagica_id=None, delay=1):
     Moves te pointer to an element based on the element ID (vision)
 
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :type automagica_id: int, optional
+    :type automagica_id: automagica_id, optional
     :parameter delay: Delay before movement in seconds 
     :type delay: int, optional
 
@@ -2598,7 +2598,7 @@ def drag_mouse_to(automagica_id=None, delay=1):
     Drags mouse to an element based on the element ID (vision) 
 
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
-    :type automagica_id: string
+    :type automagica_id: automagica_id
     :parameter delay: Delay before movement in seconds.
     :type delay: int, optional
 
@@ -10345,7 +10345,7 @@ def is_visible(automagica_id, delay=1, timeout=30):
     Note that this uses Automagica vision and uses some advanced an fuzzy matching algorithms for finding identical elements.
 
     :parameter automagica_id: Element ID provided by the recorder
-    :type automagica_id: string
+    :type automagica_id: automagica_id
     :parameter delay: Delay before checking visibility in seconds
     :type delay: int, optional
     :parameter timeout: Time before timeout (maximum time to wait) in seconds
@@ -10383,7 +10383,7 @@ def wait_appear(automagica_id, delay=1, timeout=30):
     Wait for an element that is defined the recorder
 
     :parameter automagica_id: The element ID provided by the recorder
-    :type automagica_id: string
+    :type automagica_id: automagica_id
     :parameter delay: Delay before waiting to appear in seconds
     :type delay: int, optional
     :parameter timeout: Maximum time to wait for an element in seconds
@@ -10432,7 +10432,7 @@ def wait_vanish(automagica_id, delay=1, timeout=30):
     This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
 
     :parameter automagica_id: The element ID provided by the recorder
-    :type automagica_id: string
+    :type automagica_id: automagica_id
     :parameter delay: Delay before waiting for vanish in seconds
     :type delay: int, optional
     :parameter timeout: Maximum time to wait for an element in seconds
@@ -10478,7 +10478,7 @@ def read_text(automagica_id, delay=1):
     This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
 
     :parameter automagica_id: the sample ID provided by the Vision Recorder
-    :type automagica_id: string
+    :type automagica_id: automagica_id
     :parameter delay: Delay before reading text for vanish in seconds
     :type delay: int, optional
 
