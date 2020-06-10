@@ -72,7 +72,6 @@ setup(
         "click==7.0",  # BSD 3-Clause6
         "idna==2.5",  # BSD 3-Clause
         "pyglet",  # MIT License
-        "jupyterlab",
     ],
     include_package_data=True,
     cmdclass={"install": InstallationWrapper},
