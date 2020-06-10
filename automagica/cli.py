@@ -600,39 +600,6 @@ def wand(action):
     app.run()
 
 
-@cli.group(help=_("Automagica Lab"))
-def lab():
-    pass
-
-
-@lab.command("new", help=_("New Notebook"))
-def lab_new():
-    app = LabApp()
-    app.new()
-
-
-@lab.command("edit", help=_("Edit Notebook"))
-@click.argument("filename")
-def lab_edit(filename):
-    app = LabApp()
-    app.edit(filename)
-
-
-@lab.command("run", help=_("Run Notebook"))
-@click.argument("filename")
-def lab_run(filename):
-    app = LabApp()
-    app.run(filename)
-
-
-@cli.command(help=_("Automagica Portal"))
-def portal():
-    import webbrowser
-
-    webbrowser.open(
-        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
-    )
-
 
 @cli.group(help=_("Automagica Flow"))
 def flow():
@@ -667,25 +634,6 @@ def flow_run(filename, headless, step_by_step):
         file_path=filename, run=True, headless=headless, step_by_step=step_by_step
     )
 
-    app.run()
-
-
-@cli.group(help=_("Automagica Trace"))
-def trace():
-    pass
-
-
-@trace.command("record", help=_("Record a new trace"))
-def trace_record():
-    app = TraceApp()
-    app.run()
-
-
-@trace.command("convert", help=_("Convert an existing trace"))
-@click.argument("filename")
-@click.argument("format")
-def trace_convert(filename, format_):
-    app = TraceApp()
     app.run()
 
 

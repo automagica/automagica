@@ -74,9 +74,11 @@ class NodeGraph:
         self.parent.canvas.tag_bind(
             self.node.uid, "<ButtonRelease-1>", self.on_mouse_up
         )
-        self.parent.canvas.tag_bind(
-            self.node.uid, "<Button-3>", self.on_right_click
-        )  # TODO: Button3 is not always right click on every operating system
+        
+        # self.parent.canvas.tag_bind(
+        #     self.node.uid, "<Button-3>", self.on_right_click
+        # )  # TODO: Button3 is not always right click on every operating system
+
         self.parent.canvas.tag_bind(
             self.node.uid, "<Shift-1>", lambda x: self.select(shift=True)
         )
@@ -1279,7 +1281,7 @@ class ConnectorGraph:
 
         self.draw()
 
-        self.parent.canvas.tag_bind(self.line, "<Button-3>", self.right_click)
+        # self.parent.canvas.tag_bind(self.line, "<Button-3>", self.right_click)
 
     def right_click(self, event):
         self.menu = tk.Menu(self.parent, tearoff=0, font=(config.FONT, 10))
