@@ -140,12 +140,21 @@ class ActivityNode(Node):
                 )  # chrome = Chrome()
 
             else:
-                command += "{}.{}({}, {})\n".format(
-                    self.activity.split(".")[-2],
-                    function_,
-                    self.args_["self"],
-                    ", ".join(args),
-                )  # Chrome.get(chrome, 'https://google.com")
+                if self.return_:
+                    command += "{} = {}.{}({}, {})\n".format(
+                        self.return_,
+                        self.activity.split(".")[-2],
+                        function_,
+                        self.args_["self"],
+                        ", ".join(args),
+                    )  # Chrome.get(chrome, 'https://google.com")
+                else:
+                    command += "{}.{}({}, {})\n".format(
+                        self.activity.split(".")[-2],
+                        function_,
+                        self.args_["self"],
+                        ", ".join(args),
+                    )  # Chrome.get(chrome, 'https://google.com")
 
         else:
             module_ = ".".join(self.activity.split(".")[:-1])
