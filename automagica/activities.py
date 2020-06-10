@@ -1198,8 +1198,9 @@ class Chrome(selenium.webdriver.Chrome):
                         links.append(element.get_attribute("href"))
                 else:
                     links.append(href_el)
-        except:
+            except:
                 pass
+
         if links:
             return links
 

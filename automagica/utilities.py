@@ -211,7 +211,7 @@ def all_activities():
         args = {}
 
         for _, val in params.items():
-            arg = {"default": (val.default if val.default != inspect._empty else None)}
+            arg = {"default": (val.default if val.default != inspect._empty else "")}
 
             args[val.name] = arg
 

@@ -186,7 +186,6 @@ class FlowDesignerWindow(tk.Toplevel):
             )
             self.iconbitmap(self.icon_path)
 
-        self.option_add("*Font", "helvetica 10")
         self.option_add("*Background", config.COLOR_1)
         self.configure(bg=config.COLOR_1)
         self.grid_columnconfigure(0, weight=1)
@@ -1419,7 +1418,7 @@ class SnippingToolWindow:
         self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
 
         if info:
-            font = Font(family="Helvetica", size=30)
+            font = Font(family=config.FONT, size=30)
 
             self.canvas.create_text(
                 int(w / 2), int(h * 2 / 3), text=info, fill="#1B97F3", font=font
@@ -1701,13 +1700,8 @@ class ActivityNodePropsWindow(NodePropsWindow):
 
             label = label.capitalize().replace("_", " ")
 
-            # Type is specified
-            if config.ACTIVITIES[self.node.activity]["args"][name].get("type"):
-                # Optional is not written in the type
-                if not "optional" in config.ACTIVITIES[self.node.activity]["args"][
-                    name
-                ].get("type"):
-                    label = label + " " + _("(required)")
+            if not config.ACTIVITIES[self.node.activity]["args"][name].get("optional"):
+                label = label + " " + _("(required)")
 
             args_labels[name] = tk.Label(
                 frame,
