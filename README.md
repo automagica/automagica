@@ -1,6 +1,6 @@
 ![](https://automagica.com/wp-content/uploads/2020/06/logo.png)
 # Automagica - Open Source Robotic Process Automation [![Downloads](https://pepy.tech/badge/automagica/month)](https://pepy.tech/project/automagica/month)
-Automagica is an open source automation suite for fully automating tedious, manual tasks on any screen. Our vision is that humans should have to do a robot's job. Our mission is to make these automation tools as accessible as possible to empower people to automate (almost) anything. 
+Automagica is an open source automation suite for fully automating tedious, manual tasks on any screen. Our vision is that __people should not be doing a robot's job__. Our mission is to make these automation tools as accessible as possible to empower everyone to automate (almost) anything. 
 
 _Let bots handle the clicks so people can handle the business._
 

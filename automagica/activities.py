@@ -360,6 +360,7 @@ Random
 Icon: las la-dice-d6
 """
 
+
 @activity
 def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
     """Random number
@@ -916,6 +917,7 @@ def display_osd_message(message="Example message", seconds=5):
         except:
             pass
 
+
 @activity
 def print_console(data="Example print"):
     """Print message in console
@@ -937,6 +939,7 @@ def print_console(data="Example print"):
         las la-tv
     """
     print(data)
+
 
 """
 Browser
@@ -1942,6 +1945,7 @@ def press_key(key=None, delay=1):
     """
     if delay:
         from time import sleep
+
         sleep(delay)
 
     import platform
@@ -1960,7 +1964,9 @@ def press_key(key=None, delay=1):
 
 
 @activity
-def press_key_combination(first_key, second_key, third_key=None, compatibility=False, delay=1):
+def press_key_combination(
+    first_key, second_key, third_key=None, compatibility=False, delay=1
+):
     """Press key combination
 
     Press a combination of two or three keys simultaneously. Make sure your keyboard is on US layout (standard QWERTY).
@@ -1994,6 +2000,7 @@ def press_key_combination(first_key, second_key, third_key=None, compatibility=F
 
     if delay:
         from time import sleep
+
         sleep(delay)
 
     import platform
@@ -2061,6 +2068,7 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
 
     if delay:
         from time import sleep
+
         sleep(delay)
 
     if automagica_id:
@@ -2209,6 +2217,7 @@ def click(automagica_id, delay=1):
 
     if delay:
         from time import sleep
+
         sleep(delay)  # Default delay
 
     location = detect_vision(automagica_id)
@@ -7915,6 +7924,7 @@ def read_list_from_txt(input_path):
             written_list.append(current_place)
     return written_list
 
+
 @activity
 def read_from_txt(file_path):
     """Read .txt file
@@ -7948,6 +7958,7 @@ def read_from_txt(file_path):
         filecontents = filehandle.readlines()
 
     return filecontents
+
 
 @activity
 def append_line(text, file_path):
@@ -9218,7 +9229,7 @@ def extract_text_ocr(file_path=None):
     # Read JSON
     with open(config_path) as json_file:
         local_data = json.load(json_file)
-        api_key = str(local_data["bot_secret"])  # Your API key
+        api_key = str(local_data.get("bot_secret"))  # Your API key
 
     # Prepare data for request
     data = {"image_base64": image_base64, "api_key": api_key}
@@ -9283,7 +9294,7 @@ def find_text_on_screen_ocr(text, criteria=None):
     # Read JSON
     with open(config_path) as json_file:
         local_data = json.load(json_file)
-        api_key = str(local_data["bot_secret"])  # Your API key
+        api_key = str(local_data.get("bot_secret"))  # Your API key
 
     # Prepare data for request
     data = {"image_base64": image_base64, "api_key": api_key}
@@ -9350,6 +9361,7 @@ def click_on_text_ocr(text, delay=1):
     """
     if delay:
         from time import sleep
+
         sleep(delay)
 
     position = find_text_on_screen_ocr(text, criteria="first")
@@ -9395,6 +9407,7 @@ def double_click_on_text_ocr(text, delay=1):
     """
     if delay:
         from time import sleep
+
         sleep(delay)
 
     position = find_text_on_screen_ocr(text, criteria="first")
@@ -9439,8 +9452,9 @@ def right_click_on_text_ocr(text, delay=1):
 
     if delay:
         from time import sleep
+
         sleep(delay)
-    
+
     position = find_text_on_screen_ocr(text, criteria="first")
     if position:
 
@@ -10300,7 +10314,7 @@ def detect_vision(automagica_id, detect_target=True):
     # Read JSON
     with open(config_path) as json_file:
         local_data = json.load(json_file)
-        api_key = str(local_data["bot_secret"])
+        api_key = str(local_data.get("bot_secret"))
 
     data = {
         "api_key": api_key,  # Automagica Vision API key
@@ -10525,7 +10539,7 @@ def read_text(automagica_id, delay=1):
     # Read JSON
     with open(config_path) as json_file:
         local_data = json.load(json_file)
-        api_key = str(local_data["bot_secret"])  # Your API key
+        api_key = str(local_data.get("bot_secret"))  # Your API key
 
     # Prepare data for request
     data = {"image_base64": image_base64, "api_key": api_key}

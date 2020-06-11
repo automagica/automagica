@@ -511,7 +511,9 @@ class WandWindow(Window):
             self.screenshot, 192 * 4, 108 * 4
         )
 
-        self.minimap_canvas = tk.Canvas(frame, width=192 * 4, height=108 * 4)
+        self.minimap_canvas = tk.Canvas(
+            frame, width=192 * 4, height=108 * 4, bg=self.cget("bg")
+        )
         self.minimap_canvas.pack()
 
         self.minimap_image = ImageTk.PhotoImage(screenshot_small)
@@ -530,7 +532,9 @@ class WandWindow(Window):
         return frame
 
     def create_anchors_frame(self):
-        frame = LabelFrame(self, text=_("Anchors"), bg="white", padx=10, pady=10)
+        frame = LabelFrame(
+            self, text=_("Anchors"), padx=10, pady=10, bg=self.cget("bg")
+        )
 
         anchors_label = tk.Label(
             frame,
@@ -551,7 +555,7 @@ class WandWindow(Window):
     def create_target_frame(self):
         from automagica.config import _
 
-        frame = LabelFrame(self, text=_("Target"), bg="white")
+        frame = LabelFrame(self, text=_("Target"), bg=self.cget("bg"))
 
         target_image, _ = self._resize_to_fit(
             self.screenshot.crop(self.target), 156, 156
@@ -1756,8 +1760,6 @@ class ActivityNodePropsWindow(NodePropsWindow):
                             "default"
                         ),
                     )
-
-
 
             elif config.ACTIVITIES[self.node.activity]["args"][name].get("options"):
                 self.args_inputs[name] = AutocompleteDropdown(
