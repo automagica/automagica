@@ -147,8 +147,8 @@ Section "!${PRODUCT_NAME}" sec_app
   ; DetailPrint "Installing Automagica dependencies..."
   ; SetOutPath "$INSTDIR"
   ; ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip install automagica -U"
-  ; ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip uninstall pywin32 -y"
-  ; ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip install pywin32==227"
+  ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip uninstall pywin32 -y"
+  ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip install pywin32==227"
   
   
 
