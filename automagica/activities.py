@@ -1011,11 +1011,37 @@ class Chrome(selenium.webdriver.Chrome):
         import platform
         import os
 
+        def download_latest_driver(chromedriver_path):
+            #Downloads latest Chrome driver on Windows
+            import subprocess 
+            import requests
+            import os
+
+            try:
+                driver_path = os.path.abspath(__file__).replace( os.path.basename(os.path.realpath(__file__)), "" ) + chromedriver_path
+
+                if os.path.isfile(driver_path):
+
+                    current_version = str(subprocess.check_output(['cmd.exe', '/c', str(driver_path + ' --v')]))
+                    latest_version = requests.get('https://chromedriver.storage.googleapis.com/LATEST_RELEASE').text  
+                    if latest_version in current_version:
+                        return
+
+                request = requests.get('https://chromedriver.storage.googleapis.com/'+str(latest_version)+'/chromedriver_win32.zip')
+
+                file = zipfile.ZipFile(BytesIO(request.content))
+                file.extractall(driver_path) 
+                return     
+                 
+            except:
+                print('Could not automatically update to latest Chrome driver.')
+
         # Check what OS we are on
         if platform.system() == "Linux":
             chromedriver_path = "bin/linux64/chromedriver"
         elif platform.system() == "Windows":
             chromedriver_path = "\\bin\\win32\\chromedriver.exe"
+            download_latest_driver(chromedriver_path)
         else:
             chromedriver_path = "bin/mac64/chromedriver"
 
@@ -1034,18 +1060,17 @@ class Chrome(selenium.webdriver.Chrome):
 
         selenium.webdriver.Chrome.__init__(
             self,
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            )
-            + chromedriver_path,
+            os.path.abspath(__file__).replace( os.path.basename(os.path.realpath(__file__)), "" ) + chromedriver_path,
             chrome_options=chrome_options,
         )
 
+        print(os.path.abspath(__file__).replace( os.path.basename(os.path.realpath(__file__)), "" ) + chromedriver_path)
         if maximize_window:
             self.maximize_window()
 
         if focus_window:
             self.switch_to_window(self.current_window_handle)
+
 
     @activity
     def save_all_images(self, output_path=None):
@@ -1244,6 +1269,32 @@ class Chrome(selenium.webdriver.Chrome):
                     return element.get_attribute("href")
             except:
                 pass
+
+    @activity
+    def get_text_on_webpage(self):
+        """Get all text on webwpage
+
+        Get all the raw body text from current webpage
+
+        :return: Text
+
+            :Example:
+
+        >>> # Open the browser
+        >>> browser = Chrome()
+        >>> # Go to a website
+        >>> browser.get('https://nytimes.com')
+        >>> # Get text from page
+        >>> browser.get_text_on_webpage()
+
+        Keywords
+            random, link, links, element, element by text, chrome, internet, browsing, browser, surfing, web, webscraping, www, selenium, crawling, webtesting, mozilla, firefox, internet explorer
+
+        Icon
+            las la-window-restore
+        """        
+
+        return self.find_element_by_tag_name('body').text
 
     @activity
     def highlight(self, element):
@@ -1920,8 +1971,8 @@ def press_key(key=None, delay=1):
 
     :parameter key: Key to press. This can also be a scan code (e.g: 33 for '!')
     :options key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
-    :parameter key: Delay before key is pressed in seconds, default is 1 second
-    :type key: int, optional
+    :parameter delay: Delay before key is pressed in seconds, default is 1 second
+    :type delay: int, optional
 
     :return: Keypress
 
@@ -2082,7 +2133,7 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
 
     if clear:
         press_key_combination("ctrl", "a")
-        press_key("delete")
+        press_key("del")
 
     import platform
 
