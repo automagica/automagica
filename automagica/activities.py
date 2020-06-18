@@ -2133,7 +2133,7 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
 
     if clear:
         press_key_combination("ctrl", "a")
-        press_key("delete")
+        press_key("del")
 
     import platform
 
