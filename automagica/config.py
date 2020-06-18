@@ -1,8 +1,12 @@
 import os
-from gettext import translation, gettext
-import pyglet
+from gettext import gettext, translation
+import logging
 
-from .utilities import all_activities
+import sys
+import pyglet
+import json
+
+from automagica.utilities import all_activities
 
 ACTIVITIES = all_activities()
 
@@ -12,6 +16,8 @@ Localization
 """
 
 LOCALE = "en"
+
+# TODO: this needs a rewrite
 localedir = os.path.join(
     os.path.dirname(
         os.path.dirname(
@@ -48,9 +54,9 @@ fontdir = os.path.join(
     "fonts",
 )
 
+# Add font files
 pyglet.font.add_file(os.path.join(fontdir, "roboto.ttf"))
 pyglet.font.add_file(os.path.join(fontdir, "roboto-mono.ttf"))
-
 
 FONT = "Roboto"
 FONT_MONO = "Roboto Mono"
@@ -86,3 +92,103 @@ COLOR_14 = "#FFCCCB"  # Light red
 # COLOR_11 = "#ffffff"  # White
 # COLOR_12 = "#121212"
 # COLOR_13 = "#121212"
+
+
+class Config:
+    def __init__(self, file_path="", ignore_warnings=False, debug=False):
+        self.file_path = file_path
+        self.ignore_warnings = ignore_warnings
+        self.debug = debug
+
+        # Custom config specified?
+        if not self.file_path:
+            self.file_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+
+        # Set up logging
+        self._setup_logging(debug=debug)
+
+        self.config = self.load()
+
+        if not self.config.get("portal_url"):
+            self.config["portal_url"] = os.environ.get(
+                "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+            )
+
+        self.save()
+
+        # Ignore warnings
+        if ignore_warnings:
+            import warnings
+
+            warnings.simplefilter("ignore")
+
+    def _setup_logging(self, debug=False):
+        if debug:
+            log_level = logging.INFO
+        else:
+            log_level = logging.WARNING
+
+        formatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
+
+        logger = logging.getLogger()
+        logger.setLevel(log_level)
+
+        # Log to file
+        logging_path = os.path.join(os.path.expanduser("~"), "automagica.log")
+        file_handler = logging.FileHandler(logging_path)
+        file_handler.setFormatter(formatter)
+
+        # Log to console
+        stdout_handler = logging.StreamHandler(sys.stdout)
+
+        logger.addHandler(file_handler)
+        logger.addHandler(stdout_handler)
+
+    def save(self):
+        with open(self.file_path, "w") as f:
+            json.dump(self.config, f)
+
+    def load(self):
+        try:
+            with open(self.file_path, "r", encoding="utf-8") as f:
+                config = json.load(f)
+
+        except FileNotFoundError:
+            config = {}
+            self.config = config
+            self.save()
+
+        return config
+
+    def wizard(self):
+        print("Automagica Configuration\n")
+        print("You can find your User Secret and Bot Secret at {}".format(self.url))
+        print(
+            "Leave a value empty to enter the proposed or default value between [brackets]."
+        )
+
+        portal_url = input("\nAutomagica Portal URL [{}]: ".format(self.url))
+
+        if portal_url:
+            self.config["portal_url"] = portal_url
+
+        user_secret = input(
+            "\nAutomagica User Secret [{}]: ".format(self.config.get("user_secret"))
+        )
+
+        if user_secret:
+            self.config["user_secret"] = user_secret
+
+        bot_secret = input(
+            "\nAutomagica Bot Secret [{}]: ".format(self.config.get("bot_secret"))
+        )
+
+        if bot_secret:
+            self.config["bot_secret"] = bot_secret
+
+        locale = input("\nLocale [{}]: ".format(self.config.get("locale", "en_GB")))
+
+        if locale:
+            self.config["locale"] = locale
+
+        self.save()

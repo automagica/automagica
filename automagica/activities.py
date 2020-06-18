@@ -10324,8 +10324,8 @@ def detect_vision(automagica_id, detect_target=True):
     }
 
     url = (
-        os.environ.get("AUTOMAGICA_VISION_URL", "https://vision.automagica.com")
-        + "/detect/element"
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        + "/api/wand/detect"
     )
 
     r = requests.post(url, json=data)

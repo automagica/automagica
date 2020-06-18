@@ -3,10 +3,12 @@
 ## Description
 This allows you to create a Windows-installer for Automagica, wrapping a Python distribution and environment ready for running Automagica.
 
+## Requirements
+- Windows 10
+- NSIS (https://nsis.sourceforge.io/Download)
+
 ## Usage
 1. Add folders `lib` and `pynsist_pkgs` with required files.
-1. Deploy new version of `automagica` library to PyPi.
-1. Change working directory to this 's directory
 2. Run `build.bat`
 3. The setup file is created in in `build/nsis`.
 

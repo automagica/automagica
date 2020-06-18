@@ -1,7 +1,6 @@
 __pycache__
 Automagica.egg-info
 !automagica\bin\win32\chromedriver.exe
-.vscode
 build
 dist
 .ipynb_checkpoints
@@ -9,3 +8,4 @@ docs/build
 migrated
 *.log
 *.pid
+.vscode

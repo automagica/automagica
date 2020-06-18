@@ -328,7 +328,7 @@ class Notification(tk.Toplevel):
         self.y = y
 
 
-class TrayIcon(tk.Toplevel):
+class BotTrayWindow(tk.Toplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -376,7 +376,8 @@ class TrayIcon(tk.Toplevel):
         return frame
 
     def mouse_double_click(self, event):
-        _ = KeybindsOverviewWindow(self)
+        # _ = KeybindsOverviewWindow(self)
+        pass
 
     def mouse_down(self, event):
         self.mouse_x = event.x
@@ -686,8 +687,8 @@ class WandWindow(Window):
         }
 
         url = (
-            os.environ.get("AUTOMAGICA_VISION_URL", "https://vision.automagica.com")
-            + "/train/element"
+            os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+            + "/api/wand/detect"
         )
 
         r = requests.post(url, json=data)
@@ -978,11 +979,11 @@ class VariableExplorerWindow(Window):
 
         self.configure_window()
         self._layout()
-        center_window(self)
+
+        center_window(self, w=500, h=400)
 
     def configure_window(self):
         self.title(_("Variable Explorer"))
-        self.resizable(False, False)
 
     @property
     def locals_(self):
@@ -1048,14 +1049,14 @@ class VariableExplorerWindow(Window):
                 else:
                     self.values.insert(tk.END, str(val))
 
-        variables_label.grid(column=0, row=0, sticky="w")
-        self.variables.grid(column=0, row=1, sticky="nesw")
+        variables_label.place(relx=0, rely=0, relwidth=0.3, relheight=0.1)
+        self.variables.place(relx=0, rely=0.1, relwidth=0.3, relheight=0.9)
 
-        types_label.grid(column=1, row=0, sticky="w")
-        self.types.grid(column=1, row=1, sticky="nesw")
+        types_label.place(relx=0.3, rely=0, relwidth=0.3, relheight=0.1)
+        self.types.place(relx=0.3, rely=0.1, relwidth=0.3, relheight=0.9)
 
-        values_label.grid(column=2, row=0, sticky="w")
-        self.values.grid(column=2, row=1, sticky="nesw")
+        values_label.place(relx=0.6, rely=0, relwidth=0.3, relheight=0.1)
+        self.values.place(relx=0.6, rely=0.1, relwidth=0.3, relheight=0.9)
 
         return frame
 

@@ -43,7 +43,7 @@ class InstallationWrapper(install):
 
 setup(
     name="Automagica",
-    version="3.0.1",
+    version="3.0.2",
     description="Open Source RPA",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
