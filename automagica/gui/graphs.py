@@ -74,7 +74,7 @@ class NodeGraph:
         self.parent.canvas.tag_bind(
             self.node.uid, "<ButtonRelease-1>", self.on_mouse_up
         )
-        
+
         # self.parent.canvas.tag_bind(
         #     self.node.uid, "<Button-3>", self.on_right_click
         # )  # TODO: Button3 is not always right click on every operating system
@@ -726,6 +726,10 @@ class DotPyFileNodeGraph(NodeGraph):
 
         self.draw()
 
+    @property
+    def text_label(self):
+        return self.node.label if self.node.label else _(".py file")
+
     def draw(self):
         # Create bounding rectangle
         self.rect = self.parent.canvas.create_rectangle(
@@ -743,7 +747,7 @@ class DotPyFileNodeGraph(NodeGraph):
         self.label_text = self.parent.canvas.create_text(
             self.center_x,
             self.center_y,
-            text=_("Python Script (.py)"),
+            text=self.text_label,
             tags=self.node.uid,
             fill=config.COLOR_0,
             font=(config.FONT, 10),
@@ -863,6 +867,10 @@ class PythonCodeNodeGraph(NodeGraph):
 
         self.draw()
 
+    @property
+    def text_label(self):
+        return self.node.label if self.node.label else _("Python code")
+
     def draw(self):
         # Create bounding rectangle
         self.rect = self.parent.canvas.create_rectangle(
@@ -880,7 +888,7 @@ class PythonCodeNodeGraph(NodeGraph):
         self.label_text = self.parent.canvas.create_text(
             self.center_x,
             self.center_y,
-            text="Python Code",
+            text=self.text_label,
             tags=self.node.uid,
             fill=config.COLOR_0,
             font=(config.FONT, 10),

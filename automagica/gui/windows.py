@@ -2178,6 +2178,25 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
         uid_label.grid(row=0, column=1, sticky="w")
 
         # Node Label
+        label_label = tk.Label(
+            frame,
+            text=_("Label"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
+        )
+        label_label.grid(row=1, column=0, sticky="w")
+        self.label_entry = InputField(frame)
+        self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
+
+        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button.grid(row=1, column=2)
+
+        # Pre-fill label
+        if self.node.label:
+            self.label_entry.insert(tk.END, self.node.label)
+
+        # Node Label
         dotpyfile_path_label = tk.Label(
             frame,
             text=_(".py-file path"),
@@ -2185,11 +2204,11 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        dotpyfile_path_label.grid(row=1, column=0, sticky="w")
+        dotpyfile_path_label.grid(row=2, column=0, sticky="w")
         self.dotpyfile_path_entry = FilePathInputWidget(
             frame, value=self.node.dotpyfile_path
         )
-        self.dotpyfile_path_entry.grid(row=1, column=1, sticky="w")
+        self.dotpyfile_path_entry.grid(row=2, column=1, sticky="w")
 
         # Next node selection
         next_node_option_label = tk.Label(
@@ -2199,11 +2218,11 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        next_node_option_label.grid(row=2, column=0, sticky="w")
+        next_node_option_label.grid(row=3, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
-        self.next_node_menu.grid(row=2, column=1, sticky="w")
+        self.next_node_menu.grid(row=3, column=1, sticky="w")
 
         # Else node selection
         on_exception_node_option_label = tk.Label(
@@ -2213,14 +2232,14 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        on_exception_node_option_label.grid(row=3, column=0, sticky="w")
+        on_exception_node_option_label.grid(row=4, column=0, sticky="w")
         self.on_exception_node_menu = NodeSelectionInputWidget(
             frame,
             self.parent.master.master.flow.nodes,
             value=self.node.on_exception_node,
         )
 
-        self.on_exception_node_menu.grid(row=3, column=1, sticky="w")
+        self.on_exception_node_menu.grid(row=4, column=1, sticky="w")
 
         return frame
 
@@ -2228,7 +2247,8 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
         self.node.next_node = self.next_node_menu.get()
         self.node.on_exception_node = self.on_exception_node_menu.get()
         self.node.dotpyfile_path = self.dotpyfile_path_entry.get()
-
+        self.node.label = self.label_entry.get()
+        
         self.parent.draw()
 
         # Release event
