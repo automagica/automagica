@@ -1,9 +1,8 @@
+import copy
 import json
 import os
 import tkinter as tk
 from tkinter import ttk
-
-from PIL import Image, ImageTk
 
 from automagica import config
 from automagica.bots import ThreadedBot
@@ -21,22 +20,23 @@ from automagica.gui.inputs import (
     AutocompleteDropdown,
     AutomagicaIdInputWidget,
     BooleanInputWidget,
+    DirWidget,
     FilePathInputWidget,
+    FilePathOutputWidget,
     InputField,
     InputWidget,
     KeycombinationEntry,
     NodeSelectionInputWidget,
-    DirWidget,
-    FilePathOutputWidget,
 )
 from automagica.keybinds import Keybind, KeybindsManager
 from automagica.nodes import (
     ActivityNode,
     DotPyFileNode,
-    StartNode,
     LoopNode,
+    StartNode,
     SubFlowNode,
 )
+from PIL import Image, ImageTk
 
 # Keep track of currently visible notifications (so they can stack)
 AUTOMAGICA_NUMBER_OF_NOTIFICATIONS = 0
@@ -115,9 +115,6 @@ def select_area_on_screenshot(screenshot, info=""):
         return None
 
 
-import copy
-
-
 class FlowDesignerWindow(tk.Toplevel):
     def __init__(self, parent, *args, flow=None, bot=None, autosave=True, **kwargs):
         super().__init__(parent, *args, **kwargs)
@@ -156,7 +153,6 @@ class FlowDesignerWindow(tk.Toplevel):
 
     def _autosave_cycle(self):
         if self.flow.to_dict() != self.last_state:
-            print("state changed!")
             self.last_state = self.flow.to_dict()
             self.save_buffer.append(self.last_state)
 
@@ -166,7 +162,6 @@ class FlowDesignerWindow(tk.Toplevel):
         self.after(1000, self._autosave_cycle)
 
     def undo(self, event):
-        print("undo!")
         # Remove last state
         self.save_buffer.pop(-1)
 
