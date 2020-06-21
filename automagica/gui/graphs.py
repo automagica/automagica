@@ -1289,7 +1289,7 @@ class ConnectorGraph:
 
         self.draw()
 
-        # self.parent.canvas.tag_bind(self.line, "<Button-3>", self.right_click)
+        self.parent.canvas.tag_bind(self.line, "<Button-3>", self.right_click)
 
     def right_click(self, event):
         self.menu = tk.Menu(self.parent, tearoff=0, font=(config.FONT, 10))
@@ -1301,7 +1301,14 @@ class ConnectorGraph:
             self.menu.grab_release()
 
     def delete_clicked(self):
-        pass
+        # Remove connection
+        setattr(self.from_nodegraph.node, self.connector_type, None)
+
+        # Remove from canvas
+        self.parent.connectors.remove(self)
+
+        # Redraw canvas
+        self.parent.draw()
 
     def draw(self):
         from_, to_ = shortest_distance(

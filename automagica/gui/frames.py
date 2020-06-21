@@ -472,12 +472,6 @@ class ToolbarFrame(tk.Frame):
         self.parent.master.bind("<Alt-o>", lambda e: self.clicked_open_button())
         open_button.pack(side="left", padx=5, pady=5)
 
-        save_button = LargeButton(
-            self, text="Save", command=self.clicked_save_button, underline=0
-        )
-        self.parent.master.bind("<Alt-s>", lambda e: self.clicked_save_button())
-        save_button.pack(side="left", padx=5, pady=5)
-
         save_as_button = LargeButton(
             self, text=_("Save As"), command=self.clicked_save_as_button, underline=5
         )
@@ -677,23 +671,6 @@ class ToolbarFrame(tk.Frame):
 
         Notification(self, _("Flow opened."))
 
-    def clicked_save_button(self):
-        """
-        Save file
-        """
-        from .windows import Notification
-
-        if not self.master.master.flow.file_path:
-            self.master.master.flow.file_path = tk.filedialog.asksaveasfilename(
-                defaultextension=".json"
-            )
-
-            if not self.master.master.flow.file_path:
-                return
-
-        self.master.master.flow.save(self.master.master.flow.file_path)
-
-        Notification(self, _("Saved flow."))
 
     def clicked_save_as_button(self):
         """

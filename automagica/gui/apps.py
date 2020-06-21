@@ -202,7 +202,7 @@ class WandApp(tk.Tk):
         super().__init__(*args, **kwargs)
         self.withdraw()
 
-        _ = WandWindow(self, action)
+        _ = WandWindow(self, action, standalone=True)
 
         # Run sounds better :-)
         self.run = self.mainloop

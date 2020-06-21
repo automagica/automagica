@@ -115,8 +115,11 @@ def select_area_on_screenshot(screenshot, info=""):
         return None
 
 
+import copy
+
+
 class FlowDesignerWindow(tk.Toplevel):
-    def __init__(self, parent, *args, flow=None, bot=None, **kwargs):
+    def __init__(self, parent, *args, flow=None, bot=None, autosave=True, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.withdraw()
 
@@ -139,6 +142,41 @@ class FlowDesignerWindow(tk.Toplevel):
 
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.state("normal")
+
+        self.autosave = autosave
+
+        self.save_buffer = []
+        self.last_state = self.flow.to_dict()
+        self.save_buffer.append(self.last_state)
+
+        self.bind("<Control-z>", self.undo)
+
+        if self.autosave:
+            self._autosave_cycle()
+
+    def _autosave_cycle(self):
+        if self.flow.to_dict() != self.last_state:
+            print("state changed!")
+            self.last_state = self.flow.to_dict()
+            self.save_buffer.append(self.last_state)
+
+        if self.flow.file_path:
+            self.flow.save(self.flow.file_path)
+
+        self.after(1000, self._autosave_cycle)
+
+    def undo(self, event):
+        print("undo!")
+        # Remove last state
+        self.save_buffer.pop(-1)
+
+        self.last_state = self.save_buffer[-1]
+
+        # Set to last known state
+        self.flow.from_dict(self.last_state)
+
+        # Redraw
+        self.flow_frame.draw()
 
     def on_closing(self):
         self.destroy()
@@ -443,10 +481,11 @@ class SplashWindow(Window):
 
 
 class WandWindow(Window):
-    def __init__(self, parent, action, *args, **kwargs):
+    def __init__(self, parent, action, *args, standalone=False, **kwargs):
         from time import sleep
 
         self.action = action
+        self.standalone = standalone
 
         sleep(0.5)  # Wait for animations to finish
 
@@ -500,8 +539,15 @@ class WandWindow(Window):
 
         frame.configure(bg=config.COLOR_4)
 
-        save_btn = LargeButton(frame, text=_("Add activity to Flow"), command=self.save)
-        save_btn.grid(row=0, column=1, sticky="e", padx=10, pady=10)
+        if self.standalone:
+            save_btn = LargeButton(frame, text=_("Save"), command=self.print_to_console)
+            save_btn.grid(row=0, column=1, sticky="e", padx=10, pady=10)
+
+        else:
+            save_btn = LargeButton(
+                frame, text=_("Add activity to Flow"), command=self.add_to_flow
+            )
+            save_btn.grid(row=0, column=1, sticky="e", padx=10, pady=10)
 
         return frame
 
@@ -513,7 +559,10 @@ class WandWindow(Window):
         )
 
         self.minimap_canvas = tk.Canvas(
-            frame, width=192 * 4, height=108 * 4, bg=self.cget("bg")
+            frame,
+            width=screenshot_small.size[0],
+            height=screenshot_small.size[1],
+            bg=self.cget("bg"),
         )
         self.minimap_canvas.pack()
 
@@ -700,14 +749,21 @@ class WandWindow(Window):
             print(r.content)
 
         if data.get("sample_id"):
-
-            self.parent.parent.master.add_ai_activity(self.action, data["sample_id"])
+            return data["sample_id"]
 
         else:
             try:
                 tk.messagebox.showerror(_("Error"), data["error"])
             except:
                 tk.messagebox.showerror(_("Unknown error"), data)
+
+    def print_to_console(self):
+        sample_id = self.save()
+        print(f"Automagica ID: {sample_id}")
+
+    def add_to_flow(self,):
+        sample_id = self.save()
+        self.parent.parent.master.add_ai_activity(self.action, sample_id)
 
 
 class KeybindWindow(Window):
@@ -1253,6 +1309,7 @@ class FlowPlayerWindow(Window):
                 self.after(100, self.on_stop_click)
 
             self.progress_bar["value"] = 100
+
             self.play_pause_button.configure(
                 text=_("Restart"), command=self.on_restart_click, bg=config.COLOR_7
             )
@@ -1938,10 +1995,6 @@ class IfElseNodePropsWindow(NodePropsWindow):
         if self.node.condition:
             self.condition_entry.insert(tk.END, self.node.condition)
 
-        # Pre-fill label
-        if self.node.label:
-            self.label_entry.insert(tk.END, self.node.label)
-
         # Next node selection
         next_node_option_label = tk.Label(
             frame,
@@ -2035,7 +2088,7 @@ class LoopNodePropsWindow(NodePropsWindow):
         # Repeat N Times
         repeat_n_times_label = tk.Label(
             frame,
-            text=_("Repeat n times"),
+            text=_("Repeat loop N times"),
             bg=config.COLOR_4,
             fg=config.COLOR_11,
             font=(config.FONT, 10),
@@ -2056,7 +2109,7 @@ class LoopNodePropsWindow(NodePropsWindow):
         # Loop variable
         loop_variable_label = tk.Label(
             frame,
-            text=_("Loop variable"),
+            text=_("Run loop for every "),
             bg=config.COLOR_4,
             fg=config.COLOR_11,
             font=(config.FONT, 10),
@@ -2080,14 +2133,14 @@ class LoopNodePropsWindow(NodePropsWindow):
         # Iterable
         iterable_label = tk.Label(
             frame,
-            text=_("Iterable"),
+            text=_("in"),
             bg=config.COLOR_4,
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        iterable_label.grid(row=3, column=0, sticky="w")
+        iterable_label.grid(row=2, column=3, sticky="w")
         self.iterable_entry = InputField(frame)
-        self.iterable_entry.grid(row=3, column=1, sticky="w")
+        self.iterable_entry.grid(row=2, column=4, sticky="w")
 
         # Pre-fill iterable
         if self.node.iterable:
@@ -2099,12 +2152,12 @@ class LoopNodePropsWindow(NodePropsWindow):
                 "The collection or list to iterate over and repeat this part of the flow. This will override the default 'repeat n times' setting."
             ),
         )
-        help_button.grid(row=3, column=2)
+        help_button.grid(row=2, column=5)
 
         # Next node selection
         next_node_option_label = tk.Label(
             frame,
-            text=_("Next Node"),
+            text=_("After loop finish node"),
             bg=config.COLOR_4,
             fg=config.COLOR_11,
             font=(config.FONT, 10),
@@ -2119,7 +2172,7 @@ class LoopNodePropsWindow(NodePropsWindow):
         # Else node selection
         loop_node_option_label = tk.Label(
             frame,
-            text=_("Loop Node"),
+            text=_("Repeat flow starting with"),
             bg=config.COLOR_4,
             fg=config.COLOR_11,
             font=(config.FONT, 10),
@@ -2248,7 +2301,7 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
         self.node.on_exception_node = self.on_exception_node_menu.get()
         self.node.dotpyfile_path = self.dotpyfile_path_entry.get()
         self.node.label = self.label_entry.get()
-        
+
         self.parent.draw()
 
         # Release event

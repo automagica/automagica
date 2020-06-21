@@ -1012,29 +1012,44 @@ class Chrome(selenium.webdriver.Chrome):
         import os
 
         def download_latest_driver(chromedriver_path):
-            #Downloads latest Chrome driver on Windows
-            import subprocess 
+            # Downloads latest Chrome driver on Windows
+            import subprocess
             import requests
             import os
 
             try:
-                driver_path = os.path.abspath(__file__).replace( os.path.basename(os.path.realpath(__file__)), "" ) + chromedriver_path
+                driver_path = (
+                    os.path.abspath(__file__).replace(
+                        os.path.basename(os.path.realpath(__file__)), ""
+                    )
+                    + chromedriver_path
+                )
 
                 if os.path.isfile(driver_path):
 
-                    current_version = str(subprocess.check_output(['cmd.exe', '/c', str(driver_path + ' --v')]))
-                    latest_version = requests.get('https://chromedriver.storage.googleapis.com/LATEST_RELEASE').text  
+                    current_version = str(
+                        subprocess.check_output(
+                            ["cmd.exe", "/c", str(driver_path + " --v")]
+                        )
+                    )
+                    latest_version = requests.get(
+                        "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
+                    ).text
                     if latest_version in current_version:
                         return
 
-                request = requests.get('https://chromedriver.storage.googleapis.com/'+str(latest_version)+'/chromedriver_win32.zip')
+                request = requests.get(
+                    "https://chromedriver.storage.googleapis.com/"
+                    + str(latest_version)
+                    + "/chromedriver_win32.zip"
+                )
 
                 file = zipfile.ZipFile(BytesIO(request.content))
-                file.extractall(driver_path) 
-                return     
-                 
+                file.extractall(driver_path)
+                return
+
             except:
-                print('Could not automatically update to latest Chrome driver.')
+                print("Could not automatically update to latest Chrome driver.")
 
         # Check what OS we are on
         if platform.system() == "Linux":
@@ -1060,17 +1075,24 @@ class Chrome(selenium.webdriver.Chrome):
 
         selenium.webdriver.Chrome.__init__(
             self,
-            os.path.abspath(__file__).replace( os.path.basename(os.path.realpath(__file__)), "" ) + chromedriver_path,
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            )
+            + chromedriver_path,
             chrome_options=chrome_options,
         )
 
-        print(os.path.abspath(__file__).replace( os.path.basename(os.path.realpath(__file__)), "" ) + chromedriver_path)
+        print(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            )
+            + chromedriver_path
+        )
         if maximize_window:
             self.maximize_window()
 
         if focus_window:
             self.switch_to_window(self.current_window_handle)
-
 
     @activity
     def save_all_images(self, output_path=None):
@@ -1292,9 +1314,9 @@ class Chrome(selenium.webdriver.Chrome):
 
         Icon
             las la-window-restore
-        """        
+        """
 
-        return self.find_element_by_tag_name('body').text
+        return self.find_element_by_tag_name("body").text
 
     @activity
     def highlight(self, element):
@@ -7907,9 +7929,9 @@ def write_list_to_file(list_to_write, file_path):
     Every element of the entered list is written on a new line of the text file.
 
     :parameter list_to_write: List to write to .txt file
-    :type list_to_write: output_file
-    :extension list_to_write: txt
-    :parameter path: Path to the text-file. 
+    :parameter file_path: Path to the text-file. 
+    :type file_path: output_file
+    :extension file_path: txt
 
         :Example:
     
