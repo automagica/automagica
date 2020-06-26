@@ -162,12 +162,18 @@ class Config:
 
     def wizard(self):
         print("Automagica Configuration\n")
-        print("You can find your User Secret and Bot Secret at {}".format(self.url))
+        print(
+            "You can find your User Secret and Bot Secret at {}".format(
+                self.config.get("portal_url")
+            )
+        )
         print(
             "Leave a value empty to enter the proposed or default value between [brackets]."
         )
 
-        portal_url = input("\nAutomagica Portal URL [{}]: ".format(self.url))
+        portal_url = input(
+            "\nAutomagica Portal URL [{}]: ".format(self.config.get("portal_url"))
+        )
 
         if portal_url:
             self.config["portal_url"] = portal_url
@@ -192,3 +198,20 @@ class Config:
             self.config["locale"] = locale
 
         self.save()
+
+
+if __name__ == "__main__":
+    import sys
+
+    # This is used by automatic one-click installer for Windows to set-up a bot automatically
+    cfg = Config()
+
+    # Installer path is provided as command line argument
+    installer_path = sys.argv[1]
+
+    # Set configuration value. Bot secret is provided between brackets
+    bot_secret = installer_path.split("[")[1].split("]")[0]
+    cfg.config["bot_secret"] = bot_secret
+
+    # Save configuration
+    cfg.save()

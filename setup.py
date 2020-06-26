@@ -44,7 +44,7 @@ class InstallationWrapper(install):
 setup(
     name="Automagica",
     version="3.0.2",
-    description="Open Source RPA",
+    description="Open Source RPA and UI automation",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
     url="https://automagica.com/",
@@ -57,7 +57,6 @@ setup(
         "python-docx==0.8.6",  # MIT License
         "PyPDF2==1.26.0",  # BSD 3-Clause "New" or "Revised" License
         "faker==2.0.3",  # MIT License
-        # BSD 3-Clause "New" or "Revised" License (requires python3-devel on Ubuntu/Fedora)
         "psutil==5.6.6",  # BSD 3-Clause
         "keyring==21.0.0",  # MIT License
         "cryptography==2.3.1",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
@@ -71,7 +70,8 @@ setup(
         "babel==2.7.0",  # BSD 3-Clause
         "click==7.0",  # BSD 3-Clause6
         "idna==2.5",  # BSD 3-Clause
-        "pyglet",  # MIT License
+        "pyglet==1.5.5",  # MIT License
+        "jupyterlab==2.1.5",  # BSD License
     ],
     include_package_data=True,
     cmdclass={"install": InstallationWrapper},

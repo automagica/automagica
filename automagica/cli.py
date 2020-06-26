@@ -8,8 +8,8 @@ from time import sleep
 
 import click
 
-from automagica.config import _, Config
-from automagica.gui.apps import FlowApp, BotApp, WandApp, LabApp, TraceApp
+from automagica.config import Config, _
+from automagica.gui.apps import BotApp, FlowApp, LabApp, TraceApp, WandApp
 
 __version__ = "3.0.2"
 
@@ -32,9 +32,8 @@ def bot():
 
 
 @cli.command("wand", help=_("Automagica Wand"))
-@click.argument("action")
-def wand(action):
-    app = WandApp(action)
+def wand():
+    app = WandApp()
     app.run()
 
 
@@ -50,8 +49,8 @@ def flow_new():
 
 
 @flow.command("edit", help=_("Edit Flow"))
-@click.argument("filename")
-def flow_edit(filename):
+@click.argument("file_path")
+def flow_edit(file_path):
     app = FlowApp(file_path=filename)
     app.run()
 
@@ -74,7 +73,44 @@ def flow_run(filename, headless, step_by_step):
     app.run()
 
 
+@cli.group(help=_("Automagica Lab"))
+def lab():
+    pass
+
+
+@lab.command("new", help=_("New Lab notebook"))
+def lab_new():
+    app = LabApp()
+    app.new()
+
+
+@lab.command("edit", help=_("Edit Lab notebook"))
+@click.argument("file_path")
+def lab_new(file_path):
+    app = LabApp()
+    app.edit(notebook_path=file_path)
+
+
+@lab.command("run", help=_("Run Lab notebook"))
+@click.argument("file_path")
+def lab_new(file_path):
+    app = LabApp()
+    app.run(file_path)
+
+
+@cli.group(help=_("Automagica Trace (alpha)"))
+def trace():
+    pass
+
+
+@trace.command("record", help=_("Record a new Trace"))
+def trace_record():
+    app = TraceApp()
+    app.run()
+
+
 if __name__ == "__main__":
     cli(None)
 else:
     from automagica.activities import *
+

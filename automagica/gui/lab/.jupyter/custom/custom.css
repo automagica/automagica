@@ -18,22 +18,6 @@ body {
 
 }
 
-/* Hiding confusing elements */
-#filelink,
-#logout,
-#kernel_logo_widget,
-#cmd_palette,
-#kernel_indicator,
-#kernel_indicator_icon,
-#notification_trusted,
-#menu-change-kernel { 
-    display: none !important;
-}
-
-#save_widget,
-#modal_indicator {
-    color: white !important;
-}
 
 .shadow {
     box-shadow: rgba(0, 0, 0, 0.13) 10px 10px 21px 5px;
@@ -85,13 +69,6 @@ body {
     border: 0px;
 }
 
-#notebook_name {
-    display: none;
-}
-
-#kernal_indicator {
-    display: none;
-}
 
 .run_this_cell {
     display: block !important;

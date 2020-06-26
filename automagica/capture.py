@@ -3,12 +3,11 @@ import os
 import sys
 from datetime import datetime
 from subprocess import check_output
-from time import time
+from time import sleep, time
 from uuid import uuid4
 
-from time import time, sleep
-
 from mss import mss
+
 from win32api import GetCursorPos, GetKeyState, GetSystemMetrics, OpenProcess
 from win32clipboard import CloseClipboard, GetClipboardData, OpenClipboard
 from win32con import PROCESS_QUERY_INFORMATION, PROCESS_VM_READ

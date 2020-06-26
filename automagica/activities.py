@@ -10387,24 +10387,27 @@ def detect_vision(automagica_id, detect_target=True):
     # Read JSON
     with open(config_path) as json_file:
         local_data = json.load(json_file)
-        api_key = str(local_data.get("bot_secret"))
+        bot_secret = str(local_data.get("bot_secret"))
 
     data = {
-        "api_key": api_key,  # Automagica Vision API key
-        "sample_id": automagica_id,
+        "bot_secret": bot_secret,  # Automagica Vision API key
+        "automagica_id": automagica_id,
         "image_base64": image_base64,  # Screenshot of the example screen
         "detect_target": detect_target,
     }
 
-    url = (
-        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
-        + "/api/wand/detect"
-    )
+    portal_url = local_data.get("portal_url")
+
+    if not portal_url:
+        portal_url = "https://portal.automagica.com"
+
+    url = portal_url + "/api/wand/detect"
 
     r = requests.post(url, json=data)
 
     try:
         data = r.json()
+
     except Exception:
         raise Exception(
             "An unknown error occurred accessing the Automagica Vision API. Please try again later."

@@ -42,81 +42,81 @@ define([
 
             var categories;
 
-            $.getJSON('https://raw.githubusercontent.com/automagica/Automagica/master/docs/portal/activities.json', function (data) {
-                categories = data;
+            // $.getJSON('https://raw.githubusercontent.com/automagica/Automagica/master/docs/portal/activities.json', function (data) {
+            //     categories = data;
 
-                htmlToInsert += `
-            <div id="activities" style="z-index: 1000000; top: 150px; left: 20px; position: fixed; width: 300px; background-color: white;" class="shadow">
-            <div id="activitiesheader" style="cursor: move; font-size: 15px; padding: 10px; background-color: white;"><i class="las la-grip-vertical"></i> Activities</div>
-            <div>
-            <input type="text" placeholder="Search" class="form-control" id="search_activities" onkeyup="filterActivities(this.value);" onBlur="Jupyter.keyboard_manager.enable();" onFocus="Jupyter.keyboard_manager.disable();">
-            </div>
-            <div style=" overflow-y: scroll; height:600px;">
-            <div class="panel-group" role="tablist">
-            <div class="panel panel-default">`;
-                categories.forEach(function (category, i) {
+            //     htmlToInsert += `
+            // <div id="activities" style="z-index: 1000000; top: 150px; left: 20px; position: fixed; width: 300px; background-color: white;" class="shadow">
+            // <div id="activitiesheader" style="cursor: move; font-size: 15px; padding: 10px; background-color: white;"><i class="las la-grip-vertical"></i> Activities</div>
+            // <div>
+            // <input type="text" placeholder="Search" class="form-control" id="search_activities" onkeyup="filterActivities(this.value);" onBlur="Jupyter.keyboard_manager.enable();" onFocus="Jupyter.keyboard_manager.disable();">
+            // </div>
+            // <div style=" overflow-y: scroll; height:600px;">
+            // <div class="panel-group" role="tablist">
+            // <div class="panel panel-default">`;
+            //     categories.forEach(function (category, i) {
 
-                    var category_keywords = '';
+            //         var category_keywords = '';
 
-                    category.activities.forEach(function (activity) {
-                        category_keywords += activity.keywords;
-                    }
-                    );
+            //         category.activities.forEach(function (activity) {
+            //             category_keywords += activity.keywords;
+            //         }
+            //         );
 
-                    htmlToInsert += `
-                <div data-keywords="`+ category_keywords + `" class="panel-heading category_header" id="category_header_` + i + `">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#" data-target="#category_` + i + `">
-                            <i class="`+ category.icon + ` la-lw"></i>&nbsp;&nbsp;` + category.name + `
-                        </a>
-                    </h4>
-                </div>
+            //         htmlToInsert += `
+            //     <div data-keywords="`+ category_keywords + `" class="panel-heading category_header" id="category_header_` + i + `">
+            //         <h4 class="panel-title">
+            //             <a data-toggle="collapse" href="#" data-target="#category_` + i + `">
+            //                 <i class="`+ category.icon + ` la-lw"></i>&nbsp;&nbsp;` + category.name + `
+            //             </a>
+            //         </h4>
+            //     </div>
 
-                <div data-keywords="`+ category_keywords + `" id="category_` + i + `" class="panel-collapse collapse category_panel">
-                    <ul class="list-group">`;
+            //     <div data-keywords="`+ category_keywords + `" id="category_` + i + `" class="panel-collapse collapse category_panel">
+            //         <ul class="list-group">`;
 
-                    category.activities.forEach(function (activity) {
+            //         category.activities.forEach(function (activity) {
 
-                        htmlToInsert += `
-                        <li data-keywords="`+ activity.keywords + `" class="list-group-item activity_container"><a data-title=` + JSON.stringify(activity.name) + ` data-snippet=` + JSON.stringify(activity.function_call) + ` href="#"
-                                onClick="insertSnippet('code', this.getAttribute('data-snippet')); " title="`+ activity.description + `"><i class="` + activity.icon + ` la-lw"></i>&nbsp;&nbsp;` + activity.name + `</a></li> `;
+            //             htmlToInsert += `
+            //             <li data-keywords="`+ activity.keywords + `" class="list-group-item activity_container"><a data-title=` + JSON.stringify(activity.name) + ` data-snippet=` + JSON.stringify(activity.function_call) + ` href="#"
+            //                     onClick="insertSnippet('code', this.getAttribute('data-snippet')); " title="`+ activity.description + `"><i class="` + activity.icon + ` la-lw"></i>&nbsp;&nbsp;` + activity.name + `</a></li> `;
 
-                    });
+            //         });
 
-                    htmlToInsert += `
-                    </ul>
-                </div>`;
-                });
+            //         htmlToInsert += `
+            //         </ul>
+            //     </div>`;
+            //     });
 
-                htmlToInsert += `</div></div></div></div>`;
+            //     htmlToInsert += `</div></div></div></div>`;
 
-                htmlToInsert += `
-                <style>
-                .displayNone {
-                    display: none;
-                }
-            </style>
-                `;
+            //     htmlToInsert += `
+            //     <style>
+            //     .displayNone {
+            //         display: none;
+            //     }
+            // </style>
+            //     `;
 
-                var notebook = document.getElementById('notebook');
-                notebook.insertAdjacentHTML('beforeend', htmlToInsert);
-
-
-                // var buttonHTMLInsert = `
-                // <div id="recorder" class="btn-group">
-                //     <a href="#" title="Launch the Automagica Wand" onclick="Jupyter.notebook.kernel.execute('from automagica import *; recorder()');" class="btn btn-default">🔴 Recorder (beta)</a>
-                // </div>
-                // `;
-
-                // var toolbar = document.getElementById('maintoolbar-container');
-                // toolbar.insertAdjacentHTML('beforeend', buttonHTMLInsert)
-
-                dragElement(document.getElementById("activities"));
+            var notebook = document.getElementById('notebook');
+            notebook.insertAdjacentHTML('beforeend', htmlToInsert);
 
 
+            // var buttonHTMLInsert = `
+            // <div id="recorder" class="btn-group">
+            //     <a href="#" title="Launch the Automagica Wand" onclick="Jupyter.notebook.kernel.execute('from automagica import *; recorder()');" class="btn btn-default">🔴 Recorder (beta)</a>
+            // </div>
+            // `;
 
-            })
-        }
+            // var toolbar = document.getElementById('maintoolbar-container');
+            // toolbar.insertAdjacentHTML('beforeend', buttonHTMLInsert)
+
+            dragElement(document.getElementById("activities"));
+
+
+
+        })
+}
     });
 });
 

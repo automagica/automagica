@@ -8,21 +8,21 @@ from threading import Thread
 from time import sleep
 
 import requests
+from PIL import Image, ImageTk
 
 from automagica.bots import ThreadedBot
 from automagica.config import Config
 from automagica.flow import Flow
-from automagica.gui.windows import (
-    FlowDesignerWindow,
-    FlowPlayerWindow,
-    Notification,
-    BotTrayWindow,
-    WandWindow,
-)
-from PIL import Image, ImageTk
+from automagica.gui.windows import (BotTrayWindow, FlowDesignerWindow,
+                                    FlowPlayerWindow, Notification, WandWindow)
 
 
-class FlowApp(tk.Tk):
+class App(tk.Tk):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class FlowApp(App):
     def __init__(
         self,
         *args,
@@ -97,7 +97,7 @@ class FlowApp(tk.Tk):
         import requests
 
 
-class BotApp(tk.Tk):
+class BotApp(App):
     def __init__(self, *args, bot=None, file_path=None, config=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.withdraw()
@@ -138,8 +138,8 @@ class BotApp(tk.Tk):
         while True:
             try:
                 _ = requests.post(self.url + "/api/bot/alive", headers=headers)
+                logging.info("Sent alive to Automagica Portal.")
             except:
-                print(_.content)
                 logging.exception("Could not reach Automagica Portal.")
 
             sleep(interval)
@@ -197,14 +197,26 @@ class BotApp(tk.Tk):
                 sleep(interval)
 
 
-class WandApp(tk.Tk):
-    def __init__(self, action, *args, **kwargs):
+class WandApp(App):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.withdraw()
 
-        _ = WandWindow(self, action, standalone=True)
+        _ = WandWindow(self, standalone=True)
 
         # Run sounds better :-)
+        self.run = self.mainloop
+
+
+class TraceApp(App):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        from automagica.capture import Capture
+
+        self.capture = Capture()
+
+        # Run sounds better :)
         self.run = self.mainloop
 
 
@@ -289,15 +301,3 @@ class LabApp:
 
         finally:
             return notebook, error
-
-
-class TraceApp(tk.Tk):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        from .capture import Capture
-
-        self.capture = Capture()
-
-        # Run sounds better :)
-        self.run = self.mainloop

@@ -628,7 +628,7 @@ class ToolbarFrame(tk.Frame):
         from .windows import WandWindow
 
         # Record action
-        WandWindow(self, action)
+        WandWindow(self, action=action)
 
         # Restore window
         self.parent.master.deiconify()
@@ -670,7 +670,6 @@ class ToolbarFrame(tk.Frame):
         self.parent.master.flow_frame.draw()
 
         Notification(self, _("Flow opened."))
-
 
     def clicked_save_as_button(self):
         """

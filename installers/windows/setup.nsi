@@ -1,7 +1,6 @@
 ; Copyright Oakwood Technologies BVBA 2020
 !define MUI_WELCOMEFINISHPAGE_BITMAP "setup.bmp"
 
-
 !define PRODUCT_NAME "[[ib.appname]]"
 !define PRODUCT_VERSION "[[ib.version]]"
 !define PY_VERSION "[[ib.py_version]]"
@@ -10,6 +9,9 @@
 !define ARCH_TAG "[[arch_tag]]"
 !define INSTALLER_NAME "[[ib.installer_name]]"
 !define PRODUCT_ICON "[[icon]]"
+
+
+
 
 
 ; Marker file to tell the uninstaller that it's a user installation
@@ -122,6 +124,10 @@ Section "!${PRODUCT_NAME}" sec_app
   CreateShortCut "$SMPROGRAMS\Automagica Flow.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli flow new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Flow"
   CreateShortCut "$DESKTOP\Automagica Flow.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli flow new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Flow"
 
+  CreateShortCut "$SMPROGRAMS\Automagica Lab.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli lab new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Lab"
+  CreateShortCut "$DESKTOP\Automagica Lab.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli lab new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Lab"
+
+
   [% block install_commands %]
   [% if has_commands %]
     DetailPrint "Setting up command-line launchers..."
@@ -143,19 +149,20 @@ Section "!${PRODUCT_NAME}" sec_app
   nsExec::ExecToLog '[[ python ]] -m compileall -q "$INSTDIR\pkgs"'
   WriteUninstaller $INSTDIR\uninstall.exe
 
-  ; ; Install Automagica
-  ; DetailPrint "Installing Automagica dependencies..."
-  ; SetOutPath "$INSTDIR"
+  ; Install Automagica
+  DetailPrint "Installing Automagica dependencies..."
+  SetOutPath "$INSTDIR"
+  ; Below line is to have an auto-updated installer
   ; ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip install automagica -U"
   ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip uninstall pywin32 -y"
   ExecWait "$\"$INSTDIR\Python\python.exe$\" -m pip install pywin32==227"
-  
-  
 
-  ; ; Connect to Automagica Portal
-  ; DetailPrint "Authenticating bot with Automagica"
-  ; SetOutPath "$INSTDIR"
-  ; ExecWait "$\"$INSTDIR\Python\python.exe$\" -m automagica --connect $\"$EXEPATH$\""
+  ExecWait "$\"$INSTDIR\Python\python.exe$\" -m wheel install-scripts $\"$INSTDIR\Automagica.whl$\""
+
+  ; Connect to Automagica Portal
+  DetailPrint "Configuring Automagica bot..."
+  SetOutPath "$INSTDIR"
+  ExecWait "$\"$INSTDIR\Python\python.exe$\" -m automagica.config $\"$EXEPATH$\""
 
   ; Add ourselves to Add/remove programs
   WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}" \

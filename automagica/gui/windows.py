@@ -380,7 +380,6 @@ class BotTrayWindow(tk.Toplevel):
         self.image_frame.pack(expand=True, fill="both", padx=0, pady=0)
 
     def _configure(self):
-        # self.wm_attributes("-topmost", True)
         self.attributes("-alpha", 0.5)
         self.attributes("-topmost", True)
 
@@ -476,7 +475,7 @@ class SplashWindow(Window):
 
 
 class WandWindow(Window):
-    def __init__(self, parent, action, *args, standalone=False, **kwargs):
+    def __init__(self, parent, *args, action=None, standalone=False, **kwargs):
         from time import sleep
 
         self.action = action
@@ -528,6 +527,15 @@ class WandWindow(Window):
         # Buttons Frame
         self.buttons_frame = self.create_buttons_frame()
         self.buttons_frame.grid(row=2, column=0, columnspan=2, pady=10, padx=10)
+
+        # Keybinds
+        self.bind("<Return>", self.enter_pressed)
+
+    def enter_pressed(self, event):
+        if self.standalone:
+            self.print_to_console()
+        else:
+            self.add_to_flow()
 
     def create_buttons_frame(self):
         frame = tk.Frame(self)
@@ -724,16 +732,18 @@ class WandWindow(Window):
         image_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
 
         data = {
-            "api_key": "sample",
+            "bot_secret": config.get("bot_secret"),
             "image_base64": image_base64,
             "anchors": self.anchors,
             "target": self.target,
         }
 
-        url = (
-            os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
-            + "/api/wand/detect"
-        )
+        portal_url = config.get("portal_url")
+
+        if not portal_url:
+            portal_url = "https://portal.automagica.com"
+
+        url = portal_url + "/api/wand/train"
 
         r = requests.post(url, json=data)
 
@@ -743,8 +753,8 @@ class WandWindow(Window):
             print(url)
             print(r.content)
 
-        if data.get("sample_id"):
-            return data["sample_id"]
+        if data.get("automagica_id"):
+            return data["automagica_id"]
 
         else:
             try:
@@ -753,12 +763,12 @@ class WandWindow(Window):
                 tk.messagebox.showerror(_("Unknown error"), data)
 
     def print_to_console(self):
-        sample_id = self.save()
-        print(f"Automagica ID: {sample_id}")
+        automagica_id = self.save()
+        print(f"Automagica ID: {automagica_id}")
 
     def add_to_flow(self,):
-        sample_id = self.save()
-        self.parent.parent.master.add_ai_activity(self.action, sample_id)
+        automagica_id = self.save()
+        self.parent.parent.master.add_ai_activity(self.action, automagica_id)
 
 
 class KeybindWindow(Window):

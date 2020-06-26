@@ -1,1 +1,1 @@
-from .activities import *
+from automagica.activities import *
