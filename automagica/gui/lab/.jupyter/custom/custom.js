@@ -40,7 +40,7 @@ define([
 
             $('head').append('<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">')
 
-            var categories;
+            // var categories;
 
             // $.getJSON('https://raw.githubusercontent.com/automagica/Automagica/master/docs/portal/activities.json', function (data) {
             //     categories = data;
@@ -98,25 +98,25 @@ define([
             // </style>
             //     `;
 
-            var notebook = document.getElementById('notebook');
-            notebook.insertAdjacentHTML('beforeend', htmlToInsert);
+            //     var notebook = document.getElementById('notebook');
+            //     notebook.insertAdjacentHTML('beforeend', htmlToInsert);
 
 
-            // var buttonHTMLInsert = `
+            //     var buttonHTMLInsert = `
             // <div id="recorder" class="btn-group">
             //     <a href="#" title="Launch the Automagica Wand" onclick="Jupyter.notebook.kernel.execute('from automagica import *; recorder()');" class="btn btn-default">🔴 Recorder (beta)</a>
             // </div>
             // `;
 
-            // var toolbar = document.getElementById('maintoolbar-container');
-            // toolbar.insertAdjacentHTML('beforeend', buttonHTMLInsert)
+            //     var toolbar = document.getElementById('maintoolbar-container');
+            //     toolbar.insertAdjacentHTML('beforeend', buttonHTMLInsert)
 
-            dragElement(document.getElementById("activities"));
+            //     dragElement(document.getElementById("activities"));
 
 
 
-        })
-}
+            // })
+        }
     });
 });
 

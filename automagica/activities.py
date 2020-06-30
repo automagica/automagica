@@ -2111,7 +2111,7 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
     Supported keys: 
         ' ', '!', '"', '#', '$', '%', '&', "'", '(', ,')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'delete' 'downarrow', 'rightarrow', 'leftarrow', 'uparrow', 'enter', 'escape', 'f1', 'f2', f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'printscreen', 'space', 'scrollock', 'tab', shift, 'win'
 
-    :parameter text: Text in string format to type. Note that you can only press single character keys. Special keys like ":", "F1",... can not be part of the text argument.
+    :parameter text: Text in string format to type. Note that you can only press single character keys. Special keys can not be part of the text argument.
     :type text: string
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :type automagica_id: automagica_id, optional
@@ -10140,28 +10140,30 @@ Icon: las la-robot
 
 
 @activity
-def create_new_job(script_name, script_version_id=None, priority=0, parameters=None):
+def create_new_job_in_portal(
+    process_name, process_version_id=None, priority=0, parameters=None
+):
     """Create a new job in the Automagica Portal
 
-    This activity creates a new job in the Automagica Portal for a given script. The bot performing this activity will need to be assigned to the script it creates a job for.
+    This activity creates a new job in the Automagica Portal for a given process. The bot performing this activity needs to be in the same team as the process it creates a job for.
 
-    :parameter script_name: name of the script
-    :type script_name: string
-    :parameter script_version_id: id of a specific version of the script, if not provided it will use the latest version (optional)
-    :type script_version_id: string, optional
-    :parameter priority: priority level of the script. higher priority levels are performed first. (optional)
+    :parameter process_name: name of the process
+    :type process_name: string
+    :parameter process_version_id: id of a specific version of the process, if not provided it will use the latest version (optional)
+    :type process_version_id: string, optional
+    :parameter priority: priority level of the process. higher priority levels are performed first. (optional)
     :type priority: int, optional
-    :parameter parameters: parameters for the script (optional)
+    :parameter parameters: parameters for the process (optional)
     :type parameters: string, optional
 
         :Example:
 
     >>> # Create a job in the Automagica Portal
-    >>> create_new_job('My script')
+    >>> create_new_job_in_portal('My process')
     Job 1234567890 created
 
     Keywords
-        queueing, script, job, create job, new job
+        queueing, process, job, create job, new job
 
     Icon
         las la-robot
@@ -10178,10 +10180,10 @@ def create_new_job(script_name, script_version_id=None, priority=0, parameters=N
         local_data = json.load(json_file)
         bot_secret = str(local_data["bot_secret"])
 
-    headers = {"bot_secret": bot_secret, "script": script_name}
+    headers = {"bot_secret": bot_secret, "process": process_name}
 
-    if script_version_id:
-        headers["script_version_id"] = script_version_id
+    if process_version_id:
+        headers["version_id"] = process_version_id
 
     data = {}
 
@@ -10212,6 +10214,63 @@ def create_new_job(script_name, script_version_id=None, priority=0, parameters=N
 
     else:
         print(result["message"])
+
+
+@activity
+def get_credential_from_portal(credential_name):
+    """Get a credential from the Automagica Portal
+
+    This activity retrieves a credential from the Automagica Portal.
+
+    :parameter credential_name: name of the credential
+    :type credential_name: string
+
+        :Example:
+
+    >>> # Get a credential from the Portal
+    >>> print(get_credential_from_portal('My credential'))
+    'secretpassword'
+
+    Keywords
+        password, credential, portal, login, username
+
+    Icon
+        las la-key
+    """
+    import requests
+    import os
+    import json
+
+    # Get Bot API_key
+    config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+
+    # Read JSON
+    with open(config_path) as json_file:
+        local_data = json.load(json_file)
+        bot_secret = str(local_data["bot_secret"])
+
+    headers = {"bot_secret": bot_secret}
+
+    data = {"name": credential_name}
+
+    r = requests.post(
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        + "/api/credential/get",
+        json=data,
+        headers=headers,
+    )
+
+    try:
+        result = r.json()
+    except:
+
+        raise Exception("Could not get credential from Portal for unknown reason.")
+
+    if result.get("error"):
+        raise Exception(result["error"])
+
+    else:
+        return result["contents"]
 
 
 """

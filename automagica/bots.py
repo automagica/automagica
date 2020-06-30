@@ -23,6 +23,18 @@ class ModifiedInterpreter(code.InteractiveInterpreter):
     def write(self, output):
         self.logger.error(output)
 
+    def runcode(self, code):
+        try:
+            exec(code, self.locals)
+            return True
+
+        except SystemExit:
+            raise
+        except:
+            self.showtraceback()
+
+        return False
+
 
 class Bot:
     def __init__(self, locals_=None):
@@ -65,24 +77,25 @@ class ThreadedBot(Bot):
 
         while self._running:
             try:
-                command, on_done = queue.get(timeout=1)
+                command, on_done, on_fail = queue.get(timeout=1)
 
             except Empty:
                 command = None
                 on_done = None
+                on_fail = None
 
             if command:
-                self._run_command(
-                    command, on_done=on_done,
-                )
-                
+                self._run_command(command, on_done=on_done, on_fail=on_fail)
+
             else:
                 sleep(0.1)
 
     def _run_command(
-        self, command, on_done=None,
+        self, command, on_done=None, on_fail=None,
     ):
         from io import StringIO
+
+        succesful = False
 
         with StringIO() as temp:
             old_stdout = sys.stdout  # Keep reference to old stdout
@@ -90,7 +103,7 @@ class ThreadedBot(Bot):
             sys.stdout = temp  # Redirect stdout to temp
 
             try:
-                self.interpreter.runcode(command)
+                succesful = self.interpreter.runcode(command)
             except:
                 self.logger.error("Unknown error occured.")
 
@@ -103,18 +116,22 @@ class ThreadedBot(Bot):
             if stdout:
                 self.logger.info(stdout)
 
-        if on_done:
-            on_done()
+        if succesful:
+            if on_done:
+                on_done()
+        else:
+            if on_fail:
+                on_fail()
 
     def reset(self):
         self.interpreter.locals = {"__name__": "__console__", "__doc__": None}
 
-    def run(self, command, on_done=None):
+    def run(self, command, on_done=None, on_fail=None):
         self.logger.info(
             "\n".join([">>> " + line for line in command.split("\n") if line.strip()])
         )
 
-        self.command_queue.put((command, on_done))
+        self.command_queue.put((command, on_done, on_fail))
 
     def stop(self):
         self._running = False

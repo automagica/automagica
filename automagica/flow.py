@@ -173,11 +173,10 @@ class Flow:
             json.dump(self.to_dict(), f, indent=4)
         logging.info(_("Saved to {}").format(file_path))
 
-    def add_activity_node(self, activity):
+    def add_activity_node(self, activity, previous_node=None):
         node = ActivityNode(activity)
 
-        if self.nodes:
-            previous_node = self.nodes[-1]
+        if previous_node:
             previous_node.next_node = node.uid
 
             node.x = previous_node.x + 175
@@ -206,19 +205,3 @@ class Flow:
             if isinstance(node, StartNode):
                 nodes.append(node)
         return nodes
-
-    def run(self, bot):
-        logging.info(_("Starting Flow"))
-
-        for node in self.get_start_nodes():
-            logging.info(_("Starting from node {}").format(node))
-
-            while True:
-                if not node.next_node:
-                    break
-
-                node = self.get_node_by_uid(node.next_node)
-
-                logging.info(_("Running node {} with Bot {}").format(node, bot))
-
-                node.run(bot)

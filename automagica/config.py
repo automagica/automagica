@@ -200,8 +200,42 @@ class Config:
         self.save()
 
 
+def register_protocol_handler():
+    if platform.system() == "Windows":
+        import winreg as reg
+
+        registry = reg.CreateKey(reg.HKEY_CLASSES_ROOT, "Automagica")
+
+        registry = reg.OpenKey(reg.HKEY_CLASSES_ROOT, "Automagica", 0, reg.KEY_WRITE)
+
+        reg.SetValueEx(registry, "", 0, reg.REG_SZ, "URL:automagica")
+        reg.SetValueEx(registry, "URL Protocol", 0, reg.REG_SZ, "")
+
+        registry = reg.CreateKey(
+            reg.HKEY_CLASSES_ROOT, "Automagica\\shell\\open\\command"
+        )
+
+        # Register automagica:// protocol
+        registry = reg.OpenKey(
+            reg.HKEY_CLASSES_ROOT, "Automagica\\shell\\open\\command", 0, reg.KEY_WRITE,
+        )
+
+        reg.SetValueEx(
+            registry,
+            "",
+            0,
+            reg.REG_SZ,
+            sys.executable.replace("python.exe", "pythonw.exe")
+            + " -m automagica.protocol %1",
+        )
+
+        reg.CloseKey(registry)
+
+
+
 if __name__ == "__main__":
     import sys
+    import platform
 
     # This is used by automatic one-click installer for Windows to set-up a bot automatically
     cfg = Config()
@@ -215,3 +249,7 @@ if __name__ == "__main__":
 
     # Save configuration
     cfg.save()
+
+    # Register protocol automagica:// in registry
+    register_protocol_handler()
+

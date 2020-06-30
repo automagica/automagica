@@ -1,6 +1,7 @@
 import logging
 import os
 import platform
+import re
 import subprocess
 import sys
 import tkinter as tk
@@ -71,8 +72,16 @@ class FlowApp(App):
 
     def close_app(self):
         self.bot.stop()
-        self.quit()
-        self.destroy()
+
+        try:
+            self.destroy()
+        except:
+            pass
+
+        try:
+            self.quit()
+        except:
+            pass
 
     def new_flow(self):
         FlowDesignerWindow(self, bot=self.bot)
@@ -88,7 +97,7 @@ class FlowApp(App):
             autoplay=True,
             step_by_step=step_by_step,
             autoclose=True,
-            on_close=self.quit,
+            # on_close=self.close_app,
         )
 
     def report_callback_exception(self, exception, value, traceback):
@@ -123,14 +132,55 @@ class BotApp(App):
         # Run sounds better :-)
         self.run = self.mainloop
 
-    def execute_notebook(self, notebook):
-        print(notebook)
+    def execute_notebook(self, filepath, cwd):
+        import subprocess
+        import sys
 
-    def execute_script(self, script):
-        print(script)
+        process = subprocess.Popen(
+            [sys.executable, "-m", "automagica.cli", "lab", "run", filepath],
+            stdout=subprocess.PIPE,
+            cwd=cwd,
+        )
 
-    def execute_flow(self, flow):
-        print(flow)
+        out, err = process.communicate()
+
+        return out.decode("utf-8")
+
+    def execute_script(self, filepath, cwd):
+        import subprocess
+        import sys
+
+        process = subprocess.Popen(
+            [sys.executable, filepath], stdout=subprocess.PIPE, cwd=cwd
+        )
+
+        out, err = process.communicate()
+
+        return out.decode("utf-8")
+
+    def execute_flow(self, filepath, cwd):
+        import subprocess
+        import sys
+
+        process = subprocess.Popen(
+            [sys.executable, "-m", "automagica.cli", "flow", "run", filepath],
+            stdout=subprocess.PIPE,
+            cwd=cwd,
+        )
+
+        out, err = process.communicate()
+
+        return out.decode("utf-8")
+
+    def execute_command(self, command, cwd):
+        import subprocess
+        import sys
+
+        process = subprocess.Popen([command], stdout=subprocess.PIPE, cwd=cwd,)
+
+        out, err = process.communicate()
+
+        return out.decode("utf-8")
 
     def _alive_thread(self, interval=30):
         headers = {"bot_secret": self.config["bot_secret"]}
@@ -150,29 +200,68 @@ class BotApp(App):
         Notification(self, message="Bot started")
 
         while True:
-            # Get next job
-
             try:
+                # Get next job
                 r = requests.get(self.url + "/api/job/next", headers=headers)
                 job = r.json()
+
+                print(job)
 
                 # We got a job!
                 if job:
                     logging.info("Received job {}".format(job["job_id"]))
 
-                    headers = {
-                        "process_id": job["process_id"],
-                        "process_version_id": job.get("process_version_id"),
-                        "bot_secret": self.config["bot_secret"],
-                    }
+                    # Create directory to store job-related files
+                    local_job_path = os.path.join(
+                        os.path.expanduser("~"), ".automagica", job["job_id"]
+                    )
+                    os.makedirs(local_job_path)
+                    os.makedirs(os.path.join(local_job_path, "input"))
+                    os.makedirs(os.path.join(local_job_path, "output"))
 
-                    # Retrieve process
-                    r = requests.get(self.url + "/api/process", headers=headers)
+                    # Download job input files
+                    for job_file in job["job_files"]:
 
-                    # Download process files
+                        # Download file
+                        r = requests.get(job_file["url"])
+
+                        # Save locally in the input folder in the job folder
+                        with open(
+                            os.path.join(local_job_path, "input", job_file["filename"]),
+                            "wb",
+                        ) as f:
+                            f.write(r.content)
 
                     try:
-                        # Run
+                        entrypoint = job["job_entrypoint"]
+
+                        if entrypoint.endswith(".ipynb"):
+                            output = self.execute_notebook(
+                                os.path.join(local_job_path, "input", entrypoint,),
+                                local_job_path,
+                            )
+
+                        elif entrypoint.endswith(".py"):
+                            output = self.execute_script(
+                                os.path.join(local_job_path, "input", entrypoint),
+                                local_job_path,
+                            )
+
+                        elif entrypoint.endswith(".json"):
+                            output = self.execute_flow(
+                                os.path.join(local_job_path, "input", entrypoint),
+                                local_job_path,
+                            )
+
+                        else:
+                            output = self.execute_command(entrypoint, local_job_path)
+
+                        # Write console output
+                        with open(
+                            os.path.join(local_job_path, "output", "console.txt"), "w"
+                        ) as f:
+                            f.write(output)
+
                         job["status"] = "completed"
                         logging.exception("Completed job {}".format(job["job_id"]))
 
@@ -180,11 +269,52 @@ class BotApp(App):
                         job["status"] = "failed"
                         logging.exception("Failed job {}".format(job["job_id"]))
 
-                    headers = {
+                    # Make list of output files after job has ran
+                    output_files = []
+
+                    for filepath in os.listdir(os.path.join(local_job_path, "output")):
+                        output_files.append({"filename": filepath})
+
+                    # Prepare finished job package
+                    data = {
                         "bot_secret": self.config["bot_secret"],
                         "job_id": job["job_id"],
                         "job_status": job["status"],
+                        "job_output_files": output_files,
+                        "job_output": output,
                     }
+
+                    # Update Portal on job status and request S3 signed URLs to upload job output files
+                    r = requests.post(
+                        self.url + "/api/job/status", json=data, headers=headers
+                    )
+
+                    data = r.json()
+
+                    print(data)
+
+                    # Upload job output files
+                    for output_file in data["output_files"]:
+                        with open(
+                            os.path.join(
+                                local_job_path, "output", output_file["filename"]
+                            ),
+                            "rb",
+                        ) as f:
+                            _ = requests.post(
+                                output_file["payload"]["url"],
+                                data=output_file["payload"]["fields"],
+                                files={
+                                    "file": (
+                                        os.path.join(
+                                            local_job_path,
+                                            "output",
+                                            output_file["filename"],
+                                        ),
+                                        f,
+                                    )
+                                },
+                            )
 
                 # We did not get a job!
                 else:
@@ -245,59 +375,11 @@ class LabApp:
             subprocess.Popen(cmd, env=my_env)
 
     def run(self, notebook_path, parameters=None, cell_timeout=600):
-        try:
-            import nbconvert
-        except:
-            logging.exception(
-                "Could not import nbconvert. It is required to run Automagica Lab notebooks. Do you have it installed?"
-            )
-
-        try:
-            import nbformat
-        except:
-            logging.exception(
-                "Could not import nbformat. It is required to run Automagica Lab notebooks. Do you have it installed?"
-            )
-
-        from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError
-        from nbformat.notebooknode import from_dict
-
         import json
 
         with open(notebook_path, "r", encoding="utf-8") as f:
             notebook = json.load(f)
 
-        ep = ExecutePreprocessor(timeout=cell_timeout, kernel_name="python3")
-
-        if parameters:
-            parameter_node = from_dict(
-                {
-                    "cell_type": "code",
-                    "metadata": {"tags": ["parameters"]},
-                    "source": parameters,
-                }
-            )
-            for i, cell in enumerate(notebook.cells):
-                if cell.metadata:
-                    if cell.metadata.tags:
-                        if "default-parameters" in cell.metadata.tags:
-                            break
-            else:
-                i = 0
-            notebook.cells.insert(i, parameter_node)
-
-        error = None
-
-        try:
-            ep.preprocess(notebook)
-
-        except CellExecutionError as e:
-
-            try:
-                lines = [line.strip() for line in str(e.traceback).split("\n") if line]
-                error = lines[-1]
-            except:
-                error = "Exception: unknown error."
-
-        finally:
-            return notebook, error
+        for cell in notebook["cells"]:
+            if cell["cell_type"] == "code":
+                exec("".join(cell["source"]))

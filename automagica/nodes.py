@@ -61,7 +61,7 @@ class StartNode(Node):
             "label": self.label,
         }
 
-    def run(self, bot, on_done=None):
+    def run(self, bot, on_done=None, on_fail=None):
         if on_done:
             on_done(node=self.next_node)
 
@@ -117,7 +117,7 @@ class ActivityNode(Node):
             "return_": self.return_,
         }
 
-    def run(self, bot, on_done=None):
+    def run(self, bot, on_done=None, on_fail=None):
         args = [
             "{}={}".format(key, val)
             for key, val in self.args_.items()
@@ -168,7 +168,7 @@ class ActivityNode(Node):
             else:
                 command += "{}({})\n".format(function_, ", ".join(args))
 
-        bot.run(command, on_done=lambda: on_done(node=self.next_node))
+        bot.run(command, on_done=lambda: on_done(node=self.next_node), on_fail=on_fail)
 
 
 class IfElseNode(Node):
@@ -190,7 +190,7 @@ class IfElseNode(Node):
             "condition": self.condition,
         }
 
-    def run(self, bot, on_done=None):
+    def run(self, bot, on_done=None, on_fail=None):
         bot._run_command(f"AUTOMAGICA_RESULT = ({self.condition})")
 
         if bot.interpreter.locals.get("AUTOMAGICA_RESULT"):
@@ -241,7 +241,7 @@ class LoopNode(Node):
             "label": self.label,
         }
 
-    def run(self, bot, on_done=None):
+    def run(self, bot, on_done=None, on_fail=None):
         bot.run(self.iterable, on_done=on_done, return_value_when_done=True)
 
 
@@ -271,7 +271,7 @@ class DotPyFileNode(Node):
             "label": self.label,
         }
 
-    def run(self, bot, on_done=None):
+    def run(self, bot, on_done=None, on_fail=None):
         with open(self.dotpyfile_path.replace('"', ""), "r", encoding="utf-8") as f:
             command = f.read()
 
@@ -323,7 +323,7 @@ class SubFlowNode(Node):
             "label": self.label,
         }
 
-    def run(self, bot, on_done=None):
+    def run(self, bot, on_done=None, on_fail=None):
         from .flow import Flow
 
         subflow = Flow(self.subflow_path)
@@ -351,5 +351,5 @@ class PythonCodeNode(Node):
             "label": self.label,
         }
 
-    def run(self, bot, on_done=None):
+    def run(self, bot, on_done=None, on_fail=None):
         bot.run(self.code, on_done=lambda: on_done(node=self.next_node))

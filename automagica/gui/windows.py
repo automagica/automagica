@@ -115,6 +115,23 @@ def select_area_on_screenshot(screenshot, info=""):
         return None
 
 
+class Window(tk.Toplevel):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        self.parent = parent
+
+        self.configure(bg=config.COLOR_4)
+        self.icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "automagica.ico",
+        )
+        if "nt" in os.name:
+            self.iconbitmap(self.icon_path)
+
+
 class FlowDesignerWindow(tk.Toplevel):
     def __init__(self, parent, *args, flow=None, bot=None, autosave=True, **kwargs):
         super().__init__(parent, *args, **kwargs)
@@ -223,18 +240,340 @@ class FlowDesignerWindow(tk.Toplevel):
         self.configure(bg=config.COLOR_1)
         self.grid_columnconfigure(0, weight=1)
 
+    @property
+    def suggested_previous_node(self):
+        if self.flow_frame.selection:
+            for graph in self.flow_frame.selection[::-1]:
+                if not graph.node.next_node:
+                    return graph.node
+
     def add_activity(self, activity):
-        node = self.flow.add_activity_node(activity)
-        self.flow_frame.add_node_graph(node)
+        node = self.flow.add_activity_node(
+            activity, previous_node=self.suggested_previous_node
+        )
+
+        graph = self.flow_frame.add_node_graph(node)
+
+        graph.select()
 
     def add_ai_activity(self, action, sample_id):
-        node = self.flow.add_activity_node(action)
+        node = self.flow.add_activity_node(
+            action, previous_node=self.suggested_previous_node
+        )
         node.args_["automagica_id"] = '"{}"'.format(sample_id)
-        self.flow_frame.add_node_graph(node)
+
+        graph = self.flow_frame.add_node_graph(node)
+
+        graph.select()
 
     def add_node(self, node_type):
         node = self.flow.add_node(node_type)
         self.flow_frame.add_node_graph(node)
+
+
+class FlowPlayerWindow(Window):
+    def __init__(
+        self,
+        *args,
+        flow=None,
+        bot=None,
+        autoplay=False,
+        step_by_step=False,
+        on_close=None,
+        autoclose=None,
+        start_node=None,
+        title=None,
+        **kwargs,
+    ):
+        global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
+
+        super().__init__(*args, **kwargs)
+
+        self._configure_window()
+
+        self.flow = flow
+        self.bot = bot
+        self.on_close = on_close
+        self.autoclose = autoclose
+        self.title = title
+
+        if not self.title:
+            self.title = flow.name
+
+        self.paused = True
+        self.step_by_step = step_by_step
+
+        if start_node:
+            self.current_node = self.flow.get_node_by_uid(start_node)
+        else:
+            self.current_node = self.flow.get_start_nodes()[0]
+
+        self.total_nodes = len(flow.nodes)
+        self.n_nodes_ran = 0
+
+        self.progress_frame = self.create_progress_frame()
+        self.progress_frame.pack(padx=5, pady=5, expand=True, fill="x")
+
+        self.buttons_frame = self.create_buttons_frame()
+        self.buttons_frame.pack(padx=5, pady=5)
+
+        self.autoplay = autoplay
+
+        if autoplay:
+            self.paused = False
+            self.on_play_click()
+
+        self.overrideredirect(True)
+
+        AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS += 1
+
+        self.protocol("WM_DELETE_WINDOW", self.on_close_window)
+
+    def on_close_window(self):
+        global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
+
+        AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS -= 1
+
+        self.destroy()
+
+        if not self.master.winfo_children():
+            # Close root application if no open windows
+            self.master.close_app()
+
+    def update(self):
+        self.n_nodes_ran += 1
+        self.progress_bar["value"] = int(self.n_nodes_ran / self.total_nodes * 100)
+        self.current_node_label.configure(
+            text=_("Current step: {}").format(self.current_node)
+        )
+
+        if self.current_node:
+            if self.current_node.next_node:
+                self.next_node_label.configure(
+                    text=_("Next step: {}").format(
+                        self.flow.get_node_by_uid(self.current_node.next_node)
+                    )
+                )
+            else:
+                self.next_node_label.configure(text="")
+
+    def create_progress_frame(self):
+        frame = tk.Frame(self)
+
+        frame.configure(bg=self.cget("bg"))
+
+        self.flow_label = tk.Label(
+            frame, text=self.title, bg=self.cget("bg"), font=(config.FONT, 10)
+        )
+        self.flow_label.pack()
+
+        self.progress_bar = ttk.Progressbar(
+            frame, orient=tk.HORIZONTAL, length=100, mode="determinate"
+        )
+        self.progress_bar.pack(fill="both", expand=True)
+
+        self.current_node_label = tk.Label(
+            frame,
+            text=_("No current activity"),
+            fg=config.COLOR_11,
+            bg=self.cget("bg"),
+            font=(config.FONT, 10),
+        )
+        self.current_node_label.pack()
+
+        self.next_node_label = tk.Label(
+            frame,
+            text=_("Next step: {}").format(
+                self.flow.get_node_by_uid(self.current_node.next_node)
+            ),
+            fg=config.COLOR_11,
+            bg=self.cget("bg"),
+            font=(config.FONT, 10),
+        )
+        self.next_node_label.pack()
+
+        return frame
+
+    def create_buttons_frame(self):
+        frame = tk.Frame(self)
+
+        frame.configure(bg=self.cget("bg"))
+
+        self.play_pause_button = Button(
+            frame, text=_("Play"), command=self.on_play_click, bg=config.COLOR_7
+        )
+        self.play_pause_button.pack(side="left", padx=5, pady=5)
+
+        self.stop_button = Button(
+            frame, text=_("Stop"), bg=config.COLOR_6, command=self.on_stop_click
+        )
+        self.stop_button.pack(side="left", padx=5, pady=5)
+
+        return frame
+
+    def on_pause_click(self):
+        self.play_pause_button.configure(
+            text=_("Play"), command=self.on_play_click, bg=config.COLOR_7
+        )
+        self.paused = True
+
+    def on_play_click(self):
+        self.play_pause_button.configure(
+            text=_("Pause"), command=self.on_pause_click, bg=config.COLOR_0
+        )
+
+        self.paused = False
+        self.play()
+
+    def on_restart_click(self):
+        self.current_node = self.flow.get_start_nodes()[0]
+        self.n_nodes_ran = 0
+        self.update()
+        self.play_pause_button.configure(
+            text=_("Play"), command=self.on_play_click, bg=config.COLOR_7
+        )
+
+    def play(self, loop=False, node=""):
+        # Pause the flow if mouse is topleft corner
+        try:
+            mouse_x = self.winfo_pointerx()
+            mouse_y = self.winfo_pointery()
+        except:  # TODO: If flow is stopped by user before this is called back, exception occurs
+            return
+
+        if mouse_x == 0 and mouse_y == 0:
+            self.on_pause_click()
+
+        # If a specific node is specified with the play function
+        if node == "":
+            # Regular play
+            pass
+
+        elif node == None:
+            # Play called with None-node
+            self.current_node = None
+
+            if self.autoclose:
+                self.after(100, self.on_stop_click)
+
+            self.progress_bar["value"] = 100
+
+            self.play_pause_button.configure(
+                text=_("Restart"), command=self.on_restart_click, bg=config.COLOR_7
+            )
+
+        elif node != None or node != "":
+            # We actually got a next node
+            self.current_node = self.flow.get_node_by_uid(node)
+
+        if self.current_node:
+            if not self.paused:
+                self.update()
+
+                if self.step_by_step:
+                    self.on_pause_click()
+
+                if isinstance(self.current_node, SubFlowNode):
+                    FlowPlayerWindow(
+                        self,
+                        flow=Flow(self.current_node.subflow_path.replace('"', "")),
+                        bot=self.bot,
+                        autoplay=self.autoplay,
+                        step_by_step=self.step_by_step,
+                        on_close=lambda: self.play(node=self.current_node.next_node),
+                        autoclose=True,
+                    )
+
+                elif isinstance(self.current_node, LoopNode):
+                    # Are we iterating?
+                    if not self.bot.interpreter.locals.get("AUTOMAGICA_ITERABLE"):
+                        # Set Iterable variable
+                        self.bot._run_command(
+                            f"AUTOMAGICA_ITERABLE = iter({self.current_node.iterable})"
+                        )
+
+                    # Set 'next' in iterable
+                    self.bot._run_command(
+                        f"try:\n\t{self.current_node.loop_variable} = next(AUTOMAGICA_ITERABLE)\nexcept StopIteration:\n\t{self.current_node.loop_variable} = None\n\tAUTOMAGICA_ITERABLE = None"
+                    )
+
+                    if (
+                        self.bot.interpreter.locals.get(self.current_node.loop_variable)
+                        != None
+                    ):
+                        FlowPlayerWindow(
+                            self,
+                            flow=self.flow,
+                            start_node=self.current_node.loop_node,
+                            bot=self.bot,
+                            autoplay=self.autoplay,
+                            step_by_step=self.step_by_step,
+                            on_close=self.play,
+                            autoclose=True,
+                            title=str(self.current_node.label),
+                        )
+
+                    else:
+                        self.play(node=self.current_node.next_node)
+
+                else:
+                    self.current_node.run(
+                        self.bot, on_done=self.play, on_fail=self.on_stop_click
+                    )
+
+    def on_stop_click(self):
+        self.on_close_window()
+
+    def _configure_window(self):
+        self.title(_("Flow"))
+        self.attributes("-alpha", 0.75)
+        self.attributes("-topmost", True)
+
+        self.screen_width = self.winfo_screenwidth()
+        self.screen_height = self.winfo_screenheight()
+
+        self.geometry("300x140")
+        self.geometry(
+            "-50-{}".format((10 + 140) * AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS + 50)
+        )
+
+        self.resizable(False, False)
+
+
+class FlowValidationWindow(Window):
+    def __init__(self, parent, flow, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        self.flow = flow
+
+        self._layout()
+        self._configure_window()
+
+        center_window(self)
+
+    def _configure_window(self):
+        self.title(_("Flow Validation"))
+
+    def _layout(self):
+        self.validation_errors_frame = self.create_validation_errors_frame()
+        self.validation_errors_frame.pack()
+
+    def create_validation_errors_frame(self):
+        frame = tk.Frame(self)
+
+        self.validation_errors_list = tk.Listbox(frame, width=100)
+        self.validation_errors_list.pack()
+
+        errors = self.flow.validate()
+
+        for error in errors:
+            self.validation_errors_list.insert(tk.END, str(error))
+
+        if not errors:
+            self.validation_errors_list.insert(
+                tk.END, _("There are no validation errors for this Flow.")
+            )
+
+        return frame
 
 
 class Notification(tk.Toplevel):
@@ -428,23 +767,6 @@ class BotTrayWindow(tk.Toplevel):
 
         self.mouse_x = event.x
         self.mouse_y = event.y
-
-
-class Window(tk.Toplevel):
-    def __init__(self, parent, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
-        self.parent = parent
-
-        self.configure(bg=config.COLOR_4)
-        self.icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "automagica.ico",
-        )
-        if "nt" in os.name:
-            self.iconbitmap(self.icon_path)
 
 
 class SplashWindow(Window):
@@ -1128,317 +1450,6 @@ class VariableExplorerWindow(Window):
         return "break"
 
 
-class FlowPlayerWindow(Window):
-    def __init__(
-        self,
-        *args,
-        flow=None,
-        bot=None,
-        autoplay=False,
-        step_by_step=False,
-        on_close=None,
-        autoclose=None,
-        start_node=None,
-        title=None,
-        **kwargs,
-    ):
-        global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
-
-        super().__init__(*args, **kwargs)
-
-        self._configure_window()
-
-        self.flow = flow
-        self.bot = bot
-        self.on_close = on_close
-        self.autoclose = autoclose
-        self.title = title
-
-        if not self.title:
-            self.title = flow.name
-
-        self.paused = True
-        self.step_by_step = step_by_step
-
-        if start_node:
-            self.current_node = self.flow.get_node_by_uid(start_node)
-        else:
-            self.current_node = self.flow.get_start_nodes()[0]
-
-        self.total_nodes = len(flow.nodes)
-        self.n_nodes_ran = 0
-
-        self.progress_frame = self.create_progress_frame()
-        self.progress_frame.pack(padx=5, pady=5, expand=True, fill="x")
-
-        self.buttons_frame = self.create_buttons_frame()
-        self.buttons_frame.pack(padx=5, pady=5)
-
-        self.autoplay = autoplay
-
-        if autoplay:
-            self.paused = False
-            self.on_play_click()
-
-        self.overrideredirect(True)
-
-        AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS += 1
-
-        self.protocol("WM_DELETE_WINDOW", self.on_close_window)
-
-    def on_close_window(self):
-        global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
-
-        AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS -= 1
-
-        self.destroy()
-
-        if not self.master.winfo_children():
-            # Close root application if no open windows
-            self.master.close_window()
-
-    def update(self):
-        self.n_nodes_ran += 1
-        self.progress_bar["value"] = int(self.n_nodes_ran / self.total_nodes * 100)
-        self.current_node_label.configure(
-            text=_("Current step: {}").format(self.current_node)
-        )
-
-        if self.current_node:
-            if self.current_node.next_node:
-                self.next_node_label.configure(
-                    text=_("Next step: {}").format(
-                        self.flow.get_node_by_uid(self.current_node.next_node)
-                    )
-                )
-            else:
-                self.next_node_label.configure(text="")
-
-    def create_progress_frame(self):
-        frame = tk.Frame(self)
-
-        frame.configure(bg=self.cget("bg"))
-
-        self.flow_label = tk.Label(
-            frame, text=self.title, bg=self.cget("bg"), font=(config.FONT, 10)
-        )
-        self.flow_label.pack()
-
-        self.progress_bar = ttk.Progressbar(
-            frame, orient=tk.HORIZONTAL, length=100, mode="determinate"
-        )
-        self.progress_bar.pack(fill="both", expand=True)
-
-        self.current_node_label = tk.Label(
-            frame,
-            text=_("No current activity"),
-            fg=config.COLOR_11,
-            bg=self.cget("bg"),
-            font=(config.FONT, 10),
-        )
-        self.current_node_label.pack()
-
-        self.next_node_label = tk.Label(
-            frame,
-            text=_("Next step: {}").format(
-                self.flow.get_node_by_uid(self.current_node.next_node)
-            ),
-            fg=config.COLOR_11,
-            bg=self.cget("bg"),
-            font=(config.FONT, 10),
-        )
-        self.next_node_label.pack()
-
-        return frame
-
-    def create_buttons_frame(self):
-        frame = tk.Frame(self)
-
-        frame.configure(bg=self.cget("bg"))
-
-        self.play_pause_button = Button(
-            frame, text=_("Play"), command=self.on_play_click, bg=config.COLOR_7
-        )
-        self.play_pause_button.pack(side="left", padx=5, pady=5)
-
-        self.stop_button = Button(
-            frame, text=_("Stop"), bg=config.COLOR_6, command=self.on_stop_click
-        )
-        self.stop_button.pack(side="left", padx=5, pady=5)
-
-        return frame
-
-    def on_pause_click(self):
-        self.play_pause_button.configure(
-            text=_("Play"), command=self.on_play_click, bg=config.COLOR_7
-        )
-        self.paused = True
-
-    def on_play_click(self):
-        self.play_pause_button.configure(
-            text=_("Pause"), command=self.on_pause_click, bg=config.COLOR_0
-        )
-
-        self.paused = False
-        self.play()
-
-    def on_restart_click(self):
-        self.current_node = self.flow.get_start_nodes()[0]
-        self.n_nodes_ran = 0
-        self.update()
-        self.play_pause_button.configure(
-            text=_("Play"), command=self.on_play_click, bg=config.COLOR_7
-        )
-
-    def play(self, loop=False, node=""):
-        # Pause the flow if mouse is topleft corner
-        try:
-            mouse_x = self.winfo_pointerx()
-            mouse_y = self.winfo_pointery()
-        except:  # TODO: If flow is stopped by user before this is called back, exception occurs
-            return
-
-        if mouse_x == 0 and mouse_y == 0:
-            self.on_pause_click()
-
-        # If a specific node is specified with the play function
-        if node == "":
-            # Regular play
-            pass
-
-        elif node == None:
-            # Play called with None-node
-            self.current_node = None
-
-            if self.autoclose:
-                self.after(100, self.on_stop_click)
-
-            self.progress_bar["value"] = 100
-
-            self.play_pause_button.configure(
-                text=_("Restart"), command=self.on_restart_click, bg=config.COLOR_7
-            )
-
-        elif node != None or node != "":
-            # We actually got a next node
-            self.current_node = self.flow.get_node_by_uid(node)
-
-        if self.current_node:
-            if not self.paused:
-                self.update()
-
-                if self.step_by_step:
-                    self.on_pause_click()
-
-                if isinstance(self.current_node, SubFlowNode):
-                    FlowPlayerWindow(
-                        self,
-                        flow=Flow(self.current_node.subflow_path.replace('"', "")),
-                        bot=self.bot,
-                        autoplay=self.autoplay,
-                        step_by_step=self.step_by_step,
-                        on_close=lambda: self.play(node=self.current_node.next_node),
-                        autoclose=True,
-                    )
-
-                elif isinstance(self.current_node, LoopNode):
-                    # Are we iterating?
-                    if not self.bot.interpreter.locals.get("AUTOMAGICA_ITERABLE"):
-                        # Set Iterable variable
-                        self.bot._run_command(
-                            f"AUTOMAGICA_ITERABLE = iter({self.current_node.iterable})"
-                        )
-
-                    # Set 'next' in iterable
-                    self.bot._run_command(
-                        f"try:\n\t{self.current_node.loop_variable} = next(AUTOMAGICA_ITERABLE)\nexcept StopIteration:\n\t{self.current_node.loop_variable} = None\n\tAUTOMAGICA_ITERABLE = None"
-                    )
-
-                    if (
-                        self.bot.interpreter.locals.get(self.current_node.loop_variable)
-                        != None
-                    ):
-
-                        FlowPlayerWindow(
-                            self,
-                            flow=self.flow,
-                            start_node=self.current_node.loop_node,
-                            bot=self.bot,
-                            autoplay=self.autoplay,
-                            step_by_step=self.step_by_step,
-                            on_close=self.play,
-                            autoclose=True,
-                            title=str(self.current_node.label),
-                        )
-
-                    else:
-                        self.play(node=self.current_node.next_node)
-
-                else:
-                    self.current_node.run(self.bot, on_done=self.play)
-
-    def on_stop_click(self):
-        if self.on_close:
-            self.on_close()
-
-        global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
-
-        AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS -= 1
-
-        self.destroy()
-
-    def _configure_window(self):
-        self.title(_("Flow"))
-        self.attributes("-alpha", 0.75)
-        self.attributes("-topmost", True)
-
-        self.screen_width = self.winfo_screenwidth()
-        self.screen_height = self.winfo_screenheight()
-
-        self.geometry("300x140")
-        self.geometry(
-            "-50-{}".format((10 + 140) * AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS + 50)
-        )
-
-        self.resizable(False, False)
-
-
-class FlowValidationWindow(Window):
-    def __init__(self, parent, flow, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
-        self.flow = flow
-
-        self._layout()
-        self._configure_window()
-
-        center_window(self)
-
-    def _configure_window(self):
-        self.title(_("Flow Validation"))
-
-    def _layout(self):
-        self.validation_errors_frame = self.create_validation_errors_frame()
-        self.validation_errors_frame.pack()
-
-    def create_validation_errors_frame(self):
-        frame = tk.Frame(self)
-
-        self.validation_errors_list = tk.Listbox(frame, width=100)
-        self.validation_errors_list.pack()
-
-        errors = self.flow.validate()
-
-        for error in errors:
-            self.validation_errors_list.insert(tk.END, str(error))
-
-        if not errors:
-            self.validation_errors_list.insert(
-                tk.END, _("There are no validation errors for this Flow.")
-            )
-
-        return frame
-
-
 class SnippingToolWindow:
     def __init__(self, image, info=""):
         """
@@ -1485,7 +1496,7 @@ class SnippingToolWindow:
         self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
 
         if info:
-            font = Font(family=config.FONT, size=30)
+            font = Font(family=config.FONT, size=40)
 
             self.canvas.create_text(
                 int(w / 2), int(h * 2 / 3), text=info, fill="#1B97F3", font=font
