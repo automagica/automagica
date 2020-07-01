@@ -1,6 +1,6 @@
 .. module:: automagica.activities
 
-Automagica Activities
+Activities
 ==========
 
 
@@ -228,6 +228,7 @@ System
 .. autofunction:: wait_file_exists
 .. autofunction:: write_list_to_file
 .. autofunction:: read_list_from_txt
+.. autofunction:: read_from_txt
 .. autofunction:: append_line
 .. autofunction:: make_text_file
 .. autofunction:: read_text_file_to_list
@@ -325,7 +326,8 @@ SAP GUI
 
 Portal
 ------
-.. autofunction:: create_new_job
+.. autofunction:: create_new_job_in_portal
+.. autofunction:: get_credential_from_portal
 
 
 Vision
