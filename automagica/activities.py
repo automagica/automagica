@@ -946,10 +946,7 @@ Browser
 Icon: lab la-chrome
 """
 
-try:
-    import selenium.webdriver
-except:
-    pass
+import selenium.webdriver
 
 
 class Chrome(selenium.webdriver.Chrome):
