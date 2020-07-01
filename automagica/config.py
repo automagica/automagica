@@ -95,7 +95,7 @@ COLOR_14 = "#FFCCCB"  # Light red
 
 
 class Config:
-    def __init__(self, file_path="", ignore_warnings=False, debug=False):
+    def __init__(self, file_path="", ignore_warnings=False, debug=True):
         self.file_path = file_path
         self.ignore_warnings = ignore_warnings
         self.debug = debug
@@ -107,10 +107,10 @@ class Config:
         # Set up logging
         self._setup_logging(debug=debug)
 
-        self.config = self.load()
+        self.values = self.load()
 
-        if not self.config.get("portal_url"):
-            self.config["portal_url"] = os.environ.get(
+        if not self.values.get("portal_url"):
+            self.values["portal_url"] = os.environ.get(
                 "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
             )
 
@@ -130,7 +130,7 @@ class Config:
 
         formatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
 
-        logger = logging.getLogger()
+        logger = logging.getLogger("automagica")
         logger.setLevel(log_level)
 
         # Log to file
@@ -146,25 +146,24 @@ class Config:
 
     def save(self):
         with open(self.file_path, "w") as f:
-            json.dump(self.config, f)
+            json.dump(self.values, f)
 
     def load(self):
         try:
             with open(self.file_path, "r", encoding="utf-8") as f:
-                config = json.load(f)
+                values = json.load(f)
 
         except FileNotFoundError:
-            config = {}
-            self.config = config
+            self.values = {}
             self.save()
 
-        return config
+        return values
 
     def wizard(self):
         print("Automagica Configuration\n")
         print(
             "You can find your User Secret and Bot Secret at {}".format(
-                self.config.get("portal_url")
+                self.values.get("portal_url")
             )
         )
         print(
@@ -172,30 +171,30 @@ class Config:
         )
 
         portal_url = input(
-            "\nAutomagica Portal URL [{}]: ".format(self.config.get("portal_url"))
+            "\nAutomagica Portal URL [{}]: ".format(self.values.get("portal_url"))
         )
 
         if portal_url:
-            self.config["portal_url"] = portal_url
+            self.values["portal_url"] = portal_url
 
         user_secret = input(
-            "\nAutomagica User Secret [{}]: ".format(self.config.get("user_secret"))
+            "\nAutomagica User Secret [{}]: ".format(self.values.get("user_secret"))
         )
 
         if user_secret:
-            self.config["user_secret"] = user_secret
+            self.values["user_secret"] = user_secret
 
         bot_secret = input(
-            "\nAutomagica Bot Secret [{}]: ".format(self.config.get("bot_secret"))
+            "\nAutomagica Bot Secret [{}]: ".format(self.values.get("bot_secret"))
         )
 
         if bot_secret:
-            self.config["bot_secret"] = bot_secret
+            self.values["bot_secret"] = bot_secret
 
-        locale = input("\nLocale [{}]: ".format(self.config.get("locale", "en_GB")))
+        locale = input("\nLocale [{}]: ".format(self.values.get("locale", "en_GB")))
 
         if locale:
-            self.config["locale"] = locale
+            self.values["locale"] = locale
 
         self.save()
 
@@ -230,7 +229,6 @@ def register_protocol_handler():
         )
 
         reg.CloseKey(registry)
-
 
 
 if __name__ == "__main__":

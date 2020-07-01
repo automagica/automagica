@@ -2,7 +2,9 @@ import copy
 import json
 import os
 import tkinter as tk
-from tkinter import ttk
+from tkinter import font, ttk
+
+from PIL import Image, ImageTk
 
 from automagica import config
 from automagica.bots import ThreadedBot
@@ -36,7 +38,6 @@ from automagica.nodes import (
     StartNode,
     SubFlowNode,
 )
-from PIL import Image, ImageTk
 
 # Keep track of currently visible notifications (so they can stack)
 AUTOMAGICA_NUMBER_OF_NOTIFICATIONS = 0
@@ -77,49 +78,10 @@ def center_window(window, w=None, h=None):
     window.deiconify()
 
 
-def get_screenshot():
-    """
-    Captures the screen to a Pillow Image object
-    TODO: this does not work for xvfb-based systems
-    """
-    from PIL import Image
-    import mss
-
-    with mss.mss() as sct:
-
-        # Find primary monitor
-        for monitor in sct.monitors:
-            if monitor["left"] == 0 and monitor["top"] == 0:
-                break
-
-        sct_img = sct.grab(monitor)
-
-    img = Image.frombytes("RGB", sct_img.size, sct_img.bgra, "raw", "BGRX")
-
-    return img
-
-
-def select_area_on_screenshot(screenshot, info=""):
-    """
-    Presents the user with a window which allows him/her to select
-    a rectangle on the screen and returns the coordinates in the carthesian
-    coordinate system
-    """
-    global coordinates
-
-    try:
-        SnippingToolWindow(screenshot, info=info)
-        return coordinates
-
-    except KeyboardInterrupt:
-        return None
-
-
 class Window(tk.Toplevel):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
-
         self.configure(bg=config.COLOR_4)
         self.icon_path = os.path.join(
             os.path.abspath(__file__).replace(
@@ -271,7 +233,7 @@ class FlowDesignerWindow(tk.Toplevel):
         self.flow_frame.add_node_graph(node)
 
 
-class FlowPlayerWindow(Window):
+class FlowPlayerWindow(tk.Toplevel):
     def __init__(
         self,
         *args,
@@ -290,6 +252,9 @@ class FlowPlayerWindow(Window):
         super().__init__(*args, **kwargs)
 
         self._configure_window()
+
+        self.protocol("WM_DELETE_WINDOW", self.on_close_window)
+        self.state("normal")
 
         self.flow = flow
         self.bot = bot
@@ -326,8 +291,6 @@ class FlowPlayerWindow(Window):
         self.overrideredirect(True)
 
         AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS += 1
-
-        self.protocol("WM_DELETE_WINDOW", self.on_close_window)
 
     def on_close_window(self):
         global AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS
@@ -522,6 +485,9 @@ class FlowPlayerWindow(Window):
                     )
 
     def on_stop_click(self):
+        if self.on_close:
+            self.on_close()
+
         self.on_close_window()
 
     def _configure_window(self):
@@ -576,7 +542,7 @@ class FlowValidationWindow(Window):
         return frame
 
 
-class Notification(tk.Toplevel):
+class NotificationWindow(tk.Toplevel):
     def __init__(
         self, parent, message, *args, duration=1, title="Automagica", **kwargs
     ):
@@ -703,7 +669,6 @@ class Notification(tk.Toplevel):
 class BotTrayWindow(tk.Toplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         self._configure()
         self._binds()
 
@@ -744,7 +709,25 @@ class BotTrayWindow(tk.Toplevel):
         self.label = tk.Label(frame, image=self.img, bd=0)
         self.label.pack(padx=0, pady=0)
 
+        self.popup_menu = tk.Menu(self, tearoff=0, font=(config.FONT, 10))
+        self.popup_menu.add_command(label="Settings", command=self.settings_clicked)
+        self.popup_menu.add_command(label="Quit", command=self.quit_clicked)
+
+        self.bind("<Button-3>", self.popup)
+
         return frame
+
+    def popup(self, event):
+        try:
+            self.popup_menu.tk_popup(event.x_root, event.y_root)
+        finally:
+            self.popup_menu.grab_release()
+
+    def quit_clicked(self):
+        self.master.exit()
+
+    def settings_clicked(self):
+        ConfigWindow(self)
 
     def mouse_double_click(self, event):
         # _ = KeybindsOverviewWindow(self)
@@ -798,32 +781,59 @@ class SplashWindow(Window):
 
 class WandWindow(Window):
     def __init__(self, parent, *args, action=None, standalone=False, **kwargs):
-        from time import sleep
+        super().__init__(parent, *args, **kwargs)
 
         self.action = action
         self.standalone = standalone
-
-        sleep(0.5)  # Wait for animations to finish
-
-        self.screenshot = get_screenshot()
-        self.target = select_area_on_screenshot(
-            self.screenshot, info=_("Drag a box around the element on the screen")
-        )
-
-        super().__init__(parent, *args, **kwargs)
-        self.withdraw()
-
-        self.title(_("Automagica Wand"))
 
         self.anchors = []
         self.anchor_images = []
         self.minimap_scale = 1
 
+        self.withdraw()
+
+        from time import sleep
+
+        sleep(0.5)  # Wait for animations to finish
+
+        self.screenshot = self.capture_screenshot()
+
+        self.select_target()
+
+    def capture_screenshot(self):
+        """
+        Captures the screen to a Pillow Image object
+        TODO: this does not work for xvfb-based systems
+        """
+        from PIL import Image
+        import mss
+
+        with mss.mss() as sct:
+
+            # Find primary monitor
+            for monitor in sct.monitors:
+                if monitor["left"] == 0 and monitor["top"] == 0:
+                    break
+
+            sct_img = sct.grab(monitor)
+
+        img = Image.frombytes("RGB", sct_img.size, sct_img.bgra, "raw", "BGRX")
+
+        return img
+
+    def select_target(self):
+        SnippingToolWindow(self, self.screenshot, self.set_target)
+
+    def set_target(self, coordinates):
+        self.target = coordinates
+
         self.create_layout()
 
+        self.show()
+
+    def show(self):
         self.update()
         self.deiconify()
-
         self.attributes("-topmost", True)
 
         try:
@@ -831,9 +841,49 @@ class WandWindow(Window):
         except:  # TODO: This does not work on Linux?
             pass
 
-        self.resizable(False, False)
+        # self.resizable(False, False)
+
+    def add_anchor(self, coordinates):
+        self.anchors.append(coordinates)
+        self.show()
+
+        self.anchors.append(coordinates)
+
+        image_cropped = self.screenshot.crop(coordinates)
+        image_cropped, _ = self._resize_to_fit(image_cropped, 128, 128)
+
+        anchor_frame = tk.Frame(
+            self.anchors_frame,
+            highlightbackground="green",
+            highlightcolor="green",
+            highlightthickness=4,
+            bd=0,
+        )
+        anchor_frame.pack(side="left")
+
+        image = ImageTk.PhotoImage(image_cropped)
+        anchor_lbl = tk.Label(anchor_frame, image=image)
+        anchor_lbl.pack()
+
+        self.anchor_images.append(image)
+
+        self.minimap_canvas.create_rectangle(
+            int(coordinates[0] * self.minimap_scale),
+            int(coordinates[1] * self.minimap_scale),
+            int(coordinates[2] * self.minimap_scale),
+            int(coordinates[3] * self.minimap_scale),
+            outline="green",
+            width=2,
+        )
+
+        if len(self.anchors) == 3:
+            self.add_anchor_button.pack_forget()
+
+        self.update()
 
     def create_layout(self):
+        self.title(_("Automagica Wand"))
+
         # Minimap Frame
         self.minimap_frame = self.create_minimap_frame()
         self.minimap_frame.grid(row=0, column=0, columnspan=2, pady=10, padx=10)
@@ -921,7 +971,7 @@ class WandWindow(Window):
         anchors_label.pack()
 
         self.add_anchor_button = Button(
-            frame, text=_("Add anchor"), command=self.add_anchor
+            frame, text=_("Add anchor"), command=self.add_anchor_button_clicked
         )
         self.add_anchor_button.pack()
 
@@ -963,46 +1013,10 @@ class WandWindow(Window):
 
         return image, factor
 
-    def add_anchor(self):
-        from automagica.config import _
+    def add_anchor_button_clicked(self):
+        self.withdraw()
 
-        anchor = select_area_on_screenshot(
-            self.screenshot, info=_("Select an anchor on the screen")
-        )
-
-        self.anchors.append(anchor)
-
-        image_cropped = self.screenshot.crop(anchor)
-        image_cropped, _ = self._resize_to_fit(image_cropped, 128, 128)
-
-        anchor_frame = tk.Frame(
-            self.anchors_frame,
-            highlightbackground="green",
-            highlightcolor="green",
-            highlightthickness=4,
-            bd=0,
-        )
-        anchor_frame.pack(side="left")
-
-        image = ImageTk.PhotoImage(image_cropped)
-        anchor_lbl = tk.Label(anchor_frame, image=image)
-        anchor_lbl.pack()
-
-        self.anchor_images.append(image)
-
-        self.minimap_canvas.create_rectangle(
-            int(anchor[0] * self.minimap_scale),
-            int(anchor[1] * self.minimap_scale),
-            int(anchor[2] * self.minimap_scale),
-            int(anchor[3] * self.minimap_scale),
-            outline="green",
-            width=2,
-        )
-
-        if len(self.anchors) == 3:
-            self.add_anchor_button.pack_forget()
-
-        self.update()
+        SnippingToolWindow(self, self.screenshot, self.add_anchor)
 
     def save(self):
         self.grab_release()
@@ -1087,10 +1101,104 @@ class WandWindow(Window):
     def print_to_console(self):
         automagica_id = self.save()
         print(f"Automagica ID: {automagica_id}")
+        os._exit(1)  # >:) don't try this at home
 
     def add_to_flow(self,):
         automagica_id = self.save()
         self.parent.parent.master.add_ai_activity(self.action, automagica_id)
+
+        # Restore window
+        self.parent.parent.master.deiconify()
+
+
+class SnippingToolWindow(Window):
+    def __init__(self, parent, screenshot, callback, *args, info="", **kwargs):
+        """
+        Starts a full screen snipping tool for selecting coordinates
+        TODO: this should not create a new Tk root object
+        """
+        super().__init__(parent, *args, **kwargs)
+
+        self.bind("<Escape>", self.close)
+
+        self.screenshot = screenshot
+        self.callback = callback
+
+        # Bring window to full screen and top most level
+        self.attributes("-fullscreen", True)
+        self.attributes("-topmost", True)
+
+        w = self.winfo_width()
+        h = self.winfo_height()
+
+        # Keep reference of some things
+        self.x = self.y = 0
+        self.rect = None
+        self.start_x = None
+        self.start_y = None
+
+        # Create the canvas
+        self.canvas = tk.Canvas(self, width=w, height=h, cursor="crosshair")
+
+        self.canvas.pack()
+
+        # Add the screenshot
+        self.img = ImageTk.PhotoImage(self.screenshot)
+        self.canvas.create_image((0, 0), image=self.img, anchor="nw")
+
+        # Connect the event handlers
+        self.canvas.bind("<ButtonPress-1>", self.on_button_press)
+        self.canvas.bind("<B1-Motion>", self.on_move_press)
+        self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
+
+        if info:
+            font_ = font.Font(family=config.FONT, size=40)
+
+            self.canvas.create_text(
+                int(w / 2), int(h * 2 / 3), text=info, fill="#1B97F3", font=font_
+            )
+
+    def close(self):
+        self.destroy()
+        self.update()
+
+    def on_button_press(self, event):
+        # Update coordinates
+        self.start_x = event.x
+        self.start_y = event.y
+
+        # If no rectangle is drawn yet, draw one
+        if not self.rect:
+            self.rect = self.canvas.create_rectangle(
+                self.x,
+                self.y,
+                1,
+                1,
+                outline="#1B97F3",
+                fill="#1B97F3",
+                stipple="gray12",
+            )
+
+    def on_move_press(self, event):
+        # Update coordinates
+        self.end_x, self.end_y = (event.x, event.y)
+
+        # expand rectangle as you drag the mouse
+        self.canvas.coords(
+            self.rect, self.start_x, self.start_y, self.end_x, self.end_y
+        )
+
+    def on_button_release(self, event):
+        coordinates = (
+            min(self.start_x, self.end_x),
+            min(self.start_y, self.end_y),
+            max(self.start_x, self.end_x),
+            max(self.start_y, self.end_y),
+        )
+
+        self.callback(coordinates)
+
+        self.close()
 
 
 class KeybindWindow(Window):
@@ -1237,12 +1345,12 @@ class KeybindsOverviewWindow(Window):
         self.title(_("Keybinds"))
 
 
-class LoginWindow(Window):
+class ConfigWindow(Window):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
 
-        self.title("Log-in")
+        self.title("Settings")
         self.resizable(False, False)
 
         self.logo_frame = self.create_logo_frame()
@@ -1257,78 +1365,99 @@ class LoginWindow(Window):
         self.config(bg=config.COLOR_0)
 
         center_window(self)
-        self.username_entry.focus()
+        self.bot_secret_entry.focus()
+
+    def save_clicked(self):
+        values = self.master.master.config.values
+
+        values["portal_url"] = self.portal_url_entry.get()
+        values["user_secret"] = self.user_secret_entry.get()
+        values["bot_secret"] = self.bot_secret_entry.get()
+        values["locale"] = self.locale_entry.get()
+
+        self.master.master.config.save()
+
+        os._exit(1)
 
     def create_form_frame(self):
         frame = tk.Frame(self)
 
-        username_label = tk.Label(
+        portal_url_label = tk.Label(
             self,
-            text=_("Username/E-mail"),
+            text=_("Portal URL"),
             bg=config.COLOR_0,
             fg=config.COLOR_1,
             font=(config.FONT, 10),
+            width=50,
         )
-        username_label.pack()
+        portal_url_label.pack()
 
-        self.username_entry = InputField(self)
-        self.username_entry.pack()
+        self.portal_url_entry = InputField(self, width=40)
+        self.portal_url_entry.pack()
 
-        password_label = tk.Label(
+        user_secret_label = tk.Label(
             self,
-            text=_("Password"),
+            text=_("User secret"),
             bg=config.COLOR_0,
             fg=config.COLOR_1,
             font=(config.FONT, 10),
+            width=50,
         )
-        password_label.pack()
+        user_secret_label.pack()
 
-        self.password_entry = InputField(self, show="*")
-        self.password_entry.pack()
+        self.user_secret_entry = InputField(self, width=40)
+        self.user_secret_entry.pack()
+
+        bot_secret_label = tk.Label(
+            self,
+            text=_("Bot secret"),
+            bg=config.COLOR_0,
+            fg=config.COLOR_1,
+            font=(config.FONT, 10),
+            width=50,
+        )
+        bot_secret_label.pack()
+
+        self.bot_secret_entry = InputField(self, width=40)
+        self.bot_secret_entry.pack()
+
+        locale_label = tk.Label(
+            self,
+            text=_("Locale"),
+            bg=config.COLOR_0,
+            fg=config.COLOR_1,
+            font=(config.FONT, 10),
+            width=50,
+        )
+        locale_label.pack()
+
+        self.locale_entry = InputField(self, width=40)
+        self.locale_entry.pack()
+
+        # Pre-fill fields
+        self.portal_url_entry.insert(
+            tk.END, self.master.master.config.values.get("portal_url", "")
+        )
+        self.user_secret_entry.insert(
+            tk.END, self.master.master.config.values.get("user_secret", "")
+        )
+        self.bot_secret_entry.insert(
+            tk.END, self.master.master.config.values.get("bot_secret", "")
+        )
+        self.locale_entry.insert(
+            tk.END, self.master.master.config.values.get("locale", "")
+        )
 
         return frame
 
     def create_buttons_frame(self):
         frame = tk.Frame(self)
 
-        login_button = Button(self, text=_("Log in"))
-        login_button.configure(bg=config.COLOR_7)
-        login_button.pack(padx=5, pady=5)
-
-        register_button = Button(
-            self,
-            text=_("No account yet? Sign up now"),
-            command=self.register_button_clicked,
-        )
-        register_button.pack()
+        save_button = Button(self, text=_("Save"), command=self.save_clicked)
+        save_button.configure(bg=config.COLOR_7)
+        save_button.pack(padx=5, pady=5)
 
         return frame
-
-    def register_button_clicked(self):
-        import webbrowser
-
-        webbrowser.open("https://portal.automagica.com")
-
-    def login_button_clicked(self):
-        username = self.username_entry.get()
-
-        if not username:
-            # self.username_entry.highlight()
-            pass
-
-        password = self.password_entry.get()
-
-        if not password:
-            # self.password_entry.highlight()
-            pass
-
-        if username and password:
-            import requests
-
-            _ = requests.post(
-                "https://portal.automagica.com",
-                json={"username": username, "password": password},
-            )
 
     def create_logo_frame(self):
         frame = tk.Frame(self)
@@ -1349,7 +1478,7 @@ class LoginWindow(Window):
         logo_lbl = tk.Label(
             self, image=self.logo_img, bg=config.COLOR_0, font=(config.FONT, 10)
         )
-        logo_lbl.pack(padx=20, pady=20)
+        logo_lbl.pack(padx=20, pady=10)
 
         return frame
 
@@ -1448,105 +1577,6 @@ class VariableExplorerWindow(Window):
         self.types.yview("scroll", event.delta, "units")
         self.variables.yview("scroll", event.delta, "units")
         return "break"
-
-
-class SnippingToolWindow:
-    def __init__(self, image, info=""):
-        """
-        Starts a full screen snipping tool for selecting coordinates
-        TODO: this should not create a new Tk root object
-        """
-        import tkinter as tk
-        from tkinter.font import Font
-        from PIL import ImageTk
-
-        self.root = tk.Tk()
-
-        self.root.bind("<Escape>", self._quit)
-
-        w = self.root.winfo_screenwidth()
-        h = self.root.winfo_screenheight()
-
-        # Change window to size of full screen
-        self.root.geometry("{}x{}".format(w, h))
-
-        # Bring window to full screen and top most level
-        self.root.attributes("-fullscreen", True)
-        self.root.attributes("-topmost", True)
-
-        # Keep reference of some things
-        self.x = self.y = 0
-        self.rect = None
-        self.start_x = None
-        self.start_y = None
-
-        # Create the canvas
-        self.canvas = tk.Canvas(self.root, width=w, height=h, cursor="crosshair")
-
-        self.canvas.pack()
-
-        # Add the screenshot
-        img = ImageTk.PhotoImage(image, master=self.root)
-
-        self.canvas.create_image((0, 0), image=img, anchor="nw")
-
-        # Connect the event handlers
-        self.canvas.bind("<ButtonPress-1>", self.on_button_press)
-        self.canvas.bind("<B1-Motion>", self.on_move_press)
-        self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
-
-        if info:
-            font = Font(family=config.FONT, size=40)
-
-            self.canvas.create_text(
-                int(w / 2), int(h * 2 / 3), text=info, fill="#1B97F3", font=font
-            )
-
-        self.root.mainloop()
-
-    def _quit(self):
-        self.root.destroy()
-
-    def on_button_press(self, event):
-        # Update coordinates
-        self.start_x = event.x
-        self.start_y = event.y
-
-        # If no rectangle is drawn yet, draw one
-        if not self.rect:
-            self.rect = self.canvas.create_rectangle(
-                self.x,
-                self.y,
-                1,
-                1,
-                outline="#1B97F3",
-                fill="#1B97F3",
-                stipple="gray12",
-            )
-
-    def on_move_press(self, event):
-        # Update coordinates
-        self.end_x, self.end_y = (event.x, event.y)
-
-        # expand rectangle as you drag the mouse
-        self.canvas.coords(
-            self.rect, self.start_x, self.start_y, self.end_x, self.end_y
-        )
-
-    def on_button_release(self, event):
-        # Update global variable
-        global coordinates
-
-        coordinates = (
-            min(self.start_x, self.end_x),
-            min(self.start_y, self.end_y),
-            max(self.start_x, self.end_x),
-            max(self.start_y, self.end_y),
-        )
-
-        # Close the window
-        self.root.quit()
-        self.root.destroy()
 
 
 class NodePropsWindow(Window):

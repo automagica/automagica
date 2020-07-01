@@ -1,17 +1,9 @@
-import argparse
-import json
-import logging
-import os
-import subprocess
-import sys
-from time import sleep
-
 import click
 
 from automagica.config import Config, _
 from automagica.gui.apps import BotApp, FlowApp, LabApp, TraceApp, WandApp
 
-__version__ = "3.0.2"
+__version__ = "3.0.3"
 
 
 @click.group(help=_("Automagica v") + __version__)
@@ -51,7 +43,7 @@ def flow_new():
 @flow.command("edit", help=_("Edit Flow"))
 @click.argument("file_path")
 def flow_edit(file_path):
-    app = FlowApp(file_path=filename)
+    app = FlowApp(file_path=file_path)
     app.run()
 
 
@@ -113,4 +105,3 @@ if __name__ == "__main__":
     cli(None)
 else:
     from automagica.activities import *
-

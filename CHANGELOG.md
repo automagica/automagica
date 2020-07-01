@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## 3.0.1
+## 3.0.3
 ### Automagica Flow
 - Newly added nodes will start from the selected nodes
 - Added protocol handlers for automagica:// both for Flow and Lab.

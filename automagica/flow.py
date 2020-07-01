@@ -35,8 +35,6 @@ class Flow:
     def load(self, file_path):
         self.file_path = file_path
 
-        from collections import OrderedDict
-
         logging.debug(_("Loading Flow from {}").format(file_path))
 
         with open(file_path, "r") as f:
@@ -102,7 +100,7 @@ class Flow:
 
             elif d["type"] == "DotPyFileNode":
                 node = DotPyFileNode(
-                    os.path.join(working_dir, str(d["dotpyfile_path"])),
+                    str(d["dotpyfile_path"]),
                     label=d.get("label"),
                     x=d.get("x"),
                     y=d.get("y"),
@@ -132,7 +130,7 @@ class Flow:
 
             elif d["type"] == "SubFlowNode":
                 node = SubFlowNode(
-                    os.path.join(working_dir, str(d.get("subflow_path", ""))),
+                    str(d.get("subflow_path", "")),
                     label=d.get("label"),
                     x=d.get("x"),
                     y=d.get("y"),
@@ -169,8 +167,10 @@ class Flow:
 
     def save(self, file_path):
         logging.debug(_("Saving to {}").format(file_path))
+
         with open(file_path, "w") as f:
             json.dump(self.to_dict(), f, indent=4)
+
         logging.info(_("Saved to {}").format(file_path))
 
     def add_activity_node(self, activity, previous_node=None):

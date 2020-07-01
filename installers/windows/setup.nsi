@@ -127,6 +127,9 @@ Section "!${PRODUCT_NAME}" sec_app
   CreateShortCut "$SMPROGRAMS\Automagica Lab.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli lab new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Lab"
   CreateShortCut "$DESKTOP\Automagica Lab.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli lab new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Lab"
 
+  CreateShortCut "$SMPROGRAMS\Automagica Bot.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli bot" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Bot"
+  CreateShortCut "$DESKTOP\Automagica Bot.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli bot" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Bot"
+
 
   [% block install_commands %]
   [% if has_commands %]

@@ -630,8 +630,6 @@ class ToolbarFrame(tk.Frame):
         # Record action
         WandWindow(self, action=action)
 
-        # Restore window
-        self.parent.master.deiconify()
 
     def clicked_validate_button(self):
         from .windows import FlowValidationWindow
@@ -642,7 +640,7 @@ class ToolbarFrame(tk.Frame):
         """
         Open file
         """
-        from .windows import Notification
+        from .windows import NotificationWindow
 
         file_path = filedialog.askopenfilename(
             initialdir="./",
@@ -669,13 +667,13 @@ class ToolbarFrame(tk.Frame):
         # Render flow
         self.parent.master.flow_frame.draw()
 
-        Notification(self, _("Flow opened."))
+        NotificationWindow(self, _("Flow opened."))
 
     def clicked_save_as_button(self):
         """
         Save as file
         """
-        from .windows import Notification
+        from .windows import NotificationWindow
 
         self.master.master.file_path = filedialog.asksaveasfilename(
             defaultextension=".json"
@@ -691,7 +689,7 @@ class ToolbarFrame(tk.Frame):
             "{} - Automagica Flow".format(self.master.master.file_path)
         )
 
-        Notification(self, "Saved flow.")
+        NotificationWindow(self, "Saved flow")
 
     def clicked_run_button(self):
         """

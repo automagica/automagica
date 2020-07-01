@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import platform
@@ -14,13 +15,59 @@ from PIL import Image, ImageTk
 from automagica.bots import ThreadedBot
 from automagica.config import Config
 from automagica.flow import Flow
-from automagica.gui.windows import (BotTrayWindow, FlowDesignerWindow,
-                                    FlowPlayerWindow, Notification, WandWindow)
+from automagica.gui.windows import (
+    BotTrayWindow,
+    FlowDesignerWindow,
+    FlowPlayerWindow,
+    NotificationWindow,
+    WandWindow,
+)
 
 
 class App(tk.Tk):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, config=None, **kwargs):
         super().__init__(*args, **kwargs)
+
+        # Load config
+        self.config = config
+        if not self.config:
+            self.config = Config()
+
+        # On Windows, set DPI awareness
+        if platform.system() == "Windows":
+            self.set_dpi_awareness()
+
+        # Set Automagica icon
+        icon_path = os.path.join(
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            ),
+            "icons",
+            "automagica.ico",
+        )
+        self.tk.call(
+            "wm", "iconphoto", self._w, ImageTk.PhotoImage(Image.open(icon_path))
+        )
+
+        # Hide Tkinter root window
+        self.withdraw()
+
+    def set_dpi_awareness(self):
+        import ctypes
+
+        awareness = ctypes.c_int()
+        error_code = ctypes.windll.shcore.GetProcessDpiAwareness(
+            0, ctypes.byref(awareness)
+        )
+        error_code = ctypes.windll.shcore.SetProcessDpiAwareness(2)
+        success = ctypes.windll.user32.SetProcessDPIAware()
+
+    def report_callback_exception(self, exception, value, traceback):
+        """ Override default tkinter method to log errors """
+        self.logger.exception(exception)
+
+    def exit(self):
+        os._exit(1)
 
 
 class FlowApp(App):
@@ -37,89 +84,46 @@ class FlowApp(App):
 
         super().__init__(*args, **kwargs)
 
-        self.withdraw()
-
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "automagica.ico",
-        )
-
-        self.tk.call(
-            "wm", "iconphoto", self._w, ImageTk.PhotoImage(Image.open(icon_path))
-        )
-
-        # Set up logging
-        logging.basicConfig(level=logging.INFO)
-        self.logger = logging.getLogger("automagica.flow")
-
         if not bot:
             bot = ThreadedBot()
+
         self.bot = bot
 
         if file_path:
+
+            # Run a flow
             if run:
-                self.run_flow(file_path, headless, step_by_step)
+                FlowPlayerWindow(
+                    self,
+                    flow=Flow(file_path),
+                    bot=self.bot,
+                    autoplay=True,
+                    step_by_step=step_by_step,
+                    # autoclose=True,
+                )
+
+            # Edit the flow
             else:
-                self.open_flow(file_path)
+                FlowDesignerWindow(self, bot=self.bot, flow=Flow(file_path))
+
+        # New flow
         else:
-            self.new_flow()
+            FlowDesignerWindow(self, bot=self.bot)
 
         # Run sounds better, right?
         self.run = self.mainloop
 
     def close_app(self):
         self.bot.stop()
-
-        try:
-            self.destroy()
-        except:
-            pass
-
-        try:
-            self.quit()
-        except:
-            pass
-
-    def new_flow(self):
-        FlowDesignerWindow(self, bot=self.bot)
-
-    def open_flow(self, file_path):
-        FlowDesignerWindow(self, bot=self.bot, flow=Flow(file_path))
-
-    def run_flow(self, file_path, headless, step_by_step):
-        FlowPlayerWindow(
-            self,
-            flow=Flow(file_path),
-            bot=self.bot,
-            autoplay=True,
-            step_by_step=step_by_step,
-            autoclose=True,
-            # on_close=self.close_app,
-        )
-
-    def report_callback_exception(self, exception, value, traceback):
-        self.logger.exception(exception)
-
-        import requests
+        os._exit(1)
 
 
 class BotApp(App):
     def __init__(self, *args, bot=None, file_path=None, config=None, **kwargs):
         super().__init__(*args, **kwargs)
-        self.withdraw()
-
-        self.config = config
-
-        if not self.config:
-            self.config = Config().config
-
-        self.url = self.config["portal_url"]
 
         # Tray application
-        _ = BotTrayWindow(self)
+        self.bot_tray_window = BotTrayWindow(self)
 
         # Runner Thread (polling Automagica Portal for jobs)
         self.runner_thread = Thread(target=self._runner_thread)
@@ -132,62 +136,44 @@ class BotApp(App):
         # Run sounds better :-)
         self.run = self.mainloop
 
-    def execute_notebook(self, filepath, cwd):
-        import subprocess
-        import sys
-
+    def run_notebook(self, file_path, cwd):
         process = subprocess.Popen(
-            [sys.executable, "-m", "automagica.cli", "lab", "run", filepath],
+            [sys.executable, "-m", "automagica.cli", "lab", "run", file_path],
             stdout=subprocess.PIPE,
             cwd=cwd,
         )
-
         out, err = process.communicate()
-
         return out.decode("utf-8")
 
-    def execute_script(self, filepath, cwd):
-        import subprocess
-        import sys
-
+    def run_script(self, file_path, cwd):
         process = subprocess.Popen(
-            [sys.executable, filepath], stdout=subprocess.PIPE, cwd=cwd
+            [sys.executable, file_path], stdout=subprocess.PIPE, cwd=cwd
         )
-
         out, err = process.communicate()
-
         return out.decode("utf-8")
 
-    def execute_flow(self, filepath, cwd):
-        import subprocess
-        import sys
-
+    def run_flow(self, file_path, cwd):
         process = subprocess.Popen(
-            [sys.executable, "-m", "automagica.cli", "flow", "run", filepath],
+            [sys.executable, "-m", "automagica.cli", "flow", "run", file_path],
             stdout=subprocess.PIPE,
             cwd=cwd,
         )
-
         out, err = process.communicate()
-
         return out.decode("utf-8")
 
-    def execute_command(self, command, cwd):
-        import subprocess
-        import sys
-
+    def run_command(self, command, cwd):
         process = subprocess.Popen([command], stdout=subprocess.PIPE, cwd=cwd,)
-
         out, err = process.communicate()
-
         return out.decode("utf-8")
 
     def _alive_thread(self, interval=30):
-        headers = {"bot_secret": self.config["bot_secret"]}
+        headers = {"bot_secret": self.config.values["bot_secret"]}
 
         while True:
             try:
-                _ = requests.post(self.url + "/api/bot/alive", headers=headers)
+                _ = requests.post(
+                    self.config.values["portal_url"] + "/api/bot/alive", headers=headers
+                )
                 logging.info("Sent alive to Automagica Portal.")
             except:
                 logging.exception("Could not reach Automagica Portal.")
@@ -195,21 +181,23 @@ class BotApp(App):
             sleep(interval)
 
     def _runner_thread(self, interval=10, retry_interval=5 * 60):
-        headers = {"bot_secret": self.config["bot_secret"]}
+        headers = {"bot_secret": self.config.values["bot_secret"]}
 
-        Notification(self, message="Bot started")
+        NotificationWindow(self, message="Bot started!")
 
         while True:
             try:
                 # Get next job
-                r = requests.get(self.url + "/api/job/next", headers=headers)
-                job = r.json()
+                r = requests.get(
+                    self.config.values["portal_url"] + "/api/job/next", headers=headers
+                )
 
-                print(job)
+                job = r.json()
 
                 # We got a job!
                 if job:
-                    logging.info("Received job {}".format(job["job_id"]))
+                    NotificationWindow(self, message=f"Received job {job['job_id']}")
+                    logging.info(f"Received job {job['job_id']}")
 
                     # Create directory to store job-related files
                     local_job_path = os.path.join(
@@ -235,26 +223,30 @@ class BotApp(App):
                     try:
                         entrypoint = job["job_entrypoint"]
 
+                        # IPython Notebook / Automagica Lab
                         if entrypoint.endswith(".ipynb"):
-                            output = self.execute_notebook(
+                            output = self.run_notebook(
                                 os.path.join(local_job_path, "input", entrypoint,),
                                 local_job_path,
                             )
 
+                        # Python Script File
                         elif entrypoint.endswith(".py"):
-                            output = self.execute_script(
+                            output = self.run_script(
                                 os.path.join(local_job_path, "input", entrypoint),
                                 local_job_path,
                             )
 
+                        # Automagica FLow
                         elif entrypoint.endswith(".json"):
-                            output = self.execute_flow(
+                            output = self.run_flow(
                                 os.path.join(local_job_path, "input", entrypoint),
                                 local_job_path,
                             )
 
+                        # Other command
                         else:
-                            output = self.execute_command(entrypoint, local_job_path)
+                            output = self.run_command(entrypoint, local_job_path)
 
                         # Write console output
                         with open(
@@ -263,21 +255,25 @@ class BotApp(App):
                             f.write(output)
 
                         job["status"] = "completed"
-                        logging.exception("Completed job {}".format(job["job_id"]))
+                        NotificationWindow(
+                            self, message=f"Completed job {job['job_id']}"
+                        )
+                        logging.exception(f"Completed job {job['job_id']}")
 
                     except:
                         job["status"] = "failed"
-                        logging.exception("Failed job {}".format(job["job_id"]))
+                        NotificationWindow(self, message=f"Failed job {job['job_id']}")
+                        logging.exception(f"Failed job {job['job_id']}")
 
                     # Make list of output files after job has ran
                     output_files = []
 
-                    for filepath in os.listdir(os.path.join(local_job_path, "output")):
-                        output_files.append({"filename": filepath})
+                    for file_path in os.listdir(os.path.join(local_job_path, "output")):
+                        output_files.append({"filename": file_path})
 
                     # Prepare finished job package
                     data = {
-                        "bot_secret": self.config["bot_secret"],
+                        "bot_secret": self.config.values["bot_secret"],
                         "job_id": job["job_id"],
                         "job_status": job["status"],
                         "job_output_files": output_files,
@@ -286,12 +282,12 @@ class BotApp(App):
 
                     # Update Portal on job status and request S3 signed URLs to upload job output files
                     r = requests.post(
-                        self.url + "/api/job/status", json=data, headers=headers
+                        self.config.values["portal_url"] + "/api/job/status",
+                        json=data,
+                        headers=headers,
                     )
 
                     data = r.json()
-
-                    print(data)
 
                     # Upload job output files
                     for output_file in data["output_files"]:
@@ -321,6 +317,7 @@ class BotApp(App):
                     sleep(interval)
 
             except:
+                NotificationWindow(self, message="Connection error")
                 logging.exception(
                     f"Could not reach Automagica Portal. Waiting {interval} second(s) before retrying."
                 )
@@ -332,7 +329,8 @@ class WandApp(App):
         super().__init__(*args, **kwargs)
         self.withdraw()
 
-        _ = WandWindow(self, standalone=True)
+        # Open the main window
+        self.wand_window = WandWindow(self, standalone=True)
 
         # Run sounds better :-)
         self.run = self.mainloop
@@ -351,35 +349,45 @@ class TraceApp(App):
 
 
 class LabApp:
+    def __init__(self, config=None):
+        # Load config
+        self.config = config
+        if not self.config:
+            self.config = Config()
+
     def new(self):
         self.edit()
 
     def edit(self, notebook_path=None):
-        my_env = os.environ.copy()
-
+        # Get current path
         path = os.path.abspath(__file__).replace(
             os.path.basename(os.path.realpath(__file__)), ""
         )
 
+        # Read environment variables and override Jupyter configuration directory setting
+        my_env = os.environ.copy()
         my_env["JUPYTER_CONFIG_DIR"] = os.path.join(path, "lab\.jupyter")
 
+        # Build command
         cmd = sys.executable + " -m notebook"
 
         if notebook_path:
             cmd += ' "{}"'.format(notebook_path)
 
         if platform.system() == "Linux":
+            # This is required within Linux
             cmd += " --ip=127.0.0.1 --allow-root"
             subprocess.Popen(cmd, env=my_env, shell=True)
+
         else:
             subprocess.Popen(cmd, env=my_env)
 
     def run(self, notebook_path, parameters=None, cell_timeout=600):
-        import json
-
+        # Open the notebook
         with open(notebook_path, "r", encoding="utf-8") as f:
             notebook = json.load(f)
 
+        # Run all cells
         for cell in notebook["cells"]:
             if cell["cell_type"] == "code":
                 exec("".join(cell["source"]))
