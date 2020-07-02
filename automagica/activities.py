@@ -946,7 +946,6 @@ Browser
 Icon: lab la-chrome
 """
 
-
 import selenium.webdriver
 
 
