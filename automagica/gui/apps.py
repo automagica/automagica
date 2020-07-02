@@ -99,7 +99,7 @@ class FlowApp(App):
                     bot=self.bot,
                     autoplay=True,
                     step_by_step=step_by_step,
-                    # autoclose=True,
+                    autoclose=True,
                 )
 
             # Edit the flow
