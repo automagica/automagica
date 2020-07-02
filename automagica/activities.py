@@ -4848,7 +4848,7 @@ class Excel:
 
         Get names of all the worksheets in the currently active workbook
 
-        :return: List is worksheet names
+        :return: List of worksheet names
 
             :Example:
 
@@ -4879,8 +4879,10 @@ class Excel:
 
         Get table data from the currently active worksheet by name of the table
 
-        :parameter name: List of table names
+        :parameter name: Table name
         :type name: string
+
+        :return: List of dictionaries for each row with as key the column name
 
             :Example:
             
