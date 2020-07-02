@@ -243,7 +243,7 @@ if __name__ == "__main__":
 
     # Set configuration value. Bot secret is provided between brackets
     bot_secret = installer_path.split("[")[1].split("]")[0]
-    cfg.config["bot_secret"] = bot_secret
+    cfg.values["bot_secret"] = bot_secret
 
     # Save configuration
     cfg.save()
