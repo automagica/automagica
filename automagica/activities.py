@@ -1015,6 +1015,10 @@ class Chrome(selenium.webdriver.Chrome):
             import subprocess
             import requests
             import os
+            from io import BytesIO
+            import zipfile
+            import shutil
+
 
             try:
                 driver_path = (
@@ -1037,18 +1041,37 @@ class Chrome(selenium.webdriver.Chrome):
                     if latest_version in current_version:
                         return
 
-                request = requests.get(
-                    "https://chromedriver.storage.googleapis.com/"
-                    + str(latest_version)
-                    + "/chromedriver_win32.zip"
-                )
+                    request = requests.get(
+                        "https://chromedriver.storage.googleapis.com/"
+                        + str(latest_version)
+                        + "/chromedriver_win32.zip"
+                    )
 
-                file = zipfile.ZipFile(BytesIO(request.content))
-                file.extractall(driver_path)
-                return
+                    file = zipfile.ZipFile(BytesIO(request.content))
+                    shutil.rmtree(os.path.dirname(driver_path))
+                    os.mkdir(os.path.dirname(driver_path))
+                    file.extractall(driver_path)
+                    return
+
+                else:
+
+                    latest_version = requests.get(
+                        "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
+                    ).text
+
+                    request = requests.get(
+                        "https://chromedriver.storage.googleapis.com/"
+                        + str(latest_version)
+                        + "/chromedriver_win32.zip"
+                    )
+
+                    file = zipfile.ZipFile(BytesIO(request.content))
+                    shutil.rmtree(os.path.dirname(driver_path))
+                    os.mkdir(os.path.dirname(driver_path))
+                    file.extractall(driver_path)
 
             except:
-                print("Could not automatically update to latest Chrome driver.")
+                print("Could not automatically download or update the latest Chrome driver.")
 
         # Check what OS we are on
         if platform.system() == "Linux":
