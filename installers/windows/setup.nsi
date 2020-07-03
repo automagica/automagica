@@ -121,6 +121,7 @@ Section "!${PRODUCT_NAME}" sec_app
 
   ; WriteINIStr "$DESKTOP\Automagica Portal.url" "InternetShortcut" "URL" $0
   
+  ; This sets the working directory of the shortcuts to the User's home directory
   SetOutPath "$PROFILE"
 
   CreateShortCut "$SMPROGRAMS\Automagica Flow.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli flow new" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Flow"
@@ -132,6 +133,7 @@ Section "!${PRODUCT_NAME}" sec_app
   CreateShortCut "$SMPROGRAMS\Automagica Bot.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli bot" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Bot"
   CreateShortCut "$DESKTOP\Automagica Bot.lnk" "$INSTDIR\Python\pythonw.exe" "-m automagica.cli bot" "$INSTDIR\${PRODUCT_ICON}" 0 SW_SHOWNORMAL "" "Automagica Bot"
 
+  ; Reset to previous value
   SetOutPath "$INSTDIR"
 
   [% block install_commands %]
