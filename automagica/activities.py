@@ -1021,14 +1021,9 @@ class Chrome(selenium.webdriver.Chrome):
 
 
             try:
-                driver_path = (
-                    os.path.abspath(__file__).replace(
-                        os.path.basename(os.path.realpath(__file__)), ""
-                    )
-                    + chromedriver_path
-                )
+                driver_path = (os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), "") + chromedriver_path)
 
-                if os.path.isfile(driver_path):
+                if os.path.exists(driver_path):
 
                     current_version = str(
                         subprocess.check_output(
@@ -1038,6 +1033,7 @@ class Chrome(selenium.webdriver.Chrome):
                     latest_version = requests.get(
                         "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
                     ).text
+
                     if latest_version in current_version:
                         return
 
