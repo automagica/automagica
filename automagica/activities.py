@@ -1022,7 +1022,8 @@ class Chrome(selenium.webdriver.Chrome):
 
             try:
                 driver_path = (os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), "") + chromedriver_path)
-
+                print('-----')
+                print(driver_path)
                 if os.path.exists(driver_path):
 
                     current_version = str(
@@ -1045,8 +1046,8 @@ class Chrome(selenium.webdriver.Chrome):
 
                     file = zipfile.ZipFile(BytesIO(request.content))
                     shutil.rmtree(os.path.dirname(driver_path))
-                    os.mkdir(os.path.dirname(driver_path))
-                    file.extractall(driver_path)
+                    os.makedirs(os.path.dirname(driver_path))
+                    file.extractall(os.path.dirname(driver_path))
                     return
 
                 else:
@@ -1062,9 +1063,9 @@ class Chrome(selenium.webdriver.Chrome):
                     )
 
                     file = zipfile.ZipFile(BytesIO(request.content))
-                    shutil.rmtree(os.path.dirname(driver_path))
-                    os.mkdir(os.path.dirname(driver_path))
-                    file.extractall(driver_path)
+                    if not os.path.exists(driver_path):
+                        os.makedirs(os.path.dirname(driver_path))
+                    file.extractall(os.path.dirname(driver_path))
 
             except:
                 print("Could not automatically download or update the latest Chrome driver.")
