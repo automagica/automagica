@@ -151,13 +151,13 @@ class Config:
     def load(self):
         try:
             with open(self.file_path, "r", encoding="utf-8") as f:
-                values = json.load(f)
+                self.values = json.load(f)
 
         except FileNotFoundError:
             self.values = {}
             self.save()
 
-        return values
+        return self.values
 
     def wizard(self):
         print("Automagica Configuration\n")

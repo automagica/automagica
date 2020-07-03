@@ -602,7 +602,7 @@ class ToolbarFrame(tk.Frame):
         FlowDesignerWindow(self.master.master.master, bot=self.master.master.bot)
 
     def clicked_run_step_by_step_button(self):
-        from .windows import Notification, FlowPlayerWindow
+        from .windows import NotificationWindow, FlowPlayerWindow
 
         # Minimize window
         self.master.master.iconify()
@@ -629,7 +629,6 @@ class ToolbarFrame(tk.Frame):
 
         # Record action
         WandWindow(self, action=action)
-
 
     def clicked_validate_button(self):
         from .windows import FlowValidationWindow
@@ -695,7 +694,7 @@ class ToolbarFrame(tk.Frame):
         """
         Run all
         """
-        from .windows import Notification, FlowPlayerWindow
+        from .windows import NotificationWindow, FlowPlayerWindow
 
         # Minimize window
         self.master.master.iconify()
