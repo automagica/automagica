@@ -9949,7 +9949,7 @@ class SAPGUI:
                 r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui\saplogon.exe"
             )
         else:
-            sap_logon_exe_path = interpret_path(sap_logon_exe_path)
+            self.sap_logon_exe_path = interpret_path(sap_logon_exe_path)
 
         self.process = Popen(self.sap_logon_exe_path)
 
