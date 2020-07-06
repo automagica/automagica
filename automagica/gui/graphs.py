@@ -177,14 +177,15 @@ class NodeGraph:
         """
         Dragging itself
         """
-        self.node.x = self.node.x + (event.x - self.mouse_x)
-        self.node.y = self.node.y + (event.y - self.mouse_y)
+        if event and self.mouse_x and self.mouse_y:
+            self.node.x = self.node.x + (event.x - self.mouse_x)
+            self.node.y = self.node.y + (event.y - self.mouse_y)
 
-        self.mouse_x = event.x
-        self.mouse_y = event.y
+            self.mouse_x = event.x
+            self.mouse_y = event.y
 
-        self.update()
-        self.parent.update_connectors()
+            self.update()
+            self.parent.update_connectors()
 
     def double_clicked(self, event):
         raise NotImplementedError

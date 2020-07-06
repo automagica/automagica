@@ -3,6 +3,7 @@ import json
 import os
 import tkinter as tk
 from tkinter import font, ttk
+from time import sleep
 
 from PIL import Image, ImageTk
 
@@ -126,6 +127,7 @@ class FlowDesignerWindow(tk.Toplevel):
         self.save_buffer.append(self.last_state)
 
         self.bind("<Control-z>", self.undo)
+        # self.bind("<Delete>", self.flow_frame.delete_selection)
 
         if self.autosave:
             self._autosave_cycle()
@@ -780,11 +782,21 @@ class SplashWindow(Window):
 
 
 class WandWindow(Window):
-    def __init__(self, parent, *args, action=None, standalone=False, **kwargs):
+    def __init__(
+        self,
+        parent,
+        *args,
+        action=None,
+        standalone=False,
+        delay=0,
+        on_finish=None,
+        **kwargs,
+    ):
         super().__init__(parent, *args, **kwargs)
 
         self.action = action
         self.standalone = standalone
+        self.on_finish = on_finish
 
         self.anchors = []
         self.anchor_images = []
@@ -792,7 +804,20 @@ class WandWindow(Window):
 
         self.withdraw()
 
-        from time import sleep
+        if delay:
+            splash_window = tk.Toplevel(self)
+            splash_window.overrideredirect(1)
+            countdown_text = tk.Label(
+                splash_window,
+                text=f"Select element in {delay} seconds...",
+                font=(config.FONT, 20),
+                fg=config.COLOR_1,
+                bg=config.COLOR_0,
+            )
+            countdown_text.pack()
+            splash_window.update()
+            sleep(delay)
+            splash_window.withdraw()
 
         sleep(0.5)  # Wait for animations to finish
 
@@ -904,25 +929,16 @@ class WandWindow(Window):
         self.bind("<Return>", self.enter_pressed)
 
     def enter_pressed(self, event):
-        if self.standalone:
-            self.print_to_console()
-        else:
-            self.add_to_flow()
+        self.save_clicked()
 
     def create_buttons_frame(self):
         frame = tk.Frame(self)
 
         frame.configure(bg=config.COLOR_4)
 
-        if self.standalone:
-            save_btn = LargeButton(frame, text=_("Save"), command=self.print_to_console)
-            save_btn.grid(row=0, column=1, sticky="e", padx=10, pady=10)
 
-        else:
-            save_btn = LargeButton(
-                frame, text=_("Add activity to Flow"), command=self.add_to_flow
-            )
-            save_btn.grid(row=0, column=1, sticky="e", padx=10, pady=10)
+        save_btn = LargeButton(frame, text=_("Save"), command=self.save_clicked)
+        save_btn.grid(row=0, column=1, sticky="e", padx=10, pady=10)
 
         return frame
 
@@ -1098,18 +1114,12 @@ class WandWindow(Window):
             except:
                 tk.messagebox.showerror(_("Unknown error"), data)
 
-    def print_to_console(self):
+    def save_clicked(self):
         automagica_id = self.save()
-        print(f"Automagica ID: {automagica_id}")
-        os._exit(1)  # >:) don't try this at home
 
-    def add_to_flow(self,):
-        automagica_id = self.save()
-        self.parent.parent.master.add_ai_activity(self.action, automagica_id)
-
-        # Restore window
-        self.parent.parent.master.deiconify()
-
+        if self.on_finish:
+            self.on_finish(automagica_id)
+        
 
 class SnippingToolWindow(Window):
     def __init__(self, parent, screenshot, callback, *args, info="", **kwargs):
@@ -1805,6 +1815,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
 
             if name == "self":
                 label = _("Object variable")
+                arg["description"] = _(
+                    "Name of the variable to assign the object to. If you want to have multiple instances of this object, give it a different name than the default name."
+                )
 
             label = label.capitalize().replace("_", " ")
 

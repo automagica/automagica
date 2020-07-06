@@ -325,12 +325,14 @@ class BotApp(App):
 
 
 class WandApp(App):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, delay=0, on_finish=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.withdraw()
 
         # Open the main window
-        self.wand_window = WandWindow(self, standalone=True)
+        self.wand_window = WandWindow(
+            self, standalone=True, delay=delay, on_finish=on_finish
+        )
 
         # Run sounds better :-)
         self.run = self.mainloop

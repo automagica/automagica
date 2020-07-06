@@ -212,6 +212,16 @@ Section "Uninstall"
   Delete "$INSTDIR\${PRODUCT_ICON}"
   RMDir /r "$INSTDIR\pkgs"
 
+  ; Delete shortcuts
+  Delete "$SMPROGRAMS\Automagica Flow.lnk"
+  Delete "$DESKTOP\Automagica Flow.lnk"
+
+  Delete "$SMPROGRAMS\Automagica Lab.lnk"
+  Delete "$DESKTOP\Automagica Lab.lnk"
+
+  Delete "$SMPROGRAMS\Automagica Bot.lnk"
+  Delete "$DESKTOP\Automagica Bot.lnk"
+
   ; Remove ourselves from %PATH%
   [% block uninstall_commands %]
   [% if has_commands %]

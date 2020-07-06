@@ -1,9 +1,11 @@
 import click
 
+import os
+
 from automagica.config import Config, _
 from automagica.gui.apps import BotApp, FlowApp, LabApp, TraceApp, WandApp
 
-__version__ = "3.0.3"
+__version__ = "3.0.4"
 
 
 @click.group(help=_("Automagica v") + __version__)
@@ -24,8 +26,13 @@ def bot():
 
 
 @cli.command("wand", help=_("Automagica Wand"))
-def wand():
-    app = WandApp()
+@click.option("--delay", type=int)
+def wand(delay=0):
+    def on_finish(automagica_id):
+        print(f"Automagica ID: {automagica_id}")
+        os._exit(1)
+
+    app = WandApp(delay=delay, on_finish=on_finish)
     app.run()
 
 

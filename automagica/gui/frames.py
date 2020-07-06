@@ -19,7 +19,7 @@ from automagica.gui.graphs import (
     StartNodeGraph,
     SubFlowNodeGraph,
 )
-from automagica.gui.inputs import InputField
+from automagica.gui.inputs import InputField, SettingContextMenu
 from automagica.flow import Flow
 from automagica.bots import ConsoleHandler, ThreadedBot
 
@@ -266,9 +266,12 @@ class FlowFrame(tk.Frame):
 
         self.draw()
 
-    def delete_pressed(self, event):
-        # TODO: find out how to detect keypress of delete in canvas, should probably be binded at app/parent level?
-        print("pressed delete")
+    def delete_selection(self, event):
+        for i in self.selection:
+            i.delete()
+
+        self.selection = []
+        self.draw()
 
     def move_start(self, event):
         self.canvas.scan_mark(event.x, event.y)
@@ -500,12 +503,12 @@ class ToolbarFrame(tk.Frame):
         # self.parent.master.bind("<F6>", lambda e: self.clicked_validate_button())
         # validate_button.pack(side="left", padx=5, pady=5)
 
-        actions_frame = ToolbarLabelFrame(
+        wand_frame = ToolbarLabelFrame(
             self, text=_("Automagica Wand (Powered by AI)")
         )
 
         record_click_button = ToolbarImageButton(
-            actions_frame,
+            wand_frame,
             image_path="mouse-pointer-solid.png",
             text=_("Click"),
             command=lambda: self.clicked_record_action_button(
@@ -515,7 +518,7 @@ class ToolbarFrame(tk.Frame):
         record_click_button.pack(side="left")
 
         record_double_click_button = ToolbarImageButton(
-            actions_frame,
+            wand_frame,
             image_path="mouse-pointer-solid.png",
             text=_("Double-Click"),
             command=lambda: self.clicked_record_action_button(
@@ -525,7 +528,7 @@ class ToolbarFrame(tk.Frame):
         record_double_click_button.pack(side="left")
 
         record_right_click_button = ToolbarImageButton(
-            actions_frame,
+            wand_frame,
             image_path="mouse-pointer-solid.png",
             text=_("Right-Click"),
             command=lambda: self.clicked_record_action_button(
@@ -535,7 +538,7 @@ class ToolbarFrame(tk.Frame):
         record_right_click_button.pack(side="left")
 
         record_move_to_button = ToolbarImageButton(
-            actions_frame,
+            wand_frame,
             image_path="mouse-solid.png",
             text=_("Move To"),
             command=lambda: self.clicked_record_action_button(
@@ -545,7 +548,7 @@ class ToolbarFrame(tk.Frame):
         record_move_to_button.pack(side="left")
 
         record_type_into_button = ToolbarImageButton(
-            actions_frame,
+            wand_frame,
             image_path="mouse-solid.png",
             text=_("Typing"),
             command=lambda: self.clicked_record_action_button(
@@ -555,7 +558,7 @@ class ToolbarFrame(tk.Frame):
         record_type_into_button.pack(side="left")
 
         record_read_text_button = ToolbarImageButton(
-            actions_frame,
+            wand_frame,
             image_path="glasses-solid.png",
             text=_("Read Text"),
             command=lambda: self.clicked_record_action_button(
@@ -565,7 +568,7 @@ class ToolbarFrame(tk.Frame):
         record_read_text_button.pack(side="left")
 
         record_is_visible_button = ToolbarImageButton(
-            actions_frame,
+            wand_frame,
             image_path="eye.png",
             text=_("Is Visible"),
             command=lambda: self.clicked_record_action_button(
@@ -575,7 +578,7 @@ class ToolbarFrame(tk.Frame):
         record_is_visible_button.pack(side="left")
 
         record_wait_appear_button = ToolbarImageButton(
-            actions_frame,
+            wand_frame,
             image_path="eye.png",
             text=_("Wait Appear"),
             command=lambda: self.clicked_record_action_button(
@@ -585,7 +588,7 @@ class ToolbarFrame(tk.Frame):
         record_wait_appear_button.pack(side="left")
 
         record_wait_vanish_button = ToolbarImageButton(
-            actions_frame,
+            wand_frame,
             image_path="eye.png",
             text=_("Wait Vanish"),
             command=lambda: self.clicked_record_action_button(
@@ -594,7 +597,21 @@ class ToolbarFrame(tk.Frame):
         )
         record_wait_vanish_button.pack(side="left")
 
-        actions_frame.pack(side="left", padx=5, pady=5)
+        wand_frame.pack(side="left", padx=5, pady=5)
+
+        self.delay_menu = SettingContextMenu(
+            wand_frame,
+            text="Delay",
+            options=[
+                ("No Delay", 0),
+                ("1 second", 1),
+                ("2 seconds", 2),
+                ("3 seconds", 3),
+                ("4 seconds", 4),
+                ("5 seconds", 5),
+            ],
+        )
+        self.delay_menu.pack(side="left", padx=5, pady=5)
 
     def clicked_new_button(self):
         from .windows import FlowDesignerWindow
@@ -627,8 +644,14 @@ class ToolbarFrame(tk.Frame):
 
         from .windows import WandWindow
 
+        def on_finish(automagica_id):
+            self.parent.master.add_ai_activity(action, automagica_id)
+
+            # Restore window
+            self.parent.master.deiconify()
+
         # Record action
-        WandWindow(self, action=action)
+        WandWindow(self, action=action, delay=self.delay_menu.get()[1], on_finish=on_finish)
 
     def clicked_validate_button(self):
         from .windows import FlowValidationWindow

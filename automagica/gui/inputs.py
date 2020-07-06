@@ -312,6 +312,14 @@ class AutomagicaIdInputWidget(tk.Frame):
         )
         self.browse_button.pack(side="left")
 
+        self.record_button = Button(
+            self,
+            text=_("Record"),
+            command=self.record_button_click,
+            font=(config.FONT, 10),
+        )
+        self.record_button.pack(side="left")
+
         if self.value:
             self._set(self.value)
 
@@ -327,6 +335,14 @@ class AutomagicaIdInputWidget(tk.Frame):
         import webbrowser
 
         webbrowser.open("https://automagica.id/{}".format(self.get().replace('"', "")))
+
+    def record_button_click(self):
+        from .windows import WandWindow
+
+        def on_finish(automagica_id):
+            self._set(f'"{automagica_id}"')
+
+        _ = WandWindow(self, on_finish=on_finish)
 
 
 class AutocompleteDropdown(ttk.Combobox):
@@ -436,3 +452,44 @@ class NodeSelectionInputWidget(tk.Frame):
         )
 
         self._set('"{}"'.format(file_path))
+
+
+class SettingContextMenu(tk.Frame):
+    def __init__(self, parent, *args, text="", options=[], **kwargs):
+        """
+        Options should be a list of tupes ('Description', value)
+        """
+        super().__init__(parent, *args, **kwargs)
+
+        self.options = options
+        self.selected_option = self.options[0]
+
+        # Variable for Tkinter based on the description
+        self.selected_option_description = tk.StringVar()
+        self.selected_option_description.set(self.selected_option[0])
+
+        self.menu = tk.Menu(self, tearoff=0)
+        for item in self.options:
+            self.menu.add_radiobutton(
+                label=item[0],
+                variable=self.selected_option_description,
+                command=self.change_selected_option,
+                foreground=config.COLOR_0,
+                selectcolor=config.COLOR_0,
+            )
+
+        self.button = Button(self, text=text)
+        self.button.bind("<Button-1>", self.show_context_menu)
+        self.button.pack()
+
+    def get(self):
+        return self.selected_option
+
+    def show_context_menu(self, event):
+        self.menu.post(event.x_root, event.y_root)
+
+    def change_selected_option(self):
+        selected_option_description = self.selected_option_description.get()
+        for item in self.options:
+            if item[0] == selected_option_description:
+                self.selected_option = item

@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## 3.0.4
+### Automagica Flow
+- Added user selectable delay for Automagica Wand (0 to 5 seconds)
+- Added help information for object variables to the properties window for activity classes (for example Chrome's object variable)
+- Pressing the delete button will now delete the selected element
+- Record new Automagica ID/element in properties window of an Automagica Wand activity (click, doubleclick, ...)
+
+
+### Automagica activities
+- Fixed Excel.get_table for Flow by adding return variable in the docstring
+
+### Automagica CLI
+- Added delay parameter option for Wand
+
+### Automagica installer
+- Shortcuts will now be properly removed on running uninstall (Windows)
+
 ## 3.0.3
 ### Automagica Flow
 - Newly added nodes will start from the selected nodes
