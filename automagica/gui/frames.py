@@ -463,12 +463,6 @@ class ToolbarFrame(tk.Frame):
         self.logo_image = ImageTk.PhotoImage(file=logo_path)
         logo_canvas.create_image(0, 0, image=self.logo_image, anchor="nw")
 
-        new_button = LargeButton(
-            self, text="New", command=self.clicked_new_button, underline=0
-        )
-        self.parent.master.bind("<Alt-n>", lambda e: self.clicked_new_button())
-        new_button.pack(side="left", padx=5, pady=5)
-
         open_button = LargeButton(
             self, text="Open", command=self.clicked_open_button, underline=0
         )
@@ -611,11 +605,6 @@ class ToolbarFrame(tk.Frame):
         )
         self.delay_menu.pack(side="left", padx=5, pady=5)
 
-    def clicked_new_button(self):
-        from .windows import FlowDesignerWindow
-
-        FlowDesignerWindow(self.master.master.master, bot=self.master.master.bot)
-
     def clicked_run_step_by_step_button(self):
         from .windows import NotificationWindow, FlowPlayerWindow
 
@@ -650,7 +639,10 @@ class ToolbarFrame(tk.Frame):
 
         # Record action
         WandWindow(
-            self, action=action, delay=self.delay_menu.get()[1], on_finish=on_finish
+            self.parent.master.master,
+            action=action,
+            delay=self.delay_menu.get()[1],
+            on_finish=on_finish,
         )
 
     def clicked_validate_button(self):

@@ -30,7 +30,7 @@ def bot():
 def wand(delay=0):
     def on_finish(automagica_id):
         print(f"Automagica ID: {automagica_id}")
-        os._exit(1)
+        os._exit(0)
 
     app = WandApp(delay=delay, on_finish=on_finish)
     app.run()

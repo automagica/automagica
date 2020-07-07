@@ -1026,8 +1026,7 @@ class Chrome(selenium.webdriver.Chrome):
                     )
                     + chromedriver_path
                 )
-                print("-----")
-                print(driver_path)
+
                 if os.path.exists(driver_path):
 
                     current_version = str(
@@ -1107,12 +1106,6 @@ class Chrome(selenium.webdriver.Chrome):
             chrome_options=chrome_options,
         )
 
-        print(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            )
-            + chromedriver_path
-        )
         if maximize_window:
             self.maximize_window()
 

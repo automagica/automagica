@@ -67,7 +67,7 @@ class App(tk.Tk):
         self.logger.exception(exception)
 
     def exit(self):
-        os._exit(1)
+        os._exit(0)
 
 
 class FlowApp(App):
@@ -113,9 +113,9 @@ class FlowApp(App):
         # Run sounds better, right?
         self.run = self.mainloop
 
-    def close_app(self):
+    def close_app(self, exit_code=0):
         self.bot.stop()
-        os._exit(1)
+        os._exit(exit_code)
 
 
 class BotApp(App):
@@ -142,15 +142,18 @@ class BotApp(App):
             stdout=subprocess.PIPE,
             cwd=cwd,
         )
-        out, err = process.communicate()
-        return out.decode("utf-8")
+
+        stdout, stderr = process.communicate()
+
+        return stdout.decode("utf-8"), process.returncode
 
     def run_script(self, file_path, cwd):
         process = subprocess.Popen(
             [sys.executable, file_path], stdout=subprocess.PIPE, cwd=cwd
         )
         out, err = process.communicate()
-        return out.decode("utf-8")
+
+        return out.decode("utf-8"), process.returncode
 
     def run_flow(self, file_path, cwd):
         process = subprocess.Popen(
@@ -158,13 +161,17 @@ class BotApp(App):
             stdout=subprocess.PIPE,
             cwd=cwd,
         )
-        out, err = process.communicate()
-        return out.decode("utf-8")
+
+        stdout, stderr = process.communicate()
+
+        return stdout.decode("utf-8"), process.returncode
 
     def run_command(self, command, cwd):
         process = subprocess.Popen([command], stdout=subprocess.PIPE, cwd=cwd,)
-        out, err = process.communicate()
-        return out.decode("utf-8")
+
+        stdout, stderr = process.communicate()
+
+        return stdout.decode("utf-8"), process.returncode
 
     def _alive_thread(self, interval=30):
         headers = {"bot_secret": self.config.values["bot_secret"]}
@@ -220,47 +227,51 @@ class BotApp(App):
                         ) as f:
                             f.write(r.content)
 
-                    try:
-                        entrypoint = job["job_entrypoint"]
+                    entrypoint = job["job_entrypoint"]
 
-                        # IPython Notebook / Automagica Lab
-                        if entrypoint.endswith(".ipynb"):
-                            output = self.run_notebook(
-                                os.path.join(local_job_path, "input", entrypoint,),
-                                local_job_path,
-                            )
+                    # IPython Notebook / Automagica Lab
+                    if entrypoint.endswith(".ipynb"):
+                        output, returncode = self.run_notebook(
+                            os.path.join(local_job_path, "input", entrypoint,),
+                            local_job_path,
+                        )
 
-                        # Python Script File
-                        elif entrypoint.endswith(".py"):
-                            output = self.run_script(
-                                os.path.join(local_job_path, "input", entrypoint),
-                                local_job_path,
-                            )
+                    # Python Script File
+                    elif entrypoint.endswith(".py"):
+                        output, returncode = self.run_script(
+                            os.path.join(local_job_path, "input", entrypoint),
+                            local_job_path,
+                        )
 
-                        # Automagica FLow
-                        elif entrypoint.endswith(".json"):
-                            output = self.run_flow(
-                                os.path.join(local_job_path, "input", entrypoint),
-                                local_job_path,
-                            )
+                    # Automagica FLow
+                    elif entrypoint.endswith(".json"):
+                        output, returncode = self.run_flow(
+                            os.path.join(local_job_path, "input", entrypoint),
+                            local_job_path,
+                        )
 
-                        # Other command
-                        else:
-                            output = self.run_command(entrypoint, local_job_path)
+                    # Other command
+                    else:
+                        output, returncode = self.run_command(
+                            entrypoint, local_job_path
+                        )
 
-                        # Write console output
-                        with open(
-                            os.path.join(local_job_path, "output", "console.txt"), "w"
-                        ) as f:
-                            f.write(output)
+                    # Write console output
+                    with open(
+                        os.path.join(local_job_path, "output", "console.txt"), "w"
+                    ) as f:
+                        f.write(output)
 
+                    if returncode == 0:
                         job["status"] = "completed"
                         NotificationWindow(
                             self, message=f"Completed job {job['job_id']}"
                         )
-                        logging.exception(f"Completed job {job['job_id']}")
+                        logging.exception(
+                            f"Completed job {job['job_id']}"
+                        )  # TODO: why exception?!
 
-                    except:
+                    else:
                         job["status"] = "failed"
                         NotificationWindow(self, message=f"Failed job {job['job_id']}")
                         logging.exception(f"Failed job {job['job_id']}")

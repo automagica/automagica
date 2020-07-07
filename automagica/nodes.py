@@ -355,4 +355,4 @@ class PythonCodeNode(Node):
         }
 
     def run(self, bot, on_done=None, on_fail=None):
-        bot.run(self.code, on_done=lambda: on_done(node=self.next_node))
+        bot.run(self.code, on_done=lambda: on_done(node=self.next_node), on_fail=on_fail)

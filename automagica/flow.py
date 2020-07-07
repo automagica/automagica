@@ -71,6 +71,7 @@ class Flow:
                     args_=d.get("args"),
                     class_=d.get("class"),
                     return_=d.get("return_"),
+                    on_exception_node=d.get("on_exception_node")
                 )
 
             elif d["type"] == "IfElseNode":

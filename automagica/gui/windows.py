@@ -263,6 +263,7 @@ class FlowPlayerWindow(tk.Toplevel):
         self.on_close = on_close
         self.autoclose = autoclose
         self.title = title
+        self.errors = False
 
         if not self.title:
             self.title = flow.name
@@ -303,7 +304,10 @@ class FlowPlayerWindow(tk.Toplevel):
 
         if not self.master.winfo_children():
             # Close root application if no open windows
-            self.master.close_app()
+            if self.errors:
+                self.master.close_app(exit_code=1)
+            else:
+                self.master.close_app(exit_code=0)
 
     def update(self):
         self.n_nodes_ran += 1
@@ -482,9 +486,24 @@ class FlowPlayerWindow(tk.Toplevel):
                         self.play(node=self.current_node.next_node)
 
                 else:
-                    self.current_node.run(
-                        self.bot, on_done=self.play, on_fail=self.on_stop_click
-                    )
+                    # Is an on exception node specified?
+                    if hasattr(self.current_node, "on_exception_node"):
+                        self.current_node.run(
+                            self.bot,
+                            on_done=self.play,
+                            on_fail=lambda: self.play(
+                                node=self.current_node.on_exception_node
+                            ),
+                        )
+                    # No exception node specified, call the on_fail function (likely stopping the flow)
+                    else:
+                        self.current_node.run(
+                            self.bot, on_done=self.play, on_fail=self.on_fail
+                        )
+
+    def on_fail(self):
+        self.errors = True
+        self.on_stop_click()
 
     def on_stop_click(self):
         if self.on_close:
@@ -794,36 +813,62 @@ class WandWindow(Window):
     ):
         super().__init__(parent, *args, **kwargs)
 
-        self.action = action
-        self.standalone = standalone
-        self.on_finish = on_finish
-
-        self.anchors = []
-        self.anchor_images = []
-        self.minimap_scale = 1
-
         self.withdraw()
 
-        if delay:
-            splash_window = tk.Toplevel(self)
-            splash_window.overrideredirect(1)
-            countdown_text = tk.Label(
-                splash_window,
-                text=f"Select element in {delay} seconds...",
-                font=(config.FONT, 20),
-                fg=config.COLOR_1,
-                bg=config.COLOR_0,
+        if not self.parent.config.values.get("bot_secret"):
+            from tkinter import messagebox
+
+            yes = messagebox.askyesno(
+                _("Automagica Wand"),
+                _(
+                    "To use Automagica Wand, please register on the Automagica Portal and set up your bot. \n\nWould you like to go to the Automagica Portal?"
+                ),
+                parent=self,
             )
-            countdown_text.pack()
-            splash_window.update()
-            sleep(delay)
-            splash_window.withdraw()
 
-        sleep(0.5)  # Wait for animations to finish
+            if yes:
+                import webbrowser
 
-        self.screenshot = self.capture_screenshot()
+                webbrowser.open(
+                    os.environ.get(
+                        "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+                    )
+                )
 
-        self.select_target()
+            else:
+                self.destroy()
+
+        else:
+            self.action = action
+            self.standalone = standalone
+            self.on_finish = on_finish
+
+            self.anchors = []
+            self.anchor_images = []
+            self.minimap_scale = 1
+
+            self.withdraw()
+
+            if delay:
+                splash_window = tk.Toplevel(self)
+                splash_window.overrideredirect(1)
+                countdown_text = tk.Label(
+                    splash_window,
+                    text=f"Select element in {delay} seconds...",
+                    font=(config.FONT, 20),
+                    fg=config.COLOR_1,
+                    bg=config.COLOR_0,
+                )
+                countdown_text.pack()
+                splash_window.update()
+                sleep(delay)
+                splash_window.withdraw()
+
+            sleep(0.5)  # Wait for animations to finish
+
+            self.screenshot = self.capture_screenshot()
+
+            self.select_target()
 
     def capture_screenshot(self):
         """
@@ -1386,7 +1431,7 @@ class ConfigWindow(Window):
 
         self.master.master.config.save()
 
-        os._exit(1)
+        os._exit(0)
 
     def create_form_frame(self):
         frame = tk.Frame(self)
