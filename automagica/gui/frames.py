@@ -503,9 +503,7 @@ class ToolbarFrame(tk.Frame):
         # self.parent.master.bind("<F6>", lambda e: self.clicked_validate_button())
         # validate_button.pack(side="left", padx=5, pady=5)
 
-        wand_frame = ToolbarLabelFrame(
-            self, text=_("Automagica Wand (Powered by AI)")
-        )
+        wand_frame = ToolbarLabelFrame(self, text=_("Automagica Wand (Powered by AI)"))
 
         record_click_button = ToolbarImageButton(
             wand_frame,
@@ -651,7 +649,9 @@ class ToolbarFrame(tk.Frame):
             self.parent.master.deiconify()
 
         # Record action
-        WandWindow(self, action=action, delay=self.delay_menu.get()[1], on_finish=on_finish)
+        WandWindow(
+            self, action=action, delay=self.delay_menu.get()[1], on_finish=on_finish
+        )
 
     def clicked_validate_button(self):
         from .windows import FlowValidationWindow
@@ -763,7 +763,7 @@ class SidebarFrame(tk.Frame):
 
         # Nodes
         self.nodes_frame = self.create_nodes_frame()
-        self.nodes_frame.place(relx=0, rely=0.65, relheight=0.25, relwidth=1)
+        self.nodes_frame.place(relx=0, rely=0.65, relheight=0.20, relwidth=1)
 
         HelpButton(
             self,
@@ -774,7 +774,7 @@ class SidebarFrame(tk.Frame):
 
         # Instructions
         self.instructions_frame = self.create_instructions_frame()
-        self.instructions_frame.place(relx=0, rely=0.9, relheight=0.1, relwidth=1)
+        self.instructions_frame.place(relx=0, rely=0.85, relheight=0.1, relwidth=1)
 
     def create_instructions_frame(self):
         """

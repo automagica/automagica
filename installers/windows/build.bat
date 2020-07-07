@@ -1,13 +1,11 @@
 rem Copyright Oakwood Technologies BVBA 2020
 call rmdir /S /Q build
 call rmdir /S /Q wheels
-call rm Automagica.whl
 call mkdir wheels
-call cd wheels
-call pip wheel pip
-call pip wheel git+https://github.com/automagica/automagica@v3.0
 call cd ..
-call pip wheel git+https://github.com/automagica/automagica@v3.0  --no-deps
-call ren Automagica*.whl Automagica.whl
+call cd ..
+call pip wheel pip -w installers/windows/wheels
+call pip wheel . -w installers/windows/wheels
+call cd installers/windows
 call pip install pynsist==2.4
 call pynsist setup.cfg

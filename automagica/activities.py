@@ -1019,10 +1019,14 @@ class Chrome(selenium.webdriver.Chrome):
             import zipfile
             import shutil
 
-
             try:
-                driver_path = (os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), "") + chromedriver_path)
-                print('-----')
+                driver_path = (
+                    os.path.abspath(__file__).replace(
+                        os.path.basename(os.path.realpath(__file__)), ""
+                    )
+                    + chromedriver_path
+                )
+                print("-----")
                 print(driver_path)
                 if os.path.exists(driver_path):
 
@@ -1068,7 +1072,9 @@ class Chrome(selenium.webdriver.Chrome):
                     file.extractall(os.path.dirname(driver_path))
 
             except:
-                print("Could not automatically download or update the latest Chrome driver.")
+                print(
+                    "Could not automatically download or update the latest Chrome driver."
+                )
 
         # Check what OS we are on
         if platform.system() == "Linux":
@@ -9329,7 +9335,10 @@ def extract_text_ocr(file_path=None):
     data = {"image_base64": image_base64, "api_key": api_key}
 
     # Post request to API
-    url = os.environ.get("AUTOMAGICA_OCR_URL", "https://ocr.automagica.com") + "/"
+    url = (
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        + "/api/ocr/find-text-locations"
+    )
 
     r = requests.post(url, json=data)
 
@@ -9394,7 +9403,10 @@ def find_text_on_screen_ocr(text, criteria=None):
     data = {"image_base64": image_base64, "api_key": api_key}
 
     # Post request to API
-    url = os.environ.get("AUTOMAGICA_OCR_URL", "https://ocr.automagica.com") + "/"
+    url = (
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        + "/api/ocr/find-text-locations"
+    )
 
     r = requests.post(url, json=data)
 
@@ -10470,7 +10482,7 @@ def detect_vision(automagica_id, detect_target=True):
         bot_secret = str(local_data.get("bot_secret"))
 
     data = {
-        "bot_secret": bot_secret,  # Automagica Vision API key
+        "bot_secret": bot_secret,  # Automagica Bot Secret
         "automagica_id": automagica_id,
         "image_base64": image_base64,  # Screenshot of the example screen
         "detect_target": detect_target,
@@ -10490,7 +10502,7 @@ def detect_vision(automagica_id, detect_target=True):
 
     except Exception:
         raise Exception(
-            "An unknown error occurred accessing the Automagica Vision API. Please try again later."
+            "An unknown error occurred accessing the Automagica Portal API. Please try again later."
         )
 
     if data.get("error"):
@@ -10514,7 +10526,7 @@ def is_visible(automagica_id, delay=1, timeout=30):
     """Check if element is visible on screen
 
     This activity can be used to check if a certain element is visible on the screen. 
-    Note that this uses Automagica vision and uses some advanced an fuzzy matching algorithms for finding identical elements.
+    Note that this uses Automagica Portal and uses some advanced an fuzzy matching algorithms for finding identical elements.
 
     :parameter automagica_id: Element ID provided by the recorder
     :type automagica_id: automagica_id
@@ -10599,9 +10611,9 @@ def wait_appear(automagica_id, delay=1, timeout=30):
 
 @activity
 def wait_vanish(automagica_id, delay=1, timeout=30):
-    """Detect and click on an element with the Automagica Vision API
+    """Detect and click on an element with the Automagica Portal API
 
-    This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
+    This activity allows the bot to detect and click on an element by using the Automagica Portal API with a provided sample ID.
 
     :parameter automagica_id: The element ID provided by the recorder
     :type automagica_id: automagica_id
@@ -10645,14 +10657,16 @@ def wait_vanish(automagica_id, delay=1, timeout=30):
 
 @activity
 def read_text(automagica_id, delay=1):
-    """Detect and click on an element with the Automagica Vision API
+    """Read Text with Automagica Wand
 
-    This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
+    This activity allows the bot to detect and read the text of an element by using the Automagica Portal API with a provided sample ID.
 
-    :parameter automagica_id: the sample ID provided by the Vision Recorder
+    :parameter automagica_id: the sample ID provided by Automagica Wand
     :type automagica_id: automagica_id
     :parameter delay: Delay before reading text for vanish in seconds
     :type delay: int, optional
+
+    :return: Text
 
         :Example:
 
@@ -10701,7 +10715,10 @@ def read_text(automagica_id, delay=1):
     data = {"image_base64": image_base64, "api_key": api_key}
 
     # Post request to API
-    url = os.environ.get("AUTOMAGICA_OCR_URL", "https://ocr.automagica.com") + "/"
+    url = (
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        + "/api/ocr/find-text-locations"
+    )
 
     r = requests.post(url, json=data)
 

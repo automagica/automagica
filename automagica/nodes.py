@@ -72,6 +72,7 @@ class ActivityNode(Node):
         activity,
         *args,
         next_node=None,
+        on_exception_node=None,
         class_=None,
         args_=None,
         return_=None,
@@ -84,6 +85,7 @@ class ActivityNode(Node):
         self.args_ = args_
         self.next_node = next_node
         self.return_ = return_
+        self.on_exception_node = on_exception_node
 
         if self.activity.split(".")[-2][0].isupper():
             class_ = self.activity.split(".")[-2].lower()
@@ -115,6 +117,7 @@ class ActivityNode(Node):
             "args": self.args_,
             "class": self.class_,
             "return_": self.return_,
+            "on_exception_node": self.on_exception_node,
         }
 
     def run(self, bot, on_done=None, on_fail=None):

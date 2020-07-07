@@ -936,7 +936,6 @@ class WandWindow(Window):
 
         frame.configure(bg=config.COLOR_4)
 
-
         save_btn = LargeButton(frame, text=_("Save"), command=self.save_clicked)
         save_btn.grid(row=0, column=1, sticky="e", padx=10, pady=10)
 
@@ -1119,7 +1118,7 @@ class WandWindow(Window):
 
         if self.on_finish:
             self.on_finish(automagica_id)
-        
+
 
 class SnippingToolWindow(Window):
     def __init__(self, parent, screenshot, callback, *args, info="", **kwargs):
@@ -1937,6 +1936,96 @@ class ActivityNodePropsWindow(NodePropsWindow):
 
         return frame
 
+    def create_node_frame(self):
+        frame = LabelFrame(self, text=_("Node"))
+
+        # UID Information
+        uid_label_label = tk.Label(
+            frame,
+            text=_("Unique ID"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
+        )
+        uid_label_label.grid(row=0, column=0, sticky="w")
+        uid_label = tk.Label(
+            frame,
+            text=self.node.uid,
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
+        )
+        uid_label.grid(row=0, column=1, sticky="w", padx=3, pady=3)
+
+        help_button = HelpButton(
+            frame,
+            message=_(
+                "This is the unique identifier for this specific node. It can be used to connect this node from other nodes."
+            ),
+        )
+        help_button.grid(row=0, column=2)
+
+        # Node Label
+        label_label = tk.Label(
+            frame,
+            text=_("Label"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
+        )
+        label_label.grid(row=1, column=0, sticky="w")
+        self.label_entry = InputField(frame)
+        self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
+
+        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button.grid(row=1, column=2)
+
+        # Pre-fill label
+        if self.node.label:
+            self.label_entry.insert(tk.END, self.node.label)
+
+        # Next node selection
+        next_node_option_label = tk.Label(
+            frame,
+            text=_("Next Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
+        )
+        next_node_option_label.grid(row=2, column=0, sticky="w")
+        self.next_node_menu = NodeSelectionInputWidget(
+            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
+        )
+        self.next_node_menu.grid(row=2, column=1, sticky="ew", padx=3, pady=3)
+
+        help_button = HelpButton(
+            frame, message=_("This node will be the next node in the flow.")
+        )
+        help_button.grid(row=2, column=2)
+
+        # Exception node selection
+        on_exception_node_option_label = tk.Label(
+            frame,
+            text=_("On Exception Node"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
+        )
+        on_exception_node_option_label.grid(row=3, column=0, sticky="w")
+        self.on_exception_node_menu = NodeSelectionInputWidget(
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.on_exception_node,
+        )
+        self.on_exception_node_menu.grid(row=3, column=1, sticky="ew", padx=3, pady=3)
+
+        help_button = HelpButton(
+            frame, message=_("This node will be the next node in the flow.")
+        )
+        help_button.grid(row=2, column=3)
+
+        return frame
+
     def save(self):
         # Save args
         self.node.args_ = {key: val.get() for key, val in self.args_inputs.items()}
@@ -1948,6 +2037,8 @@ class ActivityNodePropsWindow(NodePropsWindow):
         self.node.label = self.label_entry.get()
 
         self.node.next_node = self.next_node_menu.get()
+
+        self.node.on_exception_node = self.on_exception_node_menu.get()
 
         self.parent.draw()
 

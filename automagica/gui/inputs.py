@@ -425,7 +425,7 @@ class NodeSelectionInputWidget(tk.Frame):
     def layout(self):
         self.node_menu = AutocompleteDropdown(
             self,
-            values=["{} ({})".format(node, node.uid) for node in self.nodes],
+            values=["{} ({})".format(node, node.uid) for node in self.nodes] + [""],
             font=(config.FONT, 10),
         )
 
@@ -476,6 +476,7 @@ class SettingContextMenu(tk.Frame):
                 command=self.change_selected_option,
                 foreground=config.COLOR_0,
                 selectcolor=config.COLOR_0,
+                font=(config.FONT, 10),
             )
 
         self.button = Button(self, text=text)

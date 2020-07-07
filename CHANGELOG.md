@@ -8,10 +8,13 @@ All notable changes to this project will be documented in this file.
 - Added help information for object variables to the properties window for activity classes (for example Chrome's object variable)
 - Pressing the delete button will now delete the selected element
 - Record new Automagica ID/element in properties window of an Automagica Wand activity (click, doubleclick, ...)
+- Added empty option to node selection menues so it becomes easier to clear connections
 
-
+### Automagica installer
+- File size reduced with 20MB (100MB to 80MB)
 ### Automagica activities
 - Fixed Excel.get_table for Flow by adding return variable in the docstring
+- Fixed issue with read text activity (OCR)
 
 ### Automagica CLI
 - Added delay parameter option for Wand
