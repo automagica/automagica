@@ -342,6 +342,8 @@ class StartNodeGraph(NodeGraph):
         self.parent.canvas.delete(self.icon)
 
         self.parent.parent.master.flow.nodes.remove(self.node)
+        self.parent.parent.master.flow.remove_dead_ends()
+
         self.parent.draw()
 
 
@@ -443,6 +445,7 @@ class ActivityNodeGraph(NodeGraph):
         self.parent.canvas.delete(self.icon)
 
         self.parent.parent.master.flow.nodes.remove(self.node)
+        self.parent.parent.master.flow.remove_dead_ends()
         self.parent.draw()
 
     def run_click(self, event):
@@ -567,6 +570,7 @@ class IfElseNodeGraph(NodeGraph):
         self.parent.canvas.delete(self.uid_text)
 
         self.parent.parent.master.flow.nodes.remove(self.node)
+        self.parent.parent.master.flow.remove_dead_ends()
         self.parent.draw()
 
     def double_clicked(self, event):
@@ -675,6 +679,7 @@ class LoopNodeGraph(NodeGraph):
         self.parent.canvas.delete(self.uid_text)
 
         self.parent.parent.master.flow.nodes.remove(self.node)
+        self.parent.parent.master.flow.remove_dead_ends()
         self.parent.draw()
 
     def double_clicked(self, event):
@@ -809,6 +814,7 @@ class DotPyFileNodeGraph(NodeGraph):
         self.parent.canvas.delete(self.uid_text)
 
         self.parent.parent.master.flow.nodes.remove(self.node)
+        self.parent.parent.master.flow.remove_dead_ends()
         self.parent.draw()
 
     def double_clicked(self, event):
@@ -954,6 +960,7 @@ class PythonCodeNodeGraph(NodeGraph):
         self.parent.canvas.delete(self.uid_text)
 
         self.parent.parent.master.flow.nodes.remove(self.node)
+        self.parent.parent.master.flow.remove_dead_ends()
         self.parent.draw()
 
     def double_clicked(self, event):
@@ -1067,6 +1074,7 @@ class CommentNodeGraph(NodeGraph):
         self.parent.canvas.delete(self.uid_text)
 
         self.parent.parent.master.flow.nodes.remove(self.node)
+        self.parent.parent.master.flow.remove_dead_ends()
         self.parent.draw()
 
     def double_clicked(self, event):
@@ -1219,6 +1227,7 @@ class SubFlowNodeGraph(NodeGraph):
         self.parent.canvas.delete(self.uid_text)
 
         self.parent.parent.master.flow.nodes.remove(self.node)
+        self.parent.parent.master.flow.remove_dead_ends()
         self.parent.draw()
 
     def double_clicked(self, event):

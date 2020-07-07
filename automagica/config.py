@@ -130,8 +130,8 @@ class Config:
 
         formatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
 
-        logger = logging.getLogger("automagica")
-        logger.setLevel(log_level)
+        self.logger = logging.getLogger("automagica")
+        self.logger.setLevel(log_level)
 
         # Log to file
         logging_path = os.path.join(os.path.expanduser("~"), "automagica.log")
@@ -141,8 +141,8 @@ class Config:
         # Log to console
         stdout_handler = logging.StreamHandler(sys.stdout)
 
-        logger.addHandler(file_handler)
-        logger.addHandler(stdout_handler)
+        self.logger.addHandler(file_handler)
+        self.logger.addHandler(stdout_handler)
 
     def save(self):
         with open(self.file_path, "w") as f:

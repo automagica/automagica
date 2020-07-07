@@ -212,12 +212,9 @@ class FlowDesignerWindow(tk.Toplevel):
                     return graph.node
 
     def add_activity(self, activity):
-        node = self.flow.add_activity_node(
-            activity, previous_node=self.suggested_previous_node
-        )
-
+        previous_node = self.suggested_previous_node
+        node = self.flow.add_activity_node(activity, previous_node=previous_node)
         graph = self.flow_frame.add_node_graph(node)
-
         graph.select()
 
     def add_ai_activity(self, action, sample_id):
@@ -225,9 +222,7 @@ class FlowDesignerWindow(tk.Toplevel):
             action, previous_node=self.suggested_previous_node
         )
         node.args_["automagica_id"] = '"{}"'.format(sample_id)
-
         graph = self.flow_frame.add_node_graph(node)
-
         graph.select()
 
     def add_node(self, node_type):

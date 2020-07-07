@@ -1,13 +1,17 @@
 # Developers/contributors
-## Release Automagica
-1. Release on PyPi by running following commands from the main repository folder and providing PyPi credentials:
+This document contains information and serves as a reference for the Automagica core development team. It contains
+## Build installers
+### Windows One-Click Installer
+From Windows 10 (VM), change current working directory to `/installers/windows` and run `build`. After the build process finishes, an executable can be found in the `/installers/windows/build/nsis` directory.
+
+## Release on Python Package Index (PyPI)
+Release on PyPi by running following commands from the main repository directory and providing PyPi credentials:
 ```bash
 pip install twine
 rmdir /S /Q dist # Windows
 python setup.py sdist bdist_wheel
 twine upload dist/*
 ```
-
 
 ## Internationalization
 ### Extracting localization strings with PyBabel

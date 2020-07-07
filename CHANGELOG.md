@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to Automagica are documented per version and product here.
 
 ## 3.0.4
 ### Automagica Flow
@@ -9,9 +9,13 @@ All notable changes to this project will be documented in this file.
 - Pressing the delete button will now delete the selected element
 - Record new Automagica ID/element in properties window of an Automagica Wand activity (click, doubleclick, ...)
 - Added empty option to node selection menues so it becomes easier to clear connections
+- Added "on exception node" to activity nodes
+- Fixed bug with empty arguments for activities (fe third key in 'press key combination')
+- Fixed bug where sometimes nodes would not be connected when adding them to a selection
 
-### Automagica installer
-- File size reduced with 20MB (100MB to 80MB)
+### Automagica Windows installer
+- File size reduced with 20MB (100MB to 80MB) by removing unnecessary files
+
 ### Automagica activities
 - Fixed Excel.get_table for Flow by adding return variable in the docstring
 - Fixed issue with read text activity (OCR)

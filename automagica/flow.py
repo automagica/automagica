@@ -71,7 +71,7 @@ class Flow:
                     args_=d.get("args"),
                     class_=d.get("class"),
                     return_=d.get("return_"),
-                    on_exception_node=d.get("on_exception_node")
+                    on_exception_node=d.get("on_exception_node"),
                 )
 
             elif d["type"] == "IfElseNode":
@@ -206,3 +206,24 @@ class Flow:
             if isinstance(node, StartNode):
                 nodes.append(node)
         return nodes
+
+    def remove_dead_ends(self):
+        uids = [node.uid for node in self.nodes]
+
+        for node in self.nodes:
+            if hasattr(node, "next_node"):
+                if node.next_node not in uids:
+                    node.next_node = None
+
+            if hasattr(node, "else_node"):
+                if node.else_node not in uids:
+                    node.else_node = None
+
+            if hasattr(node, "on_exception_node"):
+                if node.on_exception_node not in uids:
+                    node.on_exception_node = None
+
+            if hasattr(node, "loop_node"):
+                if node.loop_node not in uids:
+                    node.loop_node = None
+

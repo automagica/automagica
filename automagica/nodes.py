@@ -124,7 +124,7 @@ class ActivityNode(Node):
         args = [
             "{}={}".format(key, val)
             for key, val in self.args_.items()
-            if key != "self" and val != None
+            if key != "self" and val != None and val != ""
         ]
 
         command = "# {} ({})\n".format(self, self.uid)
@@ -164,6 +164,7 @@ class ActivityNode(Node):
             function_ = self.activity.split(".")[-1]
 
             command += "from {} import {}\n".format(module_, function_)
+
             if self.return_:
                 command += "{} = {}({})\n".format(
                     self.return_, function_, ", ".join(args)
@@ -355,4 +356,7 @@ class PythonCodeNode(Node):
         }
 
     def run(self, bot, on_done=None, on_fail=None):
-        bot.run(self.code, on_done=lambda: on_done(node=self.next_node), on_fail=on_fail)
+        bot.run(
+            self.code, on_done=lambda: on_done(node=self.next_node), on_fail=on_fail
+        )
+

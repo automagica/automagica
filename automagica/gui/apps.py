@@ -35,7 +35,7 @@ class App(tk.Tk):
 
         # On Windows, set DPI awareness
         if platform.system() == "Windows":
-            self.set_dpi_awareness()
+            self._windows_set_dpi_awareness()
 
         # Set Automagica icon
         icon_path = os.path.join(
@@ -52,7 +52,7 @@ class App(tk.Tk):
         # Hide Tkinter root window
         self.withdraw()
 
-    def set_dpi_awareness(self):
+    def _windows_set_dpi_awareness(self):
         import ctypes
 
         awareness = ctypes.c_int()
@@ -63,8 +63,10 @@ class App(tk.Tk):
         success = ctypes.windll.user32.SetProcessDPIAware()
 
     def report_callback_exception(self, exception, value, traceback):
-        """ Override default tkinter method to log errors """
-        self.logger.exception(exception)
+        """ 
+        Override default tkinter method to log errors 
+        """
+        self.config.logger.exception(exception)
 
     def exit(self):
         os._exit(0)

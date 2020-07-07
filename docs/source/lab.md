@@ -1,6 +1,6 @@
 # Automagica Lab
 ## Introduction
-The Automagica Lab allows you to build software bots from an interactive environment based on Jupyter Notebooks. Those familiar with Jupyter Notebooks willl feel very familiar with the environment
+The Automagica Lab allows you to build software bots from an interactive development environment (IDE) based on Jupyter Notebooks. Those familiar with Jupyter Notebooks and Python will feel right at home with the Automagica Lab.
 
 ## Getting started
 After installing Automagica, you can launch the Automagica Lab with the following command:
