@@ -558,9 +558,12 @@ class ActivityBlock:
         else:
             icon_name = icon_name + ".png"
 
-        self.img = generate_icon(
-            f"gui/icons/{icon_name}", color="#2196f3", width=20, height=20
+        base_path = os.path.abspath(__file__).replace(
+            os.path.basename(os.path.realpath(__file__)), ""
         )
+        icon_path = os.path.join(base_path, "icons", icon_name)
+
+        self.img = generate_icon(icon_path, color="#2196f3", width=20, height=20)
 
         self.icon_img = ImageTk.PhotoImage(self.img, master=self.canvas)
         self.icon = self.canvas.create_image(
