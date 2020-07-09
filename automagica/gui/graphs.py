@@ -405,7 +405,15 @@ class ActivityNodeGraph(NodeGraph):
         base_path = os.path.abspath(__file__).replace(
             os.path.basename(os.path.realpath(__file__)), ""
         )
-        icon_path = os.path.join(base_path, "icons", "magic-solid.png")
+
+        icon_name = str(config.ACTIVITIES[self.node.activity].get("icon").split("la-")[-1])
+
+        if icon_name not in ["html5", "trello", "salesforce", "chrome", "readme"]:
+            icon_name = icon_name + "-solid.png"
+        else:
+            icon_name = icon_name + ".png"
+
+        icon_path = os.path.join(base_path, "icons", icon_name)
 
         self.icon_img = ImageTk.PhotoImage(
             generate_icon(icon_path, color=config.COLOR_0)

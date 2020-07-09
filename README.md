@@ -18,6 +18,8 @@ With Automagica, automating cross-platform processes becomes a breeze. With this
 - [Website](https://www.automagica.com)
 - [Portal](https://portal.automagica.com)
 - [Documentation](https://automagica.readthedocs.io)
+- [YouTube Channel](https://automagi.ca/youtube)
+- [Public Roadmap](https://automagi.ca/roadmap)
 
 ## Community
 - Our __[roadmap](https://trello.com/b/qXHf5YqD/automagica-roadmap)__ is public (feel free to add suggestions to the Ideas column!)
@@ -25,7 +27,7 @@ With Automagica, automating cross-platform processes becomes a breeze. With this
 - __[Telegram](https://t.me/automagica)__ group (good for getting the latest updates)
 
 ## What's open source?
-### Automagica activities
+### Automagica Activities
 ### Automagica Lab
 ### Automagica Flow
 ### Automagica Capture
@@ -111,7 +113,7 @@ Folder and File manipulation
 
 <img src="https://github.com/automagica/automagica/blob/master/images/USPresidents.gif" width="800">
 
-## Docker Support (Experimental)
+## Docker
 As Automagica is fully cross-platform and built with Python, it's quite easy to run or build Automagica bots inside containers. We've added an example `Dockerfile` with the minimum reuirements for running an Automagica bot:
 ```
 git clone https://github.com/automagica/automagica
@@ -481,4 +483,4 @@ A special thanks goes out to all the above-mentioned libraries, repositories and
 All source code and other files in this repository, unless stated otherwise, are copyright of Oakwood Technologies BVBA.
 
 ### Commercial license
-Need a commercial license for Automagica or would you like to embed Automagica in your software offerings or services? Contact us at [sales@automagica.com](mailto:sales@automagica.com).
+Need a commercial license for Automagica or would you like to embed Automagica or its capabilities in your software offerings or services? Contact us at [sales@automagica.com](mailto:sales@automagica.com).

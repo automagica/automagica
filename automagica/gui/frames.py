@@ -19,7 +19,7 @@ from automagica.gui.graphs import (
     StartNodeGraph,
     SubFlowNodeGraph,
 )
-from automagica.gui.inputs import InputField, SettingContextMenu
+from automagica.gui.inputs import InputField, SettingContextMenu, ActivitySelectionFrame
 from automagica.flow import Flow
 from automagica.bots import ConsoleHandler, ThreadedBot
 
@@ -743,7 +743,7 @@ class SidebarFrame(tk.Frame):
         self.configure(bg=config.COLOR_4,)
 
         # Activities
-        self.activities_frame = self.create_activities_frame()
+        self.activities_frame = ActivitySelectionFrame(self, bg=config.COLOR_4)
         self.activities_frame.place(relx=0, rely=0, relheight=0.65, relwidth=1)
 
         HelpButton(
@@ -796,78 +796,6 @@ class SidebarFrame(tk.Frame):
             bg=config.COLOR_4,
         )
         self.instructions.pack()
-
-        return frame
-
-    def create_activities_frame(self):
-        """
-        Activities frame
-        """
-        frame = tk.Frame(self, bg=config.COLOR_4)
-
-        self.results = []
-        self.query = tk.StringVar()
-
-        self.instructions_label = tk.Label(
-            frame,
-            text=_("Activities"),
-            anchor="w",
-            font=font.Font(family=config.FONT, size=12),
-            justify="left",
-            fg=config.COLOR_0,
-            bg=config.COLOR_4,
-        )
-        self.instructions_label.pack()
-
-        self.search_entry = InputField(
-            frame,
-            textvariable=self.query,
-            placeholder=_("Search activities..."),
-            font=font.Font(family=config.FONT, size=10),
-        )
-        self.query.trace("w", self.search_activities)
-
-        self.search_entry.focus()
-        self.search_entry.bind("<Return>", self.search_activities)
-
-        self.search_entry.pack(fill="x")
-
-        self.activities_list = tk.Listbox(frame)
-        self.activities_list.bind(
-            "<B1-Leave>", lambda event: "break"
-        )  # Disable horizontal scrollling
-
-        self.activities_list.configure(
-            bd=0,
-            relief="flat",
-            selectbackground=config.COLOR_0,
-            selectforeground=config.COLOR_1,
-            highlightthickness=0,
-            fg=config.COLOR_11,
-            bg=config.COLOR_10,
-            activestyle="none",
-            font=font.Font(family=config.FONT, size=10),
-        )
-
-        for key, activity in config.ACTIVITIES.items():
-            if activity.get("class"):
-                name = "{} - {}".format(activity["class"], activity["name"])
-            else:
-                name = activity["name"]
-
-            self.activities_list.insert(tk.END, name)
-            self.results.append(key)
-
-        self.activities_list.bind("<Double-Button-1>", lambda e: self.select_activity())
-        scrollbar = tk.Scrollbar(
-            self.activities_list, orient="vertical", command=self.activities_list.yview
-        )
-
-        scrollbar.pack(side="right", fill="y")
-
-        self.activities_list.config(yscrollcommand=scrollbar.set)
-
-        self.activities_list.pack(fill="both", expand=True, padx=5, pady=5)
 
         return frame
 
@@ -926,45 +854,10 @@ class SidebarFrame(tk.Frame):
 
         return frame
 
-    def select_activity(self):
-        selection_index = self.activities_list.curselection()
-
-        if selection_index:  # Fix sometimes empty value for selection index
-            self.parent.master.add_activity(self.results[selection_index[0]])
-
     def select_node(self):
         selection_index = self.nodes_list.curselection()
 
         if selection_index:  # Fix sometimes empty value for selection index
             self.parent.master.add_node(self.node_types[selection_index[0]][0])
 
-    def search_activities(self, *args):
-        """
-        Search for activities by their keywords, name or description
-        """
-        query = self.search_entry.get()
 
-        # Clean query
-        query = query.strip()
-        query = query.lower()
-
-        self.activities_list.delete(0, tk.END)
-        self.results = []
-
-        for key, val in config.ACTIVITIES.items():
-            if (
-                any(
-                    [query in keyword.lower() for keyword in val["keywords"]]
-                )  # Matches keywords
-                or query in val["name"].lower()  # Matches name
-                or query in val["description"].lower()  # Matches description
-                or query == _("Search activities...").lower()
-            ):
-
-                if val.get("class"):
-                    name = "{} - {}".format(val["class"], val["name"])
-                else:
-                    name = val["name"]
-
-                self.activities_list.insert(tk.END, name)
-                self.results.append(key)

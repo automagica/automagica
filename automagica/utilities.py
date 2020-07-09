@@ -271,6 +271,13 @@ def all_activities():
                 description = line.split(":")[-1].strip()
                 return {"description": description}
 
+    def get_icon(f):
+        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+
+        for i, line in enumerate(lines):
+            if line.strip() == "Icon":
+                return lines[i + 1].strip()
+
     def get_class(f):
         name = f.__qualname__
 
@@ -289,6 +296,8 @@ def all_activities():
             "args": get_args(f),
             "return": get_return(f),
             "class": get_class(f),
+            "icon": get_icon(f),
+            "key": f.__module__ + "." + f.__qualname__
         }
 
         key = f.__module__ + "." + f.__qualname__

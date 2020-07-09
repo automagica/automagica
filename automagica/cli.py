@@ -65,8 +65,20 @@ def flow_edit(file_path):
     help=_("Run Flow headless (without GUI)"),
 )
 def flow_run(filename, headless, step_by_step):
+    code = None
+
+    # Run parameters
+    if os.path.isfile("input/parameters.py"):
+        with open("input/parameters.py", "r", encoding="utf-8") as f:
+            code = f.read()
+
+    # Run FLow
     app = FlowApp(
-        file_path=filename, run=True, headless=headless, step_by_step=step_by_step
+        file_path=filename,
+        run=True,
+        headless=headless,
+        step_by_step=step_by_step,
+        parameters=code,
     )
 
     app.run()
@@ -93,8 +105,14 @@ def lab_new(file_path):
 @lab.command("run", help=_("Run Lab notebook"))
 @click.argument("file_path")
 def lab_new(file_path):
+    # Run parameters
+    if os.path.isfile("input/parameters.py"):
+        with open("input/parameters.py", "r", encoding="utf-8") as f:
+            code = f.read()
+
+    # Run Lab
     app = LabApp()
-    app.run(file_path)
+    app.run(file_path, parameters=code)
 
 
 @cli.group(help=_("Automagica Trace (alpha)"))
@@ -106,6 +124,28 @@ def trace():
 def trace_record():
     app = TraceApp()
     app.run()
+
+
+@cli.group(help=_("Automagica Script"))
+def script():
+    pass
+
+
+@script.command("run", help=_("Run Script"))
+@click.argument("filename")
+def script_run(filename):
+    # Run parameters
+    if os.path.isfile("input/parameters.py"):
+        with open("input/parameters.py", "r", encoding="utf-8") as f:
+            code = f.read()
+
+        exec(code)
+
+    # Run script
+    with open(filename, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    exec(code)
 
 
 if __name__ == "__main__":

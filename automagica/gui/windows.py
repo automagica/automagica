@@ -30,6 +30,7 @@ from automagica.gui.inputs import (
     InputWidget,
     KeycombinationEntry,
     NodeSelectionInputWidget,
+    TextInputWidget,
 )
 from automagica.keybinds import Keybind, KeybindsManager
 from automagica.nodes import (
@@ -140,7 +141,7 @@ class FlowDesignerWindow(tk.Toplevel):
         if self.flow.file_path:
             self.flow.save(self.flow.file_path)
 
-        self.after(1000, self._autosave_cycle)
+        self.after(100, self._autosave_cycle)
 
     def undo(self, event):
         # Remove last state
@@ -174,15 +175,15 @@ class FlowDesignerWindow(tk.Toplevel):
 
         # Sidebar
         self.sidebar_frame = SidebarFrame(fluid_frame)
-        self.sidebar_frame.place(relx=0, rely=0, relwidth=0.15, relheight=1)
+        self.sidebar_frame.place(relx=0, rely=0, relwidth=0.165, relheight=1)
 
         # Flow Area
         self.flow_frame = FlowFrame(fluid_frame, self.flow)
-        self.flow_frame.place(relx=0.15, rely=0, relwidth=0.85, relheight=0.7)
+        self.flow_frame.place(relx=0.165, rely=0, relwidth=0.835, relheight=0.7)
 
         # Console
         self.console_frame = ConsoleFrame(fluid_frame, bot=self.bot)
-        self.console_frame.place(relx=0.15, rely=0.7, relwidth=0.85, relheight=0.3)
+        self.console_frame.place(relx=0.165, rely=0.7, relwidth=0.835, relheight=0.3)
 
     def _configure_window(self):
         if self.flow.file_path:
@@ -810,7 +811,9 @@ class WandWindow(Window):
 
         self.withdraw()
 
-        if not self.parent.config.values.get("bot_secret"):
+        self.config = config.Config()
+
+        if not self.config.values.get("bot_secret"):
             from tkinter import messagebox
 
             yes = messagebox.askyesno(
@@ -1681,7 +1684,7 @@ class NodePropsWindow(Window):
         save_button = Button(frame, text=_("Save"), command=self.save)
         save_button.configure(bg=config.COLOR_7)
         save_button.pack(side="right", padx=5, pady=5)
-        self.bind("<Return>", lambda e: self.save())
+        # self.bind("<Return>", lambda e: self.save())
 
         cancel_button = Button(frame, text=_("Cancel"), command=self.cancel)
         cancel_button.pack(side="right", padx=5, pady=5)
@@ -1909,6 +1912,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
                 elif "automagica_id" in argtype:
                     self.args_inputs[name] = AutomagicaIdInputWidget(frame)
 
+                elif "text" in argtype:
+                    self.args_inputs[name] = TextInputWidget(frame)
+
                 else:
                     self.args_inputs[name] = InputWidget(
                         frame,
@@ -2062,7 +2068,7 @@ class ActivityNodePropsWindow(NodePropsWindow):
         help_button = HelpButton(
             frame, message=_("This node will be the next node in the flow.")
         )
-        help_button.grid(row=2, column=3)
+        help_button.grid(row=3, column=2)
 
         return frame
 

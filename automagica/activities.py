@@ -2010,7 +2010,7 @@ def press_key(key=None, delay=1):
     If you are using this on Mac Os you might need to grant acces to your terminal application. (Security Preferences > Security & Privacy > Privacy > Accessibility)
 
     :parameter key: Key to press. This can also be a scan code (e.g: 33 for '!')
-    :options key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
+    :options key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace', 'end', 'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
     :parameter delay: Delay before key is pressed in seconds, default is 1 second
     :type delay: int, optional
 
@@ -2063,11 +2063,11 @@ def press_key_combination(
     Press a combination of two or three keys simultaneously. Make sure your keyboard is on US layout (standard QWERTY).
 
     :parameter first_key: First key to press
-    :options first_key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
+    :options first_key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace', 'end', 'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
     :parameter second_key: Second key to press
-    :options second_key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
+    :options second_key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace', 'end', 'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
     :parameter third_key: Third key to press, this is optional.
-    :options third_key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace',  'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
+    :options third_key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace', 'end', 'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
     :parameter compatibility: Set parameter to true to not use win32com. This could help with compatibility on certain systems or when certain keypresses do not work correctly.
     :parameter key: Delay before keys are pressed in seconds, default is 1 second
     :type key: int, optional
@@ -2286,8 +2286,6 @@ def click(automagica_id, delay=1):
     :parameter delay: Delay before clicking in seconds. 
     :type delay: int, optional
 
-    :return: Mouse click
-
         :Example:
 
     >>> # Click on a vision element, use the recorder() function to define elements
@@ -2324,14 +2322,12 @@ def click_coordinates(x=None, y=None, delay=1):
 
     Clicks on an element based on pixel position determined by x and y coordinates. To find coordinates one could use display_mouse_position().
 
-    :parameter x: X-coördinate
+    :parameter x: X-coordinate
     :type x: int
-    :parameter y: Y-coördinate
+    :parameter y: Y-coordinate
     :type y: int
     :parameter delay: Delay before clicking in seconds. 
     :type delay: int, optional
-
-    :return: Mouse click
 
         :Example:
 
@@ -2367,14 +2363,12 @@ def double_click_coordinates(x=None, y=None, delay=1):
 
     Double clicks on a pixel position determined by x and y coordinates.
 
-    :parameter x: X-coördinate
+    :parameter x: X-coordinate
     :type x: int
-    :parameter y: Y-coördinate
+    :parameter y: Y-coordinate
     :type y: int
     :parameter delay: Delay before cliking in seconds. 
     :type delay: int, optional
-
-    :return: Double mouse click
 
         :Example:
 
@@ -2413,8 +2407,6 @@ def double_click(automagica_id=None, delay=1):
     :type automagica_id: automagica_id
     :parameter delay: Delay before clicking in seconds. 
     :type delay: int, optional
-
-    :return: Double mouse click
 
         :Example:
 
@@ -2460,8 +2452,6 @@ def right_click(automagica_id=None, delay=1):
     :type automagica_id: automagica_id    
     :parameter delay: Delay before cliking in seconds. 
     :type delay: int, optional
-
-    :return: Right mouse click
 
         :Example:
 
@@ -2509,8 +2499,6 @@ def right_click_coordinates(x=None, y=None, delay=1):
     :type y: int
     :parameter delay: Delay before clicking in seconds 
     :type delay: int, optional
-
-    :return: Right mouse click
 
         :Example:
 
@@ -10052,7 +10040,7 @@ class SAPGUI:
 
     @activity
     def click_sap(self, identifier):
-        """Click on a sAP GUI element
+        """Click on a SAP GUI element
 
         Clicks on an identifier in the SAP GUI.
 
@@ -10180,7 +10168,7 @@ def create_new_job_in_portal(
     :parameter priority: priority level of the process. higher priority levels are performed first. (optional)
     :type priority: int, optional
     :parameter parameters: parameters for the process (optional)
-    :type parameters: string, optional
+    :type parameters: text, optional
 
         :Example:
 
@@ -10250,6 +10238,8 @@ def get_credential_from_portal(credential_name):
 
     :parameter credential_name: name of the credential
     :type credential_name: string
+
+    :return: Credential
 
         :Example:
 
@@ -10604,9 +10594,9 @@ def wait_appear(automagica_id, delay=1, timeout=30):
 
 @activity
 def wait_vanish(automagica_id, delay=1, timeout=30):
-    """Detect and click on an element with the Automagica Portal API
+    """Wait Vanish
 
-    This activity allows the bot to detect and click on an element by using the Automagica Portal API with a provided sample ID.
+    This activity allows the bot to wait for an element to vanish.
 
     :parameter automagica_id: The element ID provided by the recorder
     :type automagica_id: automagica_id

@@ -81,6 +81,7 @@ class FlowApp(App):
         run=False,
         headless=False,
         step_by_step=False,
+        parameters=None,
         **kwargs,
     ):
 
@@ -95,6 +96,10 @@ class FlowApp(App):
 
             # Run a flow
             if run:
+
+                if parameters:
+                    bot.run(parameters)
+
                 FlowPlayerWindow(
                     self,
                     flow=Flow(file_path),
@@ -151,11 +156,14 @@ class BotApp(App):
 
     def run_script(self, file_path, cwd):
         process = subprocess.Popen(
-            [sys.executable, file_path], stdout=subprocess.PIPE, cwd=cwd
+            [sys.executable, "-m", "automagica.cli", "script", "run", file_path],
+            stdout=subprocess.PIPE,
+            cwd=cwd,
         )
-        out, err = process.communicate()
 
-        return out.decode("utf-8"), process.returncode
+        stdout, stderr = process.communicate()
+
+        return stdout.decode("utf-8"), process.returncode
 
     def run_flow(self, file_path, cwd):
         process = subprocess.Popen(
@@ -228,6 +236,12 @@ class BotApp(App):
                             "wb",
                         ) as f:
                             f.write(r.content)
+
+                    if job.get("parameters"):
+                        with open(
+                            os.path.join(local_job_path, "input", "parameters.py"), "w",
+                        ) as f:
+                            f.write(job["parameters"])
 
                     entrypoint = job["job_entrypoint"]
 
@@ -398,6 +412,9 @@ class LabApp:
             subprocess.Popen(cmd, env=my_env)
 
     def run(self, notebook_path, parameters=None, cell_timeout=600):
+        if parameters:
+            exec(parameters)
+
         # Open the notebook
         with open(notebook_path, "r", encoding="utf-8") as f:
             notebook = json.load(f)

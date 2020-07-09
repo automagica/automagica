@@ -4,7 +4,7 @@
 Download Automagica and get started automating within 5 minutes through our website [automagica.com](https://www.automagica.com). Our one-click installer for Windows is by far the easiest way to get started automating.
 By signing up for the Automagica Portal, you also gain access to our specialized OCR-service and our Automagica Wand back-end, which features computer vision powered by machine learning for recognizing UI elements.
 
-### PyPi
+### Install through PyPi
 Installation can also be done through `pip`, Python's best-known package manager. We advise Python 3.7 for the installation, as for this version all the dependencies are widely available for all platforms. Newer versions are currently not supported, however this is on our roadmap.
 
 After you have installed Python 3.7 and `pip`, you can install Automagica through PyPi by running:

@@ -4,6 +4,11 @@ from tkinter import font, ttk, filedialog
 from automagica import config
 from automagica.config import _
 from automagica.gui.buttons import Button
+from automagica.gui.graphs import generate_icon
+
+from PIL import ImageTk
+
+import os
 
 
 class KeycombinationEntry(tk.Frame):
@@ -85,6 +90,7 @@ class InputField(tk.Entry):
             relief=tk.FLAT,
             font=font.Font(family=config.FONT, size=10),
             bd=2,
+            width=30,
         )
 
         # Keybinds
@@ -129,6 +135,33 @@ class InputWidget(tk.Frame):
         self.value = value
         self.input_field.delete(0, tk.END)
         self.input_field.insert(0, self.value)
+
+
+class TextInputWidget(tk.Frame):
+    """
+    Default input widget
+    """
+
+    def __init__(self, parent, *args, value=None, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+
+        self.value = value
+        self.layout()
+
+    def layout(self):
+        self.input_field = tk.Text(self, height=10)
+        self.input_field.pack(side="left")
+
+        if self.value:
+            self._set(str(self.value))
+
+    def get(self):
+        return self.input_field.get("1.0", tk.END)
+
+    def _set(self, value):
+        self.value = value
+        self.input_field.delete("1.0", tk.END)
+        self.input_field.insert("1.0", self.value)
 
 
 class FilePathInputWidget(tk.Frame):
@@ -334,7 +367,11 @@ class AutomagicaIdInputWidget(tk.Frame):
     def view_button_click(self):
         import webbrowser
 
-        webbrowser.open("https://automagica.id/{}".format(self.get().replace('"', "")))
+        automagica_id = self.get().replace('"', "")
+
+        url = os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+
+        webbrowser.open(f"{url}/ui-element/{automagica_id}")
 
     def record_button_click(self):
         from .windows import WandWindow
@@ -351,7 +388,7 @@ class AutocompleteDropdown(ttk.Combobox):
     """
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, width=30, **kwargs)
         self.values = sorted(self["values"], key=str.lower)
         self["values"] = self.values
 
@@ -494,3 +531,132 @@ class SettingContextMenu(tk.Frame):
         for item in self.options:
             if item[0] == selected_option_description:
                 self.selected_option = item
+
+
+class ActivityBlock:
+    def __init__(self, canvas, activity, x, y):
+        self.canvas = canvas
+
+        if activity.get("class"):
+            name = "{} - {}".format(activity["class"], activity["name"])
+        else:
+            name = activity["name"]
+
+        self.canvas.create_text(
+            x + 25,
+            y + 2,
+            text=name,
+            anchor=tk.NW,
+            font=(config.FONT, 10),
+            tags=activity.get("key"),
+        )
+
+        icon_name = str(activity["icon"].split("la-")[-1])
+
+        if icon_name not in ["html5", "trello", "salesforce", "chrome", "readme"]:
+            icon_name = icon_name + "-solid.png"
+        else:
+            icon_name = icon_name + ".png"
+
+        self.img = generate_icon(
+            f"gui/icons/{icon_name}", color="#2196f3", width=20, height=20
+        )
+
+        self.icon_img = ImageTk.PhotoImage(self.img, master=self.canvas)
+        self.icon = self.canvas.create_image(
+            x, y, image=self.icon_img, anchor=tk.NW, tags=activity.get("key")
+        )
+
+        self.canvas.tag_bind(
+            activity.get("key"),
+            "<Double-Button-1>",
+            lambda e: self.select_activity(activity.get("key")),
+        )
+
+    def select_activity(self, key):
+        self.canvas.master.master.master.master.add_activity(key)
+
+
+class ActivitySelectionFrame(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+
+        from automagica.utilities import all_activities
+
+        self.activities = all_activities()
+
+        self.nodes_label = tk.Label(
+            self,
+            text=_("Activities"),
+            anchor="w",
+            justify="left",
+            font=font.Font(family=config.FONT, size=12),
+            fg=config.COLOR_0,
+            bg=config.COLOR_4,
+        )
+        self.nodes_label.pack()
+
+        self.query = tk.StringVar()
+        self.search_entry = InputField(
+            self, textvariable=self.query, placeholder=_("Search activities..."),
+        )
+        self.query.trace("w", self.search_activities)
+        self.search_entry.focus()
+        self.search_entry.bind("<Return>", self.search_activities)
+        self.search_entry.pack(fill="x")
+
+        self.canvas = tk.Canvas(
+            self, bg="white", scrollregion=(0, 0, 300, 35 * len(self.activities)),
+        )
+
+        self.render_activity_blocks([val for key, val in self.activities.items()])
+
+        self.vertical_scrollbar = tk.Scrollbar(self, orient=tk.VERTICAL)
+        self.vertical_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.vertical_scrollbar.config(command=self.canvas.yview)
+
+        self.canvas.config(yscrollcommand=self.vertical_scrollbar.set)
+        self.canvas.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+
+    def render_activity_blocks(self, activities):
+        self.activity_blocks = []
+
+        for i, activity in enumerate(activities):
+            activity_block = ActivityBlock(self.canvas, activity, 5, (22 * i) + 5)
+            self.activity_blocks.append(activity_block)
+
+        self.canvas.config(scrollregion=(0, 0, 300, 22 * len(self.activity_blocks)))
+
+    def search_activities(self, *args):
+        """
+        Search for activities by their keywords, name or description
+        """
+        query = self.search_entry.get()
+
+        # Clean query
+        query = query.strip()
+        query = query.lower()
+
+        # Clear canvas
+        self.canvas.delete("all")
+
+        results = []
+
+        for key, val in self.activities.items():
+            if (
+                any(
+                    [query in keyword.lower() for keyword in val["keywords"]]
+                )  # Matches keywords
+                or query in val["name"].lower()  # Matches name
+                or query in val["description"].lower()  # Matches description
+                or query == _("Search activities...").lower()
+            ):
+
+                if val.get("class"):
+                    name = "{} - {}".format(val["class"], val["name"])
+                else:
+                    name = val["name"]
+
+                results.append(val)
+
+        self.render_activity_blocks(results)
