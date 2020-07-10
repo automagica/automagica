@@ -11,9 +11,6 @@
 !define PRODUCT_ICON "[[icon]]"
 
 
-
-
-
 ; Marker file to tell the uninstaller that it's a user installation
 !define USER_INSTALL_MARKER _user_install_marker
  
@@ -64,6 +61,11 @@ SectionEnd
 [% block sections %]
 
 Section "!${PRODUCT_NAME}" sec_app
+  ; Kill running Python processes (such as Automagica)
+  Execwait '"$SYSDIR\taskkill.exe" /F /IM python.exe /T'
+  Execwait '"$SYSDIR\taskkill.exe" /F /IM pythonw.exe /T'
+  Execwait '"$SYSDIR\taskkill.exe" /F /IM automagica.exe /T'
+
   SetRegView [[ib.py_bitness]]
   SectionIn RO
   File ${PRODUCT_ICON}
