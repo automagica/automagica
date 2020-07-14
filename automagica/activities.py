@@ -4358,14 +4358,14 @@ class Outlook:
                         item.Move(target_folder)
 
     @activity
-    def save_attachments(self, folder_name="Inbox", ouput_path=None):
+    def save_attachments(self, folder_name="Inbox", output_path=None):
         """Save attachments
 
         Save all attachments from certain folder
 
         :parameter folder_name: Name of the Outlook folder, can be found using `get_folders`.
         :type folder_name: string, optional
-        :parameter ouput_path: Path where attachments will be saved. Default is the home directory.
+        :parameter output_path: Path where attachments will be saved. Default is the home directory.
         :type output_path: output_dir, optional
 
         :return: List of paths to saved attachments.
@@ -4387,7 +4387,7 @@ class Outlook:
         paths = []
 
         # Set to user home if no path specified
-        output_path = interpret_path(ouput_path)
+        output_path = interpret_path(output_path)
 
         # Find the appropriate folder
         if self.account_name:
@@ -10293,80 +10293,6 @@ def get_credential_from_portal(credential_name):
 Vision
 Icon: las la-eye
 """
-
-
-class SnippingTool:
-    def __init__(self, image):
-        """
-        Starts a full screen snipping tool for selecting coordinates
-        """
-        import tkinter as tk
-        from PIL import ImageTk
-
-        self.root = tk.Tk()
-
-        w = self.root.winfo_screenwidth()
-        h = self.root.winfo_screenheight()
-
-        # Change window to size of full screen
-        self.root.geometry("{}x{}".format(w, h))
-
-        # Bring window to full screen and top most level
-        self.root.attributes("-fullscreen", True)
-        self.root.attributes("-topmost", True)
-
-        # Keep reference of some things
-        self.x = self.y = 0
-        self.rect = None
-        self.start_x = None
-        self.start_y = None
-
-        # Create the canvas
-        self.canvas = tk.Canvas(self.root, width=w, height=h, cursor="crosshair")
-
-        self.canvas.pack()
-
-        # Add the screenshot
-        img = ImageTk.PhotoImage(image)
-
-        self.canvas.create_image((0, 0), image=img, anchor="nw")
-
-        # Connect the event handlers
-        self.canvas.bind("<ButtonPress-1>", self.on_button_press)
-        self.canvas.bind("<B1-Motion>", self.on_move_press)
-        self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
-
-        self.root.mainloop()
-
-    def on_button_press(self, event):
-        # Update coordinates
-        self.start_x = event.x
-        self.start_y = event.y
-
-        # If no rectangle is drawn yet, draw one
-        if not self.rect:
-            self.rect = self.canvas.create_rectangle(
-                self.x, self.y, 1, 1, fill="", outline="red"
-            )
-
-    def on_move_press(self, event):
-        # Update coordinates
-        self.end_x, self.end_y = (event.x, event.y)
-
-        # expand rectangle as you drag the mouse
-        self.canvas.coords(
-            self.rect, self.start_x, self.start_y, self.end_x, self.end_y
-        )
-
-    def on_button_release(self, event):
-        # Update global variable
-        global coordinates
-
-        coordinates = (self.start_x, self.start_y, self.end_x, self.end_y)
-
-        # Close the window
-        self.root.destroy()
-
 
 def get_screen_dimensions():
     """
