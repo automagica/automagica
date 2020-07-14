@@ -16,8 +16,14 @@ twine upload dist/*
 ## Internationalization
 ### Extracting localization strings with PyBabel
 ```
-pybabel extract . -o locale/base.pot
+pybabel extract -o locale/base.pot automagica
+pybabel update -i messages.pot -d locale
 ```
+After modification:
+```
+pybabel compile -d locale
+```
+
 ### Create a new language .pot-file
 For example for `pt_BR` (Portuguese Brazil)
 ```

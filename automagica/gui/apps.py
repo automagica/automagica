@@ -23,6 +23,8 @@ from automagica.gui.windows import (
     WandWindow,
 )
 
+from automagica.config import ICONS
+
 
 class App(tk.Tk):
     def __init__(self, *args, config=None, **kwargs):
@@ -48,6 +50,8 @@ class App(tk.Tk):
         self.tk.call(
             "wm", "iconphoto", self._w, ImageTk.PhotoImage(Image.open(icon_path))
         )
+
+        ICONS.generate_icons()
 
         # Hide Tkinter root window
         self.withdraw()
@@ -423,3 +427,26 @@ class LabApp:
         for cell in notebook["cells"]:
             if cell["cell_type"] == "code":
                 exec("".join(cell["source"]))
+
+
+class ScriptApp:
+    def __init__(self, config=None):
+        # Load config
+        self.config = config
+        if not self.config:
+            self.config = Config()
+
+    def run(self, script_path):
+        # Run parameters
+        if os.path.isfile("input/parameters.py"):
+            with open("input/parameters.py", "r", encoding="utf-8") as f:
+                code = f.read()
+
+            exec(code)
+
+        # Run script
+        with open(script_path, "r", encoding="utf-8") as f:
+            code = f.read()
+
+        exec(code)
+

@@ -2,8 +2,8 @@ import copy
 import json
 import os
 import tkinter as tk
-from tkinter import font, ttk
 from time import sleep
+from tkinter import font, ttk
 
 from PIL import Image, ImageTk
 
@@ -48,43 +48,15 @@ AUTOMAGICA_NUMBER_OF_NOTIFICATIONS = 0
 AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS = 0
 
 
-def center_window(window, w=None, h=None):
-    """
-    Center a tkinter.Window on the screen
-    """
-    # Required, update to get the height/width properties correctly
-    window.update()
-
-    # Hide window
-    window.withdraw()
-
-    if not w:
-        w = window.winfo_width()
-
-    if not h:
-        h = window.winfo_height()
-
-    sw = window.winfo_screenwidth()
-    sh = window.winfo_screenheight()
-
-    x = int((sw / 2) - (w / 2))
-    y = int((sh / 2) - (h / 2))
-
-    # Adjust window geometry (positioning)
-    window.geometry("{}x{}+{}+{}".format(w, h, x, y))
-
-    # Update the window
-    window.update()
-
-    # Show the window
-    window.deiconify()
-
-
 class Window(tk.Toplevel):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
+
         self.parent = parent
+
+        # Set background color
         self.configure(bg=config.COLOR_4)
+
         self.icon_path = os.path.join(
             os.path.abspath(__file__).replace(
                 os.path.basename(os.path.realpath(__file__)), ""
@@ -92,14 +64,46 @@ class Window(tk.Toplevel):
             "icons",
             "automagica.ico",
         )
+
+        # Set Title Bar Icon on Windows
         if "nt" in os.name:
             self.iconbitmap(self.icon_path)
 
+    def center(self, w=None, h=None):
+        """
+        Center a tkinter.Window on the screen
+        """
+        # Required, update to get the height/width properties correctly
+        self.update()
 
-class FlowDesignerWindow(tk.Toplevel):
+        # Hide window
+        self.withdraw()
+
+        if not w:
+            w = self.winfo_width()
+
+        if not h:
+            h = self.winfo_height()
+
+        sw = self.winfo_screenwidth()
+        sh = self.winfo_screenheight()
+
+        x = int((sw / 2) - (w / 2))
+        y = int((sh / 2) - (h / 2))
+
+        # Adjust window geometry (positioning)
+        self.geometry("{}x{}+{}+{}".format(w, h, x, y))
+
+        # Update the window
+        self.update()
+
+        # Show the window
+        self.deiconify()
+
+
+class FlowDesignerWindow(Window):
     def __init__(self, parent, *args, flow=None, bot=None, autosave=True, **kwargs):
         super().__init__(parent, *args, **kwargs)
-        self.withdraw()
 
         self.flow = flow
         self.bot = bot
@@ -113,10 +117,6 @@ class FlowDesignerWindow(tk.Toplevel):
             self.flow = Flow()
 
         self._configure_window()
-
-        self._layout()
-
-        center_window(self, w=1300, h=720)
 
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.state("normal")
@@ -132,6 +132,9 @@ class FlowDesignerWindow(tk.Toplevel):
 
         if self.autosave:
             self._autosave_cycle()
+
+        self._layout()
+        self.center(w=1300, h=720)
 
     def _autosave_cycle(self):
         if self.flow.to_dict() != self.last_state:
@@ -190,16 +193,6 @@ class FlowDesignerWindow(tk.Toplevel):
             self.title("{} - Automagica Flow".format(self.flow.file_path))
         else:
             self.title(_("Unsaved Flow") + " - Automagica Flow")
-
-        if "nt" in os.name:
-            self.icon_path = os.path.join(
-                os.path.abspath(__file__).replace(
-                    os.path.basename(os.path.realpath(__file__)), ""
-                ),
-                "icons",
-                "automagica.ico",
-            )
-            self.iconbitmap(self.icon_path)
 
         self.option_add("*Background", config.COLOR_1)
         self.configure(bg=config.COLOR_1)
@@ -531,7 +524,7 @@ class FlowValidationWindow(Window):
         self._layout()
         self._configure_window()
 
-        center_window(self)
+        self.center()
 
     def _configure_window(self):
         self.title(_("Flow Validation"))
@@ -793,7 +786,7 @@ class SplashWindow(Window):
         self.logo_image = ImageTk.PhotoImage(file=logo_path)
         logo_canvas.create_image(0, 0, image=self.logo_image, anchor="nw")
 
-        center_window(self)
+        self.center()
 
 
 class WandWindow(Window):
@@ -1416,7 +1409,7 @@ class ConfigWindow(Window):
 
         self.config(bg=config.COLOR_0)
 
-        center_window(self)
+        self.center()
         self.bot_secret_entry.focus()
 
     def save_clicked(self):
@@ -1544,7 +1537,7 @@ class VariableExplorerWindow(Window):
         self.configure_window()
         self._layout()
 
-        center_window(self, w=500, h=400)
+        self.center(w=500, h=400)
 
     def configure_window(self):
         self.title(_("Variable Explorer"))
@@ -1634,23 +1627,10 @@ class VariableExplorerWindow(Window):
 class NodePropsWindow(Window):
     def __init__(self, parent, node, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
-        self.withdraw()
 
         self.parent = parent
         self.node = node
         self.resizable(False, False)
-        self.configure(bg=config.COLOR_4)
-
-        self.icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "automagica.ico",
-        )
-
-        if "nt" in os.name:
-            self.iconbitmap(self.icon_path)
 
         # Make sure this window is the only window grabbing events from the user
         try:
@@ -1658,23 +1638,15 @@ class NodePropsWindow(Window):
         except:  # TODO: this does not work on Linux?
             pass
 
-        # if "nt" in os.name:
-        #     self.iconbitmap(self.parent.master.icon_path)
-
         self.title(_("Properties"))
 
         self.layout()
 
-        self.deiconify()
-        self.update()
-
-        center_window(self)
-
-        self.update()
-
     def layout(self):
         self.button_frame = self.create_buttons_frame()
         self.button_frame.pack()
+
+        self.center()
 
     def create_buttons_frame(self):
         frame = tk.Frame(self)
@@ -2106,6 +2078,8 @@ class StartNodePropsWindow(NodePropsWindow):
 
         self.buttons_frame = self.create_buttons_frame()
         self.buttons_frame.pack(fill="x", padx=5, pady=5)
+
+        self.center()
 
 
 class IfElseNodePropsWindow(NodePropsWindow):

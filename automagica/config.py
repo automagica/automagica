@@ -7,8 +7,52 @@ import pyglet
 import json
 
 from automagica.utilities import all_activities
+from PIL import ImageTk, Image
+
 
 ACTIVITIES = all_activities()
+
+
+class IconGraph:
+    def __init__(self, icon_size=20, color="#2196f3"):
+        self.icon_names = os.listdir("automagica/gui/icons")
+
+        self.icon_paths = [
+            os.path.join("automagica/gui/icons", fn) for fn in self.icon_names
+        ]
+
+        self.icons_pil = []
+        self.icons_tk = []
+
+        self.color = tuple(int(color.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
+
+    def generate_icons(self):
+        for i, path in enumerate(self.icon_paths):
+            img = Image.open(path)
+
+            data = img.load()
+
+            if data:
+                for x in range(img.size[0]):
+                    for y in range(img.size[1]):
+                        if data[x, y][0] == data[x, y][1] == data[x, y][2] == 0:
+                            data[x, y] = (
+                                self.color[0],
+                                self.color[1],
+                                self.color[2],
+                                data[x, y][3],
+                            )
+
+            self.icons_pil.append(img)
+            self.icons_tk.append(ImageTk.PhotoImage(img))
+
+    def tkinter(self, icon_name):
+        index = self.icon_names.index(icon_name)
+
+        return self.icons_tk[index]
+
+
+ICONS = IconGraph()
 
 
 """
@@ -30,6 +74,7 @@ localedir = os.path.join(
 )
 
 if LOCALE != "en":
+    print(LOCALE)
     lang = translation("messages", localedir=localedir, languages=[LOCALE])
     lang.install()
     _ = lang.gettext

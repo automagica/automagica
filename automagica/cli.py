@@ -1,9 +1,9 @@
-import click
-
 import os
 
+import click
+
 from automagica.config import Config, _
-from automagica.gui.apps import BotApp, FlowApp, LabApp, TraceApp, WandApp
+from automagica.gui.apps import BotApp, FlowApp, LabApp, TraceApp, WandApp, ScriptApp
 
 __version__ = "3.0.4"
 
@@ -104,7 +104,7 @@ def lab_new(file_path):
 
 @lab.command("run", help=_("Run Lab notebook"))
 @click.argument("file_path")
-def lab_new(file_path):
+def lab_run(file_path):
     # Run parameters
     if os.path.isfile("input/parameters.py"):
         with open("input/parameters.py", "r", encoding="utf-8") as f:
@@ -132,20 +132,10 @@ def script():
 
 
 @script.command("run", help=_("Run Script"))
-@click.argument("filename")
-def script_run(filename):
-    # Run parameters
-    if os.path.isfile("input/parameters.py"):
-        with open("input/parameters.py", "r", encoding="utf-8") as f:
-            code = f.read()
-
-        exec(code)
-
-    # Run script
-    with open(filename, "r", encoding="utf-8") as f:
-        code = f.read()
-
-    exec(code)
+@click.argument("file_path")
+def script_run(file_path):
+    app = ScriptApp()
+    app.run(file_path)
 
 
 if __name__ == "__main__":

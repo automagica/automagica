@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-05-29 07:29+0200\n"
+"POT-Creation-Date: 2020-07-10 08:48+0200\n"
 "PO-Revision-Date: 2020-05-29 07:30+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_Hant\n"
@@ -18,67 +18,96 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: automagica/cli.py:570
+#: automagica/cli.py:11
 msgid "Automagica v"
 msgstr ""
 
-#: automagica/cli.py:576
+#: automagica/cli.py:16
 msgid "Configure Automagica"
 msgstr ""
 
-#: automagica/cli.py:582
+#: automagica/cli.py:22
 msgid "Automagica Bot"
 msgstr ""
 
-#: automagica/cli.py:583
-msgid "Run bot headless (without GUI)"
-msgstr ""
-
-#: automagica/cli.py:592 automagica/gui/windows.py:453
+#: automagica/cli.py:28 automagica/gui/windows.py:820
+#: automagica/gui/windows.py:953
 msgid "Automagica Wand"
 msgstr ""
 
-#: automagica/cli.py:599
-msgid "Automagica Lab"
-msgstr ""
-
-#: automagica/cli.py:604
-msgid "New Notebook"
-msgstr ""
-
-#: automagica/cli.py:609
-msgid "Edit Notebook"
-msgstr ""
-
-#: automagica/cli.py:614
-msgid "Run Notebook"
-msgstr ""
-
-#: automagica/cli.py:619
-msgid "Automagica Portal"
-msgstr ""
-
-#: automagica/cli.py:628
+#: automagica/cli.py:39
 msgid "Automagica Flow"
 msgstr ""
 
-#: automagica/cli.py:633
+#: automagica/cli.py:44
 msgid "New Flow"
 msgstr ""
 
-#: automagica/cli.py:639
+#: automagica/cli.py:50
 msgid "Edit Flow"
 msgstr ""
 
-#: automagica/cli.py:646
+#: automagica/cli.py:57
 msgid "Run Flow"
 msgstr ""
 
-#: automagica/cli.py:649 automagica/cli.py:654
+#: automagica/cli.py:60 automagica/cli.py:65
 msgid "Run Flow headless (without GUI)"
 msgstr ""
 
-#: automagica/gui/buttons.py:92
+#: automagica/cli.py:87
+msgid "Automagica Lab"
+msgstr ""
+
+#: automagica/cli.py:92
+msgid "New Lab notebook"
+msgstr ""
+
+#: automagica/cli.py:98
+msgid "Edit Lab notebook"
+msgstr ""
+
+#: automagica/cli.py:105
+msgid "Run Lab notebook"
+msgstr ""
+
+#: automagica/cli.py:118
+msgid "Automagica Trace (alpha)"
+msgstr ""
+
+#: automagica/cli.py:123
+msgid "Record a new Trace"
+msgstr ""
+
+#: automagica/cli.py:129
+msgid "Automagica Script"
+msgstr ""
+
+#: automagica/cli.py:134
+msgid "Run Script"
+msgstr ""
+
+#: automagica/flow.py:24
+msgid "Unnamed Flow"
+msgstr ""
+
+#: automagica/flow.py:38
+msgid "Loading Flow from {}"
+msgstr ""
+
+#: automagica/flow.py:47
+msgid "Loaded Flow from {}"
+msgstr ""
+
+#: automagica/flow.py:170
+msgid "Saving to {}"
+msgstr ""
+
+#: automagica/flow.py:175
+msgid "Saved to {}"
+msgstr ""
+
+#: automagica/gui/buttons.py:91
 msgid "Information"
 msgstr ""
 
@@ -93,85 +122,81 @@ msgid ""
 "\n"
 msgstr ""
 
-#: automagica/gui/frames.py:167
+#: automagica/gui/frames.py:168
 msgid "Reset Bot"
 msgstr ""
 
-#: automagica/gui/frames.py:173
+#: automagica/gui/frames.py:174
 msgid "Clear Output"
 msgstr ""
 
-#: automagica/gui/frames.py:180 automagica/gui/windows.py:973
+#: automagica/gui/frames.py:181 automagica/gui/windows.py:1550
 msgid "Variable Explorer"
 msgstr ""
 
-#: automagica/gui/frames.py:475
+#: automagica/gui/frames.py:473
 msgid "Save As"
 msgstr ""
 
-#: automagica/gui/frames.py:481
+#: automagica/gui/frames.py:479
 msgid "Run (F5)"
 msgstr ""
 
-#: automagica/gui/frames.py:488
+#: automagica/gui/frames.py:486
 msgid "Run step-by-step (Shift+F5)"
 msgstr ""
 
-#: automagica/gui/frames.py:503
+#: automagica/gui/frames.py:500
 msgid "Automagica Wand (Powered by AI)"
 msgstr ""
 
-#: automagica/gui/frames.py:509
+#: automagica/gui/frames.py:505
 msgid "Click"
 msgstr ""
 
-#: automagica/gui/frames.py:519
+#: automagica/gui/frames.py:515
 msgid "Double-Click"
 msgstr ""
 
-#: automagica/gui/frames.py:529
+#: automagica/gui/frames.py:525
 msgid "Right-Click"
 msgstr ""
 
-#: automagica/gui/frames.py:539
+#: automagica/gui/frames.py:535
 msgid "Move To"
 msgstr ""
 
-#: automagica/gui/frames.py:549
+#: automagica/gui/frames.py:545
 msgid "Typing"
 msgstr ""
 
-#: automagica/gui/frames.py:559
+#: automagica/gui/frames.py:555
 msgid "Read Text"
 msgstr ""
 
-#: automagica/gui/frames.py:569
+#: automagica/gui/frames.py:565
 msgid "Is Visible"
 msgstr ""
 
-#: automagica/gui/frames.py:579
+#: automagica/gui/frames.py:575
 msgid "Wait Appear"
 msgstr ""
 
-#: automagica/gui/frames.py:589
+#: automagica/gui/frames.py:585
 msgid "Wait Vanish"
 msgstr ""
 
-#: automagica/gui/frames.py:643
+#: automagica/gui/frames.py:661
 msgid "Select Automagica Flow"
 msgstr ""
 
-#: automagica/gui/frames.py:666
-msgid "Flow opened."
-msgstr ""
-
 #: automagica/gui/frames.py:684
-msgid "Saved flow."
+msgid "Flow opened."
 msgstr ""
 
 #: automagica/gui/frames.py:751
 msgid ""
-"Activities are t he basic building blocks of Automagica. By tieing "
+"Activities are the basic building blocks of Automagica. By tieing "
 "activities together, you get a Flow."
 msgstr ""
 
@@ -193,139 +218,198 @@ msgid ""
 "Middle-click: remove"
 msgstr ""
 
-#: automagica/gui/frames.py:813
-msgid "Activities"
-msgstr ""
-
-#: automagica/gui/frames.py:823 automagica/gui/frames.py:958
-msgid "Search activities..."
-msgstr ""
-
-#: automagica/gui/frames.py:881
+#: automagica/gui/frames.py:812
 msgid "Special Nodes"
 msgstr ""
 
-#: automagica/gui/frames.py:909
+#: automagica/gui/frames.py:840
 msgid "Start"
 msgstr ""
 
-#: automagica/gui/frames.py:910
+#: automagica/gui/frames.py:841
 msgid "If Else"
 msgstr ""
 
-#: automagica/gui/frames.py:911
+#: automagica/gui/frames.py:842
 msgid "Loop"
 msgstr ""
 
-#: automagica/gui/frames.py:912 automagica/gui/graphs.py:743
+#: automagica/gui/frames.py:843
 msgid "Python Script (.py)"
 msgstr ""
 
-#: automagica/gui/frames.py:913
+#: automagica/gui/frames.py:844
 msgid "Sub-flow"
 msgstr ""
 
-#: automagica/gui/frames.py:914
+#: automagica/gui/frames.py:845
 msgid "Python Code"
 msgstr ""
 
-#: automagica/gui/graphs.py:103 automagica/gui/graphs.py:1285
+#: automagica/gui/graphs.py:105 automagica/gui/graphs.py:1314
 msgid "Delete"
 msgstr ""
 
-#: automagica/gui/graphs.py:104
+#: automagica/gui/graphs.py:106
 msgid "Duplicate"
 msgstr ""
 
-#: automagica/gui/graphs.py:106
+#: automagica/gui/graphs.py:108
 msgid "Group into Sub-flow"
 msgstr ""
 
-#: automagica/gui/graphs.py:1345
+#: automagica/gui/graphs.py:745
+msgid ".py file"
+msgstr ""
+
+#: automagica/gui/graphs.py:887
+msgid "Python code"
+msgstr ""
+
+#: automagica/gui/graphs.py:1381
 msgid "Yes"
 msgstr ""
 
-#: automagica/gui/graphs.py:1382
+#: automagica/gui/graphs.py:1418
 msgid "Done"
 msgstr ""
 
-#: automagica/gui/graphs.py:1416
+#: automagica/gui/graphs.py:1452
 msgid "No"
 msgstr ""
 
-#: automagica/gui/graphs.py:1450 automagica/gui/windows.py:696
+#: automagica/gui/graphs.py:1486 automagica/gui/windows.py:1155
 msgid "Error"
 msgstr ""
 
-#: automagica/gui/graphs.py:1486
+#: automagica/gui/graphs.py:1522
 msgid "Repeat"
 msgstr ""
 
-#: automagica/gui/inputs.py:23
+#: automagica/gui/inputs.py:28
 msgid "Control"
 msgstr ""
 
-#: automagica/gui/inputs.py:32
+#: automagica/gui/inputs.py:37
 msgid "Shift"
 msgstr ""
 
-#: automagica/gui/inputs.py:40
+#: automagica/gui/inputs.py:45
 msgid "Alt"
 msgstr ""
 
-#: automagica/gui/inputs.py:150
+#: automagica/gui/inputs.py:189 automagica/gui/inputs.py:246
 msgid "Browse"
 msgstr ""
 
-#: automagica/gui/inputs.py:167 automagica/gui/inputs.py:371
+#: automagica/gui/inputs.py:207 automagica/gui/inputs.py:211
+#: automagica/gui/inputs.py:224 automagica/gui/inputs.py:488
 msgid "Select File"
 msgstr ""
 
-#: automagica/gui/inputs.py:248
+#: automagica/gui/inputs.py:263
+msgid "Select Directory"
+msgstr ""
+
+#: automagica/gui/inputs.py:344
 msgid "View"
 msgstr ""
 
-#: automagica/gui/windows.py:169
+#: automagica/gui/inputs.py:350
+msgid "Record"
+msgstr ""
+
+#: automagica/gui/inputs.py:593
+msgid "Activities"
+msgstr ""
+
+#: automagica/gui/inputs.py:604 automagica/gui/inputs.py:655
+msgid "Search activities..."
+msgstr ""
+
+#: automagica/gui/windows.py:192
 msgid "Unsaved Flow"
 msgstr ""
 
-#: automagica/gui/windows.py:447
-msgid "Drag a box around the element on the screen"
+#: automagica/gui/windows.py:312
+msgid "Current step: {}"
 msgstr ""
 
-#: automagica/gui/windows.py:495
-msgid "Add activity to Flow"
+#: automagica/gui/windows.py:318 automagica/gui/windows.py:351
+msgid "Next step: {}"
 msgstr ""
 
-#: automagica/gui/windows.py:501
+#: automagica/gui/windows.py:342
+msgid "No current activity"
+msgstr ""
+
+#: automagica/gui/windows.py:368 automagica/gui/windows.py:381
+#: automagica/gui/windows.py:398
+msgid "Play"
+msgstr ""
+
+#: automagica/gui/windows.py:373
+msgid "Stop"
+msgstr ""
+
+#: automagica/gui/windows.py:387
+msgid "Pause"
+msgstr ""
+
+#: automagica/gui/windows.py:427
+msgid "Restart"
+msgstr ""
+
+#: automagica/gui/windows.py:511
+msgid "Flow"
+msgstr ""
+
+#: automagica/gui/windows.py:537
+msgid "Flow Validation"
+msgstr ""
+
+#: automagica/gui/windows.py:556
+msgid "There are no validation errors for this Flow."
+msgstr ""
+
+#: automagica/gui/windows.py:821
+msgid ""
+"To use Automagica Wand, please register on the Automagica Portal and set "
+"up your bot. \n"
+"\n"
+"Would you like to go to the Automagica Portal?"
+msgstr ""
+
+#: automagica/gui/windows.py:982 automagica/gui/windows.py:1508
+#: automagica/gui/windows.py:1684 automagica/gui/windows.py:2527
+msgid "Save"
+msgstr ""
+
+#: automagica/gui/windows.py:988
 msgid "Screenshot"
 msgstr ""
 
-#: automagica/gui/windows.py:526
+#: automagica/gui/windows.py:1019
 msgid "Anchors"
 msgstr ""
 
-#: automagica/gui/windows.py:530
+#: automagica/gui/windows.py:1024
 msgid "Add anchors to make the element detection more reliable."
 msgstr ""
 
-#: automagica/gui/windows.py:538
+#: automagica/gui/windows.py:1032
 msgid "Add anchor"
 msgstr ""
 
-#: automagica/gui/windows.py:547
+#: automagica/gui/windows.py:1041
 msgid "Target"
 msgstr ""
 
-#: automagica/gui/windows.py:584
-msgid "Select an anchor on the screen"
-msgstr ""
-
-#: automagica/gui/windows.py:647
+#: automagica/gui/windows.py:1105
 msgid "Important"
 msgstr ""
 
-#: automagica/gui/windows.py:648
+#: automagica/gui/windows.py:1106
 msgid ""
 "By continuing, the information you provided in the previous steps will be"
 " uploaded to Automagica's Vision service. You can find the full terms on "
@@ -333,267 +417,291 @@ msgid ""
 " be prompted once on this machine."
 msgstr ""
 
-#: automagica/gui/windows.py:698
+#: automagica/gui/windows.py:1157
 msgid "Unknown error"
 msgstr ""
 
-#: automagica/gui/windows.py:722 automagica/gui/windows.py:1002
+#: automagica/gui/windows.py:1277 automagica/gui/windows.py:1578
 msgid "Name"
 msgstr ""
 
-#: automagica/gui/windows.py:742 automagica/gui/windows.py:1473
-#: automagica/gui/windows.py:2111
+#: automagica/gui/windows.py:1297 automagica/gui/windows.py:1689
+#: automagica/gui/windows.py:2531
 msgid "Cancel"
 msgstr ""
 
-#: automagica/gui/windows.py:766
+#: automagica/gui/windows.py:1321
 msgid "Keybind"
 msgstr ""
 
-#: automagica/gui/windows.py:774
+#: automagica/gui/windows.py:1329
 msgid "Hello World"
 msgstr ""
 
-#: automagica/gui/windows.py:815
+#: automagica/gui/windows.py:1370
 msgid "Add"
 msgstr ""
 
-#: automagica/gui/windows.py:819 automagica/gui/windows.py:1478
-#: automagica/gui/windows.py:2116
+#: automagica/gui/windows.py:1374 automagica/gui/windows.py:1694
+#: automagica/gui/windows.py:2536
 msgid "Remove"
 msgstr ""
 
-#: automagica/gui/windows.py:823
+#: automagica/gui/windows.py:1378
 msgid "Edit"
 msgstr ""
 
-#: automagica/gui/windows.py:842
+#: automagica/gui/windows.py:1397
 msgid "Keybinds"
 msgstr ""
 
-#: automagica/gui/windows.py:872
-msgid "Username/E-mail"
+#: automagica/gui/windows.py:1439
+msgid "Portal URL"
 msgstr ""
 
-#: automagica/gui/windows.py:884
-msgid "Password"
+#: automagica/gui/windows.py:1452
+msgid "User secret"
 msgstr ""
 
-#: automagica/gui/windows.py:899
-msgid "Log in"
+#: automagica/gui/windows.py:1465
+msgid "Bot secret"
 msgstr ""
 
-#: automagica/gui/windows.py:905
-msgid "No account yet? Sign up now"
+#: automagica/gui/windows.py:1478
+msgid "Locale"
 msgstr ""
 
-#: automagica/gui/windows.py:1010
+#: automagica/gui/windows.py:1586
 msgid "Type"
 msgstr ""
 
-#: automagica/gui/windows.py:1018
+#: automagica/gui/windows.py:1594
 msgid "Value"
 msgstr ""
 
-#: automagica/gui/windows.py:1121
-msgid "Current step: {}"
-msgstr ""
-
-#: automagica/gui/windows.py:1126 automagica/gui/windows.py:1158
-msgid "Next step: {}"
-msgstr ""
-
-#: automagica/gui/windows.py:1150
-msgid "No current activity"
-msgstr ""
-
-#: automagica/gui/windows.py:1175 automagica/gui/windows.py:1188
-#: automagica/gui/windows.py:1205
-msgid "Play"
-msgstr ""
-
-#: automagica/gui/windows.py:1180
-msgid "Stop"
-msgstr ""
-
-#: automagica/gui/windows.py:1194
-msgid "Pause"
-msgstr ""
-
-#: automagica/gui/windows.py:1254
-msgid "Restart"
-msgstr ""
-
-#: automagica/gui/windows.py:1268
-msgid "Flow"
-msgstr ""
-
-#: automagica/gui/windows.py:1294
-msgid "Flow Validation"
-msgstr ""
-
-#: automagica/gui/windows.py:1313
-msgid "There are no validation errors for this Flow."
-msgstr ""
-
-#: automagica/gui/windows.py:1448
+#: automagica/gui/windows.py:1664
 msgid "Properties"
 msgstr ""
 
-#: automagica/gui/windows.py:1468 automagica/gui/windows.py:2107
-msgid "Save"
-msgstr ""
-
-#: automagica/gui/windows.py:1515 automagica/gui/windows.py:1770
-#: automagica/gui/windows.py:2224 automagica/gui/windows.py:2287
+#: automagica/gui/windows.py:1731 automagica/gui/windows.py:1986
+#: automagica/gui/windows.py:2123 automagica/gui/windows.py:2664
+#: automagica/gui/windows.py:2727
 msgid "Node"
 msgstr ""
 
-#: automagica/gui/windows.py:1520 automagica/gui/windows.py:1775
-#: automagica/gui/windows.py:1920 automagica/gui/windows.py:2020
-#: automagica/gui/windows.py:2229 automagica/gui/windows.py:2292
+#: automagica/gui/windows.py:1736 automagica/gui/windows.py:1991
+#: automagica/gui/windows.py:2128 automagica/gui/windows.py:2269
+#: automagica/gui/windows.py:2420 automagica/gui/windows.py:2669
+#: automagica/gui/windows.py:2732
 msgid "Unique ID"
 msgstr ""
 
-#: automagica/gui/windows.py:1537 automagica/gui/windows.py:1792
+#: automagica/gui/windows.py:1753 automagica/gui/windows.py:2008
+#: automagica/gui/windows.py:2145
 msgid ""
 "This is the unique identifier for this specific node. It can be used to "
 "connect this node from other nodes."
 msgstr ""
 
-#: automagica/gui/windows.py:1546 automagica/gui/windows.py:1801
-#: automagica/gui/windows.py:2310
+#: automagica/gui/windows.py:1762 automagica/gui/windows.py:2017
+#: automagica/gui/windows.py:2154 automagica/gui/windows.py:2432
+#: automagica/gui/windows.py:2568 automagica/gui/windows.py:2750
 msgid "Label"
 msgstr ""
 
-#: automagica/gui/windows.py:1555 automagica/gui/windows.py:1810
-#: automagica/gui/windows.py:2319
+#: automagica/gui/windows.py:1771 automagica/gui/windows.py:2026
+#: automagica/gui/windows.py:2163 automagica/gui/windows.py:2441
+#: automagica/gui/windows.py:2577 automagica/gui/windows.py:2759
 msgid "This label is shown in the Flow."
 msgstr ""
 
-#: automagica/gui/windows.py:1565 automagica/gui/windows.py:1848
-#: automagica/gui/windows.py:1954 automagica/gui/windows.py:2046
-#: automagica/gui/windows.py:2166 automagica/gui/windows.py:2398
+#: automagica/gui/windows.py:1781 automagica/gui/windows.py:2036
+#: automagica/gui/windows.py:2197 automagica/gui/windows.py:2465
+#: automagica/gui/windows.py:2605 automagica/gui/windows.py:2792
 msgid "Next Node"
 msgstr ""
 
-#: automagica/gui/windows.py:1577 automagica/gui/windows.py:1861
+#: automagica/gui/windows.py:1793 automagica/gui/windows.py:2048
+#: automagica/gui/windows.py:2069 automagica/gui/windows.py:2210
 msgid "This node will be the next node in the flow."
 msgstr ""
 
-#: automagica/gui/windows.py:1602
+#: automagica/gui/windows.py:1818
 msgid "Activity"
 msgstr ""
 
-#: automagica/gui/windows.py:1629
+#: automagica/gui/windows.py:1845
 msgid "Options"
 msgstr ""
 
-#: automagica/gui/windows.py:1643
+#: automagica/gui/windows.py:1859
 msgid "Object variable"
 msgstr ""
 
-#: automagica/gui/windows.py:1705
+#: automagica/gui/windows.py:1860
+msgid ""
+"Name of the variable to assign the object to. If you want to have "
+"multiple instances of this object, give it a different name than the "
+"default name."
+msgstr ""
+
+#: automagica/gui/windows.py:1867
+msgid "(required)"
+msgstr ""
+
+#: automagica/gui/windows.py:1966
 msgid "Return variable"
 msgstr ""
 
-#: automagica/gui/windows.py:1718
+#: automagica/gui/windows.py:1979
 msgid "Where to store the output of this activity."
 msgstr ""
 
-#: automagica/gui/windows.py:1820
+#: automagica/gui/windows.py:2055 automagica/gui/windows.py:2479
+#: automagica/gui/windows.py:2620 automagica/gui/windows.py:2807
+msgid "On Exception Node"
+msgstr ""
+
+#: automagica/gui/windows.py:2173
 msgid "Condition"
 msgstr ""
 
-#: automagica/gui/windows.py:1831
+#: automagica/gui/windows.py:2184
 msgid ""
 "The condition to be evaluated. If the condition is true, the flow will "
 "continue to the next node. If the condition is false, the flow will go to"
 " the else node."
 msgstr ""
 
-#: automagica/gui/windows.py:1868
+#: automagica/gui/windows.py:2217
 msgid "Else Node"
 msgstr ""
 
-#: automagica/gui/windows.py:1881
+#: automagica/gui/windows.py:2230
 msgid "This node will be the next node if the condition is not met."
 msgstr ""
 
-#: automagica/gui/windows.py:1938
-msgid "Iterable"
+#: automagica/gui/windows.py:2287
+msgid "Repeat loop N times"
 msgstr ""
 
-#: automagica/gui/windows.py:1969
-msgid "Loop Node"
+#: automagica/gui/windows.py:2301
+msgid "Number of times to repeat this part of the flow."
 msgstr ""
 
-#: automagica/gui/windows.py:2032
+#: automagica/gui/windows.py:2308
+msgid "Run loop for every "
+msgstr ""
+
+#: automagica/gui/windows.py:2323
+msgid ""
+"The name of the variable to assign the single item of the collection/list"
+" to while iterating."
+msgstr ""
+
+#: automagica/gui/windows.py:2332
+msgid "in"
+msgstr ""
+
+#: automagica/gui/windows.py:2347
+msgid ""
+"The collection or list to iterate over and repeat this part of the flow. "
+"This will override the default 'repeat n times' setting."
+msgstr ""
+
+#: automagica/gui/windows.py:2356
+msgid "After loop finish node"
+msgstr ""
+
+#: automagica/gui/windows.py:2371
+msgid "Repeat flow starting with"
+msgstr ""
+
+#: automagica/gui/windows.py:2451
 msgid ".py-file path"
 msgstr ""
 
-#: automagica/gui/windows.py:2060 automagica/gui/windows.py:2181
-#: automagica/gui/windows.py:2413
-msgid "On Exception Node"
-msgstr ""
-
-#: automagica/gui/windows.py:2148
+#: automagica/gui/windows.py:2587
 msgid "Code"
 msgstr ""
 
-#: automagica/gui/windows.py:2247
+#: automagica/gui/windows.py:2687
 msgid "Comment"
 msgstr ""
 
-#: automagica/gui/windows.py:2329
-msgid "Iterator"
-msgstr ""
-
-#: automagica/gui/windows.py:2340
-msgid "The subflow will be repeated for each element in the iterator."
-msgstr ""
-
-#: automagica/gui/windows.py:2351
-msgid "Iterator Variable"
-msgstr ""
-
-#: automagica/gui/windows.py:2362
-msgid "The name of the variable to use for each element in the iterator."
-msgstr ""
-
-#: automagica/gui/windows.py:2375
+#: automagica/gui/windows.py:2769
 msgid "Flow path"
 msgstr ""
 
-#: automagica/models/flow.py:16
-msgid "Unnamed Flow"
-msgstr ""
+#~ msgid "Run bot headless (without GUI)"
+#~ msgstr ""
 
-#: automagica/models/flow.py:30
-msgid "Loading Flow from {}"
-msgstr ""
+#~ msgid "New Notebook"
+#~ msgstr ""
 
-#: automagica/models/flow.py:122
-msgid "Loaded Flow from {}"
-msgstr ""
+#~ msgid "Edit Notebook"
+#~ msgstr ""
 
-#: automagica/models/flow.py:144
-msgid "Saving to {}"
-msgstr ""
+#~ msgid "Run Notebook"
+#~ msgstr ""
 
-#: automagica/models/flow.py:147
-msgid "Saved to {}"
-msgstr ""
+#~ msgid "Automagica Portal"
+#~ msgstr ""
 
-#: automagica/models/flow.py:184
-msgid "Starting Flow"
-msgstr ""
+#~ msgid "Saved flow."
+#~ msgstr ""
 
-#: automagica/models/flow.py:187
-msgid "Starting from node {}"
-msgstr ""
+#~ msgid ""
+#~ "Activities are t he basic building "
+#~ "blocks of Automagica. By tieing "
+#~ "activities together, you get a Flow."
+#~ msgstr ""
 
-#: automagica/models/flow.py:195
-msgid "Running node {} with Bot {}"
-msgstr ""
+#~ msgid "Drag a box around the element on the screen"
+#~ msgstr ""
+
+#~ msgid "Add activity to Flow"
+#~ msgstr ""
+
+#~ msgid "Select an anchor on the screen"
+#~ msgstr ""
+
+#~ msgid "Username/E-mail"
+#~ msgstr ""
+
+#~ msgid "Password"
+#~ msgstr ""
+
+#~ msgid "Log in"
+#~ msgstr ""
+
+#~ msgid "No account yet? Sign up now"
+#~ msgstr ""
+
+#~ msgid "Iterable"
+#~ msgstr ""
+
+#~ msgid "Loop Node"
+#~ msgstr ""
+
+#~ msgid "Iterator"
+#~ msgstr ""
+
+#~ msgid "The subflow will be repeated for each element in the iterator."
+#~ msgstr ""
+
+#~ msgid "Iterator Variable"
+#~ msgstr ""
+
+#~ msgid "The name of the variable to use for each element in the iterator."
+#~ msgstr ""
+
+#~ msgid "Starting Flow"
+#~ msgstr ""
+
+#~ msgid "Starting from node {}"
+#~ msgstr ""
+
+#~ msgid "Running node {} with Bot {}"
+#~ msgstr ""
 

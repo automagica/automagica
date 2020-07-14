@@ -5,7 +5,7 @@ from tkinter import font, ttk
 from PIL import Image, ImageTk
 
 from automagica import config
-from automagica.config import _
+from automagica.config import _, ICONS
 
 
 def generate_icon(icon_path, width=20, height=20, color="#ffffff"):
@@ -292,22 +292,6 @@ class StartNodeGraph(NodeGraph):
             font=(config.FONT, 10),
         )
 
-        # Icon
-        base_path = os.path.abspath(__file__).replace(
-            os.path.basename(os.path.realpath(__file__)), ""
-        )
-        icon_path = os.path.join(base_path, "icons", "play-circle.png")
-
-        self.icon_img = ImageTk.PhotoImage(
-            generate_icon(icon_path, color=config.COLOR_1)
-        )
-        self.icon = self.parent.canvas.create_image(
-            self.node.x + self.w - 10,
-            self.node.y + 10,
-            image=self.icon_img,
-            tags=self.node.uid,
-        )
-
     def update(self):
         # Rectangle
         self.parent.canvas.coords(
@@ -320,11 +304,6 @@ class StartNodeGraph(NodeGraph):
 
         # Text
         self.parent.canvas.coords(self.text, self.center_x, self.center_y)
-
-        # Icon
-        self.parent.canvas.coords(
-            self.icon, self.node.x + self.w - 10, self.node.y + 10
-        )
 
         # Selection
         if self.selected:
@@ -339,8 +318,7 @@ class StartNodeGraph(NodeGraph):
     def delete(self):
         self.parent.canvas.delete(self.rectangle)
         self.parent.canvas.delete(self.text)
-        self.parent.canvas.delete(self.icon)
-
+        
         self.parent.parent.master.flow.nodes.remove(self.node)
         self.parent.parent.master.flow.remove_dead_ends()
 
@@ -406,39 +384,28 @@ class ActivityNodeGraph(NodeGraph):
             os.path.basename(os.path.realpath(__file__)), ""
         )
 
-        icon_name = str(config.ACTIVITIES[self.node.activity].get("icon").split("la-")[-1])
+        icon_name = str(
+            config.ACTIVITIES[self.node.activity].get("icon").split("la-")[-1]
+        )
 
         if icon_name not in ["html5", "trello", "salesforce", "chrome", "readme"]:
             icon_name = icon_name + "-solid.png"
         else:
             icon_name = icon_name + ".png"
 
-        icon_path = os.path.join(base_path, "icons", icon_name)
-
-        self.icon_img = ImageTk.PhotoImage(
-            generate_icon(icon_path, color=config.COLOR_0)
-        )
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 3,
             self.node.y + 3,
-            image=self.icon_img,
+            image=ICONS.tkinter(icon_name),
             tags=self.node.uid,
             anchor="ne",
         )
 
         # Play button
-        base_path = os.path.abspath(__file__).replace(
-            os.path.basename(os.path.realpath(__file__)), ""
-        )
-        icon_path = os.path.join(base_path, "icons", "play-solid.png")
-
-        self.play_button_img = ImageTk.PhotoImage(
-            generate_icon(icon_path, color=config.COLOR_7, width=20, height=20)
-        )
         self.play_button = self.parent.canvas.create_image(
             self.node.x + 3,
             self.node.y + 3,
-            image=self.play_button_img,
+            image=ICONS.tkinter("play-solid.png"),
             tags="play" + self.node.uid,
             anchor="nw",
         )
@@ -556,19 +523,10 @@ class IfElseNodeGraph(NodeGraph):
         )
 
         # Icon
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "question-circle-solid.png",
-        )
-
-        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#2196f3"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
-            image=self.icon_img,
+            image=ICONS.tkinter("question-circle-solid.png"),
             tags=self.node.uid,
         )
 
@@ -665,19 +623,10 @@ class LoopNodeGraph(NodeGraph):
         )
 
         # Icon
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "redo-alt-solid.png",
-        )
-
-        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#2196f3"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
-            image=self.icon_img,
+            image=ICONS.tkinter("redo-alt-solid.png"),
             tags=self.node.uid,
         )
 
@@ -778,37 +727,18 @@ class DotPyFileNodeGraph(NodeGraph):
         )
 
         # Icon
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "python.png",
-        )
-
-        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#2196f3"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
-            image=self.icon_img,
+            image=ICONS["python.png"],
             tags=self.node.uid,
         )
 
         # Play button
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "play-solid.png",
-        )
-        self.play_button_img = ImageTk.PhotoImage(
-            generate_icon(icon_path, color="#28a745", width=20, height=20)
-        )
         self.play_button = self.parent.canvas.create_image(
             self.node.x + 3,
             self.node.y + 3,
-            image=self.play_button_img,
+            image=ICONS.tkinter("play-solid.png"),
             tags="play" + self.node.uid,
             anchor="nw",
         )
@@ -920,36 +850,18 @@ class PythonCodeNodeGraph(NodeGraph):
         )
 
         # Icon
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "python.png",
-        )
-        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#2196f3"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
-            image=self.icon_img,
+            image=ICONS.tkinter("python.png"),
             tags=self.node.uid,
         )
 
         # Play button
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "play-solid.png",
-        )
-        self.play_button_img = ImageTk.PhotoImage(
-            generate_icon(icon_path, color="#28a745", width=20, height=20)
-        )
         self.play_button = self.parent.canvas.create_image(
             self.node.x + 3,
             self.node.y + 3,
-            image=self.play_button_img,
+            image=ICONS.tkinter("play-solid.png"),
             tags="play" + self.node.uid,
             anchor="nw",
         )
@@ -1059,20 +971,10 @@ class CommentNodeGraph(NodeGraph):
         )
 
         # Icon
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "comment-alt.png",
-        )
-        self.icon_img = ImageTk.PhotoImage(
-            generate_icon(icon_path, color=config.COLOR_1)
-        )
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
-            image=self.icon_img,
+            image=ICONS.tkinter("comment-alt.png"),
             tags=self.node.uid,
         )
 
@@ -1176,36 +1078,18 @@ class SubFlowNodeGraph(NodeGraph):
         )
 
         # Icon
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "project-diagram-solid.png",
-        )
-        self.icon_img = ImageTk.PhotoImage(generate_icon(icon_path, color="#2196f3"))
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
-            image=self.icon_img,
+            image=ICONS.tkinter("project-diagram-solid.png"),
             tags=self.node.uid,
         )
 
         # Play button
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "play-solid.png",
-        )
-        self.play_button_img = ImageTk.PhotoImage(
-            generate_icon(icon_path, color="#28a745", width=20, height=20)
-        )
         self.play_button = self.parent.canvas.create_image(
             self.node.x + 3,
             self.node.y + 3,
-            image=self.play_button_img,
+            image=ICONS.tkinter("play-solid.png"),
             tags="play" + self.node.uid,
             anchor="nw",
         )
@@ -1578,3 +1462,4 @@ class ConnectorGraph:
                 )
                 / 2,
             )
+

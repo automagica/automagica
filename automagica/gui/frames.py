@@ -1,12 +1,14 @@
 import logging
 import os
 import tkinter as tk
-from tkinter import font, scrolledtext, filedialog
+from tkinter import filedialog, font, scrolledtext
 
 from PIL import ImageTk
 
 from automagica import config
+from automagica.bots import ConsoleHandler, ThreadedBot
 from automagica.config import _
+from automagica.flow import Flow
 from automagica.gui.buttons import Button, HelpButton, LargeButton, ToolbarImageButton
 from automagica.gui.graphs import (
     ActivityNodeGraph,
@@ -19,9 +21,7 @@ from automagica.gui.graphs import (
     StartNodeGraph,
     SubFlowNodeGraph,
 )
-from automagica.gui.inputs import InputField, SettingContextMenu, ActivitySelectionFrame
-from automagica.flow import Flow
-from automagica.bots import ConsoleHandler, ThreadedBot
+from automagica.gui.inputs import ActivitySelectionFrame, InputField, SettingContextMenu
 
 
 class LabelFrame(tk.LabelFrame):
@@ -859,5 +859,3 @@ class SidebarFrame(tk.Frame):
 
         if selection_index:  # Fix sometimes empty value for selection index
             self.parent.master.add_node(self.node_types[selection_index[0]][0])
-
-

@@ -1,14 +1,13 @@
+import os
 import tkinter as tk
-from tkinter import font, ttk, filedialog
-
-from automagica import config
-from automagica.config import _
-from automagica.gui.buttons import Button
-from automagica.gui.graphs import generate_icon
+from tkinter import filedialog, font, ttk
 
 from PIL import ImageTk
 
-import os
+from automagica import config
+from automagica.config import _, ICONS
+from automagica.gui.buttons import Button
+from automagica.gui.graphs import generate_icon
 
 
 class KeycombinationEntry(tk.Frame):
@@ -558,14 +557,8 @@ class ActivityBlock:
         else:
             icon_name = icon_name + ".png"
 
-        base_path = os.path.abspath(__file__).replace(
-            os.path.basename(os.path.realpath(__file__)), ""
-        )
-        icon_path = os.path.join(base_path, "icons", icon_name)
+        self.icon_img = ICONS.tkinter(icon_name)
 
-        self.img = generate_icon(icon_path, color="#2196f3", width=20, height=20)
-
-        self.icon_img = ImageTk.PhotoImage(self.img, master=self.canvas)
         self.icon = self.canvas.create_image(
             x, y, image=self.icon_img, anchor=tk.NW, tags=activity.get("key")
         )
@@ -620,6 +613,18 @@ class ActivitySelectionFrame(tk.Frame):
 
         self.canvas.config(yscrollcommand=self.vertical_scrollbar.set)
         self.canvas.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+
+        self.bind("<Enter>", self._bound_to_mousewheel)
+        self.bind("<Leave>", self._unbound_to_mousewheel)
+
+    def _bound_to_mousewheel(self, event):
+        self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
+
+    def _unbound_to_mousewheel(self, event):
+        self.canvas.unbind_all("<MouseWheel>")
+
+    def _on_mousewheel(self, event):
+        self.canvas.yview_scroll(int(-1 * (event.delta / 60)), "units")
 
     def render_activity_blocks(self, activities):
         self.activity_blocks = []

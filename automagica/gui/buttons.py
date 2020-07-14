@@ -5,7 +5,7 @@ from tkinter import font, messagebox
 from PIL import ImageTk
 
 from automagica import config
-from automagica.config import _
+from automagica.config import _, ICONS
 from automagica.gui.graphs import generate_icon
 
 
@@ -92,17 +92,8 @@ class HelpButton(tk.Button):
 
         self.title = title
 
-        base_path = os.path.abspath(__file__).replace(
-            os.path.basename(os.path.realpath(__file__)), ""
-        )
-        icon_path = os.path.join(base_path, "icons", "question-circle.png")
-
-        self.icon_img = ImageTk.PhotoImage(
-            generate_icon(icon_path, color=config.COLOR_0)
-        )
-
         self.configure(
-            image=self.icon_img,
+            image=ICONS.tkinter("question-circle.png"),
             command=self.on_clicked,
             relief=tk.FLAT,
             bg=self.master.cget("bg"),  # Take parent's background
