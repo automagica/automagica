@@ -483,6 +483,7 @@ class ScriptApp:
             d = dict(locals(), **globals())
             exec(code_obj, d, d)
             self.config.logger.info(f'Completed script "{script_path}"')
+            os._exit(0)
 
         except Exception as e:
             self.config.logger.exception(f'Failed script "{script_path}"')
