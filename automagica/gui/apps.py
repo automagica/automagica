@@ -479,7 +479,9 @@ class ScriptApp:
             code = f.read()
 
         try:
-            exec(code)
+            code_obj = compile(code, "script.py", "exec")
+            d = dict(locals(), **globals())
+            exec(code_obj, d, d)
             self.config.logger.info(f'Completed script "{script_path}"')
 
         except Exception as e:
