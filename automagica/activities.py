@@ -4070,9 +4070,9 @@ class Outlook:
         :parameter subject: The subject of the e-mail
         :type subject: string, optional
         :parameter body: The text body contents of the e-mail
-        :type body: string, optional
+        :type body: text, optional
         :parameter html_body: The HTML body contents of the e-mail (optional)
-        :type html_body: string, optional
+        :type html_body: text, optional
         :parameter attachment_paths: List of file paths to attachments
         :type attachment_paths: string, optional
 
@@ -5928,7 +5928,7 @@ class PowerPoint:
 
         :parameter index: Slide index to add text. If none is specified, a new slide will be added as final slide
         :type index: int, optional
-        :parmeter text: Text to be added
+        :parameter text: Text to be added
         :type text: string, optional
         :parameter font_size: Fontsize, default value is 48
         :type font_size: int, optional
@@ -6266,7 +6266,7 @@ def send_mail_smtp(
     :parameter subject: The subject 
     :type subject: string, optional
     :parameter message: The body of the mail
-    :type message: string, optional
+    :type message: text, optional
     :parameter port: The port variable is standard 587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
     :type port: int, optional
 
@@ -9900,6 +9900,32 @@ def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
 
 
 """
+General
+Icon: las la-briefcase
+"""
+
+
+@activity
+def raise_exception(message="Exception", exception=Exception):
+    """Raise exception
+
+    Raises an exception
+
+    :parameter message: Message
+    :type: string, optional
+    :parameter exception: Exception to raise
+    :type exception: exception, optional
+
+    Keywords
+        sap, sap gui, sap client
+    
+    Icon
+        las la-exclamation
+    """
+    raise Exception(message)
+
+
+"""
 SAP GUI
 Icon: las la-briefcase
 """
@@ -10294,6 +10320,7 @@ Vision
 Icon: las la-eye
 """
 
+
 def get_screen_dimensions():
     """
     Returns primary screen width and height in pixels
@@ -10352,20 +10379,6 @@ def insert_cell_below(content, type_="code"):
         """
 
     display(Javascript(javascript))
-
-
-def select_rectangle_on_screen():
-    """
-    Presents the user with a window which allows him/her to select
-    a rectangle on the screen and returns the coordinates in the carthesian
-    coordinate system
-    """
-    global coordinates
-
-    screenshot = capture_screen()
-    app = SnippingTool(screenshot)
-
-    return coordinates
 
 
 def detect_vision(automagica_id, detect_target=True):

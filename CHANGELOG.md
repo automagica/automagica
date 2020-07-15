@@ -2,6 +2,13 @@
 
 All notable changes to Automagica are documented per version and product here.
 
+## 3.0.5
+### Automagica Flow
+- Added icons to the selection menu on the left for activities
+- Fixed a bug with auto-save not functioning properly
+- Increased interval for auto-save and state checking for undo (CTRL+Z), should now happen every 100 ms
+
+
 ## 3.0.4
 ### Automagica Flow
 - Added user selectable delay for Automagica Wand (0 to 5 seconds)
@@ -13,7 +20,7 @@ All notable changes to Automagica are documented per version and product here.
 - Fixed bug with empty arguments for activities (fe third key in 'press key combination')
 - Fixed bug where sometimes nodes would not be connected when adding them to a selection
 - Increased parameters field size for certain activity
-- Added icons to the selection menu on the left for activities
+
 
 ### Automagica Windows installer
 - File size reduced with 20MB (100MB to 80MB) by removing unnecessary files

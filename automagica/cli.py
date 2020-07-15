@@ -5,7 +5,7 @@ import click
 from automagica.config import Config, _
 from automagica.gui.apps import BotApp, FlowApp, LabApp, TraceApp, WandApp, ScriptApp
 
-__version__ = "3.0.4"
+__version__ = "3.0.5"
 
 
 @click.group(help=_("Automagica v") + __version__)

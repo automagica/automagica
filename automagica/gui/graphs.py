@@ -15,7 +15,6 @@ def generate_icon(icon_path, width=20, height=20, color="#ffffff"):
 
     color = tuple(int(color.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
 
-    # TODO: remove hard-coded automagica path
     img = Image.open(os.path.join("automagica", icon_path)).resize((width, height))
 
     data = img.load()
@@ -62,7 +61,6 @@ class NodeGraph:
         self.node = node
         self.mouse_x = self.mouse_y = None
 
-        # TODO: remove hard-coded sizes and make relative to parent?
         self.w = 125
         self.h = 75
 
@@ -74,10 +72,6 @@ class NodeGraph:
         self.parent.canvas.tag_bind(
             self.node.uid, "<ButtonRelease-1>", self.on_mouse_up
         )
-
-        # self.parent.canvas.tag_bind(
-        #     self.node.uid, "<Button-3>", self.on_right_click
-        # )  # TODO: Button3 is not always right click on every operating system
 
         self.parent.canvas.tag_bind(
             self.node.uid, "<Shift-1>", lambda x: self.select(shift=True)
@@ -318,7 +312,7 @@ class StartNodeGraph(NodeGraph):
     def delete(self):
         self.parent.canvas.delete(self.rectangle)
         self.parent.canvas.delete(self.text)
-        
+
         self.parent.parent.master.flow.nodes.remove(self.node)
         self.parent.parent.master.flow.remove_dead_ends()
 

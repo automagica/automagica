@@ -72,7 +72,7 @@ class ThreadedBot(Bot):
             # Required for win32com
             pythoncom.CoInitialize()
 
-        except:  # TODO: not very elegant way, but this is required for Linux/MacOSX as pythoncom obviously is not supported on those platforms
+        except:
             pass
 
         while self._running:

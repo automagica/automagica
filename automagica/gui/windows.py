@@ -141,8 +141,8 @@ class FlowDesignerWindow(Window):
             self.last_state = self.flow.to_dict()
             self.save_buffer.append(self.last_state)
 
-        if self.flow.file_path:
-            self.flow.save(self.flow.file_path)
+            if self.flow.file_path:
+                self.flow.save(self.flow.file_path)
 
         self.after(100, self._autosave_cycle)
 
@@ -396,7 +396,7 @@ class FlowPlayerWindow(tk.Toplevel):
         try:
             mouse_x = self.winfo_pointerx()
             mouse_y = self.winfo_pointery()
-        except:  # TODO: If flow is stopped by user before this is called back, exception occurs
+        except:  # If flow is stopped by user before this is called back, exception occurs
             return
 
         if mouse_x == 0 and mouse_y == 0:
@@ -899,7 +899,7 @@ class WandWindow(Window):
 
         try:
             self.grab_set()
-        except:  # TODO: This does not work on Linux?
+        except:
             pass
 
         # self.resizable(False, False)
@@ -1092,19 +1092,15 @@ class WandWindow(Window):
         if not config.get("accepted_recorder_terms"):
             from tkinter import messagebox
 
-            root = tk.Tk()
-            root.withdraw()
             accepted = messagebox.askyesno(
                 _("Important"),
                 _(
                     "By continuing, the information you provided in the previous steps will be uploaded to Automagica's Vision service. You can find the full terms on https://portal.automagica.com/tos. Do you accept the terms? You will only be prompted once on this machine."
                 ),
-                parent=root,
+                parent=self,
             )
 
             if not accepted:
-                root.quit()
-                root.destroy()
                 return
             else:
                 config["accepted_recorder_terms"] = True
@@ -1160,7 +1156,6 @@ class SnippingToolWindow(Window):
     def __init__(self, parent, screenshot, callback, *args, info="", **kwargs):
         """
         Starts a full screen snipping tool for selecting coordinates
-        TODO: this should not create a new Tk root object
         """
         super().__init__(parent, *args, **kwargs)
 
@@ -1415,10 +1410,10 @@ class ConfigWindow(Window):
     def save_clicked(self):
         values = self.master.master.config.values
 
-        values["portal_url"] = self.portal_url_entry.get()
-        values["user_secret"] = self.user_secret_entry.get()
-        values["bot_secret"] = self.bot_secret_entry.get()
-        values["locale"] = self.locale_entry.get()
+        values["portal_url"] = self.portal_url_entry.get().strip()
+        values["user_secret"] = self.user_secret_entry.get().strip()
+        values["bot_secret"] = self.bot_secret_entry.get().strip()
+        values["locale"] = self.locale_entry.get().strip()
 
         self.master.master.config.save()
 
@@ -1635,7 +1630,7 @@ class NodePropsWindow(Window):
         # Make sure this window is the only window grabbing events from the user
         try:
             self.grab_set()
-        except:  # TODO: this does not work on Linux?
+        except:
             pass
 
         self.title(_("Properties"))

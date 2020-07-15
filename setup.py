@@ -23,7 +23,7 @@ class InstallationWrapper(install):
 
         import platform
 
-        if platform.system() == "Linux":  # TODO the same should happen for OSX
+        if platform.system() == "Linux" or platform.system() == "Darwin":
             import subprocess
             import os
             import automagica
@@ -43,7 +43,7 @@ class InstallationWrapper(install):
 
 setup(
     name="Automagica",
-    version="3.0.4",
+    version="3.0.5",
     description="Open Source RPA and UI automation",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
@@ -72,6 +72,7 @@ setup(
         "idna==2.5",  # BSD 3-Clause
         "pyglet==1.5.5",  # MIT License
         "jupyterlab==2.1.5",  # BSD License
+        "scikit-learn==0.23.1",  # New BSD License
     ],
     include_package_data=True,
     cmdclass={"install": InstallationWrapper},

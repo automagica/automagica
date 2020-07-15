@@ -174,8 +174,10 @@ class Flow:
 
         logging.info(_("Saved to {}").format(file_path))
 
-    def add_activity_node(self, activity, previous_node=None):
-        node = ActivityNode(activity)
+        self.file_path = file_path
+
+    def add_activity_node(self, activity, previous_node=None, x=None, y=None):
+        node = ActivityNode(activity, x=x, y=y)
 
         if previous_node:
             previous_node.next_node = node.uid
@@ -188,7 +190,7 @@ class Flow:
         return node
 
     def add_node(self, node_type):
-        node = eval("{}Node()".format(node_type))  # TODO: Perhaps prevent eval() here?
+        node = eval("{}Node()".format(node_type))
 
         if self.nodes and node_type not in ("Start", "Comment"):
             previous_node = self.nodes[-1]

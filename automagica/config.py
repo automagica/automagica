@@ -15,11 +15,22 @@ ACTIVITIES = all_activities()
 
 class IconGraph:
     def __init__(self, icon_size=20, color="#2196f3"):
-        self.icon_names = os.listdir("automagica/gui/icons")
+        icons_path = os.path.join(
+            os.path.dirname(
+                os.path.dirname(
+                    os.path.abspath(__file__).replace(
+                        os.path.basename(os.path.realpath(__file__)), ""
+                    )
+                )
+            ),
+            "automagica",
+            "gui",
+            "icons",
+        )
 
-        self.icon_paths = [
-            os.path.join("automagica/gui/icons", fn) for fn in self.icon_names
-        ]
+        self.icon_names = os.listdir(icons_path)
+
+        self.icon_paths = [os.path.join(icons_path, fn) for fn in self.icon_names]
 
         self.icons_pil = []
         self.icons_tk = []
@@ -61,7 +72,6 @@ Localization
 
 LOCALE = "en"
 
-# TODO: this needs a rewrite
 localedir = os.path.join(
     os.path.dirname(
         os.path.dirname(
@@ -198,7 +208,7 @@ class Config:
             with open(self.file_path, "r", encoding="utf-8") as f:
                 self.values = json.load(f)
 
-        except FileNotFoundError:
+        except:
             self.values = {}
             self.save()
 
@@ -217,26 +227,28 @@ class Config:
 
         portal_url = input(
             "\nAutomagica Portal URL [{}]: ".format(self.values.get("portal_url"))
-        )
+        ).strip()
 
         if portal_url:
             self.values["portal_url"] = portal_url
 
         user_secret = input(
             "\nAutomagica User Secret [{}]: ".format(self.values.get("user_secret"))
-        )
+        ).strip()
 
         if user_secret:
             self.values["user_secret"] = user_secret
 
         bot_secret = input(
             "\nAutomagica Bot Secret [{}]: ".format(self.values.get("bot_secret"))
-        )
+        ).strip()
 
         if bot_secret:
             self.values["bot_secret"] = bot_secret
 
-        locale = input("\nLocale [{}]: ".format(self.values.get("locale", "en_GB")))
+        locale = input(
+            "\nLocale [{}]: ".format(self.values.get("locale", "en_GB"))
+        ).strip()
 
         if locale:
             self.values["locale"] = locale

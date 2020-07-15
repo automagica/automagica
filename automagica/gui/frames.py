@@ -200,9 +200,14 @@ class ConsoleFrame(tk.Frame):
         self.console_text.configure(state="disabled")
 
     def destroy(self):
-        # TODO: check why this code is needed
+        """
+        Override tk.Frame.destroy
+        """
+        # Additional clean-up pre-destroy
         self.bot.stop()
         self.console_text.destroy()
+
+        # Call original method to destroy
         tk.Frame.destroy(self)
 
     def on_enter_pressed(self, e):
@@ -253,14 +258,6 @@ class FlowFrame(tk.Frame):
         self.canvas = tk.Canvas(
             self, bg=config.COLOR_4, bd=0, highlightthickness=0, relief="ridge"
         )
-
-        # TODO: add scrolling feature (currently disabled)
-        # # Windows/MacOSX
-        # self.canvas.bind("<MouseWheel>", self.wheel)
-
-        # # Linux
-        # self.canvas.bind("<Button-5>", self.wheel)
-        # self.canvas.bind("<Button-4>", self.wheel)
 
         self.canvas.pack(fill="both", expand=True)
 
@@ -345,7 +342,6 @@ class FlowFrame(tk.Frame):
     def _get_node_graph_by_node(self, node):
         """
         Utility function
-        TODO: clean-up/move, this should not be the responsibility of the GUI to manage perhaps?
         """
         for graph in self.graphs:
             if graph.node == node:
@@ -354,7 +350,6 @@ class FlowFrame(tk.Frame):
     def draw(self):
         """
         Main draw function that gets called every time
-        TODO: if performance is sub-par, this is the place to look.
         """
         self.clear()
 
@@ -363,7 +358,6 @@ class FlowFrame(tk.Frame):
 
         # Make a very very large background object, which can be bound to later
         # This is necessary as the canvas background by default can not be bound to
-        # TODO: check for better way to do this?
         self.background = self.canvas.create_rectangle(
             -10000,
             -10000,
@@ -384,7 +378,7 @@ class FlowFrame(tk.Frame):
             graph = eval(
                 "{class_name}Graph(self, node)".format(
                     class_name=node.__class__.__name__
-                )  # TODO: perhaps eval() can be eliminated
+                )
             )
             node.graph = graph
 
@@ -425,7 +419,6 @@ class FlowFrame(tk.Frame):
         """
         Add a node graph
         """
-        # TODO: perhaps eval() can be eliminated here
         graph = eval("{}Graph(self, node)".format(node.__class__.__name__))
         graph.update()
 
@@ -689,18 +682,18 @@ class ToolbarFrame(tk.Frame):
         """
         from .windows import NotificationWindow
 
-        self.master.master.file_path = filedialog.asksaveasfilename(
+        self.master.master.flow.file_path = filedialog.asksaveasfilename(
             defaultextension=".json"
         )
 
-        if not self.master.master.file_path:
+        if not self.master.master.flow.file_path:
             return
 
-        self.master.master.flow.save(self.master.master.file_path)
+        self.master.master.flow.save(self.master.master.flow.file_path)
 
         # Update title
         self.master.master.title(
-            "{} - Automagica Flow".format(self.master.master.file_path)
+            "{} - Automagica Flow".format(self.master.master.flow.file_path)
         )
 
         NotificationWindow(self, "Saved flow")
@@ -835,7 +828,6 @@ class SidebarFrame(tk.Frame):
             font=font.Font(family=config.FONT, size=10),
         )
 
-        # TODO: This should be put elsewhere
         self.node_types = [
             ("Start", _("Start")),
             ("IfElse", _("If Else")),

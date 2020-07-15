@@ -30,6 +30,9 @@ class App(tk.Tk):
     def __init__(self, *args, config=None, **kwargs):
         super().__init__(*args, **kwargs)
 
+        # Hide Tkinter root window
+        self.withdraw()
+
         # Load config
         self.config = config
         if not self.config:
@@ -52,9 +55,6 @@ class App(tk.Tk):
         )
 
         ICONS.generate_icons()
-
-        # Hide Tkinter root window
-        self.withdraw()
 
     def _windows_set_dpi_awareness(self):
         import ctypes
@@ -287,14 +287,12 @@ class BotApp(App):
                         NotificationWindow(
                             self, message=f"Completed job {job['job_id']}"
                         )
-                        logging.exception(
-                            f"Completed job {job['job_id']}"
-                        )  # TODO: why exception?!
+                        logging.info(f"Completed job {job['job_id']}")
 
                     else:
                         job["status"] = "failed"
                         NotificationWindow(self, message=f"Failed job {job['job_id']}")
-                        logging.exception(f"Failed job {job['job_id']}")
+                        logging.info(f"Failed job {job['job_id']}")
 
                     # Make list of output files after job has ran
                     output_files = []
@@ -442,11 +440,18 @@ class ScriptApp:
             with open("input/parameters.py", "r", encoding="utf-8") as f:
                 code = f.read()
 
-            exec(code)
+            try:
+                exec(code)
+            except:
+                logging.exception("Error running parameters")
+
 
         # Run script
         with open(script_path, "r", encoding="utf-8") as f:
             code = f.read()
 
-        exec(code)
+        try:
+            exec(code)
+        except:
+            logging.exception("Error running script")
 
