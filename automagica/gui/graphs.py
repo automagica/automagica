@@ -5,7 +5,7 @@ from tkinter import font, ttk
 from PIL import Image, ImageTk
 
 from automagica import config
-from automagica.config import _, ICONS
+from automagica.config import ICONS, _
 
 
 def generate_icon(icon_path, width=20, height=20, color="#ffffff"):
@@ -257,6 +257,10 @@ class StartNodeGraph(NodeGraph):
 
         self.draw()
 
+    @property
+    def text_label(self):
+        return self.node.label if self.node.label else _("Start")
+
     def double_clicked(self, event):
         from .windows import StartNodePropsWindow
 
@@ -483,6 +487,10 @@ class IfElseNodeGraph(NodeGraph):
         super().__init__(parent, node)
 
         self.draw()
+
+    @property
+    def text_label(self):
+        return self.node.label if self.node.label else _("If Else")
 
     def draw(self):
         # Create bounding rectangle
@@ -714,6 +722,7 @@ class DotPyFileNodeGraph(NodeGraph):
             text=self.text_label,
             tags=self.node.uid,
             fill=config.COLOR_0,
+            width=self.w,
             font=(config.FONT, 10),
         )
 
@@ -731,7 +740,7 @@ class DotPyFileNodeGraph(NodeGraph):
         self.icon = self.parent.canvas.create_image(
             self.node.x + self.w - 10,
             self.node.y + 10,
-            image=ICONS["python.png"],
+            image=ICONS.tkinter("python.png"),
             tags=self.node.uid,
         )
 
@@ -837,6 +846,7 @@ class PythonCodeNodeGraph(NodeGraph):
             text=self.text_label,
             tags=self.node.uid,
             fill=config.COLOR_0,
+            width=self.w,
             font=(config.FONT, 10),
         )
 
@@ -937,6 +947,10 @@ class CommentNodeGraph(NodeGraph):
 
         self.draw()
 
+    @property
+    def text_label(self):
+        return self.node.label if self.node.label else _("Comment")
+
     def draw(self):
         # Create bounding rectangle
         self.rect = self.parent.canvas.create_rectangle(
@@ -954,11 +968,11 @@ class CommentNodeGraph(NodeGraph):
         self.label_text = self.parent.canvas.create_text(
             self.center_x,
             self.center_y,
-            text=self.node.comment,
+            text=self.text_label,
             tags=self.node.uid,
-            fill=config.COLOR_1,
+            fill=config.COLOR_0,
             width=self.w,
-            font=(config.FONT, 8),
+            font=(config.FONT, 10),
         )
 
         self.uid_text = self.parent.canvas.create_text(
@@ -1065,6 +1079,7 @@ class SubFlowNodeGraph(NodeGraph):
             text=self.text_label,
             tags=self.node.uid,
             fill=config.COLOR_0,
+            width=self.w,
             font=(config.FONT, 10),
         )
 
@@ -1463,4 +1478,3 @@ class ConnectorGraph:
                 )
                 / 2,
             )
-
