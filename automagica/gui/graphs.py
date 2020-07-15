@@ -363,6 +363,7 @@ class ActivityNodeGraph(NodeGraph):
             font=(config.FONT, 10),
         )
 
+        # UID text
         self.uid_text = self.parent.canvas.create_text(
             self.node.x + self.w - 3,
             self.node.y + self.h - 3,
@@ -500,9 +501,10 @@ class IfElseNodeGraph(NodeGraph):
         self.label_text = self.parent.canvas.create_text(
             self.center_x,
             self.center_y,
-            text=str(self.node),
+            text=self.text_label,
             tags=self.node.uid,
             fill=config.COLOR_0,
+            width=self.w,
             font=(config.FONT, 10),
         )
 
@@ -583,6 +585,10 @@ class LoopNodeGraph(NodeGraph):
 
         self.draw()
 
+    @property
+    def text_label(self):
+        return self.node.label if self.node.label else _("Loop")
+
     def draw(self):
         # Create bounding rectangle
         self.rect = self.parent.canvas.create_rectangle(
@@ -600,9 +606,10 @@ class LoopNodeGraph(NodeGraph):
         self.label_text = self.parent.canvas.create_text(
             self.center_x,
             self.center_y,
-            text="Loop",
+            text=self.text_label,
             tags=self.node.uid,
             fill=config.COLOR_0,
+            width=self.w,
             font=(config.FONT, 10),
         )
 

@@ -67,11 +67,6 @@ def flow_edit(file_path):
 def flow_run(filename, headless, step_by_step):
     code = None
 
-    # Run parameters
-    if os.path.isfile("input/parameters.py"):
-        with open("input/parameters.py", "r", encoding="utf-8") as f:
-            code = f.read()
-
     # Run FLow
     app = FlowApp(
         file_path=filename,
@@ -105,14 +100,8 @@ def lab_new(file_path):
 @lab.command("run", help=_("Run Lab notebook"))
 @click.argument("file_path")
 def lab_run(file_path):
-    # Run parameters
-    if os.path.isfile("input/parameters.py"):
-        with open("input/parameters.py", "r", encoding="utf-8") as f:
-            code = f.read()
-
-    # Run Lab
     app = LabApp()
-    app.run(file_path, parameters=code)
+    app.run(file_path)
 
 
 @cli.group(help=_("Automagica Trace (alpha)"))

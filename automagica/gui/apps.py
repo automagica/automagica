@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 import platform
 import re
@@ -85,10 +84,8 @@ class FlowApp(App):
         run=False,
         headless=False,
         step_by_step=False,
-        parameters=None,
         **kwargs,
     ):
-
         super().__init__(*args, **kwargs)
 
         if not bot:
@@ -101,9 +98,14 @@ class FlowApp(App):
             # Run a flow
             if run:
 
-                if parameters:
-                    bot.run(parameters)
+                # Run parameters
+                if os.path.isfile("input/parameters.py"):
+                    with open("input/parameters.py", "r", encoding="utf-8") as f:
+                        code = f.read()
 
+                    bot.run(code)
+
+                # Run Flow
                 FlowPlayerWindow(
                     self,
                     flow=Flow(file_path),
@@ -195,9 +197,9 @@ class BotApp(App):
                 _ = requests.post(
                     self.config.values["portal_url"] + "/api/bot/alive", headers=headers
                 )
-                logging.info("Sent alive to Automagica Portal.")
+                self.config.logger.info("Sent alive to Automagica Portal.")
             except:
-                logging.exception("Could not reach Automagica Portal.")
+                self.config.logger.exception("Could not reach Automagica Portal.")
 
             sleep(interval)
 
@@ -218,7 +220,7 @@ class BotApp(App):
                 # We got a job!
                 if job:
                     NotificationWindow(self, message=f"Received job {job['job_id']}")
-                    logging.info(f"Received job {job['job_id']}")
+                    self.config.logger.info(f"Received job {job['job_id']}")
 
                     # Create directory to store job-related files
                     local_job_path = os.path.join(
@@ -287,12 +289,12 @@ class BotApp(App):
                         NotificationWindow(
                             self, message=f"Completed job {job['job_id']}"
                         )
-                        logging.info(f"Completed job {job['job_id']}")
+                        self.config.logger.info(f"Completed job {job['job_id']}")
 
                     else:
                         job["status"] = "failed"
                         NotificationWindow(self, message=f"Failed job {job['job_id']}")
-                        logging.info(f"Failed job {job['job_id']}")
+                        self.config.logger.info(f"Failed job {job['job_id']}")
 
                     # Make list of output files after job has ran
                     output_files = []
@@ -347,7 +349,7 @@ class BotApp(App):
 
             except:
                 NotificationWindow(self, message="Connection error")
-                logging.exception(
+                self.config.logger.exception(
                     f"Could not reach Automagica Portal. Waiting {interval} second(s) before retrying."
                 )
                 sleep(interval)
@@ -413,9 +415,21 @@ class LabApp:
         else:
             subprocess.Popen(cmd, env=my_env)
 
-    def run(self, notebook_path, parameters=None, cell_timeout=600):
-        if parameters:
-            exec(parameters)
+    def run(self, notebook_path, cell_timeout=600):
+        # Run parameters
+        if os.path.isfile("input/parameters.py"):
+            with open("input/parameters.py", "r", encoding="utf-8") as f:
+                self.config.logger.info(
+                    f'Loading parameters from "{os.path.realpath(f.name)}"'
+                )
+                code = f.read()
+            try:
+                exec(code)
+                self.config.logger.info(f"Completed loading parameters")
+
+            except Exception as e:
+                self.config.logger.exception("Failed loading parameters")
+                raise e
 
         # Open the notebook
         with open(notebook_path, "r", encoding="utf-8") as f:
@@ -424,34 +438,51 @@ class LabApp:
         # Run all cells
         for cell in notebook["cells"]:
             if cell["cell_type"] == "code":
-                exec("".join(cell["source"]))
+                try:
+                    exec("".join(cell["source"]))
+                    self.config.logger.info(f'Completed notebook "{notebook_path}"')
+
+                except Exception as e:
+                    self.config.logger.exception(f'Failed notebook "{notebook_path}"')
+                    raise e
 
 
 class ScriptApp:
     def __init__(self, config=None):
         # Load config
         self.config = config
+
         if not self.config:
             self.config = Config()
 
     def run(self, script_path):
-        # Run parameters
+        self.config.logger.info(f'Started script "{script_path}"')
+
+        # Load parameters
         if os.path.isfile("input/parameters.py"):
             with open("input/parameters.py", "r", encoding="utf-8") as f:
+                self.config.logger.info(
+                    f'Loading parameters from "{os.path.realpath(f.name)}"'
+                )
                 code = f.read()
-
             try:
                 exec(code)
-            except:
-                logging.exception("Error running parameters")
+                self.config.logger.info(f"Completed loading parameters")
 
+            except Exception as e:
+                self.config.logger.exception("Failed loading parameters")
+                raise e
 
         # Run script
         with open(script_path, "r", encoding="utf-8") as f:
+            self.config.logger.info(f'Running script "{os.path.realpath(f.name)}"')
             code = f.read()
 
         try:
             exec(code)
-        except:
-            logging.exception("Error running script")
+            self.config.logger.info(f'Completed script "{script_path}"')
+
+        except Exception as e:
+            self.config.logger.exception(f'Failed script "{script_path}"')
+            raise e
 

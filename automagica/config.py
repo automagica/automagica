@@ -255,6 +255,95 @@ class Config:
 
         self.save()
 
+    def add_bot_to_startup(self):
+        import platform
+
+        cmd = sys.executable + " -m automagica.cli bot"
+
+        if platform.system() == "Windows":
+
+            cmd = cmd.replace("python.exe", "pythonw.exe")
+
+            import winreg as reg
+
+            # Add to start-up
+            registry = reg.OpenKey(
+                reg.HKEY_CURRENT_USER,
+                "Software\Microsoft\Windows\CurrentVersion\Run",
+                0,
+                reg.KEY_WRITE,
+            )
+            reg.SetValueEx(registry, "Automagica", 0, reg.REG_SZ, cmd)
+            reg.CloseKey(registry)
+
+        if platform.system() == "Linux":
+            # Create Automagica.desktop file in ~/.config/autostart/
+            path = os.path.join(
+                os.path.expanduser("~"), ".config/autostart/Automagica.desktop"
+            )
+            with open(path, "w") as f:
+                contents = (
+                    """[Desktop Entry] 
+                            Type=Application
+                            Exec="""
+                    + cmd
+                )
+                f.write(contents)
+
+        if platform.system() == "Darwin":
+            # Create com.automagica.robot.plist file in ~/Library/LaunchAgents
+            path = os.path.join(
+                os.path.expanduser("~"),
+                "Library/LaunchAgents/com.automagica.robot.plist",
+            )
+            with open(path, "w") as f:
+                contents = (
+                    """<?xml version="1.0" encoding="UTF-8"?>
+                            <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+                            <plist version="1.0">
+                            <dict>
+                            <key>Label</key>
+                            <string>com.automagica.robot</string>
+                            <key>ProgramArguments</key>
+                            <array>
+                            <string>"""
+                    + cmd
+                    + """</string>
+                            </array>
+                            <key>RunAtLoad</key>
+                            <true/>
+                            </dict>
+                            </plist>"""
+                )
+
+    def remove_bot_from_startup(self):
+        import platform
+
+        if platform.system() == "Windows":
+            import winreg as reg
+
+            registry = reg.OpenKey(
+                reg.HKEY_CURRENT_USER,
+                "Software\Microsoft\Windows\CurrentVersion\Run",
+                0,
+                reg.KEY_WRITE,
+            )
+            reg.DeleteValue(registry, "Automagica")
+            reg.CloseKey(registry)
+
+        if platform.system() == "Linux":
+            path = os.path.join(
+                os.path.expanduser("~"), ".config/autostart/Automagica.desktop"
+            )
+            os.remove(path)
+
+        if platform.system() == "Darwin":
+            path = os.path.join(
+                os.path.expanduser("~"),
+                "/Library/LaunchAgents/com.automagica.robot.plist",
+            )
+            os.remove(path)
+
 
 def register_protocol_handler():
     if platform.system() == "Windows":
@@ -307,4 +396,3 @@ if __name__ == "__main__":
 
     # Register protocol automagica:// in registry
     register_protocol_handler()
-

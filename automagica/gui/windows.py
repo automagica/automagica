@@ -1497,7 +1497,20 @@ class ConfigWindow(Window):
         save_button.configure(bg=config.COLOR_7)
         save_button.pack(padx=5, pady=5)
 
+        add_to_startup_button = Button(
+            self, text=_("Set up auto-start"), command=self.add_to_startup_clicked
+        )
+        add_to_startup_button.configure(bg=config.COLOR_7)
+        add_to_startup_button.pack(padx=5, pady=5)
+
         return frame
+
+    def add_to_startup_clicked(self):
+        from tkinter import messagebox
+
+        self.master.master.config.add_bot_to_startup()
+
+        messagebox.showinfo(_("Info"), _("Bot will auto-start on next system boot."))
 
     def create_logo_frame(self):
         frame = tk.Frame(self)
@@ -2250,6 +2263,24 @@ class LoopNodePropsWindow(NodePropsWindow):
         )
         uid_label.grid(row=0, column=1, sticky="w")
 
+        # Node Label
+        label_label = tk.Label(
+            frame,
+            text=_("Label"),
+            bg=config.COLOR_4,
+            fg=config.COLOR_11,
+            font=(config.FONT, 10),
+        )
+        label_label.grid(row=1, column=0, sticky="w")
+        self.label_entry = InputField(frame)
+        self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
+
+        if self.node.label:
+            self.label_entry.insert(tk.END, self.node.label)
+
+        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button.grid(row=1, column=2)
+
         # Repeat N Times
         repeat_n_times_label = tk.Label(
             frame,
@@ -2258,9 +2289,9 @@ class LoopNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        repeat_n_times_label.grid(row=1, column=0, sticky="w")
+        repeat_n_times_label.grid(row=2, column=0, sticky="w")
         self.repeat_n_times_entry = InputField(frame)
-        self.repeat_n_times_entry.grid(row=1, column=1, sticky="w")
+        self.repeat_n_times_entry.grid(row=2, column=1, sticky="w")
 
         # Pre-fill iterable
         if self.node.repeat_n_times:
@@ -2269,7 +2300,7 @@ class LoopNodePropsWindow(NodePropsWindow):
         help_button = HelpButton(
             frame, message=_("Number of times to repeat this part of the flow.")
         )
-        help_button.grid(row=1, column=2)
+        help_button.grid(row=2, column=2)
 
         # Loop variable
         loop_variable_label = tk.Label(
@@ -2279,9 +2310,9 @@ class LoopNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        loop_variable_label.grid(row=2, column=0, sticky="w")
+        loop_variable_label.grid(row=3, column=0, sticky="w")
         self.loop_variable_entry = InputField(frame)
-        self.loop_variable_entry.grid(row=2, column=1, sticky="w")
+        self.loop_variable_entry.grid(row=3, column=1, sticky="w")
 
         # Pre-fill loop variable
         if self.node.loop_variable:
@@ -2293,7 +2324,7 @@ class LoopNodePropsWindow(NodePropsWindow):
                 "The name of the variable to assign the single item of the collection/list to while iterating."
             ),
         )
-        help_button.grid(row=2, column=2)
+        help_button.grid(row=3, column=2)
 
         # Iterable
         iterable_label = tk.Label(
@@ -2303,9 +2334,9 @@ class LoopNodePropsWindow(NodePropsWindow):
             fg=config.COLOR_11,
             font=(config.FONT, 10),
         )
-        iterable_label.grid(row=2, column=3, sticky="w")
+        iterable_label.grid(row=3, column=3, sticky="w")
         self.iterable_entry = InputField(frame)
-        self.iterable_entry.grid(row=2, column=4, sticky="w")
+        self.iterable_entry.grid(row=3, column=4, sticky="w")
 
         # Pre-fill iterable
         if self.node.iterable:
@@ -2317,7 +2348,7 @@ class LoopNodePropsWindow(NodePropsWindow):
                 "The collection or list to iterate over and repeat this part of the flow. This will override the default 'repeat n times' setting."
             ),
         )
-        help_button.grid(row=2, column=5)
+        help_button.grid(row=3, column=5)
 
         # Next node selection
         next_node_option_label = tk.Label(
@@ -2354,6 +2385,8 @@ class LoopNodePropsWindow(NodePropsWindow):
     def save(self):
         self.node.next_node = self.next_node_menu.get()
         self.node.loop_node = self.loop_node_menu.get()
+
+        self.node.label = self.label_entry.get()
 
         self.node.iterable = self.iterable_entry.get()
         self.node.loop_variable = self.loop_variable_entry.get()
@@ -2747,8 +2780,10 @@ class SubFlowNodePropsWindow(NodePropsWindow):
         self.subflow_path_entry.grid(row=4, column=1, sticky="w")
 
         def edit():
-            self.parent.master.master.master.open_flow(
-                self.node.subflow_path.replace('"', "")
+            FlowDesignerWindow(
+                self.parent.master.master.master,
+                flow=Flow(self.node.subflow_path.replace('"', "")),
+                bot=self.parent.master.master.master.bot,
             )
             self.close_window()
 
@@ -2764,6 +2799,7 @@ class SubFlowNodePropsWindow(NodePropsWindow):
             font=(config.FONT, 10),
         )
         next_node_option_label.grid(row=5, column=0, sticky="w")
+
         self.next_node_menu = NodeSelectionInputWidget(
             frame, self.parent.master.master.flow.nodes, value=self.node.next_node
         )
