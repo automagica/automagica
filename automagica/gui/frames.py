@@ -625,7 +625,9 @@ class ToolbarFrame(tk.Frame):
         from .windows import WandWindow
 
         def on_finish(automagica_id):
-            self.parent.master.add_ai_activity(action, automagica_id)
+            self.parent.master.add_activity(
+                action, args_={"automagica_id": f"'{automagica_id}'"}
+            )
 
             # Restore window
             self.parent.master.deiconify()

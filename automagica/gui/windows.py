@@ -205,17 +205,27 @@ class FlowDesignerWindow(Window):
                 if not graph.node.next_node:
                     return graph.node
 
-    def add_activity(self, activity):
-        previous_node = self.suggested_previous_node
-        node = self.flow.add_activity_node(activity, previous_node=previous_node)
-        graph = self.flow_frame.add_node_graph(node)
-        graph.select()
+        return None
 
-    def add_ai_activity(self, action, sample_id):
+    def add_activity(self, activity, args_=None):
+        previous_node = self.suggested_previous_node
+
         node = self.flow.add_activity_node(
-            action, previous_node=self.suggested_previous_node
+            activity, previous_node=previous_node, args_=args_
         )
-        node.args_["automagica_id"] = '"{}"'.format(sample_id)
+
+        if not previous_node:
+            node.x = (
+                int(self.flow_frame.canvas.winfo_width() / 2)
+                + self.flow_frame.canvas.canvasx(0)
+                - int(125 / 2)
+            )
+            node.y = (
+                int(self.flow_frame.canvas.winfo_height() / 2)
+                + self.flow_frame.canvas.canvasy(0)
+                - int(75 / 2)
+            )
+
         graph = self.flow_frame.add_node_graph(node)
         graph.select()
 
@@ -1097,7 +1107,7 @@ class WandWindow(Window):
                 _(
                     "By continuing, the information you provided in the previous steps will be uploaded to Automagica's Vision service. You can find the full terms on https://portal.automagica.com/tos. Do you accept the terms? You will only be prompted once on this machine."
                 ),
-                parent=self,
+                parent=self.master,
             )
 
             if not accepted:

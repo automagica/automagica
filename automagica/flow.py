@@ -176,8 +176,10 @@ class Flow:
 
         self.file_path = file_path
 
-    def add_activity_node(self, activity, previous_node=None, x=None, y=None):
-        node = ActivityNode(activity, x=x, y=y)
+    def add_activity_node(
+        self, activity, previous_node=None, x=None, y=None, args_=None
+    ):
+        node = ActivityNode(activity, x=x, y=y, args_=args_)
 
         if previous_node:
             previous_node.next_node = node.uid

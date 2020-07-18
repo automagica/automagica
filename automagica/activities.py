@@ -2003,7 +2003,7 @@ def easy_key_translation(key):
 
 
 @activity
-def press_key(key=None, delay=1):
+def press_key(key=None, delay=1, perform_n_times=1, delay_between=0.5):
     """Press key
 
     Press and release an entered key. Make sure your keyboard is on US layout (standard QWERTY). 
@@ -2013,6 +2013,11 @@ def press_key(key=None, delay=1):
     :options key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace', 'end', 'ctrl', 'del', 'down', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
     :parameter delay: Delay before key is pressed in seconds, default is 1 second
     :type delay: int, optional
+    :parameter perform_n_times: How many times to perform the key press
+    :type perform_n_times: int, optional
+    :parameter delay_between: Delay between key presses
+    :type delay_between: float, optional
+
 
     :return: Keypress
 
@@ -2039,19 +2044,25 @@ def press_key(key=None, delay=1):
 
         sleep(delay)
 
-    import platform
+    for i in range(perform_n_times):
 
-    # Check if system is not running Windows
-    if platform.system() != "Windows":
-        from keyboard import send
+        import platform
 
-        if key:
-            return send(key)
+        # Check if system is not running Windows
+        if platform.system() == "Windows":
+            import win32com.client
 
-    import win32com.client
+            shell = win32com.client.dynamic.Dispatch("WScript.Shell")
+            shell.SendKeys(easy_key_translation(key), 0)
 
-    shell = win32com.client.Dispatch("WScript.Shell")
-    shell.SendKeys(easy_key_translation(key), 0)
+        else:
+            from keyboard import send
+
+            if key:
+                send(key)
+
+        if perform_n_times > 1:
+            sleep(delay_between)
 
 
 @activity
@@ -2111,7 +2122,7 @@ def press_key_combination(
 
     import win32com.client
 
-    shell = win32com.client.Dispatch("WScript.Shell")
+    shell = win32com.client.dynamic.Dispatch("WScript.Shell")
     key_combination = (
         easy_key_translation(first_key)
         + easy_key_translation(second_key)
@@ -2185,7 +2196,7 @@ def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
 
     import win32com.client
 
-    shell = win32com.client.Dispatch("WScript.Shell")
+    shell = win32com.client.dynamic.Dispatch("WScript.Shell")
     import time
 
     for character in text:
@@ -3459,7 +3470,7 @@ class Word:
         try:
             import win32com.client
 
-            app = win32com.client.gencache.EnsureDispatch("Word.Application")
+            app = win32com.client.dynamic.Dispatch("Word.Application")
             # app = win32com.client.dynamic.Dispatch("Word.Application")
 
         except:
@@ -4048,7 +4059,7 @@ class Outlook:
         try:
             import win32com.client
 
-            app = win32com.client.gencache.EnsureDispatch("outlook.application")
+            app = win32com.client.dynamic.Dispatch("outlook.application")
 
         except:
             raise Exception(
@@ -4572,7 +4583,7 @@ class Excel:
         try:
             import win32com.client
 
-            app = win32com.client.gencache.EnsureDispatch("Excel.Application")
+            app = win32com.client.dynamic.Dispatch("Excel.Application")
 
         except:
             raise Exception(
@@ -5747,7 +5758,7 @@ class PowerPoint:
         try:
             import win32com.client
 
-            app = win32com.client.gencache.EnsureDispatch("PowerPoint.Application")
+            app = win32com.client.dynamic.Dispatch("PowerPoint.Application")
 
         except:
             raise Exception(
