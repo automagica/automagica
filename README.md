@@ -9,7 +9,7 @@ This repository is for the open source Python library, where all the Automagica 
 Refer to the [Automagica official website](https://www.automagica.com) for more information. . For more info see the [documentation](https://automagica.readthedocs.io).
 
 ## Important information
-- We are preparing the launch of Automagica 3.0 (introducing Automagica Flow and the new Automagica Portal). Contact us to get beta acces [sales@automagica.com](mailto:sales@automagica.com)
+- We are preparing the launch of Automagica 3.0 (introducing Automagica Flow and the new Automagica Portal). Contact us or join our __[Discord](https://discord.gg/PbY85WA)__ or __[Telegram](https://t.me/automagica)__ group to get beta access.
 - Check out our __[public roadmap](https://trello.com/b/qXHf5YqD/automagica-roadmap)__ and feel free to add suggestions to the Ideas column!
 - We're on __[Discord](https://discord.gg/PbY85WA)__ and __[Telegram](https://t.me/automagica)__
 
