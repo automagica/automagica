@@ -2,19 +2,16 @@
 # Automagica - Smart Robotic Process Automation [![Downloads](https://pepy.tech/badge/automagica/month)](https://pepy.tech/project/automagica/month)
 Automagica is a Smart Robotic Process Automation (SRPA) platform for fully automating tedious, manual tasks with software. 
 
-[![Github Signup Automagica](https://i.imgur.com/PKvMCSl.jpg)](https://portal.automagica.com/github/login)
-
 ![Love Automagica Example](https://github.com/automagica/automagica/blob/master/images/automagica_drawing.gif)
 
 This repository is for the open source Python library, where all the Automagica building blocks are. With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide a comprehensive and consistent wrapper around known and lesser known automation libraries.
 
-Refer to the [Automagica official website](https://www.automagica.com) for more information. Registered users can access the [Automagica Portal](https://portal.automagica.com). For more info see the [documentation](https://automagica.readthedocs.io).
+Refer to the [Automagica official website](https://www.automagica.com) for more information. . For more info see the [documentation](https://automagica.readthedocs.io).
 
 ## Important information
-- We just launched the latest version of our __[Automagica Portal](https://portal.automagica.com)__
+- We are preparing the launch of Automagica 3.0 (introducing Automagica Flow and the new Automagica Portal) and have temporarily disabled the __[Automagica Portal](https://portal.automagica.com)__
 - Check out our __[public roadmap](https://trello.com/b/qXHf5YqD/automagica-roadmap)__ and feel free to add suggestions to the Ideas column!
 - We're on __[Discord](https://discord.gg/PbY85WA)__ and __[Telegram](https://t.me/automagica)__
-- You can now also run automations developed with UiPath, Blue Prism, Automation Anywhere, AutoIt and Robot Framework with the [Automagica Portal](https://portal.automagica.com)!
 
 
 ## Need expert support?
