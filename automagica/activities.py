@@ -8917,9 +8917,14 @@ def extract_text_ocr(path=None):
     config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
 
     # Read JSON
-    with open(config_path) as json_file:
-        local_data = json.load(json_file)
-        api_key = str(local_data["bot_secret"])  # Your API key
+    try:
+        with open(config_path) as json_file:
+            local_data = json.load(json_file)
+            api_key = str(local_data["bot_secret"])  # Your API key
+    except FileNotFoundError:
+        print("Error:")
+        print("    No API key was found. API access is required to use this feature. To get API access please get set up at https://portal.automagica.com")
+        return
 
     # Prepare data for request
     data = {"image_base64": image_base64, "api_key": api_key}
@@ -8980,9 +8985,14 @@ def find_text_on_screen_ocr(text, criteria=None):
     config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
 
     # Read JSON
-    with open(config_path) as json_file:
-        local_data = json.load(json_file)
-        api_key = str(local_data["bot_secret"])  # Your API key
+    try:
+        with open(config_path) as json_file:
+            local_data = json.load(json_file)
+            api_key = str(local_data["bot_secret"])  # Your API key
+    except FileNotFoundError:
+        print("Error:")
+        print("    No API key was found. API access is required to use this feature. To get API access please get set up at https://portal.automagica.com")
+        return
 
     # Prepare data for request
     data = {"image_base64": image_base64, "api_key": api_key}
@@ -9676,9 +9686,14 @@ def create_new_job(script_name, script_version_id=None, priority=0, parameters=N
     config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
 
     # Read JSON
-    with open(config_path) as json_file:
-        local_data = json.load(json_file)
-        bot_secret = str(local_data["bot_secret"])
+    try:
+        with open(config_path) as json_file:
+            local_data = json.load(json_file)
+            bot_secret = str(local_data["bot_secret"])  # Your API key
+    except FileNotFoundError:
+        print("Error:")
+        print("    No API key was found. API access is required to use this feature. To get API access please get set up at https://portal.automagica.com")
+        return
 
     headers = {"bot_secret": bot_secret, "script": script_name}
 
@@ -9887,9 +9902,14 @@ def detect_vision(element_id, detect_target=True):
     config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
 
     # Read JSON
-    with open(config_path) as json_file:
-        local_data = json.load(json_file)
-        api_key = str(local_data["bot_secret"])
+    try:
+        with open(config_path) as json_file:
+            local_data = json.load(json_file)
+            api_key = str(local_data["bot_secret"])  # Your API key
+    except FileNotFoundError:
+        print("Error:")
+        print("    No API key was found. API access is required to use this feature. To get API access please get set up at https://portal.automagica.com")
+        return
 
     data = {
         "api_key": api_key,  # Automagica Vision API key
@@ -10088,9 +10108,14 @@ def read_text(element_id, delay=1):
     config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
 
     # Read JSON
-    with open(config_path) as json_file:
-        local_data = json.load(json_file)
-        api_key = str(local_data["bot_secret"])  # Your API key
+    try:
+        with open(config_path) as json_file:
+            local_data = json.load(json_file)
+            api_key = str(local_data["bot_secret"])  # Your API key
+    except FileNotFoundError:
+        print("Error:")
+        print("    No API key was found. API access is required to use this feature. To get API access please get set up at https://portal.automagica.com")
+        return
 
     # Prepare data for request
     data = {"image_base64": image_base64, "api_key": api_key}
