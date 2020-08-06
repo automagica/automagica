@@ -4,15 +4,7 @@ Automagica is an open source automation suite for fully automating tedious, manu
 
 _Let bots handle the clicks so people can handle the business._
 
-[![Github Signup Automagica](https://i.imgur.com/PKvMCSl.jpg)](https://portal.automagica.com/github/login)
-
-![Love Automagica Example](https://automagica.com/wp-content/uploads/2020/06/automagica_drawing.gif)
-
-## Our mission
-
-With Automagica, automating cross-platform processes becomes a breeze. With this open source library we want to provide you with:
-- the tools to build amazing software robots
-- a comprehensive and consistent wrapper around known and lesser known (Python) automation libraries and
+![Love Automagica Example](https://github.com/automagica/automagica/blob/master/images/automagica_drawing.gif)
 
 ## Important links
 - [Website](https://www.automagica.com)
@@ -21,16 +13,12 @@ With Automagica, automating cross-platform processes becomes a breeze. With this
 - [YouTube Channel](https://automagi.ca/youtube)
 - [Public Roadmap](https://automagi.ca/roadmap)
 
-## Community
-- Our __[roadmap](https://trello.com/b/qXHf5YqD/automagica-roadmap)__ is public (feel free to add suggestions to the Ideas column!)
-- Join our __[Discord](https://discord.gg/PbY85WA)__ channel (this is a great place to ask questions)
-- __[Telegram](https://t.me/automagica)__ group (good for getting the latest updates)
+Refer to the [Automagica official website](https://www.automagica.com) for more information. . For more info see the [documentation](https://automagica.readthedocs.io).
 
-## What's open source?
-### Automagica Activities
-### Automagica Lab
-### Automagica Flow
-### Automagica Capture
+## Important information
+- We are preparing the launch of Automagica 3.0 (introducing Automagica Flow and the new Automagica Portal). Contact us or join our __[Discord](https://discord.gg/PbY85WA)__ or __[Telegram](https://t.me/automagica)__ group to get beta access.
+- Check out our __[public roadmap](https://trello.com/b/qXHf5YqD/automagica-roadmap)__ and feel free to add suggestions to the Ideas column!
+- We're on __[Discord](https://discord.gg/PbY85WA)__ and __[Telegram](https://t.me/automagica)__
 
 
 ## Need professional support?
