@@ -12,7 +12,8 @@ RUN set -ex; \
     supervisor \
     x11vnc \
     xterm \
-    xvfb
+    xvfb \
+    freeglut3-dev
 
 # Setup demo environment variables
 ENV HOME=/root \
@@ -24,38 +25,30 @@ ENV HOME=/root \
     DISPLAY_WIDTH=1900 \
     DISPLAY_HEIGHT=920
 
-RUN echo '[supervisord]\n\
-nodaemon=true\n\
-\n\
-[program:fluxbox]\n\
-command=fluxbox\n\
-autorestart=true\n\
-\n\
-[program:websockify]\n\
-command=websockify --web /usr/share/novnc 8080 localhost:5900\n\
-autorestart=true\n\
-\n\
-[program:x11vnc]\n\
-command=x11vnc -forever -shared\n\
-autorestart=true\n\
-\n\
-[program:xterm]\n\
-command=xterm\n\
-autorestart=true\n\
-\n\
-[program:xvfb]\n\
-command=Xvfb :0 -screen 0 "%(ENV_DISPLAY_WIDTH)s"x"%(ENV_DISPLAY_HEIGHT)s"x24 -listen tcp -ac\n\
-autorestart=true' > supervisord.conf
-
+# Install requirements
 RUN apt-get install python3 \
-                    python3-pip \
-                    python3-dev \
-                    chromium -y
+    python3-tk \
+    python3-pip \
+    python3-dev \
+    chromium -y
 
+# Install Automagica
 RUN mkdir code
 COPY . /code
 WORKDIR /code
 RUN pip3 install -e .
-CMD ["supervisord", "-c", "/supervisord.conf"]
+
+# Set Automagica Wallpaper
+RUN mkdir ~/.fluxbox
+RUN touch ~/.fluxbox/overlay
+RUN echo "background: none" >> ~/.fluxbox/overlay
+RUN touch ~/.fluxbox/lastwallpaper
+RUN echo "$full $full|/code/docker/wallpaper.png||:0,0" >> ~/.fluxbox/lastwallpaper
+
+# Copy fluxbox menu file
+RUN cp /code/docker/fluxbox/menu ~/.fluxbox/menu
+
+# Run supervisord
+CMD ["supervisord", "-c", "/code/docker/supervisord.conf"]
 
 EXPOSE 8080

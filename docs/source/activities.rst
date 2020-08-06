@@ -26,16 +26,14 @@ Random
 .. autofunction:: generate_random_address
 .. autofunction:: generate_random_beep
 .. autofunction:: generate_random_date
+.. autofunction:: generate_date_today
 .. autofunction:: generate_unique_identifier
 
 
-User Input
-----------
-.. autofunction:: ask_user_input
-.. autofunction:: ask_user_password
-.. autofunction:: ask_credentials
-.. autofunction:: display_message_box
+Output
+------
 .. autofunction:: display_osd_message
+.. autofunction:: print_console
 
 
 Browser
@@ -69,10 +67,15 @@ Mouse
 .. autofunction:: get_mouse_position
 .. autofunction:: display_mouse_position
 .. autofunction:: click
+.. autofunction:: click_coordinates
+.. autofunction:: double_click_coordinates
 .. autofunction:: double_click
 .. autofunction:: right_click
+.. autofunction:: right_click_coordinates
 .. autofunction:: move_mouse_to
+.. autofunction:: move_mouse_to_coordinates
 .. autofunction:: move_mouse_relative
+.. autofunction:: drag_mouse_to_coordinates
 .. autofunction:: drag_mouse_to
 
 
@@ -80,10 +83,6 @@ Image
 -----
 .. autofunction:: random_screen_snippet
 .. autofunction:: take_screenshot
-.. autofunction:: click_image
-.. autofunction:: double_click_image
-.. autofunction:: right_click_image
-.. autofunction:: locate_image_on_screen
 
 
 Folder Operations
@@ -105,7 +104,6 @@ Folder Operations
 Delay
 -----
 .. autofunction:: wait
-.. autofunction:: wait_for_image
 .. autofunction:: wait_folder_exists
 
 
@@ -222,11 +220,6 @@ Utilities
 .. autofunction:: download_file_from_url
 
 
-Trello
-------
-.. autofunction:: add_trello_card
-
-
 System
 ------
 .. autofunction:: rename_file
@@ -236,8 +229,10 @@ System
 .. autofunction:: wait_file_exists
 .. autofunction:: write_list_to_file
 .. autofunction:: read_list_from_txt
+.. autofunction:: read_from_txt
 .. autofunction:: append_line
-.. autofunction:: make_textfile
+.. autofunction:: make_text_file
+.. autofunction:: read_text_file_to_list
 .. autofunction:: copy_file
 .. autofunction:: get_file_extension
 .. autofunction:: send_to_printer
@@ -332,7 +327,8 @@ SAP GUI
 
 Portal
 ------
-.. autofunction:: create_new_job
+.. autofunction:: create_new_job_in_portal
+.. autofunction:: get_credential_from_portal
 
 
 Vision

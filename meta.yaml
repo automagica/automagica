@@ -1,0 +1,12 @@
+package:
+  name: automagica
+  version: 2.1.12
+
+build:
+  number: 3
+
+requirements:
+  run:
+    - python
+about:
+  summary: Smart Robotic Process Automation
