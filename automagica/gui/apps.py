@@ -12,7 +12,7 @@ import requests
 from PIL import Image, ImageTk
 
 from automagica.bots import ThreadedBot
-from automagica.config import Config
+from automagica.config import ICONS, Config
 from automagica.flow import Flow
 from automagica.gui.windows import (
     BotTrayWindow,
@@ -21,8 +21,6 @@ from automagica.gui.windows import (
     NotificationWindow,
     WandWindow,
 )
-
-from automagica.config import ICONS
 
 
 class App(tk.Tk):
@@ -34,6 +32,7 @@ class App(tk.Tk):
 
         # Load config
         self.config = config
+
         if not self.config:
             self.config = Config()
 
@@ -488,4 +487,3 @@ class ScriptApp:
         except Exception as e:
             self.config.logger.exception(f'Failed script "{script_path}"')
             raise e
-

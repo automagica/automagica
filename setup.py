@@ -61,7 +61,7 @@ setup(
         "keyring==21.0.0",  # MIT License
         "cryptography==2.3.1",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
         "pyad==0.6.0",  # Apache 2.0 License
-        "Pillow==7.0.0",  # PIL License (permissive),
+        "Pillow==7.1.0",  # PIL License (permissive),
         "pysnmp==4.4.12",  # BSD 2-Clause "Simplified" License
         "pandas==1.0.0",  # BSD 3-Clause
         "mss==5.0.0",  # MIT License

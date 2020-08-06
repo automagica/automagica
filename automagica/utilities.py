@@ -297,7 +297,7 @@ def all_activities():
             "return": get_return(f),
             "class": get_class(f),
             "icon": get_icon(f),
-            "key": f.__module__ + "." + f.__qualname__
+            "key": f.__module__ + "." + f.__qualname__,
         }
 
         key = f.__module__ + "." + f.__qualname__
@@ -323,3 +323,4 @@ def find_automagica_processes():
             pass
 
     return pids
+

@@ -456,33 +456,53 @@ class ToolbarFrame(tk.Frame):
         self.logo_image = ImageTk.PhotoImage(file=logo_path)
         logo_canvas.create_image(0, 0, image=self.logo_image, anchor="nw")
 
-        open_button = LargeButton(
-            self, text="Open", command=self.clicked_open_button, underline=0
+        file_frame = ToolbarLabelFrame(self, text=_("File"))
+
+        open_button = ToolbarImageButton(
+            file_frame,
+            text="Open",
+            command=self.clicked_open_button,
+            image_path="folder-open.png",
         )
         self.parent.master.bind("<Alt-o>", lambda e: self.clicked_open_button())
-        open_button.pack(side="left", padx=5, pady=5)
+        open_button.pack(side="left")
 
-        save_as_button = LargeButton(
-            self, text=_("Save As"), command=self.clicked_save_as_button, underline=5
+        save_as_button = ToolbarImageButton(
+            file_frame,
+            text=_("Save As"),
+            command=self.clicked_save_as_button,
+            image_path="save.png",
         )
         self.parent.master.bind("<Alt-a>", lambda e: self.clicked_save_as_button())
-        save_as_button.pack(side="left", padx=5, pady=5)
+        save_as_button.pack(side="left")
 
-        run_button = LargeButton(
-            self, text=_("Run (F5)"), command=self.clicked_run_button
+        file_frame.pack(side="left", padx=20, pady=5)
+
+        run_frame = ToolbarLabelFrame(self, text=_("Run"))
+
+        run_button = ToolbarImageButton(
+            run_frame,
+            text=_("Run Flow"),
+            command=self.clicked_run_button,
+            image_path="play-solid.png",
         )
+        run_button.config(bg=config.COLOR_7)
         self.parent.master.bind("<F5>", lambda e: self.clicked_run_button())
-        run_button.pack(side="left", padx=5, pady=5)
+        run_button.pack(side="left")
 
-        run_step_by_step_button = LargeButton(
-            self,
-            text=_("Run step-by-step (Shift+F5)"),
+        run_step_by_step_button = ToolbarImageButton(
+            run_frame,
+            text=_("Step-by-Step"),
             command=self.clicked_run_step_by_step_button,
+            image_path="google-play.png",
         )
         self.parent.master.bind(
             "<Shift-F5>", lambda e: self.clicked_run_step_by_step_button()
         )
-        run_step_by_step_button.pack(side="left", padx=5, pady=5)
+
+        run_step_by_step_button.pack(side="left")
+
+        run_frame.pack(side="left", padx=20, pady=5)
 
         # validate_button = LargeButton(
         #     self, text=_("Validate (F6)"), command=self.clicked_validate_button
@@ -582,10 +602,12 @@ class ToolbarFrame(tk.Frame):
         )
         record_wait_vanish_button.pack(side="left")
 
-        wand_frame.pack(side="left", padx=5, pady=5)
+        wand_frame.pack(side="left", padx=20, pady=5)
+
+        wand_settings_frame = ToolbarLabelFrame(self, text=_("Settings"))
 
         self.delay_menu = SettingContextMenu(
-            wand_frame,
+            wand_settings_frame,
             text="Delay",
             options=[
                 ("No Delay", 0),
@@ -596,7 +618,23 @@ class ToolbarFrame(tk.Frame):
                 ("5 seconds", 5),
             ],
         )
-        self.delay_menu.pack(side="left", padx=5, pady=5)
+        self.delay_menu.pack(side="left")
+
+        def my_ui_elements_button_clicked():
+            import webbrowser
+
+            webbrowser.open("https://beta.automagica.com/ui-element/")
+
+        self.my_ui_elements_button = ToolbarImageButton(
+            wand_settings_frame,
+            text="My UI Elements",
+            image_path="magic-solid.png",
+            command=my_ui_elements_button_clicked,
+        )
+
+        self.my_ui_elements_button.pack(side="left")
+
+        wand_settings_frame.pack(side="left", padx=5, pady=5)
 
     def clicked_run_step_by_step_button(self):
         from .windows import NotificationWindow, FlowPlayerWindow

@@ -6,7 +6,7 @@ from PIL import ImageTk
 
 from automagica import config
 from automagica.config import _, ICONS
-from automagica.gui.buttons import Button
+from automagica.gui.buttons import Button, ToolbarImageButton
 from automagica.gui.graphs import generate_icon
 
 
@@ -367,6 +367,7 @@ class AutomagicaIdInputWidget(tk.Frame):
         import webbrowser
 
         automagica_id = self.get().replace('"', "")
+        automagica_id = self.get().replace("'", "")
 
         url = os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
 
@@ -515,7 +516,7 @@ class SettingContextMenu(tk.Frame):
                 font=(config.FONT, 10),
             )
 
-        self.button = Button(self, text=text)
+        self.button = ToolbarImageButton(self, text=text, image_path="clock.png")
         self.button.bind("<Button-1>", self.show_context_menu)
         self.button.pack()
 

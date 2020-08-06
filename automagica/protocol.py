@@ -1,15 +1,15 @@
-import sys
+import logging
 import os
+import sys
+from tkinter import messagebox
 
-
-def try_to_hide_console():
-    if os.name == "nt":
-        import ctypes
-
-        ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
-
+from automagica.config import Config, _
+from automagica.gui.apps import App, BotApp, FlowApp, LabApp, WandApp
 
 if __name__ == "__main__":
+    """
+    Protocol handler for automagica://
+    """
     url = sys.argv[1]
 
     url = url.replace("automagica://", "")
@@ -18,35 +18,33 @@ if __name__ == "__main__":
 
     os.chdir(os.path.expanduser("~"))
 
-    try_to_hide_console()
-
+    # Automagica Flow (automagica://flow/new)
     if parts[0] == "flow":
         if parts[1] == "new":
-            from automagica.gui.apps import FlowApp
-
             app = FlowApp()
             app.run()
 
+    # Automagica Lab (automagica://lab/new)
     if parts[0] == "lab":
         if parts[1] == "new":
-            from automagica.gui.apps import LabApp
-
             app = LabApp()
             app.new()
 
+    # Automagica Wand (automagica://wand)
     if parts[0] == "wand":
-        from automagica.gui.apps import WandApp
-
         app = WandApp()
         app.run()
 
-    if parts[0] == "config":
-        from automagica.config import Config
-
-        cfg = Config()
+    # Automagica Bot (automagica://bot/bot_secret/ABCD12345)
+    if parts[0] == "bot":
+        config = Config()
 
         if parts[1] == "bot_secret":
             bot_secret = parts[2]
-            cfg.config["bot_secret"] = bot_secret
 
-        cfg.save()
+            config.values["bot_secret"] = bot_secret
+            config.save()
+
+        app = BotApp(config=config)
+
+        app.run()

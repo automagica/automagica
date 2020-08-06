@@ -7,7 +7,11 @@ All notable changes to Automagica are documented per version and product here.
 - Added icons to the selection menu on the left for activities
 - Fixed a bug with auto-save not functioning properly
 - Increased interval for auto-save and state checking for undo (CTRL+Z), should now happen every 100 ms
+- New nodes without selection are added in the center of the canvas
+- Added warning when closing a Flow without saving
 
+### Automagica activities
+- Added parameters to press_key activity 
 
 ## 3.0.4
 ### Automagica Flow

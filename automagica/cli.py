@@ -65,15 +65,9 @@ def flow_edit(file_path):
     help=_("Run Flow headless (without GUI)"),
 )
 def flow_run(filename, headless, step_by_step):
-    code = None
-
     # Run FLow
     app = FlowApp(
-        file_path=filename,
-        run=True,
-        headless=headless,
-        step_by_step=step_by_step,
-        parameters=code,
+        file_path=filename, run=True, headless=headless, step_by_step=step_by_step,
     )
 
     app.run()

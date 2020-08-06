@@ -159,6 +159,19 @@ class FlowDesignerWindow(Window):
         self.flow_frame.draw()
 
     def on_closing(self):
+        if not self.flow.file_path:
+            from tkinter import messagebox
+
+            answer = messagebox.showwarning(
+                _("Unsaved Flow"),
+                _("Close without saving?"),
+                master=self,
+                type=messagebox.YESNO,
+            )
+
+            if answer != "yes":
+                return
+
         self.destroy()
 
         if not self.master.winfo_children():
