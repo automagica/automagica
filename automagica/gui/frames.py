@@ -623,7 +623,10 @@ class ToolbarFrame(tk.Frame):
         def my_ui_elements_button_clicked():
             import webbrowser
 
-            webbrowser.open("https://beta.automagica.com/ui-element/")
+            webbrowser.open(
+                os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+                + "/ui-element/"
+            )
 
         self.my_ui_elements_button = ToolbarImageButton(
             wand_settings_frame,
