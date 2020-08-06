@@ -931,8 +931,6 @@ class WandWindow(Window):
         self.anchors.append(coordinates)
         self.show()
 
-        self.anchors.append(coordinates)
-
         image_cropped = self.screenshot.crop(coordinates)
         image_cropped, _ = self._resize_to_fit(image_cropped, 128, 128)
 
@@ -1118,7 +1116,7 @@ class WandWindow(Window):
             accepted = messagebox.askyesno(
                 _("Important"),
                 _(
-                    "By continuing, the information you provided in the previous steps will be uploaded to Automagica's Vision service. You can find the full terms on https://portal.automagica.com/tos. Do you accept the terms? You will only be prompted once on this machine."
+                    "By continuing, the information you provided in the previous steps will be uploaded to Automagica's Portal. You can find the full terms on https://portal.automagica.com/tos. Do you accept the terms? You will only be prompted once on this machine."
                 ),
                 parent=self.master,
             )

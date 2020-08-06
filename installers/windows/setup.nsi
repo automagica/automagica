@@ -173,6 +173,10 @@ Section "!${PRODUCT_NAME}" sec_app
   DetailPrint "Configuring Automagica bot..."
   SetOutPath "$INSTDIR"
   ExecWait "$\"$INSTDIR\Python\python.exe$\" -m automagica.config $\"$EXEPATH$\""
+  
+  ; Launch the Automagica Bot
+  Exec "$\"$INSTDIR\Python\pythonw.exe$\" -m automagica.cli bot"
+  
 
   ; Add ourselves to Add/remove programs
   WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}" \
