@@ -2834,9 +2834,7 @@ Icon: las la-folder-open
 
 
 @activity
-def get_files_in_folder(
-    input_path=None, extension=None, show_full_path=True, scan_subfolders=False
-):
+def get_files_in_folder(input_path=None, extension=None, show_full_path=True, scan_subfolders=False):
     """List files in folder
 
     List all files in a folder (and subfolders)
