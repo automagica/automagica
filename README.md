@@ -79,7 +79,7 @@ Some activities access external services hosted on our servers, such as the AI a
 The Automagica Portal is currently not available under an open source license. We offer a free environment for evaluation purposes at https://portal.automagica.com. If you would like to use the Automagica Portal within your company or organization, please contact us at sales@automagica.com.
 
 
-## Examples
+## Example
 
 Browser working with Excel:
 
