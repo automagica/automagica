@@ -1,38 +1,24 @@
 ![](https://automagica.com/wp-content/uploads/2020/06/logo.png)
-# Automagica - Open Source Robotic Process Automation [![Downloads](https://pepy.tech/badge/automagica/month)](https://pepy.tech/project/automagica/month)
-Automagica is an open source automation suite for fully automating tedious, manual tasks on any screen. Our vision is that __people should not be doing a robot's job__. Our mission is to make these automation tools as accessible as possible to empower everyone to automate (almost) anything. 
+# Automagica - Open Source Robotic Process Automation
+[Website](https://www.automagica.com) | [Portal](https://portal.automagica.com) | [Documentation](https://automagica.readthedocs.io) | [YouTube](https://automagi.ca/youtube) | [Roadmap](https://automagi.ca/roadmap) | [Discord](https://discord.gg/PbY85WA) | [Telegram](https://t.me/automagica)
 
-_Let bots handle the clicks so people can handle the business._
+[![Downloads](https://pepy.tech/badge/automagica/month)](https://pepy.tech/project/automagica/month)
+
+__[Automagica](https://automagica.com)__ is an open source __automation suite__ for fully automating tedious, manual tasks on any screen. Our vision is that __people should not be doing a robot's job__. Our mission is to make these automation tools as accessible as possible to empower everyone to automate (almost) anything. 
+
+_"Let __bots__ handle the __clicks__ so __people__ can handle the __business__."_
 
 ![Love Automagica Example](https://i.imgur.com/uU2OX1X.gif)
 
-## Important links
-- [Website](https://www.automagica.com)
-- [Portal](https://portal.automagica.com)
-- [Documentation](https://automagica.readthedocs.io)
-- [YouTube Channel](https://automagi.ca/youtube)
-- [Public Roadmap](https://automagi.ca/roadmap)
+## Get started
 
-Refer to the [Automagica official website](https://www.automagica.com) for more information. . For more info see the [documentation](https://automagica.readthedocs.io).
+### Windows
 
-## Important information
-- We are preparing the launch of Automagica 3.0 (introducing Automagica Flow and the new Automagica Portal).
-- Check out our __[public roadmap](https://trello.com/b/qXHf5YqD/automagica-roadmap)__ and feel free to add suggestions to the Ideas column!
-- We're on __[Discord](https://discord.gg/PbY85WA)__ and __[Telegram](https://t.me/automagica)__
-
-
-## Need professional support?
-Please send an e-mail to [sales@automagica.com](mailto:sales@automagica.com).
-
-## Getting started
-
-### Installation
-
-The easiest way to install Automagica is by using the installer for Windows which can be downloaded from the [Automagica Portal](https://portal.automagica.com).
+The easiest way to install Automagica is by using our __one-click installer for Windows__ which you can get at the [Automagica Portal](https://portal.automagica.com).
 
 ![Portal and Flow](https://i.imgur.com/ps1Uhck.png)
 
-### Other OSes than Windows
+### Linux
 #### Fedora-like distributions of Linux such as Red Hat Enterprise Linux or CentOS
 You can install Automagica by running the following commands:
 
@@ -57,9 +43,9 @@ If you wish to only install the Automagica Python library (without registering f
 ```
 pip install automagica --upgrade
 ```
-#### Importing the activities
+#### Importing activities
 
-Before getting started in development mode, don't forget to import the activities from automagica in your python script. If unsure, it is possible to import all the activities for development purposes by starting your script with:
+Before getting started in development mode, don't forget to import the activities from automagica in your Python script. If unsure, it is possible to import all the activities for development purposes by starting your script with:
 ```
 from automagica import *
 ```
@@ -78,6 +64,8 @@ Some activities access external services hosted on our servers, such as the AI a
 
 The Automagica Portal is currently not available under an open source license. We offer a free environment for evaluation purposes at https://portal.automagica.com. If you would like to use the Automagica Portal within your company or organization, please contact us at sales@automagica.com.
 
+## Automagica & Docker
+All Automagica components can run inside Docker containers. Find out more in our [documentation](https://automagica.readthedocs.io/docker.html).
 
 ## Examples
 
@@ -89,16 +77,6 @@ SAP Automation (Production example, sensitive information is blurred):
 
 ![Sap Example Automagica](https://automagica.com/wp-content/uploads/2019/10/azmm_betalingsbeheer.gif)
 
-
-## Docker
-As Automagica is fully cross-platform and built with Python, it's quite easy to run or build Automagica bots inside containers. We've added an example `Dockerfile` with the minimum reuirements for running an Automagica bot:
-```
-git clone https://github.com/automagica/automagica
-cd automagica
-docker build . -t automagica
-docker run -it -p 8080:8080 automagica
-```
-Then browse to http://localhost:8080/vnc.html to access the Automagica desktop.
 
 ## Activities
 
@@ -468,3 +446,4 @@ All source code and other files in this repository, unless stated otherwise, are
 
 ### Commercial license
 Need a commercial license for Automagica or would you like to embed Automagica or its capabilities in your software offerings or services? Contact us at [sales@automagica.com](mailto:sales@automagica.com).
+You can also reach out directly to one of the founders: Koen ([koen@automagica.com](mailto:koen@automagica.com)) or Thomas ([thomas@automagica.com](thomas@automagica.com)).
