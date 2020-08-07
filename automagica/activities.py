@@ -3217,7 +3217,7 @@ def copy_folder(input_path, output_path=None):
 def zip_folder(input_path, output_path=None):
     """Zip
 
-     Zia folder and it's contents. Creates a .zip file. 
+     Zip folder and its contents. Creates a .zip file. 
 
     :parameter input_path: Full path to the source location of the folder that will be zipped
     :type input_path: input_dir
@@ -3449,6 +3449,8 @@ class Word:
 
     def _launch(self):
         """Utility function to create the Word application scope object
+
+        Utility function to create the Word application scope object
 
         :return: Application object (win32com.client)
         """
@@ -4039,6 +4041,8 @@ class Outlook:
     def _launch(self):
         """Utility function to create the Outlook application scope object
 
+        Utility function to create the Outlook application scope object        
+
         :return: Application object (win32com.client)
         """
         try:
@@ -4156,13 +4160,6 @@ class Outlook:
             
         >>> outlook = Outlook()
         >>> outlook.get_mails()
-        [
-            {
-                'Subject': 'Hello World!',
-                'Body' : 'This is an e-mail',
-                'SenderEmailAddress': 'from@test.com'
-            }
-        ]
 
         Keywords
             outlook, retrieve e-mail, receive e-mails, process e-mails, get mails
@@ -4545,6 +4542,8 @@ class Excel:
 
     def _launch(self):
         """Utility function to create the Excel application scope object
+
+        Utility function to create the Excel application scope object
 
         :return: Application object (win32com.client)
         
@@ -5721,6 +5720,8 @@ class PowerPoint:
 
     def _launch(self, path):
         """Utility function to create the Excel application scope object
+
+        Utility function to create the Excel application scope object
 
         :return: Application object (win32com.client)
         """
@@ -8288,9 +8289,7 @@ def read_text_from_pdf(file_path):
 
 
 @activity
-def join_pdf_files(
-    first_file_path, second_file_path, third_file_path=None, output_path=None
-):
+def join_pdf_files(first_file_path, second_file_path, third_file_path=None, output_path=None):
     """Merge PDF
     
     Merges multiple PDFs into a single file
