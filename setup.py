@@ -49,7 +49,7 @@ long_description = long_description.split('##')[0]
 
 setup(
     name="Automagica",
-    version="3.0.6",
+    version="3.0.7",
     description="Open Source RPA and UI automation",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
