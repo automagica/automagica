@@ -4,7 +4,7 @@ Automagica is an open source automation suite for fully automating tedious, manu
 
 _Let bots handle the clicks so people can handle the business._
 
-![Love Automagica Example](https://i.imgur.com/uU2OX1X.gif)
+![Love Automagica Example](https://i.imgur.com/C4M6LBl.gif)
 
 ## Important links
 - [Website](https://www.automagica.com)
@@ -79,15 +79,11 @@ Some activities access external services hosted on our servers, such as the AI a
 The Automagica Portal is currently not available under an open source license. We offer a free environment for evaluation purposes at https://portal.automagica.com. If you would like to use the Automagica Portal within your company or organization, please contact us at sales@automagica.com.
 
 
-## Examples
+## Example
 
 Browser working with Excel:
 
 ![Excel Example Automagica](https://automagica.com/wp-content/uploads/2020/06/browser_excel.gif)
-
-SAP Automation (Production example, sensitive information is blurred):
-
-![Sap Example Automagica](https://automagica.com/wp-content/uploads/2019/10/azmm_betalingsbeheer.gif)
 
 
 ## Docker
