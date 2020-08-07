@@ -1,5 +1,5 @@
 from .utilities import activity, only_supported_for, interpret_path
-
+import selenium.webdriver
 
 """
 Cryptography
@@ -946,20 +946,11 @@ Browser
 Icon: lab la-chrome
 """
 
-import selenium.webdriver
 
 
 class Chrome(selenium.webdriver.Chrome):
     @activity
-    def __init__(
-        self,
-        load_images=True,
-        headless=False,
-        incognito=False,
-        disable_extension=False,
-        maximize_window=True,
-        focus_window=True,
-    ):
+    def __init__(self,load_images=True,headless=False,incognito=False,disable_extension=False,maximize_window=True,focus_window=True,):
         """Open Chrome Browser
 
         Open the Chrome Browser with the Selenium webdriver. Canb be used to automate manipulations in the browser.
@@ -2066,9 +2057,7 @@ def press_key(key=None, delay=1, perform_n_times=1, delay_between=0.5):
 
 
 @activity
-def press_key_combination(
-    first_key, second_key, third_key=None, compatibility=False, delay=1
-):
+def press_key_combination(first_key, second_key, third_key=None, compatibility=False, delay=1):
     """Press key combination
 
     Press a combination of two or three keys simultaneously. Make sure your keyboard is on US layout (standard QWERTY).
@@ -3428,9 +3417,7 @@ Icon: las la-file-word
 
 class Word:
     @activity
-    def __init__(
-        self, file_path=None, visible=True,
-    ):
+    def __init__(self, file_path=None, visible=True,):
         """Start Word Application
 
         For this activity to work, Microsoft Office Word needs to be installed on the system.
@@ -4069,9 +4056,7 @@ class Outlook:
         return app
 
     @activity
-    def send_mail(
-        self, to_address, subject="", body="", html_body=None, attachment_paths=None
-    ):
+    def send_mail(self, to_address, subject="", body="", html_body=None, attachment_paths=None):
         """Send e-mail
 
         Send an e-mail using Outlook
@@ -4224,13 +4209,7 @@ class Outlook:
 
     @activity
     def delete_mails(
-        self,
-        folder_name="Inbox",
-        limit=0,
-        subject_contains="",
-        body_contains="",
-        sender_contains="",
-    ):
+        self, folder_name="Inbox", limit=0, subject_contains="", body_contains="", sender_contains=""):
         """Delete e-mails
 
         Deletes e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -4287,15 +4266,7 @@ class Outlook:
                         item.Delete()
 
     @activity
-    def move_mails(
-        self,
-        source_folder_name="Inbox",
-        target_folder_name="Archive",
-        limit=0,
-        subject_contains="",
-        body_contains="",
-        sender_contains="",
-    ):
+    def move_mails(self,source_folder_name="Inbox",target_folder_name="Archive",limit=0,subject_contains="",body_contains="",sender_contains=""):
         """Move e-mails
 
         Move e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -5921,18 +5892,7 @@ class PowerPoint:
         return self.app.Slides.Count
 
     @activity
-    def add_text(
-        self,
-        text,
-        index=None,
-        font_size=48,
-        font_name=None,
-        bold=False,
-        margin_bottom=100,
-        margin_left=100,
-        margin_right=100,
-        margin_top=100,
-    ):
+    def add_text(self,text,index=None,font_size=48,font_name=None,bold=False,margin_bottom=100,margin_left=100,margin_right=100,margin_top=100,):
         """Text to slide
         
         Add text to a slide
@@ -6259,9 +6219,7 @@ Icon: las la-at
 
 
 @activity
-def send_mail_smtp(
-    smtp_host, smtp_user, smtp_password, to_address, subject="", message="", port=587
-):
+def send_mail_smtp(smtp_host, smtp_user, smtp_password, to_address, subject="", message="", port=587):
     """Mail with SMTP
 
     This function lets you send emails with an e-mail address. 
@@ -6308,75 +6266,6 @@ def send_mail_smtp(
     smtpObj.sendmail(user, destination, BODY)
     smtpObj.quit()
 
-"""
-E-mail (with attachments)
-"""
-@activity
-def send_mail_attachment(_host, _user, _password, _to_address, _subject="", _message="", _port=587, _attachment=None):
-    import smtplib
-    from email.mime.multipart import MIMEMultipart 
-    from email.mime.text import MIMEText 
-    from email.mime.base import MIMEBase 
-    from email import encoders 
-    """Mail using SMTP with attachments
-
-    This function lets you send emails with an e-mail address and also add attachments. 
-
-    :parameter _host: The host of your e-mail account. 
-    :parameter _user: The password of your e-mail account
-    :parameter _password: The password of your e-mail account
-    :parameter _to_address: The destination is the receiving mail address. 
-    :parameter _subject: The subject 
-    :parameter _message: The body of the mail
-    :parameter _port: The port variable is standard 587. In most cases this argument can be ignored, but in some cases it needs to be changed to 465.
-    :parameter _attachment: The attachments to be sent with the email are to be mentioned in the form of a dictionary
-    sample:
-            attachments={
-                '<filename1>.<extension>':'<filepath>',
-                '<filename2>.<extension>:'<filepath>'
-            }
-
-        :Example:
-    >>>attachments = {
-        'data.xlsx':'C:/Users/robot/Documents/data.xlsx',
-        'resume.pdf':'C:/Users/admin/Documents/resume.pdf'
-            }
-
-    >>> send_mail_smpt('robot@automagica.com', 'SampleUser', 'SamplePassword', 'robotfriend@automagica.com',attachment=attachments)
-
-    Keywords
-        mail, e-mail, email smpt, email attachments
-
-    Icon
-        las la-mail-bulk
-
-    """
-    msg = MIMEMultipart()               # storing the senders email address   
-    msg['From'] = _user             # storing the receivers email address  
-    msg['To'] = _to_address              # storing the subject  
-    msg['Subject'] = _subject            # string to store the body of the mail 
-    body = _message                      # attach the body with the msg instance 
-    msg.attach(MIMEText(body, 'plain')) # open the file to be sent
-    
-    if _attachment!=None:
-        if 'dict' not in str(type(_attachment)):
-            raise TypeError("send_mail_attachment() expects a <class 'dict'> obj for attachments but %s"%str(type(l)))
-        else:
-            for i,j in _attachment.items():
-                filename = i
-                attachment = open(j, "rb")
-                p = MIMEBase('application', 'octet-stream') # instance of MIMEBase and named as p
-                p.set_payload((attachment).read())          # To change the payload into encoded form 
-                encoders.encode_base64(p)                   # encode into base64
-                p.add_header('Content-Disposition', "attachment;filename= %s" % filename)# attach the instance 'p' to instance 'msg' 
-                msg.attach(p) 
-            smtpObj = smtplib.SMTP(_host, _port)
-            smtpObj.ehlo()
-            smtpObj.starttls()
-            smtpObj.login(_user, _password)
-            text = msg.as_string()
-            smtpObj.sendmail(_user, _to_address, text)
-            smtpObj.quit()
 
 """
 Windows OS
@@ -6449,9 +6338,7 @@ def find_window_title(searchterm, partial=True):
 
 
 @activity
-def start_remote_desktop(
-    ip, username, password=None, desktop_width=1920, desktop_height=1080
-):
+def start_remote_desktop(ip, username, password=None, desktop_width=1920, desktop_height=1080):
     """Login to Windows Remote Desktop
 
     Create a RDP and login to Windows Remote Desktop
@@ -9840,14 +9727,7 @@ Icon: las la-robot
 
 
 @activity
-def run_blueprism_process(
-    process_name,
-    username="",
-    password="",
-    sso=False,
-    inputs=None,
-    automatec_exe_path=None,
-):
+def run_blueprism_process(process_name, username="", password="",sso=False, inputs=None,automatec_exe_path=None):
     """Run a Blue Prism process
 
     This activity allows you to run a Blue Prism process.
@@ -10260,9 +10140,7 @@ Icon: las la-robot
 
 
 @activity
-def create_new_job_in_portal(
-    process_name, process_version_id=None, priority=0, parameters=None
-):
+def create_new_job_in_portal(process_name, process_version_id=None, priority=0, parameters=None):
     """Create a new job in the Automagica Portal
 
     This activity creates a new job in the Automagica Portal for a given process. The bot performing this activity needs to be in the same team as the process it creates a job for.

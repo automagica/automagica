@@ -4,7 +4,7 @@ Automagica is an open source automation suite for fully automating tedious, manu
 
 _Let bots handle the clicks so people can handle the business._
 
-![Love Automagica Example](https://github.com/automagica/automagica/blob/master/images/automagica_drawing.gif)
+![Love Automagica Example](https://i.imgur.com/uU2OX1X.gif)
 
 ## Important links
 - [Website](https://www.automagica.com)
@@ -16,7 +16,7 @@ _Let bots handle the clicks so people can handle the business._
 Refer to the [Automagica official website](https://www.automagica.com) for more information. . For more info see the [documentation](https://automagica.readthedocs.io).
 
 ## Important information
-- We are preparing the launch of Automagica 3.0 (introducing Automagica Flow and the new Automagica Portal). Contact us or join our __[Discord](https://discord.gg/PbY85WA)__ or __[Telegram](https://t.me/automagica)__ group to get beta access.
+- We are preparing the launch of Automagica 3.0 (introducing Automagica Flow and the new Automagica Portal).
 - Check out our __[public roadmap](https://trello.com/b/qXHf5YqD/automagica-roadmap)__ and feel free to add suggestions to the Ideas column!
 - We're on __[Discord](https://discord.gg/PbY85WA)__ and __[Telegram](https://t.me/automagica)__
 
@@ -30,7 +30,7 @@ Please send an e-mail to [sales@automagica.com](mailto:sales@automagica.com).
 
 The easiest way to install Automagica is by using the installer for Windows which can be downloaded from the [Automagica Portal](https://portal.automagica.com).
 
-![](https://automagica.com/wp-content/uploads/2020/06/portal_screenshots.JPG)
+![Portal and Flow](https://i.imgur.com/ps1Uhck.png)
 
 ### Other OSes than Windows
 #### Fedora-like distributions of Linux such as Red Hat Enterprise Linux or CentOS
@@ -69,8 +69,8 @@ Important: for some activities (mainly OCR-related) an Automagica API-key is req
 ## Components
 The Automagica suite consists of the following components:
 - __Automagica Bot__: runtime/agent responsible for performing the automated tasks.
+- __Automagica Flow__: a visual flow designer to build automations quickly with full support for Python code.
 - __Automagica Wand__: UI element picker powered by AI.
-- __Automagica Flow__: a visual flow designer to build automations quickly.
 - __Automagica Lab__: Notebook-style automation development environment based on Jupyter Notebooks (requires Jupyter to be installed).
 - __Automagica Portal__: management of bots, credentials, automations, logs, ...
 
@@ -81,25 +81,14 @@ The Automagica Portal is currently not available under an open source license. W
 
 ## Examples
 
-Try out the one-click examples:
-* [Webscraping in Chrome](https://portal.automagica.com/register)
-* [Read and write data in Excel](https://portal.automagica.com/register)
-* [Automatically make a PowerPoint presentation](https://portal.automagica.com/register)
-* [Change your Windows wallpaper](https://portal.automagica.com/register)
-* [Manipulate files and folders](https://portal.automagica.com/register)
-* [Use OCR to read images and click buttons](https://portal.automagica.com/register)
-
 Browser working with Excel:
 
 ![Excel Example Automagica](https://automagica.com/wp-content/uploads/2020/06/browser_excel.gif)
 
 SAP Automation (Production example, sensitive information is blurred):
 
-![Sap Example Automagica](https://automagica.com/wp-content/uploads/2020/06/sap.gif)
+![Sap Example Automagica](https://automagica.com/wp-content/uploads/2019/10/azmm_betalingsbeheer.gif)
 
-Folder and File manipulation
-
-<img src="https://github.com/automagica/automagica/blob/master/images/USPresidents.gif" width="800">
 
 ## Docker
 As Automagica is fully cross-platform and built with Python, it's quite easy to run or build Automagica bots inside containers. We've added an example `Dockerfile` with the minimum reuirements for running an Automagica bot:
@@ -291,6 +280,9 @@ Process | Description
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/salesforce.svg" width="20"> [Salesforce API](https://automagica.readthedocs.io/activities.html#automagica.activities.salesforce_api_call) | Activity to make calls to Salesforce REST API.
 **E-mail (SMTP)** | ‌‌ 
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/mail-bulk-solid.svg" width="20"> [smtp_host, smtp_user, smtp_password, to_address, subject="", message="", port=587](https://automagica.readthedocs.io/activities.html#automagica.activities.send_mail_smtp) | """Mail with SMTP
+**E-mail (with attachments)** | ‌‌ 
+**@activity** | ‌‌ 
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/mail-bulk-solid.svg" width="20"> [import smtplib](https://automagica.readthedocs.io/activities.html#automagica.activities.send_mail_attachment) | from email.mime.text import MIMETextfrom email.mime.base import MIMEBasefrom email import encoders"""Mail using SMTP with attachments
 **Windows OS** | ‌‌ 
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/readme.svg" width="20"> [Find window with specific title](https://automagica.readthedocs.io/activities.html#automagica.activities.find_window_title) | Find a specific window based on the name, either a perfect match or a partial match.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/passport-solid.svg" width="20"> [ip, username, password=None, desktop_width=1920, desktop_height=1080](https://automagica.readthedocs.io/activities.html#automagica.activities.start_remote_desktop) | """Login to Windows Remote Desktop
@@ -398,11 +390,13 @@ Process | Description
 **Blue Prism** | ‌‌ 
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [process_name,](https://automagica.readthedocs.io/activities.html#automagica.activities.run_blueprism_process) | password="",sso=False,inputs=None,automatec_exe_path=None,):"""Run a Blue Prism process
 **Automation Anywhere** | ‌‌ 
-<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/briefcase-solid.svg" width="20"> [Run an Automation Anywhere task](https://automagica.readthedocs.io/activities.html#automagica.activities.run_automationanywhere_task) | This activity allows you to run an Automation Anywhere task.
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [Run an Automation Anywhere task](https://automagica.readthedocs.io/activities.html#automagica.activities.run_automationanywhere_task) | This activity allows you to run an Automation Anywhere task.
+**General** | ‌‌ 
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/briefcase-solid.svg" width="20"> [Raise exception](https://automagica.readthedocs.io/activities.html#automagica.activities.raise_exception) | Raises an exception
 **SAP GUI** | ‌‌ 
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/briefcase-solid.svg" width="20"> [Quit SAP GUI](https://automagica.readthedocs.io/activities.html#automagica.activities.quit) | Quits the SAP GUI completely and forcibly.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/briefcase-solid.svg" width="20"> [Log in to SAP GUI](https://automagica.readthedocs.io/activities.html#automagica.activities.login) | Logs in to an SAP system on SAP GUI.
-<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/briefcase-solid.svg" width="20"> [Click on a sAP GUI element](https://automagica.readthedocs.io/activities.html#automagica.activities.click_sap) | Clicks on an identifier in the SAP GUI.
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/briefcase-solid.svg" width="20"> [Click on a SAP GUI element](https://automagica.readthedocs.io/activities.html#automagica.activities.click_sap) | Clicks on an identifier in the SAP GUI.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/briefcase-solid.svg" width="20"> [Get text from a SAP GUI element](https://automagica.readthedocs.io/activities.html#automagica.activities.get_text) | Retrieves the text from a SAP GUI element.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/briefcase-solid.svg" width="20"> [Set text of a SAP GUI element](https://automagica.readthedocs.io/activities.html#automagica.activities.set_text) | Sets the text of a SAP GUI element.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/briefcase-solid.svg" width="20"> [Highlights a SAP GUI element](https://automagica.readthedocs.io/activities.html#automagica.activities.highlight) | Temporarily highlights a SAP GUI element
@@ -410,10 +404,10 @@ Process | Description
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [process_name, process_version_id=None, priority=0, parameters=None](https://automagica.readthedocs.io/activities.html#automagica.activities.create_new_job_in_portal) | """Create a new job in the Automagica Portal
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/key-solid.svg" width="20"> [Get a credential from the Automagica Portal](https://automagica.readthedocs.io/activities.html#automagica.activities.get_credential_from_portal) | This activity retrieves a credential from the Automagica Portal.
 **Vision** | ‌‌ 
-<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Check if element is visible on screen](https://automagica.readthedocs.io/activities.html#automagica.activities.is_visible) | This activity can be used to check if a certain element is visible on the screen.Note that this uses Automagica vision and uses some advanced an fuzzy matching algorithms for finding identical elements.
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Check if element is visible on screen](https://automagica.readthedocs.io/activities.html#automagica.activities.is_visible) | This activity can be used to check if a certain element is visible on the screen.Note that this uses Automagica Portal and uses some advanced an fuzzy matching algorithms for finding identical elements.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Wait for an element to appear](https://automagica.readthedocs.io/activities.html#automagica.activities.wait_appear) | Wait for an element that is defined the recorder
-<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Detect and click on an element with the Automagica Vision API](https://automagica.readthedocs.io/activities.html#automagica.activities.wait_vanish) | This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
-<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Detect and click on an element with the Automagica Vision API](https://automagica.readthedocs.io/activities.html#automagica.activities.read_text) | This activity allows the bot to detect and click on an element by using the Automagica Vision API with a provided sample ID.
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Wait Vanish](https://automagica.readthedocs.io/activities.html#automagica.activities.wait_vanish) | This activity allows the bot to wait for an element to vanish.
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Read Text with Automagica Wand](https://automagica.readthedocs.io/activities.html#automagica.activities.read_text) | This activity allows the bot to detect and read the text of an element by using the Automagica Portal API with a provided sample ID.
 |<img width=150/>|  ‌‌|
 
 ## Credits

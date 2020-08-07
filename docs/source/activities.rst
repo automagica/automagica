@@ -156,6 +156,14 @@ Salesforce
 E-mail (SMTP)
 -------------
 .. autofunction:: send_mail_smtp
+
+
+E-mail (with attachments)
+-------------------------
+
+
+@activity
+---------
 .. autofunction:: send_mail_attachment
 
 
@@ -313,6 +321,11 @@ Blue Prism
 Automation Anywhere
 -------------------
 .. autofunction:: run_automationanywhere_task
+
+
+General
+-------
+.. autofunction:: raise_exception
 
 
 SAP GUI
