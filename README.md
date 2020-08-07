@@ -67,15 +67,11 @@ The Automagica Portal is currently not available under an open source license. W
 ## Automagica & Docker
 All Automagica components can run inside Docker containers. Find out more in our [documentation](https://automagica.readthedocs.io/docker.html).
 
-## Examples
+## Example
 
 Browser working with Excel:
 
 ![Excel Example Automagica](https://automagica.com/wp-content/uploads/2020/06/browser_excel.gif)
-
-SAP Automation (Production example, sensitive information is blurred):
-
-![Sap Example Automagica](https://automagica.com/wp-content/uploads/2019/10/azmm_betalingsbeheer.gif)
 
 
 ## Activities
