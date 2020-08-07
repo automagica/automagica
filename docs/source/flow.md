@@ -13,7 +13,10 @@ You can get started with Automagica Flow either by:
 Be sure to check out the following videos on our YouTube channel for some hands-on examples and tutorials with Automagica Flow:
 
 [![Automate the browser using Excel and Automagica](https://img.youtube.com/vi/MVBvqlPn518/0.jpg)](https://www.youtube.com/watch?v=MVBvqlPn518 "Automate the browser using Excel and Automagica")
+
 [![Robots reply your e-mail with Automagica Open Source Robotic Process (RPA) Software](https://img.youtube.com/vi/8x-bIpWcumw/0.jpg)](https://www.youtube.com/watch?v=8x-bIpWcumw "Robots reply your e-mail with Automagica Open Source Robotic Process (RPA) Software")
+
+
 [![Automate mouse clicks using AI with Automagica](https://img.youtube.com/vi/3QPevxV0dy4/0.jpg)](https://www.youtube.com/watch?v=3QPevxV0dy4 "Automate mouse clicks using AI with Automagica")
 
 
