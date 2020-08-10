@@ -3445,7 +3445,7 @@ class Word:
             self.file_path = file_path
 
         self.app = self._launch()
-        self.app.Visible = visible
+        # self.app.Visible = visible TODO: gives error for some PP versions
 
     def _launch(self):
         """Utility function to create the Word application scope object
