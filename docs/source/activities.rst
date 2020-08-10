@@ -158,15 +158,6 @@ E-mail (SMTP)
 .. autofunction:: send_mail_smtp
 
 
-E-mail (with attachments)
--------------------------
-
-
-@activity
----------
-.. autofunction:: send_mail_attachment
-
-
 Windows OS
 ----------
 .. autofunction:: find_window_title

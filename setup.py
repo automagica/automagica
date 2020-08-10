@@ -40,14 +40,26 @@ class InstallationWrapper(install):
             lab_path = os.path.join(automagica_path, "lab")
             subprocess.call(["chmod", "-R", "777", lab_path])
 
+# Use the readme in the main folder to 
+with open("README.md", "r", encoding='utf-8') as fh:
+    long_description = fh.read()
+
+# Only show the first part of the Readme, up to the first title
+long_description = long_description.split('##')[0]
 
 setup(
     name="Automagica",
-    version="3.0.5",
+    version="3.0.7",
     description="Open Source RPA and UI automation",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://automagica.com/",
+    project_urls={
+            "Documentation": "https://automagica.readthedocs.io/",
+            "Source Code": "https://github.com/automagica/automagica",
+        },
     entry_points={"console_scripts": ["automagica=automagica.cli:cli"]},
     packages=["automagica"],
     install_requires=[
@@ -77,3 +89,4 @@ setup(
     include_package_data=True,
     cmdclass={"install": InstallationWrapper},
 )
+
