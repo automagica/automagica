@@ -33,7 +33,7 @@ sudo apt-get install python3-devel chromium -y
 sudo pip3 install automagica -U
 ```
 
-### Developers and other platforms
+### Development on Automagica's core
 
 If you wish to only install the Automagica Python library (without registering for the Automagica Portal), follow the below steps.
 
@@ -43,6 +43,18 @@ If you wish to only install the Automagica Python library (without registering f
 ```
 pip install automagica --upgrade
 ```
+
+It is advised however to use a virtual environment for an isolated installation of all requirements, pull the repository and install an editable version of the package:
+```
+pip install virtualenv
+git clone https://github.com/automagica/automagica
+cd automagica
+virtualenv create automagica
+activate automagica
+pip install -e .
+```
+This allows you to make changes to Automagica and try them instantly from your virtual environment.
+
 #### Importing activities
 
 Before getting started in development mode, don't forget to import the activities from automagica in your Python script. If unsure, it is possible to import all the activities for development purposes by starting your script with:
