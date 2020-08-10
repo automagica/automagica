@@ -22,6 +22,7 @@ With this open source library we want to provide:
    portal
    docker
    developers
+   unattended
 
 Indices and tables
 ==================
