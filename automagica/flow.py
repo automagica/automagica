@@ -76,7 +76,7 @@ class Flow:
 
             elif d["type"] == "IfElseNode":
                 node = IfElseNode(
-                    d["condition"],
+                    condition=d["condition"],
                     label=d.get("label"),
                     x=d.get("x"),
                     y=d.get("y"),
