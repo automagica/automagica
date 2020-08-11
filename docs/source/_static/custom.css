@@ -1,0 +1,36 @@
+.wy-side-nav-search {
+    background-color: #2196f3 !important;
+  }
+
+  .wy-menu-vertical header, .wy-menu-vertical p.caption {
+      color: #2196f3 !important;
+  }
+
+  .wy-nav-top {
+    background-color: #2196f3 !important;
+  }
+
+a {
+    color: #2196f3;
+}
+
+body {
+    font-family: 'Roboto';
+}
+
+h1 {
+    font-family: 'Roboto';
+}
+
+h2 {
+    font-family: 'Roboto';
+}
+
+h3 {
+    font-family: 'Roboto';
+}
+
+h4 {
+    font-family: 'Roboto';
+}
+

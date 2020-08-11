@@ -90,6 +90,17 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_css_files = [
+    'custom.css',
+    "https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900"
+]
+
+html_logo = "_static/logo.png"
+html_theme_options = {
+    'logo_only': True,
+    'display_version': False,
+}
+
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #
