@@ -49,7 +49,7 @@ long_description = long_description.split('##')[0]
 
 setup(
     name="Automagica",
-    version="3.0.7",
+    version="3.1.0",
     description="Open Source RPA and UI automation",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
@@ -63,19 +63,19 @@ setup(
     entry_points={"console_scripts": ["automagica=automagica.cli:cli"]},
     packages=["automagica"],
     install_requires=[
-        "requests==2.22.0",  # Apache 2.0 License
-        "selenium==3.7.0",  # Apache 2.0 License
-        "openpyxl==2.4.8",  # MIT License
-        "python-docx==0.8.6",  # MIT License
+        "requests==2.24.0",  # Apache 2.0 License
+        "selenium==3.141.0",  # Apache 2.0 License
+        "openpyxl==3.0.4",  # MIT License
+        "python-docx==0.8.10",  # MIT License
         "PyPDF2==1.26.0",  # BSD 3-Clause "New" or "Revised" License
-        "faker==2.0.3",  # MIT License
+        "faker==4.1.1",  # MIT License
         "psutil==5.6.6",  # BSD 3-Clause
         "keyring==21.0.0",  # MIT License
-        "cryptography==2.3.1",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
+        "cryptography==3.0",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
         "pyad==0.6.0",  # Apache 2.0 License
-        "Pillow==7.1.0",  # PIL License (permissive),
+        "Pillow==7.2.0",  # PIL License (permissive),
         "pysnmp==4.4.12",  # BSD 2-Clause "Simplified" License
-        "pandas==1.0.0",  # BSD 3-Clause
+        "pandas==1.1.0",  # BSD 3-Clause
         "mss==5.0.0",  # MIT License
         "mouse==0.7.1",  # MIT License
         "keyboard==0.13.5",  # MIT License

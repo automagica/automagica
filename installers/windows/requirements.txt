@@ -1,1 +1,1 @@
-pynsist==2.4
+pynsist==2.5.1

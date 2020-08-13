@@ -7,5 +7,5 @@ call cd ..
 call pip wheel pip -w installers/windows/wheels
 call pip wheel . -w installers/windows/wheels
 call cd installers/windows
-call pip install pynsist==2.4
+call pip install -r requirements.txt
 call pynsist setup.cfg
