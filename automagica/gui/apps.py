@@ -49,7 +49,10 @@ class App(tk.Tk):
             "automagica.ico",
         )
         self.tk.call(
-            "wm", "iconphoto", self._w, ImageTk.PhotoImage(Image.open(icon_path))
+            "wm",
+            "iconphoto",
+            self._w,
+            ImageTk.PhotoImage(Image.open(icon_path)),
         )
 
         ICONS.generate_icons()
@@ -99,7 +102,9 @@ class FlowApp(App):
 
                 # Run parameters
                 if os.path.isfile("input/parameters.py"):
-                    with open("input/parameters.py", "r", encoding="utf-8") as f:
+                    with open(
+                        "input/parameters.py", "r", encoding="utf-8"
+                    ) as f:
                         code = f.read()
 
                     bot.run(code)
@@ -161,7 +166,14 @@ class BotApp(App):
 
     def run_script(self, file_path, cwd):
         process = subprocess.Popen(
-            [sys.executable, "-m", "automagica.cli", "script", "run", file_path],
+            [
+                sys.executable,
+                "-m",
+                "automagica.cli",
+                "script",
+                "run",
+                file_path,
+            ],
             stdout=subprocess.PIPE,
             cwd=cwd,
         )
@@ -194,11 +206,14 @@ class BotApp(App):
         while True:
             try:
                 _ = requests.post(
-                    self.config.values["portal_url"] + "/api/bot/alive", headers=headers
+                    self.config.values["portal_url"] + "/api/bot/alive",
+                    headers=headers,
                 )
                 self.config.logger.info("Sent alive to Automagica Portal.")
             except:
-                self.config.logger.exception("Could not reach Automagica Portal.")
+                self.config.logger.exception(
+                    "Could not reach Automagica Portal."
+                )
 
             sleep(interval)
 
@@ -211,14 +226,17 @@ class BotApp(App):
             try:
                 # Get next job
                 r = requests.get(
-                    self.config.values["portal_url"] + "/api/job/next", headers=headers
+                    self.config.values["portal_url"] + "/api/job/next",
+                    headers=headers,
                 )
 
                 job = r.json()
 
                 # We got a job!
                 if job:
-                    NotificationWindow(self, message=f"Received job {job['job_id']}")
+                    NotificationWindow(
+                        self, message=f"Received job {job['job_id']}"
+                    )
                     self.config.logger.info(f"Received job {job['job_id']}")
 
                     # Create directory to store job-related files
@@ -237,14 +255,19 @@ class BotApp(App):
 
                         # Save locally in the input folder in the job folder
                         with open(
-                            os.path.join(local_job_path, "input", job_file["filename"]),
+                            os.path.join(
+                                local_job_path, "input", job_file["filename"]
+                            ),
                             "wb",
                         ) as f:
                             f.write(r.content)
 
                     if job.get("parameters"):
                         with open(
-                            os.path.join(local_job_path, "input", "parameters.py"), "w",
+                            os.path.join(
+                                local_job_path, "input", "parameters.py"
+                            ),
+                            "w",
                         ) as f:
                             f.write(job["parameters"])
 
@@ -279,7 +302,8 @@ class BotApp(App):
 
                     # Write console output
                     with open(
-                        os.path.join(local_job_path, "output", "console.txt"), "w"
+                        os.path.join(local_job_path, "output", "console.txt"),
+                        "w",
                     ) as f:
                         f.write(output)
 
@@ -288,17 +312,23 @@ class BotApp(App):
                         NotificationWindow(
                             self, message=f"Completed job {job['job_id']}"
                         )
-                        self.config.logger.info(f"Completed job {job['job_id']}")
+                        self.config.logger.info(
+                            f"Completed job {job['job_id']}"
+                        )
 
                     else:
                         job["status"] = "failed"
-                        NotificationWindow(self, message=f"Failed job {job['job_id']}")
+                        NotificationWindow(
+                            self, message=f"Failed job {job['job_id']}"
+                        )
                         self.config.logger.info(f"Failed job {job['job_id']}")
 
                     # Make list of output files after job has ran
                     output_files = []
 
-                    for file_path in os.listdir(os.path.join(local_job_path, "output")):
+                    for file_path in os.listdir(
+                        os.path.join(local_job_path, "output")
+                    ):
                         output_files.append({"filename": file_path})
 
                     # Prepare finished job package
@@ -323,7 +353,9 @@ class BotApp(App):
                     for output_file in data["output_files"]:
                         with open(
                             os.path.join(
-                                local_job_path, "output", output_file["filename"]
+                                local_job_path,
+                                "output",
+                                output_file["filename"],
                             ),
                             "rb",
                         ) as f:
@@ -409,7 +441,7 @@ class LabApp:
         if platform.system() == "Linux":
             # This is required within Linux
             cmd += " --ip=127.0.0.1 --allow-root"
-            subprocess.Popen(cmd, env=my_env, shell=True)
+            subprocess.Popen(cmd, env=my_env, shell=True)  # nosec
 
         else:
             subprocess.Popen(cmd, env=my_env)
@@ -423,7 +455,7 @@ class LabApp:
                 )
                 code = f.read()
             try:
-                exec(code)
+                exec(code)  # nosec
                 self.config.logger.info(f"Completed loading parameters")
 
             except Exception as e:
@@ -438,11 +470,15 @@ class LabApp:
         for cell in notebook["cells"]:
             if cell["cell_type"] == "code":
                 try:
-                    exec("".join(cell["source"]))
-                    self.config.logger.info(f'Completed notebook "{notebook_path}"')
+                    exec("".join(cell["source"]))  # nosec
+                    self.config.logger.info(
+                        f'Completed notebook "{notebook_path}"'
+                    )
 
                 except Exception as e:
-                    self.config.logger.exception(f'Failed notebook "{notebook_path}"')
+                    self.config.logger.exception(
+                        f'Failed notebook "{notebook_path}"'
+                    )
                     raise e
 
 
@@ -465,7 +501,7 @@ class ScriptApp:
                 )
                 code = f.read()
             try:
-                exec(code)
+                exec(code)  # nosec
                 self.config.logger.info(f"Completed loading parameters")
 
             except Exception as e:
@@ -474,13 +510,15 @@ class ScriptApp:
 
         # Run script
         with open(script_path, "r", encoding="utf-8") as f:
-            self.config.logger.info(f'Running script "{os.path.realpath(f.name)}"')
+            self.config.logger.info(
+                f'Running script "{os.path.realpath(f.name)}"'
+            )
             code = f.read()
 
         try:
             code_obj = compile(code, "script.py", "exec")
             d = dict(locals(), **globals())
-            exec(code_obj, d, d)
+            exec(code_obj, d, d)  # nosec
             self.config.logger.info(f'Completed script "{script_path}"')
             os._exit(0)
 

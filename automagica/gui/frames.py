@@ -9,7 +9,12 @@ from automagica import config
 from automagica.bots import ConsoleHandler, ThreadedBot
 from automagica.config import _
 from automagica.flow import Flow
-from automagica.gui.buttons import Button, HelpButton, LargeButton, ToolbarImageButton
+from automagica.gui.buttons import (
+    Button,
+    HelpButton,
+    LargeButton,
+    ToolbarImageButton,
+)
 from automagica.gui.graphs import (
     ActivityNodeGraph,
     CommentNodeGraph,
@@ -21,7 +26,11 @@ from automagica.gui.graphs import (
     StartNodeGraph,
     SubFlowNodeGraph,
 )
-from automagica.gui.inputs import ActivitySelectionFrame, InputField, SettingContextMenu
+from automagica.gui.inputs import (
+    ActivitySelectionFrame,
+    InputField,
+    SettingContextMenu,
+)
 
 
 class LabelFrame(tk.LabelFrame):
@@ -56,7 +65,11 @@ class ToolbarLabelFrame(LabelFrame):
 
         # Adjusted font size, foreground and background colors and padding
         self.configure(
-            font=(config.FONT, 8), fg=config.COLOR_1, bg=config.COLOR_0, padx=0, pady=0
+            font=(config.FONT, 8),
+            fg=config.COLOR_1,
+            bg=config.COLOR_0,
+            padx=0,
+            pady=0,
         )
 
         # If overriding options are given, apply them
@@ -123,7 +136,8 @@ class ConsoleFrame(tk.Frame):
         frame = tk.Frame(self, bg=config.COLOR_4)
 
         self.command_entry = InputField(
-            frame, placeholder=_("Type command here and press <ENTER> to run...")
+            frame,
+            placeholder=_("Type command here and press <ENTER> to run..."),
         )
         self.command_entry.configure(font=(config.FONT_MONO, "10"))
 
@@ -139,7 +153,9 @@ class ConsoleFrame(tk.Frame):
             insertbackground=config.COLOR_1,
         )
 
-        self.console_text.frame.configure(bd=0, highlightthickness=0, relief="ridge")
+        self.console_text.frame.configure(
+            bd=0, highlightthickness=0, relief="ridge"
+        )
 
         self.command_entry.pack(fill="x", anchor="nw")
         self.console_text.pack(fill="both", padx=0, pady=0, expand=True)
@@ -150,7 +166,9 @@ class ConsoleFrame(tk.Frame):
                 "Welcome to Automagica Flow!  \nUse this Interactive Console to your liking!\n\n"
             ),
         )
-        self.console_text.configure(font=(config.FONT_MONO, "10"), state="disabled")
+        self.console_text.configure(
+            font=(config.FONT_MONO, "10"), state="disabled"
+        )
 
         self.console_text.tag_config("error", foreground=config.COLOR_14)
 
@@ -187,7 +205,9 @@ class ConsoleFrame(tk.Frame):
         return frame
 
     def on_open_variable_explorer_clicked(self):
-        from .windows import VariableExplorerWindow  # To avoid circular imports
+        from .windows import (
+            VariableExplorerWindow,
+        )  # To avoid circular imports
 
         VariableExplorerWindow(self, bot=self.bot)
 
@@ -225,7 +245,9 @@ class ConsoleFrame(tk.Frame):
         self.console_text.configure(state="normal")
 
         if record.levelname == "ERROR":
-            self.console_text.insert(tk.END, record.getMessage() + "\n", "error")
+            self.console_text.insert(
+                tk.END, record.getMessage() + "\n", "error"
+            )
         else:
             self.console_text.insert(tk.END, record.getMessage() + "\n")
 
@@ -375,7 +397,7 @@ class FlowFrame(tk.Frame):
         self.canvas.tag_bind("background", "<B1-Motion>", self.move_move)
 
         for node in self.flow.nodes:
-            graph = eval(
+            graph = eval(  # nosec
                 "{class_name}Graph(self, node)".format(
                     class_name=node.__class__.__name__
                 )
@@ -392,7 +414,10 @@ class FlowFrame(tk.Frame):
                         next_node = self.flow.get_node_by_uid(next_node_uid)
                         if next_node:
                             connector = ConnectorGraph(
-                                self, node.graph, next_node.graph, connector_type=attr
+                                self,
+                                node.graph,
+                                next_node.graph,
+                                connector_type=attr,
                             )
                             self.connectors.append(connector)
 
@@ -419,7 +444,9 @@ class FlowFrame(tk.Frame):
         """
         Add a node graph
         """
-        graph = eval("{}Graph(self, node)".format(node.__class__.__name__))
+        graph = eval(
+            "{}Graph(self, node)".format(node.__class__.__name__)
+        )  # nosec
         graph.update()
 
         self.graphs.append(graph)
@@ -441,7 +468,12 @@ class ToolbarFrame(tk.Frame):
         self.parent = parent
 
         logo_canvas = tk.Canvas(
-            self, bg=config.COLOR_0, width=175, height=45, bd=0, highlightthickness=0
+            self,
+            bg=config.COLOR_0,
+            width=175,
+            height=45,
+            bd=0,
+            highlightthickness=0,
         )
         logo_canvas.pack(side="left", padx=10, pady=10)
 
@@ -464,7 +496,9 @@ class ToolbarFrame(tk.Frame):
             command=self.clicked_open_button,
             image_path="folder-open.png",
         )
-        self.parent.master.bind("<Alt-o>", lambda e: self.clicked_open_button())
+        self.parent.master.bind(
+            "<Alt-o>", lambda e: self.clicked_open_button()
+        )
         open_button.pack(side="left")
 
         save_as_button = ToolbarImageButton(
@@ -473,7 +507,9 @@ class ToolbarFrame(tk.Frame):
             command=self.clicked_save_as_button,
             image_path="save.png",
         )
-        self.parent.master.bind("<Alt-a>", lambda e: self.clicked_save_as_button())
+        self.parent.master.bind(
+            "<Alt-a>", lambda e: self.clicked_save_as_button()
+        )
         save_as_button.pack(side="left")
 
         file_frame.pack(side="left", padx=20, pady=5)
@@ -510,7 +546,9 @@ class ToolbarFrame(tk.Frame):
         # self.parent.master.bind("<F6>", lambda e: self.clicked_validate_button())
         # validate_button.pack(side="left", padx=5, pady=5)
 
-        wand_frame = ToolbarLabelFrame(self, text=_("Automagica Wand (Powered by AI)"))
+        wand_frame = ToolbarLabelFrame(
+            self, text=_("Automagica Wand (Powered by AI)")
+        )
 
         record_click_button = ToolbarImageButton(
             wand_frame,
@@ -624,7 +662,9 @@ class ToolbarFrame(tk.Frame):
             import webbrowser
 
             webbrowser.open(
-                os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+                os.environ.get(
+                    "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+                )
                 + "/ui-element/"
             )
 
@@ -802,7 +842,9 @@ class SidebarFrame(tk.Frame):
 
         # Instructions
         self.instructions_frame = self.create_instructions_frame()
-        self.instructions_frame.place(relx=0, rely=0.85, relheight=0.1, relwidth=1)
+        self.instructions_frame.place(
+            relx=0, rely=0.85, relheight=0.1, relwidth=1
+        )
 
     def create_instructions_frame(self):
         """

@@ -115,9 +115,11 @@ def telemetry(func):
         }
 
         try:
-            r = requests.post("https://telemetry.automagica.com/", json=data, timeout=1)
-        except:
-            pass
+            r = requests.post(
+                "https://telemetry.automagica.com/", json=data, timeout=1
+            )
+        except Exception:
+            logging.debug()
 
 
 def telemetry_exception(func, exception):
@@ -159,8 +161,8 @@ def telemetry_exception(func, exception):
             r = requests.post(
                 "https://telemetry.automagica.com/errors", json=data, timeout=1
             )
-        except:
-            pass
+        except Exception:
+            logging.exception()
 
 
 def only_supported_for(*args):
@@ -173,7 +175,9 @@ def only_supported_for(*args):
 
     if platform.system() not in args:
         raise NotImplementedError(
-            "This activity is currently only supported for {}.".format(", ".join(args))
+            "This activity is currently only supported for {}.".format(
+                ", ".join(args)
+            )
         )
 
 
@@ -183,7 +187,9 @@ def all_activities():
     """
 
     def get_keywords(f):
-        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+        lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
 
         for i, line in enumerate(lines):
             if line == "Keywords":
@@ -196,11 +202,15 @@ def all_activities():
         return []
 
     def get_name(f):
-        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+        lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
         return lines[0]
 
     def get_description(f):
-        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+        lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
         return lines[1]
 
     def get_args(f):
@@ -211,11 +221,17 @@ def all_activities():
         args = {}
 
         for _, val in params.items():
-            arg = {"default": (val.default if val.default != inspect._empty else "")}
+            arg = {
+                "default": (
+                    val.default if val.default != inspect._empty else ""
+                )
+            }
 
             args[val.name] = arg
 
-            lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+            lines = [
+                line.strip() for line in f.__doc__.split("\n") if line.strip()
+            ]
 
             for line in lines:
                 if line.startswith(":parameter "):
@@ -244,7 +260,7 @@ def all_activities():
                 if line.startswith(":options "):
                     name = line.split(":")[1].replace("options ", "")
                     options_unparsed = line[line.index(":", 2) + 2 :]
-                    options = eval(options_unparsed)
+                    options = eval(options_unparsed)  # nosec
 
                     if name == val.name:
                         arg["options"] = options
@@ -264,7 +280,9 @@ def all_activities():
         return args
 
     def get_return(f):
-        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+        lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
 
         for line in lines:
             if line.startswith(":return:"):
@@ -272,7 +290,9 @@ def all_activities():
                 return {"description": description}
 
     def get_icon(f):
-        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+        lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
 
         for i, line in enumerate(lines):
             if line.strip() == "Icon":
@@ -319,8 +339,8 @@ def find_automagica_processes():
                 if "automagica" in line.lower():
                     print(line)
                     pids.append(proc.info)
-        except:
-            pass
+        except Exception:
+            logging.exception()
 
     return pids
 

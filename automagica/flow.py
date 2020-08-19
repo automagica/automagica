@@ -164,7 +164,10 @@ class Flow:
         ]
 
     def to_dict(self):
-        return {"nodes": [node.to_dict() for node in self.nodes], "name": self.name}
+        return {
+            "nodes": [node.to_dict() for node in self.nodes],
+            "name": self.name,
+        }
 
     def save(self, file_path):
         logging.debug(_("Saving to {}").format(file_path))
@@ -192,7 +195,7 @@ class Flow:
         return node
 
     def add_node(self, node_type):
-        node = eval("{}Node()".format(node_type))
+        node = eval("{}Node()".format(node_type))  # nosec
 
         if self.nodes and node_type not in ("Start", "Comment"):
             previous_node = self.nodes[-1]

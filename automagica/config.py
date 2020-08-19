@@ -30,12 +30,16 @@ class IconGraph:
 
         self.icon_names = os.listdir(icons_path)
 
-        self.icon_paths = [os.path.join(icons_path, fn) for fn in self.icon_names]
+        self.icon_paths = [
+            os.path.join(icons_path, fn) for fn in self.icon_names
+        ]
 
         self.icons_pil = []
         self.icons_tk = []
 
-        self.color = tuple(int(color.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
+        self.color = tuple(
+            int(color.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4)
+        )
 
     def generate_icons(self):
         for i, path in enumerate(self.icon_paths):
@@ -46,7 +50,12 @@ class IconGraph:
             if data:
                 for x in range(img.size[0]):
                     for y in range(img.size[1]):
-                        if data[x, y][0] == data[x, y][1] == data[x, y][2] == 0:
+                        if (
+                            data[x, y][0]
+                            == data[x, y][1]
+                            == data[x, y][2]
+                            == 0
+                        ):
                             data[x, y] = (
                                 self.color[0],
                                 self.color[1],
@@ -157,7 +166,9 @@ class Config:
 
         # Custom config specified?
         if not self.file_path:
-            self.file_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+            self.file_path = os.path.join(
+                os.path.expanduser("~"), "automagica.json"
+            )
 
         # Set up logging
         self._setup_logging(debug=debug)
@@ -183,7 +194,9 @@ class Config:
         else:
             log_level = logging.WARNING
 
-        formatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
+        formatter = logging.Formatter(
+            "%(asctime)s [%(levelname)s]: %(message)s"
+        )
 
         self.logger = logging.getLogger("automagica")
         self.logger.setLevel(log_level)
@@ -225,28 +238,34 @@ class Config:
             "Leave a value empty to enter the proposed or default value between [brackets]."
         )
 
-        portal_url = input(
-            "\nAutomagica Portal URL [{}]: ".format(self.values.get("portal_url"))
+        portal_url = input(  # nosec
+            "\nAutomagica Portal URL [{}]: ".format(
+                self.values.get("portal_url")
+            )
         ).strip()
 
         if portal_url:
             self.values["portal_url"] = portal_url
 
-        user_secret = input(
-            "\nAutomagica User Secret [{}]: ".format(self.values.get("user_secret"))
+        user_secret = input(  # nosec
+            "\nAutomagica User Secret [{}]: ".format(
+                self.values.get("user_secret")
+            )
         ).strip()
 
         if user_secret:
             self.values["user_secret"] = user_secret
 
-        bot_secret = input(
-            "\nAutomagica Bot Secret [{}]: ".format(self.values.get("bot_secret"))
+        bot_secret = input(  # nosec
+            "\nAutomagica Bot Secret [{}]: ".format(
+                self.values.get("bot_secret")
+            )
         ).strip()
 
         if bot_secret:
             self.values["bot_secret"] = bot_secret
 
-        locale = input(
+        locale = input(  # nosec
             "\nLocale [{}]: ".format(self.values.get("locale", "en_GB"))
         ).strip()
 
@@ -351,7 +370,9 @@ def register_protocol_handler():
 
         registry = reg.CreateKey(reg.HKEY_CLASSES_ROOT, "Automagica")
 
-        registry = reg.OpenKey(reg.HKEY_CLASSES_ROOT, "Automagica", 0, reg.KEY_WRITE)
+        registry = reg.OpenKey(
+            reg.HKEY_CLASSES_ROOT, "Automagica", 0, reg.KEY_WRITE
+        )
 
         reg.SetValueEx(registry, "", 0, reg.REG_SZ, "URL:automagica")
         reg.SetValueEx(registry, "URL Protocol", 0, reg.REG_SZ, "")
@@ -362,7 +383,10 @@ def register_protocol_handler():
 
         # Register automagica:// protocol
         registry = reg.OpenKey(
-            reg.HKEY_CLASSES_ROOT, "Automagica\\shell\\open\\command", 0, reg.KEY_WRITE,
+            reg.HKEY_CLASSES_ROOT,
+            "Automagica\\shell\\open\\command",
+            0,
+            reg.KEY_WRITE,
         )
 
         reg.SetValueEx(

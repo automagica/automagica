@@ -102,7 +102,9 @@ class Window(tk.Toplevel):
 
 
 class FlowDesignerWindow(Window):
-    def __init__(self, parent, *args, flow=None, bot=None, autosave=True, **kwargs):
+    def __init__(
+        self, parent, *args, flow=None, bot=None, autosave=True, **kwargs
+    ):
         super().__init__(parent, *args, **kwargs)
 
         self.flow = flow
@@ -195,11 +197,15 @@ class FlowDesignerWindow(Window):
 
         # Flow Area
         self.flow_frame = FlowFrame(fluid_frame, self.flow)
-        self.flow_frame.place(relx=0.165, rely=0, relwidth=0.835, relheight=0.7)
+        self.flow_frame.place(
+            relx=0.165, rely=0, relwidth=0.835, relheight=0.7
+        )
 
         # Console
         self.console_frame = ConsoleFrame(fluid_frame, bot=self.bot)
-        self.console_frame.place(relx=0.165, rely=0.7, relwidth=0.835, relheight=0.3)
+        self.console_frame.place(
+            relx=0.165, rely=0.7, relwidth=0.835, relheight=0.3
+        )
 
     def _configure_window(self):
         if self.flow.file_path:
@@ -323,7 +329,9 @@ class FlowPlayerWindow(tk.Toplevel):
 
     def update(self):
         self.n_nodes_ran += 1
-        self.progress_bar["value"] = int(self.n_nodes_ran / self.total_nodes * 100)
+        self.progress_bar["value"] = int(
+            self.n_nodes_ran / self.total_nodes * 100
+        )
         self.current_node_label.configure(
             text=_("Current step: {}").format(self.current_node)
         )
@@ -381,12 +389,18 @@ class FlowPlayerWindow(tk.Toplevel):
         frame.configure(bg=self.cget("bg"))
 
         self.play_pause_button = Button(
-            frame, text=_("Play"), command=self.on_play_click, bg=config.COLOR_7
+            frame,
+            text=_("Play"),
+            command=self.on_play_click,
+            bg=config.COLOR_7,
         )
         self.play_pause_button.pack(side="left", padx=5, pady=5)
 
         self.stop_button = Button(
-            frame, text=_("Stop"), bg=config.COLOR_6, command=self.on_stop_click
+            frame,
+            text=_("Stop"),
+            bg=config.COLOR_6,
+            command=self.on_stop_click,
         )
         self.stop_button.pack(side="left", padx=5, pady=5)
 
@@ -440,7 +454,9 @@ class FlowPlayerWindow(tk.Toplevel):
             self.progress_bar["value"] = 100
 
             self.play_pause_button.configure(
-                text=_("Restart"), command=self.on_restart_click, bg=config.COLOR_7
+                text=_("Restart"),
+                command=self.on_restart_click,
+                bg=config.COLOR_7,
             )
 
         elif node != None or node != "":
@@ -457,17 +473,23 @@ class FlowPlayerWindow(tk.Toplevel):
                 if isinstance(self.current_node, SubFlowNode):
                     FlowPlayerWindow(
                         self,
-                        flow=Flow(self.current_node.subflow_path.replace('"', "")),
+                        flow=Flow(
+                            self.current_node.subflow_path.replace('"', "")
+                        ),
                         bot=self.bot,
                         autoplay=self.autoplay,
                         step_by_step=self.step_by_step,
-                        on_close=lambda: self.play(node=self.current_node.next_node),
+                        on_close=lambda: self.play(
+                            node=self.current_node.next_node
+                        ),
                         autoclose=True,
                     )
 
                 elif isinstance(self.current_node, LoopNode):
                     # Are we iterating?
-                    if not self.bot.interpreter.locals.get("AUTOMAGICA_ITERABLE"):
+                    if not self.bot.interpreter.locals.get(
+                        "AUTOMAGICA_ITERABLE"
+                    ):
                         # Set Iterable variable
                         self.bot._run_command(
                             f"AUTOMAGICA_ITERABLE = iter({self.current_node.iterable})"
@@ -479,7 +501,9 @@ class FlowPlayerWindow(tk.Toplevel):
                     )
 
                     if (
-                        self.bot.interpreter.locals.get(self.current_node.loop_variable)
+                        self.bot.interpreter.locals.get(
+                            self.current_node.loop_variable
+                        )
                         != None
                     ):
                         FlowPlayerWindow(
@@ -533,7 +557,9 @@ class FlowPlayerWindow(tk.Toplevel):
 
         self.geometry("300x140")
         self.geometry(
-            "-50-{}".format((10 + 140) * AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS + 50)
+            "-50-{}".format(
+                (10 + 140) * AUTOMAGICA_NUMBER_OF_PLAYER_WINDOWS + 50
+            )
         )
 
         self.resizable(False, False)
@@ -666,7 +692,9 @@ class NotificationWindow(tk.Toplevel):
 
         self._place_window(
             self.screen_width - 300,
-            self.screen_height - 100 * (AUTOMAGICA_NUMBER_OF_NOTIFICATIONS + 1) - 30,
+            self.screen_height
+            - 100 * (AUTOMAGICA_NUMBER_OF_NOTIFICATIONS + 1)
+            - 30,
         )
 
         self.overrideredirect(True)
@@ -743,7 +771,9 @@ class BotTrayWindow(tk.Toplevel):
         self.label.pack(padx=0, pady=0)
 
         self.popup_menu = tk.Menu(self, tearoff=0, font=(config.FONT, 10))
-        self.popup_menu.add_command(label="Settings", command=self.settings_clicked)
+        self.popup_menu.add_command(
+            label="Settings", command=self.settings_clicked
+        )
         self.popup_menu.add_command(label="Quit", command=self.quit_clicked)
 
         self.bind("<Button-3>", self.popup)
@@ -794,7 +824,12 @@ class SplashWindow(Window):
         self.configure(bg=config.COLOR_0)
 
         logo_canvas = tk.Canvas(
-            self, bg=config.COLOR_0, width=175, height=45, bd=0, highlightthickness=0
+            self,
+            bg=config.COLOR_0,
+            width=175,
+            height=45,
+            bd=0,
+            highlightthickness=0,
         )
         logo_canvas.pack(side="left", padx=10, pady=10)
 
@@ -845,7 +880,8 @@ class WandWindow(Window):
 
                 webbrowser.open(
                     os.environ.get(
-                        "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+                        "AUTOMAGICA_PORTAL_URL",
+                        "https://portal.automagica.com",
                     )
                 )
 
@@ -923,7 +959,7 @@ class WandWindow(Window):
         try:
             self.grab_set()
         except:
-            pass
+            pass  # nosec
 
         # self.resizable(False, False)
 
@@ -968,19 +1004,27 @@ class WandWindow(Window):
 
         # Minimap Frame
         self.minimap_frame = self.create_minimap_frame()
-        self.minimap_frame.grid(row=0, column=0, columnspan=2, pady=10, padx=10)
+        self.minimap_frame.grid(
+            row=0, column=0, columnspan=2, pady=10, padx=10
+        )
 
         # Target Frame
         self.target_frame = self.create_target_frame()
-        self.target_frame.grid(row=1, column=0, sticky="ewns", pady=10, padx=10)
+        self.target_frame.grid(
+            row=1, column=0, sticky="ewns", pady=10, padx=10
+        )
 
         # Anchors Frame
         self.anchors_frame = self.create_anchors_frame()
-        self.anchors_frame.grid(row=1, column=1, sticky="ewns", pady=10, padx=10)
+        self.anchors_frame.grid(
+            row=1, column=1, sticky="ewns", pady=10, padx=10
+        )
 
         # Buttons Frame
         self.buttons_frame = self.create_buttons_frame()
-        self.buttons_frame.grid(row=2, column=0, columnspan=2, pady=10, padx=10)
+        self.buttons_frame.grid(
+            row=2, column=0, columnspan=2, pady=10, padx=10
+        )
 
         # Keybinds
         self.bind("<Return>", self.enter_pressed)
@@ -993,7 +1037,9 @@ class WandWindow(Window):
 
         frame.configure(bg=config.COLOR_4)
 
-        save_btn = LargeButton(frame, text=_("Save"), command=self.save_clicked)
+        save_btn = LargeButton(
+            frame, text=_("Save"), command=self.save_clicked
+        )
         save_btn.grid(row=0, column=1, sticky="e", padx=10, pady=10)
 
         return frame
@@ -1015,7 +1061,9 @@ class WandWindow(Window):
 
         self.minimap_image = ImageTk.PhotoImage(screenshot_small)
 
-        self.minimap_canvas.create_image((0, 0), image=self.minimap_image, anchor="nw")
+        self.minimap_canvas.create_image(
+            (0, 0), image=self.minimap_image, anchor="nw"
+        )
 
         self.minimap_canvas.create_rectangle(
             int(self.target[0] * self.minimap_scale),
@@ -1216,7 +1264,11 @@ class SnippingToolWindow(Window):
             font_ = font.Font(family=config.FONT, size=40)
 
             self.canvas.create_text(
-                int(w / 2), int(h * 2 / 3), text=info, fill="#1B97F3", font=font_
+                int(w / 2),
+                int(h * 2 / 3),
+                text=info,
+                fill="#1B97F3",
+                font=font_,
             )
 
     def close(self):
@@ -1283,7 +1335,9 @@ class KeybindWindow(Window):
     def create_entries_frame(self):
         frame = tk.Frame(self)
 
-        self.name_label = tk.Label(frame, text=_("Name"), font=(config.FONT, 10),)
+        self.name_label = tk.Label(
+            frame, text=_("Name"), font=(config.FONT, 10),
+        )
         self.name_label.pack(side="left")
 
         self.name_entry = InputField(frame)
@@ -1307,7 +1361,9 @@ class KeybindWindow(Window):
         )
         self.cancel_button.pack(side="left")
 
-        self.save_button = Button(frame, text="Save", command=self.save_button_clicked)
+        self.save_button = Button(
+            frame, text="Save", command=self.save_button_clicked
+        )
         self.save_button.pack(side="left")
 
         return frame
@@ -1335,7 +1391,9 @@ class KeybindsOverviewWindow(Window):
         super().__init__(*args, **kwargs)
 
         self.manager = KeybindsManager(
-            keybinds=[Keybind(name=_("Hello World"), key_combination=["ctrl", "F1"])]
+            keybinds=[
+                Keybind(name=_("Hello World"), key_combination=["ctrl", "F1"])
+            ]
         )
 
         self.layout()
@@ -1376,7 +1434,9 @@ class KeybindsOverviewWindow(Window):
     def create_buttons_frame(self):
         frame = tk.Frame(self)
 
-        add_button = Button(frame, text=_("Add"), command=self.add_button_clicked)
+        add_button = Button(
+            frame, text=_("Add"), command=self.add_button_clicked
+        )
         add_button.pack(side="left")
 
         remove_button = Button(
@@ -1384,7 +1444,9 @@ class KeybindsOverviewWindow(Window):
         )
         remove_button.pack(side="left")
 
-        edit_button = Button(frame, text=_("Edit"), command=self.edit_button_clicked)
+        edit_button = Button(
+            frame, text=_("Edit"), command=self.edit_button_clicked
+        )
         edit_button.pack(side="left")
 
         return frame
@@ -1392,7 +1454,9 @@ class KeybindsOverviewWindow(Window):
     def create_keybinds_frame(self):
         frame = tk.Frame(self)
 
-        self.names_listbox = tk.Listbox(frame, highlightthickness=0, activestyle="none")
+        self.names_listbox = tk.Listbox(
+            frame, highlightthickness=0, activestyle="none"
+        )
         self.names_listbox.pack(side="left")
 
         self.keybinds_listbox = tk.Listbox(
@@ -1519,7 +1583,9 @@ class ConfigWindow(Window):
         save_button.pack(padx=5, pady=5)
 
         add_to_startup_button = Button(
-            self, text=_("Set up auto-start"), command=self.add_to_startup_clicked
+            self,
+            text=_("Set up auto-start"),
+            command=self.add_to_startup_clicked,
         )
         add_to_startup_button.configure(bg=config.COLOR_7)
         add_to_startup_button.pack(padx=5, pady=5)
@@ -1531,7 +1597,9 @@ class ConfigWindow(Window):
 
         self.master.master.config.add_bot_to_startup()
 
-        messagebox.showinfo(_("Info"), _("Bot will auto-start on next system boot."))
+        messagebox.showinfo(
+            _("Info"), _("Bot will auto-start on next system boot.")
+        )
 
     def create_logo_frame(self):
         frame = tk.Frame(self)
@@ -1550,7 +1618,10 @@ class ConfigWindow(Window):
         self.logo_img = ImageTk.PhotoImage(image=self.logo_img_pil)
 
         logo_lbl = tk.Label(
-            self, image=self.logo_img, bg=config.COLOR_0, font=(config.FONT, 10)
+            self,
+            image=self.logo_img,
+            bg=config.COLOR_0,
+            font=(config.FONT, 10),
         )
         logo_lbl.pack(padx=20, pady=10)
 
@@ -1769,7 +1840,9 @@ class NodePropsWindow(Window):
         self.label_entry = InputField(frame)
         self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
 
-        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button = HelpButton(
+            frame, message=_("This label is shown in the Flow.")
+        )
         help_button.grid(row=1, column=2)
 
         # Pre-fill label
@@ -1786,7 +1859,9 @@ class NodePropsWindow(Window):
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
-            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.next_node,
         )
         self.next_node_menu.grid(row=2, column=1, sticky="ew", padx=3, pady=3)
 
@@ -1864,7 +1939,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
 
             label = label.capitalize().replace("_", " ")
 
-            if not config.ACTIVITIES[self.node.activity]["args"][name].get("optional"):
+            if not config.ACTIVITIES[self.node.activity]["args"][name].get(
+                "optional"
+            ):
                 label = label + " " + _("(required)")
 
             args_labels[name] = tk.Label(
@@ -1876,11 +1953,13 @@ class ActivityNodePropsWindow(NodePropsWindow):
             )
             args_labels[name].grid(row=i, column=0, sticky="w")
 
-            argtype = config.ACTIVITIES[self.node.activity]["args"][name].get("type")
-
-            argextensions = config.ACTIVITIES[self.node.activity]["args"][name].get(
-                "extensions"
+            argtype = config.ACTIVITIES[self.node.activity]["args"][name].get(
+                "type"
             )
+
+            argextensions = config.ACTIVITIES[self.node.activity]["args"][
+                name
+            ].get("extensions")
 
             if argtype:
                 if "input_file" in argtype:
@@ -1904,9 +1983,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
                         frame,
                         value=self.node.args_.get(
                             name,
-                            config.ACTIVITIES[self.node.activity]["args"][name].get(
-                                "default"
-                            ),
+                            config.ACTIVITIES[self.node.activity]["args"][
+                                name
+                            ].get("default"),
                         ),
                     )
 
@@ -1919,41 +1998,47 @@ class ActivityNodePropsWindow(NodePropsWindow):
                 else:
                     self.args_inputs[name] = InputWidget(
                         frame,
-                        value=config.ACTIVITIES[self.node.activity]["args"][name].get(
-                            "default"
-                        ),
+                        value=config.ACTIVITIES[self.node.activity]["args"][
+                            name
+                        ].get("default"),
                     )
 
-            elif config.ACTIVITIES[self.node.activity]["args"][name].get("options"):
+            elif config.ACTIVITIES[self.node.activity]["args"][name].get(
+                "options"
+            ):
                 self.args_inputs[name] = AutocompleteDropdown(
                     frame,
                     values=[
                         f"'{option}'"
-                        for option in config.ACTIVITIES[self.node.activity]["args"][
-                            name
-                        ].get("options")
+                        for option in config.ACTIVITIES[self.node.activity][
+                            "args"
+                        ][name].get("options")
                     ],
                 )
 
             else:
                 self.args_inputs[name] = InputWidget(
                     frame,
-                    value=config.ACTIVITIES[self.node.activity]["args"][name].get(
-                        "default"
-                    ),
+                    value=config.ACTIVITIES[self.node.activity]["args"][
+                        name
+                    ].get("default"),
                 )
 
-            self.args_inputs[name].grid(row=i, column=1, sticky="w", padx=3, pady=3)
+            self.args_inputs[name].grid(
+                row=i, column=1, sticky="w", padx=3, pady=3
+            )
 
-            HelpButton(frame, message=arg.get("description", "")).grid(row=i, column=2)
+            HelpButton(frame, message=arg.get("description", "")).grid(
+                row=i, column=2
+            )
 
             if self.node.args_.get(name) != None:
                 self.args_inputs[name]._set(self.node.args_[name])
 
             else:
-                default = config.ACTIVITIES[self.node.activity]["args"][name].get(
-                    "default"
-                )
+                default = config.ACTIVITIES[self.node.activity]["args"][
+                    name
+                ].get("default")
 
                 if isinstance(default, str):
                     default = '"{}"'.format(default)
@@ -1971,7 +2056,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
             )
             self.return_entry = InputField(frame)
             return_label.grid(row=i + 1, column=0, sticky="w")
-            self.return_entry.grid(row=i + 1, column=1, sticky="w", padx=3, pady=3)
+            self.return_entry.grid(
+                row=i + 1, column=1, sticky="w", padx=3, pady=3
+            )
 
             if self.node.return_:
                 self.return_entry.insert(tk.END, self.node.return_)
@@ -2024,7 +2111,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
         self.label_entry = InputField(frame)
         self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
 
-        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button = HelpButton(
+            frame, message=_("This label is shown in the Flow.")
+        )
         help_button.grid(row=1, column=2)
 
         # Pre-fill label
@@ -2041,7 +2130,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
         )
         next_node_option_label.grid(row=2, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
-            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.next_node,
         )
         self.next_node_menu.grid(row=2, column=1, sticky="ew", padx=3, pady=3)
 
@@ -2064,7 +2155,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
             self.parent.master.master.flow.nodes,
             value=self.node.on_exception_node,
         )
-        self.on_exception_node_menu.grid(row=3, column=1, sticky="ew", padx=3, pady=3)
+        self.on_exception_node_menu.grid(
+            row=3, column=1, sticky="ew", padx=3, pady=3
+        )
 
         help_button = HelpButton(
             frame, message=_("This node will be the next node in the flow.")
@@ -2075,7 +2168,9 @@ class ActivityNodePropsWindow(NodePropsWindow):
 
     def save(self):
         # Save args
-        self.node.args_ = {key: val.get() for key, val in self.args_inputs.items()}
+        self.node.args_ = {
+            key: val.get() for key, val in self.args_inputs.items()
+        }
 
         if self.return_entry:
             self.node.return_ = self.return_entry.get()
@@ -2163,7 +2258,9 @@ class IfElseNodePropsWindow(NodePropsWindow):
         self.label_entry = InputField(frame)
         self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
 
-        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button = HelpButton(
+            frame, message=_("This label is shown in the Flow.")
+        )
         help_button.grid(row=1, column=2)
 
         # Pre-fill label
@@ -2204,7 +2301,9 @@ class IfElseNodePropsWindow(NodePropsWindow):
         )
         next_node_option_label.grid(row=3, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
-            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.next_node,
         )
 
         self.next_node_menu.grid(row=3, column=1, sticky="ew", padx=3, pady=3)
@@ -2224,13 +2323,17 @@ class IfElseNodePropsWindow(NodePropsWindow):
         )
         else_node_option_label.grid(row=4, column=0, sticky="w")
         self.else_node_menu = NodeSelectionInputWidget(
-            frame, self.parent.master.master.flow.nodes, value=self.node.else_node
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.else_node,
         )
         self.else_node_menu.grid(row=4, column=1, sticky="ew", padx=3, pady=3)
 
         help_button = HelpButton(
             frame,
-            message=_("This node will be the next node if the condition is not met."),
+            message=_(
+                "This node will be the next node if the condition is not met."
+            ),
         )
         help_button.grid(row=4, column=2)
 
@@ -2299,7 +2402,9 @@ class LoopNodePropsWindow(NodePropsWindow):
         if self.node.label:
             self.label_entry.insert(tk.END, self.node.label)
 
-        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button = HelpButton(
+            frame, message=_("This label is shown in the Flow.")
+        )
         help_button.grid(row=1, column=2)
 
         # Repeat N Times
@@ -2319,7 +2424,8 @@ class LoopNodePropsWindow(NodePropsWindow):
             self.repeat_n_times_entry.insert(tk.END, self.node.repeat_n_times)
 
         help_button = HelpButton(
-            frame, message=_("Number of times to repeat this part of the flow.")
+            frame,
+            message=_("Number of times to repeat this part of the flow."),
         )
         help_button.grid(row=2, column=2)
 
@@ -2381,7 +2487,9 @@ class LoopNodePropsWindow(NodePropsWindow):
         )
         next_node_option_label.grid(row=4, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
-            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.next_node,
         )
 
         self.next_node_menu.grid(row=4, column=1, sticky="w")
@@ -2396,7 +2504,9 @@ class LoopNodePropsWindow(NodePropsWindow):
         )
         loop_node_option_label.grid(row=5, column=0, sticky="w")
         self.loop_node_menu = NodeSelectionInputWidget(
-            frame, self.parent.master.master.flow.nodes, value=self.node.loop_node
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.loop_node,
         )
 
         self.loop_node_menu.grid(row=5, column=1, sticky="w")
@@ -2461,7 +2571,9 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
         self.label_entry = InputField(frame)
         self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
 
-        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button = HelpButton(
+            frame, message=_("This label is shown in the Flow.")
+        )
         help_button.grid(row=1, column=2)
 
         # Pre-fill label
@@ -2492,7 +2604,9 @@ class DotPyFileNodePropsWindow(NodePropsWindow):
         )
         next_node_option_label.grid(row=3, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
-            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.next_node,
         )
         self.next_node_menu.grid(row=3, column=1, sticky="w")
 
@@ -2597,7 +2711,9 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
         self.label_entry = InputField(frame)
         self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
 
-        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button = HelpButton(
+            frame, message=_("This label is shown in the Flow.")
+        )
         help_button.grid(row=1, column=2)
 
         # Pre-fill label
@@ -2632,7 +2748,9 @@ class PythonCodeNodePropsWindow(NodePropsWindow):
         )
         next_node_option_label.grid(row=3, column=0, sticky="w")
         self.next_node_menu = NodeSelectionInputWidget(
-            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.next_node,
         )
 
         self.next_node_menu.grid(row=3, column=1, sticky="w")
@@ -2779,7 +2897,9 @@ class SubFlowNodePropsWindow(NodePropsWindow):
         self.label_entry = InputField(frame)
         self.label_entry.grid(row=1, column=1, sticky="ew", padx=3, pady=3)
 
-        help_button = HelpButton(frame, message=_("This label is shown in the Flow."))
+        help_button = HelpButton(
+            frame, message=_("This label is shown in the Flow.")
+        )
         help_button.grid(row=1, column=2)
 
         # Pre-fill label
@@ -2822,7 +2942,9 @@ class SubFlowNodePropsWindow(NodePropsWindow):
         next_node_option_label.grid(row=5, column=0, sticky="w")
 
         self.next_node_menu = NodeSelectionInputWidget(
-            frame, self.parent.master.master.flow.nodes, value=self.node.next_node
+            frame,
+            self.parent.master.master.flow.nodes,
+            value=self.node.next_node,
         )
 
         self.next_node_menu.grid(row=5, column=1, sticky="w")
