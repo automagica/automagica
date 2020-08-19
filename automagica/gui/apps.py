@@ -2,7 +2,7 @@ import json
 import os
 import platform
 import re
-import subprocess
+import subprocess  # nosec
 import sys
 import tkinter as tk
 from threading import Thread

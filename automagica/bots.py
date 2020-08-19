@@ -25,7 +25,7 @@ class ModifiedInterpreter(code.InteractiveInterpreter):
 
     def runcode(self, code):
         try:
-            exec(code, self.locals)
+            exec(code, self.locals)  # nosec
             return True
 
         except SystemExit:
@@ -128,7 +128,9 @@ class ThreadedBot(Bot):
 
     def run(self, command, on_done=None, on_fail=None):
         self.logger.info(
-            "\n".join([">>> " + line for line in command.split("\n") if line.strip()])
+            "\n".join(
+                [">>> " + line for line in command.split("\n") if line.strip()]
+            )
         )
 
         self.command_queue.put((command, on_done, on_fail))

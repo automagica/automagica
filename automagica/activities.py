@@ -1,5 +1,6 @@
 from .utilities import activity, only_supported_for, interpret_path
 import selenium.webdriver
+import logging
 
 """
 Cryptography
@@ -271,7 +272,7 @@ def generate_hash_from_file(input_path, method="md5", buffer_size=65536):
 
     Generate hash from file 
 
-    Can be used to create unique identifier for file validation or comparison.
+    Can be used to create unique identifier for file validation or comparison. Please note that MD5 and SHA1 are not cryptographically secure.
 
     :parameter input_path: File to hash
     :type input_path: input_file
@@ -304,9 +305,9 @@ def generate_hash_from_file(input_path, method="md5", buffer_size=65536):
     buffer_size = 65536
 
     if method == "md5":
-        hash_list = hashlib.md5()
+        hash_list = hashlib.md5()  # nosec
     if method == "sha256":
-        hash_list = hashlib.sha1()
+        hash_list = hashlib.sha1()  # nosec
     if method == "blake2b":
         hash_list = hashlib.blake2b()
 
@@ -323,7 +324,7 @@ def generate_hash_from_file(input_path, method="md5", buffer_size=65536):
 def generate_hash_from_text(text, method="md5"):
     """Hash from text
 
-    Generate hash from text
+    Generate hash from text. Keep in mind that MD5 is not cryptographically secure.
 
     :parameter text: Text to hash
     :type text: string
@@ -348,7 +349,7 @@ def generate_hash_from_text(text, method="md5"):
     encoded_text = text.encode("utf-8")
 
     if method == "md5":
-        return hashlib.md5(encoded_text).hexdigest()
+        return hashlib.md5(encoded_text).hexdigest()  # nosec
     if method == "sha256":
         return hashlib.sha256(encoded_text).hexdigest()
     if method == "blake2b":
@@ -909,15 +910,17 @@ def display_osd_message(message="Example message", seconds=5):
         label.mainloop()
 
     t = Thread(target=load_osd)
+
     try:
         t.start()
-    except:
-        pass
+    except Exception:
+        logging.exception()
+
     finally:
         try:
             t.kill()
-        except:
-            pass
+        except Exception:
+            logging.Exception()
 
 
 @activity
@@ -1012,7 +1015,7 @@ class Chrome(selenium.webdriver.Chrome):
 
         def download_latest_driver(chromedriver_path):
             # Downloads latest Chrome driver on Windows
-            import subprocess
+            import subprocess  # nosec
             import requests
             import os
             from io import BytesIO
@@ -1164,8 +1167,8 @@ class Chrome(selenium.webdriver.Chrome):
                         r = requests.get(url)
                         f.write(r.content)
                         paths.append(os.path.join(output_path, filename))
-                    except:
-                        pass
+                    except Exception:
+                        logging.exception()
 
         return paths
 
@@ -1745,7 +1748,7 @@ class FTP:
         """
         import ftplib  # nosec
 
-        self.connection = ftplib.FTP(server)
+        self.connection = ftplib.FTP(server)  # nosec
         self.connection.login(username, password)
 
     @activity
@@ -6542,7 +6545,7 @@ kdcproxyname:s:"""
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(rdp_raw)
 
-    import subprocess
+    import subprocess  # nosec
 
     subprocess.Popen(["cmd.exe", "/c", output_path])
 
@@ -6690,7 +6693,7 @@ def is_logged_in():
     """
     only_supported_for("Windows")
 
-    import subprocess
+    import subprocess  # nosec
 
     output = subprocess.check_output("TASKLIST")
 
@@ -6884,7 +6887,7 @@ def run_vbs_script(script_path, parameters=[]):
     """
     only_supported_for("Windows")
 
-    import subprocess
+    import subprocess  # nosec
 
     subprocess.call(["cscript.exe", script_path] + parameters)
 
@@ -6940,7 +6943,7 @@ def get_all_network_interface_names():
     """
     only_supported_for("Windows")
 
-    import subprocess
+    import subprocess  # nosec
 
     rows = subprocess.check_output("wmic nic get name")
 
@@ -6969,7 +6972,7 @@ def enable_network_interface(name):
         las la-ethernet
     """
     only_supported_for("Windows")
-    import subprocess
+    import subprocess  # nosec
 
     subprocess.check_output(
         'wmic path win32_networkadapter where name="{}" call enable'.format(
@@ -6999,7 +7002,7 @@ def disable_network_interface(name):
     """
     only_supported_for("Windows")
 
-    import subprocess
+    import subprocess  # nosec
 
     subprocess.check_output(
         'wmic path win32_networkadapter where name="{}" call disable'.format(
@@ -7467,7 +7470,7 @@ def run_ssh_command(user, host, command):
     Icon
         las la-terminal
     """
-    import subprocess
+    import subprocess  # nosec
 
     return subprocess.Popen(
         "ssh {user}@{host} {cmd}".format(user=user, host=host, cmd=command),
@@ -9273,7 +9276,7 @@ def run(process):
     Icon
         las la-play
     """
-    import subprocess
+    import subprocess  # nosec
 
     subprocess.Popen(process)
 
@@ -9719,7 +9722,7 @@ def execute_uipath_process(
     """
     only_supported_for("Windows")
 
-    import subprocess
+    import subprocess  # nosec
     import json
 
     project_file_path = interpret_path(project_file_path)
@@ -9788,7 +9791,7 @@ def run_autoit_script(script_path, arguments=None, autoit_exe_path=None):
     """
     only_supported_for("Windows")
 
-    import subprocess
+    import subprocess  # nosec  # nosec
     import json
 
     script_path = interpret_path(script_path)
@@ -9852,7 +9855,7 @@ def execute_robotframework_test(test_case_path, variables=None):
         las la-robot
     """
 
-    import subprocess
+    import subprocess  # nosec  # nosec  # nosec
     import json
 
     test_case_path = interpret_path(test_case_path)
@@ -9929,7 +9932,7 @@ def run_blueprism_process(
     """
     only_supported_for("Windows")
 
-    import subprocess
+    import subprocess  # nosec  # nosec
     import json
 
     cmd = ' /run "{}"'.format(process_name)
@@ -10002,7 +10005,7 @@ def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
     """
     only_supported_for("Windows")
 
-    import subprocess
+    import subprocess  # nosec   # nosec
     import json
 
     task_file_path = interpret_path(task_file_path)
@@ -10664,7 +10667,7 @@ def wait_appear(automagica_id, delay=1, timeout=30):
             _ = detect_vision(automagica_id)
             break
         except Exception:
-            pass
+            logging.exception()
 
         sleep(increment)
 

@@ -444,9 +444,10 @@ class FlowFrame(tk.Frame):
         """
         Add a node graph
         """
-        graph = eval(
+        graph = eval( # nosec
             "{}Graph(self, node)".format(node.__class__.__name__)
-        )  # nosec
+        )  
+
         graph.update()
 
         self.graphs.append(graph)
