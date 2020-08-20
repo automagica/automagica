@@ -20,9 +20,10 @@ Cryptography
 Random
 ------
 .. autofunction:: generate_random_number
+.. autofunction:: generate_random_data
 .. autofunction:: generate_random_boolean
 .. autofunction:: generate_random_name
-.. autofunction:: generate_random_sentence
+.. autofunction:: generate_random_words
 .. autofunction:: generate_random_address
 .. autofunction:: generate_random_beep
 .. autofunction:: generate_random_date

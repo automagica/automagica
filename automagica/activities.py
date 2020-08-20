@@ -396,6 +396,119 @@ def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
     else:
         return random.randrange(lower_limit, upper_limit, 1)
 
+@activity
+def generate_random_data(locale=None, type=None):
+    """Random data
+
+    Generates all kinds of random data. Specifying locale changes format for some options
+    
+    :parameter attribute: Choose a specific characteristic or attribute from fake person
+    :options type: ['email', 'food dish', 'food drink', 'fruit', 'vegetable', 'company type', 'ean code', 'imei code', 'isbn code', 'issn code', 'ip v4', 'ip v6', 'mac address', 'filename', 'filename extension', 'chemical element', 'academic degree', 'occupation', 'word', 'phone number' , 'political view', 'university']
+    :parameter locale: Add a locale to generates typical data for selected locale.
+    :options locale: ['ar_EG','ar_PS','ar_SA','bg_BG','bs_BA','cs_CZ','de_DE','dk_DK','el_GR','en_AU','en_CA','en_GB','en_NZ','en_US','es_ES','es_MX','et_EE','fa_IR','fi_FI','fr_FR','hi_IN','hr_HR','hu_HU','hy_AM','it_IT','ja_JP','ka_GE','ko_KR','lt_LT','lv_LV','ne_NP','nl_NL','no_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','sl_SI','sv_SE','tr_TR','uk_UA','zh_CN','zh_TW']
+
+    -	cs	    -	Czech
+    -	da	    -	Danish
+    -	de	    -	German
+    -	de-at	-	Austrian german
+    -	de-ch	-	Swiss german
+    -	el	    -	Greek
+    -	en	    -	English
+    -	en-au	-	Australian English
+    -	en-ca	-	Canadian English
+    -	en-gb	-	British English
+    -	es	    -	Spanish
+    -	es-mx	-	Mexican Spanish
+    -	et	    -	Estonian
+    -	fa	    -	Farsi
+    -	fi	    -	Finnish
+    -	fr	    -	French
+    -	hu	    -	Hungarian
+    -	is	    -	Icelandic
+    -	it	    -	Italian
+    -	ja	    -	Japanese
+    -	kk	    -	Kazakh
+    -	ko	    -	Korean
+    -	nl	    -	Dutch
+    -	nl-be	-	Belgium Dutch
+    -	no	    -	Norwegian
+    -	pl	    -	Polish
+    -	pt	    -	Portuguese
+    -	pt-br	-	Brazilian Portuguese
+    -	ru	    -	Russian
+    -	sk	    -	Slovak
+    -	sv	    -	Swedish
+    -	tr	    -	Turkish
+    -	uk	    -	Ukrainian
+    -	zh	    -	Chinese
+
+    :return: Random data as string
+
+        :Example:
+
+    >>> # Generate random data
+    >>> generate_random_data()
+    'Banana'
+
+    Keywords
+        random, lorem ipsum, gsm, cell, cellphone, telephone, mobile, number, smartphone, text generater, filler, place holder, noise, random text, random txt, text generation, fake, code, email, generate, generator, generic
+
+    Icon
+        las la-digital_tachograph
+    """
+    from mimesis import Generic
+
+    if locale:
+        gen = Generic(locale)
+    else:
+        gen = Generic()
+
+    if type == 'email':
+        return gen.person.email()
+    elif type =='company type':
+        return gen.business.company_type()
+    elif type =='food dish':
+        return gen.food.dish()
+    elif type =='food drink':
+        return gen.food.drink()
+    elif type =='fruit':
+        return gen.food.fruit()
+    elif type =='vegetable':
+        return gen.food.vegetable()
+    elif type =='ean code':
+        return gen.code.ean()
+    elif type =='imei code':
+        return gen.code.imei()
+    elif type =='isbn code':
+        return gen.code.isbn()
+    elif type =='issn code':
+        return gen.code.issn()
+    elif type =='filename':
+        return gen.file.file_name()
+    elif type =='filename extension':
+        return gen.file.extension()
+    elif type =='ip v4':
+        return gen.internet.ip_v4()
+    elif type =='ip v6':
+        return gen.internet.ip_v6()
+    elif type =='mac address':
+        return gen.internet.mac_address()
+    elif type == 'chemical element':
+        return gen.science.chemical_element()
+    elif type == 'academic degree':
+        return gen.person.academic_degree()
+    elif type == 'occupation':
+        return gen.person.occupation()
+    elif type == 'word':
+        return gen.text.word()
+    elif type == 'phone number':
+        return gen.person.telephone()
+    elif type == 'political view':
+        return gen.person.political_views()
+    elif type == 'university':
+        return gen.person.university()
+    else:
+        return gen.text.word()
 
 @activity
 def generate_random_boolean():
@@ -423,60 +536,52 @@ def generate_random_boolean():
 
 
 @activity
-def generate_random_name(locale=None):
+def generate_random_name(locale=None, name=None):
     """Random name
 
     Generates a random name. Adding a locale adds a more common name in the specified locale. Provides first name and last name.
 
     :parameter locale: Add a locale to generate popular name for selected locale.
-    :options locale: ['ar_EG','ar_PS','ar_SA','bg_BG','bs_BA','cs_CZ','de_DE','dk_DK','el_GR','en_AU','en_CA','en_GB','en_NZ','en_US','es_ES','es_MX','et_EE','fa_IR','fi_FI','fr_FR','hi_IN','hr_HR','hu_HU','hy_AM','it_IT','ja_JP','ka_GE','ko_KR','lt_LT','lv_LV','ne_NP','nl_NL','no_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','sl_SI','sv_SE','tr_TR','uk_UA','zh_CN','zh_TW']
+    :parameter name: Choose to generate first, last or full name.
+    :options name: ['full', 'first', 'last']
+    :options locale: ['cs', 'da', 'de', 'de-at', 'de-ch', 'el', 'en', 'en-au', 'en-ca', 'en-gb', 'es', 'es-mx', 'et', 'fa', 'fi', 'fr', 'hu', 'is', 'it', 'ja', 'kk', 'ko', 'nl', 'nl-be', 'no', 'pl', 'pt', 'pt-br', 'ru', 'sk', 'sv', 'tr', 'uk', 'zh']
 
-        -   ar_EG - Arabic (Egypt)
-        -   ar_PS - Arabic (Palestine)
-        -   ar_SA - Arabic (Saudi Arabia)
-        -   bg_BG - Bulgarian
-        -   bs_BA - Bosnian
-        -   cs_CZ - Czech
-        -   de_DE - German
-        -   dk_DK - Danish
-        -   el_GR - Greek
-        -   en_AU - English (Australia)
-        -   en_CA - English (Canada)
-        -   en_GB - English (Great Britain)
-        -   en_NZ - English (New Zealand)
-        -   en_US - English (United States)
-        -   es_ES - Spanish (Spain)
-        -   es_MX - Spanish (Mexico)
-        -   et_EE - Estonian
-        -   fa_IR - Persian (Iran)
-        -   fi_FI - Finnish
-        -   fr_FR - French
-        -   hi_IN - Hindi
-        -   hr_HR - Croatian
-        -   hu_HU - Hungarian
-        -   hy_AM - Armenian
-        -   it_IT - Italian
-        -   ja_JP - Japanese
-        -   ka_GE - Georgian (Georgia)
-        -   ko_KR - Korean
-        -   lt_LT - Lithuanian
-        -   lv_LV - Latvian
-        -   ne_NP - Nepali
-        -   nl_NL - Dutch (Netherlands)
-        -   no_NO - Norwegian
-        -   pl_PL - Polish
-        -   pt_BR - Portuguese (Brazil)
-        -   pt_PT - Portuguese (Portugal)
-        -   ro_RO - Romanian
-        -   ru_RU - Russian
-        -   sl_SI - Slovene
-        -   sv_SE - Swedish
-        -   tr_TR - Turkish
-        -   uk_UA - Ukrainian
-        -   zh_CN - Chinese (China)
-        -   zh_TW - Chinese (Taiwan)
+    -	cs	    -	Czech
+    -	da	    -	Danish
+    -	de	    -	German
+    -	de-at	-	Austrian german
+    -	de-ch	-	Swiss german
+    -	el	    -	Greek
+    -	en	    -	English
+    -	en-au	-	Australian English
+    -	en-ca	-	Canadian English
+    -	en-gb	-	British English
+    -	es	    -	Spanish
+    -	es-mx	-	Mexican Spanish
+    -	et	    -	Estonian
+    -	fa	    -	Farsi
+    -	fi	    -	Finnish
+    -	fr	    -	French
+    -	hu	    -	Hungarian
+    -	is	    -	Icelandic
+    -	it	    -	Italian
+    -	ja	    -	Japanese
+    -	kk	    -	Kazakh
+    -	ko	    -	Korean
+    -	nl	    -	Dutch
+    -	nl-be	-	Belgium Dutch
+    -	no	    -	Norwegian
+    -	pl	    -	Polish
+    -	pt	    -	Portuguese
+    -	pt-br	-	Brazilian Portuguese
+    -	ru	    -	Russian
+    -	sk	    -	Slovak
+    -	sv	    -	Swedish
+    -	tr	    -	Turkish
+    -	uk	    -	Ukrainian
+    -	zh	    -	Chinese
 
-    :return: Name as string
+    :return: Random name as string
 
         :Example:
 
@@ -490,75 +595,73 @@ def generate_random_name(locale=None):
     Icon
         las la-user-tag
     """
-    from faker import Faker
+    from mimesis import Person
 
     if locale:
-        seed = Faker(locale)
+        person = Person(locale)
     else:
-        seed = Faker()
-    return seed.name()
+        person = Person()
+
+    if name == 'first':
+        return person.first_name()
+    elif name == 'last':
+        return person.last_name()
+    else:
+        return person.full_name()
 
 
 @activity
-def generate_random_sentence(locale=None):
-    """Random sentence
+def generate_random_words(locale=None, type=None):
+    """Random words
 
     Generates a random sentence. Specifying locale changes language and content based on locale.
 
-    :parameter locale: Add a locale to generate popular name for selected locale.
+    :parameter type: Specify type of words to generate
+    :options type: ['sentence', 'quote', 'answer', 'single word', 'color', 'swear word']
+    :parameter locale: Add a locale to generate text for selected locale.
     :options locale: ['ar_EG','ar_PS','ar_SA','bg_BG','bs_BA','cs_CZ','de_DE','dk_DK','el_GR','en_AU','en_CA','en_GB','en_NZ','en_US','es_ES','es_MX','et_EE','fa_IR','fi_FI','fr_FR','hi_IN','hr_HR','hu_HU','hy_AM','it_IT','ja_JP','ka_GE','ko_KR','lt_LT','lv_LV','ne_NP','nl_NL','no_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','sl_SI','sv_SE','tr_TR','uk_UA','zh_CN','zh_TW']
 
-        -   ar_EG - Arabic (Egypt)
-        -   ar_PS - Arabic (Palestine)
-        -   ar_SA - Arabic (Saudi Arabia)
-        -   bg_BG - Bulgarian
-        -   bs_BA - Bosnian
-        -   cs_CZ - Czech
-        -   de_DE - German
-        -   dk_DK - Danish
-        -   el_GR - Greek
-        -   en_AU - English (Australia)
-        -   en_CA - English (Canada)
-        -   en_GB - English (Great Britain)
-        -   en_NZ - English (New Zealand)
-        -   en_US - English (United States)
-        -   es_ES - Spanish (Spain)
-        -   es_MX - Spanish (Mexico)
-        -   et_EE - Estonian
-        -   fa_IR - Persian (Iran)
-        -   fi_FI - Finnish
-        -   fr_FR - French
-        -   hi_IN - Hindi
-        -   hr_HR - Croatian
-        -   hu_HU - Hungarian
-        -   hy_AM - Armenian
-        -   it_IT - Italian
-        -   ja_JP - Japanese
-        -   ka_GE - Georgian (Georgia)
-        -   ko_KR - Korean
-        -   lt_LT - Lithuanian
-        -   lv_LV - Latvian
-        -   ne_NP - Nepali
-        -   nl_NL - Dutch (Netherlands)
-        -   no_NO - Norwegian
-        -   pl_PL - Polish
-        -   pt_BR - Portuguese (Brazil)
-        -   pt_PT - Portuguese (Portugal)
-        -   ro_RO - Romanian
-        -   ru_RU - Russian
-        -   sl_SI - Slovene
-        -   sv_SE - Swedish
-        -   tr_TR - Turkish
-        -   uk_UA - Ukrainian
-        -   zh_CN - Chinese (China)
-        -   zh_TW - Chinese (Taiwan)
+    -	cs	    -	Czech
+    -	da	    -	Danish
+    -	de	    -	German
+    -	de-at	-	Austrian german
+    -	de-ch	-	Swiss german
+    -	el	    -	Greek
+    -	en	    -	English
+    -	en-au	-	Australian English
+    -	en-ca	-	Canadian English
+    -	en-gb	-	British English
+    -	es	    -	Spanish
+    -	es-mx	-	Mexican Spanish
+    -	et	    -	Estonian
+    -	fa	    -	Farsi
+    -	fi	    -	Finnish
+    -	fr	    -	French
+    -	hu	    -	Hungarian
+    -	is	    -	Icelandic
+    -	it	    -	Italian
+    -	ja	    -	Japanese
+    -	kk	    -	Kazakh
+    -	ko	    -	Korean
+    -	nl	    -	Dutch
+    -	nl-be	-	Belgium Dutch
+    -	no	    -	Norwegian
+    -	pl	    -	Polish
+    -	pt	    -	Portuguese
+    -	pt-br	-	Brazilian Portuguese
+    -	ru	    -	Russian
+    -	sk	    -	Slovak
+    -	sv	    -	Swedish
+    -	tr	    -	Turkish
+    -	uk	    -	Ukrainian
+    -	zh	    -	Chinese
 
-    :return: Random sentence as string
+    :return: Random words as string
 
         :Example:
 
     >>> # Generate a random sentence
-    >>> generate_random_sentence()
+    >>> generate_random_words()
     'The age of automation is going to be the age of do-it-yourself'
 
     Keywords
@@ -567,91 +670,113 @@ def generate_random_sentence(locale=None):
     Icon
         las la-comment
     """
-    from faker import Faker
+    from mimesis import Generic
 
     if locale:
-        seed = Faker(locale)
+        gen = Generic(locale).text
     else:
-        seed = Faker()
-    return seed.sentence()
+        gen = Generic().text
 
+    if type == 'sentence':
+        return gen.sentence()
+    elif type == 'quote':
+        return gen.quote()
+    elif type == 'answer':
+        return gen.answer()
+    elif type == 'single word':
+        return gen.word()
+    elif type == 'color':
+        return gen.color()
+    elif type == 'swear word':
+        return gen.swear_word()
+    else:
+        return gen.sentence()
 
 @activity
-def generate_random_address(locale=None):
+def generate_random_address(locale=None, format=None):
     """Random address
 
     Generates a random address. Specifying locale changes random locations and streetnames based on locale.
 
-    :parameter locale: Add a locale to generate popular name for selected locale.
+    :parameter format: Choose a specific part or format for the address
+    :options format: ['address', 'street', 'street number', 'city', 'continent', 'country', 'country code', 'postal code']
+    :parameter locale: Add a locale to generate typical address for selected locale.
     :options locale: ['ar_EG','ar_PS','ar_SA','bg_BG','bs_BA','cs_CZ','de_DE','dk_DK','el_GR','en_AU','en_CA','en_GB','en_NZ','en_US','es_ES','es_MX','et_EE','fa_IR','fi_FI','fr_FR','hi_IN','hr_HR','hu_HU','hy_AM','it_IT','ja_JP','ka_GE','ko_KR','lt_LT','lv_LV','ne_NP','nl_NL','no_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','sl_SI','sv_SE','tr_TR','uk_UA','zh_CN','zh_TW']
 
-        -   ar_EG - Arabic (Egypt)
-        -   ar_PS - Arabic (Palestine)
-        -   ar_SA - Arabic (Saudi Arabia)
-        -   bg_BG - Bulgarian
-        -   bs_BA - Bosnian
-        -   cs_CZ - Czech
-        -   de_DE - German
-        -   dk_DK - Danish
-        -   el_GR - Greek
-        -   en_AU - English (Australia)
-        -   en_CA - English (Canada)
-        -   en_GB - English (Great Britain)
-        -   en_NZ - English (New Zealand)
-        -   en_US - English (United States)
-        -   es_ES - Spanish (Spain)
-        -   es_MX - Spanish (Mexico)
-        -   et_EE - Estonian
-        -   fa_IR - Persian (Iran)
-        -   fi_FI - Finnish
-        -   fr_FR - French
-        -   hi_IN - Hindi
-        -   hr_HR - Croatian
-        -   hu_HU - Hungarian
-        -   hy_AM - Armenian
-        -   it_IT - Italian
-        -   ja_JP - Japanese
-        -   ka_GE - Georgian (Georgia)
-        -   ko_KR - Korean
-        -   lt_LT - Lithuanian
-        -   lv_LV - Latvian
-        -   ne_NP - Nepali
-        -   nl_NL - Dutch (Netherlands)
-        -   no_NO - Norwegian
-        -   pl_PL - Polish
-        -   pt_BR - Portuguese (Brazil)
-        -   pt_PT - Portuguese (Portugal)
-        -   ro_RO - Romanian
-        -   ru_RU - Russian
-        -   sl_SI - Slovene
-        -   sv_SE - Swedish
-        -   tr_TR - Turkish
-        -   uk_UA - Ukrainian
-        -   zh_CN - Chinese (China)
-        -   zh_TW - Chinese (Taiwan)
+    -	cs	    -	Czech
+    -	da	    -	Danish
+    -	de	    -	German
+    -	de-at	-	Austrian german
+    -	de-ch	-	Swiss german
+    -	el	    -	Greek
+    -	en	    -	English
+    -	en-au	-	Australian English
+    -	en-ca	-	Canadian English
+    -	en-gb	-	British English
+    -	es	    -	Spanish
+    -	es-mx	-	Mexican Spanish
+    -	et	    -	Estonian
+    -	fa	    -	Farsi
+    -	fi	    -	Finnish
+    -	fr	    -	French
+    -	hu	    -	Hungarian
+    -	is	    -	Icelandic
+    -	it	    -	Italian
+    -	ja	    -	Japanese
+    -	kk	    -	Kazakh
+    -	ko	    -	Korean
+    -	nl	    -	Dutch
+    -	nl-be	-	Belgium Dutch
+    -	no	    -	Norwegian
+    -	pl	    -	Polish
+    -	pt	    -	Portuguese
+    -	pt-br	-	Brazilian Portuguese
+    -	ru	    -	Russian
+    -	sk	    -	Slovak
+    -	sv	    -	Swedish
+    -	tr	    -	Turkish
+    -	uk	    -	Ukrainian
+    -	zh	    -	Chinese
 
-    :return: Random address as string
+    :return: Name as string
 
         :Example:
 
     >>> # Generate a random address
     >>> generate_random_address()
-    '5639 Cynthia Bridge Suite 610
-    'Port Nancy, GA 95894'
+    '123 Robot Avenue'
 
     Keywords
-        random, address, random address, fake person , fake address, fake person generator
+        random, address, data, street, city, postal, dummy name, name, name generater, fake person, fake, person, surname, lastname, fake name generator
 
     Icon
-        las la-map
+        las la-map-marker
     """
-    from faker import Faker
+    from mimesis import Address
 
     if locale:
-        seed = Faker(locale)
+        ad = Address(locale)
     else:
-        seed = Faker()
-    return seed.address()
+        ad = Address()
+
+    if format == 'address':
+        return ad.address()
+    elif format == 'street':
+        return ad.street_name()
+    elif format == 'street number':
+        return ad.street_number()
+    elif format == 'city':
+        return ad.city()
+    elif format == 'continent':
+        return ad.continent()
+    elif format == 'country':
+        return ad.country()
+    elif format == 'country code':
+        return ad.country_code()
+    elif format == 'postal code':
+        return ad.postal_code()
+    else:
+        return ad.address()
 
 
 @activity
@@ -2077,9 +2202,7 @@ def press_key(key=None, delay=1, perform_n_times=1, delay_between=0.5):
 
 
 @activity
-def press_key_combination(
-    first_key, second_key, third_key=None, compatibility=False, delay=1
-):
+def press_key_combination(first_key, second_key, third_key=None, compatibility=False, delay=1):
     """Press key combination
 
     Press a combination of two or three keys simultaneously. Make sure your keyboard is on US layout (standard QWERTY).
@@ -2143,9 +2266,7 @@ def press_key_combination(
 
 
 @activity
-def typing(
-    text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
-):
+def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1):
     """Type text
 
     Simulate keystrokes. If an element ID is specified, text will be typed in a specific field or element based on the element ID (vision) by the recorder.
@@ -2866,9 +2987,7 @@ Icon: las la-folder-open
 
 
 @activity
-def get_files_in_folder(
-    input_path=None, extension=None, show_full_path=True, scan_subfolders=False
-):
+def get_files_in_folder(input_path=None, extension=None, show_full_path=True, scan_subfolders=False):
     """List files in folder
 
     List all files in a folder (and subfolders)
@@ -3451,9 +3570,7 @@ Icon: las la-file-word
 
 class Word:
     @activity
-    def __init__(
-        self, file_path=None, visible=True,
-    ):
+    def __init__(self, file_path=None, visible=True,):
         """Start Word Application
 
         For this activity to work, Microsoft Office Word needs to be installed on the system.
@@ -4102,14 +4219,7 @@ class Outlook:
         return app
 
     @activity
-    def send_mail(
-        self,
-        to_address,
-        subject="",
-        body="",
-        html_body=None,
-        attachment_paths=None,
-    ):
+    def send_mail(self,to_address,subject="",body="",html_body=None,attachment_paths=None,):
         """Send e-mail
 
         Send an e-mail using Outlook
@@ -4262,14 +4372,7 @@ class Outlook:
         return messages
 
     @activity
-    def delete_mails(
-        self,
-        folder_name="Inbox",
-        limit=0,
-        subject_contains="",
-        body_contains="",
-        sender_contains="",
-    ):
+    def delete_mails(self,folder_name="Inbox",limit=0,subject_contains="",body_contains="",sender_contains=""):
         """Delete e-mails
 
         Deletes e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -4330,15 +4433,7 @@ class Outlook:
                         item.Delete()
 
     @activity
-    def move_mails(
-        self,
-        source_folder_name="Inbox",
-        target_folder_name="Archive",
-        limit=0,
-        subject_contains="",
-        body_contains="",
-        sender_contains="",
-    ):
+    def move_mails(self,source_folder_name="Inbox",target_folder_name="Archive",limit=0,subject_contains="",body_contains="",sender_contains=""):
         """Move e-mails
 
         Move e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -5991,18 +6086,7 @@ class PowerPoint:
         return self.app.Slides.Count
 
     @activity
-    def add_text(
-        self,
-        text,
-        index=None,
-        font_size=48,
-        font_name=None,
-        bold=False,
-        margin_bottom=100,
-        margin_left=100,
-        margin_right=100,
-        margin_top=100,
-    ):
+    def add_text(self,text,index=None,font_size=48,font_name=None,bold=False,margin_bottom=100,margin_left=100,margin_right=100,margin_top=100):
         """Text to slide
         
         Add text to a slide
@@ -6209,9 +6293,7 @@ Icon: las la-cloud
 
 
 @activity
-def send_email_with_outlook365(
-    client_id, client_secret, to_email, subject="", body=""
-):
+def send_email_with_outlook365(client_id, client_secret, to_email, subject="", body=""):
     """Send email Office Outlook 365
 
     Send email Office Outlook 365
@@ -6331,15 +6413,7 @@ Icon: las la-at
 
 
 @activity
-def send_mail_smtp(
-    smtp_host,
-    smtp_user,
-    smtp_password,
-    to_address,
-    subject="",
-    message="",
-    port=587,
-):
+def send_mail_smtp(smtp_host,smtp_user,smtp_password,to_address,subject="",message="",port=587):
     """Mail with SMTP
 
     This function lets you send emails with an e-mail address. 
@@ -6460,9 +6534,7 @@ def find_window_title(searchterm, partial=True):
 
 
 @activity
-def start_remote_desktop(
-    ip, username, password=None, desktop_width=1920, desktop_height=1080
-):
+def start_remote_desktop(ip, username, password=None, desktop_width=1920, desktop_height=1080):
     """Login to Windows Remote Desktop
 
     Create a RDP and login to Windows Remote Desktop
@@ -8438,9 +8510,7 @@ def read_text_from_pdf(file_path):
 
 
 @activity
-def join_pdf_files(
-    first_file_path, second_file_path, third_file_path=None, output_path=None
-):
+def join_pdf_files(first_file_path, second_file_path, third_file_path=None, output_path=None):
     """Merge PDF
     
     Merges multiple PDFs into a single file
@@ -8505,9 +8575,7 @@ def join_pdf_files(
 
 
 @activity
-def extract_page_range_from_pdf(
-    file_path, start_page, end_page, output_path=None
-):
+def extract_page_range_from_pdf(file_path, start_page, end_page, output_path=None):
     """Extract page from PDF
     
     Extracts a particular range of a PDF to a separate file.
@@ -8588,6 +8656,10 @@ def extract_images_from_pdf(file_path):
         las la-icons
         
     """
+
+    # Snippet from silvain https://stackoverflow.com/a/34116472/10949633
+    # Snippet available on his GitHub under the BSD license https://github.com/sylvainpelissier/PyPDF2
+
     from PyPDF2 import PdfFileReader
     from PIL import Image
 
@@ -9691,9 +9763,7 @@ Icon: las la-robot
 
 
 @activity
-def execute_uipath_process(
-    project_file_path, arguments=None, uirobot_exe_path=None
-):
+def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=None):
     """Execute a UiPath process
 
     This activity allows you to execute a process designed with the UiPath Studio. All console output from the Write Line activity (https://docs.uipath.com/activities/docs/write-line) will be printed as output.
@@ -10318,9 +10388,7 @@ Icon: las la-robot
 
 
 @activity
-def create_new_job_in_portal(
-    process_name, process_version_id=None, priority=0, parameters=None
-):
+def create_new_job_in_portal(process_name, process_version_id=None, priority=0, parameters=None):
     """Create a new job in the Automagica Portal
 
     This activity creates a new job in the Automagica Portal for a given process. The bot performing this activity needs to be in the same team as the process it creates a job for.

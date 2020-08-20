@@ -50,7 +50,7 @@ long_description = long_description.split("##")[0]
 
 setup(
     name="Automagica",
-    version="3.1.0",
+    version="3.1.1",
     description="Open Source RPA and UI automation",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
@@ -69,7 +69,7 @@ setup(
         "openpyxl==3.0.4",  # MIT License
         "python-docx==0.8.10",  # MIT License
         "PyPDF2==1.26.0",  # BSD 3-Clause "New" or "Revised" License
-        "faker==4.1.1",  # MIT License
+        "mimesis==4.1.1",  # MIT License
         "psutil==5.6.6",  # BSD 3-Clause
         "keyring==21.0.0",  # MIT License
         "cryptography==3.0",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
