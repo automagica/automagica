@@ -372,7 +372,7 @@ Process | Description
 **Robot Framework** | ‌‌ 
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [Execute a Robot Framework test case](https://automagica.readthedocs.io/activities.html#automagica.activities.execute_robotframework_test) | This activity allows you to run a Robot Framework test case. Console output of the test case will be printed.
 **Blue Prism** | ‌‌ 
-<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [process_name,](https://automagica.readthedocs.io/activities.html#automagica.activities.run_blueprism_process) | password="",sso=False,inputs=None,automatec_exe_path=None,):"""Run a Blue Prism process
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [Run a Blue Prism process](https://automagica.readthedocs.io/activities.html#automagica.activities.run_blueprism_process) | This activity allows you to run a a Blue Prism process.
 **Automation Anywhere** | ‌‌ 
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [Run an Automation Anywhere task](https://automagica.readthedocs.io/activities.html#automagica.activities.run_automationanywhere_task) | This activity allows you to run an Automation Anywhere task.
 **General** | ‌‌ 
@@ -392,7 +392,7 @@ Process | Description
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Wait for an element to appear](https://automagica.readthedocs.io/activities.html#automagica.activities.wait_appear) | Wait for an element that is defined the recorder
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Wait Vanish](https://automagica.readthedocs.io/activities.html#automagica.activities.wait_vanish) | This activity allows the bot to wait for an element to vanish.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Read Text with Automagica Wand](https://automagica.readthedocs.io/activities.html#automagica.activities.read_text) | This activity allows the bot to detect and read the text of an element by using the Automagica Portal API with a provided sample ID.
-|<img width=120/>|  ‌‌|
+|<img width=100/>|  ‌‌|
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
