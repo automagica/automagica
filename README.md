@@ -116,7 +116,7 @@ Process | Description
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/tv-solid.svg" width="20"> [Display overlay message](https://automagica.readthedocs.io/activities.html#automagica.activities.display_osd_message) | Display custom OSD (on-screen display) message. Can be used to display a message for a limited amount of time. Can be used for illustration, debugging or as OSD.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/tv-solid.svg" width="20"> [Print message in console](https://automagica.readthedocs.io/activities.html#automagica.activities.print_console) | Print message in console. Can be used to display data in the Automagica Flow console
 **Browser** | ‌‌ 
-<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/chrome.svg" width="20"> [self,](https://automagica.readthedocs.io/activities.html#automagica.activities.Chrome) | headless=False,incognito=False,disable_extension=False,maximize_window=True,focus_window=True,):"""Open Chrome Browser
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/chrome.svg" width="20"> [Open Chrome Browser](https://automagica.readthedocs.io/activities.html#automagica.activities.Chrome) | Automated Chrome session
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/images-solid.svg" width="20"> [Save all images](https://automagica.readthedocs.io/activities.html#automagica.activities.save_all_images) | Save all images on current page in the Browser
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/chrome.svg" width="20"> [Browse to URL](https://automagica.readthedocs.io/activities.html#automagica.activities.browse_to) | Browse to URL.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/align-center-solid.svg" width="20"> [Find elements by text](https://automagica.readthedocs.io/activities.html#automagica.activities.find_elements_by_text) | Find all elements by their text. Text does not need to match exactly, part of text is enough.
@@ -236,7 +236,7 @@ Process | Description
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Delete row in Excel](https://automagica.readthedocs.io/activities.html#automagica.activities.delete_row) | Deletes a row from the currently active worksheet. Existing data will shift up.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Delete column](https://automagica.readthedocs.io/activities.html#automagica.activities.delete_column) | Delete a column from the currently active worksheet. Existing columns will shift to the left.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Export to PDF](https://automagica.readthedocs.io/activities.html#automagica.activities.export_to_pdf) | Export to PDF
-<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [self, data, range_="A1", table_style="TableStyleMedium2"](https://automagica.readthedocs.io/activities.html#automagica.activities.insert_data_as_table) | """Insert data as table
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Insert data as table](https://automagica.readthedocs.io/activities.html#automagica.activities.insert_data_as_table) | """Insert data as table
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Read worksheet](https://automagica.readthedocs.io/activities.html#automagica.activities.read_worksheet) | Read data from a worksheet as a list of lists
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Quit Excel](https://automagica.readthedocs.io/activities.html#automagica.activities.quit) | This closes Excel, make sure to use 'save' or 'save_as' if you would like to save before quitting.
 **Excel File** | ‌‌ 
@@ -372,7 +372,7 @@ Process | Description
 **Robot Framework** | ‌‌ 
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [Execute a Robot Framework test case](https://automagica.readthedocs.io/activities.html#automagica.activities.execute_robotframework_test) | This activity allows you to run a Robot Framework test case. Console output of the test case will be printed.
 **Blue Prism** | ‌‌ 
-<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [process_name,](https://automagica.readthedocs.io/activities.html#automagica.activities.run_blueprism_process) | password="",sso=False,inputs=None,automatec_exe_path=None,):"""Run a Blue Prism process
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [Run a Blue Prism process](https://automagica.readthedocs.io/activities.html#automagica.activities.run_blueprism_process) | This activity allows you to run a a Blue Prism process.
 **Automation Anywhere** | ‌‌ 
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/robot-solid.svg" width="20"> [Run an Automation Anywhere task](https://automagica.readthedocs.io/activities.html#automagica.activities.run_automationanywhere_task) | This activity allows you to run an Automation Anywhere task.
 **General** | ‌‌ 
@@ -392,7 +392,7 @@ Process | Description
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Wait for an element to appear](https://automagica.readthedocs.io/activities.html#automagica.activities.wait_appear) | Wait for an element that is defined the recorder
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Wait Vanish](https://automagica.readthedocs.io/activities.html#automagica.activities.wait_vanish) | This activity allows the bot to wait for an element to vanish.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Read Text with Automagica Wand](https://automagica.readthedocs.io/activities.html#automagica.activities.read_text) | This activity allows the bot to detect and read the text of an element by using the Automagica Portal API with a provided sample ID.
-|<img width=150/>|  ‌‌|
+|<img width=100/>|  ‌‌|
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
