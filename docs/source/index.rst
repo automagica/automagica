@@ -22,6 +22,7 @@ With this open source library we want to provide:
    docker
    developers
    unattended
+   troubleshooting
 
 Indices and tables
 ==================
