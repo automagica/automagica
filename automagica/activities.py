@@ -9619,7 +9619,7 @@ def find_text_on_screen_ocr(text, criteria=None, scale_up=None):
 
 
 @activity
-def click_on_text_ocr(text, delay=1):
+def click_on_text_ocr(text, delay=1, scale_up=None):
     """Click on text with OCR
 
     This activity clicks on position (coordinates) of specified text on the current screen using OCR.
@@ -9628,6 +9628,8 @@ def click_on_text_ocr(text, delay=1):
     :type text: string
     :parameter delay: Delay before clicking in seconds
     :type delay: int, optional
+    :parameter scale_up: Int / Decimal amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
+    :type scale_up: int / Decimal, optional
 
         :Example:
 
@@ -9649,7 +9651,7 @@ def click_on_text_ocr(text, delay=1):
 
         sleep(delay)
 
-    position = find_text_on_screen_ocr(text, criteria="first")
+    position = find_text_on_screen_ocr(text, criteria="first", scale_up=scale_up)
     if position:
 
         x = int(position["x"] + position["w"] / 2)
@@ -9664,7 +9666,7 @@ def click_on_text_ocr(text, delay=1):
 
 
 @activity
-def double_click_on_text_ocr(text, delay=1):
+def double_click_on_text_ocr(text, delay=1, scale_up=None):
     """Double click on text with OCR
 
     This activity double clicks on position (coordinates) of specified text on the current screen using OCR.
@@ -9673,6 +9675,8 @@ def double_click_on_text_ocr(text, delay=1):
     :type text: string
     :parameter delay: Delay before clicking in seconds
     :type delay: int, optional
+    :parameter scale_up: Int / Decimal amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
+    :type scale_up: int / Decimal, optional
 
         :Example:
 
@@ -9695,7 +9699,7 @@ def double_click_on_text_ocr(text, delay=1):
 
         sleep(delay)
 
-    position = find_text_on_screen_ocr(text, criteria="first")
+    position = find_text_on_screen_ocr(text, criteria="first", scale_up=scale_up)
     if position:
 
         x = int(position["x"] + position["w"] / 2)
@@ -9709,7 +9713,7 @@ def double_click_on_text_ocr(text, delay=1):
 
 
 @activity
-def right_click_on_text_ocr(text, delay=1):
+def right_click_on_text_ocr(text, delay=1, scale_up=None):
     """Right click on text with OCR
 
     This activity Right clicks on position (coordinates) of specified text on the current screen using OCR.
@@ -9718,6 +9722,8 @@ def right_click_on_text_ocr(text, delay=1):
     :type text: string
     :parameter delay: Delay before clicking in seconds
     :type delay: int, optional
+    :parameter scale_up: Int / Decimal amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
+    :type scale_up: int / Decimal, optional
 
         :Example:
 
@@ -9740,7 +9746,7 @@ def right_click_on_text_ocr(text, delay=1):
 
         sleep(delay)
 
-    position = find_text_on_screen_ocr(text, criteria="first")
+    position = find_text_on_screen_ocr(text, criteria="first", scale_up=scale_up)
     if position:
 
         x = int(position["x"] + position["w"] / 2)
