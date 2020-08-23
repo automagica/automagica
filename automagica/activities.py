@@ -9411,13 +9411,15 @@ Icon: las la-glasses
 
 
 @activity
-def extract_text_ocr(file_path=None):
+def extract_text_ocr(file_path=None, scale_up=None):
     """Get text with OCR
 
     This activity extracts all text from the current screen or an image if a path is specified.
 
     :parameter file_path: Path to image from where text will be extracted. If no path is specified a screenshot of current screen will be used.
     :type file_path: input_file
+    :parameter scale_up: Int / Decimal amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
+    :type scale_up: int / Decimal, optional
 
     :return: String with all text from current screen
 
@@ -9454,35 +9456,49 @@ def extract_text_ocr(file_path=None):
     else:
         file_path = interpret_path(file_path)
 
-    # Open file and encode as Base 64
-    with open(file_path, "rb") as f:
-        image_base64 = base64.b64encode(f.read()).decode("utf-8")
-
     # Get Bot API_key
     config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
 
-    # Read JSON
-    with open(config_path) as json_file:
-        local_data = json.load(json_file)
-        api_key = str(local_data.get("bot_secret"))  # Your API key
+    try:
+        # Read JSON
+        with open(config_path) as json_file:
+            local_data = json.load(json_file)
+            api_key = str(local_data.get("bot_secret"))  # Your API key
 
-    # Prepare data for request
-    data = {"image_base64": image_base64, "api_key": api_key}
+        # Open file and encode as Base 64
+        with open(file_path, "rb") as f:
+            image_base64 = base64.b64encode(f.read()).decode("utf-8")
 
-    # Post request to API
-    url = (
-        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
-        + "/api/ocr/find-text-locations"
-    )
+        # Prepare data for request
+        data = {"image_base64": image_base64, "api_key": api_key}
 
-    r = requests.post(url, json=data)
+        # Post request to API
+        url = (
+            os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+            + "/api/ocr/find-text-locations"
+        )
 
-    # Print results
-    return r.json()["text"]
+        r = requests.post(url, json=data)
+
+        # Print results
+        return r.json()["text"]
+
+    except FileNotFoundError:
+        from pytesseract import Output, image_to_data
+        from PIL import Image
+
+        img = Image.open(file_path)
+
+        if scale_up:
+            w, h = img.size
+            img = img.resize((int(w*scale_up), int(h*scale_up)))
+
+        data = image_to_data(img, output_type=Output.DICT)
+        return " ".join(data['text'])
 
 
 @activity
-def find_text_on_screen_ocr(text, criteria=None):
+def find_text_on_screen_ocr(text, criteria=None, scale_up=None):
     """Find text on screen with OCR
 
     This activity finds position (coordinates) of specified text on the current screen using OCR.
@@ -9491,6 +9507,8 @@ def find_text_on_screen_ocr(text, criteria=None):
     :type text: string
     :parameter criteria: Criteria to select on if multiple matches are found. If no criteria is specified all matches will be returned. Options are 'first', which returns the first match closest to the upper left corner, 'last' returns the last match closest to the lower right corner, random selects a random match.
     :options criteria: ['first', 'last', 'random']
+    :parameter scale_up: Int / Decimal amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
+    :type scale_up: int / Decimal, optional
 
     :return: Dictionary or list of dictionaries with matches with following elements: 'h' height in pixels, 'text' the matched text,'w' the width in pixels, 'x' absolute x-coördinate , 'y' absolute y-coördinate. Returns nothing if no matches are found
 
@@ -9522,37 +9540,63 @@ def find_text_on_screen_ocr(text, criteria=None):
     path = os.path.join(os.path.expanduser("~"), "ocr_capture.jpg")
     img.save(path, "JPEG")
 
-    # Open file and encode as Base 64
-    with open(path, "rb") as f:
-        image_base64 = base64.b64encode(f.read()).decode("utf-8")
+    try:
+        # Get Bot API_key
+        config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
 
-    # Get Bot API_key
-    config_path = os.path.join(os.path.expanduser("~"), "automagica.json")
+        # Read JSON
+        with open(config_path) as json_file:
+            local_data = json.load(json_file)
+            api_key = str(local_data.get("bot_secret"))  # Your API key
 
-    # Read JSON
-    with open(config_path) as json_file:
-        local_data = json.load(json_file)
-        api_key = str(local_data.get("bot_secret"))  # Your API key
+        # Open file and encode as Base 64
+        with open(path, "rb") as f:
+            image_base64 = base64.b64encode(f.read()).decode("utf-8")
 
-    # Prepare data for request
-    data = {"image_base64": image_base64, "api_key": api_key}
+        # Prepare data for request
+        data = {"image_base64": image_base64, "api_key": api_key}
 
-    # Post request to API
-    url = (
-        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
-        + "/api/ocr/find-text-locations"
-    )
+        # Post request to API
+        url = (
+            os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+            + "/api/ocr/find-text-locations"
+        )
 
-    r = requests.post(url, json=data)
+        r = requests.post(url, json=data)
 
-    # Print results
-    data = r.json()["locations"]
+        # Print results
+        data = r.json()["locations"]
 
-    # Find all matches
-    matches = []
-    for item in data:
-        if item["text"].lower() == text.lower():
-            matches.append(item)
+        # Find all matches
+        matches = []
+        for item in data:
+            if item["text"].lower() == text.lower():
+                matches.append(item)
+    except FileNotFoundError:
+        from pytesseract import Output, image_to_data
+        from PIL import Image
+
+        img = Image.open(path)
+        if scale_up:
+            w, h = img.size
+            img = img.resize((int(w*scale_up), int(h*scale_up)))
+        else:
+            scale_up = 1
+
+        d = image_to_data(img, output_type=Output.DICT)
+
+        idxs = [
+            idx
+            for idx, elem in enumerate(d['text'])
+            if elem == text and d['conf'][idx]
+        ]
+
+        matches = list(map(lambda i: {
+            "x": d['left'][i] / scale_up,
+            "y": d['top'][i] / scale_up,
+            "w": d['width'][i] / scale_up,
+            "h": d['height'][i] / scale_up
+        }, idxs))
 
     if not matches:
         return None

@@ -75,6 +75,7 @@ setup(
         "cryptography==3.0",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
         "pyad==0.6.0",  # Apache 2.0 License
         "Pillow==7.2.0",  # PIL License (permissive),
+        "pytesseract==0.3.5", # Apache 2.0 License
         "pysnmp==4.4.12",  # BSD 2-Clause "Simplified" License
         "pandas==1.1.0",  # BSD 3-Clause
         "mss==5.0.0",  # MIT License
