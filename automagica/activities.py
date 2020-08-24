@@ -9418,8 +9418,8 @@ def extract_text_ocr(file_path=None, scale_up=None):
 
     :parameter file_path: Path to image from where text will be extracted. If no path is specified a screenshot of current screen will be used.
     :type file_path: input_file
-    :parameter scale_up: Int / Decimal amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
-    :type scale_up: int / Decimal, optional
+    :parameter scale_up: amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
+    :type scale_up: int / float, optional
 
     :return: String with all text from current screen
 
@@ -9507,8 +9507,8 @@ def find_text_on_screen_ocr(text, criteria=None, scale_up=None):
     :type text: string
     :parameter criteria: Criteria to select on if multiple matches are found. If no criteria is specified all matches will be returned. Options are 'first', which returns the first match closest to the upper left corner, 'last' returns the last match closest to the lower right corner, random selects a random match.
     :options criteria: ['first', 'last', 'random']
-    :parameter scale_up: Int / Decimal amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
-    :type scale_up: int / Decimal, optional
+    :parameter scale_up: amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
+    :type scale_up: int / float, optional
 
     :return: Dictionary or list of dictionaries with matches with following elements: 'h' height in pixels, 'text' the matched text,'w' the width in pixels, 'x' absolute x-coördinate , 'y' absolute y-coördinate. Returns nothing if no matches are found
 
@@ -9628,8 +9628,8 @@ def click_on_text_ocr(text, delay=1, scale_up=None):
     :type text: string
     :parameter delay: Delay before clicking in seconds
     :type delay: int, optional
-    :parameter scale_up: Int / Decimal amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
-    :type scale_up: int / Decimal, optional
+    :parameter scale_up: amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
+    :type scale_up: int / float, optional
 
         :Example:
 
@@ -9675,8 +9675,8 @@ def double_click_on_text_ocr(text, delay=1, scale_up=None):
     :type text: string
     :parameter delay: Delay before clicking in seconds
     :type delay: int, optional
-    :parameter scale_up: Int / Decimal amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
-    :type scale_up: int / Decimal, optional
+    :parameter scale_up: amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
+    :type scale_up: int / float, optional
 
         :Example:
 
@@ -9722,8 +9722,8 @@ def right_click_on_text_ocr(text, delay=1, scale_up=None):
     :type text: string
     :parameter delay: Delay before clicking in seconds
     :type delay: int, optional
-    :parameter scale_up: Int / Decimal amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
-    :type scale_up: int / Decimal, optional
+    :parameter scale_up: amount to scale an image by (this can be useful if OCR is having issues, either by scaling up or scaling down the image)
+    :type scale_up: int / float, optional
 
         :Example:
 
