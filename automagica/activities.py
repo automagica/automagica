@@ -405,7 +405,7 @@ def generate_random_data(locale=None, type=None):
     :parameter attribute: Choose a specific characteristic or attribute from fake person
     :options type: ['email', 'food dish', 'food drink', 'fruit', 'vegetable', 'company type', 'ean code', 'imei code', 'isbn code', 'issn code', 'ip v4', 'ip v6', 'mac address', 'filename', 'filename extension', 'chemical element', 'academic degree', 'occupation', 'word', 'phone number' , 'political view', 'university']
     :parameter locale: Add a locale to generates typical data for selected locale.
-    :options locale: ['ar_EG','ar_PS','ar_SA','bg_BG','bs_BA','cs_CZ','de_DE','dk_DK','el_GR','en_AU','en_CA','en_GB','en_NZ','en_US','es_ES','es_MX','et_EE','fa_IR','fi_FI','fr_FR','hi_IN','hr_HR','hu_HU','hy_AM','it_IT','ja_JP','ka_GE','ko_KR','lt_LT','lv_LV','ne_NP','nl_NL','no_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','sl_SI','sv_SE','tr_TR','uk_UA','zh_CN','zh_TW']
+    :options locale: ['cs', 'da', 'de', 'de-at', 'de-ch', 'el', 'en', 'en-au', 'en-ca', 'en-gb', 'es', 'es-mx', 'et', 'fa', 'fi', 'fr', 'hu', 'is', 'it', 'ja', 'kk', 'ko', 'nl', 'nl-be', 'no', 'pl', 'pt', 'pt-br', 'ru', 'sk', 'sv', 'tr', 'uk', 'zh']
 
     -	cs	    -	Czech
     -	da	    -	Danish
@@ -454,7 +454,7 @@ def generate_random_data(locale=None, type=None):
         random, lorem ipsum, gsm, cell, cellphone, telephone, mobile, number, smartphone, text generater, filler, place holder, noise, random text, random txt, text generation, fake, code, email, generate, generator, generic
 
     Icon
-        las la-digital_tachograph
+        las la-digital-tachograph
     """
     from mimesis import Generic
 
@@ -619,7 +619,7 @@ def generate_random_words(locale=None, type=None):
     :parameter type: Specify type of words to generate
     :options type: ['sentence', 'quote', 'answer', 'single word', 'color', 'swear word']
     :parameter locale: Add a locale to generate text for selected locale.
-    :options locale: ['ar_EG','ar_PS','ar_SA','bg_BG','bs_BA','cs_CZ','de_DE','dk_DK','el_GR','en_AU','en_CA','en_GB','en_NZ','en_US','es_ES','es_MX','et_EE','fa_IR','fi_FI','fr_FR','hi_IN','hr_HR','hu_HU','hy_AM','it_IT','ja_JP','ka_GE','ko_KR','lt_LT','lv_LV','ne_NP','nl_NL','no_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','sl_SI','sv_SE','tr_TR','uk_UA','zh_CN','zh_TW']
+    :options locale: ['cs', 'da', 'de', 'de-at', 'de-ch', 'el', 'en', 'en-au', 'en-ca', 'en-gb', 'es', 'es-mx', 'et', 'fa', 'fi', 'fr', 'hu', 'is', 'it', 'ja', 'kk', 'ko', 'nl', 'nl-be', 'no', 'pl', 'pt', 'pt-br', 'ru', 'sk', 'sv', 'tr', 'uk', 'zh']
 
     -	cs	    -	Czech
     -	da	    -	Danish
@@ -701,7 +701,7 @@ def generate_random_address(locale=None, format=None):
     :parameter format: Choose a specific part or format for the address
     :options format: ['address', 'street', 'street number', 'city', 'continent', 'country', 'country code', 'postal code']
     :parameter locale: Add a locale to generate typical address for selected locale.
-    :options locale: ['ar_EG','ar_PS','ar_SA','bg_BG','bs_BA','cs_CZ','de_DE','dk_DK','el_GR','en_AU','en_CA','en_GB','en_NZ','en_US','es_ES','es_MX','et_EE','fa_IR','fi_FI','fr_FR','hi_IN','hr_HR','hu_HU','hy_AM','it_IT','ja_JP','ka_GE','ko_KR','lt_LT','lv_LV','ne_NP','nl_NL','no_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','sl_SI','sv_SE','tr_TR','uk_UA','zh_CN','zh_TW']
+    :options locale: ['cs', 'da', 'de', 'de-at', 'de-ch', 'el', 'en', 'en-au', 'en-ca', 'en-gb', 'es', 'es-mx', 'et', 'fa', 'fi', 'fr', 'hu', 'is', 'it', 'ja', 'kk', 'ko', 'nl', 'nl-be', 'no', 'pl', 'pt', 'pt-br', 'ru', 'sk', 'sv', 'tr', 'uk', 'zh']
 
     -	cs	    -	Czech
     -	da	    -	Danish
@@ -2891,7 +2891,7 @@ def random_screen_snippet(size=100, output_path=None):
     :type size: int, optional
     :parameter output_path: Path where snippet will be saved. Default value is home directory with name 'random_screensnippet.jpg'
     :type output_path: output_file
-    :extesion output_path: jpg
+    :extension output_path: jpg
 
     :return: Path to snippet
 
@@ -2947,7 +2947,7 @@ def take_screenshot(output_path=None):
     Take a screenshot of current screen.
 
     :parameter output_path: Path to save screenshot. Default value is home directory with name 'screenshot.jpg'.
-    :type output_path: output_file
+    :type output_path: output_path
     :extesion output_path: jpg
 
     :return: Path to save screenshot
@@ -9894,7 +9894,7 @@ def run_autoit_script(script_path, arguments=None, autoit_exe_path=None):
 
 
 """
-Robot Framework 
+Alternative frameworks
 Icon: las la-robot
 """
 
@@ -9951,13 +9951,6 @@ def execute_robotframework_test(test_case_path, variables=None):
         print(err)
 
     print('Completed Robot Framework test case "{}"'.format(test_case_path))
-
-
-"""
-Blue Prism
-Icon: las la-robot
-"""
-
 
 @activity
 def run_blueprism_process(
@@ -10041,13 +10034,6 @@ def run_blueprism_process(
         print(err)
 
     print('Completed Blue Prism process "{}"'.format(test_case_path))
-
-
-"""
-Automation Anywhere
-Icon: las la-robot
-"""
-
 
 @activity
 def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
