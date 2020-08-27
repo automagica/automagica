@@ -13,8 +13,6 @@ If you'd like to edit an existing Automagica Lab file (ending with `.ipynb`), ru
 automagica lab edit examples/automagica_lab_example.ipynb
 ```
 
-!RECORDING Automagica Lab
-
 ## Tips when starting out Automagica in an interactive development environment (IDE)
 
 Instead using Automagica Lab, you can use your own editor or Notebook environment.
@@ -25,6 +23,8 @@ _Note: after installing Python and Automagica start your scripts by importing Au
 ```
 from automagica import *
 ```
+
+[Automagica Lab video](https://i.imgur.com/kgbOukJ.gifv)
 
 ### Variables
 

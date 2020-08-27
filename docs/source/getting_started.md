@@ -6,7 +6,7 @@ Our one-click installer for Windows in combination with Automagica Flow is by fa
 
 By signing up for the [Automagica Portal](https://www.portal.automagica.com), you also gain access to our specialized OCR-service and our Automagica Wand back-end, which features computer vision powered by machine learning for recognizing UI elements.
 
-!RECORDING installation
+[Installation video](https://i.imgur.com/zsCjP8G.gifv)
 
 ### Install through PyPi
 Installation can also be done through `pip`, Python's best-known package manager. We advise Python 3.7 for the installation, as for this version all the dependencies are widely available for all platforms. Newer versions are currently not supported, however this is on our roadmap.
@@ -39,11 +39,11 @@ Interactive one-click examples with documentation can be found on [portal.automa
 
 There are multiple ways to automate tasks with Automagica. Down below a short overview of the different editors and what type of user it is designed for.
 
-- __Automagica Flow__: a visual flow designer to build automations quickly with full support for Python code. Comes with Automagica Wand (UI element picker) integrated.
-- __Automagica Lab__: notebook-style automation development environment based on Jupyter Notebooks.
+- __[Automagica Flow](https://www.portal.automagica.com)__: a visual flow designer to build automations quickly with full support for Python code. Comes with Automagica Wand (UI element picker) integrated.
+- __[Automagica Lab](https://www.portal.automagica.com)__: notebook-style automation development environment based on Jupyter Notebooks.
 - __Bring your own editor__: more developer-oriented Automagicians can use Automagica in their trusted Python editor like Visual Studio Code, Sublime, etc..
 
 Unless you are set on using your own editor, we recommend Automagica Flow for both first-time users and more experienced developers. Automagica Flow comes with all the core components installed and offers the possibility to build your automation in both code and a visual canvas with dynamic search and dropdown-menus.  In addition, for more seasoned Automagicians and Python developers, Automagica Flow also offers the flexibility to write or import custom Python code (.py) and Jupyter notebooks (.ipynb).
 
-![Portal and Flow](https://i.imgur.com/ps1Uhck.png)
+![](https://i.imgur.com/ps1Uhck.png)
 

@@ -54,10 +54,3 @@ You can add a process by using the 'create' button and selecting process. A proc
 Once you have defined the process you will see a new section 'Jobs' in the menus. If a process is performed it is now called a 'job'.
 A job one specific instance of a process, possibly with custom parameters.
 
-```
-# Process: Retrieve all e-mails
-Job 1: Process e-mail 1
-Job 2: Process e-mail 2 
-```
-
-TODO: Describe how you can make jobs

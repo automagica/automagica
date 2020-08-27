@@ -1,10 +1,13 @@
 # Developers/contributors
-This document contains information and serves as a reference for the Automagica core development team. It contains
+
+This document contains information and serves as a reference for the Automagica core development team.
+
 ## Build installers
+
 ### Windows One-Click Installer
 From Windows 10 (VM), change current working directory to `/installers/windows` and run `build`. After the build process finishes, an executable can be found in the `/installers/windows/build/nsis` directory.
 
-## Release on Python Package Index (PyPI)
+### Release on Python Package Index (PyPI)
 Release on PyPi by running following commands from the main repository directory and providing PyPi credentials:
 ```bash
 pip install twine
@@ -30,16 +33,16 @@ For example for `pt_BR` (Portuguese Brazil)
 pybabel init -l pt_BR -i locale/base.pot -d locale
 ```
 
-# Want to join the development team?
+## Want to join the development team?
 
-## Developers
+### Developers
 You can contribute in the following ways:
 - Pull requests with code and/or documentation
 - Feature requests, bug squatting, feel free to [create an issue](https://github.com/automagica/automagica/issues)!
 - If you're interested in joining our team, [send us an e-mail](mailto:koen@automagica.com).
  
 
-## Not a developer?
+### Not a developer?
 No problem! You can contribute in the following ways:
 - __Star our repository__ by clicking the star icon at the top right of this page. This allows us to get more exposure within the GitHub community. The more people we can get involved the better!
 - Miss a particular feature? [Create an 'issue'](https://github.com/automagica/automagica/issues)

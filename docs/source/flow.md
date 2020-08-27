@@ -15,7 +15,7 @@ You can get started with Automagica Flow either by:
 You can use the activity search to look for predefined activities, for example if you want to automate Excel you can look for all Excel-related activities by entering a keyword in the search. 
 Double click the activity to insert it in the canvas. If you first select a node (blue outline) and then insert an activity, the next activity wil automatically be connected to the one selected.
 
-!RECORDING Search
+[Search video](https://i.imgur.com/hGbnpNJ.gifv)
 
 Options for a node can be opened by double-clicking on the node in the canvas. This will reveal the parameters to configure the node. Parameters are divided in two blocks: 'options' and 'node'.
 
@@ -27,10 +27,9 @@ Options for a node can be opened by double-clicking on the node in the canvas. T
   - __Next Node__: Automated Flows follow the activities on the canvas, to change the order of occurrence you can use this option to select the next node. 
   - __On Exception Node__: Whenever something goes wrong in an activity (e.g. Wand was not able to find an element, Excel could not be started, ..) there is the possibility to reroute to another node. If an Exception occurs without specifying an Exception node, the Flow will stop and raise an Exception. Exception details are visible in the console when running with Automagica Flow, or in the Logs when running through Automagica Portal.
 
-!RECORDING Options
+[Options video](https://i.imgur.com/OYegXlL.gifv)
 
-
-## Special Nodes
+## Special nodes
 
 Special nodes are designed to add flexibility to automations, something that is typically not possible with a one dimensional automation script. Down below an overview of the different Nodes:
 
@@ -39,15 +38,6 @@ Special nodes are designed to add flexibility to automations, something that is 
 - __Python Script__: Python allows you to import a Python (.py) file in your workflow. This allows the user to fully integrate Python code for more complex parts of an automation (e.g. complex data transformation or usage of third-party libraries).
 - __Sub Flow__: Allows to insert a Sub Flow. Can be used to split large flows in to re-usable parts to keep things organized. 
 - __Python Code__: Python Code is similar to Python Script node, except that instead of importing a file it opens a small editor to write custom Python code. Variables are shared with Automagica Flow and allows sharing of variables.
-
-## Tips & Tricks using the canvas
-
-- Once nodes are inserted you can move them around while holding middle mouse button
-- Double clicking opens up the properties
-- Middle mouse click deletes a node. Alternatively you can press delete after selecting a node to delete a node.
-- Holding shift allows you to select, move/delete multiple nodes at once with the left mouse button.
-- Keyboard shortcut 'ctrl + z' allows for undo
-- Once a node is selected, newly inserted nodes will automatically be connected to the selected node
 
 ## Running and debugging
 
@@ -63,14 +53,23 @@ The integrated command line allows you to write and debug Python code in the sam
 
 When running a node you can see the equivalent Python command with your parameters in the command line. You can also use the command line to explore or manipulate variables, run activities ad-hoc, import third party Python libraries or write Python code (similar to using a 'Python Script' or 'Python Code' - Node).
 
-!RECORDING Command line
+[Command line video](https://i.imgur.com/hGbnpNJ.gifv)
 
 ## Variable Explorer
 
 Activities that have a 'Return variable' can hold different types of variables (integer, float, string, ..). The variable explorer gives you an easy overview of the assigned variables at that specific moment.
 Resetting the bot will clear all variables.
 
-!RECORDING Variable explorer
+
+
+## Tips and tricks using the canvas
+
+- Once nodes are inserted you can move them around while holding middle mouse button
+- Double clicking opens up the properties
+- Middle mouse click deletes a node. Alternatively you can press delete after selecting a node to delete a node.
+- Holding shift allows you to select, move/delete multiple nodes at once with the left mouse button.
+- Keyboard shortcut 'ctrl + z' allows for undo
+- Once a node is selected, newly inserted nodes will automatically be connected to the selected node
 
 ## Examples
 Be sure to check out the following videos on our YouTube channel for some hands-on examples and tutorials with Automagica Flow:
