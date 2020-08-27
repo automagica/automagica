@@ -24,7 +24,7 @@ _Note: after installing Python and Automagica start your scripts by importing Au
 from automagica import *
 ```
 
-[Automagica Lab video](https://i.imgur.com/kgbOukJ.gifv)
+![Automagica Lab video](https://i.imgur.com/kgbOukJ.gifv)
 
 ### Variables
 
@@ -80,7 +80,7 @@ r"C:\Program Files (x86)\Dropbox\Client\Dropbox.exe"
 
 C:\\Users\\Bob\\Desktop\\Automagica.pptx
 ```
-![Imgur](https://i.imgur.com/9xI2mbk.png?2)
+![pathimage](https://i.imgur.com/9xI2mbk.png?2)
 
 
 ## Browser Automation Example
@@ -142,11 +142,11 @@ Arguably the easiest way to find a certain element is by copying it's XPath.
 
 To do this in Chrome right click on the element you want to find, in the example below this is the "Google Search" button on Google.com. Click *inspect element* and a side tab with the html code opens with the element you selected highlighted in blue.
 
-![Imgur](https://i.imgur.com/A2xdvUP.png)
+![quickstart1](https://i.imgur.com/A2xdvUP.png)
 
 In the html code, right click the highlighted block and select *Copy* -> *Copy XPath*.
 
-![Imgur](https://i.imgur.com/WRD46Xi.png)
+![quickstart2](https://i.imgur.com/WRD46Xi.png)
 
 You can now use the absolute XPath to manipulate the element. However this is a fast method for prototyping, we do not recommend using absolute paths in production environments. Slight changes in the html code would cause the absolute path to change and to likely cause errors. A more in-depth overview in the next section.
 

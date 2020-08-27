@@ -15,7 +15,7 @@ You can get started with Automagica Flow either by:
 You can use the activity search to look for predefined activities, for example if you want to automate Excel you can look for all Excel-related activities by entering a keyword in the search. 
 Double click the activity to insert it in the canvas. If you first select a node (blue outline) and then insert an activity, the next activity wil automatically be connected to the one selected.
 
-[Search video](https://i.imgur.com/hGbnpNJ.gifv)
+![Search video](https://i.imgur.com/hGbnpNJ.gifv)
 
 Options for a node can be opened by double-clicking on the node in the canvas. This will reveal the parameters to configure the node. Parameters are divided in two blocks: 'options' and 'node'.
 
@@ -27,7 +27,7 @@ Options for a node can be opened by double-clicking on the node in the canvas. T
   - __Next Node__: Automated Flows follow the activities on the canvas, to change the order of occurrence you can use this option to select the next node. 
   - __On Exception Node__: Whenever something goes wrong in an activity (e.g. Wand was not able to find an element, Excel could not be started, ..) there is the possibility to reroute to another node. If an Exception occurs without specifying an Exception node, the Flow will stop and raise an Exception. Exception details are visible in the console when running with Automagica Flow, or in the Logs when running through Automagica Portal.
 
-[Options video](https://i.imgur.com/OYegXlL.gifv)
+![Options video](https://i.imgur.com/OYegXlL.gifv)
 
 ## Special nodes
 
@@ -53,7 +53,7 @@ The integrated command line allows you to write and debug Python code in the sam
 
 When running a node you can see the equivalent Python command with your parameters in the command line. You can also use the command line to explore or manipulate variables, run activities ad-hoc, import third party Python libraries or write Python code (similar to using a 'Python Script' or 'Python Code' - Node).
 
-[Command line video](https://i.imgur.com/hGbnpNJ.gifv)
+![Command line video](https://i.imgur.com/hGbnpNJ.gifv)
 
 ## Variable Explorer
 

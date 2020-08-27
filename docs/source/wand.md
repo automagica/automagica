@@ -20,7 +20,7 @@ Automagica Wand can be useful for different kinds of activities:
 
 Let's say we want to click on the desktop recycle bin icon using Automagica Wand. In this example we will use Automagica Flow to record and run the example. As an illustration of the robustness we will empty the recycle bin and move the element on the screen after recording with Automagica Wand. Emptying the recycle bin causes the icon to slightly change in Windows, which would mean it would not be recognizable anymore with traditional pixel-comparison methods.
 
-[Automagica Wand video](https://i.imgur.com/G5AeFXL.gifv)
+![Automagica Wand video](https://i.imgur.com/G5AeFXL.gifv)
 
 
 ## Anchoring
@@ -70,6 +70,6 @@ Elements can be viewed within the Portal and are shared with team members if a b
 
 Each element has a unique ID, entering this ID in a suitable activity will automatically point the robot to this element.
 
-[My Ui elements portal video](https://i.imgur.com/BjN7Fms.gifv)
+![My Ui elements portal video](https://i.imgur.com/BjN7Fms.gifv)
 
 __Note__: To use Automagica Wand you need an API key, which is automatically installed and configured if you use the Windows one-click-installer. Screen data gets send to the Automagica servers where the ML algorithms analyse the screen. You can view and edit your elements and data in the Automagica Portal, which is connected with your API key. If you want to use Automagica Wand while keeping your promise within your network, we can help you set up a commercial [on-premise deployment.](https://automagica.com/contact/)
