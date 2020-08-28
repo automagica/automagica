@@ -24,7 +24,7 @@ _Note: after installing Python and Automagica start your scripts by importing Au
 from automagica import *
 ```
 
-![Automagica Lab video](https://i.imgur.com/kgbOukJ.gifv)
+![Automagica Lab video](https://i.imgur.com/kgbOukJ.gif)
 
 ### Variables
 

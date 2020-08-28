@@ -18,4 +18,4 @@ After starting the robot you can configure your robot by right-clicking the icon
 - __Locale__: optional argument to change locale
 - __Set up auto-start__: Enabling this option will enable Automagica robot on Windows startup
 
-![Settings video](https://i.imgur.com/DK4ZeJr.gifv)
+![Settings video](https://i.imgur.com/DK4ZeJr.gif)
