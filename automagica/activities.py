@@ -1087,6 +1087,7 @@ class Chrome(selenium.webdriver.Chrome):
         disable_extension=False,
         maximize_window=True,
         focus_window=True,
+        auto_update_chromedriver=False
     ):
         """Open Chrome Browser
 
@@ -1116,6 +1117,8 @@ class Chrome(selenium.webdriver.Chrome):
         :type incognito: bool, optional
         :parameter disable_extension: Disable extensions
         :type disable_extension: bool, optional
+        :parameter auto_update_chromedriver: Automatically update Chromedriver
+        :type auto_update_chromedriver: bool, optional
 
         return: wWbdriver: Selenium Webdriver
 
@@ -1148,12 +1151,7 @@ class Chrome(selenium.webdriver.Chrome):
             import shutil
 
             try:
-                driver_path = (
-                    os.path.abspath(__file__).replace(
-                        os.path.basename(os.path.realpath(__file__)), ""
-                    )
-                    + chromedriver_path
-                )
+                driver_path = (os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), "") + chromedriver_path)
 
                 if os.path.exists(driver_path):
 
@@ -1208,7 +1206,8 @@ class Chrome(selenium.webdriver.Chrome):
             chromedriver_path = "bin/linux64/chromedriver"
         elif platform.system() == "Windows":
             chromedriver_path = "\\bin\\win32\\chromedriver.exe"
-            download_latest_driver(chromedriver_path)
+            if auto_update_chromedriver:
+                download_latest_driver(chromedriver_path)
         else:
             chromedriver_path = "bin/mac64/chromedriver"
 
@@ -8670,33 +8669,33 @@ def extract_images_from_pdf(file_path):
     try:
         with open(file_path, "rb") as f:
 
-            reader = PdfFileReader(f)
+            r = PdfFileReader(f)
 
-            for i in range(reader.getNumPages()):
-                page = reader.getPage(i)
-                objects = page["/Resources"]["/XObject"].getObject()
+            for i in range(r.getNumPages()):
+                page = r.getPage(i)
+                items = page["/Resources"]["/XObject"].getObject()
 
-                for obj in objects:
-                    if objects[obj]["/Subtype"] == "/Image":
+                for item in items:
+                    if items[item]["/Subtype"] == "/Image":
                         size = (
-                            objects[obj]["/Width"],
-                            objects[obj]["/Height"],
+                            items[item]["/Width"],
+                            items[item]["/Height"],
                         )
-                        data = objects[obj].getData()
+                        data = items[item].getData()
 
-                        if objects[obj]["/ColorSpace"] == "/DeviceRGB":
-                            mode = "RGB"
+                        if items[item]["/ColorSpace"] == "/DeviceRGB":
+                            type = "RGB"
                         else:
-                            mode = "P"
+                            type = "P"
 
-                        if objects[obj]["/Filter"] == "/FlateDecode":
-                            img = Image.frombytes(mode, size, data)
-                            img.save(obj[1:] + ".png")
-                            extracted_images.append(obj[1:] + ".png")
+                        if items[item]["/Filter"] == "/FlateDecode":
+                            img = Image.frombytes(type, size, data)
+                            img.save(item[1:] + ".png")
+                            extracted_images.append(item[1:] + ".png")
 
-                        elif objects[obj]["/Filter"] == "/JPXDecode":
-                            img = open(obj[1:] + ".jp2", "wb")
-                            extracted_images.append(obj[1:] + ".jp2")
+                        elif items[item]["/Filter"] == "/JPXDecode":
+                            img = open(item[1:] + ".jp2", "wb")
+                            extracted_images.append(item[1:] + ".jp2")
                             img.write(data)
                             img.close()
     except:

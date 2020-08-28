@@ -6,7 +6,7 @@ Our one-click installer for Windows in combination with Automagica Flow is by fa
 
 By signing up for the [Automagica Portal](https://www.portal.automagica.com), you also gain access to our specialized OCR-service and our Automagica Wand back-end, which features computer vision powered by machine learning for recognizing UI elements.
 
-[Installation video](https://i.imgur.com/zsCjP8G.gif)
+![](https://i.imgur.com/zsCjP8G.gif)
 
 ### Install through PyPi
 Installation can also be done through `pip`, Python's best-known package manager. We advise Python 3.7 for the installation, as for this version all the dependencies are widely available for all platforms. Newer versions are currently not supported, however this is on our roadmap.
