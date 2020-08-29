@@ -1,9 +1,21 @@
+"""Copyright 2020 Oakwood Technologies BVBA"""
+
 import random
 import string
 
+from automagica.config import ACTIVITIES
+
 
 class Node:
+    """
+    Node class reference implementation, all Automagica Flow 
+    nodes should ultimately inherit from this class.
+    """
+
     def __init__(self, x=None, y=None, uid=None, label=None):
+        """
+        Initialize the node
+        """
         if not uid:
             uid = self._generate_uid(4)
 
@@ -21,37 +33,67 @@ class Node:
         self.y = y
 
     def __repr__(self):
+        """
+        Object representation of the node
+        """
         return "<{} {}>".format(self.__class__.__name__, self.uid)
 
     def __str__(self):
+        """
+        String representation of the node
+        """
         if self.label:
             return self.label
         else:
             return self.__class__.__name__.replace("Node", "")
 
     def _generate_uid(self, k):
+        """
+        Generate UID
+        TODO: replace with secrets module, this is not cryptographically secure
+        and will be flagged by bandit
+        """
         return "".join(
             random.choices(
-                string.ascii_uppercase + string.ascii_lowercase + string.digits, k=k
+                string.ascii_uppercase + string.ascii_lowercase + string.digits, k=k,
             )
         )
 
     def to_dict(self):
+        """
+        Placeholder method to convert the node to a dictionary
+        """
         raise NotImplementedError
 
     def run(self):
+        """
+        Placeholder method for running the node
+        """
         raise NotImplementedError
 
 
 class StartNode(Node):
+    """
+    The Start node is always the beginning of an Automagica Flow
+    """
+
     def __init__(self, *args, next_node=None, **kwargs):
+        """
+        Initialize the Start node
+        """
         super().__init__(*args, **kwargs)
         self.next_node = next_node
 
     def get_next_node(self):
+        """
+        Method to get the next node
+        """
         return self.next_node
 
     def to_dict(self):
+        """
+        Method to convert the start node to a dictionary
+        """
         return {
             "uid": self.uid,
             "x": self.x,
@@ -62,6 +104,9 @@ class StartNode(Node):
         }
 
     def run(self, bot, on_done=None, on_fail=None):
+        """
+        Run the Start node
+        """
         if on_done:
             on_done(node=self.next_node)
 
@@ -78,10 +123,16 @@ class ActivityNode(Node):
         return_=None,
         **kwargs,
     ):
+        """
+        Activity node
+        """
         super().__init__(*args, **kwargs)
+
         self.activity = activity
+
         if not args_:
             args_ = {}
+
         self.args_ = args_
         self.next_node = next_node
         self.return_ = return_
@@ -95,17 +146,24 @@ class ActivityNode(Node):
         self.class_ = class_
 
     def __str__(self):
-        from automagica.config import ACTIVITIES
-
+        """
+        String representation for an Activity node
+        """
         if self.label:
             return self.label
         else:
             return ACTIVITIES[self.activity]["name"]
 
     def get_next_node(self):
+        """
+        Method that returns the next node
+        """
         return self.next_node
 
     def to_dict(self):
+        """
+        Convert the Activity node to a dictionary
+        """
         return {
             "uid": self.uid,
             "x": self.x,
@@ -121,10 +179,13 @@ class ActivityNode(Node):
         }
 
     def run(self, bot, on_done=None, on_fail=None):
+        """
+        Run the Activity node
+        """
         args = [
             "{}={}".format(key, val)
             for key, val in self.args_.items()
-            if key != "self" and val != None and val != ""
+            if key != "self" and val != Nne and val != ""
         ]
 
         command = "# {} ({})\n".format(self, self.uid)
@@ -172,7 +233,9 @@ class ActivityNode(Node):
             else:
                 command += "{}({})\n".format(function_, ", ".join(args))
 
-        bot.run(command, on_done=lambda: on_done(node=self.next_node), on_fail=on_fail)
+        bot.run(
+            command, on_done=lambda: on_done(node=self.next_node), on_fail=on_fail,
+        )
 
 
 class IfElseNode(Node):
@@ -327,16 +390,10 @@ class SubFlowNode(Node):
             "label": self.label,
         }
 
-    def run(self, bot, on_done=None, on_fail=None):
-        from .flow import Flow
-
-        subflow = Flow(self.subflow_path)
-        subflow.run(bot)
-
 
 class PythonCodeNode(Node):
     def __init__(
-        self, *args, code=None, next_node=None, on_exception_node=None, **kwargs
+        self, *args, code=None, next_node=None, on_exception_node=None, **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.code = code
@@ -357,6 +414,5 @@ class PythonCodeNode(Node):
 
     def run(self, bot, on_done=None, on_fail=None):
         bot.run(
-            self.code, on_done=lambda: on_done(node=self.next_node), on_fail=on_fail
+            self.code, on_done=lambda: on_done(node=self.next_node), on_fail=on_fail,
         )
-

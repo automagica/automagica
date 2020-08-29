@@ -1,3 +1,5 @@
+"""Copyright 2020 Oakwood Technologies BVBA"""
+
 from .utilities import activity, only_supported_for, interpret_path
 import selenium.webdriver
 import logging
@@ -396,6 +398,7 @@ def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
     else:
         return random.randrange(lower_limit, upper_limit, 1)
 
+
 @activity
 def generate_random_data(locale=None, type=None):
     """Random data
@@ -463,52 +466,53 @@ def generate_random_data(locale=None, type=None):
     else:
         gen = Generic()
 
-    if type == 'email':
+    if type == "email":
         return gen.person.email()
-    elif type =='company type':
+    elif type == "company type":
         return gen.business.company_type()
-    elif type =='food dish':
+    elif type == "food dish":
         return gen.food.dish()
-    elif type =='food drink':
+    elif type == "food drink":
         return gen.food.drink()
-    elif type =='fruit':
+    elif type == "fruit":
         return gen.food.fruit()
-    elif type =='vegetable':
+    elif type == "vegetable":
         return gen.food.vegetable()
-    elif type =='ean code':
+    elif type == "ean code":
         return gen.code.ean()
-    elif type =='imei code':
+    elif type == "imei code":
         return gen.code.imei()
-    elif type =='isbn code':
+    elif type == "isbn code":
         return gen.code.isbn()
-    elif type =='issn code':
+    elif type == "issn code":
         return gen.code.issn()
-    elif type =='filename':
+    elif type == "filename":
         return gen.file.file_name()
-    elif type =='filename extension':
+    elif type == "filename extension":
         return gen.file.extension()
-    elif type =='ip v4':
+    elif type == "ip v4":
         return gen.internet.ip_v4()
-    elif type =='ip v6':
+    elif type == "ip v6":
         return gen.internet.ip_v6()
-    elif type =='mac address':
+    elif type == "mac address":
         return gen.internet.mac_address()
-    elif type == 'chemical element':
+    elif type == "chemical element":
         return gen.science.chemical_element()
-    elif type == 'academic degree':
+    elif type == "academic degree":
         return gen.person.academic_degree()
-    elif type == 'occupation':
+    elif type == "occupation":
         return gen.person.occupation()
-    elif type == 'word':
+    elif type == "word":
         return gen.text.word()
-    elif type == 'phone number':
+    elif type == "phone number":
         return gen.person.telephone()
-    elif type == 'political view':
+    elif type == "political view":
         return gen.person.political_views()
-    elif type == 'university':
+    elif type == "university":
         return gen.person.university()
     else:
         return gen.text.word()
+
 
 @activity
 def generate_random_boolean():
@@ -602,9 +606,9 @@ def generate_random_name(locale=None, name=None):
     else:
         person = Person()
 
-    if name == 'first':
+    if name == "first":
         return person.first_name()
-    elif name == 'last':
+    elif name == "last":
         return person.last_name()
     else:
         return person.full_name()
@@ -677,20 +681,21 @@ def generate_random_words(locale=None, type=None):
     else:
         gen = Generic().text
 
-    if type == 'sentence':
+    if type == "sentence":
         return gen.sentence()
-    elif type == 'quote':
+    elif type == "quote":
         return gen.quote()
-    elif type == 'answer':
+    elif type == "answer":
         return gen.answer()
-    elif type == 'single word':
+    elif type == "single word":
         return gen.word()
-    elif type == 'color':
+    elif type == "color":
         return gen.color()
-    elif type == 'swear word':
+    elif type == "swear word":
         return gen.swear_word()
     else:
         return gen.sentence()
+
 
 @activity
 def generate_random_address(locale=None, format=None):
@@ -759,21 +764,21 @@ def generate_random_address(locale=None, format=None):
     else:
         ad = Address()
 
-    if format == 'address':
+    if format == "address":
         return ad.address()
-    elif format == 'street':
+    elif format == "street":
         return ad.street_name()
-    elif format == 'street number':
+    elif format == "street number":
         return ad.street_number()
-    elif format == 'city':
+    elif format == "city":
         return ad.city()
-    elif format == 'continent':
+    elif format == "continent":
         return ad.continent()
-    elif format == 'country':
+    elif format == "country":
         return ad.country()
-    elif format == 'country code':
+    elif format == "country code":
         return ad.country_code()
-    elif format == 'postal code':
+    elif format == "postal code":
         return ad.postal_code()
     else:
         return ad.address()
@@ -866,9 +871,7 @@ def generate_random_date(formatting="%m/%d/%Y %I:%M", days_in_past=1000):
     earliest = latest - datetime.timedelta(days=days_in_past)
     delta_seconds = (latest - earliest).total_seconds()
 
-    random_date = earliest + datetime.timedelta(
-        seconds=random.randrange(delta_seconds)
-    )
+    random_date = earliest + datetime.timedelta(seconds=random.randrange(delta_seconds))
 
     if formatting:
         return random_date.strftime(formatting)
@@ -1087,7 +1090,7 @@ class Chrome(selenium.webdriver.Chrome):
         disable_extension=False,
         maximize_window=True,
         focus_window=True,
-        auto_update_chromedriver=False
+        auto_update_chromedriver=False,
     ):
         """Open Chrome Browser
 
@@ -1151,7 +1154,12 @@ class Chrome(selenium.webdriver.Chrome):
             import shutil
 
             try:
-                driver_path = (os.path.abspath(__file__).replace(os.path.basename(os.path.realpath(__file__)), "") + chromedriver_path)
+                driver_path = (
+                    os.path.abspath(__file__).replace(
+                        os.path.basename(os.path.realpath(__file__)), ""
+                    )
+                    + chromedriver_path
+                )
 
                 if os.path.exists(driver_path):
 
@@ -1216,9 +1224,7 @@ class Chrome(selenium.webdriver.Chrome):
             chrome_options.add_argument("--incognito")
         if disable_extension:
             # To disable the error message popup: "Loading of unpacked extensions is disabled by the administrator"
-            chrome_options.add_experimental_option(
-                "useAutomationExtension", False
-            )
+            chrome_options.add_experimental_option("useAutomationExtension", False)
         if headless:
             chrome_options.add_argument("--headless")
 
@@ -1907,15 +1913,11 @@ class FTP:
         # Set path if not specified
         input_path = interpret_path(input_path)
         if not output_path:
-            output_path = interpret_path(
-                default_filename="downloaded_readme.txt"
-            )
+            output_path = interpret_path(default_filename="downloaded_readme.txt")
         else:
             output_path = interpret_path(output_path)
 
-        self.connection.retrbinary(
-            "RETR " + input_path, open(output_path, "wb").write
-        )
+        self.connection.retrbinary("RETR " + input_path, open(output_path, "wb").write)
 
         return output_path
 
@@ -1956,9 +1958,7 @@ class FTP:
         if not output_path:
             output_path = "/"
 
-        self.connection.retrbinary(
-            "RETR " + input_path, open(output_path, "wb").write
-        )
+        self.connection.retrbinary("RETR " + input_path, open(output_path, "wb").write)
 
     @activity
     def enumerate_files(self, path="/"):
@@ -2201,7 +2201,9 @@ def press_key(key=None, delay=1, perform_n_times=1, delay_between=0.5):
 
 
 @activity
-def press_key_combination(first_key, second_key, third_key=None, compatibility=False, delay=1):
+def press_key_combination(
+    first_key, second_key, third_key=None, compatibility=False, delay=1
+):
     """Press key combination
 
     Press a combination of two or three keys simultaneously. Make sure your keyboard is on US layout (standard QWERTY).
@@ -2498,9 +2500,7 @@ def click_coordinates(x=None, y=None, delay=1):
         click_()
 
     else:
-        raise Exception(
-            "Could not click, did you enter a valid ID or coordinates"
-        )
+        raise Exception("Could not click, did you enter a valid ID or coordinates")
 
 
 @activity
@@ -2630,9 +2630,7 @@ def right_click(automagica_id=None, delay=1):
         right_click_()
 
     else:
-        raise Exception(
-            "Could not click, did you enter a valid ID or coordinates"
-        )
+        raise Exception("Could not click, did you enter a valid ID or coordinates")
 
 
 @activity
@@ -2672,9 +2670,7 @@ def right_click_coordinates(x=None, y=None, delay=1):
         right_click_()
 
     else:
-        raise Exception(
-            "Could not click, did you enter a valid ID or coordinates"
-        )
+        raise Exception("Could not click, did you enter a valid ID or coordinates")
 
 
 @activity
@@ -2970,9 +2966,7 @@ def take_screenshot(output_path=None):
 
     img = PIL.ImageGrab.grab()
 
-    output_path = interpret_path(
-        path=output_path, default_filename="screenshot.jpg"
-    )
+    output_path = interpret_path(path=output_path, default_filename="screenshot.jpg")
 
     img.save(output_path, "JPEG")
 
@@ -2986,7 +2980,9 @@ Icon: las la-folder-open
 
 
 @activity
-def get_files_in_folder(input_path=None, extension=None, show_full_path=True, scan_subfolders=False):
+def get_files_in_folder(
+    input_path=None, extension=None, show_full_path=True, scan_subfolders=False
+):
     """List files in folder
 
     List all files in a folder (and subfolders)
@@ -3073,9 +3069,7 @@ def create_folder(path=None):
     import os
 
     if not path:
-        path = interpret_path(
-            path, default_filename="new_folder", random_addition=True
-        )
+        path = interpret_path(path, default_filename="new_folder", random_addition=True)
 
     else:
         path = interpret_path(path)
@@ -3569,7 +3563,9 @@ Icon: las la-file-word
 
 class Word:
     @activity
-    def __init__(self, file_path=None, visible=True,):
+    def __init__(
+        self, file_path=None, visible=True,
+    ):
         """Start Word Application
 
         For this activity to work, Microsoft Office Word needs to be installed on the system.
@@ -3832,9 +3828,7 @@ class Word:
 
         """
         if not output_path:
-            file_path = interpret_path(
-                output_path, addition="html_export.html"
-            )
+            file_path = interpret_path(output_path, addition="html_export.html")
         else:
             file_path = interpret_path(output_path)
 
@@ -3848,9 +3842,7 @@ class Word:
         self.app.ActiveDocument.WebOptions.UseLongFileNames = 1
         self.app.ActiveDocument.WebOptions.RelyOnVML = 0
         self.app.ActiveDocument.WebOptions.AllowPNG = 1
-        self.app.ActiveDocument.SaveAs(
-            FileName=file_path, FileFormat=wc.wdFormatHTML
-        )
+        self.app.ActiveDocument.SaveAs(FileName=file_path, FileFormat=wc.wdFormatHTML)
 
     @activity
     def set_footers(self, text):
@@ -4158,9 +4150,7 @@ class WordFile:
 
         document = Document(self.file_path)
         for paragraph in document.paragraphs:
-            paragraph.text = paragraph.text.replace(
-                placeholder_text, replacement_text
-            )
+            paragraph.text = paragraph.text.replace(placeholder_text, replacement_text)
 
         if auto_save:
             document.save(self.file_path)
@@ -4218,7 +4208,9 @@ class Outlook:
         return app
 
     @activity
-    def send_mail(self,to_address,subject="",body="",html_body=None,attachment_paths=None,):
+    def send_mail(
+        self, to_address, subject="", body="", html_body=None, attachment_paths=None,
+    ):
         """Send e-mail
 
         Send an e-mail using Outlook
@@ -4291,14 +4283,10 @@ class Outlook:
 
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI")
-                .Folders.Item(self.account_name)
-                .Folders
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
             )
         else:
-            found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
-            )
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for folder in found_folders:
             name = folder.Name
             folders.append(name)
@@ -4339,14 +4327,10 @@ class Outlook:
 
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI")
-                .Folders.Item(self.account_name)
-                .Folders
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
             )
         else:
-            found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
-            )
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for folder in found_folders:
             name = folder.Name
             if name == folder_name:
@@ -4371,7 +4355,14 @@ class Outlook:
         return messages
 
     @activity
-    def delete_mails(self,folder_name="Inbox",limit=0,subject_contains="",body_contains="",sender_contains=""):
+    def delete_mails(
+        self,
+        folder_name="Inbox",
+        limit=0,
+        subject_contains="",
+        body_contains="",
+        sender_contains="",
+    ):
         """Delete e-mails
 
         Deletes e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -4402,14 +4393,10 @@ class Outlook:
         # Find the appropriate folder
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI")
-                .Folders.Item(self.account_name)
-                .Folders
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
             )
         else:
-            found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
-            )
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for folder in found_folders:
             name = folder.Name
             if name == folder_name:
@@ -4432,7 +4419,15 @@ class Outlook:
                         item.Delete()
 
     @activity
-    def move_mails(self,source_folder_name="Inbox",target_folder_name="Archive",limit=0,subject_contains="",body_contains="",sender_contains=""):
+    def move_mails(
+        self,
+        source_folder_name="Inbox",
+        target_folder_name="Archive",
+        limit=0,
+        subject_contains="",
+        body_contains="",
+        sender_contains="",
+    ):
         """Move e-mails
 
         Move e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -4464,45 +4459,33 @@ class Outlook:
         # Find the appropriate source folder
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI")
-                .Folders.Item(self.account_name)
-                .Folders
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
             )
         else:
-            found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
-            )
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for source_folder in found_folders:
             name = source_folder.Name
             if name == source_folder_name:
                 break
         else:
             raise Exception(
-                "Could not find the folder with name '{}'.".format(
-                    source_folder_name
-                )
+                "Could not find the folder with name '{}'.".format(source_folder_name)
             )
 
         # Find the appropriate target folder
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI")
-                .Folders.Item(self.account_name)
-                .Folders
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
             )
         else:
-            found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
-            )
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for target_folder in found_folders:
             name = target_folder.Name
             if name == target_folder_name:
                 break
         else:
             raise Exception(
-                "Could not find the folder with name '{}'.".format(
-                    target_folder_name
-                )
+                "Could not find the folder with name '{}'.".format(target_folder_name)
             )
 
         # Loop over the items in the folder
@@ -4552,14 +4535,10 @@ class Outlook:
         # Find the appropriate folder
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI")
-                .Folders.Item(self.account_name)
-                .Folders
+                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
             )
         else:
-            found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
-            )
+            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
         for folder in found_folders:
             name = folder.Name
             if name == folder_name:
@@ -4615,9 +4594,7 @@ class Outlook:
 
         mapi = self.app.GetNamespace("MAPI")
 
-        data = mapi.GetDefaultFolder(
-            win32com.client.constants.olFolderContacts
-        )
+        data = mapi.GetDefaultFolder(win32com.client.constants.olFolderContacts)
 
         for item in data.Items:
             if item.Class == win32com.client.constants.olContact:
@@ -5093,9 +5070,7 @@ class Excel:
                 if list_object.Name == name:
                     for row in list_object.DataBodyRange.Value:
                         data_row = {}
-                        for i, column in enumerate(
-                            list_object.HeaderRowRange.Value[0]
-                        ):
+                        for i, column in enumerate(list_object.HeaderRowRange.Value[0]):
                             data_row[column] = row[i]
                         data.append(data_row)
 
@@ -5445,12 +5420,10 @@ class Excel:
         else:
             file_path = interpret_path(output_path)
 
-        self.workbook.ActiveSheet.ExportAsFixedFormat(0, path, 0, True, True)
+        self.workbook.ActiveSheet.ExportAsFixedFormat(0, output_path, 0, True, True)
 
     @activity
-    def insert_data_as_table(
-        self, data, range_="A1", table_style="TableStyleMedium2"
-    ):
+    def insert_data_as_table(self, data, range_="A1", table_style="TableStyleMedium2"):
         """Insert data as table
         
         Insert list of dictionaries as a table in Excel
@@ -5491,9 +5464,9 @@ class Excel:
         values = [column_names] + data_values
         for i in range(len(values)):
             for j in range(len(values[0])):
-                self.workbook.ActiveSheet.Cells(
-                    row + i, column + j
-                ).Value = values[i][j]
+                self.workbook.ActiveSheet.Cells(row + i, column + j).Value = values[i][
+                    j
+                ]
 
         start_cell = self.workbook.ActiveSheet.Cells(row, column)
         end_cell = self.workbook.ActiveSheet.Cells(row + i, column + j)
@@ -5548,8 +5521,7 @@ class Excel:
             header_row = data[0]
             data = data[1:]
             data = [
-                {column: row[i] for i, column in enumerate(header_row)}
-                for row in data
+                {column: row[i] for i, column in enumerate(header_row)} for row in data
             ]
 
         return data
@@ -6085,7 +6057,18 @@ class PowerPoint:
         return self.app.Slides.Count
 
     @activity
-    def add_text(self,text,index=None,font_size=48,font_name=None,bold=False,margin_bottom=100,margin_left=100,margin_right=100,margin_top=100):
+    def add_text(
+        self,
+        text,
+        index=None,
+        font_size=48,
+        font_name=None,
+        bold=False,
+        margin_bottom=100,
+        margin_left=100,
+        margin_right=100,
+        margin_top=100,
+    ):
         """Text to slide
         
         Add text to a slide
@@ -6412,7 +6395,9 @@ Icon: las la-at
 
 
 @activity
-def send_mail_smtp(smtp_host,smtp_user,smtp_password,to_address,subject="",message="",port=587):
+def send_mail_smtp(
+    smtp_host, smtp_user, smtp_password, to_address, subject="", message="", port=587
+):
     """Mail with SMTP
 
     This function lets you send emails with an e-mail address. 
@@ -6498,9 +6483,7 @@ def find_window_title(searchterm, partial=True):
 
     EnumWindows = ctypes.windll.user32.EnumWindows
     EnumWindowsProc = ctypes.WINFUNCTYPE(
-        ctypes.c_bool,
-        ctypes.POINTER(ctypes.c_int),
-        ctypes.POINTER(ctypes.c_int),
+        ctypes.c_bool, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),
     )
     GetWindowText = ctypes.windll.user32.GetWindowTextW
     GetWindowTextLength = ctypes.windll.user32.GetWindowTextLengthW
@@ -6533,7 +6516,9 @@ def find_window_title(searchterm, partial=True):
 
 
 @activity
-def start_remote_desktop(ip, username, password=None, desktop_width=1920, desktop_height=1080):
+def start_remote_desktop(
+    ip, username, password=None, desktop_width=1920, desktop_height=1080
+):
     """Login to Windows Remote Desktop
 
     Create a RDP and login to Windows Remote Desktop
@@ -6889,9 +6874,7 @@ def get_from_clipboard():
 
     win32clipboard.OpenClipboard()
     try:
-        data = str(
-            win32clipboard.GetClipboardData(win32clipboard.CF_UNICODETEXT)
-        )
+        data = str(win32clipboard.GetClipboardData(win32clipboard.CF_UNICODETEXT))
         return data
 
     except:
@@ -7046,9 +7029,7 @@ def enable_network_interface(name):
     import subprocess  # nosec
 
     subprocess.check_output(
-        'wmic path win32_networkadapter where name="{}" call enable'.format(
-            name
-        )
+        'wmic path win32_networkadapter where name="{}" call enable'.format(name)
     )
 
 
@@ -7076,9 +7057,7 @@ def disable_network_interface(name):
     import subprocess  # nosec
 
     subprocess.check_output(
-        'wmic path win32_networkadapter where name="{}" call disable'.format(
-            name
-        )
+        'wmic path win32_networkadapter where name="{}" call disable'.format(name)
     )
 
 
@@ -7265,9 +7244,7 @@ def set_window_to_foreground(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception(
-            'Could not find a window with title "{}"'.format(title)
-        )
+        raise Exception('Could not find a window with title "{}"'.format(title))
 
     win32gui.SetForegroundWindow(handle)
 
@@ -7324,9 +7301,7 @@ def close_window(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception(
-            'Could not find a window with title "{}"'.format(title)
-        )
+        raise Exception('Could not find a window with title "{}"'.format(title))
 
     win32gui.DestroyWindow(handle)
 
@@ -7358,9 +7333,7 @@ def maximize_window(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception(
-            'Could not find a window with title "{}"'.format(title)
-        )
+        raise Exception('Could not find a window with title "{}"'.format(title))
 
     win32gui.ShowWindow(handle, win32con.SW_SHOWMAXIMIZED)
     win32gui.SetForegroundWindow(handle)
@@ -7393,9 +7366,7 @@ def restore_window(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception(
-            'Could not find a window with title "{}"'.format(title)
-        )
+        raise Exception('Could not find a window with title "{}"'.format(title))
 
     win32gui.ShowWindow(handle, win32con.SW_RESTORE)
     win32gui.SetForegroundWindow(handle)
@@ -7427,9 +7398,7 @@ def minimize_window(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception(
-            'Could not find a window with title "{}"'.format(title)
-        )
+        raise Exception('Could not find a window with title "{}"'.format(title))
 
     win32gui.CloseWindow(handle)
 
@@ -7469,9 +7438,7 @@ def resize_window(title, x, y, width, height):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception(
-            'Could not find a window with title "{}"'.format(title)
-        )
+        raise Exception('Could not find a window with title "{}"'.format(title))
 
     win32gui.MoveWindow(handle, x, y, width, height, True)
     win32gui.SetForegroundWindow(handle)
@@ -7504,9 +7471,7 @@ def hide_window(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception(
-            'Could not find a window with title "{}"'.format(title)
-        )
+        raise Exception('Could not find a window with title "{}"'.format(title))
 
     win32gui.ShowWindow(handle, win32con.SW_HIDE)
 
@@ -7762,9 +7727,7 @@ def desktop_path(filename=None):
     import os
 
     if filename:
-        return os.path.join(
-            os.path.join(os.path.expanduser("~"), "Desktop"), filename
-        )
+        return os.path.join(os.path.join(os.path.expanduser("~"), "Desktop"), filename)
     return os.path.join(os.path.expanduser("~"), "Desktop")
 
 
@@ -7792,9 +7755,7 @@ def downloads_path():
     if os.name == "nt":
         import winreg
 
-        sub_key = (
-            r"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
-        )
+        sub_key = r"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
         downloads_guid = "{374DE290-123F-4565-9164-39C4925E467B}"
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
             location = winreg.QueryValueEx(key, downloads_guid)[0]
@@ -8509,7 +8470,9 @@ def read_text_from_pdf(file_path):
 
 
 @activity
-def join_pdf_files(first_file_path, second_file_path, third_file_path=None, output_path=None):
+def join_pdf_files(
+    first_file_path, second_file_path, third_file_path=None, output_path=None
+):
     """Merge PDF
     
     Merges multiple PDFs into a single file
@@ -8548,9 +8511,7 @@ def join_pdf_files(first_file_path, second_file_path, third_file_path=None, outp
     from PyPDF2 import PdfFileMerger, PdfFileReader
 
     if not output_path:
-        output_path = interpret_path(
-            first_file_path, addition="_merged_pdf.pdf"
-        )
+        output_path = interpret_path(first_file_path, addition="_merged_pdf.pdf")
     else:
         output_path = interpret_path(output_path)
 
@@ -8611,9 +8572,7 @@ def extract_page_range_from_pdf(file_path, start_page, end_page, output_path=Non
     from PyPDF2 import PdfFileWriter, PdfFileReader
 
     if not output_path:
-        output_path = interpret_path(
-            file_path, replace_filename="extracted_paged.pdf"
-        )
+        output_path = interpret_path(file_path, replace_filename="extracted_paged.pdf")
     else:
         output_path = interpret_path(output_path)
 
@@ -9512,9 +9471,7 @@ def extract_text_ocr(file_path=None):
 
     # Post request to API
     url = (
-        os.environ.get(
-            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
-        )
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
         + "/api/ocr/find-text-locations"
     )
 
@@ -9582,9 +9539,7 @@ def find_text_on_screen_ocr(text, criteria=None):
 
     # Post request to API
     url = (
-        os.environ.get(
-            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
-        )
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
         + "/api/ocr/find-text-locations"
     )
 
@@ -9780,8 +9735,8 @@ def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=N
 
     >>> # Run a UiPath process
     >>> arguments = {'firstname': 'John', 'lastname': 'Doe'}
-    >>> execute_uipath_process(r"C:\Processes UiPath\my_process.xaml", arguments=arguments)
-    Completed UiPath process "C:\Processes UiPath\my_process.xaml"
+    >>> execute_uipath_process(r"C:\\Processes UiPath\\my_process.xaml", arguments=arguments)
+    Completed UiPath process "C:\\Processes UiPath\\my_process.xaml"
 
     Keywords
         RPA, UiPath, Studio, robot, orchestrator, xaml, ui path
@@ -9849,8 +9804,8 @@ def run_autoit_script(script_path, arguments=None, autoit_exe_path=None):
 
     >>> # Run an AutoIt script
     >>> arguments = 'John'
-    >>> run_autoit_script(r"C:\AutoIt\Scripts\MyScript.au3", arguments=arguments) # Point this to your AutoIt Script
-    Completed AutoIt script "C:\AutoIt\Scripts\MyScript.au3"
+    >>> run_autoit_script(r"C:\\AutoIt\\Scripts\\MyScript.au3", arguments=arguments) # Point this to your AutoIt Script
+    Completed AutoIt script "C:\\AutoIt\\Scripts\\MyScript.au3"
 
     Keywords
         RPA, AutoIt, au3, au
@@ -9914,8 +9869,8 @@ def execute_robotframework_test(test_case_path, variables=None):
 
     >>> # Run an Robot Framework test case
     >>> variables = {'FIRSTNAME': 'John', 'LASTNAME': 'Doe'}
-    >>> execute_robotframework_test(r"C:\Test Cases\my_test_case.robot", variables=variables) # Point this to your Robot Framework test case
-    Completed Robot Framework test case "C:\Test Cases\my_test_case.robot"
+    >>> execute_robotframework_test(r"C:\\Test Cases\\my_test_case.robot", variables=variables) # Point this to your Robot Framework test case
+    Completed Robot Framework test case "C:\\Test Cases\\my_test_case.robot"
 
     Keywords
         RPA, robot framework, robotframework, robot
@@ -9950,6 +9905,7 @@ def execute_robotframework_test(test_case_path, variables=None):
         print(err)
 
     print('Completed Robot Framework test case "{}"'.format(test_case_path))
+
 
 @activity
 def run_blueprism_process(
@@ -10007,9 +9963,7 @@ def run_blueprism_process(
     if inputs:
         inputs_parameters = "".join(
             [
-                "<input name='{}' type='text' value='{}' /></inputs>".format(
-                    key, value
-                )
+                "<input name='{}' type='text' value='{}' /></inputs>".format(key, value)
                 for key, value in inputs.items()
             ]
         )
@@ -10033,6 +9987,7 @@ def run_blueprism_process(
         print(err)
 
     print('Completed Blue Prism process "{}"'.format(test_case_path))
+
 
 @activity
 def run_automationanywhere_task(task_file_path, aaplayer_exe_path=None):
@@ -10157,11 +10112,9 @@ class SAPGUI:
         self.process = Popen(self.sap_logon_exe_path)
 
         # Try to connect to SAP GUI
-        for i in range(10):
+        for _ in range(10):
             try:
-                self.sapgui = win32com.client.GetObject(
-                    "SAPGUI"
-                ).GetScriptingEngine
+                self.sapgui = win32com.client.GetObject("SAPGUI").GetScriptingEngine
                 break
             except:
                 sleep(delay)
@@ -10247,12 +10200,8 @@ class SAPGUI:
         # Continue even if other logged in sessions detected
         if force:
             try:
-                self.session.findById(
-                    "wnd[1]/usr/radMULTI_LOGON_OPT2"
-                ).select()
-                self.session.findById(
-                    "wnd[1]/usr/radMULTI_LOGON_OPT2"
-                ).setFocus()
+                self.session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").select()
+                self.session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").setFocus()
                 self.session.findById("wnd[1]/tbar[0]/btn[0]").press()
             except:
                 pass
@@ -10373,7 +10322,9 @@ Icon: las la-robot
 
 
 @activity
-def create_new_job_in_portal(process_name, process_version_id=None, priority=0, parameters=None):
+def create_new_job_in_portal(
+    process_name, process_version_id=None, priority=0, parameters=None
+):
     """Create a new job in the Automagica Portal
 
     This activity creates a new job in the Automagica Portal for a given process. The bot performing this activity needs to be in the same team as the process it creates a job for.
@@ -10425,9 +10376,7 @@ def create_new_job_in_portal(process_name, process_version_id=None, priority=0, 
         data["parameters"] = parameters
 
     r = requests.post(
-        os.environ.get(
-            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
-        )
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
         + "/api/job/new",
         json=data,
         headers=headers,
@@ -10489,9 +10438,7 @@ def get_credential_from_portal(credential_name):
     data = {"name": credential_name}
 
     r = requests.post(
-        os.environ.get(
-            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
-        )
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
         + "/api/credential/get",
         json=data,
         headers=headers,
@@ -10501,9 +10448,7 @@ def get_credential_from_portal(credential_name):
         result = r.json()
     except:
 
-        raise Exception(
-            "Could not get credential from Portal for unknown reason."
-        )
+        raise Exception("Could not get credential from Portal for unknown reason.")
 
     if result.get("error"):
         raise Exception(result["error"])
@@ -10715,7 +10660,7 @@ def wait_appear(automagica_id, delay=1, timeout=30):
 
     increment = 5
 
-    for i in range(int(timeout / increment)):
+    for _ in range(int(timeout / increment)):
         try:
             _ = detect_vision(automagica_id)
             break
@@ -10725,9 +10670,7 @@ def wait_appear(automagica_id, delay=1, timeout=30):
         sleep(increment)
 
     else:
-        raise Exception(
-            "Element did not appear within {} seconds".format(timeout)
-        )
+        raise Exception("Element did not appear within {} seconds".format(timeout))
 
 
 @activity
@@ -10764,7 +10707,7 @@ def wait_vanish(automagica_id, delay=1, timeout=30):
 
     increment = 5
 
-    for i in range(int(timeout / increment)):
+    for _ in range(int(timeout / increment)):
         try:
             _ = detect_vision(automagica_id)
         except Exception:
@@ -10773,9 +10716,7 @@ def wait_vanish(automagica_id, delay=1, timeout=30):
         sleep(increment)
 
     else:
-        raise Exception(
-            "Element did not disappear within {} seconds".format(timeout)
-        )
+        raise Exception("Element did not disappear within {} seconds".format(timeout))
 
 
 @activity
@@ -10839,9 +10780,7 @@ def read_text(automagica_id, delay=1):
 
     # Post request to API
     url = (
-        os.environ.get(
-            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
-        )
+        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
         + "/api/ocr/find-text-locations"
     )
 

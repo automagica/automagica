@@ -1,3 +1,5 @@
+"""Copyright 2020 Oakwood Technologies BVBA"""
+
 import logging
 import os
 import sys
@@ -8,7 +10,8 @@ from automagica.gui.apps import App, BotApp, FlowApp, LabApp, WandApp
 
 if __name__ == "__main__":
     """
-    Protocol handler for automagica://
+    Protocol handler for URLS with the automagica://-protocol
+    This allows to immediate launch Automagica Flow for example from a website URL
     """
     url = sys.argv[1]
 
@@ -39,6 +42,7 @@ if __name__ == "__main__":
     if parts[0] == "bot":
         config = Config()
 
+        # Bot secret specified
         if parts[1] == "bot_secret":
             bot_secret = parts[2]
 

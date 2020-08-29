@@ -1,3 +1,5 @@
+"""Copyright 2020 Oakwood Technologies BVBA"""
+
 import os
 import tkinter as tk
 from tkinter import font, messagebox

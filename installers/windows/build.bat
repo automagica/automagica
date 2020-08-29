@@ -5,6 +5,7 @@ call mkdir wheels
 call cd ..
 call cd ..
 call pip wheel pip -w installers/windows/wheels
+call rmdir /S /Q automagica/bin
 call pip wheel . -w installers/windows/wheels
 call cd installers/windows
 call pip install -r requirements.txt

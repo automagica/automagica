@@ -1,3 +1,5 @@
+"""Copyright 2020 Oakwood Technologies BVBA"""
+
 import json
 import logging
 import os
@@ -39,8 +41,6 @@ class Flow:
 
         with open(file_path, "r") as f:
             data = json.load(f)
-
-        working_dir = os.path.dirname(file_path)
 
         self.from_dict(data)
 

@@ -1,3 +1,5 @@
+"""Copyright 2020 Oakwood Technologies BVBA"""
+
 import os
 import tkinter as tk
 from tkinter import font, ttk
@@ -379,10 +381,6 @@ class ActivityNodeGraph(NodeGraph):
         )
 
         # Icon
-        base_path = os.path.abspath(__file__).replace(
-            os.path.basename(os.path.realpath(__file__)), ""
-        )
-
         icon_name = str(
             config.ACTIVITIES[self.node.activity].get("icon").split("la-")[-1]
         )
@@ -1116,7 +1114,7 @@ class SubFlowNodeGraph(NodeGraph):
     def run_click(self, event):
         self.add_highlight()
         from .windows import FlowPlayerWindow
-        from ..models import Flow
+        from automagica.flow import Flow
 
         _ = FlowPlayerWindow(
             self.parent.master,

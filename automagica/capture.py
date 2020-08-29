@@ -1,3 +1,4 @@
+"""Copyright 2020 Oakwood Technologies BVBA"""
 import json
 import os
 import sys
@@ -8,11 +9,19 @@ from uuid import uuid4
 
 from mss import mss
 
-from win32api import GetCursorPos, GetKeyState, GetSystemMetrics, OpenProcess
-from win32clipboard import CloseClipboard, GetClipboardData, OpenClipboard
-from win32con import PROCESS_QUERY_INFORMATION, PROCESS_VM_READ
-from win32gui import GetForegroundWindow, GetWindowText
-from win32process import GetModuleFileNameEx, GetWindowThreadProcessId
+try:
+    from win32api import (
+        GetCursorPos,
+        GetKeyState,
+        GetSystemMetrics,
+        OpenProcess,
+    )
+    from win32clipboard import CloseClipboard, GetClipboardData, OpenClipboard
+    from win32con import PROCESS_QUERY_INFORMATION, PROCESS_VM_READ
+    from win32gui import GetForegroundWindow, GetWindowText
+    from win32process import GetModuleFileNameEx, GetWindowThreadProcessId
+except ImportError:
+    pass
 
 
 class Capture:

@@ -24,4 +24,10 @@ pytest:
     - pip install -e . --quiet
     - pip install -r requirements-development.txt  --quiet
     - pytest
-    
+
+safety:
+  image: python:3.7.8
+  script:
+    - pip install -e . --quiet
+    - pip install safety
+    - safety check

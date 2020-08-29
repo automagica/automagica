@@ -1,3 +1,5 @@
+"""Copyright 2020 Oakwood Technologies BVBA"""
+
 import json
 import os
 import platform
@@ -7,6 +9,8 @@ import sys
 import tkinter as tk
 from threading import Thread
 from time import sleep
+
+import keyboard
 
 import requests
 from PIL import Image, ImageTk
@@ -49,10 +53,7 @@ class App(tk.Tk):
             "automagica.ico",
         )
         self.tk.call(
-            "wm",
-            "iconphoto",
-            self._w,
-            ImageTk.PhotoImage(Image.open(icon_path)),
+            "wm", "iconphoto", self._w, ImageTk.PhotoImage(Image.open(icon_path)),
         )
 
         ICONS.generate_icons()
@@ -61,11 +62,9 @@ class App(tk.Tk):
         import ctypes
 
         awareness = ctypes.c_int()
-        error_code = ctypes.windll.shcore.GetProcessDpiAwareness(
-            0, ctypes.byref(awareness)
-        )
-        error_code = ctypes.windll.shcore.SetProcessDpiAwareness(2)
-        success = ctypes.windll.user32.SetProcessDPIAware()
+        ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
+        ctypes.windll.shcore.SetProcessDpiAwareness(2)
+        ctypes.windll.user32.SetProcessDPIAware()
 
     def report_callback_exception(self, exception, value, traceback):
         """ 
@@ -102,9 +101,7 @@ class FlowApp(App):
 
                 # Run parameters
                 if os.path.isfile("input/parameters.py"):
-                    with open(
-                        "input/parameters.py", "r", encoding="utf-8"
-                    ) as f:
+                    with open("input/parameters.py", "r", encoding="utf-8") as f:
                         code = f.read()
 
                     bot.run(code)
@@ -160,25 +157,18 @@ class BotApp(App):
             cwd=cwd,
         )
 
-        stdout, stderr = process.communicate()
+        stdout, _ = process.communicate()
 
         return stdout.decode("utf-8"), process.returncode
 
     def run_script(self, file_path, cwd):
         process = subprocess.Popen(
-            [
-                sys.executable,
-                "-m",
-                "automagica.cli",
-                "script",
-                "run",
-                file_path,
-            ],
+            [sys.executable, "-m", "automagica.cli", "script", "run", file_path,],
             stdout=subprocess.PIPE,
             cwd=cwd,
         )
 
-        stdout, stderr = process.communicate()
+        stdout, _ = process.communicate()
 
         return stdout.decode("utf-8"), process.returncode
 
@@ -189,14 +179,14 @@ class BotApp(App):
             cwd=cwd,
         )
 
-        stdout, stderr = process.communicate()
+        stdout, _ = process.communicate()
 
         return stdout.decode("utf-8"), process.returncode
 
     def run_command(self, command, cwd):
         process = subprocess.Popen([command], stdout=subprocess.PIPE, cwd=cwd,)
 
-        stdout, stderr = process.communicate()
+        stdout, _ = process.communicate()
 
         return stdout.decode("utf-8"), process.returncode
 
@@ -211,9 +201,7 @@ class BotApp(App):
                 )
                 self.config.logger.info("Sent alive to Automagica Portal.")
             except:
-                self.config.logger.exception(
-                    "Could not reach Automagica Portal."
-                )
+                self.config.logger.exception("Could not reach Automagica Portal.")
 
             sleep(interval)
 
@@ -226,17 +214,14 @@ class BotApp(App):
             try:
                 # Get next job
                 r = requests.get(
-                    self.config.values["portal_url"] + "/api/job/next",
-                    headers=headers,
+                    self.config.values["portal_url"] + "/api/job/next", headers=headers,
                 )
 
                 job = r.json()
 
                 # We got a job!
                 if job:
-                    NotificationWindow(
-                        self, message=f"Received job {job['job_id']}"
-                    )
+                    NotificationWindow(self, message=f"Received job {job['job_id']}")
                     self.config.logger.info(f"Received job {job['job_id']}")
 
                     # Create directory to store job-related files
@@ -255,19 +240,14 @@ class BotApp(App):
 
                         # Save locally in the input folder in the job folder
                         with open(
-                            os.path.join(
-                                local_job_path, "input", job_file["filename"]
-                            ),
+                            os.path.join(local_job_path, "input", job_file["filename"]),
                             "wb",
                         ) as f:
                             f.write(r.content)
 
                     if job.get("parameters"):
                         with open(
-                            os.path.join(
-                                local_job_path, "input", "parameters.py"
-                            ),
-                            "w",
+                            os.path.join(local_job_path, "input", "parameters.py"), "w",
                         ) as f:
                             f.write(job["parameters"])
 
@@ -302,8 +282,7 @@ class BotApp(App):
 
                     # Write console output
                     with open(
-                        os.path.join(local_job_path, "output", "console.txt"),
-                        "w",
+                        os.path.join(local_job_path, "output", "console.txt"), "w",
                     ) as f:
                         f.write(output)
 
@@ -312,23 +291,17 @@ class BotApp(App):
                         NotificationWindow(
                             self, message=f"Completed job {job['job_id']}"
                         )
-                        self.config.logger.info(
-                            f"Completed job {job['job_id']}"
-                        )
+                        self.config.logger.info(f"Completed job {job['job_id']}")
 
                     else:
                         job["status"] = "failed"
-                        NotificationWindow(
-                            self, message=f"Failed job {job['job_id']}"
-                        )
+                        NotificationWindow(self, message=f"Failed job {job['job_id']}")
                         self.config.logger.info(f"Failed job {job['job_id']}")
 
                     # Make list of output files after job has ran
                     output_files = []
 
-                    for file_path in os.listdir(
-                        os.path.join(local_job_path, "output")
-                    ):
+                    for file_path in os.listdir(os.path.join(local_job_path, "output")):
                         output_files.append({"filename": file_path})
 
                     # Prepare finished job package
@@ -353,9 +326,7 @@ class BotApp(App):
                     for output_file in data["output_files"]:
                         with open(
                             os.path.join(
-                                local_job_path,
-                                "output",
-                                output_file["filename"],
+                                local_job_path, "output", output_file["filename"],
                             ),
                             "rb",
                         ) as f:
@@ -377,6 +348,7 @@ class BotApp(App):
                 # We did not get a job!
                 else:
                     sleep(interval)
+                    keyboard.press("f13")  # Prevent lock
 
             except:
                 NotificationWindow(self, message="Connection error")
@@ -430,7 +402,7 @@ class LabApp:
 
         # Read environment variables and override Jupyter configuration directory setting
         my_env = os.environ.copy()
-        my_env["JUPYTER_CONFIG_DIR"] = os.path.join(path, "lab\.jupyter")
+        my_env["JUPYTER_CONFIG_DIR"] = os.path.join(path, "lab\\.jupyter")
 
         # Build command
         cmd = sys.executable + " -m notebook"
@@ -471,14 +443,10 @@ class LabApp:
             if cell["cell_type"] == "code":
                 try:
                     exec("".join(cell["source"]))  # nosec
-                    self.config.logger.info(
-                        f'Completed notebook "{notebook_path}"'
-                    )
+                    self.config.logger.info(f'Completed notebook "{notebook_path}"')
 
                 except Exception as e:
-                    self.config.logger.exception(
-                        f'Failed notebook "{notebook_path}"'
-                    )
+                    self.config.logger.exception(f'Failed notebook "{notebook_path}"')
                     raise e
 
 
@@ -510,9 +478,7 @@ class ScriptApp:
 
         # Run script
         with open(script_path, "r", encoding="utf-8") as f:
-            self.config.logger.info(
-                f'Running script "{os.path.realpath(f.name)}"'
-            )
+            self.config.logger.info(f'Running script "{os.path.realpath(f.name)}"')
             code = f.read()
 
         try:

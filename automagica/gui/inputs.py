@@ -1,3 +1,5 @@
+"""Copyright 2020 Oakwood Technologies BVBA"""
+
 import os
 import tkinter as tk
 from tkinter import filedialog, font, ttk
@@ -203,7 +205,7 @@ class FilePathInputWidget(tk.Frame):
     def browse_button_click(self):
         if self.filetypes:
             file_path = filedialog.askopenfilename(
-                initialdir="./", title=_("Select File"), filetypes=self.filetypes
+                initialdir="./", title=_("Select File"), filetypes=self.filetypes,
             )
         else:
             file_path = filedialog.askopenfilename(
@@ -340,7 +342,10 @@ class AutomagicaIdInputWidget(tk.Frame):
         self.input_field.pack(side="left")
 
         self.browse_button = Button(
-            self, text=_("View"), command=self.view_button_click, font=(config.FONT, 10)
+            self,
+            text=_("View"),
+            command=self.view_button_click,
+            font=(config.FONT, 10),
         )
         self.browse_button.pack(side="left")
 
@@ -553,7 +558,13 @@ class ActivityBlock:
 
         icon_name = str(activity["icon"].split("la-")[-1])
 
-        if icon_name not in ["html5", "trello", "salesforce", "chrome", "readme"]:
+        if icon_name not in [
+            "html5",
+            "trello",
+            "salesforce",
+            "chrome",
+            "readme",
+        ]:
             icon_name = icon_name + "-solid.png"
         else:
             icon_name = icon_name + ".png"
@@ -651,21 +662,15 @@ class ActivitySelectionFrame(tk.Frame):
 
         results = []
 
-        for key, val in self.activities.items():
+        for _, val in self.activities.items():
             if (
                 any(
                     [query in keyword.lower() for keyword in val["keywords"]]
                 )  # Matches keywords
                 or query in val["name"].lower()  # Matches name
                 or query in val["description"].lower()  # Matches description
-                or query == _("Search activities...").lower()
+                or query == "Search activities...".lower()
             ):
-
-                if val.get("class"):
-                    name = "{} - {}".format(val["class"], val["name"])
-                else:
-                    name = val["name"]
-
                 results.append(val)
 
         self.render_activity_blocks(results)
