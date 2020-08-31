@@ -236,7 +236,7 @@ Process | Description
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Delete row in Excel](https://automagica.readthedocs.io/activities.html#automagica.activities.delete_row) | Deletes a row from the currently active worksheet. Existing data will shift up.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Delete column](https://automagica.readthedocs.io/activities.html#automagica.activities.delete_column) | Delete a column from the currently active worksheet. Existing columns will shift to the left.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Export to PDF](https://automagica.readthedocs.io/activities.html#automagica.activities.export_to_pdf) | Export to PDF
-<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Insert data as table](https://automagica.readthedocs.io/activities.html#automagica.activities.insert_data_as_table) | """Insert data as table
+<img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Insert data as table](https://automagica.readthedocs.io/activities.html#automagica.activities.insert_data_as_table) | Insert data as table
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Read worksheet](https://automagica.readthedocs.io/activities.html#automagica.activities.read_worksheet) | Read data from a worksheet as a list of lists
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/file-excel-solid.svg" width="20"> [Quit Excel](https://automagica.readthedocs.io/activities.html#automagica.activities.quit) | This closes Excel, make sure to use 'save' or 'save_as' if you would like to save before quitting.
 **Excel File** | ‌‌ 
@@ -392,7 +392,7 @@ Process | Description
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Wait for an element to appear](https://automagica.readthedocs.io/activities.html#automagica.activities.wait_appear) | Wait for an element that is defined the recorder
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Wait Vanish](https://automagica.readthedocs.io/activities.html#automagica.activities.wait_vanish) | This activity allows the bot to wait for an element to vanish.
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Read Text with Automagica Wand](https://automagica.readthedocs.io/activities.html#automagica.activities.read_text) | This activity allows the bot to detect and read the text of an element by using the Automagica Portal API with a provided sample ID.
-|<img width=100/>|  ‌‌|
+|<img width=120/>|  ‌‌|
 
 ## Credits
 Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
