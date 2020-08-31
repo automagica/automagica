@@ -233,4 +233,3 @@ class Flow:
             if hasattr(node, "loop_node"):
                 if node.loop_node not in uids:
                     node.loop_node = None
-

@@ -9491,10 +9491,10 @@ def extract_text_ocr(file_path=None, scale_up=None):
 
         if scale_up:
             w, h = img.size
-            img = img.resize((int(w*scale_up), int(h*scale_up)))
+            img = img.resize((int(w * scale_up), int(h * scale_up)))
 
         data = image_to_data(img, output_type=Output.DICT)
-        return " ".join(data['text'])
+        return " ".join(data["text"])
 
 
 @activity
@@ -9579,24 +9579,27 @@ def find_text_on_screen_ocr(text, criteria=None, scale_up=None):
         img = Image.open(path)
         if scale_up:
             w, h = img.size
-            img = img.resize((int(w*scale_up), int(h*scale_up)))
+            img = img.resize((int(w * scale_up), int(h * scale_up)))
         else:
             scale_up = 1
 
         d = image_to_data(img, output_type=Output.DICT)
 
         idxs = [
-            idx
-            for idx, elem in enumerate(d['text'])
-            if elem == text and d['conf'][idx]
+            i for i, elem in enumerate(d["text"]) if elem == text and d["conf"][i]
         ]
 
-        matches = list(map(lambda i: {
-            "x": d['left'][i] / scale_up,
-            "y": d['top'][i] / scale_up,
-            "w": d['width'][i] / scale_up,
-            "h": d['height'][i] / scale_up
-        }, idxs))
+        matches = list(
+            map(
+                lambda i: {
+                    "x": d["left"][i] / scale_up,
+                    "y": d["top"][i] / scale_up,
+                    "w": d["width"][i] / scale_up,
+                    "h": d["height"][i] / scale_up,
+                },
+                idxs,
+            )
+        )
 
     if not matches:
         return None
