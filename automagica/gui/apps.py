@@ -1,6 +1,7 @@
 """Copyright 2020 Oakwood Technologies BVBA"""
 
 import json
+import logging
 import os
 import platform
 import re
@@ -11,7 +12,6 @@ from threading import Thread
 from time import sleep
 
 import keyboard
-
 import requests
 from PIL import Image, ImageTk
 
@@ -59,12 +59,16 @@ class App(tk.Tk):
         ICONS.generate_icons()
 
     def _windows_set_dpi_awareness(self):
-        import ctypes
+        try:
+            import ctypes
 
-        awareness = ctypes.c_int()
-        ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
-        ctypes.windll.shcore.SetProcessDpiAwareness(2)
-        ctypes.windll.user32.SetProcessDPIAware()
+            awareness = ctypes.c_int()
+            ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
+            ctypes.windll.shcore.SetProcessDpiAwareness(2)
+            ctypes.windll.user32.SetProcessDPIAware()
+
+        except Exception:
+            logging.exception("Could not set DPI awareness on Windows.")
 
     def report_callback_exception(self, exception, value, traceback):
         """ 
