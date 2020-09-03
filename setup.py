@@ -66,23 +66,23 @@ setup(
     install_requires=[
         "requests==2.24.0",  # Apache 2.0 License
         "selenium==4.0.0a6.post2",  # Apache 2.0 License
-        "openpyxl==3.0.4",  # MIT License
+        "openpyxl==3.0.5",  # MIT License
         "python-docx==0.8.10",  # MIT License
         "PyPDF2==1.26.0",  # BSD 3-Clause "New" or "Revised" License
-        "mimesis==4.1.1",  # MIT License
-        "psutil==5.6.6",  # BSD 3-Clause
-        "keyring==21.0.0",  # MIT License
-        "cryptography==3.0",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
+        "mimesis==4.1.2",  # MIT License
+        "psutil==5.7.2",  # BSD 3-Clause
+        "keyring==21.4.0",  # MIT License
+        "cryptography==3.1",  # Apache 2.0 License/BSD 3-Clause "New" or "Revised" License
         "pyad==0.6.0",  # Apache 2.0 License
         "Pillow==7.2.0",  # PIL License (permissive),
         "pysnmp==4.4.12",  # BSD 2-Clause "Simplified" License
-        "pandas==1.1.0",  # BSD 3-Clause
-        "mss==5.0.0",  # MIT License
+        "pandas==1.1.1",  # BSD 3-Clause
+        "mss==5.1.0",  # MIT License
         "mouse==0.7.1",  # MIT License
         "keyboard==0.13.5",  # MIT License
-        "babel==2.7.0",  # BSD 3-Clause
-        "click==7.0",  # BSD 3-Clause6
-        "pyglet==1.5.5",  # MIT License
+        "babel==2.8.0",  # BSD 3-Clause
+        "click==7.1.2",  # BSD 3-Clause6
+        "pyglet==1.5.7",  # MIT License
         "notebook==6.1.3",  # BSD License
     ],
     include_package_data=True,
