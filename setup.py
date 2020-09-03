@@ -85,7 +85,6 @@ setup(
         "idna==2.5",  # BSD 3-Clause
         "pyglet==1.5.5",  # MIT License
         "jupyterlab==2.1.5",  # BSD License
-        "scikit-learn==0.23.1",  # New BSD License
     ],
     include_package_data=True,
     cmdclass={"install": InstallationWrapper},
