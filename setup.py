@@ -82,9 +82,8 @@ setup(
         "keyboard==0.13.5",  # MIT License
         "babel==2.7.0",  # BSD 3-Clause
         "click==7.0",  # BSD 3-Clause6
-        "idna==2.5",  # BSD 3-Clause
         "pyglet==1.5.5",  # MIT License
-        "jupyterlab==2.1.5",  # BSD License
+        "jupyterlab==2.2.6",  # BSD License
     ],
     include_package_data=True,
     cmdclass={"install": InstallationWrapper},
