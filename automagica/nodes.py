@@ -185,7 +185,7 @@ class ActivityNode(Node):
         args = [
             "{}={}".format(key, val)
             for key, val in self.args_.items()
-            if key != "self" and val != Nne and val != ""
+            if key != "self" and val != None and val != ""
         ]
 
         command = "# {} ({})\n".format(self, self.uid)
