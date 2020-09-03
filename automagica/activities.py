@@ -1245,7 +1245,7 @@ class Chrome(selenium.webdriver.Chrome):
             self.maximize_window()
 
         if focus_window:
-            self.switch_to_window(self.current_window_handle)
+            self.switch_to.window(self.current_window_handle)
 
     @activity
     def save_all_images(self, output_path=None):
