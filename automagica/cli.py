@@ -14,7 +14,7 @@ from automagica.gui.apps import (
     WandApp,
 )
 
-__version__ = "3.1.0"
+__version__ = "3.2.1"
 
 
 @click.group(help=_("Automagica v") + __version__)

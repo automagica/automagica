@@ -50,7 +50,7 @@ long_description = long_description.split("##")[0]
 
 setup(
     name="Automagica",
-    version="3.1.1",
+    version="3.2.1",
     description="Open Source RPA and UI automation",
     author="Oakwood Technologies BVBA",
     author_email="mail@oakwood.ai",
@@ -65,7 +65,7 @@ setup(
     packages=["automagica"],
     install_requires=[
         "requests==2.24.0",  # Apache 2.0 License
-        "selenium==3.141.0",  # Apache 2.0 License
+        "selenium==4.0.0a6.post2",  # Apache 2.0 License
         "openpyxl==3.0.4",  # MIT License
         "python-docx==0.8.10",  # MIT License
         "PyPDF2==1.26.0",  # BSD 3-Clause "New" or "Revised" License
