@@ -47,3 +47,7 @@ Unless you are set on using your own editor, we recommend Automagica Flow for bo
 
 ![](https://i.imgur.com/ps1Uhck.png)
 
+## Experimental on-machine OCR
+Signing up for the Automagica Portal gives you access to a specialized OCR-service. If you have not signed up, you can still use an OCR engine on your local machine, but the results may be poorer.
+
+To use on-machine OCR, you'll need to install the open-source OCR engine `tesseract` on your machine. Follow the [installation instructions for your operating system](https://tesseract-ocr.github.io/tessdoc/Home.html) (Mac, Windows, and Linux supported).
