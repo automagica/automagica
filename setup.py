@@ -83,7 +83,7 @@ setup(
         "babel==2.7.0",  # BSD 3-Clause
         "click==7.0",  # BSD 3-Clause6
         "pyglet==1.5.5",  # MIT License
-        "jupyterlab==2.2.6",  # BSD License
+        "notebook==6.1.3",  # BSD License
     ],
     include_package_data=True,
     cmdclass={"install": InstallationWrapper},
