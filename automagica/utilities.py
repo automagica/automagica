@@ -9,7 +9,7 @@ from functools import wraps
 from uuid import getnode, uuid4
 
 import psutil
-import requests
+from automagica.httpclient import http_client
 
 AUTOMAGICA_ACTIVITIES = []
 
@@ -128,7 +128,9 @@ def telemetry(func):
         }
 
         try:
-            _ = requests.post("https://telemetry.automagica.com/", json=data, timeout=1)
+            _ = http_client.post(
+                "https://telemetry.automagica.com/", json=data, timeout=1
+            )
         except Exception:
             logging.debug("Telemetry error")
 
@@ -166,7 +168,7 @@ def telemetry_exception(func, exception):
         }
 
         try:
-            _ = requests.post(
+            _ = http_client.post(
                 "https://telemetry.automagica.com/errors", json=data, timeout=1
             )
         except Exception:

@@ -9,7 +9,7 @@ from io import BytesIO
 from time import sleep
 from tkinter import font, ttk
 
-import requests
+from automagica.httpclient import http_client
 from PIL import Image, ImageTk
 
 from automagica import config
@@ -1334,7 +1334,7 @@ class WandWindow(Window):
 
         url = portal_url + "/api/wand/train"
 
-        r = requests.post(url, json=data)
+        r = http_client.post(url, json=data)
 
         try:
             data = r.json()

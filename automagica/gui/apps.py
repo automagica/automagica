@@ -12,7 +12,7 @@ from threading import Thread
 from time import sleep
 
 import keyboard
-import requests
+from automagica.httpclient import http_client
 from PIL import Image, ImageTk
 
 from automagica.bots import ThreadedBot
@@ -199,7 +199,7 @@ class BotApp(App):
 
         while True:
             try:
-                _ = requests.post(
+                _ = http_client.post(
                     self.config.values["portal_url"] + "/api/bot/alive",
                     headers=headers,
                 )
@@ -217,7 +217,7 @@ class BotApp(App):
         while True:
             try:
                 # Get next job
-                r = requests.get(
+                r = http_client.get(
                     self.config.values["portal_url"] + "/api/job/next", headers=headers,
                 )
 
@@ -240,7 +240,7 @@ class BotApp(App):
                     for job_file in job["job_files"]:
 
                         # Download file
-                        r = requests.get(job_file["url"])
+                        r = http_client.get(job_file["url"])
 
                         # Save locally in the input folder in the job folder
                         with open(
@@ -318,7 +318,7 @@ class BotApp(App):
                     }
 
                     # Update Portal on job status and request S3 signed URLs to upload job output files
-                    r = requests.post(
+                    r = http_client.post(
                         self.config.values["portal_url"] + "/api/job/status",
                         json=data,
                         headers=headers,
@@ -334,7 +334,7 @@ class BotApp(App):
                             ),
                             "rb",
                         ) as f:
-                            _ = requests.post(
+                            _ = http_client.post(
                                 output_file["payload"]["url"],
                                 data=output_file["payload"]["fields"],
                                 files={

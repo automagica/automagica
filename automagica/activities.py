@@ -1147,7 +1147,7 @@ class Chrome(selenium.webdriver.Chrome):
         def download_latest_driver(chromedriver_path):
             # Downloads latest Chrome driver on Windows
             import subprocess  # nosec
-            import requests
+            from automagica.httpclient import http_client
             import os
             from io import BytesIO
             import zipfile
@@ -1168,14 +1168,14 @@ class Chrome(selenium.webdriver.Chrome):
                             ["cmd.exe", "/c", str(driver_path + " --v")]
                         )
                     )
-                    latest_version = requests.get(
+                    latest_version = http_client.get(
                         "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
                     ).text
 
                     if latest_version in current_version:
                         return
 
-                    request = requests.get(
+                    request = http_client.get(
                         "https://chromedriver.storage.googleapis.com/"
                         + str(latest_version)
                         + "/chromedriver_win32.zip"
@@ -1189,11 +1189,11 @@ class Chrome(selenium.webdriver.Chrome):
 
                 else:
 
-                    latest_version = requests.get(
+                    latest_version = http_client.get(
                         "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
                     ).text
 
-                    request = requests.get(
+                    request = http_client.get(
                         "https://chromedriver.storage.googleapis.com/"
                         + str(latest_version)
                         + "/chromedriver_win32.zip"
@@ -1204,10 +1204,8 @@ class Chrome(selenium.webdriver.Chrome):
                         os.makedirs(os.path.dirname(driver_path))
                     file.extractall(os.path.dirname(driver_path))
 
-            except:
-                print(
-                    "Could not automatically download or update the latest Chrome driver."
-                )
+            except Exception:
+                raise Exception
 
         # Check what OS we are on
         if platform.system() == "Linux":
@@ -1276,7 +1274,7 @@ class Chrome(selenium.webdriver.Chrome):
             las la-images
 
         """
-        import requests
+        from automagica.httpclient import http_client
         import os
         from urllib.parse import urlparse
 
@@ -1294,7 +1292,7 @@ class Chrome(selenium.webdriver.Chrome):
             if filename:
                 with open(os.path.join(output_path, filename), "wb") as f:
                     try:
-                        r = requests.get(url)
+                        r = http_client.get(url)
                         f.write(r.content)
                         paths.append(os.path.join(output_path, filename))
                     except Exception:
@@ -6351,7 +6349,7 @@ def salesforce_api_call(action, key, parameters={}, method="get", data={}):
         lab la-salesforce
 
     """
-    import requests
+    from automagica.httpclient import http_client
 
     headers = {
         "Content-type": "application/json",
@@ -6360,7 +6358,7 @@ def salesforce_api_call(action, key, parameters={}, method="get", data={}):
     }
 
     if method == "get":
-        r = requests.request(
+        r = http_clientrequest(
             method,
             instance_url + action,
             headers=headers,
@@ -6368,7 +6366,7 @@ def salesforce_api_call(action, key, parameters={}, method="get", data={}):
             timeout=30,
         )
     elif method in ["post", "patch"]:
-        r = requests.request(
+        r = http_clientrequest(
             method,
             instance_url + action,
             headers=headers,
@@ -7866,7 +7864,7 @@ def download_file_from_url(url, output_path=None):
     Icon
         las la-cloud-download-alt
     """
-    import requests
+    from automagica.httpclient import http_client
     import re
     import os
     from urllib.parse import urlparse
@@ -7876,7 +7874,7 @@ def download_file_from_url(url, output_path=None):
 
     output_path = interpret_path(output_path, default_filename=filename)
 
-    r = requests.get(url, stream=True)
+    r = http_client.get(url, stream=True)
 
     if r.status_code == 200:
         with open(output_path, "wb") as f:
@@ -9440,7 +9438,7 @@ def extract_text_ocr(file_path=None):
         lab la-readme
     """
 
-    import requests
+    from automagica.httpclient import http_client
     import base64
     import os
     import json
@@ -9475,7 +9473,7 @@ def extract_text_ocr(file_path=None):
         + "/api/ocr/find-text-locations"
     )
 
-    r = requests.post(url, json=data)
+    r = http_client.post(url, json=data)
 
     # Print results
     return r.json()["text"]
@@ -9511,7 +9509,7 @@ def find_text_on_screen_ocr(text, criteria=None):
 
     """
 
-    import requests
+    from automagica.httpclient import http_client
     import base64
     import os
     import json
@@ -9543,7 +9541,7 @@ def find_text_on_screen_ocr(text, criteria=None):
         + "/api/ocr/find-text-locations"
     )
 
-    r = requests.post(url, json=data)
+    r = http_client.post(url, json=data)
 
     # Print results
     data = r.json()["locations"]
@@ -10350,7 +10348,7 @@ def create_new_job_in_portal(
     Icon
         las la-robot
     """
-    import requests
+    from automagica.httpclient import http_client
     import os
     import json
 
@@ -10375,7 +10373,7 @@ def create_new_job_in_portal(
     if parameters:
         data["parameters"] = parameters
 
-    r = requests.post(
+    r = http_client.post(
         os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
         + "/api/job/new",
         json=data,
@@ -10421,7 +10419,7 @@ def get_credential_from_portal(credential_name):
     Icon
         las la-key
     """
-    import requests
+    from automagica.httpclient import http_client
     import os
     import json
 
@@ -10437,7 +10435,7 @@ def get_credential_from_portal(credential_name):
 
     data = {"name": credential_name}
 
-    r = requests.post(
+    r = http_client.post(
         os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
         + "/api/credential/get",
         json=data,
@@ -10524,7 +10522,7 @@ def insert_cell_below(content, type_="code"):
 
 
 def detect_vision(automagica_id, detect_target=True):
-    import requests
+    from automagica.httpclient import http_client
     from io import BytesIO
     import os
     import base64
@@ -10559,7 +10557,7 @@ def detect_vision(automagica_id, detect_target=True):
 
     url = portal_url + "/api/wand/detect"
 
-    r = requests.post(url, json=data)
+    r = http_client.post(url, json=data)
 
     try:
         data = r.json()
@@ -10748,7 +10746,7 @@ def read_text(automagica_id, delay=1):
         las la-eye
     """
     from io import BytesIO
-    import requests
+    from automagica.httpclient import http_client
     import base64
     import os
     import json
@@ -10784,7 +10782,7 @@ def read_text(automagica_id, delay=1):
         + "/api/ocr/find-text-locations"
     )
 
-    r = requests.post(url, json=data)
+    r = http_client.post(url, json=data)
 
     # Print results
     return r.json()["text"]
