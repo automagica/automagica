@@ -5250,7 +5250,7 @@ class Excel:
         self.workbook.ActiveSheet.Cells(row, column).Formula = formula
 
     @activity
-    def read_cell_formula(self, column, row, formula):
+    def read_cell_formula(self, column, row):
         """Read cell formula
 
         Read the formula from a particular cell
@@ -5267,7 +5267,7 @@ class Excel:
         >>> # Open Excel
         >>> excel = Excel()
         >>> # Write a formula to the first cell
-        >>> excel.write_cell_formula(1, 1, '=1+1)
+        >>> excel.write_cell_formula(1, 1, '=1+1')
         >>> # Read the cell
         >>> excel.read_cell_formula(1, 1)
         '=1+1'
