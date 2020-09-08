@@ -871,7 +871,9 @@ def generate_random_date(formatting="%m/%d/%Y %I:%M", days_in_past=1000):
     earliest = latest - datetime.timedelta(days=days_in_past)
     delta_seconds = (latest - earliest).total_seconds()
 
-    random_date = earliest + datetime.timedelta(seconds=random.randrange(delta_seconds))
+    random_date = earliest + datetime.timedelta(
+        seconds=random.randrange(delta_seconds)
+    )
 
     if formatting:
         return random_date.strftime(formatting)
@@ -1090,11 +1092,11 @@ class Chrome(selenium.webdriver.Chrome):
         disable_extension=False,
         maximize_window=True,
         focus_window=True,
-        auto_update_chromedriver=False,
+        auto_update_chromedriver=True,
     ):
         """Open Chrome Browser
 
-        Open the Chrome Browser with the Selenium webdriver. Canb be used to automate manipulations in the browser.
+        Open the Chrome Browser with the Selenium webdriver. Can be used to automate manipulations in the browser.
         Different elements can be found as:
 
         -   Xpath: e.g. browser.find_element_by_xpath() or browser.xpath()
@@ -1123,7 +1125,7 @@ class Chrome(selenium.webdriver.Chrome):
         :parameter auto_update_chromedriver: Automatically update Chromedriver
         :type auto_update_chromedriver: bool, optional
 
-        return: wWbdriver: Selenium Webdriver
+        return: webdriver: Selenium Webdriver
 
             :Example:
 
@@ -1144,91 +1146,38 @@ class Chrome(selenium.webdriver.Chrome):
         import platform
         import os
 
-        def download_latest_driver(chromedriver_path):
-            # Downloads latest Chrome driver on Windows
-            import subprocess  # nosec
-            from automagica.httpclient import http_client
-            import os
-            from io import BytesIO
-            import zipfile
-            import shutil
-
-            try:
-                driver_path = (
-                    os.path.abspath(__file__).replace(
-                        os.path.basename(os.path.realpath(__file__)), ""
-                    )
-                    + chromedriver_path
-                )
-
-                if os.path.exists(driver_path):
-
-                    current_version = str(
-                        subprocess.check_output(
-                            ["cmd.exe", "/c", str(driver_path + " --v")]
-                        )
-                    )
-                    latest_version = http_client.get(
-                        "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
-                    ).text
-
-                    if latest_version in current_version:
-                        return
-
-                    request = http_client.get(
-                        "https://chromedriver.storage.googleapis.com/"
-                        + str(latest_version)
-                        + "/chromedriver_win32.zip"
-                    )
-
-                    file = zipfile.ZipFile(BytesIO(request.content))
-                    shutil.rmtree(os.path.dirname(driver_path))
-                    os.makedirs(os.path.dirname(driver_path))
-                    file.extractall(os.path.dirname(driver_path))
-                    return
-
-                else:
-
-                    latest_version = http_client.get(
-                        "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
-                    ).text
-
-                    request = http_client.get(
-                        "https://chromedriver.storage.googleapis.com/"
-                        + str(latest_version)
-                        + "/chromedriver_win32.zip"
-                    )
-
-                    file = zipfile.ZipFile(BytesIO(request.content))
-                    if not os.path.exists(driver_path):
-                        os.makedirs(os.path.dirname(driver_path))
-                    file.extractall(os.path.dirname(driver_path))
-
-            except Exception:
-                raise Exception
-
         # Check what OS we are on
         if platform.system() == "Linux":
             chromedriver_path = "bin/linux64/chromedriver"
+
         elif platform.system() == "Windows":
             chromedriver_path = "\\bin\\win32\\chromedriver.exe"
+
             if auto_update_chromedriver:
-                download_latest_driver(chromedriver_path)
+                self.download_latest_driver(chromedriver_path)
         else:
             chromedriver_path = "bin/mac64/chromedriver"
 
         chrome_options = selenium.webdriver.ChromeOptions()
+
         if incognito:
             chrome_options.add_argument("--incognito")
+
         if disable_extension:
             # To disable the error message popup: "Loading of unpacked extensions is disabled by the administrator"
-            chrome_options.add_experimental_option("useAutomationExtension", False)
+            chrome_options.add_experimental_option(
+                "useAutomationExtension", False
+            )
         if headless:
             chrome_options.add_argument("--headless")
 
         if not load_images:
             prefs = {"profile.managed_default_content_settings.images": 2}
             chrome_options.add_experimental_option("prefs", prefs)
+
+        chrome_options.add_experimental_option(
+            "excludeSwitches", ["enable-logging"]
+        )
 
         selenium.webdriver.Chrome.__init__(
             self,
@@ -1244,6 +1193,89 @@ class Chrome(selenium.webdriver.Chrome):
 
         if focus_window:
             self.switch_to.window(self.current_window_handle)
+
+    def download_latest_driver(self, chromedriver_path):
+        """ Downloads latest Chrome driver on Windows """
+        import subprocess  # nosec
+        from automagica.httpclient import http_client
+        import os
+        from io import BytesIO
+        import zipfile
+        import shutil
+
+        from packaging import version
+
+        # Retrieve CHrome version
+        process = subprocess.Popen(
+            [
+                "reg",
+                "query",
+                "HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon",
+                "/v",
+                "version",
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            stdin=subprocess.DEVNULL,
+        )
+        chrome_version = (
+            process.communicate()[0].decode("UTF-8").strip().split()[-1]
+        )
+
+        # Extract Chrome major version (f.e. for 85.1.33.122 it's 85)
+        chrome_major = int(chrome_version.split(".")[0])
+
+        # Chromedriver absolute path
+        driver_path = (
+            os.path.abspath(__file__).replace(
+                os.path.basename(os.path.realpath(__file__)), ""
+            )
+            + chromedriver_path
+        )
+
+        download = False
+
+        # Driver exists
+        if os.path.exists(driver_path):
+            # Get Chromedriver version
+            chromedriver_version = str(
+                subprocess.check_output(
+                    ["cmd.exe", "/c", str(driver_path + " --v")]
+                )
+            )
+
+            # Is this the appropriate webdriver version for this Chrome major version?
+            if str(chrome_major) not in chromedriver_version.split(".")[0]:
+                download = True
+
+        # Driver does not exist
+        else:
+            download = True
+
+        if download:
+            # Retrieve latest release for the webdriver for this Chrome major version
+            latest_version = http_client.get(
+                f"https://chromedriver.storage.googleapis.com/LATEST_RELEASE_{chrome_major}"
+            ).text
+
+            request = http_client.get(
+                f"https://chromedriver.storage.googleapis.com/{latest_version}/chromedriver_win32.zip"
+            )
+
+            # Convert request content data to Zipfile object
+            file = zipfile.ZipFile(BytesIO(request.content))
+
+            driver_folder_path = os.path.dirname(driver_path)
+
+            # Forcefully remove the directory containing the webdriver
+            if os.path.exists(driver_folder_path):
+                shutil.rmtree(driver_folder_path)
+
+            # Create directory
+            os.makedirs(driver_folder_path, exist_ok=True)
+
+            # Extract to the webdriver location
+            file.extractall(driver_folder_path)
 
     @activity
     def save_all_images(self, output_path=None):
@@ -1436,10 +1468,10 @@ class Chrome(selenium.webdriver.Chrome):
             try:
                 href_el = element.get_attribute("href")
                 if contains:
-                    if contains in element.get_attribute("href"):
-                        return element.get_attribute("href")
+                    if contains in href_el:
+                        return href_el
                 else:
-                    return element.get_attribute("href")
+                    return href_el
             except:
                 pass
 
@@ -1911,11 +1943,15 @@ class FTP:
         # Set path if not specified
         input_path = interpret_path(input_path)
         if not output_path:
-            output_path = interpret_path(default_filename="downloaded_readme.txt")
+            output_path = interpret_path(
+                default_filename="downloaded_readme.txt"
+            )
         else:
             output_path = interpret_path(output_path)
 
-        self.connection.retrbinary("RETR " + input_path, open(output_path, "wb").write)
+        self.connection.retrbinary(
+            "RETR " + input_path, open(output_path, "wb").write
+        )
 
         return output_path
 
@@ -1956,7 +1992,9 @@ class FTP:
         if not output_path:
             output_path = "/"
 
-        self.connection.retrbinary("RETR " + input_path, open(output_path, "wb").write)
+        self.connection.retrbinary(
+            "RETR " + input_path, open(output_path, "wb").write
+        )
 
     @activity
     def enumerate_files(self, path="/"):
@@ -2265,7 +2303,9 @@ def press_key_combination(
 
 
 @activity
-def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1):
+def typing(
+    text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
+):
     """Type text
 
     Simulate keystrokes. If an element ID is specified, text will be typed in a specific field or element based on the element ID (vision) by the recorder.
@@ -2498,7 +2538,9 @@ def click_coordinates(x=None, y=None, delay=1):
         click_()
 
     else:
-        raise Exception("Could not click, did you enter a valid ID or coordinates")
+        raise Exception(
+            "Could not click, did you enter a valid ID or coordinates"
+        )
 
 
 @activity
@@ -2628,7 +2670,9 @@ def right_click(automagica_id=None, delay=1):
         right_click_()
 
     else:
-        raise Exception("Could not click, did you enter a valid ID or coordinates")
+        raise Exception(
+            "Could not click, did you enter a valid ID or coordinates"
+        )
 
 
 @activity
@@ -2668,7 +2712,9 @@ def right_click_coordinates(x=None, y=None, delay=1):
         right_click_()
 
     else:
-        raise Exception("Could not click, did you enter a valid ID or coordinates")
+        raise Exception(
+            "Could not click, did you enter a valid ID or coordinates"
+        )
 
 
 @activity
@@ -2964,7 +3010,9 @@ def take_screenshot(output_path=None):
 
     img = PIL.ImageGrab.grab()
 
-    output_path = interpret_path(path=output_path, default_filename="screenshot.jpg")
+    output_path = interpret_path(
+        path=output_path, default_filename="screenshot.jpg"
+    )
 
     img.save(output_path, "JPEG")
 
@@ -3067,7 +3115,9 @@ def create_folder(path=None):
     import os
 
     if not path:
-        path = interpret_path(path, default_filename="new_folder", random_addition=True)
+        path = interpret_path(
+            path, default_filename="new_folder", random_addition=True
+        )
 
     else:
         path = interpret_path(path)
@@ -3826,7 +3876,9 @@ class Word:
 
         """
         if not output_path:
-            file_path = interpret_path(output_path, addition="html_export.html")
+            file_path = interpret_path(
+                output_path, addition="html_export.html"
+            )
         else:
             file_path = interpret_path(output_path)
 
@@ -3840,7 +3892,9 @@ class Word:
         self.app.ActiveDocument.WebOptions.UseLongFileNames = 1
         self.app.ActiveDocument.WebOptions.RelyOnVML = 0
         self.app.ActiveDocument.WebOptions.AllowPNG = 1
-        self.app.ActiveDocument.SaveAs(FileName=file_path, FileFormat=wc.wdFormatHTML)
+        self.app.ActiveDocument.SaveAs(
+            FileName=file_path, FileFormat=wc.wdFormatHTML
+        )
 
     @activity
     def set_footers(self, text):
@@ -4148,7 +4202,9 @@ class WordFile:
 
         document = Document(self.file_path)
         for paragraph in document.paragraphs:
-            paragraph.text = paragraph.text.replace(placeholder_text, replacement_text)
+            paragraph.text = paragraph.text.replace(
+                placeholder_text, replacement_text
+            )
 
         if auto_save:
             document.save(self.file_path)
@@ -4207,7 +4263,12 @@ class Outlook:
 
     @activity
     def send_mail(
-        self, to_address, subject="", body="", html_body=None, attachment_paths=None,
+        self,
+        to_address,
+        subject="",
+        body="",
+        html_body=None,
+        attachment_paths=None,
     ):
         """Send e-mail
 
@@ -4281,10 +4342,14 @@ class Outlook:
 
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+                self.app.GetNamespace("MAPI")
+                .Folders.Item(self.account_name)
+                .Folders
             )
         else:
-            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            )
         for folder in found_folders:
             name = folder.Name
             folders.append(name)
@@ -4325,10 +4390,14 @@ class Outlook:
 
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+                self.app.GetNamespace("MAPI")
+                .Folders.Item(self.account_name)
+                .Folders
             )
         else:
-            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            )
         for folder in found_folders:
             name = folder.Name
             if name == folder_name:
@@ -4391,10 +4460,14 @@ class Outlook:
         # Find the appropriate folder
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+                self.app.GetNamespace("MAPI")
+                .Folders.Item(self.account_name)
+                .Folders
             )
         else:
-            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            )
         for folder in found_folders:
             name = folder.Name
             if name == folder_name:
@@ -4457,33 +4530,45 @@ class Outlook:
         # Find the appropriate source folder
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+                self.app.GetNamespace("MAPI")
+                .Folders.Item(self.account_name)
+                .Folders
             )
         else:
-            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            )
         for source_folder in found_folders:
             name = source_folder.Name
             if name == source_folder_name:
                 break
         else:
             raise Exception(
-                "Could not find the folder with name '{}'.".format(source_folder_name)
+                "Could not find the folder with name '{}'.".format(
+                    source_folder_name
+                )
             )
 
         # Find the appropriate target folder
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+                self.app.GetNamespace("MAPI")
+                .Folders.Item(self.account_name)
+                .Folders
             )
         else:
-            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            )
         for target_folder in found_folders:
             name = target_folder.Name
             if name == target_folder_name:
                 break
         else:
             raise Exception(
-                "Could not find the folder with name '{}'.".format(target_folder_name)
+                "Could not find the folder with name '{}'.".format(
+                    target_folder_name
+                )
             )
 
         # Loop over the items in the folder
@@ -4533,10 +4618,14 @@ class Outlook:
         # Find the appropriate folder
         if self.account_name:
             found_folders = (
-                self.app.GetNamespace("MAPI").Folders.Item(self.account_name).Folders
+                self.app.GetNamespace("MAPI")
+                .Folders.Item(self.account_name)
+                .Folders
             )
         else:
-            found_folders = self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            found_folders = (
+                self.app.GetNamespace("MAPI").Folders.Item(1).Folders
+            )
         for folder in found_folders:
             name = folder.Name
             if name == folder_name:
@@ -4592,7 +4681,9 @@ class Outlook:
 
         mapi = self.app.GetNamespace("MAPI")
 
-        data = mapi.GetDefaultFolder(win32com.client.constants.olFolderContacts)
+        data = mapi.GetDefaultFolder(
+            win32com.client.constants.olFolderContacts
+        )
 
         for item in data.Items:
             if item.Class == win32com.client.constants.olContact:
@@ -5068,7 +5159,9 @@ class Excel:
                 if list_object.Name == name:
                     for row in list_object.DataBodyRange.Value:
                         data_row = {}
-                        for i, column in enumerate(list_object.HeaderRowRange.Value[0]):
+                        for i, column in enumerate(
+                            list_object.HeaderRowRange.Value[0]
+                        ):
                             data_row[column] = row[i]
                         data.append(data_row)
 
@@ -5418,10 +5511,14 @@ class Excel:
         else:
             file_path = interpret_path(output_path)
 
-        self.workbook.ActiveSheet.ExportAsFixedFormat(0, output_path, 0, True, True)
+        self.workbook.ActiveSheet.ExportAsFixedFormat(
+            0, output_path, 0, True, True
+        )
 
     @activity
-    def insert_data_as_table(self, data, range_="A1", table_style="TableStyleMedium2"):
+    def insert_data_as_table(
+        self, data, range_="A1", table_style="TableStyleMedium2"
+    ):
         """Insert data as table
         
         Insert list of dictionaries as a table in Excel
@@ -5462,9 +5559,9 @@ class Excel:
         values = [column_names] + data_values
         for i in range(len(values)):
             for j in range(len(values[0])):
-                self.workbook.ActiveSheet.Cells(row + i, column + j).Value = values[i][
-                    j
-                ]
+                self.workbook.ActiveSheet.Cells(
+                    row + i, column + j
+                ).Value = values[i][j]
 
         start_cell = self.workbook.ActiveSheet.Cells(row, column)
         end_cell = self.workbook.ActiveSheet.Cells(row + i, column + j)
@@ -5519,7 +5616,8 @@ class Excel:
             header_row = data[0]
             data = data[1:]
             data = [
-                {column: row[i] for i, column in enumerate(header_row)} for row in data
+                {column: row[i] for i, column in enumerate(header_row)}
+                for row in data
             ]
 
         return data
@@ -5543,8 +5641,8 @@ class Excel:
         Icon
             las la-file-excel
         """
-        self.app.Application.DisplayAlerts = False 
-        
+        self.app.Application.DisplayAlerts = False
+
         self.app.Application.Quit()
 
 
@@ -6275,7 +6373,9 @@ Icon: las la-cloud
 
 
 @activity
-def send_email_with_outlook365(client_id, client_secret, to_email, subject="", body=""):
+def send_email_with_outlook365(
+    client_id, client_secret, to_email, subject="", body=""
+):
     """Send email Office Outlook 365
 
     Send email Office Outlook 365
@@ -6396,7 +6496,13 @@ Icon: las la-at
 
 @activity
 def send_mail_smtp(
-    smtp_host, smtp_user, smtp_password, to_address, subject="", message="", port=587
+    smtp_host,
+    smtp_user,
+    smtp_password,
+    to_address,
+    subject="",
+    message="",
+    port=587,
 ):
     """Mail with SMTP
 
@@ -6483,7 +6589,9 @@ def find_window_title(searchterm, partial=True):
 
     EnumWindows = ctypes.windll.user32.EnumWindows
     EnumWindowsProc = ctypes.WINFUNCTYPE(
-        ctypes.c_bool, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),
+        ctypes.c_bool,
+        ctypes.POINTER(ctypes.c_int),
+        ctypes.POINTER(ctypes.c_int),
     )
     GetWindowText = ctypes.windll.user32.GetWindowTextW
     GetWindowTextLength = ctypes.windll.user32.GetWindowTextLengthW
@@ -6874,7 +6982,9 @@ def get_from_clipboard():
 
     win32clipboard.OpenClipboard()
     try:
-        data = str(win32clipboard.GetClipboardData(win32clipboard.CF_UNICODETEXT))
+        data = str(
+            win32clipboard.GetClipboardData(win32clipboard.CF_UNICODETEXT)
+        )
         return data
 
     except:
@@ -7029,7 +7139,9 @@ def enable_network_interface(name):
     import subprocess  # nosec
 
     subprocess.check_output(
-        'wmic path win32_networkadapter where name="{}" call enable'.format(name)
+        'wmic path win32_networkadapter where name="{}" call enable'.format(
+            name
+        )
     )
 
 
@@ -7057,7 +7169,9 @@ def disable_network_interface(name):
     import subprocess  # nosec
 
     subprocess.check_output(
-        'wmic path win32_networkadapter where name="{}" call disable'.format(name)
+        'wmic path win32_networkadapter where name="{}" call disable'.format(
+            name
+        )
     )
 
 
@@ -7244,7 +7358,9 @@ def set_window_to_foreground(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception('Could not find a window with title "{}"'.format(title))
+        raise Exception(
+            'Could not find a window with title "{}"'.format(title)
+        )
 
     win32gui.SetForegroundWindow(handle)
 
@@ -7301,7 +7417,9 @@ def close_window(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception('Could not find a window with title "{}"'.format(title))
+        raise Exception(
+            'Could not find a window with title "{}"'.format(title)
+        )
 
     win32gui.DestroyWindow(handle)
 
@@ -7333,7 +7451,9 @@ def maximize_window(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception('Could not find a window with title "{}"'.format(title))
+        raise Exception(
+            'Could not find a window with title "{}"'.format(title)
+        )
 
     win32gui.ShowWindow(handle, win32con.SW_SHOWMAXIMIZED)
     win32gui.SetForegroundWindow(handle)
@@ -7366,7 +7486,9 @@ def restore_window(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception('Could not find a window with title "{}"'.format(title))
+        raise Exception(
+            'Could not find a window with title "{}"'.format(title)
+        )
 
     win32gui.ShowWindow(handle, win32con.SW_RESTORE)
     win32gui.SetForegroundWindow(handle)
@@ -7398,7 +7520,9 @@ def minimize_window(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception('Could not find a window with title "{}"'.format(title))
+        raise Exception(
+            'Could not find a window with title "{}"'.format(title)
+        )
 
     win32gui.CloseWindow(handle)
 
@@ -7438,7 +7562,9 @@ def resize_window(title, x, y, width, height):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception('Could not find a window with title "{}"'.format(title))
+        raise Exception(
+            'Could not find a window with title "{}"'.format(title)
+        )
 
     win32gui.MoveWindow(handle, x, y, width, height, True)
     win32gui.SetForegroundWindow(handle)
@@ -7471,7 +7597,9 @@ def hide_window(title):
     handle = win32gui.FindWindow(None, title)
 
     if not handle:
-        raise Exception('Could not find a window with title "{}"'.format(title))
+        raise Exception(
+            'Could not find a window with title "{}"'.format(title)
+        )
 
     win32gui.ShowWindow(handle, win32con.SW_HIDE)
 
@@ -7727,7 +7855,9 @@ def desktop_path(filename=None):
     import os
 
     if filename:
-        return os.path.join(os.path.join(os.path.expanduser("~"), "Desktop"), filename)
+        return os.path.join(
+            os.path.join(os.path.expanduser("~"), "Desktop"), filename
+        )
     return os.path.join(os.path.expanduser("~"), "Desktop")
 
 
@@ -7755,7 +7885,9 @@ def downloads_path():
     if os.name == "nt":
         import winreg
 
-        sub_key = r"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+        sub_key = (
+            r"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+        )
         downloads_guid = "{374DE290-123F-4565-9164-39C4925E467B}"
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
             location = winreg.QueryValueEx(key, downloads_guid)[0]
@@ -8511,7 +8643,9 @@ def join_pdf_files(
     from PyPDF2 import PdfFileMerger, PdfFileReader
 
     if not output_path:
-        output_path = interpret_path(first_file_path, addition="_merged_pdf.pdf")
+        output_path = interpret_path(
+            first_file_path, addition="_merged_pdf.pdf"
+        )
     else:
         output_path = interpret_path(output_path)
 
@@ -8535,7 +8669,9 @@ def join_pdf_files(
 
 
 @activity
-def extract_page_range_from_pdf(file_path, start_page, end_page, output_path=None):
+def extract_page_range_from_pdf(
+    file_path, start_page, end_page, output_path=None
+):
     """Extract page from PDF
     
     Extracts a particular range of a PDF to a separate file.
@@ -8572,7 +8708,9 @@ def extract_page_range_from_pdf(file_path, start_page, end_page, output_path=Non
     from PyPDF2 import PdfFileWriter, PdfFileReader
 
     if not output_path:
-        output_path = interpret_path(file_path, replace_filename="extracted_paged.pdf")
+        output_path = interpret_path(
+            file_path, replace_filename="extracted_paged.pdf"
+        )
     else:
         output_path = interpret_path(output_path)
 
@@ -9471,7 +9609,9 @@ def extract_text_ocr(file_path=None):
 
     # Post request to API
     url = (
-        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        os.environ.get(
+            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+        )
         + "/api/ocr/find-text-locations"
     )
 
@@ -9539,7 +9679,9 @@ def find_text_on_screen_ocr(text, criteria=None):
 
     # Post request to API
     url = (
-        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        os.environ.get(
+            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+        )
         + "/api/ocr/find-text-locations"
     )
 
@@ -9717,7 +9859,9 @@ Icon: las la-robot
 
 
 @activity
-def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=None):
+def execute_uipath_process(
+    project_file_path, arguments=None, uirobot_exe_path=None
+):
     """Execute a UiPath process
 
     This activity allows you to execute a process designed with the UiPath Studio. All console output from the Write Line activity (https://docs.uipath.com/activities/docs/write-line) will be printed as output.
@@ -9963,7 +10107,9 @@ def run_blueprism_process(
     if inputs:
         inputs_parameters = "".join(
             [
-                "<input name='{}' type='text' value='{}' /></inputs>".format(key, value)
+                "<input name='{}' type='text' value='{}' /></inputs>".format(
+                    key, value
+                )
                 for key, value in inputs.items()
             ]
         )
@@ -10114,7 +10260,9 @@ class SAPGUI:
         # Try to connect to SAP GUI
         for _ in range(10):
             try:
-                self.sapgui = win32com.client.GetObject("SAPGUI").GetScriptingEngine
+                self.sapgui = win32com.client.GetObject(
+                    "SAPGUI"
+                ).GetScriptingEngine
                 break
             except:
                 sleep(delay)
@@ -10200,8 +10348,12 @@ class SAPGUI:
         # Continue even if other logged in sessions detected
         if force:
             try:
-                self.session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").select()
-                self.session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").setFocus()
+                self.session.findById(
+                    "wnd[1]/usr/radMULTI_LOGON_OPT2"
+                ).select()
+                self.session.findById(
+                    "wnd[1]/usr/radMULTI_LOGON_OPT2"
+                ).setFocus()
                 self.session.findById("wnd[1]/tbar[0]/btn[0]").press()
             except:
                 pass
@@ -10376,7 +10528,9 @@ def create_new_job_in_portal(
         data["parameters"] = parameters
 
     r = http_client.post(
-        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        os.environ.get(
+            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+        )
         + "/api/job/new",
         json=data,
         headers=headers,
@@ -10438,7 +10592,9 @@ def get_credential_from_portal(credential_name):
     data = {"name": credential_name}
 
     r = http_client.post(
-        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        os.environ.get(
+            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+        )
         + "/api/credential/get",
         json=data,
         headers=headers,
@@ -10448,7 +10604,9 @@ def get_credential_from_portal(credential_name):
         result = r.json()
     except:
 
-        raise Exception("Could not get credential from Portal for unknown reason.")
+        raise Exception(
+            "Could not get credential from Portal for unknown reason."
+        )
 
     if result.get("error"):
         raise Exception(result["error"])
@@ -10670,7 +10828,9 @@ def wait_appear(automagica_id, delay=1, timeout=30):
         sleep(increment)
 
     else:
-        raise Exception("Element did not appear within {} seconds".format(timeout))
+        raise Exception(
+            "Element did not appear within {} seconds".format(timeout)
+        )
 
 
 @activity
@@ -10716,7 +10876,9 @@ def wait_vanish(automagica_id, delay=1, timeout=30):
         sleep(increment)
 
     else:
-        raise Exception("Element did not disappear within {} seconds".format(timeout))
+        raise Exception(
+            "Element did not disappear within {} seconds".format(timeout)
+        )
 
 
 @activity
@@ -10780,7 +10942,9 @@ def read_text(automagica_id, delay=1):
 
     # Post request to API
     url = (
-        os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        os.environ.get(
+            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+        )
         + "/api/ocr/find-text-locations"
     )
 
