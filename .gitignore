@@ -11,3 +11,4 @@ migrated
 .vscode
 *.whl
 .coverage
+bin
