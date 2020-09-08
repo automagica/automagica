@@ -10,3 +10,4 @@ migrated
 *.pid
 .vscode
 *.whl
+.coverage

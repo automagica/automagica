@@ -1,0 +1,4 @@
+[flake8]
+ignore =
+exclude = 
+max-complexity = 10
