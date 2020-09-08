@@ -5543,6 +5543,8 @@ class Excel:
         Icon
             las la-file-excel
         """
+        self.app.Application.DisplayAlerts = False 
+        
         self.app.Application.Quit()
 
 
