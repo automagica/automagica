@@ -1,3 +1,4 @@
+"""Copyright 2020 Oakwood Technologies BVBA"""
 from automagica.activities import Excel, Chrome
 
 
@@ -37,4 +38,3 @@ def test_chrome_activities():
     chrome.quit()
 
     assert "Google" in source
-

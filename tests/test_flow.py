@@ -1,6 +1,4 @@
 """Copyright 2020 Oakwood Technologies BVBA"""
-
-
 from automagica.gui.apps import FlowApp
 
 
