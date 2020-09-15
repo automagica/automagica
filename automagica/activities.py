@@ -1044,13 +1044,13 @@ def display_osd_message(message="Example message", seconds=5):
     try:
         t.start()
     except Exception:
-        logging.exception()
+        pass
 
     finally:
         try:
             t.kill()
         except Exception:
-            logging.Exception()
+            pass
 
 
 @activity
@@ -1477,7 +1477,7 @@ class Chrome(selenium.webdriver.Chrome):
 
     @activity
     def get_text_on_webpage(self):
-        """Get all text on webwpage
+        """Get all text on webpage
 
         Get all the raw body text from current webpage
 
@@ -1976,7 +1976,7 @@ class FTP:
         >>> # Create a .txt file for illustration
         >>> text_file = make_text_file()
         >>> # Upload file to FTP test server
-        >>> # Not that this might result in a persmission error for public FPT's
+        >>> # Note that this might result in a persmission error for public FPT's
         >>> ftp.upload_file(input_path = text_file)
 
         Keywords
@@ -3040,7 +3040,7 @@ def get_files_in_folder(
     :type extension: string, optional
     :parameter show_full_path: Set this to True to show full path, False will only show file or dirname. Default is True
     :type show_full_path: bool, optional
-    :scan_subfolders: Boolean to scan subfolders or not. Not that depending on the folder and hardware this activity could take some time if scan_subfolders is set to True
+    :scan_subfolders: Boolean to scan subfolders or not. Note that depending on the folder and hardware this activity could take some time if scan_subfolders is set to True
     :type scan_subfolders: bool, optional
 
     :return: List of files with their full path
@@ -3177,7 +3177,7 @@ def show_folder(input_path=None):
     :parameter input_path: Full path of folder that will be opened. Default value is the home directory
     :type input_path: input_dir, optional
 
-    :return: Path to opend folder as a string
+    :return: Path to open folder as a string
 
         :Example:
 
@@ -3568,7 +3568,7 @@ def wait_folder_exists(input_path, timeout=60):
     """Wait for folder
 
     Waits until a folder exists.
-    Not that this activity is blocking and will keep the system waiting.
+    Note that this activity is blocking and will keep the system waiting.
 
     :parameter input_path: Full path to folder.
     :type input_path: input_dir, optional
@@ -7009,7 +7009,7 @@ def clear_clipboard():
     >>> # Clear the clipboard
     >>> clear_clipboard()
     >>> # Get clipboard contents to verify
-    >>> print( get_clipboard() )
+    >>> print( get_from_clipboard() )
     None
 
     Keywords
@@ -8177,7 +8177,7 @@ def file_exists(path):
 def wait_file_exists(path, timeout=60):
     """Wait until a file exists.
 
-    Not that this activity is blocking and will keep the system waiting.
+    Note that this activity is blocking and will keep the system waiting.
 
     :parameter path: Full path to file.
     :type path: input_file
