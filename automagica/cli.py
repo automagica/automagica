@@ -91,7 +91,9 @@ def flow_edit(file_path):
 @flow.command("run", help=_("Run Flow"))
 @click.argument("filename")
 @click.option(
-    "--headless/--gui", default=False, help=_("Run Flow headless (without GUI)"),
+    "--headless/--gui",
+    default=False,
+    help=_("Run Flow headless (without GUI)"),
 )
 @click.option(
     "--step-by-step/--autoplay",
@@ -104,7 +106,10 @@ def flow_run(filename, headless, step_by_step):
     """
     # Run FLow
     app = FlowApp(
-        file_path=filename, run=True, headless=headless, step_by_step=step_by_step,
+        file_path=filename,
+        run=True,
+        headless=headless,
+        step_by_step=step_by_step,
     )
 
     app.run()

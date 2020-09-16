@@ -55,7 +55,10 @@ class Node:
         """
         return "".join(
             random.choices(
-                string.ascii_uppercase + string.ascii_lowercase + string.digits, k=k,
+                string.ascii_uppercase
+                + string.ascii_lowercase
+                + string.digits,
+                k=k,
             )
         )
 
@@ -200,7 +203,9 @@ class ActivityNode(Node):
 
             if function_ == "__init__":
                 command += "{} = {}({})\n".format(
-                    self.args_["self"], self.activity.split(".")[-2], ", ".join(args),
+                    self.args_["self"],
+                    self.activity.split(".")[-2],
+                    ", ".join(args),
                 )  # chrome = Chrome()
 
             else:
@@ -234,12 +239,16 @@ class ActivityNode(Node):
                 command += "{}({})\n".format(function_, ", ".join(args))
 
         bot.run(
-            command, on_done=lambda: on_done(node=self.next_node), on_fail=on_fail,
+            command,
+            on_done=lambda: on_done(node=self.next_node),
+            on_fail=on_fail,
         )
 
 
 class IfElseNode(Node):
-    def __init__(self, *args, condition=None, next_node=None, else_node=None, **kwargs):
+    def __init__(
+        self, *args, condition=None, next_node=None, else_node=None, **kwargs
+    ):
         super().__init__(**kwargs)
         self.condition = condition
         self.next_node = next_node  # True node
@@ -339,7 +348,9 @@ class DotPyFileNode(Node):
         }
 
     def run(self, bot, on_done=None, on_fail=None):
-        with open(self.dotpyfile_path.replace('"', ""), "r", encoding="utf-8") as f:
+        with open(
+            self.dotpyfile_path.replace('"', ""), "r", encoding="utf-8"
+        ) as f:
             command = f.read()
 
         bot.run(command, on_done=lambda: on_done(node=self.next_node))
@@ -393,7 +404,12 @@ class SubFlowNode(Node):
 
 class PythonCodeNode(Node):
     def __init__(
-        self, *args, code=None, next_node=None, on_exception_node=None, **kwargs,
+        self,
+        *args,
+        code=None,
+        next_node=None,
+        on_exception_node=None,
+        **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.code = code
@@ -414,5 +430,7 @@ class PythonCodeNode(Node):
 
     def run(self, bot, on_done=None, on_fail=None):
         bot.run(
-            self.code, on_done=lambda: on_done(node=self.next_node), on_fail=on_fail,
+            self.code,
+            on_done=lambda: on_done(node=self.next_node),
+            on_fail=on_fail,
         )

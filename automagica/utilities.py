@@ -164,7 +164,7 @@ def telemetry_exception(func, exception):
                 "platform": platform.system(),  # Platform OS
                 "release": platform.release(),  # Version OS
             },
-            "error": error,  # Class name of the error ("ValueError" or "ZeroDvisionError")
+            "error": error,  # Class name of the error ("ValueError" or "ZeroDivisionError")
         }
 
         try:
@@ -172,7 +172,7 @@ def telemetry_exception(func, exception):
                 "https://telemetry.automagica.com/errors", json=data, timeout=1
             )
         except Exception:
-            logging.exception("Telemetry error")
+            logging.debug("Telemetry error")
 
 
 def only_supported_for(*args):
@@ -185,7 +185,9 @@ def only_supported_for(*args):
 
     if platform.system() not in args:
         raise NotImplementedError(
-            "This activity is currently only supported for {}.".format(", ".join(args))
+            "This activity is currently only supported for {}.".format(
+                ", ".join(args)
+            )
         )
 
 
@@ -199,7 +201,9 @@ def all_activities():
         """
         Get the 'keywords' attribute of an Automagica activity
         """
-        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+        lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
 
         for i, line in enumerate(lines):
             if line == "Keywords":
@@ -215,14 +219,18 @@ def all_activities():
         """
         Get the name of the Automagica activity
         """
-        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+        lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
         return lines[0]
 
     def get_description(f):
         """
         Get the description of the Automagica activity
         """
-        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+        lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
         return lines[1]
 
     def get_args(f):
@@ -235,11 +243,17 @@ def all_activities():
         args = {}
 
         for _, val in params.items():
-            arg = {"default": (val.default if val.default != inspect._empty else "")}
+            arg = {
+                "default": (
+                    val.default if val.default != inspect._empty else ""
+                )
+            }
 
             args[val.name] = arg
 
-            lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+            lines = [
+                line.strip() for line in f.__doc__.split("\n") if line.strip()
+            ]
 
             for line in lines:
                 if line.startswith(":parameter "):
@@ -291,7 +305,9 @@ def all_activities():
         """
         Get the return variable from the docstring for the Automagica activity
         """
-        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+        lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
 
         for line in lines:
             if line.startswith(":return:"):
@@ -302,7 +318,9 @@ def all_activities():
         """
         Get the 'icon' attribute for the Automagica activity
         """
-        lines = [line.strip() for line in f.__doc__.split("\n") if line.strip()]
+        lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
 
         for i, line in enumerate(lines):
             if line.strip() == "Icon":

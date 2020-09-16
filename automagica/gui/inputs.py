@@ -43,7 +43,9 @@ class KeycombinationEntry(tk.Frame):
             self.shift_checkbutton.select()
 
         self.alt = tk.BooleanVar()
-        self.alt_checkbutton = tk.Checkbutton(self, text=_("Alt"), variable=self.alt)
+        self.alt_checkbutton = tk.Checkbutton(
+            self, text=_("Alt"), variable=self.alt
+        )
         self.alt_checkbutton.pack(side="left")
 
         if "alt" in self.key_combination:
@@ -107,7 +109,9 @@ class InputField(tk.Entry):
 
     def on_focus_out(self, event=None):
         if self.placeholder:
-            if self.get() == "":  # If the field is empty, set the placeholder value
+            if (
+                self.get() == ""
+            ):  # If the field is empty, set the placeholder value
                 self.insert(tk.END, self.placeholder)
 
 
@@ -205,7 +209,9 @@ class FilePathInputWidget(tk.Frame):
     def browse_button_click(self):
         if self.filetypes:
             file_path = filedialog.askopenfilename(
-                initialdir="./", title=_("Select File"), filetypes=self.filetypes,
+                initialdir="./",
+                title=_("Select File"),
+                filetypes=self.filetypes,
             )
         else:
             file_path = filedialog.askopenfilename(
@@ -374,7 +380,9 @@ class AutomagicaIdInputWidget(tk.Frame):
         automagica_id = self.get().replace('"', "")
         automagica_id = self.get().replace("'", "")
 
-        url = os.environ.get("AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com")
+        url = os.environ.get(
+            "AUTOMAGICA_PORTAL_URL", "https://portal.automagica.com"
+        )
 
         webbrowser.open(f"{url}/ui-element/{automagica_id}")
 
@@ -467,7 +475,8 @@ class NodeSelectionInputWidget(tk.Frame):
     def layout(self):
         self.node_menu = AutocompleteDropdown(
             self,
-            values=["{} ({})".format(node, node.uid) for node in self.nodes] + [""],
+            values=["{} ({})".format(node, node.uid) for node in self.nodes]
+            + [""],
             font=(config.FONT, 10),
         )
 
@@ -521,7 +530,9 @@ class SettingContextMenu(tk.Frame):
                 font=(config.FONT, 10),
             )
 
-        self.button = ToolbarImageButton(self, text=text, image_path="clock.png")
+        self.button = ToolbarImageButton(
+            self, text=text, image_path="clock.png"
+        )
         self.button.bind("<Button-1>", self.show_context_menu)
         self.button.pack()
 
@@ -606,7 +617,9 @@ class ActivitySelectionFrame(tk.Frame):
 
         self.query = tk.StringVar()
         self.search_entry = InputField(
-            self, textvariable=self.query, placeholder=_("Search activities..."),
+            self,
+            textvariable=self.query,
+            placeholder=_("Search activities..."),
         )
         self.query.trace("w", self.search_activities)
         self.search_entry.focus()
@@ -614,10 +627,14 @@ class ActivitySelectionFrame(tk.Frame):
         self.search_entry.pack(fill="x")
 
         self.canvas = tk.Canvas(
-            self, bg="white", scrollregion=(0, 0, 300, 35 * len(self.activities)),
+            self,
+            bg="white",
+            scrollregion=(0, 0, 300, 35 * len(self.activities)),
         )
 
-        self.render_activity_blocks([val for key, val in self.activities.items()])
+        self.render_activity_blocks(
+            [val for key, val in self.activities.items()]
+        )
 
         self.vertical_scrollbar = tk.Scrollbar(self, orient=tk.VERTICAL)
         self.vertical_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
@@ -642,10 +659,14 @@ class ActivitySelectionFrame(tk.Frame):
         self.activity_blocks = []
 
         for i, activity in enumerate(activities):
-            activity_block = ActivityBlock(self.canvas, activity, 5, (22 * i) + 5)
+            activity_block = ActivityBlock(
+                self.canvas, activity, 5, (22 * i) + 5
+            )
             self.activity_blocks.append(activity_block)
 
-        self.canvas.config(scrollregion=(0, 0, 300, 22 * len(self.activity_blocks)))
+        self.canvas.config(
+            scrollregion=(0, 0, 300, 22 * len(self.activity_blocks))
+        )
 
     def search_activities(self, *args):
         """

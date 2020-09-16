@@ -76,7 +76,9 @@ class ToolbarImageButton(LargeButton):
         )
 
         # Override image and font size
-        self.configure(font=(config.FONT, 8), image=self.icon_img, compound="top")
+        self.configure(
+            font=(config.FONT, 8), image=self.icon_img, compound="top"
+        )
 
 
 class HelpButton(tk.Button):

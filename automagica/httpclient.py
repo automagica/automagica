@@ -13,7 +13,9 @@ class HTTPClient:
         """Create HTTP Client"""
         self.pool = urllib3.PoolManager()
 
-    def post(self, url, data=None, json=None, headers=None, timeout=30, files=None):
+    def post(
+        self, url, data=None, json=None, headers=None, timeout=30, files=None
+    ):
         """Make a POST request"""
 
         if files:
@@ -23,13 +25,17 @@ class HTTPClient:
                 files[key] = tuple(temp)
 
             fields = files
-            
+
             if data:
                 fields.update(data)
 
             return HTTPResponse(
                 self.pool.request(
-                    "POST", url, fields=files, headers=headers, timeout=timeout,
+                    "POST",
+                    url,
+                    fields=files,
+                    headers=headers,
+                    timeout=timeout,
                 )
             )
 
@@ -38,17 +44,23 @@ class HTTPClient:
                 headers = {"Content-Type": "application/json"}
 
             else:
-                headers['Content-Type'] = "application/json"
+                headers["Content-Type"] = "application/json"
 
             encoded_data = jsonlib.dumps(json).encode("utf-8")
             return HTTPResponse(
                 self.pool.request(
-                    "POST", url, body=encoded_data, headers=headers, timeout=timeout,
+                    "POST",
+                    url,
+                    body=encoded_data,
+                    headers=headers,
+                    timeout=timeout,
                 )
             )
 
         return HTTPResponse(
-            self.pool.request("POST", url, body=data, headers=headers, timeout=timeout)
+            self.pool.request(
+                "POST", url, body=data, headers=headers, timeout=timeout
+            )
         )
 
     def get(self, url, headers=None, stream=False, timeout=30):

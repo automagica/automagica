@@ -17,7 +17,9 @@ def generate_icon(icon_path, width=20, height=20, color="#ffffff"):
 
     color = tuple(int(color.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
 
-    img = Image.open(os.path.join("automagica", icon_path)).resize((width, height))
+    img = Image.open(os.path.join("automagica", icon_path)).resize(
+        (width, height)
+    )
 
     data = img.load()
 
@@ -46,7 +48,9 @@ def shortest_distance(from_coords, to_coords):
 
     for to_coord in to_coords:
         for from_coord in from_coords:
-            distances.append((distance(to_coord, from_coord), from_coord, to_coord))
+            distances.append(
+                (distance(to_coord, from_coord), from_coord, to_coord)
+            )
 
     distances.sort(key=lambda x: x[0])
 
@@ -95,11 +99,17 @@ class NodeGraph:
         """
 
         # Create a menu
-        self.menu = tk.Menu(self.parent, tearoff=0, font=(config.FONT, 10), bd=0)
+        self.menu = tk.Menu(
+            self.parent, tearoff=0, font=(config.FONT, 10), bd=0
+        )
 
         # Add menu items
-        self.menu.add_command(label=_("Delete"), command=self.on_delete_clicked)
-        self.menu.add_command(label=_("Duplicate"), command=self.on_duplicate_clicked)
+        self.menu.add_command(
+            label=_("Delete"), command=self.on_delete_clicked
+        )
+        self.menu.add_command(
+            label=_("Duplicate"), command=self.on_duplicate_clicked
+        )
         self.menu.add_command(
             label=_("Group into Sub-flow"), command=self.on_duplicate_clicked
         )
@@ -163,8 +173,12 @@ class NodeGraph:
         """
         Stop dragging
         """
-        self.node.x = round(self.node.x / self.parent.gridsize) * self.parent.gridsize
-        self.node.y = round(self.node.y / self.parent.gridsize) * self.parent.gridsize
+        self.node.x = (
+            round(self.node.x / self.parent.gridsize) * self.parent.gridsize
+        )
+        self.node.y = (
+            round(self.node.y / self.parent.gridsize) * self.parent.gridsize
+        )
 
         self.update()
         self.parent.update_connectors()
@@ -385,7 +399,13 @@ class ActivityNodeGraph(NodeGraph):
             config.ACTIVITIES[self.node.activity].get("icon").split("la-")[-1]
         )
 
-        if icon_name not in ["html5", "trello", "salesforce", "chrome", "readme"]:
+        if icon_name not in [
+            "html5",
+            "trello",
+            "salesforce",
+            "chrome",
+            "readme",
+        ]:
             icon_name = icon_name + "-solid.png"
         else:
             icon_name = icon_name + ".png"
@@ -450,7 +470,9 @@ class ActivityNodeGraph(NodeGraph):
         )
 
         # Update label text
-        self.parent.canvas.coords(self.label_text, self.center_x, self.center_y)
+        self.parent.canvas.coords(
+            self.label_text, self.center_x, self.center_y
+        )
         self.parent.canvas.itemconfig(self.label_text, text=self.text_label)
 
         # Update uid text
@@ -460,10 +482,14 @@ class ActivityNodeGraph(NodeGraph):
         self.parent.canvas.itemconfig(self.uid_text, text=self.node.uid)
 
         # Icon
-        self.parent.canvas.coords(self.icon, self.node.x + self.w - 3, self.node.y + 3)
+        self.parent.canvas.coords(
+            self.icon, self.node.x + self.w - 3, self.node.y + 3
+        )
 
         # Play button
-        self.parent.canvas.coords(self.play_button, self.node.x + 3, self.node.y + 3)
+        self.parent.canvas.coords(
+            self.play_button, self.node.x + 3, self.node.y + 3
+        )
 
         # Selection
         if self.selected:
@@ -557,7 +583,9 @@ class IfElseNodeGraph(NodeGraph):
         )
 
         # Update label text
-        self.parent.canvas.coords(self.label_text, self.center_x, self.center_y)
+        self.parent.canvas.coords(
+            self.label_text, self.center_x, self.center_y
+        )
 
         # Update uid text
         self.parent.canvas.coords(
@@ -662,7 +690,9 @@ class LoopNodeGraph(NodeGraph):
         )
 
         # Update label text
-        self.parent.canvas.coords(self.label_text, self.center_x, self.center_y)
+        self.parent.canvas.coords(
+            self.label_text, self.center_x, self.center_y
+        )
 
         # Update uid text
         self.parent.canvas.coords(
@@ -779,7 +809,9 @@ class DotPyFileNodeGraph(NodeGraph):
         )
 
         # Update label text
-        self.parent.canvas.coords(self.label_text, self.center_x, self.center_y)
+        self.parent.canvas.coords(
+            self.label_text, self.center_x, self.center_y
+        )
 
         # Update uid text
         self.parent.canvas.coords(
@@ -803,11 +835,15 @@ class DotPyFileNodeGraph(NodeGraph):
             )
 
         # Play button
-        self.parent.canvas.coords(self.play_button, self.node.x + 3, self.node.y + 3)
+        self.parent.canvas.coords(
+            self.play_button, self.node.x + 3, self.node.y + 3
+        )
 
     def run_click(self, event):
         self.add_highlight()
-        self.node.run(self.parent.master.master.bot, on_done=self.remove_highlight)
+        self.node.run(
+            self.parent.master.master.bot, on_done=self.remove_highlight
+        )
 
 
 class PythonCodeNodeGraph(NodeGraph):
@@ -881,7 +917,9 @@ class PythonCodeNodeGraph(NodeGraph):
     def run_click(self, event):
         self.add_highlight()
 
-        self.node.run(self.parent.master.master.bot, on_done=self.remove_highlight)
+        self.node.run(
+            self.parent.master.master.bot, on_done=self.remove_highlight
+        )
 
     def delete(self):
         self.parent.canvas.delete(self.rect)
@@ -908,7 +946,9 @@ class PythonCodeNodeGraph(NodeGraph):
         )
 
         # Update label text
-        self.parent.canvas.coords(self.label_text, self.center_x, self.center_y)
+        self.parent.canvas.coords(
+            self.label_text, self.center_x, self.center_y
+        )
 
         # Update uid text
         self.parent.canvas.coords(
@@ -922,7 +962,9 @@ class PythonCodeNodeGraph(NodeGraph):
         )
 
         # Play button
-        self.parent.canvas.coords(self.play_button, self.node.x + 3, self.node.y + 3)
+        self.parent.canvas.coords(
+            self.play_button, self.node.x + 3, self.node.y + 3
+        )
 
         # Selection
         if self.selected:
@@ -1016,7 +1058,9 @@ class CommentNodeGraph(NodeGraph):
         )
 
         # Update label text
-        self.parent.canvas.coords(self.label_text, self.center_x, self.center_y)
+        self.parent.canvas.coords(
+            self.label_text, self.center_x, self.center_y
+        )
 
         # Update uid text
         self.parent.canvas.coords(
@@ -1152,7 +1196,9 @@ class SubFlowNodeGraph(NodeGraph):
         )
 
         # Update label text
-        self.parent.canvas.coords(self.label_text, self.center_x, self.center_y)
+        self.parent.canvas.coords(
+            self.label_text, self.center_x, self.center_y
+        )
 
         # Update uid text
         self.parent.canvas.coords(
@@ -1166,7 +1212,9 @@ class SubFlowNodeGraph(NodeGraph):
         )
 
         # Play button
-        self.parent.canvas.coords(self.play_button, self.node.x + 3, self.node.y + 3)
+        self.parent.canvas.coords(
+            self.play_button, self.node.x + 3, self.node.y + 3
+        )
 
         # Selection
         if self.selected:
@@ -1228,7 +1276,8 @@ class ConnectorGraph:
 
     def draw(self):
         from_, to_ = shortest_distance(
-            self.from_nodegraph.connector_points, self.to_nodegraph.connector_points
+            self.from_nodegraph.connector_points,
+            self.to_nodegraph.connector_points,
         )
 
         self.line = self.parent.canvas.create_line(
@@ -1248,7 +1297,11 @@ class ConnectorGraph:
             self.from_nodegraph, IfElseNodeGraph
         ):
             self.text_rectangle = self.parent.canvas.create_rectangle(
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) - 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                - 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1257,7 +1310,11 @@ class ConnectorGraph:
                     / 2
                 )
                 - 10,
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) + 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                + 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1270,7 +1327,8 @@ class ConnectorGraph:
                 outline=config.COLOR_7,
             )
             self.text = self.parent.canvas.create_text(
-                (self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2,
+                (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                / 2,
                 (
                     (self.from_nodegraph.node.y + self.from_nodegraph.h)
                     + self.to_nodegraph.node.y
@@ -1285,7 +1343,11 @@ class ConnectorGraph:
             self.from_nodegraph, LoopNodeGraph
         ):
             self.text_rectangle = self.parent.canvas.create_rectangle(
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) - 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                - 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1294,7 +1356,11 @@ class ConnectorGraph:
                     / 2
                 )
                 - 10,
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) + 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                + 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1307,7 +1373,8 @@ class ConnectorGraph:
                 outline=config.COLOR_7,
             )
             self.text = self.parent.canvas.create_text(
-                (self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2,
+                (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                / 2,
                 (
                     (self.from_nodegraph.node.y + self.from_nodegraph.h)
                     + self.to_nodegraph.node.y
@@ -1319,7 +1386,11 @@ class ConnectorGraph:
 
         if self.connector_type == "else_node":
             self.text_rectangle = self.parent.canvas.create_rectangle(
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) - 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                - 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1328,7 +1399,11 @@ class ConnectorGraph:
                     / 2
                 )
                 - 10,
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) + 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                + 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1341,7 +1416,8 @@ class ConnectorGraph:
                 outline=config.COLOR_6,
             )
             self.text = self.parent.canvas.create_text(
-                (self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2,
+                (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                / 2,
                 (
                     (self.from_nodegraph.node.y + self.from_nodegraph.h)
                     + self.to_nodegraph.node.y
@@ -1353,7 +1429,11 @@ class ConnectorGraph:
 
         if self.connector_type == "on_exception_node":
             self.text_rectangle = self.parent.canvas.create_rectangle(
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) - 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                - 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1362,7 +1442,11 @@ class ConnectorGraph:
                     / 2
                 )
                 - 10,
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) + 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                + 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1375,7 +1459,8 @@ class ConnectorGraph:
                 outline="orange",
             )
             self.text = self.parent.canvas.create_text(
-                (self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2,
+                (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                / 2,
                 (
                     (self.from_nodegraph.node.y + self.from_nodegraph.h)
                     + self.to_nodegraph.node.y
@@ -1388,7 +1473,11 @@ class ConnectorGraph:
         if self.connector_type == "loop_node":
 
             self.text_rectangle = self.parent.canvas.create_rectangle(
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) - 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                - 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1397,7 +1486,11 @@ class ConnectorGraph:
                     / 2
                 )
                 - 10,
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) + 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                + 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1411,7 +1504,8 @@ class ConnectorGraph:
             )
 
             self.text = self.parent.canvas.create_text(
-                (self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2,
+                (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                / 2,
                 (
                     (self.from_nodegraph.node.y + self.from_nodegraph.h)
                     + self.to_nodegraph.node.y
@@ -1428,9 +1522,12 @@ class ConnectorGraph:
 
     def update(self):
         from_, to_ = shortest_distance(
-            self.from_nodegraph.connector_points, self.to_nodegraph.connector_points
+            self.from_nodegraph.connector_points,
+            self.to_nodegraph.connector_points,
         )
-        self.parent.canvas.coords(self.line, from_[0], from_[1], to_[0], to_[1])
+        self.parent.canvas.coords(
+            self.line, from_[0], from_[1], to_[0], to_[1]
+        )
 
         if (
             (self.connector_type == "on_exception_node")
@@ -1448,7 +1545,11 @@ class ConnectorGraph:
         ):
             self.parent.canvas.coords(
                 self.text_rectangle,
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) - 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                - 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1457,7 +1558,11 @@ class ConnectorGraph:
                     / 2
                 )
                 - 10,
-                ((self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2) + 20,
+                (
+                    (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                    / 2
+                )
+                + 20,
                 (
                     (
                         (self.from_nodegraph.node.y + self.from_nodegraph.h)
@@ -1469,7 +1574,8 @@ class ConnectorGraph:
             )
             self.parent.canvas.coords(
                 self.text,
-                (self.from_nodegraph.center_x + self.to_nodegraph.center_x) / 2,
+                (self.from_nodegraph.center_x + self.to_nodegraph.center_x)
+                / 2,
                 (
                     (self.from_nodegraph.node.y + self.from_nodegraph.h)
                     + self.to_nodegraph.node.y

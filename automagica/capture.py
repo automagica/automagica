@@ -49,10 +49,17 @@ class Capture:
         self.machine_id = self.get_machine_id()
 
     def get_key_states(self):
-        return [GetKeyState(virtual_key[0]) for virtual_key in self.virtual_keys]
+        return [
+            GetKeyState(virtual_key[0]) for virtual_key in self.virtual_keys
+        ]
 
     def get_machine_id(self):
-        return check_output("wmic csproduct get uuid").decode().split("\n")[1].strip()
+        return (
+            check_output("wmic csproduct get uuid")
+            .decode()
+            .split("\n")[1]
+            .strip()
+        )
 
     def get_current_foreground_app_process_name(self):
         try:
@@ -179,12 +186,16 @@ class Capture:
             # What to do?
             if action["event"] == "left mouse click":
                 code.append(
-                    "click({}, {})".format(action["mouse_x"], action["mouse_y"])
+                    "click({}, {})".format(
+                        action["mouse_x"], action["mouse_y"]
+                    )
                 )
 
             if action["event"] == "right mouse click":
                 code.append(
-                    "right_click({}, {})".format(action["mouse_x"], action["mouse_y"])
+                    "right_click({}, {})".format(
+                        action["mouse_x"], action["mouse_y"]
+                    )
                 )
 
             if action["event"] == "typing":
@@ -207,7 +218,9 @@ class Capture:
             if action["event"] == "left mouse click":
                 # Find button or element
                 img = Image.open(
-                    "recordings/{}/screenshots/{}.png".format(self.name, action["uid"])
+                    "recordings/{}/screenshots/{}.png".format(
+                        self.name, action["uid"]
+                    )
                 )
 
                 left = action["mouse_x"] - 50

@@ -183,7 +183,9 @@ class ThreadedBot(Bot):
         Run method
         """
         self.logger.info(
-            "\n".join([">>> " + line for line in command.split("\n") if line.strip()])
+            "\n".join(
+                [">>> " + line for line in command.split("\n") if line.strip()]
+            )
         )
 
         # Add the command to the queue
