@@ -152,16 +152,18 @@ class BotApp(App):
 
         # Runner Thread (polling Automagica Portal for jobs)
         self.runner_thread = Thread(target=self._runner_thread)
-        self.runner_thread.start()
 
         # Alive Thread (polling Automagica Portal for health status)
         self.alive_thread = Thread(target=self._alive_thread)
-        self.alive_thread.start()
 
-        # Run sounds better :-)
-        self.run = self.mainloop
+    def run(self):
+        """Run Bot app"""
+        self.runner_thread.start()
+        self.alive_thread.start()
+        self.mainloop()
 
     def run_notebook(self, file_path, cwd):
+        """Run a notebook"""
         process = subprocess.Popen(
             [sys.executable, "-m", "automagica.cli", "lab", "run", file_path],
             stdout=subprocess.PIPE,
@@ -173,6 +175,7 @@ class BotApp(App):
         return stdout.decode("utf-8"), process.returncode
 
     def run_script(self, file_path, cwd):
+        """Run a Python script (.py)"""
         process = subprocess.Popen(
             [
                 sys.executable,

@@ -280,7 +280,7 @@ class StartNodeGraph(NodeGraph):
     def double_clicked(self, event):
         from .windows import StartNodePropsWindow
 
-        StartNodePropsWindow(self.parent, self.node)
+        return StartNodePropsWindow(self.parent, self.node)
 
     def draw(self):
         # Rectangle
@@ -457,7 +457,7 @@ class ActivityNodeGraph(NodeGraph):
     def double_clicked(self, event):
         from .windows import ActivityNodePropsWindow
 
-        ActivityNodePropsWindow(self.parent, self.node)
+        return ActivityNodePropsWindow(self.parent, self.node)
 
     def update(self):
         # Update rectangle
@@ -570,7 +570,7 @@ class IfElseNodeGraph(NodeGraph):
     def double_clicked(self, event):
         from .windows import IfElseNodePropsWindow
 
-        IfElseNodePropsWindow(self.parent, self.node)
+        return IfElseNodePropsWindow(self.parent, self.node)
 
     def update(self):
         # Update rectangle
@@ -677,7 +677,7 @@ class LoopNodeGraph(NodeGraph):
     def double_clicked(self, event):
         from .windows import LoopNodePropsWindow
 
-        LoopNodePropsWindow(self.parent, self.node)
+        return LoopNodePropsWindow(self.parent, self.node)
 
     def update(self):
         # Update rectangle
@@ -796,7 +796,7 @@ class DotPyFileNodeGraph(NodeGraph):
     def double_clicked(self, event):
         from .windows import DotPyFileNodePropsWindow
 
-        DotPyFileNodePropsWindow(self.parent, self.node)
+        return DotPyFileNodePropsWindow(self.parent, self.node)
 
     def update(self):
         # Update rectangle
@@ -933,7 +933,7 @@ class PythonCodeNodeGraph(NodeGraph):
     def double_clicked(self, event):
         from .windows import PythonCodeNodePropsWindow
 
-        PythonCodeNodePropsWindow(self.parent, self.node)
+        return PythonCodeNodePropsWindow(self.parent, self.node)
 
     def update(self):
         # Update rectangle
@@ -1045,7 +1045,7 @@ class CommentNodeGraph(NodeGraph):
     def double_clicked(self, event):
         from .windows import CommentNodePropsWindow
 
-        CommentNodePropsWindow(self.parent, self.node)
+        return CommentNodePropsWindow(self.parent, self.node)
 
     def update(self):
         # Update rectangle
@@ -1183,7 +1183,7 @@ class SubFlowNodeGraph(NodeGraph):
     def double_clicked(self, event):
         from .windows import SubFlowNodePropsWindow
 
-        SubFlowNodePropsWindow(self.parent, self.node)
+        return SubFlowNodePropsWindow(self.parent, self.node)
 
     def update(self):
         # Update rectangle

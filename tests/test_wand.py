@@ -1,11 +1,24 @@
 """Copyright 2020 Oakwood Technologies BVBA"""
+import pytest
+
 from automagica.gui.apps import WandApp
 
 
-def test_wand_app():
+@pytest.fixture
+def wand_app():
+    """ Testing fixture for the Flow app """
+    app = WandApp()
+
+    yield app
+
+    app.destroy()
+    app.quit()
+
+
+def test_wand_app(wand_app):
     """
     Testing scenario to test Automagica Wand application
     """
-    app = WandApp()
-    app.destroy()
-    app.quit()
+    wand_app.update()
+
+    assert True
