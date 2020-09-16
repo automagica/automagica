@@ -3,6 +3,7 @@
 
 from automagica.activities import *
 from pathlib import Path
+import pytest
 
 
 def test_excel_activities():
@@ -26,21 +27,25 @@ def test_excel_activities():
     assert result == "Testing"
 
 
-def test_chrome_activities():
+@pytest.fixture
+def chrome_browser():
+    chrome = Chrome()
+
+    yield chrome
+
+    chrome.quit()
+
+
+def test_chrome_activities(chrome_browser):
     """
     Test scenario for testing Chrome browser activities (requires Google Chrome)
     """
-    # Open Chrome
-    chrome = Chrome(auto_update_chromedriver=True)
 
     # Browse to Google
-    chrome.browse_to("https://google.com")
+    chrome_browser.browse_to("https://google.com")
 
     # Save the page source
-    source = chrome.page_source
-
-    # Quit the browser
-    chrome.quit()
+    source = chrome_browser.page_source
 
     assert "Google" in source
 
