@@ -506,7 +506,7 @@ class NodeSelectionInputWidget(tk.Frame):
 
 
 class SettingContextMenu(tk.Frame):
-    def __init__(self, parent, *args, text="", options=[], **kwargs):
+    def __init__(self, parent, *args, text="", options, **kwargs):
         """
         Options should be a list of tupes ('Description', value)
         """
@@ -683,7 +683,7 @@ class ActivitySelectionFrame(tk.Frame):
 
         results = []
 
-        for _, val in self.activities.items():
+        for __, val in self.activities.items():
             if (
                 any(
                     [query in keyword.lower() for keyword in val["keywords"]]

@@ -430,7 +430,6 @@ class FlowFrame(tk.Frame):
         Set background to lowest layer
         """
         self.canvas.tag_lower("background")
-        # self.canvas.tag_lower("arrows")
 
     def update_connectors(self):
         """
@@ -542,12 +541,6 @@ class ToolbarFrame(tk.Frame):
         run_step_by_step_button.pack(side="left")
 
         run_frame.pack(side="left", padx=20, pady=5)
-
-        # validate_button = LargeButton(
-        #     self, text=_("Validate (F6)"), command=self.clicked_validate_button
-        # )
-        # self.parent.master.bind("<F6>", lambda e: self.clicked_validate_button())
-        # validate_button.pack(side="left", padx=5, pady=5)
 
         wand_frame = ToolbarLabelFrame(
             self, text=_("Automagica Wand (Powered by AI)")

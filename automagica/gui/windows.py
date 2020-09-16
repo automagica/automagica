@@ -1,7 +1,6 @@
 """Copyright 2020 Oakwood Technologies BVBA"""
 
 import base64
-import copy
 import json
 import os
 import tkinter as tk
@@ -140,7 +139,6 @@ class FlowDesignerWindow(Window):
         self.save_buffer.append(self.last_state)
 
         self.bind("<Control-z>", self.undo)
-        # self.bind("<Delete>", self.flow_frame.delete_selection)
 
         if self.autosave:
             self._autosave_cycle()
@@ -517,7 +515,7 @@ class FlowPlayerWindow(tk.Toplevel):
             # Regular play
             pass
 
-        elif node == None:
+        elif node is None:
             # Play called with None-node
             self.current_node = None
 
@@ -532,7 +530,7 @@ class FlowPlayerWindow(tk.Toplevel):
                 bg=config.COLOR_7,
             )
 
-        elif node != None or node != "":
+        elif node is not None or node != "":
             # We actually got a next node
             self.current_node = self.flow.get_node_by_uid(node)
 
@@ -577,7 +575,7 @@ class FlowPlayerWindow(tk.Toplevel):
                         self.bot.interpreter.locals.get(
                             self.current_node.loop_variable
                         )
-                        != None
+                        is not None
                     ):
                         FlowPlayerWindow(
                             self,
@@ -954,7 +952,6 @@ class BotTrayWindow(tk.Toplevel):
         """
         When the user double clicks
         """
-        # _ = KeybindsOverviewWindow(self)
         pass
 
     def mouse_down(self, event):
@@ -1011,7 +1008,9 @@ class WandWindow(Window):
             yes = messagebox.askyesno(
                 _("Automagica Wand"),
                 _(
-                    "To use Automagica Wand, please register on the Automagica Portal and set up your bot. \n\nWould you like to go to the Automagica Portal?"
+                    "To use Automagica Wand, please register on the \
+                        Automagica Portal and set up your bot. \n\n\
+                            Would you like to go to the Automagica Portal?"
                 ),
                 parent=self,
             )
@@ -1381,7 +1380,7 @@ class WandWindow(Window):
 
         try:
             data = r.json()
-        except:
+        except Exception:
             print(url)
             print(r.content)
 
@@ -1391,7 +1390,7 @@ class WandWindow(Window):
         else:
             try:
                 tk.messagebox.showerror(_("Error"), data["error"])
-            except:
+            except Exception:
                 tk.messagebox.showerror(_("Unknown error"), data)
 
     def save_clicked(self):
@@ -1573,7 +1572,7 @@ class KeybindWindow(Window):
         self.keybind.name = self.name_entry.get()
         self.keybind.key_combination = self.key_combination_entry.get()
 
-        if not self.keybind in self.manager.keybinds:
+        if self.keybind not in self.manager.keybinds:
             self.manager.keybinds.append(self.keybind)
 
         self.master.update()
@@ -1933,10 +1932,12 @@ class NodePropsWindow(Window):
         self.node = node
         self.resizable(False, False)
 
-        # Make sure this window is the only window grabbing events from the user
+        # Make sure this window is the only window
+        # grabbing
+        # events from the user
         try:
             self.grab_set()
-        except:
+        except Exception:
             pass
 
         self.title(_("Properties"))
@@ -1957,7 +1958,6 @@ class NodePropsWindow(Window):
         save_button = Button(frame, text=_("Save"), command=self.save)
         save_button.configure(bg=config.COLOR_7)
         save_button.pack(side="right", padx=5, pady=5)
-        # self.bind("<Return>", lambda e: self.save())
 
         cancel_button = Button(frame, text=_("Cancel"), command=self.cancel)
         cancel_button.pack(side="right", padx=5, pady=5)
@@ -2024,7 +2024,8 @@ class NodePropsWindow(Window):
         help_button = HelpButton(
             frame,
             message=_(
-                "This is the unique identifier for this specific node. It can be used to connect this node from other nodes."
+                "This is the unique identifier for this specific node. \
+                    It can be used to connect this node from other nodes."
             ),
         )
         help_button.grid(row=0, column=2)
@@ -2135,7 +2136,10 @@ class ActivityNodePropsWindow(NodePropsWindow):
             if name == "self":
                 label = _("Object variable")
                 arg["description"] = _(
-                    "Name of the variable to assign the object to. If you want to have multiple instances of this object, give it a different name than the default name."
+                    "Name of the variable to assign the object to. \
+                        If you want to have multiple instances of \
+                            this object, give it a different name \
+                                than the default name."
                 )
 
             label = label.capitalize().replace("_", " ")
@@ -2233,7 +2237,7 @@ class ActivityNodePropsWindow(NodePropsWindow):
                 row=i, column=2
             )
 
-            if self.node.args_.get(name) != None:
+            if self.node.args_.get(name) is not None:
                 self.args_inputs[name]._set(self.node.args_[name])
 
             else:
@@ -2295,7 +2299,8 @@ class ActivityNodePropsWindow(NodePropsWindow):
         help_button = HelpButton(
             frame,
             message=_(
-                "This is the unique identifier for this specific node. It can be used to connect this node from other nodes."
+                "This is the unique identifier for this specific node. \
+                    It can be used to connect this node from other nodes."
             ),
         )
         help_button.grid(row=0, column=2)
@@ -2442,7 +2447,8 @@ class IfElseNodePropsWindow(NodePropsWindow):
         help_button = HelpButton(
             frame,
             message=_(
-                "This is the unique identifier for this specific node. It can be used to connect this node from other nodes."
+                "This is the unique identifier for this specific node. \
+                    It can be used to connect this node from other nodes."
             ),
         )
         help_button.grid(row=0, column=2)
@@ -2483,7 +2489,9 @@ class IfElseNodePropsWindow(NodePropsWindow):
         help_button = HelpButton(
             frame,
             message=_(
-                "The condition to be evaluated. If the condition is true, the flow will continue to the next node. If the condition is false, the flow will go to the else node."
+                "The condition to be evaluated. If the condition is true, \
+                    the flow will continue to the next node. If the \
+                        condition is false, the flow will go to the else node."
             ),
         )
         help_button.grid(row=2, column=2)
@@ -2649,7 +2657,8 @@ class LoopNodePropsWindow(NodePropsWindow):
         help_button = HelpButton(
             frame,
             message=_(
-                "The name of the variable to assign the single item of the collection/list to while iterating."
+                "The name of the variable to assign the single item \
+                    of the collection/list to while iterating."
             ),
         )
         help_button.grid(row=3, column=2)
@@ -2673,7 +2682,9 @@ class LoopNodePropsWindow(NodePropsWindow):
         help_button = HelpButton(
             frame,
             message=_(
-                "The collection or list to iterate over and repeat this part of the flow. This will override the default 'repeat n times' setting."
+                "The collection or list to iterate over and repeat this \
+                    part of the flow. This will override the default \
+                        'repeat n times' setting."
             ),
         )
         help_button.grid(row=3, column=5)

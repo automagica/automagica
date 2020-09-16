@@ -504,7 +504,7 @@ class ActivityNodeGraph(NodeGraph):
 
 class IfElseNodeGraph(NodeGraph):
     """
-    Graphical representation for an If Else node 
+    Graphical representation for an If Else node
     """
 
     def __init__(self, parent, node):
