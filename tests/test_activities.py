@@ -53,7 +53,7 @@ def test_wand_activities():
 
 	click(test_element)
 	double_click(test_element)
-	right_click(test_element')
+	right_click(test_element)
 	move_mouse_to(test_element)
 	drag_mouse_to(test_element)
 
