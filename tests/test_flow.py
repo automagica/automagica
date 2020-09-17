@@ -1,33 +1,21 @@
 """Copyright 2020 Oakwood Technologies BVBA"""
 import pytest
 
-from automagica.gui.apps import FlowApp
 from automagica.utilities import all_activities
 
 
 @pytest.fixture
-def flow_app():
-    """Testing fixture for the Flow app"""
+def flow_designer_window():
+    """Testing fixture for the FLow Designer window"""
+    from automagica.gui.apps import FlowApp
+
     app = FlowApp()
 
     # Let application render
     app.update()
 
-    yield app
-
-    # Clean-up
-    app.destroy()
-    app.quit()
-
-
-@pytest.fixture
-def flow_designer_window(flow_app):
-    """Testing fixture for the FLow Designer window"""
-    # Render application
-    flow_app.update()
-
     # Get children of app
-    windows = flow_app.winfo_children()
+    windows = app.winfo_children()
 
     # First child is the Flow designer window
     flow_designer_window = windows[0]
@@ -35,16 +23,17 @@ def flow_designer_window(flow_app):
     # Render the window
     flow_designer_window.update()
 
-    return flow_designer_window
+    yield flow_designer_window
+
+    # Clean-up
+    for window in windows:
+        window.destroy()
+
+    app.quit()
+    app.destroy()
 
 
-@pytest.mark.smoke
-def test_flow_app(flow_app):
-    """Flow application smoke test"""
-
-    # If the application starts normally without any errors
-    flow_app.update()
-
+def test_flow_designer_window(flow_designer_window):
     assert True
 
 
