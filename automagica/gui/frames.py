@@ -211,7 +211,7 @@ class ConsoleFrame(tk.Frame):
             VariableExplorerWindow,
         )  # To avoid circular imports
 
-        VariableExplorerWindow(self, bot=self.bot)
+        return VariableExplorerWindow(self, bot=self.bot)
 
     def on_reset_bot_clicked(self):
         self.bot.reset()
@@ -791,7 +791,7 @@ class ToolbarFrame(tk.Frame):
             self.master.master.deiconify()
 
         # Run automation flow
-        FlowPlayerWindow(
+        return FlowPlayerWindow(
             self,
             flow=self.master.master.flow,
             bot=self.master.master.bot,
