@@ -29,6 +29,8 @@ def test_excel_activities():
 
 @pytest.fixture
 def chrome_browser():
+    from automagica.activities import Chrome
+
     chrome = Chrome()
 
     yield chrome
@@ -50,18 +52,35 @@ def test_chrome_activities(chrome_browser):
     assert "Google" in source
 
 
-def test_wand_activities():
+def test_wand_activities(monkeypatch):
     """
     Test wand activities
     """
-    # Testing element, could be a black pixel for example
-    # Element can be white listed to be always available
+    # Mock test element
     test_element = "qf41"
 
+    def patched_detect_vision(*args, **kwargs):
+        """Patch detect vision function to return coordinates"""
+        return [0, 0, 10, 10]
+
+    # Apply patch
+    monkeypatch.setattr(
+        "automagica.activities.detect_vision", patched_detect_vision
+    )
+
+    # Test click
     click(test_element)
+
+    # Test double_click
     double_click(test_element)
+
+    # Test right_click
     right_click(test_element)
+
+    # Test move_mouse_to
     move_mouse_to(test_element)
+
+    # Test drag_mouse_to
     drag_mouse_to(test_element)
 
     assert True
