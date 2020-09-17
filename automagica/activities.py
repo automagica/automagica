@@ -2871,7 +2871,7 @@ def drag_mouse_to_coordinates(x=None, y=None, delay=1):
 
 
 @activity
-def drag_mouse_to(automagica_id=None, delay=1):
+def drag_mouse_to(automagica_id=None, end_x=0, end_y=0, delay=1):
     """Drag mouse
 
     Drags mouse to an element based on the element ID (vision) 
@@ -2909,7 +2909,7 @@ def drag_mouse_to(automagica_id=None, delay=1):
 
         from mouse import drag
 
-        drag(x, y, absolute=False)
+        drag(x, y, end_x, end_y, absolute=False)
 
         return
 
