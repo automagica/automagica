@@ -170,6 +170,7 @@ def script():
 def script_run(file_path):
     app = ScriptApp()
     app.run(file_path)
+    app.quit_()
 
 
 if __name__ == "__main__":

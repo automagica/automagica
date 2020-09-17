@@ -565,8 +565,11 @@ class ScriptApp:
             d = dict(locals(), **globals())
             exec(code_obj, d, d)  # nosec
             self.config.logger.info(f'Completed script "{script_path}"')
-            os._exit(0)
 
         except Exception as e:
             self.config.logger.exception(f'Failed script "{script_path}"')
             raise e
+
+    def quit_(self):
+        """Close process"""
+        os._exit(0)
