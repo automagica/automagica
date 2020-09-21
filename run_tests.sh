@@ -1,1 +1,0 @@
-pytest --cov=automagica --cov-report html
