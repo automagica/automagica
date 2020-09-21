@@ -27,11 +27,19 @@ from automagica.gui.windows import (
 )
 
 
-class App(tk.Tk):
-    def __init__(self, *args, config=None, **kwargs):
+class AutomagicaTk(tk.Tk):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Hide Tkinter root window
+        self.withdraw()
+
+
+class App(tk.Toplevel):
+    def __init__(self, *args, config=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Hide this parent window
         self.withdraw()
 
         # Load config
@@ -43,21 +51,6 @@ class App(tk.Tk):
         # On Windows, set DPI awareness
         if platform.system() == "Windows":
             self._windows_set_dpi_awareness()
-
-        # Set Automagica icon
-        icon_path = os.path.join(
-            os.path.abspath(__file__).replace(
-                os.path.basename(os.path.realpath(__file__)), ""
-            ),
-            "icons",
-            "automagica.ico",
-        )
-        self.tk.call(
-            "wm",
-            "iconphoto",
-            self._w,
-            ImageTk.PhotoImage(Image.open(icon_path)),
-        )
 
         ICONS.generate_icons()
 
@@ -76,8 +69,8 @@ class App(tk.Tk):
             logging.exception("Could not set DPI awareness on Windows.")
 
     def report_callback_exception(self, exception, value, traceback):
-        """ 
-        Override default tkinter method to log errors 
+        """
+        Override default tkinter method to log errors
         """
         self.config.logger.exception(exception)
 
@@ -135,9 +128,6 @@ class FlowApp(App):
         else:
             FlowDesignerWindow(self, bot=self.bot)
 
-        # Run sounds better, right?
-        self.run = self.mainloop
-
     def close_app(self, exit_code=0):
         self.bot.stop()
         os._exit(exit_code)
@@ -160,7 +150,6 @@ class BotApp(App):
         """Run Bot app"""
         self.runner_thread.start()
         self.alive_thread.start()
-        self.mainloop()
 
     def run_notebook(self, file_path, cwd):
         """Run a notebook"""
@@ -401,15 +390,11 @@ class BotApp(App):
 class WandApp(App):
     def __init__(self, *args, delay=0, on_finish=None, **kwargs):
         super().__init__(*args, **kwargs)
-        self.withdraw()
 
         # Open the main window
         self.wand_window = WandWindow(
             self, standalone=True, delay=delay, on_finish=on_finish
         )
-
-        # Run sounds better :-)
-        self.run = self.mainloop
 
 
 class TraceApp(App):
@@ -419,9 +404,6 @@ class TraceApp(App):
         from automagica.capture import Capture
 
         self.capture = Capture()
-
-        # Run sounds better :)
-        self.run = self.mainloop
 
 
 class LabApp:

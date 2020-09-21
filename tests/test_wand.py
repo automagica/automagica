@@ -7,12 +7,13 @@ from automagica.gui.apps import WandApp
 @pytest.fixture
 def wand_app():
     """ Testing fixture for the Flow app """
-    app = WandApp()
+    app = WandApp(pytest.automagica_tk)
+
+    app.update()
 
     yield app
 
     app.destroy()
-    app.quit()
 
 
 def test_wand_app(wand_app):

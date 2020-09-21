@@ -31,7 +31,7 @@ def test_excel_activities():
 def chrome_browser():
     from automagica.activities import Chrome
 
-    chrome = Chrome()
+    chrome = Chrome(headless=True)
 
     yield chrome
 
@@ -56,6 +56,15 @@ def test_wand_activities(monkeypatch):
     """
     Test wand activities
     """
+
+    from automagica.activities import (
+        click,
+        double_click,
+        right_click,
+        move_mouse_to,
+        drag_mouse_to,
+    )
+
     # Mock test element
     test_element = "qf41"
 
@@ -90,7 +99,11 @@ def test_cryptography_activities():
     """
     Test scenario to test encrypting and decrypting activities
     """
-    # from automagica.activities import generate_random_key, encrypt_text_with_key, decrypt_text_with_key
+    from automagica.activities import (
+        generate_random_key,
+        encrypt_text_with_key,
+        decrypt_text_with_key,
+    )
 
     # Generate a random key
     key = generate_random_key()
@@ -108,6 +121,7 @@ def test_generate_random_key():
     """
     Test Random key
     """
+    from automagica.activities import generate_random_key
 
     # Generate a random key
     key = generate_random_key()
@@ -119,6 +133,10 @@ def test_encrypt_text_with_key():
     """
     Test Encrypt text
     """
+    from automagica.activities import (
+        generate_random_key,
+        encrypt_text_with_key,
+    )
 
     # Generate a random key
     key = generate_random_key()
@@ -132,6 +150,11 @@ def test_decrypt_text_with_key():
     """
     Test Decrypt text
     """
+    from automagica.activities import (
+        generate_random_key,
+        encrypt_text_with_key,
+        decrypt_text_with_key,
+    )
 
     # Generate a random key
     key = generate_random_key()
@@ -147,6 +170,11 @@ def test_encrypt_file_with_key():
     """
     Test Encrypt file
     """
+    from automagica.activities import (
+        generate_random_key,
+        make_text_file,
+        encrypted_file,
+    )
 
     # Generate a random key
     key = generate_random_key()
@@ -164,6 +192,12 @@ def test_decrypt_file_with_key():
     """
     Test Decrypt file
     """
+    from automagica.activities import (
+        generate_random_key,
+        make_text_file,
+        encrypt_file_with_key,
+        decrypt_file_with_key,
+    )
 
     # Generate a random key
     key = generate_random_key()
@@ -323,6 +357,10 @@ def test_generate_unique_identifier():
     assert type(uuid) is str
 
 
+@pytest.mark.skip(
+    reason="This uses Tk() from tkinter, only one tkinter root object is \
+    allowed per process. This needs a small rework before it can be tested."
+)
 def test_display_osd_message():
     """
     Test Display overlay message
@@ -345,260 +383,192 @@ def test_print_console():
     assert True
 
 
-def test_save_all_images():
+def test_save_all_images(chrome_browser):
     """
     Test Save all images
     """
 
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://nytimes.com")
+    chrome_browser.get("https://nytimes.com")
 
     # Save all images
-    images = browser.save_all_images()
-
-    browser.quit()
+    images = chrome_browser.save_all_images()
 
     assert type(images) is list
 
 
-def test_find_elements_by_text():
+def test_find_elements_by_text(chrome_browser):
     """
     Test Find elements by text
     """
 
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://nytimes.com")
+    chrome_browser.get("https://nytimes.com")
 
     # Find elements by text
-    elements = browser.find_elements_by_text("a")
-
-    # Quit the browser
-    browser.quit()
+    elements = chrome_browser.find_elements_by_text("a")
 
     assert type(elements) is list
 
 
-def test_find_all_links():
+def test_find_all_links(chrome_browser):
     """
     Test Find all links
     """
-
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://nytimes.com")
+    chrome_browser.get("https://nytimes.com")
 
     # Find elements by text
-    links = browser.find_all_links()
-
-    # Quit the browser
-    browser.quit()
+    links = chrome_browser.find_all_links()
 
     assert type(links) is list
 
 
-def test_find_first_link():
+def test_find_first_link(chrome_browser):
     """
     Test Find first link on a webpage
     """
 
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://nytimes.com")
+    chrome_browser.get("https://nytimes.com")
 
     # Find elements by text
-    first_link = browser.find_first_link()
-
-    # Quit the browser
-    browser.quit()
+    first_link = chrome_browser.find_first_link()
 
     assert type(first_link) is str
 
 
-def test_get_text_on_webpage():
+def test_get_text_on_webpage(chrome_browser):
     """
     Test Get all text on webpage
     """
 
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://nytimes.com")
+    chrome_browser.get("https://nytimes.com")
 
     # Get text from page
-    text_on_page = browser.get_text_on_webpage()
-
-    # Quit the browser
-    browser.quit()
+    text_on_page = chrome_browser.get_text_on_webpage()
 
     assert type(text_on_page) is str
 
 
-def test_highlight():
+def test_highlight(chrome_browser):
     """
     Test Highlight element
     """
 
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://wikipedia.org")
+    chrome_browser.get("https://wikipedia.org")
 
     # Find first link on page
-    first_link = browser.find_elements_by_xpath("//a[@href]")[0]
+    first_link = chrome_browser.find_elements_by_xpath("//a[@href]")[0]
 
     # Highlight first link
-    browser.highlight(first_link)
-
-    browser.quit()
+    chrome_browser.highlight(first_link)
 
     assert True
 
 
-def test_by_xpaths():
+def test_by_xpaths(chrome_browser):
     """
     Test Find all XPaths
     """
 
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://wikipedia.org")
+    chrome_browser.get("https://wikipedia.org")
 
     # Find elements by xpaths
-    elements = browser.by_xpaths("//*[@id='js-link-box-en']")
-
-    browser.quit()
+    elements = chrome_browser.by_xpaths("//*[@id='js-link-box-en']")
 
     assert "elements" in locals()
 
 
-def test_by_xpath():
+def test_by_xpath(chrome_browser):
     """
     Test Find XPath in browser
     """
-
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://wikipedia.org")
+    chrome_browser.get("https://wikipedia.org")
 
     # Find element by xpath
-    element = browser.by_xpath("//*[@id='js-link-box-en']")
+    element = chrome_browser.by_xpath("//*[@id='js-link-box-en']")
 
-    browser.quit()
+    chrome_browser.quit()
 
     assert "element" in locals()
 
 
-def test_by_class():
+def test_by_class(chrome_browser):
     """
     Test Find class in browser
     """
 
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://wikipedia.org")
+    chrome_browser.get("https://wikipedia.org")
 
     # Find element by class
-    element = browser.by_class("search-input")
-
-    browser.quit()
+    element = chrome_browser.by_class("search-input")
 
     assert "element" in locals()
 
 
-def test_by_classes():
+def test_by_classes(chrome_browser):
     """
     Test Find class in browser
     """
-
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://wikipedia.org")
+    chrome_browser.get("https://wikipedia.org")
 
     # Find elements by class
-    elements = browser.by_classes("search-input")
-
-    browser.quit()
+    elements = chrome_browser.by_classes("search-input")
 
     assert "elements" in locals()
 
 
-def test_by_class_and_by_text():
+def test_by_class_and_by_text(chrome_browser):
     """
     Test Find element in browser based on class and text
     """
 
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://wikipedia.org")
+    chrome_browser.get("https://wikipedia.org")
 
     # Find elements by class and text
-    element = browser.by_class_and_by_text("search-input", "Search Wikipedia")
-
-    browser.quit()
+    element = chrome_browser.by_class_and_by_text(
+        "search-input", "Search Wikipedia"
+    )
 
     assert "element" in locals()
 
 
-def test_by_id():
+def test_by_id(chrome_browser):
     """
     Test Find id in browser
     """
 
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://wikipedia.org")
+    chrome_browser.get("https://wikipedia.org")
 
     # Find element by class
-    elements = browser.by_id("search-input")
-
-    browser.quit()
+    elements = chrome_browser.by_id("search-input")
 
     assert "elements" in locals()
 
 
-def test_switch_to_iframe():
+def test_switch_to_iframe(chrome_browser):
     """
     Test Switch to iframe in browser
     """
 
-    # Open the browser
-    browser = Chrome()
-
     # Go to a website
-    browser.get("https://www.w3schools.com/html/html_iframe.asp")
+    chrome_browser.get("https://www.w3schools.com/html/html_iframe.asp")
 
-    url_before_switch = browser.current_url
+    url_before_switch = chrome_browser.current_url
 
     # Switch to iframe
-    iframe = browser.switch_to_iframe()
+    iframe = chrome_browser.switch_to_iframe()
 
-    url_after_switch = browser.current_url
-
-    browser.quit()
+    url_after_switch = chrome_browser.current_url
 
     assert url_before_switch == url_after_switch
 

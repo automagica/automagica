@@ -289,6 +289,7 @@ class FlowDesignerWindow(Window):
         """
         node = self.flow.add_node(node_type)
         self.flow_frame.add_node_graph(node)
+        return node
 
 
 class FlowPlayerWindow(tk.Toplevel):
@@ -699,7 +700,7 @@ class FlowValidationWindow(Window):
 
 class NotificationWindow(tk.Toplevel):
     """
-    The notification window is a small notification window in 
+    The notification window is a small notification window in
     the corner of the screen, which fades out when disappearing.
     """
 
@@ -946,7 +947,7 @@ class BotTrayWindow(tk.Toplevel):
         """
         When the user clicks 'settings'
         """
-        ConfigWindow(self)
+        return ConfigWindow(self)
 
     def mouse_double_click(self, event):
         """
@@ -1292,8 +1293,8 @@ class WandWindow(Window):
     def _resize_to_fit(self, image, fit_w, fit_h):
         """
         Resize the image to fit
-        
-        TODO: this should probably be a utility 
+
+        TODO: this should probably be a utility
               function rather than a window-specific method
         """
         w, h = image.size
@@ -1616,7 +1617,7 @@ class KeybindsOverviewWindow(Window):
         self.buttons_frame.pack()
 
     def add_button_clicked(self):
-        _ = KeybindWindow(self)
+        return KeybindWindow(self)
 
     def remove_button_clicked(self):
         i = self.keybinds_listbox.curselection()[0]

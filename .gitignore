@@ -12,3 +12,5 @@ migrated
 *.whl
 .coverage
 bin
+htmlcov
+cov.xml

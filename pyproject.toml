@@ -33,3 +33,8 @@ line-length = 79
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--cov=automagica --cov-report xml:cov.xml"
+testpaths = ["tests"]
+markers = ["smoke: signal big problems"]

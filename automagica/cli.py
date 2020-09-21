@@ -3,9 +3,11 @@
 import os
 
 import click
+import tkinter as tk
 
 from automagica.config import Config, _
 from automagica.gui.apps import (
+    AutomagicaTk,
     BotApp,
     FlowApp,
     LabApp,
@@ -39,8 +41,9 @@ def bot():
     """
     'automagica bot' launches the Automagica Bot
     """
-    app = BotApp()
-    app.run()
+    root = AutomagicaTk()
+    _ = BotApp(root)
+    root.mainloop()
 
 
 @cli.command("wand", help=_("Automagica Wand"))
@@ -57,8 +60,9 @@ def wand(delay=0):
         print(f"Automagica ID: {automagica_id}")
         os._exit(0)
 
-    app = WandApp(delay=delay, on_finish=on_finish)
-    app.run()
+    root = AutomagicaTk()
+    _ = WandApp(root, delay=delay, on_finish=on_finish)
+    root.mainloop()
 
 
 @cli.group(help=_("Automagica Flow"))
@@ -74,8 +78,9 @@ def flow_new():
     """
     `automagica flow new` creates a new Automagica Flow
     """
-    app = FlowApp()
-    app.run()
+    root = AutomagicaTk()
+    _ = FlowApp(root)
+    root.mainloop()
 
 
 @flow.command("edit", help=_("Edit Flow"))
@@ -84,8 +89,9 @@ def flow_edit(file_path):
     """
     `automagica flow edit <filename>` opens an existing Automagica Flow for editing
     """
-    app = FlowApp(file_path=file_path)
-    app.run()
+    root = AutomagicaTk()
+    _ = FlowApp(root, file_path=file_path)
+    root.mainloop()
 
 
 @flow.command("run", help=_("Run Flow"))
@@ -104,15 +110,18 @@ def flow_run(filename, headless, step_by_step):
     """
     `automagica flow run <filename>` opens an existing Automagica Flow and executes it
     """
+    root = AutomagicaTk()
+
     # Run FLow
     app = FlowApp(
+        root,
         file_path=filename,
         run=True,
         headless=headless,
         step_by_step=step_by_step,
     )
 
-    app.run()
+    root.mainloop()
 
 
 @cli.group(help=_("Automagica Lab"))
@@ -156,8 +165,9 @@ def trace():
 
 @trace.command("record", help=_("Record a new Trace"))
 def trace_record():
-    app = TraceApp()
-    app.run()
+    root = AutomagicaTk()
+    _ = TraceApp(root)
+    root.mainloop()
 
 
 @cli.group(help=_("Automagica Script"))

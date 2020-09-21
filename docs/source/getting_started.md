@@ -1,7 +1,7 @@
 # Getting started
 
 ## Installing on Windows
-Download Automagica and get started automating within 5 minutes through our website [automagica.com](https://www.automagica.com). 
+Download Automagica and get started automating within 5 minutes through our website [automagica.com](https://www.automagica.com).
 Our one-click installer for Windows in combination with Automagica Flow is by far the easiest way to get started automating.
 
 By signing up for the [Automagica Portal](https://www.portal.automagica.com), you also gain access to our specialized OCR-service and our Automagica Wand back-end, which features computer vision powered by machine learning for recognizing UI elements.
@@ -31,9 +31,19 @@ You can install Automagica by running the following commands:
 ```
 sudo apt-get install python3-devel chromium -y
 sudo pip3 install automagica -U
-## Installation on Linux
-Interactive one-click examples with documentation can be found on [portal.automagica.com](https://portal.automagica.com)
 ```
+
+### Additional requirements for Automagica Flow
+Automagica Flow is built in tkinter, and thus requires some additional packages under Linux:
+
+```bash
+sudo apt-get install python3 \
+    python3-tk \
+    python3-pip \
+    python3-dev \
+    chromium -y
+```
+
 
 ## Your first automation
 
