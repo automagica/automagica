@@ -5,6 +5,7 @@ from automagica.gui.apps import ScriptApp
 
 @pytest.mark.smoke
 def test_script_output(tmp_path, capsys):
+    """Test script output"""
     app = ScriptApp()
 
     d = tmp_path / "scripts"
