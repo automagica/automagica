@@ -171,8 +171,8 @@ def decrypt_file_with_key(input_path, key, output_path=None):
 
     Decrypts file with (Fernet) key
 
-    :parameter input_file: Bytes-like file to be decrypted.
-    :type input_file: input_file
+    :parameter input_path: Bytes-like file to be decrypted.
+    :type input_path: input_file
     :parameter key: Path where key is stored.
     :type key: bytes
     :parameter output_file: Outputfile, make sure to give this the same extension as basefile before encryption. Default is the same directory with "_decrypted" added to the name 
@@ -332,6 +332,8 @@ def generate_hash_from_text(text, method="md5"):
     :type text: string
     :parameter method: Method for hashing, choose between 'md5', 'sha256' and 'blake2b'. Note that different methods generate different hashes. Default method is 'md5'.
     :options method: ['md5', 'sha256', 'blake2b']
+
+    :return: Bytes-like object
 
         :Example:
 
@@ -1084,16 +1086,7 @@ Icon: lab la-chrome
 
 class Chrome(selenium.webdriver.Chrome):
     @activity
-    def __init__(
-        self,
-        load_images=True,
-        headless=False,
-        incognito=False,
-        disable_extension=False,
-        maximize_window=True,
-        focus_window=True,
-        auto_update_chromedriver=True,
-    ):
+    def __init__(self,load_images=True,headless=False,incognito=False,disable_extension=False,maximize_window=True,focus_window=True,auto_update_chromedriver=True):
         """Open Chrome Browser
 
         Open the Chrome Browser with the Selenium webdriver. Can be used to automate manipulations in the browser.
@@ -2237,9 +2230,7 @@ def press_key(key=None, delay=1, perform_n_times=1, delay_between=0.5):
 
 
 @activity
-def press_key_combination(
-    first_key, second_key, third_key=None, compatibility=False, delay=1
-):
+def press_key_combination(first_key, second_key, third_key=None, compatibility=False, delay=1):
     """Press key combination
 
     Press a combination of two or three keys simultaneously. Make sure your keyboard is on US layout (standard QWERTY).
@@ -2303,9 +2294,7 @@ def press_key_combination(
 
 
 @activity
-def typing(
-    text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1
-):
+def typing(text, automagica_id=None, clear=False, interval_seconds=0.01, delay=1):
     """Type text
 
     Simulate keystrokes. If an element ID is specified, text will be typed in a specific field or element based on the element ID (vision) by the recorder.
@@ -3026,9 +3015,7 @@ Icon: las la-folder-open
 
 
 @activity
-def get_files_in_folder(
-    input_path=None, extension=None, show_full_path=True, scan_subfolders=False
-):
+def get_files_in_folder(input_path=None, extension=None, show_full_path=True, scan_subfolders=False):
     """List files in folder
 
     List all files in a folder (and subfolders)
@@ -3611,9 +3598,7 @@ Icon: las la-file-word
 
 class Word:
     @activity
-    def __init__(
-        self, file_path=None, visible=True,
-    ):
+    def __init__(self, file_path=None, visible=True):
         """Start Word Application
 
         For this activity to work, Microsoft Office Word needs to be installed on the system.
@@ -4262,14 +4247,7 @@ class Outlook:
         return app
 
     @activity
-    def send_mail(
-        self,
-        to_address,
-        subject="",
-        body="",
-        html_body=None,
-        attachment_paths=None,
-    ):
+    def send_mail(self,to_address,subject="",body="",html_body=None,attachment_paths=None):
         """Send e-mail
 
         Send an e-mail using Outlook
@@ -4422,14 +4400,7 @@ class Outlook:
         return messages
 
     @activity
-    def delete_mails(
-        self,
-        folder_name="Inbox",
-        limit=0,
-        subject_contains="",
-        body_contains="",
-        sender_contains="",
-    ):
+    def delete_mails(self,folder_name="Inbox",limit=0,subject_contains="",body_contains="",sender_contains=""):
         """Delete e-mails
 
         Deletes e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -4490,15 +4461,7 @@ class Outlook:
                         item.Delete()
 
     @activity
-    def move_mails(
-        self,
-        source_folder_name="Inbox",
-        target_folder_name="Archive",
-        limit=0,
-        subject_contains="",
-        body_contains="",
-        sender_contains="",
-    ):
+    def move_mails(self,source_folder_name="Inbox",target_folder_name="Archive",limit=0,subject_contains="",body_contains="",sender_contains=""):
         """Move e-mails
 
         Move e-mail messages in a certain folder. Can be specified by searching on subject, body or sender e-mail.
@@ -5516,9 +5479,7 @@ class Excel:
         )
 
     @activity
-    def insert_data_as_table(
-        self, data, range_="A1", table_style="TableStyleMedium2"
-    ):
+    def insert_data_as_table(self, data, range_="A1", table_style="TableStyleMedium2"):
         """Insert data as table
         
         Insert list of dictionaries as a table in Excel
@@ -6155,18 +6116,7 @@ class PowerPoint:
         return self.app.Slides.Count
 
     @activity
-    def add_text(
-        self,
-        text,
-        index=None,
-        font_size=48,
-        font_name=None,
-        bold=False,
-        margin_bottom=100,
-        margin_left=100,
-        margin_right=100,
-        margin_top=100,
-    ):
+    def add_text(self,text,index=None,font_size=48,font_name=None,bold=False,margin_bottom=100,margin_left=100,margin_right=100,margin_top=100):
         """Text to slide
         
         Add text to a slide
@@ -6373,9 +6323,7 @@ Icon: las la-cloud
 
 
 @activity
-def send_email_with_outlook365(
-    client_id, client_secret, to_email, subject="", body=""
-):
+def send_email_with_outlook365(client_id, client_secret, to_email, subject="", body=""):
     """Send email Office Outlook 365
 
     Send email Office Outlook 365
@@ -6495,15 +6443,7 @@ Icon: las la-at
 
 
 @activity
-def send_mail_smtp(
-    smtp_host,
-    smtp_user,
-    smtp_password,
-    to_address,
-    subject="",
-    message="",
-    port=587,
-):
+def send_mail_smtp(smtp_host,smtp_user,smtp_password,to_address,subject="",message="",port=587):
     """Mail with SMTP
 
     This function lets you send emails with an e-mail address. 
@@ -6624,9 +6564,7 @@ def find_window_title(searchterm, partial=True):
 
 
 @activity
-def start_remote_desktop(
-    ip, username, password=None, desktop_width=1920, desktop_height=1080
-):
+def start_remote_desktop(ip, username, password=None, desktop_width=1920, desktop_height=1080):
     """Login to Windows Remote Desktop
 
     Create a RDP and login to Windows Remote Desktop
@@ -8602,9 +8540,7 @@ def read_text_from_pdf(file_path):
 
 
 @activity
-def join_pdf_files(
-    first_file_path, second_file_path, third_file_path=None, output_path=None
-):
+def join_pdf_files(first_file_path, second_file_path, third_file_path=None, output_path=None):
     """Merge PDF
     
     Merges multiple PDFs into a single file
@@ -8669,9 +8605,7 @@ def join_pdf_files(
 
 
 @activity
-def extract_page_range_from_pdf(
-    file_path, start_page, end_page, output_path=None
-):
+def extract_page_range_from_pdf(file_path, start_page, end_page, output_path=None):
     """Extract page from PDF
     
     Extracts a particular range of a PDF to a separate file.
@@ -9859,9 +9793,7 @@ Icon: las la-robot
 
 
 @activity
-def execute_uipath_process(
-    project_file_path, arguments=None, uirobot_exe_path=None
-):
+def execute_uipath_process(project_file_path, arguments=None, uirobot_exe_path=None):
     """Execute a UiPath process
 
     This activity allows you to execute a process designed with the UiPath Studio. All console output from the Write Line activity (https://docs.uipath.com/activities/docs/write-line) will be printed as output.
@@ -10052,14 +9984,7 @@ def execute_robotframework_test(test_case_path, variables=None):
 
 
 @activity
-def run_blueprism_process(
-    process_name,
-    username="",
-    password="",
-    sso=False,
-    inputs=None,
-    automatec_exe_path=None,
-):
+def run_blueprism_process(process_name,username="",password="",sso=False,inputs=None,automatec_exe_path=None):
     """Run a Blue Prism process
 
     This activity allows you to run a Blue Prism process.
@@ -10474,9 +10399,7 @@ Icon: las la-robot
 
 
 @activity
-def create_new_job_in_portal(
-    process_name, process_version_id=None, priority=0, parameters=None
-):
+def create_new_job_in_portal(process_name, process_version_id=None, priority=0, parameters=None):
     """Create a new job in the Automagica Portal
 
     This activity creates a new job in the Automagica Portal for a given process. The bot performing this activity needs to be in the same team as the process it creates a job for.
