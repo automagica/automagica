@@ -290,10 +290,18 @@ Optical Character Recognition (OCR)
 .. autofunction:: right_click_on_text_ocr
 
 
-Alternative Frameworks
+UiPath
 ------
 .. autofunction:: execute_uipath_process
+
+
+AutoIt
+------
 .. autofunction:: run_autoit_script
+
+
+Alternative frameworks
+----------------------
 .. autofunction:: execute_robotframework_test
 .. autofunction:: run_blueprism_process
 .. autofunction:: run_automationanywhere_task
