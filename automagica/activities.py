@@ -3506,7 +3506,7 @@ def unzip(input_path, output_path=None):
 
     import zipfile
 
-    with zipfile.ZipFile(path + '.zip') as zip_ref:
+    with zipfile.ZipFile(path + ".zip") as zip_ref:
         zip_ref.extractall(output_path)
 
     return output_path
@@ -3650,7 +3650,7 @@ class Word:
             self.file_path = file_path
 
         self.app = self._launch()
-        self.app.Visible = visible #TODO: gives error for some PP versions
+        self.app.Visible = visible  # TODO: gives error for some PP versions
 
     def _launch(self):
         """Utility function to create the Word application scope object
@@ -7222,7 +7222,7 @@ def set_default_printer(name):
 
     import win32print
 
-    return win32print.SetDefaultPrinter(name)
+    win32print.SetDefaultPrinter(name)
 
 
 @activity
@@ -7248,7 +7248,7 @@ def remove_printer(name):
 
     import win32print
 
-    return win32print.DeletePrinter(name)
+    win32print.DeletePrinter(name)
 
 
 @activity
@@ -7259,6 +7259,8 @@ def get_service_status(name):
 
     :parameter name: Name of service
     :type name: string
+
+    :return: Status
 
         :Example:
 
@@ -7370,6 +7372,8 @@ def get_foreground_window_title():
     """Get foreground window title
 
     Retrieve the title of the current foreground window
+
+    :return: Window title
 
         :Example:
 
@@ -7623,6 +7627,8 @@ def run_ssh_command(user, host, command):
     :parameter command: Command
     :type command: string
 
+    :return: subprocess
+
         :Example:
 
     >>> run_ssh_command('root', 'machine', 'ls -a')
@@ -7668,6 +7674,8 @@ def snmp_get(target, oids, credentials, port=161, engine=None, context=None):
     :type engine: string, optional
     :parameter context: Contect (default none)
     :type context: string, optional
+
+    :return: Results
 
         :Example:
 
@@ -7766,6 +7774,8 @@ class ActiveDirectory:
 
         :parameter distinguished_name: Name
         :type distinguished_name: string
+
+        :return: Object
 
             :Example:
 
@@ -8151,7 +8161,7 @@ def file_exists(path):
     :parameter path: Full path to the file to check.
     :type path: input_file
 
-    return: True or False (boolean)
+    :return: True or False (boolean)
 
         :Example:
 
@@ -8170,6 +8180,7 @@ def file_exists(path):
     import os
 
     path = interpret_path(path)
+
     return os.path.isfile(path)
 
 
@@ -8240,7 +8251,6 @@ def write_list_to_file(list_to_write, file_path):
     file_path = interpret_path(file_path)
     with open(file_path, "w") as filehandle:
         filehandle.writelines("%s\n" % place for place in list_to_write)
-    return
 
 
 @activity
@@ -8715,6 +8725,7 @@ def extract_page_range_from_pdf(
         output_path = interpret_path(output_path)
 
     file_path = interpret_path(file_path)
+
     with open(file_path, "rb") as f:
 
         reader = PdfFileReader(f)
@@ -8726,8 +8737,6 @@ def extract_page_range_from_pdf(
         with open(output_path, "wb") as f:
             writer.write(f)
 
-    return output_path
-
 
 @activity
 def extract_images_from_pdf(file_path):
@@ -8737,6 +8746,8 @@ def extract_images_from_pdf(file_path):
 
     :parameter file_path: Full path to store extracted images
     :type file_path: output_dir
+
+    :return: Extracted images paths
 
         :Example:
 
@@ -8859,8 +8870,6 @@ def apply_watermark_to_pdf(file_path, watermark_path, output_path=""):
     with open(output_path, "wb") as outputStream:
         output_file.write(outputStream)
 
-    return output_path
-
 
 """
 System Monitoring
@@ -8894,8 +8903,10 @@ def get_cpu_load(measure_time=1):
     import psutil
 
     cpu_measurements = []
+
     for _ in range(measure_time):
         cpu_measurements.append(psutil.cpu_percent(interval=1))
+
     return sum(cpu_measurements) / len(cpu_measurements)
 
 
@@ -9139,7 +9150,7 @@ def show_image(file_path):
     file_path = interpret_path(file_path)
     im = Image.open(file_path)
 
-    return im.show()
+    im.show()
 
 
 @activity
@@ -9174,7 +9185,7 @@ def rotate_image(file_path, angle=90):
     file_path = interpret_path(file_path)
     im = Image.open(file_path)
 
-    return im.rotate(angle, expand=True).save(file_path)
+    im.rotate(angle, expand=True).save(file_path)
 
 
 @activity
@@ -9208,7 +9219,7 @@ def resize_image(file_path, size):
     file_path = interpret_path(file_path)
     im = Image.open(file_path)
 
-    return im.resize(size).save(file_path)
+    im.resize(size).save(file_path)
 
 
 @activity
@@ -9219,6 +9230,8 @@ def get_image_width(file_path):
 
     :parameter file_path: Path to image
     :type file_path: input_file
+
+    :return: Width
 
         :Example:
 
@@ -9311,7 +9324,7 @@ def crop_image(file_path, box=None):
     file_path = interpret_path(file_path)
     im = Image.open(file_path)
 
-    return im.crop(box).save(file_path)
+    im.crop(box).save(file_path)
 
 
 @activity
@@ -9342,7 +9355,8 @@ def mirror_image_horizontally(file_path):
 
     file_path = interpret_path(file_path)
     im = Image.open(file_path)
-    return im.transpose(Image.FLIP_LEFT_RIGHT).save(file_path)
+
+    im.transpose(Image.FLIP_LEFT_RIGHT).save(file_path)
 
 
 @activity
@@ -9374,7 +9388,7 @@ def mirror_image_vertically(file_path):
     file_path = interpret_path(file_path)
     im = Image.open(file_path)
 
-    return im.transpose(Image.FLIP_TOP_BOTTOM).save(file_path)
+    im.transpose(Image.FLIP_TOP_BOTTOM).save(file_path)
 
 
 """
@@ -9539,7 +9553,7 @@ def kill_process(name=None):
     """
     import os
 
-    return os.system(f"taskkill /f /im {name} >nul 2>&1")  # nosec
+    os.system(f"taskkill /f /im {name} >nul 2>&1")  # nosec
 
 
 """
@@ -9758,8 +9772,6 @@ def click_on_text_ocr(text, delay=1):
         move(x, y)
         click()
 
-        return
-
 
 @activity
 def double_click_on_text_ocr(text, delay=1):
@@ -9803,7 +9815,6 @@ def double_click_on_text_ocr(text, delay=1):
 
         move(x, y)
         double_click()
-        return
 
 
 @activity
@@ -9848,8 +9859,6 @@ def right_click_on_text_ocr(text, delay=1):
 
         move(x, y)
         right_click()
-
-        return
 
 
 """
@@ -10393,6 +10402,8 @@ class SAPGUI:
         :parameter identifier: Technical identifier of the element
         :type identifier: string
 
+        :return: Text
+
             :Example:
 
         >>> # Log in to SAP GUI
@@ -10603,7 +10614,6 @@ def get_credential_from_portal(credential_name):
     try:
         result = r.json()
     except:
-
         raise Exception(
             "Could not get credential from Portal for unknown reason."
         )
