@@ -994,65 +994,65 @@ def display_osd_message(message="Example message", seconds=5):
     """
     only_supported_for("Windows")
 
-    if "DISABLE_AUTOMAGICA_OSD" in globals():
-        return
+    if "DISABLE_AUTOMAGICA_OSD" not in globals():
+        from threading import Thread
 
-    from threading import Thread
+        def load_osd():
+            import tkinter
+            import win32con
+            import pywintypes
+            import win32api
 
-    def load_osd():
-        import tkinter
-        import win32con
-        import pywintypes
-        import win32api
+            screen_width = win32api.GetSystemMetrics(0)
+            screen_height = win32api.GetSystemMetrics(1)
 
-        screen_width = win32api.GetSystemMetrics(0)
-        screen_height = win32api.GetSystemMetrics(1)
+            root = tkinter.Tk()
+            label = tkinter.Label(
+                text=message,
+                font=("Helvetica", "30"),
+                fg="white",
+                bg="black",
+                borderwidth=10,
+            )
+            label.master.overrideredirect(True)
+            label.config(anchor=tkinter.CENTER)
+            label.master.geometry(
+                "+{}+{}".format(
+                    int(screen_width / 2), int(screen_height - 250)
+                )
+            )
+            label.master.lift()
+            label.master.wm_attributes("-topmost", True)
+            label.master.wm_attributes("-disabled", True)
+            label.master.wm_attributes("-transparentcolor", "black")
 
-        root = tkinter.Tk()
-        label = tkinter.Label(
-            text=message,
-            font=("Helvetica", "30"),
-            fg="white",
-            bg="black",
-            borderwidth=10,
-        )
-        label.master.overrideredirect(True)
-        label.config(anchor=tkinter.CENTER)
-        label.master.geometry(
-            "+{}+{}".format(int(screen_width / 2), int(screen_height - 250))
-        )
-        label.master.lift()
-        label.master.wm_attributes("-topmost", True)
-        label.master.wm_attributes("-disabled", True)
-        label.master.wm_attributes("-transparentcolor", "black")
+            hWindow = pywintypes.HANDLE(int(label.master.frame(), 16))
 
-        hWindow = pywintypes.HANDLE(int(label.master.frame(), 16))
+            exStyle = (
+                win32con.WS_EX_COMPOSITED
+                | win32con.WS_EX_LAYERED
+                | win32con.WS_EX_NOACTIVATE
+                | win32con.WS_EX_TOPMOST
+                | win32con.WS_EX_TRANSPARENT
+            )
+            win32api.SetWindowLong(hWindow, win32con.GWL_EXSTYLE, exStyle)
 
-        exStyle = (
-            win32con.WS_EX_COMPOSITED
-            | win32con.WS_EX_LAYERED
-            | win32con.WS_EX_NOACTIVATE
-            | win32con.WS_EX_TOPMOST
-            | win32con.WS_EX_TRANSPARENT
-        )
-        win32api.SetWindowLong(hWindow, win32con.GWL_EXSTYLE, exStyle)
+            label.after(seconds * 1000, lambda: root.destroy())
+            label.pack()
+            label.mainloop()
 
-        label.after(seconds * 1000, lambda: root.destroy())
-        label.pack()
-        label.mainloop()
+        t = Thread(target=load_osd)
 
-    t = Thread(target=load_osd)
-
-    try:
-        t.start()
-    except Exception:
-        pass
-
-    finally:
         try:
-            t.kill()
+            t.start()
         except Exception:
             pass
+
+        finally:
+            try:
+                t.kill()
+            except Exception:
+                pass
 
 
 @activity
@@ -1131,7 +1131,7 @@ class Chrome(selenium.webdriver.Chrome):
         :parameter focus_window: Focus window
         :type focus_window: bool, optional
 
-        return: webdriver: Selenium Webdriver
+        :return: webdriver: Selenium Webdriver
 
             :Example:
 
@@ -1781,7 +1781,7 @@ class Chrome(selenium.webdriver.Chrome):
 
         """
 
-        return self.switch_to.frame(self.find_element_by_tag_name("iframe"))
+        self.switch_to.frame(self.find_element_by_tag_name("iframe"))
 
 
 """
@@ -3606,14 +3606,10 @@ def wait_folder_exists(input_path, timeout=60):
 
     path = interpret_path(input_path)
 
-    while not os.path.exists(path):
-        sleep(1)
-    return
-
     for _ in range(timeout):
         if os.path.exists(path):
             break
-            sleep(1)
+        sleep(1)
 
 
 """
@@ -3702,8 +3698,6 @@ class Word:
         """
         self.app.ActiveDocument.Save()
 
-        return self.file_path
-
     @activity
     def save_as(self, output_path):
         """Save As
@@ -3712,7 +3706,7 @@ class Word:
 
         :parameter output_path: Enter a path to open Word with an existing Word file.
         :type output_path: output_file
-        :extension output_file: docx
+        :extension output_path: docx
 
             :Example:
 
@@ -3729,8 +3723,6 @@ class Word:
         """
         file_path = interpret_path(file_path)
         self.app.ActiveDocument.SaveAs(file_path)
-
-        return file_path
 
     @activity
     def append_text(self, text):
@@ -4336,6 +4328,8 @@ class Outlook:
         :parameter limit: Maximum number of folders to retrieve
         :type limit: int, optional
 
+        :return: List of folders
+
             :Example:
 
         >>> outlook = Outlook()
@@ -4913,8 +4907,6 @@ class Excel:
         """
         self.workbook.Save()
 
-        return self.file_path
-
     @activity
     def save_as(self, output_path):
         """Save as
@@ -4945,8 +4937,6 @@ class Excel:
         self.app.DisplayAlerts = False
         self.workbook.SaveAs(file_path)
         self.app.DisplayAlerts = True
-
-        return file_path
 
     @activity
     def write_cell(self, column, row, value):
@@ -5047,7 +5037,7 @@ class Excel:
         :parameter range_: Range to read from, e.g. "A1:D10"
         :type range_: string
 
-        :return value: Values in param range
+        :return: Values in param range
 
             :Example:
 
@@ -5090,7 +5080,7 @@ class Excel:
         Icon
             las la-file-excel
         """
-        return self.app.Run(name)
+        self.app.Run(name)
 
     @activity
     def get_worksheet_names(self):
@@ -5729,7 +5719,7 @@ class ExcelFile:
 
         import pandas as pd
 
-        return pd.read_excel(self.file_path)
+        pd.read_excel(self.file_path)
 
     @activity
     def activate_worksheet(self, name):
@@ -6044,8 +6034,6 @@ class PowerPoint:
         file_path = interpret_path(output_path)
         self.app.SaveAs(file_path)
 
-        return file_path
-
     @activity
     def save(self):
         """Save PowerPoint
@@ -6069,8 +6057,6 @@ class PowerPoint:
 
         """
         self.app.SaveAs(self.file_path)
-
-        return self.file_path
 
     @activity
     def quit(self):
@@ -6136,13 +6122,15 @@ class PowerPoint:
         if not index:
             index = self.app.Slides.Count + 1
 
-        return self.app.Slides.Add(index, type_id)
+        self.app.Slides.Add(index, type_id)
 
     @activity
     def number_of_slides(self):
         """Slide count
 
         Returns the number of slides
+
+        :return: Number of slides
 
             :Example:
 
@@ -6256,7 +6244,7 @@ class PowerPoint:
         if not index:
             index = self.app.Slides.Count
 
-        return self.app.Slides(index).Delete()
+        self.app.Slides(index).Delete()
 
     @activity
     def replace_text(self, placeholder_text, replacement_text):
@@ -6330,7 +6318,7 @@ class PowerPoint:
 
             path = os.path.join(os.path.expanduser("~"), "pdf_export.pdf")
 
-        return self.app.ExportAsFixedFormat2(path, 2, PrintRange=None)
+        self.app.ExportAsFixedFormat2(path, 2, PrintRange=None)
 
     @activity
     def export_slides_to_images(self, output_path=None, type="png"):
@@ -6371,7 +6359,7 @@ class PowerPoint:
 
             path = os.path.expanduser("~")
 
-        return self.app.Export(path, "png")
+        self.app.Export(path, "png")
 
 
 """
@@ -6576,6 +6564,8 @@ def find_window_title(searchterm, partial=True):
     :parameter partial: Option to look for titles partially, e.g. 'Edge' will result in finding 'Microsoft Edge' when partial is set to True. Default value is True
     :type pertial: bool, optional
 
+    :return: Window found (True)
+
         :Example:
 
     >>> # Make text file
@@ -6620,12 +6610,12 @@ def find_window_title(searchterm, partial=True):
     if partial:
         for title in titles:
             if searchterm in title:
-                return title
+                return True
 
     if not partial:
         for title in titles:
             if searchterm == title:
-                return title
+                return True
 
     else:
         return False
@@ -6711,17 +6701,14 @@ kdcproxyname:s:"""
     rdp_raw = rdp_raw + "\n" + "desktopheight:i:" + str(desktop_height)
 
     import os
+    import subprocess  # nosec
 
     output_path = os.path.join(os.path.expanduser("~"), "remote_desktop.rdp")
 
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(rdp_raw)
 
-    import subprocess  # nosec
-
     subprocess.Popen(["cmd.exe", "/c", output_path])
-
-    return output_path
 
 
 @activity
@@ -6906,6 +6893,8 @@ def get_username():
 
     Get current logged in user's username
 
+    :return: Username
+
         :Example:
 
     >>> get_username()
@@ -7033,7 +7022,6 @@ def clear_clipboard():
     if windll.user32.OpenClipboard(None):
         windll.user32.EmptyClipboard()
         windll.user32.CloseClipboard()
-    return
 
 
 @activity
@@ -7100,6 +7088,8 @@ def get_all_network_interface_names():
     """Get all network interface names
 
     Returns a list of all network interfaces of the current machine
+
+    :return: List of network interfaces
 
         :Example:
 
@@ -7188,6 +7178,8 @@ def get_default_printer_name():
     """Get default printer
 
     Returns the name of the printer selected as default
+
+    :return: Default printer name
 
         :Example:
 
