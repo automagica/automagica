@@ -117,7 +117,7 @@ def encrypt_file_with_key(input_path, key, output_path=None):
 
     Encrypt file with (Fernet) key. Note that file will be unusable unless unlocked with the same key.
 
-    :parameter inputh_path: Path to file to be encrypted
+    :parameter input_path: Path to file to be encrypted
     :type input_path: input_file
     :parameter key: Fernet Encryption key
     :type key: bytes
@@ -175,7 +175,7 @@ def decrypt_file_with_key(input_path, key, output_path=None):
     :type input_path: input_file
     :parameter key: Path where key is stored.
     :type key: bytes
-    :parameter output_file: Outputfile, make sure to give this the same extension as basefile before encryption. Default is the same directory with "_decrypted" added to the name 
+    :parameter output_path: Outputfile, make sure to give this the same extension as basefile before encryption. Default is the same directory with "_decrypted" added to the name 
     :type output_path: output_file, optional
 
     :return: Path to decrypted file
@@ -402,15 +402,15 @@ def generate_random_number(lower_limit=0, upper_limit=100, fractional=False):
 
 
 @activity
-def generate_random_data(locale=None, type=None):
+def generate_random_data(locale=None, attribute=None):
     """Random data
 
     Generates all kinds of random data. Specifying locale changes format for some options
-    
-    :parameter attribute: Choose a specific characteristic or attribute from fake person
-    :options type: ['email', 'food dish', 'food drink', 'fruit', 'vegetable', 'company type', 'ean code', 'imei code', 'isbn code', 'issn code', 'ip v4', 'ip v6', 'mac address', 'filename', 'filename extension', 'chemical element', 'academic degree', 'occupation', 'word', 'phone number' , 'political view', 'university']
+
     :parameter locale: Add a locale to generates typical data for selected locale.
     :options locale: ['cs', 'da', 'de', 'de-at', 'de-ch', 'el', 'en', 'en-au', 'en-ca', 'en-gb', 'es', 'es-mx', 'et', 'fa', 'fi', 'fr', 'hu', 'is', 'it', 'ja', 'kk', 'ko', 'nl', 'nl-be', 'no', 'pl', 'pt', 'pt-br', 'ru', 'sk', 'sv', 'tr', 'uk', 'zh']
+    :parameter attribute: Choose a specific characteristic or attribute from fake person
+    :options attribute: ['email', 'food dish', 'food drink', 'fruit', 'vegetable', 'company type', 'ean code', 'imei code', 'isbn code', 'issn code', 'ip v4', 'ip v6', 'mac address', 'filename', 'filename extension', 'chemical element', 'academic degree', 'occupation', 'word', 'phone number' , 'political view', 'university']
 
     -	cs	    -	Czech
     -	da	    -	Danish
@@ -1117,6 +1117,10 @@ class Chrome(selenium.webdriver.Chrome):
         :type disable_extension: bool, optional
         :parameter auto_update_chromedriver: Automatically update Chromedriver
         :type auto_update_chromedriver: bool, optional
+        :parameter maximize_window: Maximize window
+        :type maximize_window: bool, optional
+        :parameter focus_window: Focus window
+        :type focus_window: bool, optional
 
         return: webdriver: Selenium Webdriver
 
@@ -1683,7 +1687,9 @@ class Chrome(selenium.webdriver.Chrome):
         Find all elements with specified class and text on a webpage in the the browser. 
 
         :parameter element: Class of element
-        :type element: string, optional
+        :type element: string
+        :parameter text: Text inside the element
+        :type text: string
 
         :return: Element by class and text
 
@@ -2242,8 +2248,8 @@ def press_key_combination(first_key, second_key, third_key=None, compatibility=F
     :parameter third_key: Third key to press, this is optional.
     :options third_key: [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<','=', '>', '?', '@', '[', '\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', 'alt', 'backspace', 'end', 'ctrl', 'del', 'downarrow', 'right', 'left', 'up', 'enter', 'escape', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',  'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'home', 'insert', 'pagedown', 'pageup', 'help', 'space', 'tab', 'shift', 'win']
     :parameter compatibility: Set parameter to true to not use win32com. This could help with compatibility on certain systems or when certain keypresses do not work correctly.
-    :parameter key: Delay before keys are pressed in seconds, default is 1 second
-    :type key: int, optional
+    :parameter delay: Delay before keys are pressed in seconds, default is 1 second
+    :type delay: int, optional
 
     :return: Key combination
 
@@ -2867,8 +2873,13 @@ def drag_mouse_to(automagica_id=None, end_x=0, end_y=0, delay=1):
 
     :parameter automagica_id: ID of the element. To define an element and attach an ID one can use the Automagica Wand. The recorder uses vision to detect an element and can be invoked with the recorder() function.
     :type automagica_id: automagica_id
+    :parameter end_x: Drag to x
+    :type end_x: int, optional
+    :parameter end_y: Drag to y
+    :type end_y: int, optional
     :parameter delay: Delay before movement in seconds.
     :type delay: int, optional
+    
 
     :return: Drag mouse 
 
@@ -3027,7 +3038,7 @@ def get_files_in_folder(input_path=None, extension=None, show_full_path=True, sc
     :type extension: string, optional
     :parameter show_full_path: Set this to True to show full path, False will only show file or dirname. Default is True
     :type show_full_path: bool, optional
-    :scan_subfolders: Boolean to scan subfolders or not. Note that depending on the folder and hardware this activity could take some time if scan_subfolders is set to True
+    :parameter scan_subfolders: Boolean to scan subfolders or not. Note that depending on the folder and hardware this activity could take some time if scan_subfolders is set to True
     :type scan_subfolders: bool, optional
 
     :return: List of files with their full path
@@ -3257,7 +3268,7 @@ def remove_folder(input_path, allow_root=False, delete_read_only=True):
     >>> # Make new folder in home directory for illustration
     >>> testfolder = create_folder()
     >>> # Check if folder exists
-    >>> print( folder_exists(testfolder) ) # Should print True
+    >>> print(folder_exists(testfolder) ) # Should print True
     >>> # Remove folder
     >>> remove_folder(testfolder)
     >>> # Check again if folder exists
@@ -3326,7 +3337,7 @@ def empty_folder(input_path, allow_root=False):
 
 
 @activity
-def folder_exists(path):
+def folder_exists(input_path):
     """Checks if folder exists
 
     Check whether folder exists or not, regardless if folder is empty or not.
@@ -3445,7 +3456,7 @@ def unzip(input_path, output_path=None):
 
     :parameter input_path: Full path to the source location of the file or folder that will be unzipped
     :type input_path: input_dir
-    :parameter to_path: Full path to save unzipped contents. If no path is specified the unzipped contents will be stored in the same directory as the zipped file is located. 
+    :parameter output_path: Full path to save unzipped contents. If no path is specified the unzipped contents will be stored in the same directory as the zipped file is located. 
     :type output_path: output_dir, optional
 
     :return: Path to unzipped folder
@@ -3841,7 +3852,7 @@ class Word:
 
         Export to HTML
 
-        :parameter file_path: Output path where HTML file will be exported to. Default path is home directory with filename 'html_export.html'.
+        :parameter output_path: Output path where HTML file will be exported to. Default path is home directory with filename 'html_export.html'.
         :type output_path: output_file, optional
         :extension output_path: html
 
@@ -4100,7 +4111,7 @@ class WordFile:
 
         Save file on specified path
 
-        :param output_path: Path to save Wordfile to
+        :parameter output_path: Path to save Wordfile to
         :type output_path: output_file
         :extension output_path: docx
 
@@ -4342,8 +4353,6 @@ class Outlook:
 
         :parameter folder_name: Name of the Outlook folder, can be found using `get_folders`.
         :type folder_name: string, optional
-        :parameter limit: Number of messages to retrieve
-        :type limit: int, optional
         :parameter fields: Fields (properties) of e-mail messages to give, requires tupl Stadard is 'Subject', 'Body', 'SentOn' and 'SenderEmailAddress'.
         :type fields: tuple, optional
 
