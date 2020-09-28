@@ -347,8 +347,9 @@ def all_activities():
             "args": get_args(f),
             "return": get_return(f),
             "class": get_class(f),
-            "icon": get_icon(f),
+            "icon": get_icon(f), 
             "key": f.__module__ + "." + f.__qualname__,
+            'function': f
         }
 
         key = f.__module__ + "." + f.__qualname__

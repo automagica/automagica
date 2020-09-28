@@ -5,6 +5,64 @@ from automagica.activities import *
 from pathlib import Path
 import pytest
 
+def test_activity_requirements():
+    """
+    Test whether all Automagica activities are defined correctly
+    """
+    from automagica.utilities import AUTOMAGICA_ACTIVITIES, all_activities
+
+    # Test whether each function listed in AUTOMAGICA_ACTIVITIES
+
+    assert len(all_activities()) == len(AUTOMAGICA_ACTIVITIES)
+
+    for key, activity in all_activities().items():
+    
+        # Test that the activity has: 
+    
+        # - a name?
+        assert activity.get('name')
+
+        # - a description?
+        assert activity.get('description')
+
+        # - an icon?
+        assert activity.get('icon')
+
+        # - icon that begins with 'la' (line awesome)
+        assert activity['icon'].startswith('la')
+
+        # - keywords?
+        assert activity.get('keywords')
+
+        # - docstring parameters matching the function signature?
+        import inspect 
+
+        f = activity.get('function')
+
+        signature = inspect.signature(f)
+        params = signature.parameters
+
+        function_signature_params = list(params.keys())
+
+        if 'self' in function_signature_params:
+            function_signature_params.remove('self')
+
+        docstring_lines = [
+            line.strip() for line in f.__doc__.split("\n") if line.strip()
+        ]
+
+        docstring_params = []
+
+        for line in docstring_lines:
+            if line.startswith(':parameter'):
+                name = line.split(":")[1].replace("parameter ", "")
+                docstring_params.append(name)
+
+        print(key)
+        assert set(function_signature_params) == set(docstring_params)
+
+        # - a return paramater in docstring (if applicable)
+
 
 def test_excel_activities():
     """

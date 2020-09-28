@@ -31,3 +31,10 @@ def test_config_window(bot_app):
     window.destroy()
 
     assert True
+
+
+def test_run_command(bot_app):
+    """Tests the internal run command for the bot"""
+    bot_app.bot._run_command("print('Hello world!')")
+
+    assert True
