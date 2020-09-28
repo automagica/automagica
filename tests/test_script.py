@@ -1,3 +1,4 @@
+"""Copyright 2020 Oakwood Technologies"""
 import pytest
 
 from automagica.gui.apps import ScriptApp
