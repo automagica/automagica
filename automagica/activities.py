@@ -3506,7 +3506,7 @@ def unzip(input_path, output_path=None):
 
     import zipfile
 
-    with zipfile.ZipFile(path) as zip_ref:
+    with zipfile.ZipFile(path + '.zip') as zip_ref:
         zip_ref.extractall(output_path)
 
     return output_path
@@ -3650,7 +3650,7 @@ class Word:
             self.file_path = file_path
 
         self.app = self._launch()
-        # self.app.Visible = visible TODO: gives error for some PP versions
+        self.app.Visible = visible #TODO: gives error for some PP versions
 
     def _launch(self):
         """Utility function to create the Word application scope object
@@ -3721,8 +3721,8 @@ class Word:
         Icon
             lar la-file-word
         """
-        file_path = interpret_path(file_path)
-        self.app.ActiveDocument.SaveAs(file_path)
+        file_path = interpret_path(output_path)
+        self.app.ActiveDocument.SaveAs(output_path)
 
     @activity
     def append_text(self, text):

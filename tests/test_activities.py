@@ -196,7 +196,7 @@ def test_generate_random_key():
     # Generate a random key
     key = generate_random_key()
 
-    assert str(key)
+    assert type(key) is bytes
 
 
 def test_encrypt_text_with_key():
@@ -806,3 +806,274 @@ def test_display_mouse_position():
     display_mouse_position()
 
     assert True
+
+def test_click_coordinates():
+	"""
+	Test Mouse click coordinates
+	"""
+
+	# Click on pixel position
+	click_coordinates(x=1, y=1)
+	
+	assert get_mouse_position() == (1,1)
+
+def test_double_click_coordinates():
+	"""
+	Test Double mouse click coordinates
+	"""
+
+	# Click on coordinates
+	double_click_coordinates(x=1, y=1)
+	
+	assert get_mouse_position() == (1,1)
+
+def test_right_click_coordinates():
+	"""
+	Test Right click coordinates
+	"""
+
+	# Right click on coordinates
+	right_click_coordinates(x=1, y=1)
+	
+	assert get_mouse_position() == (1,1)
+
+def test_move_mouse_to_coordinates():
+	"""
+	Test Move mouse coordinates
+	"""
+
+	# Move mouse to coordinates
+	move_mouse_to_coordinates(x=1, y=1)
+	
+	assert get_mouse_position() == (1,1)
+
+def test_move_mouse_relative():
+	"""
+	Test Move mouse relative
+	"""
+	move_mouse_to_coordinates(x=1, y=1)
+	wait(1)
+	move_mouse_relative(x=1, y=1)
+	
+	assert get_mouse_position() == (2,2)
+
+def test_drag_mouse_to_coordinates():
+	"""
+	Test Drag mouse
+	"""
+
+	# Use coordinates to move and drag mouse
+	move_mouse_to_coordinates(x=100, y=100)
+	drag_mouse_to_coordinates(x=1, y=1)
+	
+	assert get_mouse_position() == (1,1)
+
+def test_random_screen_snippet():
+	"""
+	Test Random screen snippet
+	"""
+	random_screen_snippet()
+	
+	assert True
+
+def test_take_screenshot():
+	"""
+	Test Screenshot
+	"""
+	new_screenshot = take_screenshot()
+	
+	assert type(new_screenshot) is str
+
+def test_get_files_in_folder():
+	"""
+	Test List files in folder
+	"""
+
+	# List all files in the homedirectory
+	files = get_files_in_folder()
+	
+	assert type(files) is str
+
+def test_create_folder():
+	"""
+	Test Create folder
+	"""
+
+	# Create folder in the home directory
+	new_folder = create_folder()
+	
+	assert type(new_folder) is str and 'new_folder' in new_folder
+
+def test_rename_folder():
+	"""
+	Test Rename folder
+	"""
+
+	# Make new folder in home directory for illustration
+	testfolder = create_folder()
+
+	# Rename the folder
+	renamed_folder = rename_folder(testfolder, output_name='unit_test_folder')
+	
+	assert type(renamed_folder) is str and 'unit_test_folder' in renamed_folder
+
+def test_move_folder():
+	"""
+	Test Move a folder
+	"""
+	import os
+
+	# Make new folder in home directory for illustration
+
+	# If no new_folder exists in home dir this will be called new_folder
+	testfolder = create_folder()
+
+	# Make a second new folder
+
+	# Since new_folder already exists this folder will get a random id added (in this case abc1)
+	testfolder_2 = create_folder()
+
+	# Move testfolder in testfolder_2
+	move_folder(testfolder, testfolder_2)
+
+	assert not os.path.exists(testfolder) and os.path.exists(testfolder_2)
+
+def test_remove_folder():
+	"""
+	Test Remove folder
+	"""
+	import os
+
+	# Make new folder in home directory for illustration
+	testfolder = create_folder()
+
+	# Remove folder
+	remove_folder(testfolder)
+
+	assert not os.path.exists(testfolder)
+
+def test_empty_folder():
+	"""
+	Test Empty folder
+	"""
+
+	# Make new folder in home directory for illustration
+	testfolder = create_folder()
+
+	# Make new text file in this folder
+	text_file_location = make_text_file(output_path = testfolder)
+
+	# Print all files in the testfolder
+	get_files_in_folder(testfolder) 
+
+	# Empty the folder
+	empty_folder(testfolder)
+
+	# Check what is in the folder
+	files = get_files_in_folder(testfolder)
+	
+	assert len(files) == 0
+
+def test_folder_exists():
+	"""
+	Test Checks if folder exists
+	"""
+	import os
+
+	# Make new folder in home directory for illustration
+	testfolder = create_folder()
+
+	# Check if folder exists
+	
+	assert folder_exists(testfolder) == os.path.exists(testfolder)
+
+def test_copy_folder():
+	"""
+	Test Copy a folder
+	"""
+
+	# Make new folder in home directory for illustration
+	testfolder = create_folder()
+
+	# Copy this folder
+
+	# Since new_folder already exists in home dir this folder will get a random id added (in this case abc1)
+	copied_folder = copy_folder(testfolder)
+	
+	assert type(copied_folder) is str and 'copied' in copied_folder and testfolder in copied_folder
+
+def test_zip_folder():
+	"""
+	Test Zip
+	"""
+
+	# Make new folder in home directory for illustration
+	testfolder = create_folder()
+
+	# Zip this folder
+	zipped_folder = zip_folder(testfolder)
+	
+	assert type(zipped_folder) is str and testfolder in zipped_folder and 'zipped' in zipped_folder
+
+def test_unzip():
+	"""
+	Test Unzip
+	"""
+
+	# Make new file in home directory for illustration
+	testfolder = create_folder()
+
+	# Add some files to this folder
+	make_text_file(output_path = testfolder)
+
+	# Zip this folder
+	zipped_folder = zip_folder(testfolder)
+
+	# Unzip this folder
+	unzipped = unzip(zipped_folder)
+	
+	assert type(unzipped) is str
+
+def test_most_recent_file():
+	"""
+	Test Return most recent file in directory
+	"""
+
+	# Find most recent file in homedir
+	recent_file = most_recent_file()
+	
+	assert type(recent_file) is str
+
+def test_wait():
+	"""
+	Test Wait
+	"""
+	wait()
+	
+	assert True
+
+def test_wait_folder_exists():
+	"""
+	Test Wait for folder
+	"""
+
+	# Create a random folder
+	testfolder = create_folder()
+
+	# Wait for the snippet to be visible
+	folder_existence = wait_folder_exists(testfolder)
+	
+	assert folder_existence
+
+@pytest.fixture
+def word_test():
+    from automagica.activities import Word
+
+    word = Word()
+
+    yield word
+
+    word.quit()
+
+
+
