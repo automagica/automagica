@@ -11,9 +11,7 @@ from time import sleep
 
 
 class ConsoleHandler(logging.Handler):
-    """
-    Custom console logging handler based on the Python built-in logging.Handler
-    """
+    """Custom console logging handler based on the Python built-in logging.Handler"""
 
     def __init__(self, write_handler, *args, **kwargs):
         """
@@ -30,9 +28,7 @@ class ConsoleHandler(logging.Handler):
 
 
 class ModifiedInterpreter(code.InteractiveInterpreter):
-    """
-    Adaptation of the Python built-in code.InteractiveInterpreter
-    """
+    """Adaptation of the Python built-in code.InteractiveInterpreter"""
 
     def __init__(self, *args, **kwargs):
         """
