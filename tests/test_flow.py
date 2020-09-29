@@ -9,6 +9,8 @@ def flow_designer_window():
     """Testing fixture for the FLow Designer window"""
     from automagica.gui.apps import FlowApp
 
+    pytest.automagica_tk.update()
+
     app = FlowApp(pytest.automagica_tk)
 
     # Let application render
@@ -93,6 +95,7 @@ def test_console_frame(flow_designer_window):
     assert True
 
 
+@pytest.mark.skip(reason="Should only be ran manually.")
 def test_all_activities_flow(flow_designer_window, tmp_path):
     """Create a simple flow using all Automagica activities"""
 

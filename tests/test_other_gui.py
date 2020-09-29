@@ -5,6 +5,8 @@ from automagica.gui.windows import NotificationWindow, KeybindsOverviewWindow
 
 def test_notification_window():
     """Test notification window"""
+    pytest.automagica_tk.update()
+
     windows = [
         NotificationWindow(
             pytest.automagica_tk, f"Hello world nr. {i}", duration=2
@@ -21,6 +23,8 @@ def test_notification_window():
 
 def test_keybind_window():
     """Test keybind window"""
+    pytest.automagica_tk.update()
+
     window = KeybindsOverviewWindow(pytest.automagica_tk)
     window.update()
 

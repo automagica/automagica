@@ -7,6 +7,8 @@ from automagica.gui.apps import WandApp
 @pytest.fixture
 def wand_app():
     """Testing fixture for the Flow app"""
+    pytest.automagica_tk.update()
+
     app = WandApp(pytest.automagica_tk)
 
     app.update()
@@ -19,6 +21,4 @@ def wand_app():
 @pytest.mark.smoke
 def test_wand_app(wand_app):
     """Testing scenario to test Automagica Wand application"""
-    wand_app.update()
-
     assert True
