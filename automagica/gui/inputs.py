@@ -252,7 +252,8 @@ class DirWidget(tk.Frame):
         self.browse_button = Button(
             self, text=_("Browse"), command=self.browse_button_click
         )
-        self.browse_button.pack(side="left")
+        # Causes freezes on some platforms
+        # self.browse_button.pack(side="left")
 
         if self.value:
             self._set(self.value)
