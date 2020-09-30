@@ -42,7 +42,8 @@ def bot():
     'automagica bot' launches the Automagica Bot
     """
     root = AutomagicaTk()
-    _ = BotApp(root)
+    app = BotApp(root)
+    app.run()
     root.mainloop()
 
 
