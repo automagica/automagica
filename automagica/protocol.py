@@ -6,7 +6,14 @@ import sys
 from tkinter import messagebox
 
 from automagica.config import Config, _
-from automagica.gui.apps import App, BotApp, FlowApp, LabApp, WandApp
+from automagica.gui.apps import (
+    App,
+    AutomagicaTk,
+    BotApp,
+    FlowApp,
+    LabApp,
+    WandApp,
+)
 
 if __name__ == "__main__":
     """
@@ -24,8 +31,9 @@ if __name__ == "__main__":
     # Automagica Flow (automagica://flow/new)
     if parts[0] == "flow":
         if parts[1] == "new":
-            app = FlowApp()
-            app.run()
+            root = AutomagicaTk()
+            _ = FlowApp(root)
+            root.mainloop()
 
     # Automagica Lab (automagica://lab/new)
     if parts[0] == "lab":
@@ -35,8 +43,9 @@ if __name__ == "__main__":
 
     # Automagica Wand (automagica://wand)
     if parts[0] == "wand":
-        app = WandApp()
-        app.run()
+        root = AutomagicaTk()
+        _ = WandApp(root)
+        root.mainloop()
 
     # Automagica Bot (automagica://bot/bot_secret/ABCD12345)
     if parts[0] == "bot":
@@ -49,6 +58,8 @@ if __name__ == "__main__":
             config.values["bot_secret"] = bot_secret
             config.save()
 
-        app = BotApp(config=config)
-
+        root = AutomagicaTk(config=config)
+        app = BotApp(root)
         app.run()
+        root.mainloop()
+
