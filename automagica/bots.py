@@ -140,7 +140,7 @@ class ThreadedBot(Bot):
         """
         Run a single command
         """
-        succesful = False
+        successful = False
 
         with StringIO() as temp:
             old_stdout = sys.stdout  # Keep reference to old stdout
@@ -148,7 +148,7 @@ class ThreadedBot(Bot):
             sys.stdout = temp  # Redirect stdout to temp
 
             try:
-                succesful = self.interpreter.runcode(command)
+                successful = self.interpreter.runcode(command)
             except:
                 self.logger.error("Unknown error occured.")
 
@@ -161,7 +161,7 @@ class ThreadedBot(Bot):
             if stdout:
                 self.logger.info(stdout)
 
-        if succesful:
+        if successful:
             if on_done:
                 on_done()
         else:
