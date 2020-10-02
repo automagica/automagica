@@ -1892,7 +1892,7 @@ class FTP:
     def __init__(self, server, username, password):
         """Create FTP connection (insecure)
 
-        Can be used to automate activites for FTP
+        Can be used to automate activities for FTP
 
         :parameter server: Name of the server
         :type server: string
@@ -2080,7 +2080,7 @@ class FTP:
         :parameter path: Path to parent directory where to make new directory. Default is main directory
         :type path: output_dir, optional
 
-        :return: Boolean if creation was succesful (True) or failed (False)
+        :return: Boolean if creation was successful (True) or failed (False)
             :Example:
 
         >>> # This example uses the Rebex FPT test server.
@@ -3047,7 +3047,7 @@ def get_files_in_folder(
     List all files in a folder (and subfolders)
     Checks all folders and subfolders for files. This could take some time for large repositories.
 
-    :parameter input_path: Path of the folder to retreive files from. Default folder is the home directory.
+    :parameter input_path: Path of the folder to retrieve files from. Default folder is the home directory.
     :type input_path: input_dir
     :parameter extension: Optional filter on certain extensions, for example 'pptx', 'exe,' xlsx', 'txt', .. Default value is no filter.
     :type extension: string, optional
@@ -4176,7 +4176,7 @@ class WordFile:
     def replace_text(self, placeholder_text, replacement_text, auto_save=True):
         """Replace all
 
-        Replaces all occurences of a placeholder text in the document with a replacement text.
+        Replaces all occurrences of a placeholder text in the document with a replacement text.
 
         Can be used for example to replace arbitrary placeholder value.
         For example when using template slidedeck, using 'XXXX' as a placeholder.
@@ -6248,7 +6248,7 @@ class PowerPoint:
 
     @activity
     def replace_text(self, placeholder_text, replacement_text):
-        """Replace all occurences of text in PowerPoint slides
+        """Replace all occurrences of text in PowerPoint slides
 
         Can be used for example to replace arbitrary placeholder value in a PowerPoint.
         For example when using a template slidedeck, using 'XXXX' as a placeholder.
@@ -6310,7 +6310,7 @@ class PowerPoint:
 
         if self.app.Slides.Count == 0:
             raise Exception(
-                "Please add a slide first bedore exporting the presentation."
+                "Please add a slide first before exporting the presentation."
             )
 
         if not path:
@@ -6324,7 +6324,7 @@ class PowerPoint:
     def export_slides_to_images(self, output_path=None, type="png"):
         """Slides to images
 
-        Export PowerPoint slides to seperate image files
+        Export PowerPoint slides to separate image files
 
         :parameter output_path: Output path where image files will be exported to. Default path is home directory.
         :type output_put: output_dir
@@ -6351,7 +6351,7 @@ class PowerPoint:
 
         if self.app.Slides.Count == 0:
             raise Exception(
-                "Please add a slide first bedore exporting the presentation."
+                "Please add a slide first before exporting the presentation."
             )
 
         if not output_path:
