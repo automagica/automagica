@@ -777,6 +777,7 @@ class NotificationWindow(tk.Toplevel):
             width=20,
             justify="left",
             anchor="w",
+            wraplength=150,
         )
         self.title_label.pack(expand=True, fill="both")
 
@@ -785,10 +786,11 @@ class NotificationWindow(tk.Toplevel):
             fg=config.COLOR_1,
             bg=config.COLOR_0,
             text=self.message,
-            font=(config.FONT, 12),
+            font=(config.FONT, 10),
             width=20,
             justify="left",
             anchor="nw",
+            wraplength=150,
         )
         self.text_label.pack(expand=True, fill="both")
 
