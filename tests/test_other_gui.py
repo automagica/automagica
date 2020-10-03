@@ -9,14 +9,15 @@ def test_notification_window():
 
     windows = [
         NotificationWindow(
-            pytest.automagica_tk, f"Hello world nr. {i}", duration=2
+            pytest.automagica_tk,
+            f"Hello world this is a very long notification indeed. To refer to this notification use nr. {i}",
+            duration=2,
         )
         for i in range(10)
     ]
 
     for window in windows:
         window.update()
-        window.destroy()
 
     assert True
 
