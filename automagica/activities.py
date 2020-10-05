@@ -2841,19 +2841,21 @@ def move_mouse_relative(x=None, y=None):
 
 
 @activity
-def drag_mouse_to_coordinates(x=None, y=None, delay=1):
-    """Drag mouse
+def drag_mouse_to_coordinates(x=None, y=None, end_x=0, end_y=0, delay=1):
+    """Drag mouse relatively
 
     Drags mouse to an element based on pixel position determined by x and y coordinates
 
-    :parameter x: X-coördinate
+    :parameter x: X-coordinate
     :type x: int
-    :parameter y: Y-coördinate
+    :parameter y: Y-coordinate
     :type y: int
+    :parameter x: X-coordinate to stop dragging
+    :type end_x: int
+    :parameter y: Y-coordinate to stop dragging
+    :type end_y: int
     :parameter delay: Delay between movements in seconds, standard value is 1s.
     :type delay: int, optional
-
-    :return: Drag mouse
 
         :Example:
 
@@ -2875,7 +2877,7 @@ def drag_mouse_to_coordinates(x=None, y=None, delay=1):
     if x and y:
         from mouse import drag
 
-        drag(x, y, absolute=False)
+        drag(x, y, end_x=0, end_y=0, absolute=False)
 
 
 @activity
@@ -8322,7 +8324,7 @@ def read_from_txt(input_path):
         las la-th-list
 
     """
-    file_path = interpret_path(file_path)
+    file_path = interpret_path(input_path)
     written_list = []
     with open(file_path, "r") as filehandle:
         filecontents = filehandle.readlines()
