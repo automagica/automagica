@@ -1,68 +1,27 @@
-![](https://automagica.com/wp-content/uploads/2020/06/logo.png)
-# Automagica - Open Source Robotic Process Automation
-[Website](https://www.automagica.com) | [Portal](https://portal.automagica.com) | [Documentation](https://automagica.readthedocs.io) | [YouTube](https://automagi.ca/youtube) | [Roadmap](https://automagi.ca/roadmap) | [Discord](https://discord.gg/PbY85WA) | [Telegram](https://t.me/automagica)
+![https://automagica.com)](https://automagica.com/wp-content/uploads/2020/06/logo.png)
 
-[![Downloads](https://pepy.tech/badge/automagica/month)](https://pepy.tech/project/automagica/month)
+# Automagica 
 
-__[Automagica](https://automagica.com)__ is an open source __automation suite__ for fully automating tedious, manual tasks on any screen. Our vision is that __people should not be doing a robot's job__. Our mission is to make these automation tools as accessible as possible to empower everyone to automate (almost) anything. 
+The Automagica project began in 2018 with a focus on creating open source software to ensure that Robotic Process Automation technologies were accessible to all.
 
-_"Let __bots__ handle the __clicks__ so __people__ can handle the __business__."_
+With subsequent releases of Automagica, more advanced features such as Wand and the Portal required a service infrastructure to deliver more resilient robots, advanced services, and management and control.
+
+As use of these services has increased, the costs for hosting and maintaining the service layer have correspondingly increased. 
+
+In order to drive the next phase of development for these important services, today, 13th October 2020, we are pleased to announce that Netcall plc, a leading provider of low-code, customer engagement, and contact centre software, has acquired Oakwood Technologies BV (trading as ‘Automagica’).
+
+Netcall will integrate Automagica’s RPA into its Liberty platform, providing a powerful combination of RPA, Low-code, and Customer Engagement solutions.
+
+The Automagica Robot is no longer be available under the terms of the AGPL3 licence.
+
+We’re not stopping the use of the services for robots already deployed. These will continue to operate with Wand and OCR, free of charge, for three months from today (13 Oct 20).
+
+Existing users of the Automagica Portal will also be able to access, free of charge, for three months, during which time users will be offered options to migrate to a commercial service.
+
+We wish to thank all contributors to the project.
+
 
 ![Love Automagica Example](https://i.imgur.com/C4M6LBl.gif)
-
-## Get started
-
-### Windows
-
-The easiest way to install Automagica is by using our __one-click installer for Windows__ which you can get at the [Automagica Portal](https://portal.automagica.com).
-
-![Portal and Flow](https://i.imgur.com/ps1Uhck.png)
-
-### Linux
-#### Fedora-like distributions of Linux such as Red Hat Enterprise Linux or CentOS
-You can install Automagica by running the following commands:
-
-```
-sudo yum install python3-devel chromium -y
-sudo pip3 install automagica -U
-```
-#### Debian-like distributions of Linux such as Ubuntu
-You can install Automagica by running the following commands:
-```
-sudo apt-get install python3-devel chromium -y
-sudo pip3 install automagica -U
-```
-
-### Development on Automagica's core
-
-If you wish to only install the Automagica Python library (without registering for the Automagica Portal), follow the below steps.
-
-- Download and install [Python 3.7](https://www.python.org)
-
-- Install the latest version Automagica on your machine:
-```
-pip install automagica --upgrade
-```
-
-It is advised however to use a virtual environment for an isolated installation of all requirements, pull the repository and install an editable version of the package:
-```
-pip install virtualenv
-git clone https://github.com/automagica/automagica
-cd automagica
-virtualenv create automagica
-activate automagica
-pip install -e .
-```
-This allows you to make changes to Automagica and try them instantly from your virtual environment.
-
-#### Importing activities
-
-Before getting started in development mode, don't forget to import the activities from automagica in your Python script. If unsure, it is possible to import all the activities for development purposes by starting your script with:
-```
-from automagica import *
-```
-
-Important: for some activities (mainly OCR-related) an Automagica API-key is required. In order to acquire an API-key, you need to register at the [Automagica Portal](https://portal.automagica.com).
 
 ## Components
 The Automagica suite consists of the following components:
@@ -72,12 +31,7 @@ The Automagica suite consists of the following components:
 - __Automagica Lab__: Notebook-style automation development environment based on Jupyter Notebooks (requires Jupyter to be installed).
 - __Automagica Portal__: management of bots, credentials, automations, logs, ...
 
-Some activities access external services hosted on our servers, such as the AI and OCR-related capabilities.
-
-The Automagica Portal is currently not available under an open source license. We offer a free environment for evaluation purposes at https://portal.automagica.com. If you would like to use the Automagica Portal within your company or organization, please contact us at sales@automagica.com.
-
-## Automagica & Docker
-All Automagica components can run inside Docker containers. Find out more in our [documentation](https://automagica.readthedocs.io/docker.html).
+![Portal and Flow](https://i.imgur.com/ps1Uhck.png)
 
 ## Example
 
@@ -392,62 +346,14 @@ Process | Description
 <img src="https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/svg/eye-solid.svg" width="20"> [Read Text with Automagica Wand](https://automagica.readthedocs.io/activities.html#automagica.activities.read_text) | This activity allows the bot to detect and read the text of an element by using the Automagica Portal API with a provided sample ID.
 |<img width=150/>|  ‌‌|
 
-## Credits
-Under the hood, Automagica is built on some of the greatest open source libraries. Within Automagica, the following libraries are currently included:
-- [requests](https://github.com/psf/requests) 
-- [PyAutoGUI](https://github.com/asweigart/pyautogui)
-- [Selenium](https://github.com/baijum/selenium-python) 
-- [OpenPyXL](https://bitbucket.org/openpyxl/openpyxl)
-- [python-docx](https://github.com/python-openxml/python-docx)
-- [pywin32](https://github.com/mhammond/pywin32)
-- [PyPDF2](https://github.com/mstamy2/PyPDF2)
-- [Psutil](https://pypi.org/project/psutil/)
-- [Pillow](https://pillow.readthedocs.io/en/stable/)
-- [Faker](https://github.com/joke2k/faker)
-- [Psutil](https://pypi.org/project/psutil/)
-- [Keyring](https://pypi.org/project/keyring/)
-- [Cryptography](https://pypi.org/project/cryptography/)
-- [pyad](https://pypi.org/project/pyad/)
-- [Icons8 Line Awesome](https://github.com/icons8/line-awesome)
-- [pysnmp](https://github.com/etingof/pysnmp) and special thanks to [quicksnmp](https://github.com/alessandromaggio/quicksnmp)
-- [pandas](https://github.com/pandas-dev/pandas)
-- Keyboard
-- Babel
-- Click
-
-## Contributing
 
 
-### Developers
-You can contribute in the following ways:
-- Pull requests with code and/or documentation
-- Feature requests, bug squatting, feel free to [create an issue](https://github.com/automagica/automagica/issues)!
-- If you're interested in joining our team, [send us an e-mail](mailto:koen@automagica.com).
- 
 
-### Not a developer?
-No problem! You can contribute in the following ways:
-- __Star our repository__ by clicking the star icon at the top right of this page. This allows us to get more exposure within the GitHub community. The more people we can get involved the better!
-- Miss a particular feature? [Create an 'issue'](https://github.com/automagica/automagica/issues)
-- Something not working? [Create an issue](https://github.com/automagica/automagica/issues)
-- Don't have a GitHub account? Feel free to send us an e-mail at [koen@automagica.com](mailto:koen@automagica.com) or [thomas@automagica.com](mailto:thomas@automagica.com).
-
-
-#### Special contributor mentions
-- [ygxiao](https://github.com/ygxiao)
-- [jjlehtinen](https://github.com/jjlehtinen)
-- [gopal-y](https://github.com/gopal-y)
-
-
-A special thanks goes out to all the above-mentioned libraries, repositories and contributers! :heart:
-
-<img src="https://i.imgur.com/eQYywRd.png" width="300">
 
 ## Licensing
 
 ### Copyright and licensing
-All source code and other files in this repository, unless stated otherwise, are copyright of Oakwood Technologies BVBA.
+All source code and other files in this repository, unless stated otherwise, are copyright of Netcall plc.
 
 ### Commercial license
-Need a commercial license for Automagica or would you like to embed Automagica or its capabilities in your software offerings or services? Contact us at [sales@automagica.com](mailto:sales@automagica.com).
-You can also reach out directly to one of the founders: Koen ([koen@automagica.com](mailto:koen@automagica.com)) or Thomas ([thomas@automagica.com](thomas@automagica.com)).
+For more information on licensing, trials and commercial use see [this page](https://automagica.com/contact/)
