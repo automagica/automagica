@@ -1,1 +1,1 @@
-<meta http-equiv="refresh" content="0; URL=http://automagica.com/documentation/">`
+<meta http-equiv="refresh" content="0; URL=https://automagica.com/documentation/">`
